@@ -1,5 +1,6 @@
 ﻿using Database.Adapter.Entities.Authentication;
 using Database.Adapter.Infrastructure.Extensions;
+using Database.Adapter.Infrastructure.Factory;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
@@ -19,7 +20,10 @@ public sealed class AuthenticationContext : IdentityDbContext<CustomIdentityUser
 	/// <summary>
 	/// The standard parameterless constructor.
 	/// </summary>
-	public AuthenticationContext() : base()
+	/// <remarks>
+	/// Uses the <see cref="AuthenticationContextFactory"/> for options.
+	/// </remarks>
+	public AuthenticationContext() : base(AuthenticationContextFactory.DbContextOptions)
 	{
 	}
 
@@ -37,7 +41,7 @@ public sealed class AuthenticationContext : IdentityDbContext<CustomIdentityUser
 	{
 		builder.HasDefaultSchema(SqlSchema.IDENTITY);
 		builder.ApplyConfigurationsForContextEntities();
-		
+
 		base.OnModelCreating(builder);
 	}
 }

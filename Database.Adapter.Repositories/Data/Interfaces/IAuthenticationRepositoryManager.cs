@@ -3,6 +3,6 @@ using Database.Adapter.Infrastructure.Interfaces;
 
 namespace Database.Adapter.Repositories.Data.Interfaces;
 
-public interface IAuthenticationRepository : IUnitOfWork<AuthenticationContext>
+public interface IAuthenticationRepositoryManager : IUnitOfWork<AuthenticationContext>
 {
 }

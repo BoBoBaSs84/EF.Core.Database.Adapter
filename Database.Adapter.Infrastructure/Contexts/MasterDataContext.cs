@@ -1,4 +1,5 @@
 ﻿using Database.Adapter.Infrastructure.Extensions;
+using Database.Adapter.Infrastructure.Factory;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using static Database.Adapter.Entities.Constants.SqlConstants;
@@ -16,7 +17,10 @@ public sealed partial class MasterDataContext : DbContext
 	/// <summary>
 	/// The standard parameterless constructor.
 	/// </summary>
-	public MasterDataContext() : base()
+	/// <remarks>
+	/// Uses the <see cref="MasterDataContextFactory"/> for options.
+	/// </remarks>
+	public MasterDataContext() : base(MasterDataContextFactory.DbContextOptions)
 	{
 	}
 
@@ -34,7 +38,7 @@ public sealed partial class MasterDataContext : DbContext
 	{
 		builder.HasDefaultSchema(SqlSchema.PRIVATE);
 		builder.ApplyConfigurationsForContextEntities();
-		
+
 		base.OnModelCreating(builder);
 	}
 }

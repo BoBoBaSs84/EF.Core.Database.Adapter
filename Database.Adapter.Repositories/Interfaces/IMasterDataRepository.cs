@@ -1,9 +1,8 @@
-﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Infrastructure.Contexts;
+﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Infrastructure.Interfaces;
-using Database.Adapter.Repositories.BaseTypes.Interfaces;
+using Database.Adapter.Repositories.MasterData.Interfaces;
 
-namespace Database.Adapter.Repositories.Data.Interfaces;
+namespace Database.Adapter.Repositories.Interfaces;
 
 /// <summary>
 /// The master data repository manager interface.
@@ -19,5 +18,5 @@ public interface IMasterDataRepository : IUnitOfWork<MasterDataContext>
 	/// <summary>
 	/// The <see cref="CalendarRepository"/> interface.
 	/// </summary>
-	IGenericRepository<Calendar> CalendarRepository { get; }
+	ICalendarRepository CalendarRepository { get; }
 }

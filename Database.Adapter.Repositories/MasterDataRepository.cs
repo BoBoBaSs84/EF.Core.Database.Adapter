@@ -3,9 +3,11 @@ using Database.Adapter.Infrastructure;
 using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
-using Database.Adapter.Repositories.Data.Interfaces;
+using Database.Adapter.Repositories.Interfaces;
+using Database.Adapter.Repositories.MasterData;
+using Database.Adapter.Repositories.MasterData.Interfaces;
 
-namespace Database.Adapter.Repositories.Data;
+namespace Database.Adapter.Repositories;
 
 /// <summary>
 /// The master data repository manager class.
@@ -15,16 +17,16 @@ namespace Database.Adapter.Repositories.Data;
 /// </remarks>
 public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
 {
-	private readonly Lazy<IGenericRepository<Calendar>> lazyCalendarRepository;
+	private readonly Lazy<ICalendarRepository> lazyCalendarRepository;
 
 	/// <summary>
 	/// The master data repository manager standard constructor.
 	/// </summary>
 	public MasterDataRepository()
 	{
-		lazyCalendarRepository = new Lazy<IGenericRepository<Calendar>>(() => new GenericRepository<Calendar>(dbContext));
+		lazyCalendarRepository = new Lazy<ICalendarRepository>(() => new CalendarRepository(dbContext));
 	}
 
 	/// <inheritdoc/>
-	public IGenericRepository<Calendar> CalendarRepository => lazyCalendarRepository.Value;
+	public ICalendarRepository CalendarRepository => lazyCalendarRepository.Value;
 }

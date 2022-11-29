@@ -11,7 +11,7 @@ namespace Database.Adapter.Repositories.BaseTypes;
 /// Implemnts the members of the <see cref="IGenericRepository{TEntity}"/> interface.
 /// </remarks>
 /// <typeparam name="TEntity">The entity to work with.</typeparam>
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
 	private readonly DbContext dbContext;
 	private readonly DbSet<TEntity> dbSet;

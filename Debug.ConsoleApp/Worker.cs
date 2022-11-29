@@ -1,5 +1,5 @@
 using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Repositories.Data;
+using Database.Adapter.Repositories;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -22,9 +22,16 @@ public class Worker : BackgroundService
 
 			MasterDataRepository masterDataRepository = new();
 
-			masterDataRepository.CalendarRepository.Create(new Calendar() { Date = DateTime.Now });
-			int i = masterDataRepository.CommitChanges();
-			Console.WriteLine(i);
+			var calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date == DateTime.Parse("2022-11-29"));
+			if (calendar is null)
+			{
+				masterDataRepository.CalendarRepository.Create(new Calendar() { Date = DateTime.Now });
+				int i = masterDataRepository.CommitChanges();
+				Console.WriteLine(i);
+			}
+
+			var dates = masterDataRepository.CalendarRepository.GetWithinRange(DateTime.Parse("2012-10-01"), DateTime.Parse("2022-11-29"));
+
 
 			await Task.Delay(1000, stoppingToken);
 		}

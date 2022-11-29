@@ -1,8 +1,8 @@
 ﻿using Database.Adapter.Infrastructure;
 using Database.Adapter.Infrastructure.Contexts;
-using Database.Adapter.Repositories.Data.Interfaces;
+using Database.Adapter.Repositories.Interfaces;
 
-namespace Database.Adapter.Repositories.Data;
+namespace Database.Adapter.Repositories;
 
 public sealed class AuthenticationRepository : UnitOfWork<AuthenticationContext>, IAuthenticationRepository
 {

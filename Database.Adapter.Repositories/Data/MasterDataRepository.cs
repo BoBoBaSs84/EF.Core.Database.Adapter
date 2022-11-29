@@ -13,7 +13,7 @@ namespace Database.Adapter.Repositories.Data;
 /// <remarks>
 /// Inherits from the <see cref="UnitOfWork{TContext}"/> class and implements the interface <see cref="IMasterDataRepository"/>.
 /// </remarks>
-public class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
+public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
 {
 	private readonly Lazy<IGenericRepository<Calendar>> lazyCalendarRepository;
 

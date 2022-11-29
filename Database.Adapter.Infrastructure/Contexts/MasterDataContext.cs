@@ -21,7 +21,7 @@ public sealed partial class MasterDataContext : DbContext
 	/// Uses the <see cref="MasterDataContextFactory"/> for options.
 	/// </remarks>
 	public MasterDataContext() : base(MasterDataContextFactory.DbContextOptions)
-	{
+	{		
 	}
 
 	/// <summary>

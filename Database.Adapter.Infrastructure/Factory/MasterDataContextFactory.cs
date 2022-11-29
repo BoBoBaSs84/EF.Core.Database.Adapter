@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore.Design;
 namespace Database.Adapter.Infrastructure.Factory;
 
 /// <inheritdoc/>
-internal sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<MasterDataContext>
+public sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<MasterDataContext>, IDbContextFactory<MasterDataContext>
 {
 	/// <inheritdoc/>
 	public MasterDataContext CreateDbContext(string[] args) => new(DbContextOptions);
+	/// <inheritdoc/>/
+	public MasterDataContext CreateDbContext() => new(DbContextOptions);
 
 	/// <summary>
 	/// The <see cref="DbContextOptions"/> property provides fast access to the

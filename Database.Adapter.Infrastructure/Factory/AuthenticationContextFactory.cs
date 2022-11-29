@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Design;
 namespace Database.Adapter.Infrastructure.Factory;
 
 /// <inheritdoc/>
-internal sealed class AuthenticationContextFactory : IDesignTimeDbContextFactory<AuthenticationContext>
+public sealed class AuthenticationContextFactory : IDesignTimeDbContextFactory<AuthenticationContext>
 {
 	/// <inheritdoc/>
 	public AuthenticationContext CreateDbContext(string[] args) => new(DbContextOptions);

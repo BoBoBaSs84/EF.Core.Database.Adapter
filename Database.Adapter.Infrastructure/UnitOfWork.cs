@@ -20,10 +20,10 @@ public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbCon
 	/// The standard constructor.
 	/// </summary>
 	public UnitOfWork() =>
-		dbContext = new TContext();	
+		dbContext = new TContext();
 	/// <inheritdoc/>
 	public int CommitChanges() =>
-		dbContext.SaveChanges();	
+		dbContext.SaveChanges();
 	/// <inheritdoc/>
 	public Task<int> CommitChangesAsync(CancellationToken cancellationToken = default) =>
 		dbContext.SaveChangesAsync(cancellationToken);

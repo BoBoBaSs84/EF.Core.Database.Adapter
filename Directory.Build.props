@@ -1,0 +1,18 @@
+<Project>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AnalysisMode>recommended</AnalysisMode>
+		<Deterministic>false</Deterministic>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageProjectUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+</Project>

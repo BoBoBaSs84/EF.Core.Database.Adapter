@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Adapter.Infrastructure.Migrations.MasterData
 {
     [DbContext(typeof(MasterDataContext))]
-    [Migration("20221129174357_InitialCreation")]
+    [Migration("20221129180425_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("private")
+                .HasDefaultSchema("Private")
                 .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -108,11 +108,11 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                     b.HasIndex("Date")
                         .IsUnique();
 
-                    b.ToTable("Calendar", "private");
+                    b.ToTable("Calendar", "Private");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("Calendar", "versioning");
+                                ttb.UseHistoryTable("Calendar", "History");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");

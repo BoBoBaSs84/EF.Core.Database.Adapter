@@ -4,6 +4,6 @@ using Database.Adapter.Repositories.Data.Interfaces;
 
 namespace Database.Adapter.Repositories.Data;
 
-public sealed class AuthenticationRepositoryManager : UnitOfWork<AuthenticationContext>, IAuthenticationRepositoryManager
+public sealed class AuthenticationRepository : UnitOfWork<AuthenticationContext>, IAuthenticationRepository
 {
 }

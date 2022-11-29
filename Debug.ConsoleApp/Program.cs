@@ -7,9 +7,11 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
-		MasterDataRepositoryManager masterDataRepository = new();
-		IQueryable<Calendar> test = masterDataRepository.CalendarRepository.FindAll();
+		MasterDataRepository masterDataRepository = new();
 
+		masterDataRepository.CalendarRepository.Create(new Calendar() { Date = DateTime.Now });
+		int i = masterDataRepository.CommitChanges();
+		Console.WriteLine(i);
 		Console.WriteLine("Hello, World!");
 	}
 }

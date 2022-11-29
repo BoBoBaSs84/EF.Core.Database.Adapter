@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Adapter.Infrastructure.Migrations.Authentication
 {
     [DbContext(typeof(AuthenticationContext))]
-    [Migration("20221129174315_InitialCreation")]
+    [Migration("20221129180523_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("identity")
+                .HasDefaultSchema("Identity")
                 .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -55,7 +55,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", "identity");
+                    b.ToTable("AspNetRoles", "Identity");
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Authentication.CustomIdentityUser", b =>
@@ -143,7 +143,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", "identity");
+                    b.ToTable("AspNetUsers", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -167,7 +167,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", "identity");
+                    b.ToTable("AspNetRoleClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -191,7 +191,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", "identity");
+                    b.ToTable("AspNetUserClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -212,7 +212,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", "identity");
+                    b.ToTable("AspNetUserLogins", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -227,7 +227,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", "identity");
+                    b.ToTable("AspNetUserRoles", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -246,7 +246,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", "identity");
+                    b.ToTable("AspNetUserTokens", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

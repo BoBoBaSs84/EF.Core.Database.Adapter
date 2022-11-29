@@ -12,11 +12,11 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "identity");
+                name: "Identity");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
-                schema: "identity",
+                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -32,7 +32,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
-                schema: "identity",
+                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -63,7 +63,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
-                schema: "identity",
+                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -78,7 +78,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "identity",
+                        principalSchema: "Identity",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -86,7 +86,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
-                schema: "identity",
+                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -101,7 +101,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "Identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -109,7 +109,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
-                schema: "identity",
+                schema: "Identity",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -123,7 +123,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "Identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -131,7 +131,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
-                schema: "identity",
+                schema: "Identity",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -143,14 +143,14 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "identity",
+                        principalSchema: "Identity",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "Identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -158,7 +158,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
-                schema: "identity",
+                schema: "Identity",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -172,7 +172,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "Identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -180,13 +180,13 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
-                schema: "identity",
+                schema: "Identity",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                schema: "identity",
+                schema: "Identity",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true,
@@ -194,31 +194,31 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
-                schema: "identity",
+                schema: "Identity",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
-                schema: "identity",
+                schema: "Identity",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
-                schema: "identity",
+                schema: "Identity",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                schema: "identity",
+                schema: "Identity",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                schema: "identity",
+                schema: "Identity",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true,
@@ -230,31 +230,31 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
         {
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",
-                schema: "identity");
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims",
-                schema: "identity");
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserLogins",
-                schema: "identity");
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserRoles",
-                schema: "identity");
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens",
-                schema: "identity");
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles",
-                schema: "identity");
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers",
-                schema: "identity");
+                schema: "Identity");
         }
     }
 }

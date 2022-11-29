@@ -16,13 +16,13 @@ public static class Constants
 		public static class SqlSchema
 		{
 			/// <summary>The <see cref="APPLICATION"/> constant.</summary>
-			public const string APPLICATION = "application";
+			public const string APPLICATION = "Application";
 			/// <summary>The <see cref="IDENTITY"/> constant.</summary>
-			public const string IDENTITY = "identity";
+			public const string IDENTITY = "Identity";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
-			public const string PRIVATE = "private";
-			/// <summary>The <see cref="VERSIONING"/> constant.</summary>
-			public const string VERSIONING = "versioning";
+			public const string PRIVATE = "Private";
+			/// <summary>The <see cref="HISTORY"/> constant.</summary>
+			public const string HISTORY = "History";
 		}
 		/// <summary>
 		/// The sql data type class.

@@ -14,7 +14,7 @@ namespace Database.Adapter.Repositories.Data.Interfaces;
 /// <item>The <see cref="IUnitOfWork{TContext}"/> interface.</item>
 /// </list>
 /// </remarks>
-public interface IMasterDataRepositoryManager : IUnitOfWork<MasterDataContext>
+public interface IMasterDataRepository : IUnitOfWork<MasterDataContext>
 {
 	/// <summary>
 	/// The <see cref="CalendarRepository"/> interface.

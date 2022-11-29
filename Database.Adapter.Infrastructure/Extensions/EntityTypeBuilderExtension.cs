@@ -14,6 +14,6 @@ internal static class EntityTypeBuilderExtension
 	/// <param name="tableSchema">The schema of the table.</param>
 	/// <param name="versionSchema">The schema of the versiong table schema.</param>
 	public static void ToSytemVersionedTable(this EntityTypeBuilder entityTypeBuilder, string tableName,
-		string tableSchema = SqlSchema.PRIVATE, string versionSchema = SqlSchema.VERSIONING) =>
+		string tableSchema = SqlSchema.PRIVATE, string versionSchema = SqlSchema.HISTORY) =>
 		entityTypeBuilder.ToTable(tableName, tableSchema, e => e.IsTemporal(t => t.UseHistoryTable(tableName, versionSchema)));
 }

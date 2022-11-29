@@ -1,5 +1,5 @@
-﻿using Database.Adapter.Infrastructure;
-using Database.Adapter.Infrastructure.Contexts;
+﻿using Database.Adapter.Infrastructure.Contexts;
+using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Interfaces;
 
 namespace Database.Adapter.Repositories;

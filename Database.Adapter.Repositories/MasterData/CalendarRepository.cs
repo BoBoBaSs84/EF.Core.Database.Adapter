@@ -12,5 +12,5 @@ internal sealed class CalendarRepository : GenericRepository<Calendar>, ICalenda
 	}
 
 	public IEnumerable<Calendar> GetWithinRange(DateTime start, DateTime end, bool trackChanges = false) =>
-		GetManyByCondition(x=>x.Date >= start && x.Date <= end, trackChanges);
+		GetManyByCondition(x => x.Date >= start && x.Date <= end, trackChanges);
 }

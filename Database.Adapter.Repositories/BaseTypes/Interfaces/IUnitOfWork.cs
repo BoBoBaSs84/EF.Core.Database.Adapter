@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Database.Adapter.Infrastructure.Interfaces;
+namespace Database.Adapter.Repositories.BaseTypes.Interfaces;
 
 /// <summary>
 /// The unit of work interface.

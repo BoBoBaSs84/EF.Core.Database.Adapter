@@ -1,8 +1,5 @@
-﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Infrastructure;
-using Database.Adapter.Infrastructure.Contexts;
+﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.BaseTypes.Interfaces;
 using Database.Adapter.Repositories.Interfaces;
 using Database.Adapter.Repositories.MasterData;
 using Database.Adapter.Repositories.MasterData.Interfaces;

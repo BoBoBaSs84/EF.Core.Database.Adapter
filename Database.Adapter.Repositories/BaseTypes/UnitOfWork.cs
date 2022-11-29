@@ -1,7 +1,7 @@
-﻿using Database.Adapter.Infrastructure.Interfaces;
+﻿using Database.Adapter.Repositories.BaseTypes.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.Adapter.Infrastructure;
+namespace Database.Adapter.Repositories.BaseTypes;
 
 /// <summary>
 /// The unit of work class.
@@ -10,7 +10,7 @@ namespace Database.Adapter.Infrastructure;
 /// Implemnts the members of the <see cref="IUnitOfWork{TContext}"/> interface.
 /// </remarks>
 /// <typeparam name="TContext"></typeparam>
-public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext, new()
+public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext, new()
 {
 	/// <summary>
 	/// The current database context.

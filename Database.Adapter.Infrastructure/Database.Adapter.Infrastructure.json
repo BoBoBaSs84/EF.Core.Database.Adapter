@@ -1,0 +1,23 @@
+{
+	"SqlServers": {
+		"Development": "(localdb)\\MSSQLLocalDB",
+		"Production": "."
+	},
+	"Contexts": {
+		"MasterContext": {
+			"InitialCatalog": "Master",
+			"UserName": "",
+			"Password": ""
+		},
+		"AuthenticationContext": {
+			"InitialCatalog": "Authentication",
+			"UserName": "",
+			"Password": ""
+		},
+		"MasterDataContext": {
+			"InitialCatalog": "MasterData",
+			"UserName": "",
+			"Password": ""
+		}
+	}
+}

@@ -10,10 +10,17 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Database.Adapter.Entities\Database.Adapter.Entities.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Database.Adapter.Infrastructure.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>

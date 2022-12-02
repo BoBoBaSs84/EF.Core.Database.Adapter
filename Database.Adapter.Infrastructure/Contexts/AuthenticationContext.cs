@@ -23,9 +23,7 @@ public sealed class AuthenticationContext : IdentityDbContext<CustomIdentityUser
 	/// <remarks>
 	/// Uses the <see cref="AuthenticationContextFactory"/> for options.
 	/// </remarks>
-	public AuthenticationContext() : base(AuthenticationContextFactory.DbContextOptions)
-	{
-	}
+	public AuthenticationContext() : base(AuthenticationContextFactory.DbContextOptions) => Database.EnsureCreated();
 
 	/// <summary>
 	/// The standard constructor.

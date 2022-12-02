@@ -20,9 +20,7 @@ public sealed partial class MasterDataContext : DbContext
 	/// <remarks>
 	/// Uses the <see cref="MasterDataContextFactory"/> for options.
 	/// </remarks>
-	public MasterDataContext() : base(MasterDataContextFactory.DbContextOptions)
-	{
-	}
+	public MasterDataContext() : base(MasterDataContextFactory.DbContextOptions) => Database.EnsureCreated();
 
 	/// <summary>
 	/// The standard constructor.

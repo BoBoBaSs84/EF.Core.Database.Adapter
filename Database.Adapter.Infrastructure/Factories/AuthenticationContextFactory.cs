@@ -1,4 +1,5 @@
-﻿using Database.Adapter.Infrastructure.Contexts;
+﻿using Database.Adapter.Infrastructure.Configurations.Infrastructure;
+using Database.Adapter.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -18,14 +19,13 @@ public sealed class AuthenticationContextFactory : IDesignTimeDbContextFactory<A
 	{
 		get
 		{
-			// TODO: No connection string in code!
+			Configuration configuration = new();
 			DbContextOptionsBuilder<AuthenticationContext> optionsBuilder = new();
+			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(AuthenticationContext)));
 #if DEBUG
-			optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Authentication;Integrated Security=True;");
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
 #else
-		optionsBuilder.UseSqlServer("");
 		optionsBuilder.EnableSensitiveDataLogging(false);
 		optionsBuilder.EnableDetailedErrors(false);
 #endif

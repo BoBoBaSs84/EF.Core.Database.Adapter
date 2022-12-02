@@ -1,16 +1,15 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
+using Database.Adapter.Infrastructure.Configurations.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace Database.Adapter.Infrastructure.Factory;
 
 /// <inheritdoc/>
-public sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<MasterDataContext>, IDbContextFactory<MasterDataContext>
+public sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<MasterDataContext>
 {
 	/// <inheritdoc/>
 	public MasterDataContext CreateDbContext(string[] args) => new(DbContextOptions);
-	/// <inheritdoc/>/
-	public MasterDataContext CreateDbContext() => new(DbContextOptions);
 
 	/// <summary>
 	/// The <see cref="DbContextOptions"/> property provides fast access to the
@@ -20,14 +19,13 @@ public sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<Maste
 	{
 		get
 		{
+			Configuration configuration = new();
 			DbContextOptionsBuilder<MasterDataContext> optionsBuilder = new();
-			// TODO: No connection string in code!
+			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(MasterDataContext)));
 #if DEBUG
-			optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MasterData;Integrated Security=True;");
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
 #else
-		optionsBuilder.UseSqlServer("");
 		optionsBuilder.EnableSensitiveDataLogging(false);
 		optionsBuilder.EnableDetailedErrors(false);
 #endif

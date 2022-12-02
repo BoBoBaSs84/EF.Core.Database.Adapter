@@ -22,16 +22,17 @@ public class Worker : BackgroundService
 
 			MasterDataRepository masterDataRepository = new();
 
-			var calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date == DateTime.Parse("2022-11-29"));
+			var calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date == DateTime.Parse("2022-12-02"));
 			if (calendar is null)
 			{
-				masterDataRepository.CalendarRepository.Create(new Calendar() { Date = DateTime.Now });
+				masterDataRepository.CalendarRepository.Create(new Calendar() { Date = DateTime.Parse("2022-12-02") });
 				int i = masterDataRepository.CommitChanges();
 				Console.WriteLine(i);
 			}
-
-			var dates = masterDataRepository.CalendarRepository.GetWithinRange(DateTime.Parse("2012-10-01"), DateTime.Parse("2022-11-29"));
-
+			else
+			{
+				Console.WriteLine(calendar.Id);
+			}
 
 			await Task.Delay(1000, stoppingToken);
 		}

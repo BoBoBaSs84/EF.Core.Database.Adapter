@@ -1,5 +1,5 @@
 ﻿using Database.Adapter.Infrastructure.Extensions;
-using Database.Adapter.Infrastructure.Factory;
+using Database.Adapter.Infrastructure.Factories;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using static Database.Adapter.Entities.Constants.SqlConstants;
@@ -7,7 +7,7 @@ using static Database.Adapter.Entities.Constants.SqlConstants;
 namespace Database.Adapter.Infrastructure.Contexts;
 
 /// <summary>
-/// The master data context class.
+/// The master data database context class.
 /// </summary>
 /// <remarks>
 /// Inherits from the <see cref="DbContext"/> class.

@@ -3,7 +3,7 @@ using Database.Adapter.Infrastructure.Configurations.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Database.Adapter.Infrastructure.Factory;
+namespace Database.Adapter.Infrastructure.Factories;
 
 /// <inheritdoc/>
 public sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<MasterDataContext>

@@ -1,6 +1,6 @@
 ﻿using Database.Adapter.Entities.Authentication;
 using Database.Adapter.Infrastructure.Extensions;
-using Database.Adapter.Infrastructure.Factory;
+using Database.Adapter.Infrastructure.Factories;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;

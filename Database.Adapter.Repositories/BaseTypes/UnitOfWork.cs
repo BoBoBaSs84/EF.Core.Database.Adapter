@@ -15,16 +15,16 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
 	/// <summary>
 	/// The current database context.
 	/// </summary>
-	protected readonly DbContext dbContext;
+	protected readonly TContext context;
 	/// <summary>
 	/// The standard constructor.
 	/// </summary>
 	public UnitOfWork() =>
-		dbContext = new TContext();
+		context = new TContext();
 	/// <inheritdoc/>
 	public int CommitChanges() =>
-		dbContext.SaveChanges();
+		context.SaveChanges();
 	/// <inheritdoc/>
 	public Task<int> CommitChangesAsync(CancellationToken cancellationToken = default) =>
-		dbContext.SaveChangesAsync(cancellationToken);
+		context.SaveChangesAsync(cancellationToken);
 }

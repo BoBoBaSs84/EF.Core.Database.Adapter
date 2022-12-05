@@ -1,5 +1,6 @@
 using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories;
+using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -8,10 +9,14 @@ namespace Debug.ConsoleApp;
 public class Worker : BackgroundService
 {
 	private readonly ILogger<Worker> _logger;
+	private readonly IMasterRepository masterRepository;
+	private readonly IMasterDataRepository masterDataRepository;
 
 	public Worker(ILogger<Worker> logger)
 	{
 		_logger = logger;
+		masterRepository = new MasterRepository();
+		masterDataRepository = new MasterDataRepository();
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -19,8 +24,6 @@ public class Worker : BackgroundService
 		while (!stoppingToken.IsCancellationRequested)
 		{
 			_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-			MasterDataRepository masterDataRepository = new();
 
 			var calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date == DateTime.Parse("2022-12-02"));
 			if (calendar is null)

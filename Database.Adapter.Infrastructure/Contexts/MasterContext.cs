@@ -9,7 +9,7 @@ namespace Database.Adapter.Infrastructure.Contexts;
 /// <remarks>
 /// Inherits from the <see cref="DbContext"/> class.
 /// </remarks>
-public sealed class MasterContext : DbContext
+public sealed partial class MasterContext : DbContext
 {
 	/// <summary>
 	/// The standard parameterless constructor.

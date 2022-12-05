@@ -21,7 +21,7 @@ public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMaste
 	/// </summary>
 	public MasterDataRepository()
 	{
-		lazyCalendarRepository = new Lazy<ICalendarRepository>(() => new CalendarRepository(dbContext));
+		lazyCalendarRepository = new Lazy<ICalendarRepository>(() => new CalendarRepository(context));
 	}
 
 	/// <inheritdoc/>

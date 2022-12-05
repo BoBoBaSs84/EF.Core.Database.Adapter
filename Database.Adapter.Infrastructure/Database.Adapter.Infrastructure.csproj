@@ -23,4 +23,9 @@
 		</None>
 	</ItemGroup>
 
+	<ItemGroup>
+		<Folder Include="Migrations\Authentication\" />
+		<Folder Include="Migrations\MasterData\" />
+	</ItemGroup>
+
 </Project>

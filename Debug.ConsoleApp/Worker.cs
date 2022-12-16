@@ -3,6 +3,7 @@ using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace Debug.ConsoleApp;
 
@@ -28,7 +29,7 @@ public class Worker : BackgroundService
 			var calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date == DateTime.Parse("2022-12-02"));
 			if (calendar is null)
 			{
-				masterDataRepository.CalendarRepository.Create(new Calendar() { Date = DateTime.Parse("2022-12-02") });
+				masterDataRepository.CalendarRepository.Create(new Database.Adapter.Entities.MasterData.Calendar() { Date = DateTime.Parse("2022-12-02") });
 				int i = masterDataRepository.CommitChanges();
 				Console.WriteLine(i);
 			}

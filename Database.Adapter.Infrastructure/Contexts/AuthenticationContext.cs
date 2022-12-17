@@ -38,6 +38,7 @@ public sealed class AuthenticationContext : IdentityDbContext<CustomIdentityUser
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		builder.HasDefaultSchema(SqlSchema.IDENTITY);
+
 		builder.ApplyConfigurationsForContextEntities();
 
 		base.OnModelCreating(builder);

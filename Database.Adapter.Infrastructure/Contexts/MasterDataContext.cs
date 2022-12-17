@@ -32,11 +32,12 @@ public sealed partial class MasterDataContext : DbContext
 
 	/// <inheritdoc/>
 	[SuppressMessage("Style", "IDE0058", Justification = "Not needed here.")]
-	protected override void OnModelCreating(ModelBuilder builder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		builder.HasDefaultSchema(SqlSchema.PRIVATE);
-		builder.ApplyConfigurationsForContextEntities();
+		modelBuilder.HasDefaultSchema(SqlSchema.PRIVATE);
 
-		base.OnModelCreating(builder);
+		modelBuilder.ApplyConfigurationsForContextEntities();
+
+		base.OnModelCreating(modelBuilder);
 	}
 }

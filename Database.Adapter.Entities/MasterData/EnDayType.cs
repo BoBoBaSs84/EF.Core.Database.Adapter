@@ -1,6 +1,7 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Entities.MasterData;
@@ -13,6 +14,7 @@ namespace Database.Adapter.Entities.MasterData;
 /// </remarks>
 [Table(nameof(EnDayType), Schema = SqlSchema.PRIVATE)]
 [Index(nameof(Name), IsUnique = true)]
+[XmlRoot(ElementName = nameof(EnDayType), IsNullable = false)]
 public sealed class EnDayType : EnumeratorModel
 {
 }

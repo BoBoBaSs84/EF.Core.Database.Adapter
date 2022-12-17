@@ -67,4 +67,13 @@ public static class EnumeratorExtensions
 		FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 		return fieldInfo is not null ? fieldInfo.GetCustomAttribute<DisplayAttribute>() : default;
 	}
+
+	/// <summary>
+	/// The <see cref="GetListFromEnum{T}(T)"/> method should return a list of all enumerators of the given type of enum.
+	/// </summary>
+	/// <typeparam name="T">The enmuerator itself.</typeparam>
+	/// <param name="enumValue">The value of the enumerator.</param>
+	/// <returns>A list of all enums of the provided type.</returns>
+	public static List<T> GetListFromEnum<T>(this T enumValue) where T : Enum
+		=> Enum.GetValues(enumValue.GetType()).Cast<T>().ToList();
 }

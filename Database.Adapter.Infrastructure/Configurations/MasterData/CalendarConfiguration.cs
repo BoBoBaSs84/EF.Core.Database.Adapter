@@ -2,27 +2,19 @@
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Infrastructure.Configurations.MasterData;
 
 /// <inheritdoc/>
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 internal sealed class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
 {
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<Calendar> builder)
 	{
-		builder.ToSytemVersionedTable(nameof(Calendar));
-
-		builder.HasKey(x => x.Id)
-			.IsClustered(false);
-
-		builder.HasIndex(x => x.Date)
-			.IsUnique(true);
-
-		builder.Property(x => x.Date)
-			.HasColumnType(SqlDataType.DATE)
-			.IsRequired(true);
+		builder.ToSytemVersionedTable(nameof(Calendar), SqlSchema.PRIVATE, SqlSchema.HISTORY);
 
 		builder.Property(e => e.Day)
 			.HasComputedColumnSql("(datepart(day,[Date]))", true);

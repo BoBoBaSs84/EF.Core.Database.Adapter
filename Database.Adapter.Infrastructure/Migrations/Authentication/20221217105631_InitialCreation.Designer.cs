@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Adapter.Infrastructure.Migrations.Authentication
 {
     [DbContext(typeof(AuthenticationContext))]
-    [Migration("20221205151524_InitialCreation")]
+    [Migration("20221217105631_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -72,8 +72,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateOfBirth")
-                        .HasMaxLength(64)
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -120,8 +119,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                         .HasColumnType("bit");
 
                     b.Property<string>("Preferences")
-                        .HasMaxLength(4092)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("xml");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

@@ -45,7 +45,8 @@ public class Worker : BackgroundService
 				Console.WriteLine($"id:{calendar.Id}, date:{calendar.Date}, day:{calendar.Day}");
 			}
 
-			List<Database.Adapter.Entities.MasterData.CalendarDay> calendarDays = masterDataRepository.CalendarRepository.GetAll().ToList();
+			List<Database.Adapter.Entities.MasterData.CalendarDay> calendarDays = masterDataRepository.CalendarRepository.GetByYear(_today.Year).ToList();
+			_ = calendarDays.OrderBy(x => x.Date);
 			XmlSerializer xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
 			using (StreamWriter writer = new("CalendarDays.xml"))
 			{

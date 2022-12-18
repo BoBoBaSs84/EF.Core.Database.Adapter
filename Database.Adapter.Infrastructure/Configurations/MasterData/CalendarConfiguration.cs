@@ -50,12 +50,10 @@ internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarD
 
 	private static IEnumerable<CalendarDay> GetCalendarDays()
 	{
-		DateTime dateStart = new(1950, 1, 1), dateEnd = new(2050, 12, 31);
+		DateTime dateStart = new(2000, 1, 1), dateEnd = new(2030, 12, 31);
 		IList<CalendarDay> calendarDays = new List<CalendarDay>();
 		while (dateStart <= dateEnd)
 		{
-			if (dateStart.DayOfWeek.Equals(DayOfWeek.Sunday) || dateStart.DayOfWeek.Equals(DayOfWeek.Saturday))
-
 			calendarDays.Add(new CalendarDay()
 			{
 				Id = Guid.NewGuid(),

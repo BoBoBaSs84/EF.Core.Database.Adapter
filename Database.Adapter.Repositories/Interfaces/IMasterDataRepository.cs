@@ -8,7 +8,7 @@ namespace Database.Adapter.Repositories.Interfaces;
 /// The master data repository manager interface.
 /// </summary>
 /// <remarks>
-/// Implements the following interfaces:
+/// Inherits from the following interfaces:
 /// <list type="bullet">
 /// <item>The <see cref="IUnitOfWork{TContext}"/> interface.</item>
 /// </list>

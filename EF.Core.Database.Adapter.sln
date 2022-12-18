@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Adapter.Infrastructure", "Database.Adapter.Infrastructure\Database.Adapter.Infrastructure.csproj", "{AD52C26E-8C26-438F-835A-7CB922A5D156}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Infrastructure", "Database.Adapter.Infrastructure\Database.Adapter.Infrastructure.csproj", "{AD52C26E-8C26-438F-835A-7CB922A5D156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Adapter.Entities", "Database.Adapter.Entities\Database.Adapter.Entities.csproj", "{D018FA03-F916-489D-87CE-BF07105753D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Entities", "Database.Adapter.Entities\Database.Adapter.Entities.csproj", "{D018FA03-F916-489D-87CE-BF07105753D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Repositories", "Database.Adapter.Repositories\Database.Adapter.Repositories.csproj", "{A0521EDC-12DE-4781-A578-E08797C8BCC0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Library", "Test.Library\Test.Library.csproj", "{DCD8CEA8-7888-4C58-84B0-36068BE20080}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AD4C18A4-5A1C-498A-AE05-E2018C9AB197}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Debug.ConsoleApp", "Debug.ConsoleApp\Debug.ConsoleApp.csproj", "{3F24211F-16ED-49FA-AC50-773C80E3752F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +38,10 @@ Global
 		{A0521EDC-12DE-4781-A578-E08797C8BCC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0521EDC-12DE-4781-A578-E08797C8BCC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0521EDC-12DE-4781-A578-E08797C8BCC0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCD8CEA8-7888-4C58-84B0-36068BE20080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCD8CEA8-7888-4C58-84B0-36068BE20080}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCD8CEA8-7888-4C58-84B0-36068BE20080}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCD8CEA8-7888-4C58-84B0-36068BE20080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F24211F-16ED-49FA-AC50-773C80E3752F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F24211F-16ED-49FA-AC50-773C80E3752F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F24211F-16ED-49FA-AC50-773C80E3752F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F24211F-16ED-49FA-AC50-773C80E3752F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

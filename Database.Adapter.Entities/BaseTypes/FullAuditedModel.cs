@@ -1,5 +1,6 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
-using System.ComponentModel;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace Database.Adapter.Entities.BaseTypes;
 
@@ -15,6 +16,9 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class FullAuditedModel : AuditedModel, IActivatableModel
 {
 	/// <inheritdoc/>
-	[DefaultValue(true)]
-	public bool IsActive { get; set; } = default!;
+	[JsonPropertyName(nameof(IsActive))]
+	[XmlAttribute(AttributeName = nameof(IsActive))]
+	public bool? IsActive { get; set; } = default!;
+	/// <inheritdoc/>
+	public bool ShouldSerializeIsActive() => IsActive is not null;
 }

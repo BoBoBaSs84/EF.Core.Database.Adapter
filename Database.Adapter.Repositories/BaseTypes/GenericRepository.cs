@@ -1,5 +1,4 @@
-﻿using Database.Adapter.Infrastructure.Interfaces;
-using Database.Adapter.Repositories.BaseTypes.Interfaces;
+﻿using Database.Adapter.Repositories.BaseTypes.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -12,7 +11,7 @@ namespace Database.Adapter.Repositories.BaseTypes;
 /// Implemnts the members of the <see cref="IGenericRepository{TEntity}"/> interface.
 /// </remarks>
 /// <typeparam name="TEntity">The entity to work with.</typeparam>
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
 	private readonly DbContext dbContext;
 	private readonly DbSet<TEntity> dbSet;
@@ -29,31 +28,52 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 		this.dbContext = dbContext;
 		dbSet = dbContext.Set<TEntity>();
 	}
+
 	/// <inheritdoc/>
-	public IQueryable<TEntity> FindAll(bool trackChanges = false) =>
+	public IQueryable<TEntity> GetAll(bool trackChanges = false) =>
 		!trackChanges ? dbSet.AsNoTracking() : dbContext.Set<TEntity>();
+
 	/// <inheritdoc/>
-	public IQueryable<TEntity> FindByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false) =>
+	public IQueryable<TEntity> GetManyByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false) =>
 		!trackChanges ? dbSet.Where(expression).AsNoTracking() : dbSet.Where(expression);
+
 	/// <inheritdoc/>
-	public TEntity FindById(Guid id) =>
-		dbSet.Find(id)!;
+	public TEntity GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false) =>
+		!trackChanges ? dbSet.Where(expression).AsNoTracking().SingleOrDefault()! : dbSet.Where(expression).SingleOrDefault()!;
+
 	/// <inheritdoc/>
-	public void Delete(TEntity entity) =>
-		dbSet.Remove(entity);
+	public TEntity GetById(Guid id) => dbSet.Find(id)!;
+
 	/// <inheritdoc/>
-	public void DeleteRange(IEnumerable<TEntity> entities) =>
-		dbSet.UpdateRange(entities);
+	public void Delete(TEntity entity) => dbSet.Remove(entity);
+
 	/// <inheritdoc/>
-	public void Create(TEntity entity) =>
-		dbSet.Add(entity);
+	public void Delete(Guid id)
+	{
+		TEntity entity = dbSet.Find(id)!;
+		if (entity is not null)
+			Delete(entity);
+	}
+
 	/// <inheritdoc/>
-	public void CreateRange(IEnumerable<TEntity> entities) =>
-		dbSet.AddRange(entities);
+	public void Delete(Expression<Func<TEntity, bool>> expression)
+	{
+		IQueryable<TEntity> entities = dbSet.Where(expression);
+		DeleteRange(entities);
+	}
+
 	/// <inheritdoc/>
-	public void Update(TEntity entity) =>
-		dbSet.Update(entity);
+	public void DeleteRange(IEnumerable<TEntity> entities) => dbSet.RemoveRange(entities);
+
 	/// <inheritdoc/>
-	public void UpdateRange(IEnumerable<TEntity> entities) =>
-		dbSet.UpdateRange(entities);
+	public void Create(TEntity entity) => dbSet.Add(entity);
+
+	/// <inheritdoc/>
+	public void CreateRange(IEnumerable<TEntity> entities) => dbSet.AddRange(entities);
+
+	/// <inheritdoc/>
+	public void Update(TEntity entity) => dbSet.Update(entity);
+
+	/// <inheritdoc/>
+	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);
 }

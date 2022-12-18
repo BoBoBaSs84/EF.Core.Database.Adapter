@@ -1,8 +1,12 @@
-﻿namespace Database.Adapter.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Database.Adapter.Entities;
 
 /// <summary>
 /// The constants class.
 /// </summary>
+[SuppressMessage("Naming", "CA1720", Justification = "Constants.")]
+[SuppressMessage("Naming", "CA1707", Justification = "Constants.")]
 public static class Constants
 {
 	/// <summary>
@@ -17,12 +21,16 @@ public static class Constants
 		{
 			/// <summary>The <see cref="APPLICATION"/> constant.</summary>
 			public const string APPLICATION = "application";
+			/// <summary>The <see cref="CLR"/> constant.</summary>
+			public const string CLR = "clr";
+			/// <summary>The <see cref="ENUMERATOR"/> constant.</summary>
+			public const string ENUMERATOR = "enumerator";
+			/// <summary>The <see cref="HISTORY"/> constant.</summary>
+			public const string HISTORY = "history";
 			/// <summary>The <see cref="IDENTITY"/> constant.</summary>
 			public const string IDENTITY = "identity";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
 			public const string PRIVATE = "private";
-			/// <summary>The <see cref="VERSIONING"/> constant.</summary>
-			public const string VERSIONING = "versioning";
 		}
 		/// <summary>
 		/// The sql data type class.
@@ -63,6 +71,49 @@ public static class Constants
 			public const int MAX_LENGHT_2048 = 2048;
 			/// <summary>The <see cref="MAX_LENGHT_4092"/> constant.</summary>
 			public const int MAX_LENGHT_4092 = 4092;
+		}
+	}
+
+	/// <summary>
+	/// The xml constants class.
+	/// </summary>
+	public static class XmlConstants
+	{
+		/// <summary>
+		/// The xml name space class.
+		/// </summary>
+		public static class XmlNameSpaces
+		{
+			/// <summary>The <see cref="CALENDARDAY_NAMESPACE"/> constant.</summary>
+			public const string CALENDARDAY_NAMESPACE = "http://Database.Adapter.Entities.org/CalendarDay";
+			/// <summary>The <see cref="ENUMERATOR_NAMSPACE"/> constant.</summary>
+			public const string ENUMERATOR_NAMSPACE = "http://Database.Adapter.Entities.org/Enumerator";
+			/// <summary>The <see cref="IDENTITY_NAMESPACE"/> constant.</summary>
+			public const string IDENTITY_NAMESPACE = "http://Database.Adapter.Entities.org/Identity";
+		}
+		/// <summary>
+		/// The xml data type class.
+		/// </summary>
+		public static class XmlDataType
+		{
+			/// <summary>The <see cref="BOOL"/> constant.</summary>
+			public const string BOOL = "boolean";
+			/// <summary>The <see cref="BYTE"/> constant.</summary>
+			public const string BYTE = "unsignedByte";
+			/// <summary>The <see cref="BYTEARRAY"/> constant.</summary>
+			public const string BYTEARRAY = "hexBinary";
+			/// <summary>The <see cref="DATETIME"/> constant.</summary>
+			public const string DATETIME = "dateTime";
+			/// <summary>The <see cref="DATE"/> constant.</summary>
+			public const string DATE = "date";
+			/// <summary>The <see cref="TIME"/> constant.</summary>
+			public const string TIME = "time";
+			/// <summary>The <see cref="STRING"/> constant.</summary>
+			public const string STRING = "string";
+			/// <summary>The <see cref="INT"/> constant.</summary>
+			public const string INT = "int";
+			/// <summary>The <see cref="ID"/> constant.</summary>
+			public const string ID = "ID";
 		}
 	}
 }

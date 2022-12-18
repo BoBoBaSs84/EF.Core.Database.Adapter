@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Entities.Authentication;
 
@@ -8,5 +10,6 @@ namespace Database.Adapter.Entities.Authentication;
 public class CustomIdentityRole : IdentityRole<Guid>
 {
 	/// <summary>The <see cref="Description"/> property.</summary>
-	public string Description { get; set; } = default!;
+	[MaxLength(SqlStringLength.MAX_LENGHT_256)]
+	public string? Description { get; set; } = default!;
 }

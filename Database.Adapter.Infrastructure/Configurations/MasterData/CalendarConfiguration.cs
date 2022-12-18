@@ -2,27 +2,18 @@
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static Database.Adapter.Entities.Constants.SqlConstants;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Adapter.Infrastructure.Configurations.MasterData;
 
 /// <inheritdoc/>
-internal sealed class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
+internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarDay>
 {
 	/// <inheritdoc/>
-	public void Configure(EntityTypeBuilder<Calendar> builder)
+	public void Configure(EntityTypeBuilder<CalendarDay> builder)
 	{
-		builder.ToSytemVersionedTable(nameof(Calendar));
-
-		builder.HasKey(x => x.Id)
-			.IsClustered(false);
-
-		builder.HasIndex(x => x.Date)
-			.IsUnique(true);
-
-		builder.Property(x => x.Date)
-			.HasColumnType(SqlDataType.DATE)
-			.IsRequired(true);
+		builder.ToSytemVersionedTable(nameof(CalendarDay));
 
 		builder.Property(e => e.Day)
 			.HasComputedColumnSql("(datepart(day,[Date]))", true);
@@ -53,5 +44,23 @@ internal sealed class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
 
 		builder.Property(e => e.Year)
 			.HasComputedColumnSql("(datepart(year,[Date]))", true);
+
+		builder.HasData(GetCalendarDays());
+	}
+
+	private static IEnumerable<CalendarDay> GetCalendarDays()
+	{
+		DateTime dateStart = new(2000, 1, 1), dateEnd = new(2030, 12, 31);
+		IList<CalendarDay> calendarDays = new List<CalendarDay>();
+		while (dateStart <= dateEnd)
+		{
+			calendarDays.Add(new CalendarDay()
+			{
+				Id = Guid.NewGuid(),
+				Date = dateStart
+			});
+			dateStart = dateStart.AddDays(1);
+		}
+		return calendarDays;
 	}
 }

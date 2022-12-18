@@ -3,7 +3,7 @@ using Database.Adapter.Repositories.BaseTypes.Interfaces;
 
 namespace Database.Adapter.Repositories.MasterData.Interfaces;
 
-public interface ICalendarRepository : IGenericRepository<Calendar>
+public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
 {
-	IEnumerable<Calendar> GetWithinRange(DateTime start, DateTime end, bool trackChanges = false);
+	IEnumerable<CalendarDay> GetWithinRange(DateTime start, DateTime end, bool trackChanges = false);
 }

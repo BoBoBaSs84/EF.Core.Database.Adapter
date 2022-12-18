@@ -6,7 +6,7 @@ namespace Database.Adapter.Infrastructure.Contexts;
 public sealed partial class MasterDataContext
 {
 	/// <summary>The <see cref="Calendars"/> property.</summary>
-	public DbSet<Calendar> Calendars { get; set; }
+	public DbSet<CalendarDay> Calendars { get; set; }
 	/// <summary>The <see cref="DayTypes"/> property.</summary>
-	public DbSet<EnDayType> DayTypes { get; set; }
+	public DbSet<DayType> DayTypes { get; set; }
 }

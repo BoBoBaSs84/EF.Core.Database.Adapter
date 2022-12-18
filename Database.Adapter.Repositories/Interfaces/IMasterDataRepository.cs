@@ -18,5 +18,5 @@ public interface IMasterDataRepository : IUnitOfWork<MasterDataContext>
 	/// <summary>
 	/// The <see cref="CalendarRepository"/> interface.
 	/// </summary>
-	ICalendarRepository CalendarRepository { get; }
+	ICalendarDayRepository CalendarRepository { get; }
 }

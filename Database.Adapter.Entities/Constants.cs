@@ -21,14 +21,16 @@ public static class Constants
 		{
 			/// <summary>The <see cref="APPLICATION"/> constant.</summary>
 			public const string APPLICATION = "application";
+			/// <summary>The <see cref="CLR"/> constant.</summary>
+			public const string CLR = "clr";
+			/// <summary>The <see cref="ENUMERATOR"/> constant.</summary>
+			public const string ENUMERATOR = "enumerator";
+			/// <summary>The <see cref="HISTORY"/> constant.</summary>
+			public const string HISTORY = "history";
 			/// <summary>The <see cref="IDENTITY"/> constant.</summary>
 			public const string IDENTITY = "identity";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
 			public const string PRIVATE = "private";
-			/// <summary>The <see cref="HISTORY"/> constant.</summary>
-			public const string HISTORY = "history";
-			/// <summary>The <see cref="CLR"/> constant.</summary>
-			public const string CLR = "clr";
 		}
 		/// <summary>
 		/// The sql data type class.
@@ -83,7 +85,7 @@ public static class Constants
 		public static class XmlNameSpaces
 		{
 			/// <summary>The <see cref="CALENDARDAY_NAMESPACE"/> constant.</summary>
-			public const string CALENDARDAY_NAMESPACE = "http://Database.Adapter.Entities.org/Calendar";
+			public const string CALENDARDAY_NAMESPACE = "http://Database.Adapter.Entities.org/CalendarDay";
 			/// <summary>The <see cref="ENUMERATOR_NAMSPACE"/> constant.</summary>
 			public const string ENUMERATOR_NAMSPACE = "http://Database.Adapter.Entities.org/Enumerator";
 			/// <summary>The <see cref="IDENTITY_NAMESPACE"/> constant.</summary>

@@ -3,18 +3,17 @@ using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
-using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Infrastructure.Configurations.MasterData;
 
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-internal sealed class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
+internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarDay>
 {
 	/// <inheritdoc/>
-	public void Configure(EntityTypeBuilder<Calendar> builder)
+	public void Configure(EntityTypeBuilder<CalendarDay> builder)
 	{
-		builder.ToSytemVersionedTable(nameof(Calendar), SqlSchema.PRIVATE, SqlSchema.HISTORY);
+		builder.ToSytemVersionedTable(nameof(CalendarDay));
 
 		builder.Property(e => e.Day)
 			.HasComputedColumnSql("(datepart(day,[Date]))", true);
@@ -45,5 +44,25 @@ internal sealed class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
 
 		builder.Property(e => e.Year)
 			.HasComputedColumnSql("(datepart(year,[Date]))", true);
+
+		builder.HasData(GetCalendarDays());
+	}
+
+	private static IEnumerable<CalendarDay> GetCalendarDays()
+	{
+		DateTime dateStart = new(1950, 1, 1), dateEnd = new(2050, 12, 31);
+		IList<CalendarDay> calendarDays = new List<CalendarDay>();
+		while (dateStart <= dateEnd)
+		{
+			if (dateStart.DayOfWeek.Equals(DayOfWeek.Sunday) || dateStart.DayOfWeek.Equals(DayOfWeek.Saturday))
+
+			calendarDays.Add(new CalendarDay()
+			{
+				Id = Guid.NewGuid(),
+				Date = dateStart
+			});
+			dateStart = dateStart.AddDays(1);
+		}
+		return calendarDays;
 	}
 }

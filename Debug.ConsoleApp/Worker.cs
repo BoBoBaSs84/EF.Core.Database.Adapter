@@ -26,18 +26,18 @@ public class Worker : BackgroundService
 		{
 			_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-			Database.Adapter.Entities.MasterData.Calendar? calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(_today));
+			Database.Adapter.Entities.MasterData.CalendarDay? calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(_today));
 
 			if (calendar is null)
 			{
-				masterDataRepository.CalendarRepository.Create(new Database.Adapter.Entities.MasterData.Calendar() { Date = _today });
+				masterDataRepository.CalendarRepository.Create(new Database.Adapter.Entities.MasterData.CalendarDay() { Date = _today });
 				int i = masterDataRepository.CommitChanges();
 				Console.WriteLine(i);
 			}
 			else
 			{
-				XmlSerializer serializer = new(typeof(Database.Adapter.Entities.MasterData.Calendar));
-				using (StreamWriter writer = new($"{nameof(Database.Adapter.Entities.MasterData.Calendar)}.xml"))
+				XmlSerializer serializer = new(typeof(Database.Adapter.Entities.MasterData.CalendarDay));
+				using (StreamWriter writer = new($"{nameof(Database.Adapter.Entities.MasterData.CalendarDay)}.xml"))
 				{
 					serializer.Serialize(writer, calendar);
 				}
@@ -45,8 +45,8 @@ public class Worker : BackgroundService
 				Console.WriteLine($"id:{calendar.Id}, date:{calendar.Date}, day:{calendar.Day}");
 			}
 
-			List<Database.Adapter.Entities.MasterData.Calendar> calendarDays = masterDataRepository.CalendarRepository.GetAll().ToList();
-			XmlSerializer xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.Calendar>));
+			List<Database.Adapter.Entities.MasterData.CalendarDay> calendarDays = masterDataRepository.CalendarRepository.GetAll().ToList();
+			XmlSerializer xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
 			using (StreamWriter writer = new("CalendarDays.xml"))
 			{
 				xmlSerializer.Serialize(writer, calendarDays);

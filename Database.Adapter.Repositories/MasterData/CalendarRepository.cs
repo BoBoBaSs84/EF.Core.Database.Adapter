@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Repositories.MasterData;
 
-internal sealed class CalendarRepository : GenericRepository<Calendar>, ICalendarRepository
+internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, ICalendarDayRepository
 {
-	public CalendarRepository(DbContext dbContext) : base(dbContext)
+	public CalendarDayRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
 
-	public IEnumerable<Calendar> GetWithinRange(DateTime start, DateTime end, bool trackChanges = false) =>
+	public IEnumerable<CalendarDay> GetWithinRange(DateTime start, DateTime end, bool trackChanges = false) =>
 		GetManyByCondition(x => x.Date >= start && x.Date <= end, trackChanges);
 }

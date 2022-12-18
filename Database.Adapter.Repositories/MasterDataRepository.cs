@@ -14,16 +14,16 @@ namespace Database.Adapter.Repositories;
 /// </remarks>
 public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
 {
-	private readonly Lazy<ICalendarRepository> lazyCalendarRepository;
+	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository;
 
 	/// <summary>
 	/// The master data repository manager standard constructor.
 	/// </summary>
 	public MasterDataRepository()
 	{
-		lazyCalendarRepository = new Lazy<ICalendarRepository>(() => new CalendarRepository(context));
+		lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(context));
 	}
 
 	/// <inheritdoc/>
-	public ICalendarRepository CalendarRepository => lazyCalendarRepository.Value;
+	public ICalendarDayRepository CalendarRepository => lazyCalendarRepository.Value;
 }

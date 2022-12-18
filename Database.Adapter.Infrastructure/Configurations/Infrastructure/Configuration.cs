@@ -8,9 +8,9 @@ internal sealed class Configuration
 	private readonly string jsonFileName = @"Database.Adapter.Infrastructure.json";
 
 	/// <summary>
-	/// 
+	/// The method should return the connection string depending on the provided database context.
 	/// </summary>
-	/// <param name="contextName"></param>
+	/// <param name="contextName">The name of the database context.</param>
 	/// <returns>The connection string.</returns>
 	/// <exception cref="ArgumentNullException"></exception>
 	public string GetConnectionString(string contextName)

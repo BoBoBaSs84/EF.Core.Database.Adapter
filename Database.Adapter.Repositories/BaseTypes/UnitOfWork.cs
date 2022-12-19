@@ -13,18 +13,20 @@ namespace Database.Adapter.Repositories.BaseTypes;
 public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext, new()
 {
 	/// <summary>
-	/// The current database context.
-	/// </summary>
-	protected readonly TContext context;
-	/// <summary>
 	/// The standard constructor.
 	/// </summary>
 	public UnitOfWork() =>
-		context = new TContext();
+		Context = new TContext();
+
+	/// <summary>
+	/// The <see cref="Context"/> property.
+	/// </summary>
+	protected TContext Context { get; }
+
 	/// <inheritdoc/>
 	public int CommitChanges() =>
-		context.SaveChanges();
+		Context.SaveChanges();
 	/// <inheritdoc/>
 	public Task<int> CommitChangesAsync(CancellationToken cancellationToken = default) =>
-		context.SaveChangesAsync(cancellationToken);
+		Context.SaveChangesAsync(cancellationToken);
 }

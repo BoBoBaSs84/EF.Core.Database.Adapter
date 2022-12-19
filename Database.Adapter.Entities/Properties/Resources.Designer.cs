@@ -250,7 +250,7 @@ namespace Database.Adapter.Entities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.
+        ///   Looks up a localized string similar to The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness..
         /// </summary>
         public static string Enumerator_DayType_Sickness_Description {
             get {

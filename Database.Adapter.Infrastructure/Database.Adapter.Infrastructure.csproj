@@ -24,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Configurations\MasterData\" />
 		<Folder Include="Migrations\Authentication\" />
 		<Folder Include="Migrations\MasterData\" />
 		<Folder Include="Migrations\Master\" />

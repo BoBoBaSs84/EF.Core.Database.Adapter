@@ -14,6 +14,7 @@ namespace Database.Adapter.Entities.BaseTypes;
 /// <item>The <see cref="IActivatableModel"/> interface</item>
 /// </list>
 /// </remarks>
+[XmlRoot(Namespace = XmlNameSpaces.ACTIVATABLE_NAMESPACE, IsNullable = false)]
 public abstract class ActivatableModel : IdentityModel, IActivatableModel
 {
 	/// <inheritdoc/>

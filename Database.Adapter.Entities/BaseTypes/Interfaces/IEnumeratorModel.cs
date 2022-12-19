@@ -6,9 +6,9 @@
 internal interface IEnumeratorModel
 {
 	/// <summary>
-	/// The <see cref="Id"/> property.
+	/// The <see cref="Enumerator"/> property.
 	/// </summary>
-	public int Id { get; set; }
+	int Enumerator { get; }
 	/// <summary>
 	/// The <see cref="Name"/> property.
 	/// </summary>

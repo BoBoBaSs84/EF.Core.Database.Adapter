@@ -32,6 +32,9 @@ internal sealed class DayTypeRepository : GenericRepository<DayType>, IDayTypeRe
 	public IEnumerable<DayType> GetAllActive(bool trackChanges = false) =>
 		GetManyByCondition(x => x.IsActive.Equals(true), trackChanges);
 	/// <inheritdoc/>
+	public DayType GetByEnumerator(int enumerator, bool trackChanges = false) =>
+		GetByCondition(x=>x.Enumerator.Equals(enumerator), trackChanges);
+	/// <inheritdoc/>
 	public DayType GetByName(string name, bool trackChanges = false) =>
 		GetByCondition(x => x.Name.Equals(name, StringComparison.Ordinal), trackChanges);
 }

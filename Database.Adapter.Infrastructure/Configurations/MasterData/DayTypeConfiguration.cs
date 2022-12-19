@@ -17,6 +17,9 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 	{
 		builder.ToSytemVersionedTable(nameof(DayType), SqlSchema.ENUMERATOR);
 
+		builder.HasKey(e => e.Id)
+			.IsClustered(false);
+
 		builder.HasData(GetEnDayTypes());
 	}
 
@@ -28,7 +31,7 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 		foreach (Entities.Enumerators.DayType dayType in enumList)
 			listToReturn.Add(new DayType()
 			{
-				Id = (int)dayType,
+				Enumerator = (int)dayType,
 				Name = dayType.GetEnumName(),
 				Description = dayType.GetEnumDescription(),
 				IsActive = true

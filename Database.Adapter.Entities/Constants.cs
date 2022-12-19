@@ -84,6 +84,8 @@ public static class Constants
 		/// </summary>
 		public static class XmlNameSpaces
 		{
+			/// <summary>The <see cref="ACTIVATABLE_NAMESPACE"/> constant.</summary>
+			public const string ACTIVATABLE_NAMESPACE = "http://Database.Adapter.Entities.org/Activatable";
 			/// <summary>The <see cref="CALENDARDAY_NAMESPACE"/> constant.</summary>
 			public const string CALENDARDAY_NAMESPACE = "http://Database.Adapter.Entities.org/CalendarDay";
 			/// <summary>The <see cref="ENUMERATOR_NAMSPACE"/> constant.</summary>

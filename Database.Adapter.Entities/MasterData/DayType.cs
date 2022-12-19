@@ -11,7 +11,6 @@ namespace Database.Adapter.Entities.MasterData;
 /// Inherits from the <see cref="EnumeratorModel"/> class.
 /// </remarks>
 [Serializable]
-[Index(nameof(Name), IsUnique = true)]
 [XmlRoot(ElementName = nameof(DayType), IsNullable = false)]
 public sealed class DayType : EnumeratorModel
 {

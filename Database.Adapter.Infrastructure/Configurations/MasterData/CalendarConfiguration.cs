@@ -15,6 +15,9 @@ internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarD
 	{
 		builder.ToSytemVersionedTable(nameof(CalendarDay));
 
+		builder.HasKey(e => e.Id)
+			.IsClustered(false);
+
 		builder.Property(e => e.Day)
 			.HasComputedColumnSql("(datepart(day,[Date]))", true);
 

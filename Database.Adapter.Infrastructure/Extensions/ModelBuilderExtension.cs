@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Database.Adapter.Entities.BaseTypes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Infrastructure.Extensions;
 
@@ -18,5 +19,12 @@ internal static class ModelBuilderExtension
 					&& i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)
 					&& types.Contains(i.GenericTypeArguments[0]))
 			);
+	}
+
+	// TODO: find a good solution ...
+	public static void ApplyNonClusteredIndexOnGloballyUniqueIdentifier(this ModelBuilder modelBuilder)
+	{
+		HashSet<Type> types = modelBuilder.Model.GetEntityTypes().Select(t => t.ClrType).ToHashSet();
+
 	}
 }

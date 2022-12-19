@@ -46,11 +46,17 @@ public class Worker : BackgroundService
 			}
 
 			List<Database.Adapter.Entities.MasterData.CalendarDay> calendarDays = masterDataRepository.CalendarRepository.GetByYear(_today.Year).ToList();
-			_ = calendarDays.OrderBy(x => x.Date);
 			XmlSerializer xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
 			using (StreamWriter writer = new("CalendarDays.xml"))
 			{
 				xmlSerializer.Serialize(writer, calendarDays);
+			}
+
+			List<Database.Adapter.Entities.MasterData.DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll().ToList();
+			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
+			using (StreamWriter writer = new("DayTypes.xml"))
+			{
+				xmlSerializer.Serialize(writer, dayTypes);
 			}
 
 			await Task.Delay(1000, stoppingToken);

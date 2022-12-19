@@ -17,9 +17,6 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 	{
 		builder.ToSytemVersionedTable(nameof(DayType), SqlSchema.ENUMERATOR);
 
-		builder.Property(e => e.IsActive)
-			.HasDefaultValue(true);
-
 		builder.HasData(GetEnDayTypes());
 	}
 
@@ -33,7 +30,8 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 			{
 				Id = (int)dayType,
 				Name = dayType.GetEnumName(),
-				Description = dayType.GetEnumDescription()
+				Description = dayType.GetEnumDescription(),
+				IsActive = true
 			});
 		
 		return listToReturn;

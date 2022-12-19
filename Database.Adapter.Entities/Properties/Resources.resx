@@ -181,7 +181,7 @@
     <value>ST</value>
   </data>
   <data name="Enumerator.DayType.Sickness.Description" xml:space="preserve">
-    <value>The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness</value>
+    <value>The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.</value>
   </data>
   <data name="Enumerator.DayType.Sickness.Name" xml:space="preserve">
     <value>Sickness</value>

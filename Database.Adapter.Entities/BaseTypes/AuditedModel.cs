@@ -1,5 +1,4 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -18,11 +17,11 @@ public abstract class AuditedModel : IdentityModel, IAuditedModel
 {
 	/// <inheritdoc/>
 	[JsonPropertyName(nameof(CreatedBy))]
-	[XmlAttribute(AttributeName = nameof(CreatedBy))]
+	[XmlElement(ElementName = nameof(CreatedBy))]
 	public Guid CreatedBy { get; set; } = default;
 	/// <inheritdoc/>
 	[JsonPropertyName(nameof(ModifiedBy))]
-	[XmlAttribute(AttributeName = nameof(ModifiedBy))]
+	[XmlElement(ElementName = nameof(ModifiedBy))]
 	public Guid? ModifiedBy { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeModifiedBy() => ModifiedBy is not null;

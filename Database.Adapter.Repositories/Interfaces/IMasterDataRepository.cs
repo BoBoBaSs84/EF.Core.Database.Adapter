@@ -10,13 +10,13 @@ namespace Database.Adapter.Repositories.Interfaces;
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IUnitOfWork{TContext}"/> interface.</item>
+/// <item>The <see cref="IUnitOfWork{TContext}"/>(<see cref="MasterDataContext"/>) interface.</item>
 /// </list>
 /// </remarks>
 public interface IMasterDataRepository : IUnitOfWork<MasterDataContext>
 {
-	/// <summary>
-	/// The <see cref="CalendarRepository"/> interface.
-	/// </summary>
+	/// <summary>The <see cref="CalendarRepository"/> interface.</summary>
 	ICalendarDayRepository CalendarRepository { get; }
+	/// <summary>The <see cref="DayTypeRepository"/> interface.</summary>
+	IDayTypeRepository DayTypeRepository { get; }
 }

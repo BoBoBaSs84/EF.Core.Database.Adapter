@@ -1,5 +1,4 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
-using Microsoft.EntityFrameworkCore;
 using System.Xml.Serialization;
 
 namespace Database.Adapter.Entities.MasterData;

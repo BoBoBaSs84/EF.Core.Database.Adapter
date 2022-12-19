@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Xml.Serialization;
 
 namespace Database.Adapter.Entities;
 
@@ -80,10 +81,26 @@ public static class Constants
 	public static class XmlConstants
 	{
 		/// <summary>
+		/// The method should return all the available xml namespaces.
+		/// </summary>
+		/// <returns>Serializable xml namespaces.</returns>
+		public static XmlSerializerNamespaces GetXmlSerializerNamespaces()
+		{
+			XmlSerializerNamespaces namespaces = new();
+			namespaces.Add("ac", XmlNameSpaces.ACTIVATABLE_NAMESPACE);
+			namespaces.Add("cd", XmlNameSpaces.CALENDARDAY_NAMESPACE);
+			namespaces.Add("en", XmlNameSpaces.ENUMERATOR_NAMSPACE);
+			namespaces.Add("id", XmlNameSpaces.IDENTITY_NAMESPACE);
+			return namespaces;
+		}
+
+		/// <summary>
 		/// The xml name space class.
 		/// </summary>
 		public static class XmlNameSpaces
 		{
+			/// <summary>The <see cref="ACTIVATABLE_NAMESPACE"/> constant.</summary>
+			public const string ACTIVATABLE_NAMESPACE = "http://Database.Adapter.Entities.org/Activatable";
 			/// <summary>The <see cref="CALENDARDAY_NAMESPACE"/> constant.</summary>
 			public const string CALENDARDAY_NAMESPACE = "http://Database.Adapter.Entities.org/CalendarDay";
 			/// <summary>The <see cref="ENUMERATOR_NAMSPACE"/> constant.</summary>

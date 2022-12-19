@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Database.Adapter.Entities.Properties;
+﻿using Database.Adapter.Entities.Properties;
+using System.ComponentModel.DataAnnotations;
 using static Database.Adapter.Entities.Properties.Resources;
 
 namespace Database.Adapter.Entities.Enumerators;

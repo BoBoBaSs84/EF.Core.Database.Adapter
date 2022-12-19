@@ -1,5 +1,4 @@
-﻿using System.Xml.Schema;
-using Database.Adapter.Entities.BaseTypes;
+﻿using Database.Adapter.Entities.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -23,46 +22,46 @@ public sealed class CalendarDay : IdentityModel
 	/// <summary>The <see cref="Date"/> property.</summary>
 	[Column(TypeName = SqlDataType.DATE)]
 	[JsonPropertyName(nameof(Date))]
-	[XmlAttribute(AttributeName = nameof(Date), DataType = XmlDataType.DATE)]
+	[XmlElement(DataType = XmlDataType.DATE, ElementName = nameof(Date))]
 	public DateTime Date { get; set; } = default!;
 	/// <summary>The <see cref="Year"/> property.</summary>
 	[JsonPropertyName(nameof(Year))]
-	[XmlAttribute(AttributeName = nameof(Year), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(Year))]
 	public int Year { get; set; } = default!;
 	/// <summary>The <see cref="Month"/> property.</summary>
 	[JsonPropertyName(nameof(Month))]
-	[XmlAttribute(AttributeName = nameof(Month), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(Month))]
 	public int Month { get; set; } = default!;
 	/// <summary>The <see cref="Day"/> property.</summary>
 	[JsonPropertyName(nameof(Day))]
-	[XmlAttribute(AttributeName = nameof(Day), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(Day))]
 	public int Day { get; set; } = default!;
 	/// <summary>The <see cref="Week"/> property.</summary>
 	[JsonPropertyName(nameof(Week))]
-	[XmlAttribute(AttributeName = nameof(Week), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(Week))]
 	public int Week { get; set; } = default!;
 	/// <summary>The <see cref="IsoWeek"/> property.</summary>
 	[JsonPropertyName(nameof(IsoWeek))]
-	[XmlAttribute(AttributeName = nameof(IsoWeek), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(IsoWeek))]
 	public int IsoWeek { get; set; } = default!;
 	/// <summary>The <see cref="DayOfYear"/> property.</summary>
 	[JsonPropertyName(nameof(DayOfYear))]
-	[XmlAttribute(AttributeName = nameof(DayOfYear), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(DayOfYear))]
 	public int DayOfYear { get; set; } = default!;
 	/// <summary>The <see cref="WeekDay"/> property.</summary>
 	[JsonPropertyName(nameof(WeekDay))]
-	[XmlAttribute(AttributeName = nameof(WeekDay), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(WeekDay))]
 	public int WeekDay { get; set; } = default!;
 	/// <summary>The <see cref="EndOfMonth"/> property.</summary>
 	[JsonPropertyName(nameof(EndOfMonth))]
-	[XmlAttribute(AttributeName = nameof(EndOfMonth), DataType = XmlDataType.DATE)]
+	[XmlElement(DataType = XmlDataType.DATE, ElementName = nameof(EndOfMonth))]
 	public DateTime EndOfMonth { get; set; } = default!;
 	/// <summary>The <see cref="WeekDayName"/> property.</summary>
 	[JsonPropertyName(nameof(WeekDayName))]
-	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(WeekDayName), Form = XmlSchemaForm.Qualified)]
+	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(WeekDayName))]
 	public string WeekDayName { get; set; } = default!;
 	/// <summary>The <see cref="MonthName"/> property.</summary>
 	[JsonPropertyName(nameof(MonthName))]
-	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(MonthName), Form = XmlSchemaForm.Qualified)]
+	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(MonthName))]
 	public string MonthName { get; set; } = default!;
 }

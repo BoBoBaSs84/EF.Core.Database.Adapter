@@ -19,7 +19,7 @@ public abstract class ActivatableModel : IdentityModel, IActivatableModel
 {
 	/// <inheritdoc/>
 	[JsonPropertyName(nameof(IsActive))]
-	[XmlAttribute(AttributeName = nameof(IsActive), DataType = XmlDataType.BOOL)]
+	[XmlElement(DataType = XmlDataType.BOOL, ElementName = nameof(IsActive))]
 	public bool IsActive { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeIsActive() => IsActive is false;

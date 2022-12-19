@@ -32,7 +32,7 @@ public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 	/// <inheritdoc/>
 	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 	[JsonPropertyName(nameof(Timestamp))]
-	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp))]
+	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp), Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeTimestamp() => false;

@@ -2,6 +2,7 @@ using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Debug.ConsoleApp;
@@ -39,7 +40,7 @@ public class Worker : BackgroundService
 				XmlSerializer serializer = new(typeof(Database.Adapter.Entities.MasterData.CalendarDay));
 				using (StreamWriter writer = new($"{nameof(Database.Adapter.Entities.MasterData.CalendarDay)}.xml"))
 				{
-					serializer.Serialize(writer, calendar);
+					serializer.Serialize(writer, calendar, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 				}
 
 				Console.WriteLine($"id:{calendar.Id}, date:{calendar.Date}, day:{calendar.Day}");
@@ -49,14 +50,14 @@ public class Worker : BackgroundService
 			XmlSerializer xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
 			using (StreamWriter writer = new("CalendarDays.xml"))
 			{
-				xmlSerializer.Serialize(writer, calendarDays);
+				xmlSerializer.Serialize(writer, calendarDays, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 			}
 
 			List<Database.Adapter.Entities.MasterData.DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll().ToList();
 			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
 			using (StreamWriter writer = new("DayTypes.xml"))
 			{
-				xmlSerializer.Serialize(writer, dayTypes);
+				xmlSerializer.Serialize(writer, dayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 			}
 
 			await Task.Delay(1000, stoppingToken);

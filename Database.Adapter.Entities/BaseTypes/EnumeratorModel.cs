@@ -23,7 +23,7 @@ public abstract class EnumeratorModel : ActivatableModel, IEnumeratorModel
 {
 	/// <inheritdoc/>
 	[JsonPropertyName(nameof(Enumerator))]
-	[XmlAttribute(AttributeName = nameof(Enumerator), DataType = XmlDataType.INT)]
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(Enumerator))]
 	public int Enumerator { get; set; } = default!;
 	/// <inheritdoc/>
 	[StringLength(SqlStringLength.MAX_LENGHT_128)]

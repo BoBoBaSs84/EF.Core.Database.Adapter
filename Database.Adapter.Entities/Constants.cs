@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Xml.Serialization;
 
 namespace Database.Adapter.Entities;
 
@@ -79,6 +80,20 @@ public static class Constants
 	/// </summary>
 	public static class XmlConstants
 	{
+		/// <summary>
+		/// The method should return all the available xml namespaces.
+		/// </summary>
+		/// <returns>Serializable xml namespaces.</returns>
+		public static XmlSerializerNamespaces GetXmlSerializerNamespaces()
+		{
+			XmlSerializerNamespaces namespaces = new();
+			namespaces.Add("ac", XmlNameSpaces.ACTIVATABLE_NAMESPACE);
+			namespaces.Add("cd", XmlNameSpaces.CALENDARDAY_NAMESPACE);
+			namespaces.Add("en", XmlNameSpaces.ENUMERATOR_NAMSPACE);
+			namespaces.Add("id", XmlNameSpaces.IDENTITY_NAMESPACE);
+			return namespaces;
+		}
+
 		/// <summary>
 		/// The xml name space class.
 		/// </summary>

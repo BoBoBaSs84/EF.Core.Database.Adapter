@@ -1,5 +1,4 @@
-﻿using Database.Adapter.Entities.BaseTypes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Infrastructure.Extensions;
 

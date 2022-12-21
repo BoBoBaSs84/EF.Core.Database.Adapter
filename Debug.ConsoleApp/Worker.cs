@@ -1,8 +1,8 @@
+using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Xml;
 using System.Xml.Serialization;
 
 namespace Debug.ConsoleApp;
@@ -10,14 +10,12 @@ namespace Debug.ConsoleApp;
 public class Worker : BackgroundService
 {
 	private readonly ILogger<Worker> _logger;
-	private readonly IMasterRepository masterRepository;
 	private readonly IMasterDataRepository masterDataRepository;
 	private readonly DateTime _today = DateTime.Now;
 
 	public Worker(ILogger<Worker> logger)
 	{
 		_logger = logger;
-		masterRepository = new MasterRepository();
 		masterDataRepository = new MasterDataRepository();
 	}
 

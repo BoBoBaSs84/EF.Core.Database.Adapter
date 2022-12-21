@@ -1,7 +1,5 @@
 ﻿using Database.Adapter.Infrastructure.Factories;
-using static Database.Adapter.Entities.Constants.SqlConstants;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Adapter.Infrastructure.Contexts;
 
@@ -29,15 +27,5 @@ public sealed partial class MasterContext : DbContext
 	/// <param name="contextOptions">The database context options.</param>
 	public MasterContext(DbContextOptions<MasterContext> contextOptions) : base(contextOptions)
 	{
-	}
-
-	/// <inheritdoc/>
-	[SuppressMessage("Style", "IDE0058", Justification = "Not needed here.")]
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
-	{
-		modelBuilder.HasDbFunction(typeof(MasterContext).GetMethod(nameof(GetLangageCodeIdentifier), new[] { typeof(string) })!)
-			.HasName($"{SqlSchema.CLR}.{nameof(GetLangageCodeIdentifier)}");
-
-		base.OnModelCreating(modelBuilder);
 	}
 }

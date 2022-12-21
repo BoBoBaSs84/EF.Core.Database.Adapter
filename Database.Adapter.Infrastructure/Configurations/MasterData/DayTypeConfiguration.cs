@@ -36,7 +36,7 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 				Description = dayType.GetEnumDescription(),
 				IsActive = true
 			});
-		
+
 		return listToReturn;
 	}
 }

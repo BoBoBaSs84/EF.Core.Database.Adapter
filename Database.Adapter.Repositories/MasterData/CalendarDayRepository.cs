@@ -29,7 +29,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	}
 	/// <inheritdoc/>
 	public IEnumerable<CalendarDay> GetByYear(int year, bool trackChanges = false) =>
-		GetManyByCondition(x=>x.Year.Equals(year), trackChanges);
+		GetManyByCondition(x => x.Year.Equals(year), trackChanges);
 	/// <inheritdoc/>
 	public IEnumerable<CalendarDay> GetWithinRange(DateTime start, DateTime end, bool trackChanges = false) =>
 		GetManyByCondition(x => x.Date >= start && x.Date <= end, trackChanges);

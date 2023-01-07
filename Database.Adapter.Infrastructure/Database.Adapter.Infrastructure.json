@@ -1,23 +1,43 @@
 {
-	"SqlServers": {
-		"Development": "(localdb)\\MSSQLLocalDB",
-		"Production": "."
-	},
-	"Contexts": {
-		"MasterContext": {
-			"InitialCatalog": "Master",
+	"SqlServers": [
+		{
+			"Name": "SQL EXPRESS 2019",
+			"Environment": "Development",
+			"Server": "(localdb)\\MSSQLLocalDB"
+		},
+		{
+			"Name": "SQL SERVER 2019",
+			"Environment": "Production",
+			"Server": "."
+		}
+	],
+	"Contexts": [
+		{
+			"Name": "MasterContext",
+			"Database": "Master",
+			"IntegratedSecurity": true,
+			"MultipleActiveResultSets": true,
+			"PersistSecurityInfo": false,
 			"UserName": "",
 			"Password": ""
 		},
-		"AuthenticationContext": {
-			"InitialCatalog": "Authentication",
+		{
+			"Name": "AuthenticationContext",
+			"Database": "Authentication",
+			"IntegratedSecurity": true,
+			"MultipleActiveResultSets": false,
+			"PersistSecurityInfo": false,
 			"UserName": "",
 			"Password": ""
 		},
-		"MasterDataContext": {
-			"InitialCatalog": "MasterData",
+		{
+			"Name": "MasterDataContext",
+			"Database": "MasterData",
+			"IntegratedSecurity": true,
+			"MultipleActiveResultSets": true,
+			"PersistSecurityInfo": false,
 			"UserName": "",
 			"Password": ""
 		}
-	}
+	]
 }

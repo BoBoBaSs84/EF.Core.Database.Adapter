@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Infrastructure.Configurations.Infrastructure;
+﻿using Database.Adapter.Infrastructure.Configurations;
 using Database.Adapter.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;

@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Infrastructure.Configurations.Infrastructure;
+﻿using Database.Adapter.Infrastructure.Configurations;
 using Database.Adapter.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -21,7 +21,8 @@ public sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<Maste
 		{
 			Configuration configuration = new();
 			DbContextOptionsBuilder<MasterDataContext> optionsBuilder = new();
-			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(MasterDataContext)));
+			string connectionString = configuration.GetConnectionString(nameof(MasterDataContext));
+			optionsBuilder.UseSqlServer(connectionString);
 #if DEBUG
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);

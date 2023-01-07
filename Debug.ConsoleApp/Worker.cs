@@ -1,4 +1,3 @@
-using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;

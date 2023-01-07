@@ -135,15 +135,6 @@
   <data name="Enumerator.DayType.BuisnessTrip.ShortName" xml:space="preserve">
     <value>BT</value>
   </data>
-  <data name="Enumerator.DayType.BusinessDay.Description" xml:space="preserve">
-    <value>A business day means any day except any Saturday, any Sunday, or any day which is a legal holiday.</value>
-  </data>
-  <data name="Enumerator.DayType.BusinessDay.Name" xml:space="preserve">
-    <value>Business day</value>
-  </data>
-  <data name="Enumerator.DayType.BusinessDay.ShortName" xml:space="preserve">
-    <value>BD</value>
-  </data>
   <data name="Enumerator.DayType.Holiday.Description" xml:space="preserve">
     <value>A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.</value>
   </data>
@@ -216,13 +207,22 @@
   <data name="Enumerator.DayType.VacationBlock.ShortName" xml:space="preserve">
     <value>VB</value>
   </data>
-  <data name="Enumerator.DayType.Weekend.Description" xml:space="preserve">
+  <data name="Enumerator.DayType.Weekday.Description" xml:space="preserve">
+    <value>A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.</value>
+  </data>
+  <data name="Enumerator.DayType.Weekday.Name" xml:space="preserve">
+    <value>Weekday</value>
+  </data>
+  <data name="Enumerator.DayType.Weekday.ShortName" xml:space="preserve">
+    <value>WD</value>
+  </data>
+  <data name="Enumerator.DayType.WeekendDay.Description" xml:space="preserve">
     <value>Generally refers to the period between the end of a usual work week and the beginning of the new work week.</value>
   </data>
-  <data name="Enumerator.DayType.Weekend.Name" xml:space="preserve">
-    <value>Weekend</value>
+  <data name="Enumerator.DayType.WeekendDay.Name" xml:space="preserve">
+    <value>Weekend day</value>
   </data>
-  <data name="Enumerator.DayType.Weekend.ShortName" xml:space="preserve">
+  <data name="Enumerator.DayType.WeekendDay.ShortName" xml:space="preserve">
     <value>WE</value>
   </data>
   <data name="Enumerator.DayType.WeekendWorkday.Description" xml:space="preserve">
@@ -233,5 +233,14 @@
   </data>
   <data name="Enumerator.DayType.WeekendWorkday.ShortName" xml:space="preserve">
     <value>WW</value>
+  </data>
+  <data name="Enumerator.DayType.Workday.Description" xml:space="preserve">
+    <value>Day on which professional work is performed or is to be performed.</value>
+  </data>
+  <data name="Enumerator.DayType.Workday.Name" xml:space="preserve">
+    <value>Workday</value>
+  </data>
+  <data name="Enumerator.DayType.Workday.ShortName" xml:space="preserve">
+    <value>WK</value>
   </data>
 </root>

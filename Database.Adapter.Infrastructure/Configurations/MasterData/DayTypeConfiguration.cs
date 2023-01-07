@@ -31,7 +31,7 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 		foreach (Entities.Enumerators.DayType dayType in enumList)
 			listToReturn.Add(new DayType()
 			{
-				Enumerator = (int)dayType,
+				Id = (int)dayType,
 				Name = dayType.GetEnumName(),
 				Description = dayType.GetEnumDescription(),
 				IsActive = true

@@ -115,33 +115,6 @@ namespace Database.Adapter.Entities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A business day means any day except any Saturday, any Sunday, or any day which is a legal holiday..
-        /// </summary>
-        public static string Enumerator_DayType_BusinessDay_Description {
-            get {
-                return ResourceManager.GetString("Enumerator.DayType.BusinessDay.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Business day.
-        /// </summary>
-        public static string Enumerator_DayType_BusinessDay_Name {
-            get {
-                return ResourceManager.GetString("Enumerator.DayType.BusinessDay.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to BD.
-        /// </summary>
-        public static string Enumerator_DayType_BusinessDay_ShortName {
-            get {
-                return ResourceManager.GetString("Enumerator.DayType.BusinessDay.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced..
         /// </summary>
         public static string Enumerator_DayType_Holiday_Description {
@@ -358,29 +331,56 @@ namespace Database.Adapter.Entities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generally refers to the period between the end of a usual work week and the beginning of the new work week..
+        ///   Looks up a localized string similar to A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday..
         /// </summary>
-        public static string Enumerator_DayType_Weekend_Description {
+        public static string Enumerator_DayType_Weekday_Description {
             get {
-                return ResourceManager.GetString("Enumerator.DayType.Weekend.Description", resourceCulture);
+                return ResourceManager.GetString("Enumerator.DayType.Weekday.Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weekend.
+        ///   Looks up a localized string similar to Weekday.
         /// </summary>
-        public static string Enumerator_DayType_Weekend_Name {
+        public static string Enumerator_DayType_Weekday_Name {
             get {
-                return ResourceManager.GetString("Enumerator.DayType.Weekend.Name", resourceCulture);
+                return ResourceManager.GetString("Enumerator.DayType.Weekday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WD.
+        /// </summary>
+        public static string Enumerator_DayType_Weekday_ShortName {
+            get {
+                return ResourceManager.GetString("Enumerator.DayType.Weekday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generally refers to the period between the end of a usual work week and the beginning of the new work week..
+        /// </summary>
+        public static string Enumerator_DayType_WeekendDay_Description {
+            get {
+                return ResourceManager.GetString("Enumerator.DayType.WeekendDay.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekend day.
+        /// </summary>
+        public static string Enumerator_DayType_WeekendDay_Name {
+            get {
+                return ResourceManager.GetString("Enumerator.DayType.WeekendDay.Name", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to WE.
         /// </summary>
-        public static string Enumerator_DayType_Weekend_ShortName {
+        public static string Enumerator_DayType_WeekendDay_ShortName {
             get {
-                return ResourceManager.GetString("Enumerator.DayType.Weekend.ShortName", resourceCulture);
+                return ResourceManager.GetString("Enumerator.DayType.WeekendDay.ShortName", resourceCulture);
             }
         }
         
@@ -408,6 +408,33 @@ namespace Database.Adapter.Entities.Properties {
         public static string Enumerator_DayType_WeekendWorkday_ShortName {
             get {
                 return ResourceManager.GetString("Enumerator.DayType.WeekendWorkday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day on which professional work is performed or is to be performed..
+        /// </summary>
+        public static string Enumerator_DayType_Workday_Description {
+            get {
+                return ResourceManager.GetString("Enumerator.DayType.Workday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workday.
+        /// </summary>
+        public static string Enumerator_DayType_Workday_Name {
+            get {
+                return ResourceManager.GetString("Enumerator.DayType.Workday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WK.
+        /// </summary>
+        public static string Enumerator_DayType_Workday_ShortName {
+            get {
+                return ResourceManager.GetString("Enumerator.DayType.Workday.ShortName", resourceCulture);
             }
         }
     }

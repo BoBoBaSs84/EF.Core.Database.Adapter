@@ -15,7 +15,7 @@ namespace Database.Adapter.Infrastructure.Contexts;
 /// Inherits from the <see cref="IdentityDbContext{TUser, TRole, TKey}"/> class.
 /// </remarks>
 
-public sealed class AuthenticationContext : IdentityDbContext<CustomIdentityUser, CustomIdentityRole, Guid>
+public sealed class AuthenticationContext : IdentityDbContext<CustomIdentityUser, CustomIdentityRole, int>
 {
 	/// <summary>
 	/// The standard parameterless constructor.

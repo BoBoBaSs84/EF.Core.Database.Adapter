@@ -45,10 +45,21 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	public TEntity GetById(Guid id) => dbSet.Find(id)!;
 
 	/// <inheritdoc/>
+	public TEntity GetById(int id) => dbSet.Find(id)!;
+
+	/// <inheritdoc/>
 	public void Delete(TEntity entity) => dbSet.Remove(entity);
 
 	/// <inheritdoc/>
 	public void Delete(Guid id)
+	{
+		TEntity entity = dbSet.Find(id)!;
+		if (entity is not null)
+			Delete(entity);
+	}
+
+	/// <inheritdoc/>
+	public void Delete(int id)
 	{
 		TEntity entity = dbSet.Find(id)!;
 		if (entity is not null)
@@ -75,5 +86,5 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	public void Update(TEntity entity) => dbSet.Update(entity);
 
 	/// <inheritdoc/>
-	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);
+	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);	
 }

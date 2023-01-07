@@ -6,10 +6,6 @@
 internal interface IEnumeratorModel
 {
 	/// <summary>
-	/// The <see cref="Enumerator"/> property.
-	/// </summary>
-	int Enumerator { get; }
-	/// <summary>
 	/// The <see cref="Name"/> property.
 	/// </summary>
 	string Name { get; }

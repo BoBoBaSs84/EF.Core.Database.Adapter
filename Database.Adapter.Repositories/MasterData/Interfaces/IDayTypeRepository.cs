@@ -21,13 +21,6 @@ public interface IDayTypeRepository : IGenericRepository<DayType>
 	/// <returns>All active day types.</returns>
 	IEnumerable<DayType> GetAllActive(bool trackChanges = false);
 	/// <summary>
-	/// The method should return the day type by its enumerator.
-	/// </summary>
-	/// <param name="enumerator">The integer value of the day type enum.</param>
-	/// <param name="trackChanges">Should changes be tracked?</param>
-	/// <returns>The named day type.</returns>
-	DayType GetByEnumerator(int enumerator, bool trackChanges = false);
-	/// <summary>
 	/// The method should return the day type by its unique name.
 	/// </summary>
 	/// <param name="name">The name of the day type.</param>

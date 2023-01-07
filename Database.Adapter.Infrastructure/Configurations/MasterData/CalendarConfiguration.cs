@@ -47,23 +47,5 @@ internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarD
 
 		builder.Property(e => e.Year)
 			.HasComputedColumnSql("(datepart(year,[Date]))", true);
-
-		builder.HasData(GetCalendarDays());
-	}
-
-	private static IEnumerable<CalendarDay> GetCalendarDays()
-	{
-		DateTime dateStart = new(2000, 1, 1), dateEnd = new(2030, 12, 31);
-		IList<CalendarDay> calendarDays = new List<CalendarDay>();
-		while (dateStart <= dateEnd)
-		{
-			calendarDays.Add(new CalendarDay()
-			{
-				Id = Guid.NewGuid(),
-				Date = dateStart
-			});
-			dateStart = dateStart.AddDays(1);
-		}
-		return calendarDays;
 	}
 }

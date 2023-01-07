@@ -29,9 +29,22 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <summary>
 	/// Should find an entry of an entity by its primary key.
 	/// </summary>
-	/// <param name="Id">The primary key of the entity.</param>
+	/// <remarks>
+	/// <paramref name="id"/> is of type <see cref="Guid"/>
+	/// </remarks>
+	/// <param name="id">The primary key of the entity.</param>
 	/// <returns>One entry of an entity.</returns>
-	TEntity GetById(Guid Id);
+	TEntity GetById(Guid id);
+
+	/// <summary>
+	/// Should find an entry of an entity by its primary key.
+	/// </summary>
+	/// <remarks>
+	/// <paramref name="id"/> is of type <see cref="int"/>
+	/// </remarks>
+	/// <param name="id">The primary key of the entity.</param>
+	/// <returns>One entry of an entity.</returns>
+	TEntity GetById(int id);
 
 	/// <summary>
 	/// Should find an entry of an entity by a certain condition.
@@ -50,8 +63,20 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <summary>
 	/// Should delete an entry of an entity by its identifier.
 	/// </summary>
+	/// <remarks>
+	/// <paramref name="id"/> is of type <see cref="Guid"/>
+	/// </remarks>
 	/// <param name="id">The identifier of the entity.</param>
 	void Delete(Guid id);
+
+	/// <summary>
+	/// Should delete an entry of an entity by its identifier.
+	/// </summary>
+	/// <remarks>
+	/// <paramref name="id"/> is of type <see cref="int"/>
+	/// </remarks>
+	/// <param name="id">The identifier of the entity.</param>
+	void Delete(int id);
 
 	/// <summary>
 	/// Should delete one entry or many entries of an entity by a certain condition.

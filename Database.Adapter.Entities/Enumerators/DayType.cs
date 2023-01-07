@@ -10,6 +10,38 @@ namespace Database.Adapter.Entities.Enumerators;
 public enum DayType
 {
 	/// <summary>
+	/// The <see cref="Weekday"/> day type.
+	/// </summary>
+	[Display(ResourceType = typeof(Resources),
+		Name = nameof(Enumerator_DayType_Weekday_Name),
+		ShortName = nameof(Enumerator_DayType_Weekday_ShortName),
+		Description = nameof(Enumerator_DayType_Weekday_Description))]
+	Weekday = 1,
+	/// <summary>
+	/// The <see cref="WeekendDay"/> day type.
+	/// </summary>
+	[Display(ResourceType = typeof(Resources),
+		Name = nameof(Enumerator_DayType_WeekendDay_Name),
+		ShortName = nameof(Enumerator_DayType_WeekendDay_ShortName),
+		Description = nameof(Enumerator_DayType_WeekendDay_Description))]
+	WeekendDay,
+	/// <summary>
+	/// The <see cref="Workday"/> day type.
+	/// </summary>	
+	[Display(ResourceType = typeof(Resources),
+		Name = nameof(Enumerator_DayType_Workday_Name),
+		ShortName = nameof(Enumerator_DayType_Workday_ShortName),
+		Description = nameof(Enumerator_DayType_Workday_Description))]
+	Workday,
+	/// <summary>
+	/// The <see cref="WeekendWorkday"/> day type.
+	/// </summary>
+	[Display(ResourceType = typeof(Resources),
+		Name = nameof(Enumerator_DayType_WeekendWorkday_Name),
+		ShortName = nameof(Enumerator_DayType_WeekendWorkday_ShortName),
+		Description = nameof(Enumerator_DayType_WeekendWorkday_Description))]
+	WeekendWorkday,
+	/// <summary>
 	/// The <see cref="Absence"/> day type.
 	/// </summary>
 	[Display(ResourceType = typeof(Resources),
@@ -58,14 +90,6 @@ public enum DayType
 		Description = nameof(Enumerator_DayType_PlannedVacation_Description))]
 	PlannedVacation,
 	/// <summary>
-	/// The <see cref="BusinessDay"/> day type.
-	/// </summary>
-	[Display(ResourceType = typeof(Resources),
-		Name = nameof(Enumerator_DayType_BusinessDay_Name),
-		ShortName = nameof(Enumerator_DayType_BusinessDay_ShortName),
-		Description = nameof(Enumerator_DayType_BusinessDay_Description))]
-	BusinessDay,
-	/// <summary>
 	/// The <see cref="ShortTimeWork"/> day type.
 	/// </summary>
 	[Display(ResourceType = typeof(Resources),
@@ -96,21 +120,5 @@ public enum DayType
 		Name = nameof(Enumerator_DayType_VacationBlock_Name),
 		ShortName = nameof(Enumerator_DayType_VacationBlock_ShortName),
 		Description = nameof(Enumerator_DayType_VacationBlock_Description))]
-	VacationBlock,
-	/// <summary>
-	/// The <see cref="Weekend"/> day type.
-	/// </summary>
-	[Display(ResourceType = typeof(Resources),
-		Name = nameof(Enumerator_DayType_Weekend_Name),
-		ShortName = nameof(Enumerator_DayType_Weekend_ShortName),
-		Description = nameof(Enumerator_DayType_Weekend_Description))]
-	Weekend,
-	/// <summary>
-	/// The <see cref="WeekendWorkday"/> day type.
-	/// </summary>
-	[Display(ResourceType = typeof(Resources),
-		Name = nameof(Enumerator_DayType_WeekendWorkday_Name),
-		ShortName = nameof(Enumerator_DayType_WeekendWorkday_ShortName),
-		Description = nameof(Enumerator_DayType_WeekendWorkday_Description))]
-	WeekendWorkday
+	VacationBlock
 }

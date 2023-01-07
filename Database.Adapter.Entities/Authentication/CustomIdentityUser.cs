@@ -9,7 +9,7 @@ namespace Database.Adapter.Entities.Authentication;
 /// <summary>
 /// The <see cref="CustomIdentityUser"/> class, inherits from <see cref="IdentityUser{TKey}"/>
 /// </summary>
-public class CustomIdentityUser : IdentityUser<Guid>
+public class CustomIdentityUser : IdentityUser<int>
 {
 	/// <summary>The <see cref="FirstName"/> property.</summary>
 	[MaxLength(SqlStringLength.MAX_LENGHT_64)]

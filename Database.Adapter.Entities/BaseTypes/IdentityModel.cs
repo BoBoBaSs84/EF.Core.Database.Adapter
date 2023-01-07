@@ -20,15 +20,11 @@ namespace Database.Adapter.Entities.BaseTypes;
 [XmlRoot(Namespace = XmlNameSpaces.IDENTITY_NAMESPACE, IsNullable = false)]
 public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
-	/// <summary>
-	/// Initializes a new instance of the <see cref="IdentityModel"/> class.
-	/// </summary>
-	public IdentityModel() => Id = Guid.NewGuid();
 	/// <inheritdoc/>
 	[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	[JsonPropertyName(nameof(Id))]
 	[XmlAttribute(AttributeName = nameof(Id))]
-	public Guid Id { get; set; } = default!;
+	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
 	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 	[JsonPropertyName(nameof(Timestamp))]

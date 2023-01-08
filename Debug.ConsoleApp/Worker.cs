@@ -30,14 +30,18 @@ public class Worker : BackgroundService
 			{
 				// create some data :)
 				List<Database.Adapter.Entities.MasterData.CalendarDay> newCalendarDays = new();
-				for (int x = 0; x <= 365; x++)
+				DateTime startDate = new(2010, 1, 1);
+				DateTime endDate = startDate.AddYears(20);
+
+				while (startDate <= endDate)
 				{
 					Database.Adapter.Entities.MasterData.CalendarDay newcalendarDay = new()
 					{
-						Date = _today.AddDays(-x),
-						DayTypeId = (_today.AddDays(-x).DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday) ? 2 : 1
+						Date = startDate,
+						DayTypeId = (startDate.DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday) ? 2 : 1
 					};
 					newCalendarDays.Add(newcalendarDay);
+					startDate = startDate.AddDays(1);
 				}
 				masterDataRepository.CalendarRepository.CreateRange(newCalendarDays.OrderBy(x => x.Date));
 				int i = masterDataRepository.CommitChanges();

@@ -28,5 +28,5 @@ public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp))]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>
-	public bool ShouldSerializeTimestamp() => true;
+	public bool ShouldSerializeTimestamp() => false;
 }

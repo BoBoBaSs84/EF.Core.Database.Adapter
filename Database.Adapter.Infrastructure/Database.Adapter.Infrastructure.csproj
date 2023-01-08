@@ -5,8 +5,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="[6.0.12]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="[6.0.12]">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -23,7 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Configurations\MasterData\" />
 		<Folder Include="Migrations\Authentication\" />
 		<Folder Include="Migrations\MasterData\" />
 		<Folder Include="Migrations\Master\" />

@@ -9,8 +9,10 @@ namespace Database.Adapter.Entities.MasterData;
 /// <remarks>
 /// Inherits from the <see cref="EnumeratorModel"/> class.
 /// </remarks>
-[Serializable]
 [XmlRoot(ElementName = nameof(DayType), IsNullable = false)]
 public sealed class DayType : EnumeratorModel
 {
+	/// <summary>The <see cref="CalendarDays"/> property.</summary>
+	[XmlIgnore]
+	public List<CalendarDay> CalendarDays { get; set; } = default!;
 }

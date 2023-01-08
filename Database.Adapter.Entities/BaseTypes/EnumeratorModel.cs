@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 using static Database.Adapter.Entities.Constants.XmlConstants;
@@ -24,30 +23,24 @@ public abstract class EnumeratorModel : IIdentityModel, IConcurrencyModel, IActi
 {
 	/// <inheritdoc/>
 	[Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-	[JsonPropertyName(nameof(Id))]
 	[XmlAttribute(AttributeName = nameof(Id), DataType = XmlDataType.INT)]
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
 	/// <inheritdoc/>
 	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	[JsonPropertyName(nameof(Timestamp))]
 	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp), Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>
 	[StringLength(SqlStringLength.MAX_LENGHT_128)]
-	[JsonPropertyName(nameof(Name))]
 	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(Name), Namespace = XmlNameSpaces.ENUMERATOR_NAMSPACE)]
 	public string Name { get; set; } = default!;
 	/// <inheritdoc/>
 	[StringLength(SqlStringLength.MAX_LENGHT_512)]
-	[JsonPropertyName(nameof(Description))]
 	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(Description), Namespace = XmlNameSpaces.ENUMERATOR_NAMSPACE)]
 	public string? Description { get; set; } = default!;
 	/// <inheritdoc/>
-	[JsonPropertyName(nameof(IsActive))]
 	[XmlElement(DataType = XmlDataType.BOOL, ElementName = nameof(IsActive), Namespace = XmlNameSpaces.ACTIVATABLE_NAMESPACE)]
 	public bool IsActive { get; set; } = default!;
-
 	/// <inheritdoc/>
 	public bool ShouldSerializeDescription() => Description is not null;
 	/// <inheritdoc/>

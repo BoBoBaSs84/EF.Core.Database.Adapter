@@ -1,5 +1,4 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
-using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.XmlConstants;
 
@@ -17,7 +16,6 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class FullAuditedModel : AuditedModel, IActivatableModel
 {
 	/// <inheritdoc/>
-	[JsonPropertyName(nameof(IsActive))]
 	[XmlAttribute(AttributeName = nameof(IsActive), DataType = XmlDataType.BOOL)]
 	public bool IsActive { get; set; } = default!;
 	/// <inheritdoc/>

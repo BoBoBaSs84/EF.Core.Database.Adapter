@@ -20,6 +20,11 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 		builder.HasKey(e => e.Id)
 			.IsClustered(false);
 
+		builder.HasMany(e => e.CalendarDays)
+				.WithOne(e => e.DayType)
+				.HasForeignKey(e => e.DayTypeId)
+				.OnDelete(DeleteBehavior.Restrict);
+
 		builder.HasData(GetEnDayTypes());
 	}
 

@@ -28,7 +28,18 @@ public class Worker : BackgroundService
 
 			if (calendar is null)
 			{
-				masterDataRepository.CalendarRepository.Create(new Database.Adapter.Entities.MasterData.CalendarDay() { Date = _today });
+				// create some data :)
+				List<Database.Adapter.Entities.MasterData.CalendarDay> newCalendarDays = new();
+				for (int x = 0; x <= 365; x++)
+				{
+					Database.Adapter.Entities.MasterData.CalendarDay newcalendarDay = new()
+					{
+						Date = _today.AddDays(-x),
+						DayTypeId = (_today.AddDays(-x).DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday) ? 2 : 1
+					};
+					newCalendarDays.Add(newcalendarDay);
+				}
+				masterDataRepository.CalendarRepository.CreateRange(newCalendarDays.OrderBy(x => x.Date));
 				int i = masterDataRepository.CommitChanges();
 				Console.WriteLine(i);
 			}
@@ -43,25 +54,32 @@ public class Worker : BackgroundService
 				Console.WriteLine($"id:{calendar.Id}, date:{calendar.Date}, day:{calendar.Day}");
 			}
 
-			List<Database.Adapter.Entities.MasterData.CalendarDay> calendarDays = masterDataRepository.CalendarRepository.GetByYear(_today.Year).ToList();
+			List<Database.Adapter.Entities.MasterData.CalendarDay> calendarDaysByYear = masterDataRepository.CalendarRepository.GetByYear(_today.Year).ToList();
 			XmlSerializer xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
-			using (StreamWriter writer = new("CalendarDays.xml"))
+			using (StreamWriter writer = new("CalendarDaysByYear.xml"))
 			{
-				xmlSerializer.Serialize(writer, calendarDays, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
+				xmlSerializer.Serialize(writer, calendarDaysByYear, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 			}
 
-			List<Database.Adapter.Entities.MasterData.DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll().ToList();
-			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
-			using (StreamWriter writer = new("DayTypesAll.xml"))
+			List<Database.Adapter.Entities.MasterData.CalendarDay> allCalendarDays = masterDataRepository.CalendarRepository.GetAll().ToList();
+			xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
+			using (StreamWriter writer = new("AllCalendarDays.xml"))
 			{
-				xmlSerializer.Serialize(writer, dayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
+				xmlSerializer.Serialize(writer, allCalendarDays, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 			}
 
-			List<Database.Adapter.Entities.MasterData.DayType> dayTypesActive = masterDataRepository.DayTypeRepository.GetAllActive().ToList();
+			List<Database.Adapter.Entities.MasterData.DayType> allDayTypes = masterDataRepository.DayTypeRepository.GetAll().ToList();
 			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
-			using (StreamWriter writer = new("DayTypesActive.xml"))
+			using (StreamWriter writer = new("AllDayTypes.xml"))
 			{
-				xmlSerializer.Serialize(writer, dayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
+				xmlSerializer.Serialize(writer, allDayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
+			}
+
+			List<Database.Adapter.Entities.MasterData.DayType> allActiveDayTypes = masterDataRepository.DayTypeRepository.GetAllActive().ToList();
+			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
+			using (StreamWriter writer = new("AllActiveDayTypes.xml"))
+			{
+				xmlSerializer.Serialize(writer, allDayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 			}
 
 			await Task.Delay(1000, stoppingToken);

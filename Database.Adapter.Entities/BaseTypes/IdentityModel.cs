@@ -1,7 +1,6 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.XmlConstants;
 
@@ -22,12 +21,10 @@ public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
 	[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	[JsonPropertyName(nameof(Id))]
 	[XmlAttribute(AttributeName = nameof(Id))]
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
 	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	[JsonPropertyName(nameof(Timestamp))]
 	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp), Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>

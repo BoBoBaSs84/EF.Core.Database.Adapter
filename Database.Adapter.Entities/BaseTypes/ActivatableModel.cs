@@ -1,5 +1,4 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
-using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.XmlConstants;
 
@@ -18,7 +17,6 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class ActivatableModel : IdentityModel, IActivatableModel
 {
 	/// <inheritdoc/>
-	[JsonPropertyName(nameof(IsActive))]
 	[XmlElement(DataType = XmlDataType.BOOL, ElementName = nameof(IsActive))]
 	public bool IsActive { get; set; } = default!;
 	/// <inheritdoc/>

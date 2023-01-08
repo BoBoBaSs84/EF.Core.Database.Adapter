@@ -52,7 +52,14 @@ public class Worker : BackgroundService
 
 			List<Database.Adapter.Entities.MasterData.DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll().ToList();
 			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
-			using (StreamWriter writer = new("DayTypes.xml"))
+			using (StreamWriter writer = new("DayTypesAll.xml"))
+			{
+				xmlSerializer.Serialize(writer, dayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
+			}
+
+			List<Database.Adapter.Entities.MasterData.DayType> dayTypesActive = masterDataRepository.DayTypeRepository.GetAllActive().ToList();
+			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
+			using (StreamWriter writer = new("DayTypesActive.xml"))
 			{
 				xmlSerializer.Serialize(writer, dayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 			}

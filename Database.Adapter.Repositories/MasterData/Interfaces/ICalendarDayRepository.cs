@@ -21,7 +21,7 @@ public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
 	/// <param name="endDate">The last date.</param>
 	/// <param name="trackChanges">Should changes be tracked?</param>
 	/// <returns>A range of dates.</returns>
-	IEnumerable<CalendarDay> GetWithinRange(DateTime startDate, DateTime endDate, bool trackChanges = false);
+	IEnumerable<CalendarDay> GetWithinDateRange(DateTime startDate, DateTime endDate, bool trackChanges = false);
 	/// <summary>
 	/// The method should return a collection of dates within the provided year.
 	/// </summary>

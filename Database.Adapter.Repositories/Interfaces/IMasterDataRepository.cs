@@ -1,4 +1,5 @@
-﻿using Database.Adapter.Infrastructure.Contexts;
+﻿using Database.Adapter.Entities.MasterData;
+using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
 using Database.Adapter.Repositories.MasterData.Interfaces;
 
@@ -18,5 +19,5 @@ public interface IMasterDataRepository : IUnitOfWork<MasterDataContext>
 	/// <summary>The <see cref="CalendarRepository"/> interface.</summary>
 	ICalendarDayRepository CalendarRepository { get; }
 	/// <summary>The <see cref="DayTypeRepository"/> interface.</summary>
-	IDayTypeRepository DayTypeRepository { get; }
+	IEnumeratorRepository<DayType> DayTypeRepository { get; }
 }

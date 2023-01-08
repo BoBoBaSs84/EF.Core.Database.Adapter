@@ -13,10 +13,11 @@ namespace Database.Adapter.Entities.BaseTypes;
 /// <item>The <see cref="IActivatableModel"/> interface</item>
 /// </list>
 /// </remarks>
+[XmlRoot(Namespace = XmlNameSpaces.AUDITED_NAMESPACE)]
 public abstract class FullAuditedModel : AuditedModel, IActivatableModel
 {
 	/// <inheritdoc/>
-	[XmlAttribute(AttributeName = nameof(IsActive), DataType = XmlDataType.BOOL)]
+	[XmlElement(DataType = XmlDataType.BOOL, ElementName = nameof(IsActive), Namespace = XmlNameSpaces.ACTIVATABLE_NAMESPACE)]
 	public bool IsActive { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeIsActive() => IsActive is false;

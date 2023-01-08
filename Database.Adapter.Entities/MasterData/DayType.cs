@@ -9,7 +9,7 @@ namespace Database.Adapter.Entities.MasterData;
 /// <remarks>
 /// Inherits from the <see cref="EnumeratorModel"/> class.
 /// </remarks>
-[XmlRoot(ElementName = nameof(DayType), IsNullable = false)]
+[XmlRoot(ElementName = nameof(DayType))]
 public sealed class DayType : EnumeratorModel
 {
 	/// <summary>The <see cref="CalendarDays"/> property.</summary>

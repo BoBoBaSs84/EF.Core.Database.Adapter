@@ -79,7 +79,7 @@ public class Worker : BackgroundService
 			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
 			using (StreamWriter writer = new("AllActiveDayTypes.xml"))
 			{
-				xmlSerializer.Serialize(writer, allDayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
+				xmlSerializer.Serialize(writer, allActiveDayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
 			}
 
 			await Task.Delay(1000, stoppingToken);

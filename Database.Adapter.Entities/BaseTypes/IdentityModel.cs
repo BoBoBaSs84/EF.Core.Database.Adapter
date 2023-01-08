@@ -16,7 +16,7 @@ namespace Database.Adapter.Entities.BaseTypes;
 /// <item>The <see cref="IConcurrencyModel"/> interface</item>
 /// </list>
 /// </remarks>
-[XmlRoot(Namespace = XmlNameSpaces.IDENTITY_NAMESPACE, IsNullable = false)]
+[XmlRoot(Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
 public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
@@ -25,8 +25,8 @@ public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
 	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp), Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
+	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp))]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>
-	public bool ShouldSerializeTimestamp() => false;
+	public bool ShouldSerializeTimestamp() => true;
 }

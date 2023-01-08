@@ -12,13 +12,16 @@ namespace Database.Adapter.Entities.BaseTypes;
 /// The abstract enumerator model base class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="ActivatableModel"/> class and implements the following interface members:
+/// Implements the following interface members:
 /// <list type="bullet">
+/// <item>The <see cref="IIdentityModel"/> interface</item>
+/// <item>The <see cref="IConcurrencyModel"/> interface</item>
+/// <item>The <see cref="IActivatableModel"/> interface</item>
 /// <item>The <see cref="IEnumeratorModel"/> interface</item>
 /// </list>
 /// </remarks>
 [Index(nameof(Name), IsUnique = true)]
-[XmlRoot(Namespace = XmlNameSpaces.ENUMERATOR_NAMSPACE, IsNullable = false)]
+[XmlRoot(Namespace = XmlNameSpaces.ENUMERATOR_NAMSPACE)]
 public abstract class EnumeratorModel : IIdentityModel, IConcurrencyModel, IActivatableModel, IEnumeratorModel
 {
 	/// <inheritdoc/>
@@ -26,17 +29,16 @@ public abstract class EnumeratorModel : IIdentityModel, IConcurrencyModel, IActi
 	[XmlAttribute(AttributeName = nameof(Id), DataType = XmlDataType.INT)]
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
-	/// <inheritdoc/>
 	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp), Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>
 	[StringLength(SqlStringLength.MAX_LENGHT_128)]
-	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(Name), Namespace = XmlNameSpaces.ENUMERATOR_NAMSPACE)]
+	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(Name))]
 	public string Name { get; set; } = default!;
 	/// <inheritdoc/>
 	[StringLength(SqlStringLength.MAX_LENGHT_512)]
-	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(Description), Namespace = XmlNameSpaces.ENUMERATOR_NAMSPACE)]
+	[XmlElement(DataType = XmlDataType.STRING, ElementName = nameof(Description))]
 	public string? Description { get; set; } = default!;
 	/// <inheritdoc/>
 	[XmlElement(DataType = XmlDataType.BOOL, ElementName = nameof(IsActive), Namespace = XmlNameSpaces.ACTIVATABLE_NAMESPACE)]

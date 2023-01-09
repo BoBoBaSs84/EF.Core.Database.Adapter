@@ -18,60 +18,55 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("private")
-                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Database.Adapter.Entities.MasterData.CalendarDay", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("Relational:JsonPropertyName", "Id");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("date")
-                        .HasAnnotation("Relational:JsonPropertyName", "Date");
+                        .HasColumnType("date");
 
                     b.Property<int>("Day")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(day,[Date]))", true)
-                        .HasAnnotation("Relational:JsonPropertyName", "Day");
+                        .HasComputedColumnSql("(datepart(day,[Date]))", true);
 
                     b.Property<int>("DayOfYear")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(dayofyear,[Date]))", true)
-                        .HasAnnotation("Relational:JsonPropertyName", "DayOfYear");
+                        .HasComputedColumnSql("(datepart(dayofyear,[Date]))", true);
+
+                    b.Property<int>("DayTypeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndOfMonth")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("(eomonth([Date]))", true)
-                        .HasAnnotation("Relational:JsonPropertyName", "EndOfMonth");
+                        .HasComputedColumnSql("(eomonth([Date]))", true);
 
                     b.Property<int>("IsoWeek")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(iso_week,[Date]))", true)
-                        .HasAnnotation("Relational:JsonPropertyName", "IsoWeek");
+                        .HasComputedColumnSql("(datepart(iso_week,[Date]))", true);
 
                     b.Property<int>("Month")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(month,[Date]))", true)
-                        .HasAnnotation("Relational:JsonPropertyName", "Month");
+                        .HasComputedColumnSql("(datepart(month,[Date]))", true);
 
                     b.Property<string>("MonthName")
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql("(datename(month,[Date]))", false)
-                        .HasAnnotation("Relational:JsonPropertyName", "MonthName");
+                        .HasComputedColumnSql("(datename(month,[Date]))", false);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -87,33 +82,28 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
-                        .HasAnnotation("Relational:JsonPropertyName", "Timestamp");
+                        .HasColumnType("rowversion");
 
                     b.Property<int>("Week")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(week,[Date]))", false)
-                        .HasAnnotation("Relational:JsonPropertyName", "Week");
+                        .HasComputedColumnSql("(datepart(week,[Date]))", false);
 
                     b.Property<int>("WeekDay")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(weekday,[Date]))", false)
-                        .HasAnnotation("Relational:JsonPropertyName", "WeekDay");
+                        .HasComputedColumnSql("(datepart(weekday,[Date]))", false);
 
                     b.Property<string>("WeekDayName")
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql("(datename(weekday,[Date]))", false)
-                        .HasAnnotation("Relational:JsonPropertyName", "WeekDayName");
+                        .HasComputedColumnSql("(datename(weekday,[Date]))", false);
 
                     b.Property<int>("Year")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(year,[Date]))", true)
-                        .HasAnnotation("Relational:JsonPropertyName", "Year");
+                        .HasComputedColumnSql("(datepart(year,[Date]))", true);
 
                     b.HasKey("Id");
 
@@ -122,42 +112,41 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                     b.HasIndex("Date")
                         .IsUnique();
 
+                    b.HasIndex("DayTypeId");
+
                     b.HasIndex("Year");
 
                     b.ToTable("CalendarDay", "private");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                            {
-                                ttb.UseHistoryTable("CalendarDay", "history");
-                                ttb
-                                    .HasPeriodStart("PeriodStart")
-                                    .HasColumnName("PeriodStart");
-                                ttb
-                                    .HasPeriodEnd("PeriodEnd")
-                                    .HasColumnName("PeriodEnd");
-                            }));
+                        {
+                            ttb.UseHistoryTable("CalendarDay", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.MasterData.DayType", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasAnnotation("Relational:JsonPropertyName", "Id");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)")
-                        .HasAnnotation("Relational:JsonPropertyName", "Description");
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasAnnotation("Relational:JsonPropertyName", "IsActive");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasAnnotation("Relational:JsonPropertyName", "Name");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -173,8 +162,7 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
-                        .HasAnnotation("Relational:JsonPropertyName", "Timestamp");
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -186,15 +174,16 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                     b.ToTable("DayType", "enumerator");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                            {
-                                ttb.UseHistoryTable("DayType", "history");
-                                ttb
-                                    .HasPeriodStart("PeriodStart")
-                                    .HasColumnName("PeriodStart");
-                                ttb
-                                    .HasPeriodEnd("PeriodEnd")
-                                    .HasColumnName("PeriodEnd");
-                            }));
+                        {
+                            ttb.UseHistoryTable("DayType", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
 
                     b.HasData(
                         new
@@ -295,6 +284,22 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                             IsActive = true,
                             Name = "Vacation block"
                         });
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.MasterData.CalendarDay", b =>
+                {
+                    b.HasOne("Database.Adapter.Entities.MasterData.DayType", "DayType")
+                        .WithMany("CalendarDays")
+                        .HasForeignKey("DayTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DayType");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.MasterData.DayType", b =>
+                {
+                    b.Navigation("CalendarDays");
                 });
 #pragma warning restore 612, 618
         }

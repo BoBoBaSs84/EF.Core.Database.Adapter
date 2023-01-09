@@ -1,6 +1,6 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
-using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using static Database.Adapter.Entities.Constants.XmlConstants;
 
 namespace Database.Adapter.Entities.BaseTypes;
 
@@ -13,16 +13,15 @@ namespace Database.Adapter.Entities.BaseTypes;
 /// <item>The <see cref="IAuditedModel"/> interface</item>
 /// </list>
 /// </remarks>
+[XmlRoot(Namespace = XmlNameSpaces.AUDITED_NAMESPACE)]
 public abstract class AuditedModel : IdentityModel, IAuditedModel
 {
 	/// <inheritdoc/>
-	[JsonPropertyName(nameof(CreatedBy))]
-	[XmlElement(ElementName = nameof(CreatedBy))]
-	public Guid CreatedBy { get; set; } = default;
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(CreatedBy))]
+	public int CreatedBy { get; set; } = default;
 	/// <inheritdoc/>
-	[JsonPropertyName(nameof(ModifiedBy))]
-	[XmlElement(ElementName = nameof(ModifiedBy))]
-	public Guid? ModifiedBy { get; set; } = default!;
+	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(ModifiedBy))]
+	public int? ModifiedBy { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeModifiedBy() => ModifiedBy is not null;
 }

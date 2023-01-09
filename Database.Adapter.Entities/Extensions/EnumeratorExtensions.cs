@@ -16,11 +16,11 @@ public static class EnumeratorExtensions
 	/// </remarks>
 	/// <typeparam name="T">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
-	/// <returns>The <see cref="DisplayAttribute.Description"/> or the <paramref name="enumValue"/> as string.</returns>
+	/// <returns>The <see cref="DisplayAttribute.Description"/> or or an empty string.</returns>
 	public static string GetEnumDescription<T>(this T enumValue) where T : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
-		return attribute is not null ? attribute.GetDescription() ?? enumValue.ToString() : enumValue.ToString();
+		return attribute is not null ? attribute.GetDescription() ?? string.Empty : string.Empty;
 	}
 
 	/// <summary>
@@ -31,11 +31,11 @@ public static class EnumeratorExtensions
 	/// </remarks>
 	/// <typeparam name="T">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
-	/// <returns>The <see cref="DisplayAttribute.Name"/> or the <paramref name="enumValue"/> as string.</returns>
+	/// <returns>The <see cref="DisplayAttribute.Name"/> or or an empty string.</returns>
 	public static string GetEnumName<T>(this T enumValue) where T : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
-		return attribute is not null ? attribute.GetName() ?? enumValue.ToString() : enumValue.ToString();
+		return attribute is not null ? attribute.GetName() ?? string.Empty : string.Empty;
 	}
 
 	/// <summary>
@@ -46,11 +46,11 @@ public static class EnumeratorExtensions
 	/// </remarks>
 	/// <typeparam name="T">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
-	/// <returns>The <see cref="DisplayAttribute.ShortName"/> or the <paramref name="enumValue"/> as string.</returns>
+	/// <returns>The <see cref="DisplayAttribute.ShortName"/> or an empty string.</returns>
 	public static string GetEnumShortName<T>(this T enumValue) where T : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
-		return attribute is not null ? attribute.GetShortName() ?? enumValue.ToString() : enumValue.ToString();
+		return attribute is not null ? attribute.GetShortName() ?? string.Empty : string.Empty;
 	}
 
 	/// <summary>
@@ -62,7 +62,7 @@ public static class EnumeratorExtensions
 	/// <typeparam name="T">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute"/> or <see langword="null"/>.</returns>
-	private static DisplayAttribute? GetDisplayAttribute<T>(this T enumValue) where T : Enum
+	internal static DisplayAttribute? GetDisplayAttribute<T>(this T enumValue) where T : Enum
 	{
 		FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 		return fieldInfo is not null ? fieldInfo.GetCustomAttribute<DisplayAttribute>() : default;

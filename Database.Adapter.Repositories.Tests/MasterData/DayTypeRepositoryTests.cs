@@ -3,14 +3,13 @@ using Database.Adapter.Repositories.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Transactions;
 
-namespace Database.Adapter.Repositories.Tests;
+namespace Database.Adapter.Repositories.Tests.MasterData;
 
 [TestClass]
 public class DayTypeRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
 	private IMasterDataRepository masterDataRepository = default!;
-	private readonly DayType dayType = new() { Name = "UnitTest", Description = "DayType UnitTest", IsActive = true };
 
 	[TestInitialize]
 	public void TestInitialize()
@@ -20,10 +19,13 @@ public class DayTypeRepositoryTests
 	}
 
 	[TestCleanup]
-	public void TestCleanup() => transactionScope.Dispose();
+	public void TestCleanup()
+	{
+		transactionScope.Dispose();
+	}
 
 	[TestMethod]
-	public void DayTypeRepositoryGetAllTest()
+	public void GetAllTest()
 	{
 		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll();
 		Assert.IsNotNull(dayTypes);
@@ -31,7 +33,7 @@ public class DayTypeRepositoryTests
 	}
 
 	[TestMethod]
-	public void DayTypeRepositoryGetAllActiveTest()
+	public void GetAllActiveTest()
 	{
 		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAllActive();
 		Assert.IsNotNull(dayTypes);
@@ -42,7 +44,7 @@ public class DayTypeRepositoryTests
 	[DataRow(1)]
 	[DataRow(2)]
 	[DataRow(3)]
-	public void DayTypeRepositoryGetByIdTest(int dayTypeId)
+	public void GetByIdTest(int dayTypeId)
 	{
 		DayType dayType = masterDataRepository.DayTypeRepository.GetById(dayTypeId);
 		Assert.IsNotNull(dayType);
@@ -53,7 +55,7 @@ public class DayTypeRepositoryTests
 	[DataRow("Absence")]
 	[DataRow("Weekday")]
 	[DataRow("Holiday")]
-	public void DayTypeRepositoryGetByNameTest(string dayTypeName)
+	public void GetByNameTest(string dayTypeName)
 	{
 		DayType dayType = masterDataRepository.DayTypeRepository.GetByName(dayTypeName);
 		Assert.IsNotNull(dayType);
@@ -61,9 +63,9 @@ public class DayTypeRepositoryTests
 	}
 
 	[TestMethod]
-	public void DayTypeRepositoryCreateTest()
+	public void CreateTest()
 	{
-		DayType newDayType = new() { Name = "UnitTest", Description = "DayType UnitTest", IsActive = true };
+		DayType newDayType = new() { Name = "UnitTest", Description = "DayType UnitTest", IsActive = false };
 		masterDataRepository.DayTypeRepository.Create(newDayType);
 
 		int commit = masterDataRepository.CommitChanges();
@@ -72,5 +74,24 @@ public class DayTypeRepositoryTests
 		DayType dbDayType = masterDataRepository.DayTypeRepository.GetByName(newDayType.Name);
 		Assert.IsNotNull(dbDayType);
 		Assert.AreEqual(dbDayType.Name, newDayType.Name);
+	}
+
+	[TestMethod]
+	public void CreateRangeTest()
+	{
+		IEnumerable<DayType> newDayTypes = new List<DayType>()
+		{
+			new() { Name = "UnitTestOne", Description = "DayType UnitTestOne", IsActive = false, Id = 1234 },
+			new() { Name = "UnitTestTwo", Description = "DayType UnitTestTwo", IsActive = false, Id = 1235 },
+		};
+
+		masterDataRepository.DayTypeRepository.CreateRange(newDayTypes);
+
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(newDayTypes.Count(), commit);
+
+		IQueryable<DayType> dbDayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Name.Contains("UnitTest"));
+		Assert.IsNotNull(dbDayTypes);
+		Assert.AreEqual(dbDayTypes.Count(), newDayTypes.Count());
 	}
 }

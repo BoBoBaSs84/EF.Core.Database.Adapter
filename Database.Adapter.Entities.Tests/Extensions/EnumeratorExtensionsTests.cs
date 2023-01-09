@@ -14,7 +14,7 @@ public class EnumeratorExtensionsTests
 		string description = testEnum.GetEnumDescription();
 		Assert.AreEqual(nameof(description), description);
 	}
-
+		
 	[TestMethod]
 	public void GetEnumDescriptionFailTest()
 	{

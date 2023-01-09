@@ -20,6 +20,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Debug.ConsoleApp", "Debug.ConsoleApp\Debug.ConsoleApp.csproj", "{3F24211F-16ED-49FA-AC50-773C80E3752F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debug", "Debug", "{E12D5C36-FA20-4377-A556-2BA29D845EE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{2CBA8CAC-8A98-47BF-9E5F-C81BA22B10F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Adapter.Entities.Tests", "Database.Adapter.Entities.Tests\Database.Adapter.Entities.Tests.csproj", "{14473797-0A87-43CA-B4E2-3859560F86C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,9 +48,17 @@ Global
 		{3F24211F-16ED-49FA-AC50-773C80E3752F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F24211F-16ED-49FA-AC50-773C80E3752F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F24211F-16ED-49FA-AC50-773C80E3752F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14473797-0A87-43CA-B4E2-3859560F86C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14473797-0A87-43CA-B4E2-3859560F86C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14473797-0A87-43CA-B4E2-3859560F86C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14473797-0A87-43CA-B4E2-3859560F86C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3F24211F-16ED-49FA-AC50-773C80E3752F} = {E12D5C36-FA20-4377-A556-2BA29D845EE5}
+		{14473797-0A87-43CA-B4E2-3859560F86C9} = {2CBA8CAC-8A98-47BF-9E5F-C81BA22B10F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C2C98A4-09CD-4243-9E78-870E54AF080A}

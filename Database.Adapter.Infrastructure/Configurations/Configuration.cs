@@ -5,29 +5,51 @@ using static Database.Adapter.Infrastructure.Statics;
 
 namespace Database.Adapter.Infrastructure.Configurations;
 
+/// <summary>
+/// The configuration class.
+/// </summary>
+/// <remarks>
+/// This strongly typed class is for the context and server configuration.
+/// </remarks>
 public sealed class Configuration
 {
 	private bool loaded;
 
-	public List<SqlServer> SqlServers { get; set; }
-	public List<Context> Contexts { get; set; }
-
+	/// <summary>The <see cref="SqlServers"/> property.</summary>
+	public List<SqlServer> SqlServers { get; set; } = new();
+	/// <summary>The <see cref="Contexts"/> property.</summary>
+	public List<Context> Contexts { get; set; } = new();
+	/// <summary>
+	/// The context/database class.
+	/// </summary>
 	public class Context
 	{
-		public string Name { get; set; }
-		public string Database { get; set; }
-		public bool IntegratedSecurity { get; set; }
-		public bool MultipleActiveResultSets { get; set; }
-		public bool PersistSecurityInfo { get; set; }
-		public string UserName { get; set; }
-		public string Password { get; set; }
+		/// <summary>The <see cref="Name"/> property.</summary>
+		public string Name { get; set; } = default!;
+		/// <summary>The <see cref="Database"/> property.</summary>
+		public string Database { get; set; } = default!;
+		/// <summary>The <see cref="IntegratedSecurity"/> property.</summary>
+		public bool IntegratedSecurity { get; set; } = default!;
+		/// <summary>The <see cref="MultipleActiveResultSets"/> property.</summary>
+		public bool MultipleActiveResultSets { get; set; } = default!;
+		/// <summary>The <see cref="PersistSecurityInfo"/> property.</summary>
+		public bool PersistSecurityInfo { get; set; } = default!;
+		/// <summary>The <see cref="UserName"/> property.</summary>
+		public string? UserName { get; set; } = default!;
+		/// <summary>The <see cref="Password"/> property.</summary>
+		public string? Password { get; set; } = default!;
 	}
-
+	/// <summary>
+	/// The sql server class.
+	/// </summary>
 	public class SqlServer
 	{
-		public string Name { get; set; }
-		public string Environment { get; set; }
-		public string Server { get; set; }
+		/// <summary>The <see cref="Name"/> property.</summary>
+		public string Name { get; set; } = default!;
+		/// <summary>The <see cref="Environment"/> property.</summary>
+		public string Environment { get; set; } = default!;
+		/// <summary>The <see cref="Server"/> property.</summary>
+		public string Server { get; set; } = default!;
 	}
 
 	/// <summary>

@@ -8,4 +8,8 @@
 		<ProjectReference Include="..\Database.Adapter.Infrastructure\Database.Adapter.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="$(AssemblyName).Tests"/>
+	</ItemGroup>
+
 </Project>

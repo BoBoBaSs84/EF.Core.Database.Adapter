@@ -56,16 +56,17 @@ public sealed class Configuration
 	/// Should return the proper connection string for the provided database context.
 	/// </summary>
 	/// <param name="contextName">The name of the database context.</param>
+	/// <param name="environment">The server environment.</param>
 	/// <returns>The connection string.</returns>
 	/// <exception cref="ConfigurationException"></exception>
-	public string GetConnectionString(string contextName)
+	public string GetConnectionString(string contextName, string environment = "Development")
 	{
 		try
 		{
 			if (!loaded)
 				Load();
 
-			string server = GetServer();
+			string server = GetServer(environment);
 			string database = GetDatabase(contextName);
 			string security = GetSecurity(contextName);
 			string appName = GetApplicatioName();
@@ -75,6 +76,47 @@ public sealed class Configuration
 		catch(Exception ex)
 		{
 			string message = string.Format(CurrentCulture, Exception_Configuration_GetConnectionString, contextName);
+			throw new ConfigurationException(message, ex);
+		}
+	}
+
+	/// <summary>
+	/// Should load the configuration the configuration class.
+	/// </summary>
+	/// <exception cref="ConfigurationException"></exception>
+	public void Load()
+	{
+		try
+		{
+			if (loaded)
+			{
+				string message = string.Format(Culture, Exception_Configuration_Load_AlreadyLoaded);
+				throw new ConfigurationException(message);
+			}
+
+			string jsonString = File.ReadAllText(Path.Combine(BaseDirectory, ConfigurationFileName));
+
+			if (string.IsNullOrWhiteSpace(jsonString))
+			{
+				string message = string.Format(Culture, Exception_Configuration_Load_FileFailed, jsonString);
+				throw new ConfigurationException(message);
+			}
+
+			Configuration? configuration = JsonSerializer.Deserialize<Configuration>(jsonString);
+
+			if (configuration is null)
+			{
+				string message = string.Format(Culture, Exception_Configuration_Load_FileReadFailed);
+				throw new ConfigurationException(message);
+			}
+
+			SqlServers = configuration.SqlServers;
+			Contexts = configuration.Contexts;
+			loaded = true;
+		}
+		catch (Exception ex)
+		{
+			string message = string.Format(Culture, Exception_Configuration_Load_Failed);
 			throw new ConfigurationException(message, ex);
 		}
 	}
@@ -125,43 +167,6 @@ public sealed class Configuration
 		catch(Exception ex)
 		{
 			string message = string.Format(Culture, Exception_Configuration_GetGetSqlServerFailed);
-			throw new ConfigurationException(message, ex);
-		}
-	}
-
-	private void Load()
-	{
-		try
-		{
-			if (loaded)
-			{
-				string message = string.Format(Culture, Exception_Configuration_Load_AlreadyLoaded);
-				throw new ConfigurationException(message);
-			}
-
-			string jsonString = File.ReadAllText(Path.Combine(BaseDirectory, ConfigurationFileName));
-
-			if (string.IsNullOrWhiteSpace(jsonString))
-			{
-				string message = string.Format(Culture, Exception_Configuration_Load_FileFailed, jsonString);
-				throw new ConfigurationException(message);
-			}
-
-			Configuration? configuration = JsonSerializer.Deserialize<Configuration>(jsonString);
-
-			if (configuration is null)
-			{
-				string message = string.Format(Culture, Exception_Configuration_Load_FileReadFailed);
-				throw new ConfigurationException(message);
-			}
-
-			SqlServers = configuration.SqlServers;
-			Contexts = configuration.Contexts;
-			loaded = true;
-		}
-		catch (Exception ex)
-		{
-			string message = string.Format(Culture, Exception_Configuration_Load_Failed);
 			throw new ConfigurationException(message, ex);
 		}
 	}

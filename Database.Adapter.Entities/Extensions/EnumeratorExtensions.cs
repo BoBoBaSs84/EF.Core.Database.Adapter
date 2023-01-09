@@ -62,7 +62,7 @@ public static class EnumeratorExtensions
 	/// <typeparam name="T">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute"/> or <see langword="null"/>.</returns>
-	public static DisplayAttribute? GetDisplayAttribute<T>(this T enumValue) where T : Enum
+	internal static DisplayAttribute? GetDisplayAttribute<T>(this T enumValue) where T : Enum
 	{
 		FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 		return fieldInfo is not null ? fieldInfo.GetCustomAttribute<DisplayAttribute>() : default;

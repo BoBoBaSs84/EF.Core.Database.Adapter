@@ -19,11 +19,4 @@ internal static class ModelBuilderExtension
 					&& types.Contains(i.GenericTypeArguments[0]))
 			);
 	}
-
-	// TODO: find a good solution ...
-	public static void ApplyNonClusteredIndexOnGloballyUniqueIdentifier(this ModelBuilder modelBuilder)
-	{
-		HashSet<Type> types = modelBuilder.Model.GetEntityTypes().Select(t => t.ClrType).ToHashSet();
-
-	}
 }

@@ -6,7 +6,7 @@
 /// <remarks>
 /// Inherits from the <see cref="Exception"/> class.
 /// </remarks>
-public sealed class ConfigurationException : Exception
+internal sealed class ConfigurationException : Exception
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ConfigurationException"/> class.

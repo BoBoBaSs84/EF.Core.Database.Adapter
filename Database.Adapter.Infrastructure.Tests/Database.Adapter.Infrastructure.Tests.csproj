@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Database.Adapter.Entities\Database.Adapter.Entities.csproj" />
+		<ProjectReference Include="..\Database.Adapter.Infrastructure\Database.Adapter.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

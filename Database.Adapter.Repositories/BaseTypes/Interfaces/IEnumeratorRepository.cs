@@ -16,7 +16,7 @@ public interface IEnumeratorRepository<TEnum> : IGenericRepository<TEnum> where 
 	/// </summary>
 	/// <param name="trackChanges">Should changes be tracked?</param>
 	/// <returns>All active enumerators.</returns>
-	IEnumerable<TEnum> GetAllActive(bool trackChanges = false);
+	IQueryable<TEnum> GetAllActive(bool trackChanges = false);
 	/// <summary>
 	/// The method should return the enumerator by its unique name.
 	/// </summary>

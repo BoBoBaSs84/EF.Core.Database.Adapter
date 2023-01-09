@@ -9,7 +9,7 @@ namespace Database.Adapter.Entities.Tests.Enumerators;
 public class DayTypeTests
 {
 	[DataTestMethod()]
-	[DataRow(DayType.Weekday, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveDescriptionTest)} - All day type enums must have a description.")]
+	[DataRow(DayType.WEEKDAY, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveDescriptionTest)} - All day type enums must have a description.")]
 	public void AllDayTypeEnumeratorsHaveDescriptionTest(DayType dayType)
 	{
 		List<DayType> enumList = dayType.GetListFromEnum();
@@ -21,7 +21,7 @@ public class DayTypeTests
 	}
 
 	[DataTestMethod]
-	[DataRow(DayType.Weekday, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveShortNameTest)} - All day type enums must have a short name")]
+	[DataRow(DayType.WEEKDAY, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveShortNameTest)} - All day type enums must have a short name")]
 	public void AllDayTypeEnumeratorsHaveShortNameTest(DayType dayType)
 	{
 		List<DayType> enumList = dayType.GetListFromEnum();
@@ -33,7 +33,7 @@ public class DayTypeTests
 	}
 
 	[DataTestMethod]
-	[DataRow(DayType.Weekday, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveNameTest)} - All day type enums must have a name.")]
+	[DataRow(DayType.WEEKDAY, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveNameTest)} - All day type enums must have a name.")]
 	public void AllDayTypeEnumeratorsHaveNameTest(DayType dayType)
 	{
 		List<DayType> enumList = dayType.GetListFromEnum();
@@ -45,7 +45,7 @@ public class DayTypeTests
 	}
 
 	[DataTestMethod]
-	[DataRow(DayType.Weekday, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveDisplayAttributeTest)} - All day type enums must have a display attribute.")]
+	[DataRow(DayType.WEEKDAY, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveDisplayAttributeTest)} - All day type enums must have a display attribute.")]
 	public void AllDayTypeEnumeratorsHaveDisplayAttributeTest(DayType dayType)
 	{
 		List<DayType> enumList = dayType.GetListFromEnum();
@@ -57,7 +57,7 @@ public class DayTypeTests
 	}
 
 	[DataTestMethod]
-	[DataRow(DayType.Weekday, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveResourceTypeTest)} - All day type enums must have a resource type defined.")]
+	[DataRow(DayType.WEEKDAY, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveResourceTypeTest)} - All day type enums must have a resource type defined.")]
 	public void AllDayTypeEnumeratorsHaveResourceTypeTest(DayType dayType)
 	{
 		List<DayType> enumList = dayType.GetListFromEnum();

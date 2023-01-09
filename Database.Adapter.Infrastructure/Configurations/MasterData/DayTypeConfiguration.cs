@@ -30,7 +30,7 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 
 	private static IEnumerable<DayType> GetEnDayTypes()
 	{
-		List<Entities.Enumerators.DayType> enumList = Entities.Enumerators.DayType.Absence.GetListFromEnum();
+		List<Entities.Enumerators.DayType> enumList = Entities.Enumerators.DayType.ABSENCE.GetListFromEnum();
 		IList<DayType> listToReturn = new List<DayType>();
 
 		foreach (Entities.Enumerators.DayType dayType in enumList)

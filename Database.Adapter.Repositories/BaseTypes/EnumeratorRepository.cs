@@ -1,6 +1,8 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
+
 namespace Database.Adapter.Repositories.BaseTypes;
 
 /// <summary>
@@ -17,6 +19,7 @@ namespace Database.Adapter.Repositories.BaseTypes;
 /// </list>
 /// </remarks>
 /// <typeparam name="TEnum"></typeparam>
+[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 internal abstract class EnumeratorRepository<TEnum> : GenericRepository<TEnum>, IEnumeratorRepository<TEnum> where TEnum : EnumeratorModel
 {
 	/// <summary>
@@ -27,9 +30,9 @@ internal abstract class EnumeratorRepository<TEnum> : GenericRepository<TEnum>, 
 	{
 	}
 	/// <inheritdoc/>
-	public IEnumerable<TEnum> GetAllActive(bool trackChanges = false) =>
+	public IQueryable<TEnum> GetAllActive(bool trackChanges = false) =>
 		GetManyByCondition(x => x.IsActive.Equals(true), trackChanges);
 	/// <inheritdoc/>
 	public TEnum GetByName(string name, bool trackChanges = false) =>
-		GetByCondition(x => x.Name.Equals(name, StringComparison.Ordinal), trackChanges);
+		GetByCondition(x => x.Name.Equals(name), trackChanges);
 }

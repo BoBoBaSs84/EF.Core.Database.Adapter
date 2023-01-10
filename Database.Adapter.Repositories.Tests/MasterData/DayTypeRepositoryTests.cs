@@ -93,7 +93,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void DeleteByEntityTest()
 	{
-		int dayTypeId = 1;
+		int dayTypeId = 3;
 		DayType dayType = masterDataRepository.DayTypeRepository.GetById(dayTypeId);
 		masterDataRepository.DayTypeRepository.Delete(dayType);
 		int commit = masterDataRepository.CommitChanges();
@@ -103,7 +103,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void DeleteById()
 	{
-		int dayTypeId = 1;
+		int dayTypeId = 3;
 		masterDataRepository.DayTypeRepository.Delete(dayTypeId);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(1, commit);

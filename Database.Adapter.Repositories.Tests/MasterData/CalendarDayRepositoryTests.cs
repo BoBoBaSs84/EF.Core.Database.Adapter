@@ -20,10 +20,7 @@ public class CalendarDayRepositoryTests
 	}
 
 	[TestCleanup]
-	public void TestCleanup()
-	{
-		transactionScope.Dispose();
-	}
+	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
 	public void GetAllTest()

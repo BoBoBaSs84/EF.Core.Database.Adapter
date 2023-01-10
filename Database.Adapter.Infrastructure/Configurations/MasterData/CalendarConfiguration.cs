@@ -47,8 +47,5 @@ internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarD
 
 		builder.Property(e => e.Year)
 			.HasComputedColumnSql("(datepart(year,[Date]))", true);
-
-		builder.Navigation(e => e.DayType)
-			.AutoInclude(true);
 	}
 }

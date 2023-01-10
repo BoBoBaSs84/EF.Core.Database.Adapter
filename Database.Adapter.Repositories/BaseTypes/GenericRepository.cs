@@ -38,6 +38,29 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		!trackChanges ? dbSet.Where(expression).AsNoTracking() : dbSet.Where(expression);
 
 	/// <inheritdoc/>
+	public IQueryable<TEntity> GetManyByCondition(
+		Expression<Func<TEntity, bool>> expression,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+		int? top = null,
+		int? skip = null,
+		bool trackChanges = false,
+		params string[] includeProperties)
+	{
+		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		if (expression is not null)
+			query = query.Where(expression);
+		if (includeProperties.Length > 0)
+			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
+		if (orderBy is not null)
+			query = orderBy(query);
+		if (skip.HasValue)
+			query = query.Skip(skip.Value);
+		if (top.HasValue)
+			query = query.Take(top.Value);
+		return query;
+	}
+
+	/// <inheritdoc/>
 	public TEntity GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false) =>
 		!trackChanges ? dbSet.Where(expression).AsNoTracking().SingleOrDefault()! : dbSet.Where(expression).SingleOrDefault()!;
 
@@ -86,5 +109,5 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	public void Update(TEntity entity) => dbSet.Update(entity);
 
 	/// <inheritdoc/>
-	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);
+	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);	
 }

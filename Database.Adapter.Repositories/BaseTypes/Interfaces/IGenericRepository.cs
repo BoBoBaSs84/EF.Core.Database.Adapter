@@ -19,12 +19,30 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	IQueryable<TEntity> GetAll(bool trackChanges = false);
 
 	/// <summary>
-	/// Should find entries of an entity by a certain condition.
+	/// Should find a collection of entities based on the specified criteria.
 	/// </summary>
 	/// <param name="expression">The search condition.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <returns>A list of entries.</returns>
 	IQueryable<TEntity> GetManyByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);
+
+	/// <summary>
+	/// Should find a collection of entities based on the specified criteria.
+	/// </summary>
+	/// <param name="expression">The condition the entities must fulfil to be returned.</param>
+	/// <param name="orderBy">The function used to order the entities.</param>
+	/// <param name="top">The number of records to limit the results to.</param>
+	/// <param name="skip">The number of records to skip.</param>
+	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="includeProperties">Any other navigation properties to include when returning the collection.</param>
+	/// <returns>A collection of entities.</returns>
+	IQueryable<TEntity> GetManyByCondition(
+		Expression<Func<TEntity, bool>> expression,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+		int? top = null,
+		int? skip = null,
+		bool trackChanges = false,
+		params string[] includeProperties);
 
 	/// <summary>
 	/// Should find an entry of an entity by its primary key.

@@ -52,6 +52,72 @@ public class CalendarDayRepositoryTests
 	}
 
 	[TestMethod]
+	public void GetManyByConditionWithOrderByDescendingTest()
+	{
+		int calendarYear = 2020, calendarMonth = 12;
+		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
+			orderBy: x => x.OrderByDescending(x => x.Date)
+			).ToList();
+
+		Assert.IsNotNull(dbCalendarDays);
+		Assert.IsTrue(dbCalendarDays.Any());
+		Assert.AreEqual(31, dbCalendarDays[0].Day);
+	}
+
+	[TestMethod]
+	public void GetManyByConditionWithSkippingFirstTenTakingNextTenTest()
+	{
+		int calendarYear = 2020, calendarMonth = 12;
+		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
+			orderBy: x => x.OrderBy(x => x.Date),
+			top: 10,
+			skip: 10
+			).ToList();
+
+		Assert.IsNotNull(dbCalendarDays);
+		Assert.IsTrue(dbCalendarDays.Any());
+		Assert.AreEqual(dbCalendarDays.Count, 10);
+		Assert.AreEqual(dbCalendarDays[0].Day, 11);
+		Assert.AreEqual(dbCalendarDays[9].Day, 20);
+	}
+
+	[TestMethod]
+	public void GetManyByConditionWithTakingTwelveTest()
+	{
+		int calendarYear = 2021, calendarMonth = 02;
+		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
+			orderBy: x => x.OrderBy(x => x.Date),
+			top: 12
+			).ToList();
+
+		Assert.IsNotNull(dbCalendarDays);
+		Assert.IsTrue(dbCalendarDays.Any());
+		Assert.AreEqual(dbCalendarDays.Count, 12);
+		Assert.AreEqual(dbCalendarDays[0].Day, 1);
+		Assert.AreEqual(dbCalendarDays[11].Day, 12);
+	}
+
+	[TestMethod]
+	public void GetManyByConditionWithIncludeTest()
+	{
+		int calendarYear = 2020, calendarMonth = 12;
+		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
+			orderBy: x => x.OrderBy(x => x.Id),
+			top: 1,
+			includeProperties: new[] { nameof(CalendarDay.DayType) }
+			).ToList();
+
+		Assert.IsNotNull(dbCalendarDays);
+		Assert.IsTrue(dbCalendarDays.Any());
+		Assert.AreEqual(dbCalendarDays.Count, 1);
+		Assert.IsNotNull(dbCalendarDays[0].DayType);
+	}
+
+	[TestMethod]
 	public void GetByIdTest()
 	{
 		int calendarDayId = 1;

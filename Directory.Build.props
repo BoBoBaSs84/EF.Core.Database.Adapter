@@ -1,5 +1,6 @@
 <Project>
 	<PropertyGroup>
+		<NeutralLanguage>en-US</NeutralLanguage>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -13,8 +14,8 @@
 		<RepositoryUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(IsTestProject)' != 'true'">
+	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>		
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 </Project>

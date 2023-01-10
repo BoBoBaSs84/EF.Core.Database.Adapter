@@ -7,7 +7,7 @@ namespace Database.Adapter.Entities.Tests.Enumerators;
 
 [TestClass]
 public class DayTypeTests
-{	
+{
 	[DataTestMethod]
 	[DataRow(DayType.WEEKDAY, DisplayName = $"{nameof(AllDayTypeEnumeratorsHaveDescriptionTest)} - All day type enums must have a description.")]
 	public void AllDayTypeEnumeratorsHaveDescriptionTest(DayType dayType)

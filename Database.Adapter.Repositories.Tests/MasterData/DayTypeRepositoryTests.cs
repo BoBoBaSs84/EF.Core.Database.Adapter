@@ -44,13 +44,13 @@ public class DayTypeRepositoryTests
 	public void GetByConditionTest()
 	{
 		string dayTypeName = "Holiday";
-		DayType dayType = masterDataRepository.DayTypeRepository.GetByCondition(x=>x.Name.Equals(dayTypeName));
+		DayType dayType = masterDataRepository.DayTypeRepository.GetByCondition(x => x.Name.Equals(dayTypeName));
 		Assert.IsNotNull(dayType);
 		Assert.AreEqual(dayTypeName, dayType.Name);
 	}
 	
 	[TestMethod]
-	public void GetManyByCondition()
+	public void GetManyByConditionTest()
 	{
 		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.IsActive.Equals(true));
 		Assert.IsNotNull(dayTypes);
@@ -93,7 +93,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void DeleteByEntityTest()
 	{
-		int dayTypeId = 1;
+		int dayTypeId = 3;
 		DayType dayType = masterDataRepository.DayTypeRepository.GetById(dayTypeId);
 		masterDataRepository.DayTypeRepository.Delete(dayType);
 		int commit = masterDataRepository.CommitChanges();
@@ -101,24 +101,53 @@ public class DayTypeRepositoryTests
 	}
 
 	[TestMethod]
-	public void DeleteById()
+	public void DeleteByIdTest()
 	{
-		int dayTypeId = 1;
+		int dayTypeId = 3;
 		masterDataRepository.DayTypeRepository.Delete(dayTypeId);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(1, commit);
 	}
 
 	[TestMethod]
+	public void DeleteByExpressionTest()
+	{
+		string dayTypeName = "Holiday";
+		masterDataRepository.DayTypeRepository.Delete(x => x.Name.Equals(dayTypeName));
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(1, commit);
+	}
+
+	[TestMethod]
+	public void DeleteRangeTest()
+	{
+		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 2);
+		int dayTypesCount = dayTypes.Count();
+		masterDataRepository.DayTypeRepository.DeleteRange(dayTypes);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(dayTypesCount, commit);
+	}
+
+	[TestMethod]
 	public void UpdateTest()
 	{
-
+		string dayTypeName = "Holiday";
+		DayType dayType = masterDataRepository.DayTypeRepository.GetByCondition(x => x.Name.Equals(dayTypeName));
+		dayType.Description = GenerateRandomAlphanumericString(100);
+		masterDataRepository.DayTypeRepository.Update(dayType);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(1, commit);
 	}
 
 	[TestMethod]
 	public void UpdateRangeTest()
 	{
-
+		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 10);
+		foreach(DayType dayType in dayTypes)
+			dayType.Description = GenerateRandomAlphanumericString(100);
+		masterDataRepository.DayTypeRepository.UpdateRange(dayTypes);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(dayTypes.Count(), commit);
 	}
 
 	private static DayType GetDayType() => new()

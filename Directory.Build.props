@@ -9,10 +9,12 @@
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AnalysisMode>recommended</AnalysisMode>
 		<Deterministic>false</Deterministic>
-		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageProjectUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(IsTestProject)' != 'true'">
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>		
 	</PropertyGroup>
 </Project>

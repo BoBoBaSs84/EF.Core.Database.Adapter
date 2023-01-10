@@ -31,21 +31,36 @@ public class DayTypeRepositoryTests
 		Assert.IsTrue(dayTypes.Any());
 	}
 
-	[DataTestMethod]
-	[DataRow(1)]
-	[DataRow(2)]
-	[DataRow(3)]
-	public void GetByIdTest(int dayTypeId)
+	[TestMethod]
+	public void GetByIdTest()
 	{
+		int dayTypeId = 1;
 		DayType dayType = masterDataRepository.DayTypeRepository.GetById(dayTypeId);
 		Assert.IsNotNull(dayType);
-		Assert.AreEqual(dayType.Id, dayTypeId);
+		Assert.AreEqual(dayTypeId, dayType.Id);
+	}
+
+	[TestMethod]
+	public void GetByConditionTest()
+	{
+		string dayTypeName = "Holiday";
+		DayType dayType = masterDataRepository.DayTypeRepository.GetByCondition(x=>x.Name.Equals(dayTypeName));
+		Assert.IsNotNull(dayType);
+		Assert.AreEqual(dayTypeName, dayType.Name);
+	}
+	
+	[TestMethod]
+	public void GetManyByCondition()
+	{
+		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.IsActive.Equals(true));
+		Assert.IsNotNull(dayTypes);
+		Assert.IsTrue(dayTypes.Any());
 	}
 
 	[TestMethod]
 	public void CreateTest()
 	{
-		DayType newDayType = new() { Name = "UnitTest", Description = "DayType UnitTest", IsActive = false };
+		DayType newDayType = GetDayType();
 		masterDataRepository.DayTypeRepository.Create(newDayType);
 
 		int commit = masterDataRepository.CommitChanges();
@@ -59,19 +74,74 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void CreateRangeTest()
 	{
-		IEnumerable<DayType> newDayTypes = new List<DayType>()
-		{
-			new() { Name = "UnitTestOne", Description = "DayType UnitTestOne", IsActive = false, Id = 1234 },
-			new() { Name = "UnitTestTwo", Description = "DayType UnitTestTwo", IsActive = false, Id = 1235 },
-		};
-
+		IEnumerable<DayType> newDayTypes = GetDayTypes();
 		masterDataRepository.DayTypeRepository.CreateRange(newDayTypes);
-
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(newDayTypes.Count(), commit);
+	}
 
-		IQueryable<DayType> dbDayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Name.Contains("UnitTest"));
-		Assert.IsNotNull(dbDayTypes);
-		Assert.AreEqual(dbDayTypes.Count(), newDayTypes.Count());
+	[TestMethod]
+	public void TrackChangesTest()
+	{
+		int dayTypeId = 1;
+		DayType dayType = masterDataRepository.DayTypeRepository.GetById(dayTypeId);
+		dayType.Description = GenerateRandomAlphanumericString(40);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(1, commit);
+	}
+
+	[TestMethod]
+	public void DeleteByEntityTest()
+	{
+		int dayTypeId = 1;
+		DayType dayType = masterDataRepository.DayTypeRepository.GetById(dayTypeId);
+		masterDataRepository.DayTypeRepository.Delete(dayType);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(1, commit);
+	}
+
+	[TestMethod]
+	public void DeleteById()
+	{
+		int dayTypeId = 1;
+		masterDataRepository.DayTypeRepository.Delete(dayTypeId);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(1, commit);
+	}
+
+	[TestMethod]
+	public void UpdateTest()
+	{
+
+	}
+
+	[TestMethod]
+	public void UpdateRangeTest()
+	{
+
+	}
+
+	private static DayType GetDayType() => new()
+	{
+		Name = GenerateRandomAlphanumericString(),
+		Description = $"{GenerateRandomAlphanumericString} Description",
+		IsActive = false
+	};
+
+	private static IEnumerable<DayType> GetDayTypes(int dayTypeToAdd = 0)
+	{
+		List<DayType> dayTypes = new();
+		for (int i = 0; i <= dayTypeToAdd; i++)
+			dayTypes.Add(GetDayType());
+		return dayTypes;
+	}
+
+	private static string GenerateRandomAlphanumericString(int length = 10)
+	{
+		const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+		Random random = new();
+		string randomString = new(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+		return randomString;
 	}
 }

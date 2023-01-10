@@ -16,7 +16,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// </summary>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <returns>A list of entries.</returns>
-	IQueryable<TEntity> GetAll(bool trackChanges = false);
+	IEnumerable<TEntity> GetAll(bool trackChanges = false);
 
 	/// <summary>
 	/// Should find a collection of entities based on the specified criteria.
@@ -24,7 +24,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="expression">The search condition.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <returns>A list of entries.</returns>
-	IQueryable<TEntity> GetManyByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);
+	IEnumerable<TEntity> GetManyByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);
 
 	/// <summary>
 	/// Should find a collection of entities based on the specified criteria.
@@ -36,7 +36,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="includeProperties">Any other navigation properties to include when returning the collection.</param>
 	/// <returns>A collection of entities.</returns>
-	IQueryable<TEntity> GetManyByCondition(
+	IEnumerable<TEntity> GetManyByCondition(
 		Expression<Func<TEntity, bool>> expression,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		int? top = null,
@@ -112,13 +112,15 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// Should create an entry of an entity.
 	/// </summary>
 	/// <param name="entity">The entry of an entity to create.</param>
-	void Create(TEntity entity);
+	/// <returns>The created entity.</returns>
+	TEntity Create(TEntity entity);
 
 	/// <summary>
 	/// Should create multiple entries of an entity.
 	/// </summary>
 	/// <param name="entities">The entries of an entity to create.</param>
-	void CreateRange(IEnumerable<TEntity> entities);
+	/// <returns>The created entities.</returns>
+	IEnumerable<TEntity> CreateRange(IEnumerable<TEntity> entities);
 
 	/// <summary>
 	/// Should update an entry of an entity.

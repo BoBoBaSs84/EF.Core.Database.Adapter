@@ -50,7 +50,7 @@ public class DayTypeRepositoryTests
 	}
 	
 	[TestMethod]
-	public void GetManyByCondition()
+	public void GetManyByConditionTest()
 	{
 		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.IsActive.Equals(true));
 		Assert.IsNotNull(dayTypes);
@@ -101,7 +101,7 @@ public class DayTypeRepositoryTests
 	}
 
 	[TestMethod]
-	public void DeleteById()
+	public void DeleteByIdTest()
 	{
 		int dayTypeId = 3;
 		masterDataRepository.DayTypeRepository.Delete(dayTypeId);
@@ -110,7 +110,7 @@ public class DayTypeRepositoryTests
 	}
 
 	[TestMethod]
-	public void DeleteByExpression()
+	public void DeleteByExpressionTest()
 	{
 		string dayTypeName = "Holiday";
 		masterDataRepository.DayTypeRepository.Delete(x => x.Name.Equals(dayTypeName));

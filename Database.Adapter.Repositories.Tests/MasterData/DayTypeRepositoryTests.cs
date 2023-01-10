@@ -26,7 +26,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void GetAllTest()
 	{
-		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll();
+		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll();
 		Assert.IsNotNull(dayTypes);
 		Assert.IsTrue(dayTypes.Any());
 	}
@@ -52,7 +52,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void GetManyByConditionTest()
 	{
-		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.IsActive.Equals(true));
+		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.IsActive.Equals(true));
 		Assert.IsNotNull(dayTypes);
 		Assert.IsTrue(dayTypes.Any());
 	}
@@ -121,7 +121,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void DeleteRangeTest()
 	{
-		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 2);
+		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 2);
 		int dayTypesCount = dayTypes.Count();
 		masterDataRepository.DayTypeRepository.DeleteRange(dayTypes);
 		int commit = masterDataRepository.CommitChanges();
@@ -142,7 +142,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void UpdateRangeTest()
 	{
-		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 10);
+		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 10);
 		foreach(DayType dayType in dayTypes)
 			dayType.Description = GenerateRandomAlphanumericString(100);
 		masterDataRepository.DayTypeRepository.UpdateRange(dayTypes);

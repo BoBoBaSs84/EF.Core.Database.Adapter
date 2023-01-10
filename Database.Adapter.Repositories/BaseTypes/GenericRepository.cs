@@ -30,15 +30,15 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	}
 
 	/// <inheritdoc/>
-	public IQueryable<TEntity> GetAll(bool trackChanges = false) =>
+	public IEnumerable<TEntity> GetAll(bool trackChanges = false) =>
 		!trackChanges ? dbSet.AsNoTracking() : dbContext.Set<TEntity>();
 
 	/// <inheritdoc/>
-	public IQueryable<TEntity> GetManyByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false) =>
+	public IEnumerable<TEntity> GetManyByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false) =>
 		!trackChanges ? dbSet.Where(expression).AsNoTracking() : dbSet.Where(expression);
 
 	/// <inheritdoc/>
-	public IQueryable<TEntity> GetManyByCondition(
+	public IEnumerable<TEntity> GetManyByCondition(
 		Expression<Func<TEntity, bool>> expression,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		int? top = null,
@@ -57,7 +57,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 			query = query.Skip(skip.Value);
 		if (top.HasValue)
 			query = query.Take(top.Value);
-		return query;
+		return query.ToList();
 	}
 
 	/// <inheritdoc/>
@@ -100,14 +100,23 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	public void DeleteRange(IEnumerable<TEntity> entities) => dbSet.RemoveRange(entities);
 
 	/// <inheritdoc/>
-	public void Create(TEntity entity) => dbSet.Add(entity);
+	public TEntity Create(TEntity entity)
+	{
+		_ = dbSet.Add(entity);
+		return entity;
+
+	}
 
 	/// <inheritdoc/>
-	public void CreateRange(IEnumerable<TEntity> entities) => dbSet.AddRange(entities);
+	public IEnumerable<TEntity> CreateRange(IEnumerable<TEntity> entities)
+	{
+		dbSet.AddRange(entities);
+		return entities;
+	}
 
 	/// <inheritdoc/>
 	public void Update(TEntity entity) => dbSet.Update(entity);
 
 	/// <inheritdoc/>
-	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);	
+	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);
 }

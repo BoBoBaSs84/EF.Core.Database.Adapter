@@ -1,7 +1,5 @@
-﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Infrastructure.Contexts;
+﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.BaseTypes.Interfaces;
 using Database.Adapter.Repositories.Interfaces;
 using Database.Adapter.Repositories.MasterData;
 using Database.Adapter.Repositories.MasterData.Interfaces;
@@ -17,7 +15,7 @@ namespace Database.Adapter.Repositories;
 public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
 {
 	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository;
-	private readonly Lazy<IEnumeratorRepository<DayType>> lazyDayTypeRepository;
+	private readonly Lazy<IDayTypeRepository> lazyDayTypeRepository;
 
 	/// <summary>
 	/// The master data repository manager standard constructor.
@@ -25,11 +23,11 @@ public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMaste
 	public MasterDataRepository()
 	{
 		lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(Context));
-		lazyDayTypeRepository = new Lazy<IEnumeratorRepository<DayType>>(() => new DayTypeRepository(Context));
+		lazyDayTypeRepository = new Lazy<IDayTypeRepository>(() => new DayTypeRepository(Context));
 	}
 
 	/// <inheritdoc/>
 	public ICalendarDayRepository CalendarRepository => lazyCalendarRepository.Value;
 	/// <inheritdoc/>
-	public IEnumeratorRepository<DayType> DayTypeRepository => lazyDayTypeRepository.Value;
+	public IDayTypeRepository DayTypeRepository => lazyDayTypeRepository.Value;
 }

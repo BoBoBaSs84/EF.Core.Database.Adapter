@@ -13,10 +13,6 @@ namespace Database.Adapter.Repositories.MasterData;
 /// <list type="bullet">
 /// <item>The <see cref="GenericRepository{TEntity}"/> class</item>
 /// </list>
-/// Implements the following interfaces:
-/// <list type="bullet">
-/// <item>The <see cref="ICalendarDayRepository"/> interface</item>
-/// </list>
 /// </remarks>
 internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, ICalendarDayRepository
 {
@@ -27,13 +23,4 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	public CalendarDayRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
-	/// <inheritdoc/>
-	public CalendarDay GetByDate(DateTime date, bool trackChanges = false) =>
-		GetByCondition(x => x.Date.Equals(date), trackChanges);
-	/// <inheritdoc/>
-	public IQueryable<CalendarDay> GetByYear(int year, bool trackChanges = false) =>
-		GetManyByCondition(x => x.Year.Equals(year), trackChanges);
-	/// <inheritdoc/>
-	public IQueryable<CalendarDay> GetWithinDateRange(DateTime start, DateTime end, bool trackChanges = false) =>
-		GetManyByCondition(x => x.Date >= start && x.Date <= end, trackChanges);
 }

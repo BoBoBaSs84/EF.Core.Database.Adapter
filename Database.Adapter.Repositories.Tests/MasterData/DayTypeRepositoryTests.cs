@@ -1,11 +1,13 @@
 ﻿using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 using System.Transactions;
 
 namespace Database.Adapter.Repositories.Tests.MasterData;
 
 [TestClass]
+[SuppressMessage("Globalization", "CA1309", Justification = "Not supported.")]
 public class DayTypeRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
@@ -19,23 +21,12 @@ public class DayTypeRepositoryTests
 	}
 
 	[TestCleanup]
-	public void TestCleanup()
-	{
-		transactionScope.Dispose();
-	}
+	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
 	public void GetAllTest()
 	{
 		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAll();
-		Assert.IsNotNull(dayTypes);
-		Assert.IsTrue(dayTypes.Any());
-	}
-
-	[TestMethod]
-	public void GetAllActiveTest()
-	{
-		IQueryable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAllActive();
 		Assert.IsNotNull(dayTypes);
 		Assert.IsTrue(dayTypes.Any());
 	}
@@ -51,17 +42,6 @@ public class DayTypeRepositoryTests
 		Assert.AreEqual(dayType.Id, dayTypeId);
 	}
 
-	[DataTestMethod]
-	[DataRow("Absence")]
-	[DataRow("Weekday")]
-	[DataRow("Holiday")]
-	public void GetByNameTest(string dayTypeName)
-	{
-		DayType dayType = masterDataRepository.DayTypeRepository.GetByName(dayTypeName);
-		Assert.IsNotNull(dayType);
-		Assert.AreEqual(dayType.Name, dayTypeName);
-	}
-
 	[TestMethod]
 	public void CreateTest()
 	{
@@ -71,7 +51,7 @@ public class DayTypeRepositoryTests
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(1, commit);
 
-		DayType dbDayType = masterDataRepository.DayTypeRepository.GetByName(newDayType.Name);
+		DayType dbDayType = masterDataRepository.DayTypeRepository.GetByCondition(x => x.Name.Equals(newDayType.Name));
 		Assert.IsNotNull(dbDayType);
 		Assert.AreEqual(dbDayType.Name, newDayType.Name);
 	}

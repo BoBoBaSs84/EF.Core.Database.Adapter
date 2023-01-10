@@ -2,6 +2,7 @@
 using Database.Adapter.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Logging;
 
 namespace Database.Adapter.Infrastructure.Factories;
 
@@ -24,6 +25,7 @@ public sealed class MasterDataContextFactory : IDesignTimeDbContextFactory<Maste
 			string connectionString = configuration.GetConnectionString(nameof(MasterDataContext));
 			optionsBuilder.UseSqlServer(connectionString);
 #if DEBUG
+			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
 #else

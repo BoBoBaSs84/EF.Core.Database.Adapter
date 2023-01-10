@@ -23,6 +23,7 @@ public sealed class MasterContextFactory : IDesignTimeDbContextFactory<MasterCon
 			DbContextOptionsBuilder<MasterContext> optionsBuilder = new();
 			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(MasterContext)));
 #if DEBUG
+			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
 #else

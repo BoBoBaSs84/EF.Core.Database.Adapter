@@ -86,5 +86,5 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	public void Update(TEntity entity) => dbSet.Update(entity);
 
 	/// <inheritdoc/>
-	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);	
+	public void UpdateRange(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);
 }

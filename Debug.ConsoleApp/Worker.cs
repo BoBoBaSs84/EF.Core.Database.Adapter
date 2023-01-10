@@ -1,8 +1,8 @@
+using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Xml.Serialization;
 
 namespace Debug.ConsoleApp;
 
@@ -10,7 +10,6 @@ public class Worker : BackgroundService
 {
 	private readonly ILogger<Worker> _logger;
 	private readonly IMasterDataRepository masterDataRepository;
-	private readonly DateTime _today = DateTime.Now;
 
 	public Worker(ILogger<Worker> logger)
 	{
@@ -22,69 +21,10 @@ public class Worker : BackgroundService
 	{
 		while (!stoppingToken.IsCancellationRequested)
 		{
-			_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-			Database.Adapter.Entities.MasterData.CalendarDay? calendar = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(_today));
+			CalendarDay calendarDay = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(new(2023,1,10)));
 
-			if (calendar is null)
-			{
-				// create some data :)
-				List<Database.Adapter.Entities.MasterData.CalendarDay> newCalendarDays = new();
-				DateTime startDate = new(2010, 1, 1);
-				DateTime endDate = startDate.AddYears(20);
-
-				while (startDate <= endDate)
-				{
-					Database.Adapter.Entities.MasterData.CalendarDay newcalendarDay = new()
-					{
-						Date = startDate,
-						DayTypeId = (startDate.DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday) ? 2 : 1
-					};
-					newCalendarDays.Add(newcalendarDay);
-					startDate = startDate.AddDays(1);
-				}
-				masterDataRepository.CalendarRepository.CreateRange(newCalendarDays.OrderBy(x => x.Date));
-				int i = masterDataRepository.CommitChanges();
-				Console.WriteLine(i);
-			}
-			else
-			{
-				XmlSerializer serializer = new(typeof(Database.Adapter.Entities.MasterData.CalendarDay));
-				using (StreamWriter writer = new($"{nameof(Database.Adapter.Entities.MasterData.CalendarDay)}.xml"))
-				{
-					serializer.Serialize(writer, calendar, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
-				}
-
-				Console.WriteLine($"id:{calendar.Id}, date:{calendar.Date}, day:{calendar.Day}");
-			}
-
-			List<Database.Adapter.Entities.MasterData.CalendarDay> calendarDaysByYear = masterDataRepository.CalendarRepository.GetByYear(_today.Year).ToList();
-			XmlSerializer xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
-			using (StreamWriter writer = new("CalendarDaysByYear.xml"))
-			{
-				xmlSerializer.Serialize(writer, calendarDaysByYear, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
-			}
-
-			List<Database.Adapter.Entities.MasterData.CalendarDay> allCalendarDays = masterDataRepository.CalendarRepository.GetAll().ToList();
-			xmlSerializer = new(typeof(List<Database.Adapter.Entities.MasterData.CalendarDay>));
-			using (StreamWriter writer = new("AllCalendarDays.xml"))
-			{
-				xmlSerializer.Serialize(writer, allCalendarDays, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
-			}
-
-			List<Database.Adapter.Entities.MasterData.DayType> allDayTypes = masterDataRepository.DayTypeRepository.GetAll().ToList();
-			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
-			using (StreamWriter writer = new("AllDayTypes.xml"))
-			{
-				xmlSerializer.Serialize(writer, allDayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
-			}
-
-			List<Database.Adapter.Entities.MasterData.DayType> allActiveDayTypes = masterDataRepository.DayTypeRepository.GetAllActive().ToList();
-			xmlSerializer = new XmlSerializer(typeof(List<Database.Adapter.Entities.MasterData.DayType>));
-			using (StreamWriter writer = new("AllActiveDayTypes.xml"))
-			{
-				xmlSerializer.Serialize(writer, allActiveDayTypes, Database.Adapter.Entities.Constants.XmlConstants.GetXmlSerializerNamespaces());
-			}
+			_logger.LogInformation("Worker running at: {time} - {day}", DateTimeOffset.Now, calendarDay.WeekDayName);
 
 			await Task.Delay(1000, stoppingToken);
 		}

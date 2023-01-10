@@ -23,6 +23,7 @@ public sealed class AuthenticationContextFactory : IDesignTimeDbContextFactory<A
 			DbContextOptionsBuilder<AuthenticationContext> optionsBuilder = new();
 			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(AuthenticationContext)));
 #if DEBUG
+			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
 #else

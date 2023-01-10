@@ -84,10 +84,29 @@ public class CalendarDayRepositoryTests
 	}
 
 	[TestMethod]
+	public void DeleteByEntity()
+	{
+		int calendarDayId = 3;
+		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		masterDataRepository.CalendarRepository.Delete(dbCalendarDay);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(1, commit);
+	}
+
+	[TestMethod]
+	public void DeleteById()
+	{
+		int calendarDayId = 3;
+		masterDataRepository.CalendarRepository.Delete(calendarDayId);
+		int commit = masterDataRepository.CommitChanges();
+		Assert.AreEqual(1, commit);
+	}
+
+	[TestMethod]
 	public void UpdateTest()
 	{
 		DateTime dateTime = new(2020, 1, 1);
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(dateTime), true);
+		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(dateTime));
 		dbCalendarDay.Date = GetDateTime();
 		masterDataRepository.CalendarRepository.Update(dbCalendarDay);
 		int commit = masterDataRepository.CommitChanges();
@@ -97,23 +116,22 @@ public class CalendarDayRepositoryTests
 	[TestMethod]
 	public void UpdateRangeTest()
 	{
-		List<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(x => x.Year.Equals(2020), true).ToList();
-		dbCalendarDays[0].Date = GetDateTime();
-		dbCalendarDays[1].Date = GetDateTime(1);
+		IQueryable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(x => x.Year.Equals(2020) && x.IsoWeek.Equals(3), true);
+		foreach (CalendarDay dbCalendarDay in dbCalendarDays)
+			dbCalendarDay.DayTypeId = 3;
 		masterDataRepository.CalendarRepository.UpdateRange(dbCalendarDays);
 		int commit = masterDataRepository.CommitChanges();
-		Assert.AreEqual(dbCalendarDays.Count, commit);
+		Assert.AreEqual(dbCalendarDays.Count(), commit);
 	}
 
 	[TestMethod]
 	public void TrackChangesTest()
 	{
-		List<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(x => x.Year.Equals(2020), true).ToList();
-		dbCalendarDays[0].Date = GetDateTime();
-		dbCalendarDays[1].Date = GetDateTime(1);
-		dbCalendarDays[2].Date = GetDateTime(2);
+		int calendarDayId = 1;
+		CalendarDay calendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		calendarDay.DayTypeId = 3;
 		int commit = masterDataRepository.CommitChanges();
-		Assert.AreEqual(3, commit);
+		Assert.AreEqual(1, commit);
 	}
 
 	private static DateTime GetDateTime(int dayToAdd = 0)

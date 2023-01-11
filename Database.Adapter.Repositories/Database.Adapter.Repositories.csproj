@@ -12,4 +12,9 @@
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="EntityFramework" Version="6.4.4" />
+	  <PackageReference Include="FluentAssertions" Version="6.8.0" />
+	</ItemGroup>
+
 </Project>

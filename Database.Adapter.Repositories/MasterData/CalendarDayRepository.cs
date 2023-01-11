@@ -23,4 +23,17 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	public CalendarDayRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
+	/// <inheritdoc/>
+	public CalendarDay GetByDate(DateTime date, bool trackChanges = false) => 
+		GetByCondition(
+			expression: x => x.Date.Equals(System.Data.Entity.DbFunctions.TruncateTime(date)),
+			trackChanges: trackChanges
+			);
+	/// <inheritdoc/>
+	public IEnumerable<CalendarDay> GetByDateRange(DateTime minDate, DateTime maxDate, bool trackChanges = false) =>
+		GetManyByCondition(
+			expression: x => x.Date >= System.Data.Entity.DbFunctions.TruncateTime(minDate)
+			&& x.Date <= System.Data.Entity.DbFunctions.TruncateTime(maxDate),
+			trackChanges: trackChanges
+			);
 }

@@ -144,7 +144,7 @@ public class CalendarDayRepositoryTests
 	public void CreateRangeTest()
 	{
 		IEnumerable<CalendarDay> calendarDays = GetCalendarDays(2);
-		masterDataRepository.CalendarRepository.CreateRange(calendarDays);
+		masterDataRepository.CalendarRepository.Create(calendarDays);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(calendarDays.Count(), commit);
 	}
@@ -181,7 +181,7 @@ public class CalendarDayRepositoryTests
 	public void DeleteRangeTest()
 	{
 		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(x => x.Id <= 2);
-		masterDataRepository.CalendarRepository.DeleteRange(dbCalendarDays);
+		masterDataRepository.CalendarRepository.Delete(dbCalendarDays);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(2, commit);
 	}
@@ -200,10 +200,10 @@ public class CalendarDayRepositoryTests
 	[TestMethod]
 	public void UpdateRangeTest()
 	{
-		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(x => x.Year.Equals(2020) && x.IsoWeek.Equals(3), true);
+		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(x => x.Year.Equals(2020) && x.IsoWeek.Equals(3));
 		foreach (CalendarDay dbCalendarDay in dbCalendarDays)
 			dbCalendarDay.DayTypeId = 3;
-		masterDataRepository.CalendarRepository.UpdateRange(dbCalendarDays);
+		masterDataRepository.CalendarRepository.Update(dbCalendarDays);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(dbCalendarDays.Count(), commit);
 	}

@@ -21,14 +21,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <summary>
 	/// Should find a collection of entities based on the specified criteria.
 	/// </summary>
-	/// <param name="expression">The search condition.</param>
-	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
-	/// <returns>A list of entries.</returns>
-	IEnumerable<TEntity> GetManyByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);
-
-	/// <summary>
-	/// Should find a collection of entities based on the specified criteria.
-	/// </summary>
 	/// <param name="expression">The condition the entities must fulfil to be returned.</param>
 	/// <param name="orderBy">The function used to order the entities.</param>
 	/// <param name="top">The number of records to limit the results to.</param>
@@ -106,7 +98,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// Should delete multiple entries of an entity.
 	/// </summary>
 	/// <param name="entities">The entries of an entity to delete.</param>
-	void DeleteRange(IEnumerable<TEntity> entities);
+	void Delete(IEnumerable<TEntity> entities);
 
 	/// <summary>
 	/// Should create an entry of an entity.
@@ -120,7 +112,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// </summary>
 	/// <param name="entities">The entries of an entity to create.</param>
 	/// <returns>The created entities.</returns>
-	IEnumerable<TEntity> CreateRange(IEnumerable<TEntity> entities);
+	IEnumerable<TEntity> Create(IEnumerable<TEntity> entities);
 
 	/// <summary>
 	/// Should update an entry of an entity.
@@ -132,5 +124,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// Should update multiple entries of an entity.
 	/// </summary>
 	/// <param name="entities">The entries of an entity to update.</param>	
-	void UpdateRange(IEnumerable<TEntity> entities);
+	void Update(IEnumerable<TEntity> entities);
 }

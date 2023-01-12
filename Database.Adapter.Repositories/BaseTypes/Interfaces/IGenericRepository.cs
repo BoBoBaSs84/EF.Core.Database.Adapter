@@ -17,7 +17,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <returns>A list of entries.</returns>
 	IEnumerable<TEntity> GetAll(bool trackChanges = false);
-
 	/// <summary>
 	/// Should find a collection of entities based on the specified criteria.
 	/// </summary>
@@ -35,7 +34,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
 		int? skip = null,
 		bool trackChanges = false,
 		params string[] includeProperties);
-
 	/// <summary>
 	/// Should find an entry of an entity by its primary key.
 	/// </summary>
@@ -45,7 +43,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="id">The primary key of the entity.</param>
 	/// <returns>One entry of an entity.</returns>
 	TEntity GetById(Guid id);
-
 	/// <summary>
 	/// Should find an entry of an entity by its primary key.
 	/// </summary>
@@ -55,7 +52,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="id">The primary key of the entity.</param>
 	/// <returns>One entry of an entity.</returns>
 	TEntity GetById(int id);
-
 	/// <summary>
 	/// Should find an entry of an entity by a certain condition.
 	/// </summary>
@@ -63,13 +59,11 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <returns></returns>
 	TEntity GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);
-
 	/// <summary>
 	/// Should delete an entry of an entity.
 	/// </summary>
 	/// <param name="entity">The entry of an entity to delete.</param>
 	void Delete(TEntity entity);
-
 	/// <summary>
 	/// Should delete an entry of an entity by its identifier.
 	/// </summary>
@@ -78,7 +72,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// </remarks>
 	/// <param name="id">The identifier of the entity.</param>
 	void Delete(Guid id);
-
 	/// <summary>
 	/// Should delete an entry of an entity by its identifier.
 	/// </summary>
@@ -87,39 +80,33 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// </remarks>
 	/// <param name="id">The identifier of the entity.</param>
 	void Delete(int id);
-
 	/// <summary>
 	/// Should delete one entry or many entries of an entity by a certain condition.
 	/// </summary>
 	/// <param name="expression"></param>
 	void Delete(Expression<Func<TEntity, bool>> expression);
-
 	/// <summary>
 	/// Should delete multiple entries of an entity.
 	/// </summary>
 	/// <param name="entities">The entries of an entity to delete.</param>
 	void Delete(IEnumerable<TEntity> entities);
-
 	/// <summary>
 	/// Should create an entry of an entity.
 	/// </summary>
 	/// <param name="entity">The entry of an entity to create.</param>
 	/// <returns>The created entity.</returns>
 	TEntity Create(TEntity entity);
-
 	/// <summary>
 	/// Should create multiple entries of an entity.
 	/// </summary>
 	/// <param name="entities">The entries of an entity to create.</param>
 	/// <returns>The created entities.</returns>
 	IEnumerable<TEntity> Create(IEnumerable<TEntity> entities);
-
 	/// <summary>
 	/// Should update an entry of an entity.
 	/// </summary>
 	/// <param name="entity">The entry of an entity to update.</param>
 	void Update(TEntity entity);
-
 	/// <summary>
 	/// Should update multiple entries of an entity.
 	/// </summary>

@@ -1,4 +1,5 @@
 ﻿using Database.Adapter.Entities.MasterData;
+using Database.Adapter.Repositories.Extensions;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.MasterData.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -24,16 +25,16 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	{
 	}
 	/// <inheritdoc/>
-	public CalendarDay GetByDate(DateTime date, bool trackChanges = false) => 
+	public CalendarDay GetByDate(DateTime dateTime, bool trackChanges = false) => 
 		GetByCondition(
-			expression: x => x.Date.Equals(System.Data.Entity.DbFunctions.TruncateTime(date)),
+			expression: x => x.Date.Equals(dateTime.ToSqlDate()),
 			trackChanges: trackChanges
 			);
 	/// <inheritdoc/>
 	public IEnumerable<CalendarDay> GetByDateRange(DateTime minDate, DateTime maxDate, bool trackChanges = false) =>
 		GetManyByCondition(
-			expression: x => x.Date >= System.Data.Entity.DbFunctions.TruncateTime(minDate)
-			&& x.Date <= System.Data.Entity.DbFunctions.TruncateTime(maxDate),
+			expression: x => x.Date >= minDate.ToSqlDate()
+			&& x.Date <= maxDate.ToSqlDate(),
 			trackChanges: trackChanges
 			);
 }

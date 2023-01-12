@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Transactions;
 
-namespace Database.Adapter.Repositories.Tests.MasterData;
+namespace Database.Adapter.Repositories.MasterData.Tests;
 
 [TestClass]
 [SuppressMessage("Globalization", "CA1309", Justification = "Not supported.")]

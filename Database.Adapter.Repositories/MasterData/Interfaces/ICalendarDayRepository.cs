@@ -17,10 +17,10 @@ public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
 	/// <summary>
 	/// Should get the calendar entity by date.
 	/// </summary>
-	/// <param name="date"></param>
+	/// <param name="dateTime"></param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <returns>A calendar entity.</returns>
-	CalendarDay GetByDate(DateTime date, bool trackChanges = false);
+	CalendarDay GetByDate(DateTime dateTime, bool trackChanges = false);
 	/// <summary>
 	/// Should get a collection of calendat entities by the provided date range.
 	/// </summary>

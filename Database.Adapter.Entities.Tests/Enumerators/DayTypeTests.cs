@@ -1,11 +1,14 @@
 ﻿using Database.Adapter.Entities.Enumerators;
 using Database.Adapter.Entities.Extensions;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Adapter.Entities.Tests.Enumerators;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class DayTypeTests
 {
 	[DataTestMethod]
@@ -16,7 +19,7 @@ public class DayTypeTests
 		foreach (DayType e in enumList)
 		{
 			string description = e.GetEnumDescription();
-			Assert.IsFalse(string.IsNullOrWhiteSpace(description));
+			description.Should().NotBeNullOrWhiteSpace();
 		}
 	}
 
@@ -28,7 +31,7 @@ public class DayTypeTests
 		foreach (DayType e in enumList)
 		{
 			string shortName = e.GetEnumShortName();
-			Assert.IsFalse(string.IsNullOrWhiteSpace(shortName));
+			shortName.Should().NotBeNullOrWhiteSpace();
 		}
 	}
 
@@ -40,7 +43,7 @@ public class DayTypeTests
 		foreach (DayType e in enumList)
 		{
 			string name = e.GetEnumName();
-			Assert.IsFalse(string.IsNullOrWhiteSpace(name));
+			name.Should().NotBeNullOrWhiteSpace();
 		}
 	}
 
@@ -52,7 +55,7 @@ public class DayTypeTests
 		foreach (DayType e in enumList)
 		{
 			DisplayAttribute? displayAttribute = e.GetDisplayAttribute();
-			Assert.IsNotNull(displayAttribute);
+			displayAttribute.Should().NotBeNull();
 		}
 	}
 
@@ -64,8 +67,8 @@ public class DayTypeTests
 		foreach (DayType e in enumList)
 		{
 			DisplayAttribute? displayAttribute = e.GetDisplayAttribute();
-			Assert.IsNotNull(displayAttribute);
-			Assert.IsNotNull(displayAttribute.ResourceType);
+			displayAttribute.Should().NotBeNull();
+			displayAttribute!.ResourceType.Should().NotBeNull();
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
 
-namespace Database.Adapter.Repositories.MasterData.Interfaces;
+namespace Database.Adapter.Repositories.Context.MasterData.Interfaces;
 
 /// <summary>
 /// The calendar day repository interface.

@@ -1,10 +1,10 @@
 ﻿using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories.Extensions;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.MasterData.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Database.Adapter.Repositories.Context.MasterData.Interfaces;
 
-namespace Database.Adapter.Repositories.MasterData;
+namespace Database.Adapter.Repositories.Context.MasterData;
 
 /// <summary>
 /// The calendar day repository class.
@@ -25,7 +25,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	{
 	}
 	/// <inheritdoc/>
-	public CalendarDay GetByDate(DateTime dateTime, bool trackChanges = false) => 
+	public CalendarDay GetByDate(DateTime dateTime, bool trackChanges = false) =>
 		GetByCondition(
 			expression: x => x.Date.Equals(dateTime.ToSqlDate()),
 			trackChanges: trackChanges

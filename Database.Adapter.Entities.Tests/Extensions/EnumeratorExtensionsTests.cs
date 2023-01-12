@@ -1,10 +1,13 @@
 ﻿using Database.Adapter.Entities.Extensions;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Adapter.Entities.Tests.Extensions;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class EnumeratorExtensionsTests
 {
 	[TestMethod]
@@ -12,15 +15,15 @@ public class EnumeratorExtensionsTests
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
 		string description = testEnum.GetEnumDescription();
-		Assert.AreEqual(nameof(description), description);
+		description.Should().Be(nameof(description));
 	}
-		
+
 	[TestMethod]
 	public void GetEnumDescriptionFailTest()
 	{
 		TestEnum testEnum = TestEnum.NODESCRIPTION;
 		string description = testEnum.GetEnumDescription();
-		Assert.AreNotEqual(nameof(description), description);
+		description.Should().NotBeSameAs(nameof(description));
 	}
 
 	[TestMethod]
@@ -28,7 +31,7 @@ public class EnumeratorExtensionsTests
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
 		string name = testEnum.GetEnumName();
-		Assert.AreEqual(nameof(name), name);
+		name.Should().Be(nameof(name));
 	}
 
 	[TestMethod]
@@ -36,7 +39,7 @@ public class EnumeratorExtensionsTests
 	{
 		TestEnum testEnum = TestEnum.NONAME;
 		string name = testEnum.GetEnumName();
-		Assert.AreNotEqual(nameof(name), name);
+		name.Should().NotBeSameAs(nameof(name));
 	}
 
 	[TestMethod]
@@ -44,7 +47,7 @@ public class EnumeratorExtensionsTests
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
 		string shortname = testEnum.GetEnumShortName();
-		Assert.AreEqual(nameof(shortname), shortname);
+		shortname.Should().Be(nameof(shortname));
 	}
 
 	[TestMethod]
@@ -52,7 +55,7 @@ public class EnumeratorExtensionsTests
 	{
 		TestEnum testEnum = TestEnum.NOSHORTNAME;
 		string shortname = testEnum.GetEnumShortName();
-		Assert.AreNotEqual(nameof(shortname), shortname);
+		shortname.Should().NotBeSameAs(nameof(shortname));
 	}
 
 	[TestMethod]
@@ -60,15 +63,15 @@ public class EnumeratorExtensionsTests
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
 		DisplayAttribute? displayAttribute = testEnum.GetDisplayAttribute();
-		Assert.IsNotNull(displayAttribute);
+		displayAttribute.Should().NotBeNull();
 	}
 
 	[TestMethod]
 	public void GetEnumDisplayAttributeFailTest()
 	{
 		TestEnum testEnum = TestEnum.NODISPLAYATTRIBUTE;
-		DisplayAttribute? displayAttribute = testEnum.GetDisplayAttribute();		
-		Assert.IsNull(displayAttribute);
+		DisplayAttribute? displayAttribute = testEnum.GetDisplayAttribute();
+		displayAttribute.Should().BeNull();
 	}
 
 	[TestMethod]
@@ -76,8 +79,8 @@ public class EnumeratorExtensionsTests
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
 		List<TestEnum> enumList = testEnum.GetListFromEnum();
-		Assert.IsNotNull(enumList);
-		Assert.AreEqual(5, enumList.Count);
+		enumList.Should().NotBeNullOrEmpty();
+		enumList.Should().HaveCount(5);
 	}
 
 	private enum TestEnum

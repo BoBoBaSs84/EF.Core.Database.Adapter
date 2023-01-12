@@ -1,9 +1,9 @@
 ﻿using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.MasterData.Interfaces;
+using Database.Adapter.Repositories.Context.MasterData.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.Adapter.Repositories.MasterData;
+namespace Database.Adapter.Repositories.Context.MasterData;
 
 /// <summary>
 /// The day type repository class.
@@ -11,10 +11,10 @@ namespace Database.Adapter.Repositories.MasterData;
 /// <remarks>
 /// Inherits from the following class:
 /// <list type="bullet">
-/// <item>The <see cref="GenericRepository{TEntity}"/> class</item>
+/// <item>The <see cref="EnumeratorRepository{TEntity}"/> class</item>
 /// </list>
 /// </remarks>
-internal sealed class DayTypeRepository : GenericRepository<DayType>, IDayTypeRepository
+internal sealed class DayTypeRepository : EnumeratorRepository<DayType>, IDayTypeRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DayTypeRepository"/> class.

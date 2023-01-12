@@ -1,12 +1,15 @@
 ﻿using Database.Adapter.Infrastructure.Configurations;
 using Database.Adapter.Infrastructure.Exceptions;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using static Database.Adapter.Infrastructure.Statics;
 
 namespace Database.Adapter.Infrastructure.Tests.Configurations;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class ConfigurationTests
 {
 	private readonly Configuration configuration = new();
@@ -22,17 +25,14 @@ public class ConfigurationTests
 	}
 
 	[TestCleanup]
-	public void TestCleanup()
-	{
-		File.WriteAllText(configFilePath, configJson);
-	}
+	public void TestCleanup() => File.WriteAllText(configFilePath, configJson);
 
 	[TestMethod]
 	public void GetConnectionStringSuccessTest()
 	{
 		Configuration configuration = new();
 		string connectionString = configuration.GetConnectionString("MasterContext");
-		Assert.IsFalse(string.IsNullOrWhiteSpace(connectionString));
+		connectionString.Should().NotBeNullOrWhiteSpace();
 	}
 
 	[TestMethod]
@@ -40,6 +40,8 @@ public class ConfigurationTests
 	{
 		Configuration configuration = new();
 		configuration.Load();
+		configuration.SqlServers.Should().NotBeNullOrEmpty();
+		configuration.Contexts.Should().NotBeNullOrEmpty();
 	}
 
 	[TestMethod]
@@ -53,7 +55,7 @@ public class ConfigurationTests
 		}
 		catch (Exception ex)
 		{
-			Assert.IsInstanceOfType(ex, typeof(ConfigurationException));
+			ex.Should().BeOfType<ConfigurationException>();
 		}
 	}
 
@@ -71,7 +73,7 @@ public class ConfigurationTests
 		}
 		catch (Exception ex)
 		{
-			Assert.IsInstanceOfType(ex, typeof(ConfigurationException));
+			ex.Should().BeOfType<ConfigurationException>();
 		}
 	}
 
@@ -89,7 +91,7 @@ public class ConfigurationTests
 		}
 		catch (Exception ex)
 		{
-			Assert.IsInstanceOfType(ex, typeof(ConfigurationException));
+			ex.Should().BeOfType<ConfigurationException>();
 		}
 	}
 }

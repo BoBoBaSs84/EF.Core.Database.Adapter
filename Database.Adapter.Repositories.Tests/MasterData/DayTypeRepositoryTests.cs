@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Transactions;
 
-namespace Database.Adapter.Repositories.Tests.MasterData;
+namespace Database.Adapter.Repositories.MasterData.Tests;
 
 [TestClass]
 [SuppressMessage("Globalization", "CA1309", Justification = "Not supported.")]
@@ -75,7 +75,7 @@ public class DayTypeRepositoryTests
 	public void CreateRangeTest()
 	{
 		IEnumerable<DayType> newDayTypes = GetDayTypes();
-		masterDataRepository.DayTypeRepository.CreateRange(newDayTypes);
+		masterDataRepository.DayTypeRepository.Create(newDayTypes);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(newDayTypes.Count(), commit);
 	}
@@ -123,7 +123,7 @@ public class DayTypeRepositoryTests
 	{
 		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 2);
 		int dayTypesCount = dayTypes.Count();
-		masterDataRepository.DayTypeRepository.DeleteRange(dayTypes);
+		masterDataRepository.DayTypeRepository.Delete(dayTypes);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(dayTypesCount, commit);
 	}
@@ -145,7 +145,7 @@ public class DayTypeRepositoryTests
 		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 10);
 		foreach(DayType dayType in dayTypes)
 			dayType.Description = GenerateRandomAlphanumericString(100);
-		masterDataRepository.DayTypeRepository.UpdateRange(dayTypes);
+		masterDataRepository.DayTypeRepository.Update(dayTypes);
 		int commit = masterDataRepository.CommitChanges();
 		Assert.AreEqual(dayTypes.Count(), commit);
 	}

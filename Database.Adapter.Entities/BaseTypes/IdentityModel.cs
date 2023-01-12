@@ -20,11 +20,11 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
-	[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	[XmlAttribute(AttributeName = nameof(Id))]
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
-	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp))]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>

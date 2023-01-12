@@ -1,18 +1,12 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Database.Adapter.Repositories.BaseTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories.Interfaces;
-using System.Transactions;
-using Database.Adapter.Entities.MasterData;
-using static Database.Adapter.Entities.Enumerators.DayType;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using System.Transactions;
+using static Database.Adapter.Entities.Enumerators.DayType;
 
-namespace Database.Adapter.Repositories.BaseTypes.Tests;
+namespace Database.Adapter.Repositories.Tests.BaseTypes;
 
 [TestClass()]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
@@ -274,7 +268,7 @@ public class GenericRepositoryTests
 	private static CalendarDay GetCalendarDay(int dayToAdd = 0) => new()
 	{
 		Date = GetDateTime(dayToAdd),
-		DayTypeId = (GetDateTime(dayToAdd).DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday) ? (int)WEEKENDDAY : (int)WEEKDAY
+		DayTypeId = GetDateTime(dayToAdd).DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday ? (int)WEEKENDDAY : (int)WEEKDAY
 	};
 
 	private static IEnumerable<CalendarDay> GetCalendarDays(int daysToAdd = 0)

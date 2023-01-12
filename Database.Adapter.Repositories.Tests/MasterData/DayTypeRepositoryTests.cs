@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Transactions;
 
-namespace Database.Adapter.Repositories.MasterData.Tests;
+namespace Database.Adapter.Repositories.Tests.MasterData;
 
 [TestClass]
 [SuppressMessage("Globalization", "CA1309", Justification = "Not supported.")]
@@ -48,7 +48,7 @@ public class DayTypeRepositoryTests
 		Assert.IsNotNull(dayType);
 		Assert.AreEqual(dayTypeName, dayType.Name);
 	}
-	
+
 	[TestMethod]
 	public void GetManyByConditionTest()
 	{
@@ -143,7 +143,7 @@ public class DayTypeRepositoryTests
 	public void UpdateRangeTest()
 	{
 		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetManyByCondition(x => x.Id > 10);
-		foreach(DayType dayType in dayTypes)
+		foreach (DayType dayType in dayTypes)
 			dayType.Description = GenerateRandomAlphanumericString(100);
 		masterDataRepository.DayTypeRepository.Update(dayTypes);
 		int commit = masterDataRepository.CommitChanges();

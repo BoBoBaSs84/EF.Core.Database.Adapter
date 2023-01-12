@@ -1,11 +1,12 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 using static Database.Adapter.Entities.Constants.XmlConstants;
 
-namespace Database.Adapter.Entities.MasterData;
+namespace Database.Adapter.Entities.Contexts.MasterData;
 
 /// <summary>
 /// The calendar entity class.
@@ -19,7 +20,7 @@ public sealed class CalendarDay : IdentityModel
 {
 	/// <summary>The <see cref="Date"/> property.</summary>
 	[Column(TypeName = SqlDataType.DATE)]
-	[XmlElement(DataType = XmlDataType.DATE, ElementName = nameof(Date))]
+	[XmlAttribute(AttributeName = nameof(Date), DataType = XmlDataType.DATE, Form = XmlSchemaForm.Qualified)]
 	public DateTime Date { get; set; } = default!;
 	/// <summary>The <see cref="Year"/> property.</summary>
 	[XmlIgnore]

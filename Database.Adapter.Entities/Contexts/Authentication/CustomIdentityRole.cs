@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 
-namespace Database.Adapter.Entities.Authentication;
+namespace Database.Adapter.Entities.Contexts.Authentication;
 
 /// <summary>
 /// The <see cref="CustomIdentityRole"/> class inherits from <see cref="IdentityRole{TKey}"/>

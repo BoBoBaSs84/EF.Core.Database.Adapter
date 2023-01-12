@@ -1,10 +1,9 @@
-﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Repositories.Context;
-using Database.Adapter.Repositories.Context.Interfaces;
+﻿using Database.Adapter.Base.Tests.Helpers;
+using Database.Adapter.Entities.Contexts.MasterData;
+using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using Database.Adapter.Base.Tests.Helpers;
 using System.Transactions;
 
 namespace Database.Adapter.Repositories.Tests.MasterData;

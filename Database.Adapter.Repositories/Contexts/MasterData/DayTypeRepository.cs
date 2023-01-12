@@ -1,9 +1,9 @@
-﻿using Database.Adapter.Entities.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.Context.MasterData.Interfaces;
+using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.Adapter.Repositories.Context.MasterData;
+namespace Database.Adapter.Repositories.Contexts.MasterData;
 
 /// <summary>
 /// The day type repository class.

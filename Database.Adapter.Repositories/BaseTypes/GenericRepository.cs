@@ -57,8 +57,16 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	}
 
 	/// <inheritdoc/>
-	public TEntity GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false) =>
-		!trackChanges ? dbSet.Where(expression).AsNoTracking().SingleOrDefault()! : dbSet.Where(expression).SingleOrDefault()!;
+	public TEntity GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false, params string[] includeProperties)
+	{
+		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		if (expression is not null)
+			query = query.Where(expression);
+		if (includeProperties.Length > 0)
+			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
+		return query.SingleOrDefault()!;
+	}
+
 
 	/// <inheritdoc/>
 	public TEntity GetById(Guid id) => dbSet.Find(id)!;

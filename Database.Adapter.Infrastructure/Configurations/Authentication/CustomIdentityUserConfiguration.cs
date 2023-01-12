@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

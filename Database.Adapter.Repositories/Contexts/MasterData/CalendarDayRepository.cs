@@ -1,10 +1,10 @@
-﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Repositories.Extensions;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories.BaseTypes;
+using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
+using Database.Adapter.Repositories.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Database.Adapter.Repositories.Context.MasterData.Interfaces;
 
-namespace Database.Adapter.Repositories.Context.MasterData;
+namespace Database.Adapter.Repositories.Contexts.MasterData;
 
 /// <summary>
 /// The calendar day repository class.

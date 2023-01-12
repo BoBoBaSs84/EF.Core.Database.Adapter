@@ -1,4 +1,5 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.XmlConstants;
 
@@ -17,7 +18,8 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class FullAuditedModel : AuditedModel, IActivatableModel
 {
 	/// <inheritdoc/>
-	[XmlElement(DataType = XmlDataType.BOOL, ElementName = nameof(IsActive), Namespace = XmlNameSpaces.ACTIVATABLE_NAMESPACE)]
+	[XmlAttribute(AttributeName = nameof(IsActive), DataType = XmlDataType.BOOL,
+		Form = XmlSchemaForm.Qualified, Namespace = XmlNameSpaces.ACTIVATABLE_NAMESPACE)]
 	public bool IsActive { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeIsActive() => IsActive is false;

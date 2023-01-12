@@ -4,76 +4,86 @@ using System.Reflection;
 namespace Database.Adapter.Entities.Extensions;
 
 /// <summary>
-/// 
+/// The enumerator extensions class.
 /// </summary>
 public static class EnumeratorExtensions
 {
 	/// <summary>
-	/// The <see cref="GetEnumDescription{T}(T)"/> extension method will try to get the <see cref="DisplayAttribute.Description"/>.
+	/// Should get the description of an enumerator.
 	/// </summary>
 	/// <remarks>
 	/// The <see cref="DisplayAttribute.GetDescription"/> method is used, so strings will be returned localized.
 	/// </remarks>
-	/// <typeparam name="T">The enmuerator itself.</typeparam>
+	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute.Description"/> or or an empty string.</returns>
-	public static string GetEnumDescription<T>(this T enumValue) where T : Enum
+	public static string GetEnumDescription<TEnum>(this TEnum enumValue) where TEnum : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
 		return attribute is not null ? attribute.GetDescription() ?? string.Empty : string.Empty;
 	}
 
 	/// <summary>
-	/// The <see cref="GetEnumName{T}(T)"/> extension method will try to get the <see cref="DisplayAttribute.Name"/>.
+	/// Should get the name of an enumerator.
 	/// </summary>
 	/// <remarks>
 	/// The <see cref="DisplayAttribute.GetName"/> method is used, so strings will be returned localized.
 	/// </remarks>
-	/// <typeparam name="T">The enmuerator itself.</typeparam>
+	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute.Name"/> or or an empty string.</returns>
-	public static string GetEnumName<T>(this T enumValue) where T : Enum
+	public static string GetEnumName<TEnum>(this TEnum enumValue) where TEnum : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
 		return attribute is not null ? attribute.GetName() ?? string.Empty : string.Empty;
 	}
 
 	/// <summary>
-	/// The <see cref="GetEnumShortName{T}(T)"/> extension method will try to get the <see cref="DisplayAttribute.ShortName"/>.
+	/// Should get the short name of an enumerator.
 	/// </summary>
 	/// <remarks>
 	/// The <see cref="DisplayAttribute.GetShortName"/> method is used, so strings will be returned localized.
 	/// </remarks>
-	/// <typeparam name="T">The enmuerator itself.</typeparam>
+	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute.ShortName"/> or an empty string.</returns>
-	public static string GetEnumShortName<T>(this T enumValue) where T : Enum
+	public static string GetEnumShortName<TEnum>(this TEnum enumValue) where TEnum : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
 		return attribute is not null ? attribute.GetShortName() ?? string.Empty : string.Empty;
 	}
 
 	/// <summary>
-	/// The <see cref="GetDisplayAttribute{T}(T)"/> method should return the <see cref="DisplayAttribute"/> from the enum.
+	/// The <see cref="GetListFromEnum{T}(T)"/> method should return a list of all enumerators of the given type of enum.
+	/// </summary>
+	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
+	/// <param name="enumValue">The value of the enumerator.</param>
+	/// <returns>A list of all enums of the provided type.</returns>
+	public static List<TEnum> GetListFromEnum<TEnum>(this TEnum enumValue) where TEnum : Enum
+		=> Enum.GetValues(enumValue.GetType()).Cast<TEnum>().ToList();
+
+	/// <summary>
+	/// Should return the field metadata of an enumerator.
+	/// </summary>
+	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
+	/// <param name="enumValue">The value of the enumerator.</param>
+	/// <returns>The field metadata.</returns>
+	public static FieldInfo GetFieldInfo<TEnum>(this TEnum enumValue)
+		where TEnum : Enum =>
+		enumValue.GetType().GetField(enumValue.ToString())!;
+
+	/// <summary>
+	/// Should get the display attribute of an enumerator.
 	/// </summary>
 	/// <remarks>
 	/// Will return null if the enum is not decorated with the <see cref="DisplayAttribute"/>.
 	/// </remarks>
-	/// <typeparam name="T">The enmuerator itself.</typeparam>
+	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute"/> or <see langword="null"/>.</returns>
-	internal static DisplayAttribute? GetDisplayAttribute<T>(this T enumValue) where T : Enum
+	public static DisplayAttribute? GetDisplayAttribute<TEnum>(this TEnum enumValue) where TEnum : Enum
 	{
-		FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+		FieldInfo? fieldInfo = enumValue.GetFieldInfo();
 		return fieldInfo is not null ? fieldInfo.GetCustomAttribute<DisplayAttribute>() : default;
 	}
-
-	/// <summary>
-	/// The <see cref="GetListFromEnum{T}(T)"/> method should return a list of all enumerators of the given type of enum.
-	/// </summary>
-	/// <typeparam name="T">The enmuerator itself.</typeparam>
-	/// <param name="enumValue">The value of the enumerator.</param>
-	/// <returns>A list of all enums of the provided type.</returns>
-	public static List<T> GetListFromEnum<T>(this T enumValue) where T : Enum
-		=> Enum.GetValues(enumValue.GetType()).Cast<T>().ToList();
 }

@@ -17,7 +17,7 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class ActivatableModel : IdentityModel, IActivatableModel
 {
 	/// <inheritdoc/>
-	[XmlElement(DataType = XmlDataType.BOOL, ElementName = nameof(IsActive))]
+	[XmlAttribute(AttributeName = nameof(IsActive), DataType = XmlDataType.BOOL, Form = System.Xml.Schema.XmlSchemaForm.Qualified)]
 	public bool IsActive { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeIsActive() => IsActive is false;

@@ -1,4 +1,5 @@
-﻿using Database.Adapter.Entities.Enumerators;
+﻿using Database.Adapter.Base.Tests.Helpers;
+using Database.Adapter.Entities.Enumerators;
 using Database.Adapter.Entities.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -53,10 +54,7 @@ public class DayTypeTests
 	{
 		List<DayType> enumList = dayType.GetListFromEnum();
 		foreach (DayType e in enumList)
-		{
-			DisplayAttribute? displayAttribute = e.GetDisplayAttribute();
-			displayAttribute.Should().NotBeNull();
-		}
+			AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();
 	}
 
 	[DataTestMethod]

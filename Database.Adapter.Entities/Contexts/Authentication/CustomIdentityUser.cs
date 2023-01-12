@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 
-namespace Database.Adapter.Entities.Authentication;
+namespace Database.Adapter.Entities.Contexts.Authentication;
 
 /// <summary>
 /// The <see cref="CustomIdentityUser"/> class, inherits from <see cref="IdentityUser{TKey}"/>
@@ -30,7 +30,7 @@ public class CustomIdentityUser : IdentityUser<int>
 	[NotMapped]
 	public XElement XmlPreferencesWrapper
 	{
-		get => (Preferences is not null) ? XElement.Parse(Preferences) : default!;
+		get => Preferences is not null ? XElement.Parse(Preferences) : default!;
 		set => Preferences = value.ToString();
 	}
 }

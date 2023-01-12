@@ -1,8 +1,8 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.Context.Interfaces;
+using Database.Adapter.Repositories.Interfaces;
 
-namespace Database.Adapter.Repositories.Context;
+namespace Database.Adapter.Repositories;
 
 /// <summary>
 /// The master repository class.

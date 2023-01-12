@@ -27,7 +27,8 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -82,7 +83,8 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Week")
                         .ValueGeneratedOnAddOrUpdate()
@@ -134,7 +136,8 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
             modelBuilder.Entity("Database.Adapter.Entities.MasterData.DayType", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
@@ -162,7 +165,8 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id");
 

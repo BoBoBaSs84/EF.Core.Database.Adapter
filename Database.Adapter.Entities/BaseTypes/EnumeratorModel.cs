@@ -25,11 +25,11 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class EnumeratorModel : IIdentityModel, IConcurrencyModel, IActivatableModel, IEnumeratorModel
 {
 	/// <inheritdoc/>
-	[Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.None)]
 	[XmlAttribute(AttributeName = nameof(Id), DataType = XmlDataType.INT)]
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
-	[Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp), Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>

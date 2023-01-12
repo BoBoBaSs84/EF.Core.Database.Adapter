@@ -21,6 +21,7 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
@@ -29,7 +30,6 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
@@ -52,6 +52,7 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(year,[Date]))", stored: true),
                     Month = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(month,[Date]))", stored: true),
@@ -71,8 +72,7 @@ namespace Database.Adapter.Infrastructure.Migrations.MasterData
                     PeriodStart = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart")
                 },
                 constraints: table =>
                 {

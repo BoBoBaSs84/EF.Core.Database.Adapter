@@ -1,4 +1,5 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.XmlConstants;
 
@@ -17,9 +18,11 @@ namespace Database.Adapter.Entities.BaseTypes;
 public abstract class AuditedModel : IdentityModel, IAuditedModel
 {
 	/// <inheritdoc/>
+	[Column(Order = 3)]
 	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(CreatedBy))]
 	public int CreatedBy { get; set; } = default;
 	/// <inheritdoc/>
+	[Column(Order = 4)]
 	[XmlElement(DataType = XmlDataType.INT, ElementName = nameof(ModifiedBy))]
 	public int? ModifiedBy { get; set; } = default!;
 	/// <inheritdoc/>

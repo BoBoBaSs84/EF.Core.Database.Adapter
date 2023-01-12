@@ -1,8 +1,8 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
-using Database.Adapter.Repositories.MasterData.Interfaces;
+using Database.Adapter.Repositories.Context.MasterData.Interfaces;
 
-namespace Database.Adapter.Repositories.Interfaces;
+namespace Database.Adapter.Repositories.Context.Interfaces;
 
 /// <summary>
 /// The master data repository manager interface.

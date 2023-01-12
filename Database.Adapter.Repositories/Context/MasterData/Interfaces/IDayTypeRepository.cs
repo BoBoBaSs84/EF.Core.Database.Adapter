@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.MasterData;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
 
-namespace Database.Adapter.Repositories.MasterData.Interfaces;
+namespace Database.Adapter.Repositories.Context.MasterData.Interfaces;
 
 /// <summary>
 /// The day type repository interface.
@@ -9,9 +9,9 @@ namespace Database.Adapter.Repositories.MasterData.Interfaces;
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IGenericRepository{TEntity}"/> interface. The entity is <see cref="DayType"/>.</item>
+/// <item>The <see cref="IEnumeratorRepository{TEntity}"/> interface.</item>
 /// </list>
 /// </remarks>
-public interface IDayTypeRepository : IGenericRepository<DayType>
+public interface IDayTypeRepository : IEnumeratorRepository<DayType>
 {
 }

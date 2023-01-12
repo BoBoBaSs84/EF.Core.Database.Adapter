@@ -1,5 +1,6 @@
 ﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Repositories.Interfaces;
+using Database.Adapter.Repositories.Context;
+using Database.Adapter.Repositories.Context.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -224,9 +225,42 @@ public class GenericRepositoryTests
 		dbCalendarDay.Day.Should().Be(calenderDay);
 	}
 
-
 	[TestMethod]
 	public void UpdateTest()
+	{
+		int calendarDayId = 12;
+		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(
+			expression: x => x.Id.Equals(calendarDayId)
+			);
+
+		dbCalendarDay.Date = GetDateTime();
+		masterDataRepository.CalendarRepository.Update(dbCalendarDay);
+		masterDataRepository.CommitChanges();
+		dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+
+		dbCalendarDay.Should().NotBeNull();
+		dbCalendarDay.Date.Should().Be(GetDateTime());
+	}
+
+	[TestMethod]
+	public void UpdateManyTest()
+	{
+		int calendarYear = 2020,
+			calendarMonth = 12;
+
+		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth)
+			);
+		foreach (CalendarDay dbCalendarDay in dbCalendarDays.Where(x => x.Day.Equals(25) || x.Day.Equals(26)))
+			dbCalendarDay.DayTypeId = (int)HOLIDAY;
+		masterDataRepository.CalendarRepository.Update(dbCalendarDays);
+		int commit = masterDataRepository.CommitChanges();
+
+		commit.Should().Be(31);
+	}
+
+	[TestMethod]
+	public void UpdateTrackChangesTest()
 	{
 		int calendarDayId = 12;
 
@@ -243,7 +277,7 @@ public class GenericRepositoryTests
 	}
 
 	[TestMethod]
-	public void UpdateManyTest()
+	public void UpdateManyTrackChangesTest()
 	{
 		int calendarYear = 2020,
 			calendarMonth = 12;

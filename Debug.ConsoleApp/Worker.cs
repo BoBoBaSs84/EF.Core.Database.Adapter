@@ -1,6 +1,6 @@
 using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Repositories;
-using Database.Adapter.Repositories.Interfaces;
+using Database.Adapter.Repositories.Context;
+using Database.Adapter.Repositories.Context.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -22,7 +22,7 @@ public class Worker : BackgroundService
 		while (!stoppingToken.IsCancellationRequested)
 		{
 
-			CalendarDay calendarDay = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(new(2023,1,10)));
+			CalendarDay calendarDay = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(new(2023, 1, 10)));
 
 			_logger.LogInformation("Worker running at: {time} - {day}", DateTimeOffset.Now, calendarDay.WeekDayName);
 

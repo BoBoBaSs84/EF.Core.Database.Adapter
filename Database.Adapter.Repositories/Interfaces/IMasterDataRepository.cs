@@ -10,7 +10,7 @@ namespace Database.Adapter.Repositories.Interfaces;
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IUnitOfWork{TContext}"/>(<see cref="MasterDataContext"/>) interface.</item>
+/// <item>The <see cref="IUnitOfWork{TContext}"/> interface</item>
 /// </list>
 /// </remarks>
 public interface IMasterDataRepository : IUnitOfWork<MasterDataContext>

@@ -10,7 +10,10 @@ namespace Database.Adapter.Repositories;
 /// The master data repository manager class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="UnitOfWork{TContext}"/> class and implements the interface <see cref="IMasterDataRepository"/>.
+/// Inherits from the <see cref="UnitOfWork{TContext}"/> class and implements the interfaces:
+/// <list type="bullet">
+/// <item>The <see cref="IMasterDataRepository"/> interface</item>
+/// </list>
 /// </remarks>
 public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
 {
@@ -18,7 +21,7 @@ public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMaste
 	private readonly Lazy<IDayTypeRepository> lazyDayTypeRepository;
 
 	/// <summary>
-	/// The master data repository manager standard constructor.
+	/// Initializes a new instance of the <see cref="MasterDataRepository"/> class.
 	/// </summary>
 	public MasterDataRepository()
 	{

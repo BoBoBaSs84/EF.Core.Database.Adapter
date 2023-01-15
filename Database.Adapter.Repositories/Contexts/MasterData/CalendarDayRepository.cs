@@ -10,9 +10,9 @@ namespace Database.Adapter.Repositories.Contexts.MasterData;
 /// The calendar day repository class.
 /// </summary>
 /// <remarks>
-/// Inherits from the following class:
+/// Inherits from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="GenericRepository{TEntity}"/> class</item>
+/// <item>The <see cref="ICalendarDayRepository"/> interface</item>
 /// </list>
 /// </remarks>
 internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, ICalendarDayRepository
@@ -20,7 +20,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	/// <summary>
 	/// Initializes a new instance of the <see cref="CalendarDayRepository"/> class.
 	/// </summary>
-	/// <param name="dbContext"></param>
+	/// <param name="dbContext">The database context.</param>
 	public CalendarDayRepository(DbContext dbContext) : base(dbContext)
 	{
 	}

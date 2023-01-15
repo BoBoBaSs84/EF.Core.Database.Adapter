@@ -1,3 +1,4 @@
+using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
@@ -12,11 +13,13 @@ public class Worker : BackgroundService
 {
 	private readonly ILogger<Worker> _logger;
 	private readonly IMasterDataRepository masterDataRepository;
+	private readonly IAuthenticationRepository authenticationRepository;
 
 	public Worker(ILogger<Worker> logger)
 	{
 		_logger = logger;
 		masterDataRepository = new MasterDataRepository();
+		authenticationRepository = new AuthenticationRepository();
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)

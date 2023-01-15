@@ -24,12 +24,13 @@ public static class RandomHelper
 	public static long GetLong(long min, long max) => Random.NextInt64(min, max);
 	public static string GetString() => RandomString();
 	public static string GetString(int maxChars) => RandomString(maxChars);
+	public static string GetString(int maxChars, string pattern) => RandomString(maxChars, pattern);
 
-	private static string RandomString(int length = 10)
+	private static string RandomString(int length = 10, string pattern = CharsOnly)
 	{
 		StringBuilder stringBuilder = new();
 		for (int i = 0; i < length; i++)
-			stringBuilder.Append(AlphaNumericChars[Random.Next(AlphaNumericChars.Length)]);
+			stringBuilder.Append(pattern[Random.Next(pattern.Length)]);
 		return stringBuilder.ToString();
 	}
 }

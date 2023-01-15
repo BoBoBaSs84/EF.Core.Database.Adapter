@@ -196,6 +196,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<byte[]>("Picture")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Preferences")
                         .HasColumnType("xml");
 

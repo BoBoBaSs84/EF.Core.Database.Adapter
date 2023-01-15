@@ -21,9 +21,11 @@ public class User : IdentityUser<int>
 	/// <summary>The <see cref="DateOfBirth"/> property.</summary>
 	[Column(TypeName = SqlDataType.DATE)]
 	public DateTime? DateOfBirth { get; set; } = default!;
-	/// <summary>The <see cref="Preferences"/> property.</summary>	
+	/// <summary>The <see cref="Preferences"/> property.</summary>
 	[Column(TypeName = SqlDataType.XML)]
 	public string? Preferences { get; set; } = default!;
+	/// <summary>The <see cref="Picture"/> property.</summary>
+	public byte[]? Picture { get; set; }
 	/// <summary>The <see cref="XmlPreferencesWrapper"/> property.</summary>
 	[NotMapped]
 	public XElement XmlPreferencesWrapper

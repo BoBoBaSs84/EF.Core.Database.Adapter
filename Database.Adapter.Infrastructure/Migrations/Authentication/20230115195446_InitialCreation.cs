@@ -54,6 +54,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     LastName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "date", nullable: true),
                     Preferences = table.Column<string>(type: "xml", nullable: true),
+                    Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")

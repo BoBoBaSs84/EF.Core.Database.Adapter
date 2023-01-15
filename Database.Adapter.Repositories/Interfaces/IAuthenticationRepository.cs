@@ -1,6 +1,5 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
-using Database.Adapter.Repositories.Contexts.Authentication.Interfaces;
 
 namespace Database.Adapter.Repositories.Interfaces;
 
@@ -15,6 +14,4 @@ namespace Database.Adapter.Repositories.Interfaces;
 /// </remarks>
 public interface IAuthenticationRepository : IUnitOfWork<AuthenticationContext>
 {
-	/// <summary>The user repository interface.</summary>
-	IUserRepository UserRepository { get; }
 }

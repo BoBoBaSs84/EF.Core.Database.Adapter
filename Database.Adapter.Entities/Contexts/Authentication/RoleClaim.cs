@@ -3,6 +3,8 @@
 namespace Database.Adapter.Entities.Contexts.Authentication;
 
 /// <inheritdoc/>
-public sealed class RoleClaim : IdentityRoleClaim<int>
+public class RoleClaim : IdentityRoleClaim<int>
 {
+	/// <summary>The <see cref="Role"/> property.</summary>
+	public virtual Role Role { get; set; } = default!;
 }

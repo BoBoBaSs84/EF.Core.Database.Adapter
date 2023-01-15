@@ -3,6 +3,8 @@
 namespace Database.Adapter.Entities.Contexts.Authentication;
 
 /// <inheritdoc/>
-public sealed class UserClaim : IdentityUserClaim<int>
+public class UserClaim : IdentityUserClaim<int>
 {
+	/// <summary>The <see cref="User"/> property.</summary>
+	public virtual User User { get; set; } = default!;
 }

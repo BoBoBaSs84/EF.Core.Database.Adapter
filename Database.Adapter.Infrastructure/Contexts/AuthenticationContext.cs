@@ -3,8 +3,6 @@ using Database.Adapter.Infrastructure.Extensions;
 using Database.Adapter.Infrastructure.Factories;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
-using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Infrastructure.Contexts;
 
@@ -34,13 +32,10 @@ public sealed class AuthenticationContext : IdentityDbContext<User, Role, int, U
 	}
 
 	/// <inheritdoc/>
-	[SuppressMessage("Style", "IDE0058", Justification = "Not needed here.")]
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
-		builder.HasDefaultSchema(SqlSchema.IDENTITY);
+		base.OnModelCreating(builder);
 
 		builder.ApplyConfigurationsForContextEntities();
-
-		base.OnModelCreating(builder);
 	}
 }

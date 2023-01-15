@@ -29,12 +29,14 @@ internal sealed class UserRepository : GenericRepository<User>, IUserRepository
 	public User GetByEmail(string email, bool trackchanges = false) =>
 		GetByCondition(
 			expression: x => x.Email.Equals(email),
-			trackChanges: trackchanges
+			trackChanges: trackchanges,
+			includeProperties: new[] { nameof(User.UserRoles), $"{nameof(User.UserRoles)}.{nameof(UserRole.Role)}" }
 			);
 	/// <inheritdoc/>
 	public User GetByUserName(string userName, bool trackchanges = false) =>
 		GetByCondition(
-			expression: x=>x.UserName.Equals(userName),
-			trackChanges: trackchanges
+			expression: x => x.UserName.Equals(userName),
+			trackChanges: trackchanges,
+			includeProperties: new[] { nameof(User.UserRoles), $"{nameof(User.UserRoles)}.{nameof(UserRole.Role)}" }
 			);
 }

@@ -17,7 +17,6 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("identity")
                 .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -47,6 +46,16 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
@@ -54,7 +63,19 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", "identity");
+                    b.ToTable("Role", "identity");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("Role", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.RoleClaim", b =>
@@ -71,6 +92,16 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
@@ -78,7 +109,19 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", "identity");
+                    b.ToTable("RoleClaim", "identity");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("RoleClaim", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.User", b =>
@@ -137,6 +180,16 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -166,7 +219,19 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", "identity");
+                    b.ToTable("User", "identity");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("User", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserClaim", b =>
@@ -183,6 +248,16 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -190,7 +265,19 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", "identity");
+                    b.ToTable("UserClaim", "identity");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("UserClaim", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserLogin", b =>
@@ -200,6 +287,16 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.Property<string>("ProviderKey")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -211,7 +308,19 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", "identity");
+                    b.ToTable("UserLogin", "identity");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("UserLogin", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserRole", b =>
@@ -222,11 +331,33 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", "identity");
+                    b.ToTable("UserRole", "identity");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("UserRole", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserToken", b =>
@@ -240,63 +371,115 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", "identity");
+                    b.ToTable("UserToken", "identity");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("UserToken", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.RoleClaim", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.Role", null)
-                        .WithMany()
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.Role", "Role")
+                        .WithMany("RoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserClaim", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", null)
-                        .WithMany()
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserLogin", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", null)
-                        .WithMany()
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
+                        .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserRole", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.Role", null)
-                        .WithMany()
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.Role", "Role")
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", null)
-                        .WithMany()
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserToken", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", null)
-                        .WithMany()
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
+                        .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.Role", b =>
+                {
+                    b.Navigation("RoleClaims");
+
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.User", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("Tokens");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,10 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 
 /// <inheritdoc/>
-internal sealed class CustomIdentityRoleConfiguration : IEntityTypeConfiguration<CustomIdentityRole>
+internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaim>
 {
-	/// <inheritdoc/>
-	public void Configure(EntityTypeBuilder<CustomIdentityRole> builder)
+	public void Configure(EntityTypeBuilder<RoleClaim> builder)
 	{
 	}
 }

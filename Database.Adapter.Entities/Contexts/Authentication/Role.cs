@@ -4,10 +4,8 @@ using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Entities.Contexts.Authentication;
 
-/// <summary>
-/// The <see cref="CustomIdentityRole"/> class inherits from <see cref="IdentityRole{TKey}"/>
-/// </summary>
-public class CustomIdentityRole : IdentityRole<int>
+/// <inheritdoc/>
+public sealed class Role : IdentityRole<int>
 {
 	/// <summary>The <see cref="Description"/> property.</summary>
 	[MaxLength(SqlStringLength.MAX_LENGHT_256)]

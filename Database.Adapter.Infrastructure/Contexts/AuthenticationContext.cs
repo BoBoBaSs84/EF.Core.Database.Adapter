@@ -12,10 +12,10 @@ namespace Database.Adapter.Infrastructure.Contexts;
 /// The authentication database context class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="IdentityDbContext{TUser, TRole, TKey}"/> class.
+/// Inherits from the <see cref="IdentityDbContext{TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken}"/> class.
 /// </remarks>
 
-public sealed class AuthenticationContext : IdentityDbContext<CustomIdentityUser, CustomIdentityRole, int>
+public sealed class AuthenticationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
 	/// <summary>
 	/// The standard parameterless constructor.

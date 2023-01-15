@@ -6,10 +6,8 @@ using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Entities.Contexts.Authentication;
 
-/// <summary>
-/// The <see cref="CustomIdentityUser"/> class, inherits from <see cref="IdentityUser{TKey}"/>
-/// </summary>
-public class CustomIdentityUser : IdentityUser<int>
+/// <inheritdoc/>
+public sealed class User : IdentityUser<int>
 {
 	/// <summary>The <see cref="FirstName"/> property.</summary>
 	[MaxLength(SqlStringLength.MAX_LENGHT_64)]

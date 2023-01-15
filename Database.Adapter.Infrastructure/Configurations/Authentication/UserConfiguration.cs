@@ -5,10 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 
 /// <inheritdoc/>
-internal sealed class CustomIdentityUserConfiguration : IEntityTypeConfiguration<CustomIdentityUser>
-{
-	/// <inheritdoc/>
-	public void Configure(EntityTypeBuilder<CustomIdentityUser> builder)
+internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
+{	
+	public void Configure(EntityTypeBuilder<User> builder)
 	{
 	}
 }

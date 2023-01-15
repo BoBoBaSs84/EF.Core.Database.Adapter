@@ -1,6 +1,7 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using static Database.Adapter.Entities.Constants.XmlConstants;
 
@@ -21,11 +22,11 @@ public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
 	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	[XmlAttribute(AttributeName = nameof(Id))]
+	[XmlAttribute(AttributeName = nameof(Id), Form = XmlSchemaForm.Qualified)]
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
 	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	[XmlElement(DataType = XmlDataType.BYTEARRAY, ElementName = nameof(Timestamp))]
+	[XmlAttribute(AttributeName = nameof(Timestamp), DataType = XmlDataType.BYTEARRAY, Form = XmlSchemaForm.Qualified)]
 	public byte[] Timestamp { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool ShouldSerializeTimestamp() => false;

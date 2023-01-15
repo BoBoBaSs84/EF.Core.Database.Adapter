@@ -2,18 +2,17 @@
 
 #nullable disable
 
-namespace Database.Adapter.Infrastructure.Migrations.Master
+namespace Database.Adapter.Infrastructure.Migrations.Master;
+
+public partial class InitialCreation : Migration
 {
-    public partial class InitialCreation : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+	protected override void Up(MigrationBuilder migrationBuilder)
+	{
 
-        }
+	}
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+	protected override void Down(MigrationBuilder migrationBuilder)
+	{
 
-        }
-    }
+	}
 }

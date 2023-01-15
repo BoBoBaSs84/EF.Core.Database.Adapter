@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Database.Adapter.Base.Tests\Database.Adapter.Base.Tests.csproj" />
 		<ProjectReference Include="..\Database.Adapter.Entities\Database.Adapter.Entities.csproj" />
 	</ItemGroup>
 

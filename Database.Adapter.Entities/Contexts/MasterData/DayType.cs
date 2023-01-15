@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
 using System.Xml.Serialization;
 
-namespace Database.Adapter.Entities.MasterData;
+namespace Database.Adapter.Entities.Contexts.MasterData;
 
 /// <summary>
 /// The day type enumerator entity type class.

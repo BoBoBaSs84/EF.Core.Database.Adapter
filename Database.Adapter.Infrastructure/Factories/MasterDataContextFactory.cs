@@ -2,7 +2,6 @@
 using Database.Adapter.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
 
 namespace Database.Adapter.Infrastructure.Factories;
 

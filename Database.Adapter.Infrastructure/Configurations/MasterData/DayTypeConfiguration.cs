@@ -1,5 +1,5 @@
-﻿using Database.Adapter.Entities.Extensions;
-using Database.Adapter.Entities.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
+using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

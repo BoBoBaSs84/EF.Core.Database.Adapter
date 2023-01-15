@@ -1,6 +1,6 @@
-﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Repositories.Context;
-using Database.Adapter.Repositories.Context.Interfaces;
+﻿using Database.Adapter.Base.Tests.Helpers;
+using Database.Adapter.Entities.Contexts.MasterData;
+using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -26,7 +26,17 @@ public class DayTypeRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetByNameTest()
+	public void GetByNameFailedTest()
+	{
+		string dayTypeName = RandomHelper.GetString(12);
+
+		DayType dayType = masterDataRepository.DayTypeRepository.GetByName(dayTypeName);
+
+		dayType.Should().BeNull();
+	}
+
+	[TestMethod]
+	public void GetByNameSuccessTest()
 	{
 		string dayTypeName = "Holiday";
 

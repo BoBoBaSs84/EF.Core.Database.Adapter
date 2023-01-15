@@ -57,8 +57,13 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// </summary>
 	/// <param name="expression">The search condition.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
-	/// <returns></returns>
-	TEntity GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);
+	/// <param name="includeProperties">Any other navigation properties to include when returning the entity.</param>
+	/// <returns>One entry of an entity.</returns>
+	TEntity GetByCondition(
+		Expression<Func<TEntity, bool>> expression,
+		bool trackChanges = false,
+		params string[] includeProperties
+		);
 	/// <summary>
 	/// Should delete an entry of an entity.
 	/// </summary>

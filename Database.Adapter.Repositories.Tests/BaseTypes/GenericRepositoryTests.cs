@@ -1,6 +1,5 @@
-﻿using Database.Adapter.Entities.MasterData;
-using Database.Adapter.Repositories.Context;
-using Database.Adapter.Repositories.Context.Interfaces;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
+using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -226,6 +225,25 @@ public class GenericRepositoryTests
 	}
 
 	[TestMethod]
+	public void GetByConditionWithInclude()
+	{
+		int calendarYear = 2020,
+			calendarMonth = 12,
+			calenderDay = 24;
+
+		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(
+			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth) && x.Day.Equals(calenderDay),
+			includeProperties: new[] { nameof(CalendarDay.DayType) }
+			);
+
+		dbCalendarDay.Should().NotBeNull();
+		dbCalendarDay.Year.Should().Be(calendarYear);
+		dbCalendarDay.Month.Should().Be(calendarMonth);
+		dbCalendarDay.Day.Should().Be(calenderDay);
+		dbCalendarDay.DayType.Should().NotBeNull();
+	}
+
+	[TestMethod]
 	public void UpdateTest()
 	{
 		int calendarDayId = 12;
@@ -295,7 +313,7 @@ public class GenericRepositoryTests
 
 	private static DateTime GetDateTime(int dayToAdd = 0)
 	{
-		DateTime newDateTime = new(2099, 1, 1);
+		DateTime newDateTime = new(2199, 1, 1);
 		return newDateTime.AddDays(dayToAdd);
 	}
 

@@ -31,7 +31,7 @@ public class InfrastructureBaseTests
 	public void DatabaseContextMustBeSealed()
 	{
 		ICollection<Type> contextTypes = GetContextTypes();
-		foreach(Type type in contextTypes)
+		foreach (Type type in contextTypes)
 			type.IsSealed.Should().BeTrue();
 	}
 

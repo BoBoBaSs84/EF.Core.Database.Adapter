@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Infrastructure.Contexts;

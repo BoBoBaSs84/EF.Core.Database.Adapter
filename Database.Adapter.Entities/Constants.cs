@@ -89,6 +89,7 @@ public static class Constants
 			XmlSerializerNamespaces namespaces = new();
 			namespaces.Add("ac", XmlNameSpaces.ACTIVATABLE_NAMESPACE);
 			namespaces.Add("ad", XmlNameSpaces.AUDITED_NAMESPACE);
+			namespaces.Add("at", XmlNameSpaces.ATTENDANCE_NAMESPACE);
 			namespaces.Add("cd", XmlNameSpaces.CALENDARDAY_NAMESPACE);
 			namespaces.Add("en", XmlNameSpaces.ENUMERATOR_NAMSPACE);
 			namespaces.Add("id", XmlNameSpaces.IDENTITY_NAMESPACE);
@@ -104,6 +105,8 @@ public static class Constants
 			public const string ACTIVATABLE_NAMESPACE = "http://Database.Adapter.Entities.org/Activatable";
 			/// <summary>The <see cref="ACTIVATABLE_NAMESPACE"/> constant.</summary>
 			public const string AUDITED_NAMESPACE = "http://Database.Adapter.Entities.org/Audited";
+			/// <summary>The <see cref="ATTENDANCE_NAMESPACE"/> constant.</summary>
+			public const string ATTENDANCE_NAMESPACE = "http://Database.Adapter.Entities.org/Attendance";
 			/// <summary>The <see cref="CALENDARDAY_NAMESPACE"/> constant.</summary>
 			public const string CALENDARDAY_NAMESPACE = "http://Database.Adapter.Entities.org/CalendarDay";
 			/// <summary>The <see cref="ENUMERATOR_NAMSPACE"/> constant.</summary>

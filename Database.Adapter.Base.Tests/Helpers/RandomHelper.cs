@@ -1,13 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using static Database.Adapter.Base.Tests.Constants;
 
 namespace Database.Adapter.Base.Tests.Helpers;
 
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTestHelper")]
 public static class RandomHelper
 {
-	private const string AlphaNumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
 	private static Random Random { get; } = new();
 	public static byte[] GetBytes(int length = 8)
 	{
@@ -25,12 +24,13 @@ public static class RandomHelper
 	public static long GetLong(long min, long max) => Random.NextInt64(min, max);
 	public static string GetString() => RandomString();
 	public static string GetString(int maxChars) => RandomString(maxChars);
+	public static string GetString(int maxChars, string pattern) => RandomString(maxChars, pattern);
 
-	private static string RandomString(int length = 10)
+	private static string RandomString(int length = 10, string pattern = CharsOnly)
 	{
 		StringBuilder stringBuilder = new();
 		for (int i = 0; i < length; i++)
-			stringBuilder.Append(AlphaNumeric[Random.Next(AlphaNumeric.Length)]);
+			stringBuilder.Append(pattern[Random.Next(pattern.Length)]);
 		return stringBuilder.ToString();
 	}
 }

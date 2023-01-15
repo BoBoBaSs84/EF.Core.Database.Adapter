@@ -46,7 +46,7 @@ public sealed class Configuration
 			string connectionString = string.Join(";", server, database, security, appName);
 			return connectionString;
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			string message = string.Format(CurrentCulture, Exception_Configuration_GetConnectionString, contextName);
 			throw new ConfigurationException(message, ex);
@@ -124,7 +124,7 @@ public sealed class Configuration
 		{
 			return Contexts.Single(x => x.Name.Equals(contextName, StringComparison.Ordinal));
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			string message = string.Format(Culture, Exception_Configuration_GetContextFailed);
 			throw new ConfigurationException(message, ex);
@@ -137,7 +137,7 @@ public sealed class Configuration
 		{
 			return SqlServers.Single(x => x.Environment.Equals(environment, StringComparison.Ordinal));
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			string message = string.Format(Culture, Exception_Configuration_GetGetSqlServerFailed);
 			throw new ConfigurationException(message, ex);

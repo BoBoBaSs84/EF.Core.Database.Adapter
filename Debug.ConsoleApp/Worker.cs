@@ -26,11 +26,6 @@ public class Worker : BackgroundService
 	{
 		while (!stoppingToken.IsCancellationRequested)
 		{
-			var user = authenticationRepository.UserRepository.GetByEmail("Test");
-
-
-
-
 			List<CalendarDay> calendarDaysByYear = masterDataRepository.CalendarRepository.GetManyByCondition(
 				expression: x => x.Year.Equals(2023),
 				includeProperties: new[] { nameof(CalendarDay.DayType) }

@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 		<None Update="Database.Adapter.Infrastructure.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 
@@ -31,6 +31,7 @@
 		<Folder Include="Migrations\Authentication\" />
 		<Folder Include="Migrations\MasterData\" />
 		<Folder Include="Migrations\Master\" />
+		<Folder Include="Migrations\Timekeeping\" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -8,31 +8,35 @@ using static Database.Adapter.Entities.Constants.XmlConstants;
 
 namespace Database.Adapter.Entities.Contexts.Timekeeping;
 
+/// <summary>
+/// The attendance entity class.
+/// </summary>
+/// <remarks>
+/// Inherits from the <see cref="AuditedModel"/> class.
+/// </remarks>
 [Index(nameof(UserId), nameof(CalendarDayId), IsUnique = true)]
 [XmlRoot(ElementName = nameof(Attendance), Namespace = XmlNameSpaces.ATTENDANCE_NAMESPACE)]
 public sealed class Attendance : AuditedModel
 {
-	private DateTime? startTime;
-	private DateTime? endTime;
-	private DateTime? breakTime;
-
+	/// <summary> The <see cref="UserId"/> property.</summary>
 	[XmlAttribute(AttributeName = nameof(UserId), DataType = XmlDataType.INT, Form = XmlSchemaForm.Qualified)]
 	public int UserId { get; set; }
+	/// <summary> The <see cref="CalendarDayId"/> property.</summary>
 	[XmlAttribute(AttributeName = nameof(CalendarDayId), DataType = XmlDataType.INT, Form = XmlSchemaForm.Qualified)]
 	public int CalendarDayId { get; set; }
+	/// <summary> The <see cref="DayTypeId"/> property.</summary>
 	[XmlAttribute(AttributeName = nameof(DayTypeId), DataType = XmlDataType.INT, Form = XmlSchemaForm.Qualified)]
 	public int DayTypeId { get; set; }
-	[Column(TypeName = SqlDataType.TIME)]
-	[XmlAttribute(AttributeName = nameof(StartTime), DataType = XmlDataType.TIME, Form = XmlSchemaForm.Qualified)]
-	public DateTime StartTime { get => startTime.Value; set => startTime = value; }
-	[Column(TypeName = SqlDataType.TIME)]
-	[XmlAttribute(AttributeName = nameof(EndTime), DataType = XmlDataType.TIME, Form = XmlSchemaForm.Qualified)]
-	public DateTime EndTime { get => endTime.Value; set => endTime = value; }
-	[Column(TypeName = SqlDataType.TIME)]
-	[XmlAttribute(AttributeName = nameof(BreakTime), DataType = XmlDataType.TIME, Form = XmlSchemaForm.Qualified)]
-	public DateTime BreakTime { get => breakTime.Value; set => breakTime = value; }
-
-	public bool ShouldSerializeStartTime() => startTime.HasValue;
-	public bool ShouldSerializeEndTime() => endTime.HasValue;
-	public bool ShouldSerializeBreakTime() => breakTime.HasValue;
+	/// <summary> The <see cref="StartTime"/> property.</summary>
+	[Column(TypeName = SqlDataType.TIME0)]
+	[XmlElement(DataType = XmlDataType.TIME, ElementName = nameof(StartTime), Form = XmlSchemaForm.Qualified)]
+	public TimeSpan? StartTime { get; set; }
+	/// <summary> The <see cref="EndTime"/> property.</summary>
+	[Column(TypeName = SqlDataType.TIME0)]
+	[XmlElement(DataType = XmlDataType.TIME, ElementName = nameof(EndTime), Form = XmlSchemaForm.Qualified)]
+	public TimeSpan? EndTime { get; set; }
+	/// <summary> The <see cref="BreakTime"/> property.</summary>
+	[Column(TypeName = SqlDataType.TIME0)]
+	[XmlElement(DataType = XmlDataType.TIME, ElementName = nameof(BreakTime), Form = XmlSchemaForm.Qualified)]
+	public TimeSpan? BreakTime { get; set; }
 }

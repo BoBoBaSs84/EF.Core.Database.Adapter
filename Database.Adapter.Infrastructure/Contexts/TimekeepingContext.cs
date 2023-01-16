@@ -1,5 +1,4 @@
-﻿using Database.Adapter.Infrastructure.Configurations.Timekeeping;
-using Database.Adapter.Infrastructure.Extensions;
+﻿using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using static Database.Adapter.Entities.Constants.SqlConstants;

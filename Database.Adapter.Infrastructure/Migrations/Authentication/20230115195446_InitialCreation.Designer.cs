@@ -4,6 +4,7 @@ using Database.Adapter.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Adapter.Infrastructure.Migrations.Authentication
 {
     [DbContext(typeof(AuthenticationContext))]
-    partial class AuthenticationContextModelSnapshot : ModelSnapshot
+    [Migration("20230115195446_InitialCreation")]
+    partial class InitialCreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,32 +78,6 @@ namespace Database.Adapter.Infrastructure.Migrations.Authentication
                                 .HasColumnName("PeriodEnd");
                         }
                     ));
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyStamp = "d8a9fa11-007d-4623-b0bf-f8f8673ac672",
-                            Description = "This is the ultimate god role ... so to say.",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "a23469b1-1999-4d55-bc4c-c9f4aa3beeea",
-                            Description = "This is a normal user with normal user rights.",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ConcurrencyStamp = "4312a531-dee1-4465-9047-977af0521100",
-                            Description = "The user with extended user rights.",
-                            Name = "Super user",
-                            NormalizedName = "SUPERUSER"
-                        });
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.RoleClaim", b =>

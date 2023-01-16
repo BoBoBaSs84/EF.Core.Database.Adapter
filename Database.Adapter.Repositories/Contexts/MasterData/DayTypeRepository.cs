@@ -9,9 +9,9 @@ namespace Database.Adapter.Repositories.Contexts.MasterData;
 /// The day type repository class.
 /// </summary>
 /// <remarks>
-/// Inherits from the following class:
+/// Inherits from the <see cref="EnumeratorRepository{TEnum}"/> class and implements the interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="EnumeratorRepository{TEntity}"/> class</item>
+/// <item>The <see cref="IDayTypeRepository"/> interface</item>
 /// </list>
 /// </remarks>
 internal sealed class DayTypeRepository : EnumeratorRepository<DayType>, IDayTypeRepository
@@ -19,7 +19,7 @@ internal sealed class DayTypeRepository : EnumeratorRepository<DayType>, IDayTyp
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DayTypeRepository"/> class.
 	/// </summary>
-	/// <param name="dbContext"></param>
+	/// <param name="dbContext">The database context.</param>
 	public DayTypeRepository(DbContext dbContext) : base(dbContext)
 	{
 	}

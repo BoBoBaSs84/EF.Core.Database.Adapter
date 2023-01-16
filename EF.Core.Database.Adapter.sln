@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Infrastruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Repositories.Tests", "Database.Adapter.Repositories.Tests\Database.Adapter.Repositories.Tests.csproj", "{73C910D0-5424-48B5-A631-E69C6311D514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Adapter.Base.Tests", "Database.Adapter.Base.Tests\Database.Adapter.Base.Tests.csproj", "{A775D92E-BC12-47FD-B94F-BE6F6215FCE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Base.Tests", "Database.Adapter.Base.Tests\Database.Adapter.Base.Tests.csproj", "{A775D92E-BC12-47FD-B94F-BE6F6215FCE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

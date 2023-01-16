@@ -34,10 +34,10 @@ public sealed partial class MasterDataContext : DbContext
 	[SuppressMessage("Style", "IDE0058", Justification = "Not needed here.")]
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
+		base.OnModelCreating(modelBuilder);
+
 		modelBuilder.HasDefaultSchema(SqlSchema.PRIVATE);
 
-		modelBuilder.ApplyConfigurationsForContextEntities();
-
-		base.OnModelCreating(modelBuilder);
+		modelBuilder.ApplyConfigurationsForContextEntities();		
 	}
 }

@@ -437,5 +437,86 @@ namespace Database.Adapter.Entities.Properties {
                 return ResourceManager.GetString("Enumerator.DayType.Workday.ShortName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the ultimate god role ... so to say..
+        /// </summary>
+        public static string Enumerator_Role_Administrator_Description {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.Administrator.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administrator.
+        /// </summary>
+        public static string Enumerator_Role_Administrator_Name {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.Administrator.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ADM.
+        /// </summary>
+        public static string Enumerator_Role_Administrator_ShortName {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.Administrator.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user with extended user rights..
+        /// </summary>
+        public static string Enumerator_Role_SuperUser_Description {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.SuperUser.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Super user.
+        /// </summary>
+        public static string Enumerator_Role_SuperUser_Name {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.SuperUser.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SUSR.
+        /// </summary>
+        public static string Enumerator_Role_SuperUser_ShortName {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.SuperUser.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a normal user with normal user rights..
+        /// </summary>
+        public static string Enumerator_Role_User_Description {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.User.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string Enumerator_Role_User_Name {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.User.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USR.
+        /// </summary>
+        public static string Enumerator_Role_User_ShortName {
+            get {
+                return ResourceManager.GetString("Enumerator.Role.User.ShortName", resourceCulture);
+            }
+        }
     }
 }

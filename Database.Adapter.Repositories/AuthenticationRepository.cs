@@ -15,4 +15,10 @@ namespace Database.Adapter.Repositories;
 /// </remarks>
 public sealed class AuthenticationRepository : UnitOfWork<AuthenticationContext>, IAuthenticationRepository
 {
+	/// <summary>
+	/// Initializes a new instance of the <see cref="MasterDataRepository"/> class.
+	/// </summary>
+	public AuthenticationRepository()
+	{
+	}
 }

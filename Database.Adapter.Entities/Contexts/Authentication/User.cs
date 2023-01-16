@@ -6,10 +6,8 @@ using static Database.Adapter.Entities.Constants.SqlConstants;
 
 namespace Database.Adapter.Entities.Contexts.Authentication;
 
-/// <summary>
-/// The <see cref="CustomIdentityUser"/> class, inherits from <see cref="IdentityUser{TKey}"/>
-/// </summary>
-public class CustomIdentityUser : IdentityUser<int>
+/// <inheritdoc/>
+public class User : IdentityUser<int>
 {
 	/// <summary>The <see cref="FirstName"/> property.</summary>
 	[MaxLength(SqlStringLength.MAX_LENGHT_64)]
@@ -23,9 +21,11 @@ public class CustomIdentityUser : IdentityUser<int>
 	/// <summary>The <see cref="DateOfBirth"/> property.</summary>
 	[Column(TypeName = SqlDataType.DATE)]
 	public DateTime? DateOfBirth { get; set; } = default!;
-	/// <summary>The <see cref="Preferences"/> property.</summary>	
+	/// <summary>The <see cref="Preferences"/> property.</summary>
 	[Column(TypeName = SqlDataType.XML)]
 	public string? Preferences { get; set; } = default!;
+	/// <summary>The <see cref="Picture"/> property.</summary>
+	public byte[]? Picture { get; set; }
 	/// <summary>The <see cref="XmlPreferencesWrapper"/> property.</summary>
 	[NotMapped]
 	public XElement XmlPreferencesWrapper
@@ -33,4 +33,13 @@ public class CustomIdentityUser : IdentityUser<int>
 		get => Preferences is not null ? XElement.Parse(Preferences) : default!;
 		set => Preferences = value.ToString();
 	}
+
+	/// <summary>The <see cref="Claims"/> property.</summary>
+	public virtual ICollection<UserClaim> Claims { get; set; } = default!;
+	/// <summary>The <see cref="Logins"/> property.</summary>
+	public virtual ICollection<UserLogin> Logins { get; set; } = default!;
+	/// <summary>The <see cref="Tokens"/> property.</summary>
+	public virtual ICollection<UserToken> Tokens { get; set; } = default!;
+	/// <summary>The <see cref="UserRoles"/> property.</summary>
+	public virtual ICollection<UserRole> UserRoles { get; set; } = default!;
 }

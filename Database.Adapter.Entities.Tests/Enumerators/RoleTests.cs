@@ -10,14 +10,14 @@ namespace Database.Adapter.Entities.Tests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class DayTypeTests
+public class RoleTests
 {
-	private readonly ICollection<DayType> _dayTypes = DayType.WEEKDAY.GetListFromEnum();
+	private readonly ICollection<RoleType> _dayTypes = RoleType.ADMINISTRATOR.GetListFromEnum();
 
 	[TestMethod()]
-	public void AllDayTypeEnumeratorsHaveDescriptionTest()
+	public void AllRoleTypeEnumeratorsHaveDescriptionTest()
 	{
-		foreach (DayType e in _dayTypes)
+		foreach (RoleType e in _dayTypes)
 		{
 			string description = e.GetEnumDescription();
 			description.Should().NotBeNullOrWhiteSpace();
@@ -25,9 +25,9 @@ public class DayTypeTests
 	}
 
 	[TestMethod()]
-	public void AllDayTypeEnumeratorsHaveShortNameTest()
+	public void AllRoleTypeEnumeratorsHaveShortNameTest()
 	{
-		foreach (DayType e in _dayTypes)
+		foreach (RoleType e in _dayTypes)
 		{
 			string shortName = e.GetEnumShortName();
 			shortName.Should().NotBeNullOrWhiteSpace();
@@ -35,9 +35,9 @@ public class DayTypeTests
 	}
 
 	[TestMethod()]
-	public void AllDayTypeEnumeratorsHaveNameTest()
+	public void AllRoleTypeEnumeratorsHaveNameTest()
 	{
-		foreach (DayType e in _dayTypes)
+		foreach (RoleType e in _dayTypes)
 		{
 			string name = e.GetEnumName();
 			name.Should().NotBeNullOrWhiteSpace();
@@ -45,16 +45,16 @@ public class DayTypeTests
 	}
 
 	[TestMethod()]
-	public void AllDayTypeEnumeratorsHaveDisplayAttributeTest()
+	public void AllRoleTypeEnumeratorsHaveDisplayAttributeTest()
 	{
-		foreach (DayType e in _dayTypes)
+		foreach (RoleType e in _dayTypes)
 			AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();
 	}
 
 	[TestMethod()]
-	public void AllDayTypeEnumeratorsHaveResourceTypeTest()
+	public void AllRoleTypeEnumeratorsHaveResourceTypeTest()
 	{
-		foreach (DayType e in _dayTypes)
+		foreach (RoleType e in _dayTypes)
 		{
 			DisplayAttribute? displayAttribute = e.GetDisplayAttribute();
 			displayAttribute.Should().NotBeNull();

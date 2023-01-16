@@ -1,4 +1,6 @@
 ﻿using Database.Adapter.Entities.Contexts.Authentication;
+using Database.Adapter.Entities.Enumerators;
+using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -24,5 +26,23 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 			.WithOne(e => e.Role)
 			.HasForeignKey(rc => rc.RoleId)
 			.IsRequired(true);
+
+		builder.HasData(GetRoleTypes());
+	}
+
+	private static ICollection<Role> GetRoleTypes()
+	{
+		List<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetListFromEnum();
+		ICollection<Role> listToReturn = new List<Role>();
+
+		foreach (RoleType roleType in roleTypes)
+			listToReturn.Add(new Role()
+			{
+				Id = (int)roleType,
+				Name = roleType.GetEnumName(),
+				NormalizedName = roleType.ToString(),
+				Description = roleType.GetEnumDescription()
+			});
+		return listToReturn;
 	}
 }

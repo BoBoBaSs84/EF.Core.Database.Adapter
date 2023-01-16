@@ -243,4 +243,31 @@
   <data name="Enumerator.DayType.Workday.ShortName" xml:space="preserve">
     <value>WK</value>
   </data>
+  <data name="Enumerator.Role.Administrator.Description" xml:space="preserve">
+    <value>This is the ultimate god role ... so to say.</value>
+  </data>
+  <data name="Enumerator.Role.Administrator.Name" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Enumerator.Role.Administrator.ShortName" xml:space="preserve">
+    <value>ADM</value>
+  </data>
+  <data name="Enumerator.Role.User.Name" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Enumerator.Role.User.ShortName" xml:space="preserve">
+    <value>USR</value>
+  </data>
+  <data name="Enumerator.Role.User.Description" xml:space="preserve">
+    <value>This is a normal user with normal user rights.</value>
+  </data>
+  <data name="Enumerator.Role.SuperUser.Name" xml:space="preserve">
+    <value>Super user</value>
+  </data>
+  <data name="Enumerator.Role.SuperUser.ShortName" xml:space="preserve">
+    <value>SUSR</value>
+  </data>
+  <data name="Enumerator.Role.SuperUser.Description" xml:space="preserve">
+    <value>The user with extended user rights.</value>
+  </data>
 </root>

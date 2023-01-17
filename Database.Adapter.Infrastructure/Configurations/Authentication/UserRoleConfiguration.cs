@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -10,5 +10,5 @@ namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 {
 	public void Configure(EntityTypeBuilder<UserRole> builder) =>
-		builder.ToSytemVersionedTable(nameof(UserRole), IDENTITY, HISTORY);
+		builder.ToSytemVersionedTable(nameof(UserRole), IDENTITY);
 }

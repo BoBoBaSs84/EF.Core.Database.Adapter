@@ -1,6 +1,6 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
-using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
+using Database.Adapter.Repositories.Contexts.Application.MasterData.Interfaces;
 
 namespace Database.Adapter.Repositories.Interfaces;
 
@@ -13,7 +13,7 @@ namespace Database.Adapter.Repositories.Interfaces;
 /// <item>The <see cref="IUnitOfWork{TContext}"/> interface</item>
 /// </list>
 /// </remarks>
-public interface IMasterDataRepository : IUnitOfWork<MasterDataContext>
+public interface IMasterDataRepository : IUnitOfWork<ApplicationContext>
 {
 	/// <summary>The <see cref="CalendarRepository"/> interface.</summary>
 	ICalendarDayRepository CalendarRepository { get; }

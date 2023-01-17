@@ -13,7 +13,7 @@ namespace Database.Adapter.Repositories;
 /// <item>The <see cref="IAuthenticationRepository"/> interface</item>
 /// </list>
 /// </remarks>
-public sealed class AuthenticationRepository : UnitOfWork<AuthenticationContext>, IAuthenticationRepository
+public sealed class AuthenticationRepository : UnitOfWork<ApplicationContext>, IAuthenticationRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="MasterDataRepository"/> class.

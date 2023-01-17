@@ -22,22 +22,8 @@
 			"Password": ""
 		},
 		{
-			"Name": "AuthenticationContext",
-			"Database": "Authentication",
-			"IntegratedSecurity": true,
-			"MultipleActiveResultSets": false,
-			"PersistSecurityInfo": false
-		},
-		{
-			"Name": "MasterDataContext",
-			"Database": "MasterData",
-			"IntegratedSecurity": true,
-			"MultipleActiveResultSets": true,
-			"PersistSecurityInfo": false
-		},
-		{
-			"Name": "TimekeepingContext",
-			"Database": "Timekeeping",
+			"Name": "ApplicationContext",
+			"Database": "Application",
 			"IntegratedSecurity": true,
 			"MultipleActiveResultSets": true,
 			"PersistSecurityInfo": false

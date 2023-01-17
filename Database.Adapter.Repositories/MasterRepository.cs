@@ -13,6 +13,6 @@ namespace Database.Adapter.Repositories;
 /// <item>The <see cref="IMasterRepository"/> interface</item>
 /// </list>
 /// </remarks>
-public sealed class MasterRepository : UnitOfWork<MasterContext>, IMasterRepository
+public sealed class MasterRepository : UnitOfWork<ApplicationContext>, IMasterRepository
 {
 }

@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.Contexts.MasterData;
-using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
+using Database.Adapter.Repositories.Contexts.Application.MasterData;
+using Database.Adapter.Repositories.Contexts.Application.MasterData.Interfaces;
 using Database.Adapter.Repositories.Interfaces;
 
 namespace Database.Adapter.Repositories;
@@ -15,7 +15,7 @@ namespace Database.Adapter.Repositories;
 /// <item>The <see cref="IMasterDataRepository"/> interface</item>
 /// </list>
 /// </remarks>
-public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
+public sealed class MasterDataRepository : UnitOfWork<ApplicationContext>, IMasterDataRepository
 {
 	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository;
 	private readonly Lazy<IDayTypeRepository> lazyDayTypeRepository;

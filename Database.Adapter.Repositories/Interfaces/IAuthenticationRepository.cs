@@ -12,6 +12,6 @@ namespace Database.Adapter.Repositories.Interfaces;
 /// <item>The <see cref="IUnitOfWork{TContext}"/> interface</item>
 /// </list>
 /// </remarks>
-public interface IAuthenticationRepository : IUnitOfWork<AuthenticationContext>
+public interface IAuthenticationRepository : IUnitOfWork<ApplicationContext>
 {
 }

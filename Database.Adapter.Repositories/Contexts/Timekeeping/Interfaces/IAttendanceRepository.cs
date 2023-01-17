@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
 
-namespace Database.Adapter.Repositories.Contexts.Application.Timekeeping.Interfaces;
+namespace Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
 
 /// <summary>
 /// The attendance repository interface.

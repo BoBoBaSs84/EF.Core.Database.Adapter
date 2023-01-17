@@ -1,4 +1,6 @@
-﻿namespace Database.Adapter.Entities.Contexts.Application.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Authentication;
+
+namespace Database.Adapter.Entities.Contexts.Application.Authentication;
 
 public partial class Role
 {

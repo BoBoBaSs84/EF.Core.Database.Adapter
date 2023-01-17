@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Repositories.Contexts.Application.MasterData.Interfaces;
+﻿using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 
 namespace Database.Adapter.Repositories.Interfaces;
 

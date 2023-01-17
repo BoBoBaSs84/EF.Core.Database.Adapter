@@ -1,9 +1,9 @@
 ﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.Contexts.Application.Timekeeping.Interfaces;
+using Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.Adapter.Repositories.Contexts.Application.Timekeeping;
+namespace Database.Adapter.Repositories.Contexts.Timekeeping;
 
 /// <summary>
 /// The calendar day repository class.

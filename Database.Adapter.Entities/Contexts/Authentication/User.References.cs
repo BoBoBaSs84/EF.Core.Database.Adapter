@@ -1,4 +1,5 @@
 ﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
+using Database.Adapter.Entities.Contexts.Authentication;
 
 namespace Database.Adapter.Entities.Contexts.Application.Authentication;
 public partial class User

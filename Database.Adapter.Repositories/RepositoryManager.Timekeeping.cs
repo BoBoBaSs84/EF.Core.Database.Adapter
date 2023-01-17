@@ -1,6 +1,6 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.Contexts.Application.Timekeeping.Interfaces;
+using Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
 using Database.Adapter.Repositories.Interfaces;
 
 namespace Database.Adapter.Repositories;

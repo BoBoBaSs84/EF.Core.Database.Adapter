@@ -1,6 +1,6 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.Contexts.Application.MasterData.Interfaces;
+using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 using Database.Adapter.Repositories.Interfaces;
 
 namespace Database.Adapter.Repositories;

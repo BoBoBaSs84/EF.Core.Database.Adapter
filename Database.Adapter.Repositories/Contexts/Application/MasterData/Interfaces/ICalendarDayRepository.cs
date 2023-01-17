@@ -9,7 +9,7 @@ namespace Database.Adapter.Repositories.Contexts.Application.MasterData.Interfac
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IGenericRepository{TEntity}"/> interface. The entity is <see cref="CalendarDay"/>.</item>
+/// <item>The <see cref="IGenericRepository{TEntity}"/> interface.</item>
 /// </list>
 /// </remarks>
 public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
@@ -22,7 +22,7 @@ public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
 	/// <returns>A calendar entity.</returns>
 	CalendarDay GetByDate(DateTime dateTime, bool trackChanges = false);
 	/// <summary>
-	/// Should get a collection of calendat entities by the provided date range.
+	/// Should get a collection of calendar entities by the provided date range.
 	/// </summary>
 	/// <param name="minDate">The date to start from.</param>
 	/// <param name="maxDate">The date to end with.</param>

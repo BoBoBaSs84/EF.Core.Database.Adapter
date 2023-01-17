@@ -13,7 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Contexts\Application\Authentication\" />
+	  <Folder Include="Contexts\Application\Authentication\Interfaces\" />
 	</ItemGroup>
 
 </Project>

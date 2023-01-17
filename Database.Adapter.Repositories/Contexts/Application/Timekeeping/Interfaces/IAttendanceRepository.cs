@@ -12,7 +12,7 @@ namespace Database.Adapter.Repositories.Contexts.Application.Timekeeping.Interfa
 /// <item>The <see cref="IGenericRepository{TEntity}"/> interface.</item>
 /// </list>
 /// </remarks>
-internal interface IAttendanceRepository : IGenericRepository<Attendance>
+public interface IAttendanceRepository : IGenericRepository<Attendance>
 {
 	/// <summary>
 	/// Should get the attendance entity by user and calendar identifier.

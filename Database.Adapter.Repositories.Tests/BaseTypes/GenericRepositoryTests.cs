@@ -13,13 +13,13 @@ namespace Database.Adapter.Repositories.Tests.BaseTypes;
 public class GenericRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
-	private IMasterDataRepository masterDataRepository = default!;
+	private IRepositoryManager repositoryManager = default!;
 
 	[TestInitialize]
 	public void TestInitialize()
 	{
 		transactionScope = new TransactionScope();
-		masterDataRepository = new MasterDataRepository();
+		repositoryManager = new RepositoryManager();
 	}
 
 	[TestCleanup]
@@ -30,9 +30,9 @@ public class GenericRepositoryTests
 	{
 		CalendarDay newCalendarDay = GetCalendarDay();
 
-		masterDataRepository.CalendarRepository.Create(newCalendarDay);
-		masterDataRepository.CommitChanges();
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(x => x.Date.Equals(newCalendarDay.Date));
+		repositoryManager.CalendarRepository.Create(newCalendarDay);
+		repositoryManager.CommitChanges();
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetByCondition(x => x.Date.Equals(newCalendarDay.Date));
 
 		dbCalendarDay.Should().NotBeNull();
 		dbCalendarDay.Date.Should().Be(newCalendarDay.Date);
@@ -43,8 +43,8 @@ public class GenericRepositoryTests
 	{
 		IEnumerable<CalendarDay> calendarDays = GetCalendarDays(2);
 
-		masterDataRepository.CalendarRepository.Create(calendarDays);
-		int commit = masterDataRepository.CommitChanges();
+		repositoryManager.CalendarRepository.Create(calendarDays);
+		int commit = repositoryManager.CommitChanges();
 
 		commit.Should().Be(calendarDays.Count());
 	}
@@ -54,10 +54,10 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 10;
 
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
-		masterDataRepository.CalendarRepository.Delete(dbCalendarDay);
-		masterDataRepository.CommitChanges();
-		dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
+		repositoryManager.CalendarRepository.Delete(dbCalendarDay);
+		repositoryManager.CommitChanges();
+		dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
 
 		dbCalendarDay.Should().BeNull();
 	}
@@ -67,9 +67,9 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 10;
 
-		masterDataRepository.CalendarRepository.Delete(calendarDayId);
-		masterDataRepository.CommitChanges();
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		repositoryManager.CalendarRepository.Delete(calendarDayId);
+		repositoryManager.CommitChanges();
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
 
 		dbCalendarDay.Should().BeNull();
 	}
@@ -79,9 +79,9 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 10;
 
-		masterDataRepository.CalendarRepository.Delete(x => x.Id.Equals(calendarDayId));
-		masterDataRepository.CommitChanges();
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		repositoryManager.CalendarRepository.Delete(x => x.Id.Equals(calendarDayId));
+		repositoryManager.CommitChanges();
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
 
 		dbCalendarDay.Should().BeNull();
 	}
@@ -92,12 +92,12 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth)
 			);
-		masterDataRepository.CalendarRepository.Delete(dbCalendarDays);
-		masterDataRepository.CommitChanges();
-		dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		repositoryManager.CalendarRepository.Delete(dbCalendarDays);
+		repositoryManager.CommitChanges();
+		dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth)
 			);
 
@@ -107,7 +107,7 @@ public class GenericRepositoryTests
 	[TestMethod]
 	public void GetAllTest()
 	{
-		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetAll();
+		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetAll();
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}
@@ -118,7 +118,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth)
 			);
 
@@ -133,7 +133,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IList<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderByDescending(x => x.Date)
 			).ToList();
@@ -148,7 +148,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IList<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderBy(x => x.Date),
 			top: 10,
@@ -167,7 +167,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IList<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderBy(x => x.Date),
 			top: 12
@@ -185,7 +185,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IList<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IList<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderBy(x => x.Id),
 			top: 1,
@@ -201,7 +201,7 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 1;
 
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
 
 		dbCalendarDay.Should().NotBeNull();
 		dbCalendarDay.Id.Should().Be(calendarDayId);
@@ -214,7 +214,7 @@ public class GenericRepositoryTests
 			calendarMonth = 12,
 			calenderDay = 6;
 
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth) && x.Day.Equals(calenderDay)
 			);
 
@@ -231,7 +231,7 @@ public class GenericRepositoryTests
 			calendarMonth = 12,
 			calenderDay = 24;
 
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth) && x.Day.Equals(calenderDay),
 			includeProperties: new[] { nameof(CalendarDay.DayType) }
 			);
@@ -247,14 +247,14 @@ public class GenericRepositoryTests
 	public void UpdateTest()
 	{
 		int calendarDayId = 12;
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetByCondition(
 			expression: x => x.Id.Equals(calendarDayId)
 			);
 
 		dbCalendarDay.Date = GetDateTime();
-		masterDataRepository.CalendarRepository.Update(dbCalendarDay);
-		masterDataRepository.CommitChanges();
-		dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		repositoryManager.CalendarRepository.Update(dbCalendarDay);
+		repositoryManager.CommitChanges();
+		dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
 
 		dbCalendarDay.Should().NotBeNull();
 		dbCalendarDay.Date.Should().Be(GetDateTime());
@@ -266,13 +266,13 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth)
 			);
 		foreach (CalendarDay dbCalendarDay in dbCalendarDays.Where(x => x.Day.Equals(25) || x.Day.Equals(26)))
 			dbCalendarDay.DayTypeId = (int)HOLIDAY;
-		masterDataRepository.CalendarRepository.Update(dbCalendarDays);
-		int commit = masterDataRepository.CommitChanges();
+		repositoryManager.CalendarRepository.Update(dbCalendarDays);
+		int commit = repositoryManager.CommitChanges();
 
 		commit.Should().Be(31);
 	}
@@ -282,13 +282,13 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 12;
 
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByCondition(
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetByCondition(
 			expression: x => x.Id.Equals(calendarDayId),
 			trackChanges: true
 			);
 		dbCalendarDay.DayTypeId = (int)HOLIDAY;
-		masterDataRepository.CommitChanges();
-		dbCalendarDay = masterDataRepository.CalendarRepository.GetById(calendarDayId);
+		repositoryManager.CommitChanges();
+		dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
 
 		dbCalendarDay.Should().NotBeNull();
 		dbCalendarDay.DayTypeId.Should().Be((int)HOLIDAY);
@@ -300,13 +300,13 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = masterDataRepository.CalendarRepository.GetManyByCondition(
+		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetManyByCondition(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			trackChanges: true
 			);
 		foreach (CalendarDay dbCalendarDay in dbCalendarDays.Where(x => x.Day.Equals(25) || x.Day.Equals(26)))
 			dbCalendarDay.DayTypeId = (int)HOLIDAY;
-		int commit = masterDataRepository.CommitChanges();
+		int commit = repositoryManager.CommitChanges();
 
 		commit.Should().Be(2);
 	}

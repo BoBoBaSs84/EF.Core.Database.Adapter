@@ -12,13 +12,13 @@ namespace Database.Adapter.Repositories.Tests.MasterData;
 public class CalendarDayRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
-	private IMasterDataRepository masterDataRepository = default!;
+	private IRepositoryManager repositoryManager = default!;
 
 	[TestInitialize]
 	public void TestInitialize()
 	{
 		transactionScope = new TransactionScope();
-		masterDataRepository = new MasterDataRepository();
+		repositoryManager = new RepositoryManager();
 	}
 
 	[TestCleanup]
@@ -29,7 +29,7 @@ public class CalendarDayRepositoryTests
 	{
 		DateTime dateTime = DateTime.Now;
 
-		CalendarDay dbCalendarDay = masterDataRepository.CalendarRepository.GetByDate(dateTime);
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetByDate(dateTime);
 
 		dbCalendarDay.Should().NotBeNull();
 	}
@@ -40,7 +40,7 @@ public class CalendarDayRepositoryTests
 		DateTime mindateTime = DateTime.Today, maxDateTime = DateTime.Today.AddDays(14);
 
 		IEnumerable<CalendarDay> dbCalendarDays =
-			masterDataRepository.CalendarRepository.GetByDateRange(mindateTime, maxDateTime);
+			repositoryManager.CalendarRepository.GetByDateRange(mindateTime, maxDateTime);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 		dbCalendarDays.First().Date.Should().Be(mindateTime);

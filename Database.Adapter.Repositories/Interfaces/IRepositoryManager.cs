@@ -6,6 +6,6 @@ namespace Database.Adapter.Repositories.Interfaces;
 /// <summary>
 /// The master repository interface.
 /// </summary>
-public interface IMasterRepository : IUnitOfWork<ApplicationContext>
+public partial interface IRepositoryManager : IUnitOfWork<ApplicationContext>
 {
 }

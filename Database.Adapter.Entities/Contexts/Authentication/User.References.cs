@@ -1,5 +1,6 @@
 ﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
 using Database.Adapter.Entities.Contexts.Authentication;
+using Database.Adapter.Entities.Contexts.Finances;
 
 namespace Database.Adapter.Entities.Contexts.Application.Authentication;
 public partial class User
@@ -15,4 +16,9 @@ public partial class User
 
 	/// <summary>The <see cref="Attendances"/> property.</summary>
 	public virtual ICollection<Attendance> Attendances { get; set; } = default!;
+
+	/// <summary>The <see cref="Accounts"/> property.</summary>
+	public virtual ICollection<Account> Accounts { get; set; } = default!;
+	/// <summary>The <see cref="Cards"/> property.</summary>
+	public virtual ICollection<Card> Cards { get; set; } = default!;
 }

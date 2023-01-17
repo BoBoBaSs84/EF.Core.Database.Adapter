@@ -32,6 +32,9 @@ public static class Constants
 			public const string IDENTITY = "identity";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
 			public const string PRIVATE = "private";
+			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
+			public const string FINANCE = "finance";
+
 		}
 		/// <summary>
 		/// The sql data type class.

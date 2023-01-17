@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.MasterData;
+﻿using Database.Adapter.Entities.Contexts.Application.MasterData;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -47,5 +47,11 @@ internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarD
 
 		builder.Property(e => e.Year)
 			.HasComputedColumnSql("(datepart(year,[Date]))", true);
+
+		builder.HasMany(e => e.Attendances)
+			.WithOne(e => e.CalendarDay)
+			.HasForeignKey(e => e.CalendarDayId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
 	}
 }

@@ -40,10 +40,14 @@ public static class Constants
 		{
 			/// <summary>The <see cref="DATETIME"/> constant.</summary>
 			public const string DATETIME = "datetime";
+			/// <summary>The <see cref="DATETIME2"/> constant.</summary>
+			public const string DATETIME2 = "datetime2";
 			/// <summary>The <see cref="DATE"/> constant.</summary>
 			public const string DATE = "date";
-			/// <summary>The <see cref="TIME"/> constant.</summary>
-			public const string TIME = "time(7)";
+			/// <summary>The <see cref="TIME0"/> constant.</summary>
+			public const string TIME0 = "time(0)";
+			/// <summary>The <see cref="TIME7"/> constant.</summary>
+			public const string TIME7 = "time(7)";
 			/// <summary>The <see cref="XML"/> constant.</summary>
 			public const string XML = "xml";
 			/// <summary>The <see cref="FLOAT"/> constant.</summary>

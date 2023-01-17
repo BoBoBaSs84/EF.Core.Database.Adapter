@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
 using Database.Adapter.Entities.Enumerators;
 using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Infrastructure.Extensions;
@@ -15,7 +15,7 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
 	public void Configure(EntityTypeBuilder<Role> builder)
 	{
-		builder.ToSytemVersionedTable(nameof(Role), IDENTITY, HISTORY);
+		builder.ToSytemVersionedTable(nameof(Role), IDENTITY);
 
 		builder.HasMany(e => e.UserRoles)
 			.WithOne(e => e.Role)

@@ -1,5 +1,5 @@
 ﻿using Database.Adapter.Base.Tests.Helpers;
-using Database.Adapter.Entities.Contexts.MasterData;
+using Database.Adapter.Entities.Contexts.Application.MasterData;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,13 +13,13 @@ namespace Database.Adapter.Repositories.Tests.MasterData;
 public class DayTypeRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
-	private IMasterDataRepository masterDataRepository = default!;
+	private IRepositoryManager repositoryManager = default!;
 
 	[TestInitialize]
 	public void TestInitialize()
 	{
 		transactionScope = new TransactionScope();
-		masterDataRepository = new MasterDataRepository();
+		repositoryManager = new RepositoryManager();
 	}
 
 	[TestCleanup]
@@ -30,7 +30,7 @@ public class DayTypeRepositoryTests
 	{
 		string dayTypeName = RandomHelper.GetString(12);
 
-		DayType dayType = masterDataRepository.DayTypeRepository.GetByName(dayTypeName);
+		DayType dayType = repositoryManager.DayTypeRepository.GetByName(dayTypeName);
 
 		dayType.Should().BeNull();
 	}
@@ -40,7 +40,7 @@ public class DayTypeRepositoryTests
 	{
 		string dayTypeName = "Holiday";
 
-		DayType dayType = masterDataRepository.DayTypeRepository.GetByName(dayTypeName);
+		DayType dayType = repositoryManager.DayTypeRepository.GetByName(dayTypeName);
 
 		dayType.Should().NotBeNull();
 		dayType.Name.Should().Be(dayTypeName);
@@ -49,7 +49,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void GetAllActiveTest()
 	{
-		IEnumerable<DayType> dayTypes = masterDataRepository.DayTypeRepository.GetAllActive();
+		IEnumerable<DayType> dayTypes = repositoryManager.DayTypeRepository.GetAllActive();
 		dayTypes.Should().NotBeNullOrEmpty();
 	}
 }

@@ -10,5 +10,5 @@ namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaim>
 {
 	public void Configure(EntityTypeBuilder<RoleClaim> builder) =>
-		builder.ToSytemVersionedTable(nameof(RoleClaim), IDENTITY, HISTORY);
+		builder.ToSytemVersionedTable(nameof(RoleClaim), IDENTITY);
 }

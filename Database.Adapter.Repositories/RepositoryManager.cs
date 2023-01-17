@@ -2,35 +2,30 @@
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.MasterData;
 using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
+using Database.Adapter.Repositories.Contexts.Timekeeping;
+using Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
 using Database.Adapter.Repositories.Interfaces;
 
 namespace Database.Adapter.Repositories;
 
 /// <summary>
-/// The master data repository manager class.
+/// The master repository class.
 /// </summary>
 /// <remarks>
 /// Inherits from the <see cref="UnitOfWork{TContext}"/> class and implements the interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IMasterDataRepository"/> interface</item>
+/// <item>The <see cref="IRepositoryManager"/> interface</item>
 /// </list>
 /// </remarks>
-public sealed class MasterDataRepository : UnitOfWork<MasterDataContext>, IMasterDataRepository
+public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>
 {
-	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository;
-	private readonly Lazy<IDayTypeRepository> lazyDayTypeRepository;
-
 	/// <summary>
-	/// Initializes a new instance of the <see cref="MasterDataRepository"/> class.
+	/// Initializes a new instance of the <see cref="RepositoryManager"/> class.
 	/// </summary>
-	public MasterDataRepository()
+	public RepositoryManager()
 	{
 		lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(Context));
 		lazyDayTypeRepository = new Lazy<IDayTypeRepository>(() => new DayTypeRepository(Context));
+		lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(Context));
 	}
-
-	/// <inheritdoc/>
-	public ICalendarDayRepository CalendarRepository => lazyCalendarRepository.Value;
-	/// <inheritdoc/>
-	public IDayTypeRepository DayTypeRepository => lazyDayTypeRepository.Value;
 }

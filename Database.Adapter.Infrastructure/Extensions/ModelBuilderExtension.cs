@@ -8,11 +8,12 @@ internal static class ModelBuilderExtension
 	/// Wraps the "ApplyConfigurationsFromAssembly" method.
 	/// </summary>
 	/// <param name="modelBuilder">The <see cref="ModelBuilder"/> itself.</param>
-	public static void ApplyConfigurationsForContextEntities(this ModelBuilder modelBuilder)
+	/// <returns>The <see cref="ModelBuilder"/> itself.</returns>
+	public static ModelBuilder ApplyConfigurationsForContextEntities(this ModelBuilder modelBuilder)
 	{
 		HashSet<Type> types = modelBuilder.Model.GetEntityTypes().Select(t => t.ClrType).ToHashSet();
 
-		_ = modelBuilder.ApplyConfigurationsFromAssembly(
+		return modelBuilder.ApplyConfigurationsFromAssembly(
 			typeof(ModelBuilderExtension).Assembly,
 				t => t.GetInterfaces().Any(i => i.IsGenericType
 					&& i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)

@@ -10,5 +10,5 @@ namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 internal class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
 {
 	public void Configure(EntityTypeBuilder<UserToken> builder) =>
-		builder.ToSytemVersionedTable(nameof(UserToken), IDENTITY, HISTORY);
+		builder.ToSytemVersionedTable(nameof(UserToken), IDENTITY);
 }

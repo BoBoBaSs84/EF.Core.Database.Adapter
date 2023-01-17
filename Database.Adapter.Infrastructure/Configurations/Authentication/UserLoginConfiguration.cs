@@ -10,5 +10,5 @@ namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 internal sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
 {
 	public void Configure(EntityTypeBuilder<UserLogin> builder) =>
-		builder.ToSytemVersionedTable(nameof(UserLogin), IDENTITY, HISTORY);
+		builder.ToSytemVersionedTable(nameof(UserLogin), IDENTITY);
 }

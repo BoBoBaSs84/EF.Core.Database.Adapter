@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace Database.Adapter.Entities.Contexts.Authentication;
 

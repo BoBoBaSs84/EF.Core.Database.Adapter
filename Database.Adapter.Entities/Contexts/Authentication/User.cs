@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 
-namespace Database.Adapter.Entities.Contexts.Authentication;
+namespace Database.Adapter.Entities.Contexts.Application.Authentication;
 
 /// <inheritdoc/>
-public class User : IdentityUser<int>
+public partial class User : IdentityUser<int>
 {
 	/// <summary>The <see cref="FirstName"/> property.</summary>
 	[MaxLength(SqlStringLength.MAX_LENGHT_64)]
@@ -33,13 +33,4 @@ public class User : IdentityUser<int>
 		get => Preferences is not null ? XElement.Parse(Preferences) : default!;
 		set => Preferences = value.ToString();
 	}
-
-	/// <summary>The <see cref="Claims"/> property.</summary>
-	public virtual ICollection<UserClaim> Claims { get; set; } = default!;
-	/// <summary>The <see cref="Logins"/> property.</summary>
-	public virtual ICollection<UserLogin> Logins { get; set; } = default!;
-	/// <summary>The <see cref="Tokens"/> property.</summary>
-	public virtual ICollection<UserToken> Tokens { get; set; } = default!;
-	/// <summary>The <see cref="UserRoles"/> property.</summary>
-	public virtual ICollection<UserRole> UserRoles { get; set; } = default!;
 }

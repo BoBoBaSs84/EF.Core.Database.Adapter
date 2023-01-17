@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.MasterData;
+﻿using Database.Adapter.Entities.Contexts.Application.MasterData;
 using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +21,16 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 			.IsClustered(false);
 
 		builder.HasMany(e => e.CalendarDays)
-				.WithOne(e => e.DayType)
-				.HasForeignKey(e => e.DayTypeId)
-				.OnDelete(DeleteBehavior.Restrict);
+			.WithOne(e => e.DayType)
+			.HasForeignKey(e => e.DayTypeId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
+
+		builder.HasMany(e => e.Attendances)
+			.WithOne(e => e.DayType)
+			.HasForeignKey(e => e.DayTypeId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
 
 		builder.HasData(GetEnDayTypes());
 	}

@@ -22,22 +22,11 @@
 			"Password": ""
 		},
 		{
-			"Name": "AuthenticationContext",
-			"Database": "Authentication",
-			"IntegratedSecurity": true,
-			"MultipleActiveResultSets": false,
-			"PersistSecurityInfo": false,
-			"UserName": "",
-			"Password": ""
-		},
-		{
-			"Name": "MasterDataContext",
-			"Database": "MasterData",
+			"Name": "ApplicationContext",
+			"Database": "Application",
 			"IntegratedSecurity": true,
 			"MultipleActiveResultSets": true,
-			"PersistSecurityInfo": false,
-			"UserName": "",
-			"Password": ""
+			"PersistSecurityInfo": false
 		}
 	]
 }

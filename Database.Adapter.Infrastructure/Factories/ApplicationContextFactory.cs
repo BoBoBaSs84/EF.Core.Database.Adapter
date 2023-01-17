@@ -6,22 +6,22 @@ using Microsoft.EntityFrameworkCore.Design;
 namespace Database.Adapter.Infrastructure.Factories;
 
 /// <inheritdoc/>
-public sealed class MasterContextFactory : IDesignTimeDbContextFactory<MasterContext>
+public sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
 {
 	/// <inheritdoc/>
-	public MasterContext CreateDbContext(string[] args) => new(DbContextOptions);
+	public ApplicationContext CreateDbContext(string[] args) => new(DbContextOptions);
 
 	/// <summary>
 	/// The <see cref="DbContextOptions"/> property provides fast access to the
-	/// options of the <see cref="MasterContext"/>.
+	/// options of the <see cref="ApplicationContext"/>.
 	/// </summary>
-	public static DbContextOptions<MasterContext> DbContextOptions
+	public static DbContextOptions<ApplicationContext> DbContextOptions
 	{
 		get
 		{
 			Configuration configuration = new();
-			DbContextOptionsBuilder<MasterContext> optionsBuilder = new();
-			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(MasterContext)));
+			DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
+			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)));
 #if DEBUG
 			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
 			optionsBuilder.EnableSensitiveDataLogging(true);

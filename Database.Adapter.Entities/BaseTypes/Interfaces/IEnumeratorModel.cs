@@ -13,9 +13,4 @@ internal interface IEnumeratorModel
 	/// The <see cref="Description"/> property.
 	/// </summary>
 	string? Description { get; }
-	/// <summary>
-	/// Should return false, if the <see cref="Description"/> property is <see langword="null"/>.
-	/// </summary>
-	/// <returns><see langword="true"/> or <see langword="false"/></returns>
-	bool ShouldSerializeDescription();
 }

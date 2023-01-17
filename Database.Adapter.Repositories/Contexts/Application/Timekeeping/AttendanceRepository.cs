@@ -32,7 +32,7 @@ internal sealed class AttendanceRepository : GenericRepository<Attendance>, IAtt
 	/// <inheritdoc/>
 	public Attendance GetAttendanceByUserId(int userId, int calendarDayId, bool trackChanges = false) =>
 		GetByCondition(
-			expression: x=>x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
+			expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
 			trackChanges: trackChanges
 			);
 }

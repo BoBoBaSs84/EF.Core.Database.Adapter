@@ -10,7 +10,7 @@ namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
-{	
+{
 	public void Configure(EntityTypeBuilder<User> builder)
 	{
 		builder.ToSytemVersionedTable(nameof(User), IDENTITY);

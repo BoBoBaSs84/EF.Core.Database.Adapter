@@ -1,6 +1,4 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
-using System.Xml.Serialization;
-using static Database.Adapter.Entities.Constants.XmlConstants;
 
 namespace Database.Adapter.Entities.BaseTypes;
 
@@ -13,12 +11,8 @@ namespace Database.Adapter.Entities.BaseTypes;
 /// <item>The <see cref="IActivatableModel"/> interface</item>
 /// </list>
 /// </remarks>
-[XmlRoot(Namespace = XmlNameSpaces.ACTIVATABLE_NAMESPACE)]
 public abstract class ActivatableModel : IdentityModel, IActivatableModel
 {
 	/// <inheritdoc/>
-	[XmlAttribute(AttributeName = nameof(IsActive), DataType = XmlDataType.BOOL, Form = System.Xml.Schema.XmlSchemaForm.Qualified)]
 	public bool IsActive { get; set; } = default!;
-	/// <inheritdoc/>
-	public bool ShouldSerializeIsActive() => IsActive is false;
 }

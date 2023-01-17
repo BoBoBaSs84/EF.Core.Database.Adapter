@@ -3,8 +3,6 @@ using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Xml.Serialization;
-using static Database.Adapter.Entities.Constants.XmlConstants;
 
 namespace Debug.ConsoleApp;
 
@@ -23,38 +21,6 @@ public class Worker : BackgroundService
 	{
 		while (!stoppingToken.IsCancellationRequested)
 		{
-			List<CalendarDay> calendarDaysByYear = repositoryManager.CalendarRepository.GetManyByCondition(
-				expression: x => x.Year.Equals(2023),
-				includeProperties: new[] { nameof(CalendarDay.DayType) }
-				).ToList();
-
-			XmlSerializer xmlSerializer = new(typeof(List<CalendarDay>));
-			using (StreamWriter writer = new("CalendarDaysByYear.xml"))
-			{
-				xmlSerializer.Serialize(writer, calendarDaysByYear, GetXmlSerializerNamespaces());
-			}
-
-			List<CalendarDay> allCalendarDays = repositoryManager.CalendarRepository.GetAll().ToList();
-			xmlSerializer = new(typeof(List<CalendarDay>));
-			using (StreamWriter writer = new("AllCalendarDays.xml"))
-			{
-				xmlSerializer.Serialize(writer, allCalendarDays, GetXmlSerializerNamespaces());
-			}
-
-			List<DayType> allDayTypes = repositoryManager.DayTypeRepository.GetAll().ToList();
-			xmlSerializer = new XmlSerializer(typeof(List<DayType>));
-			using (StreamWriter writer = new("AllDayTypes.xml"))
-			{
-				xmlSerializer.Serialize(writer, allDayTypes, GetXmlSerializerNamespaces());
-			}
-
-			List<DayType> allActiveDayTypes = repositoryManager.DayTypeRepository.GetAllActive().ToList();
-			xmlSerializer = new XmlSerializer(typeof(List<DayType>));
-			using (StreamWriter writer = new("AllActiveDayTypes.xml"))
-			{
-				xmlSerializer.Serialize(writer, allActiveDayTypes, GetXmlSerializerNamespaces());
-			}
-
 			CalendarDay? calendarDay = repositoryManager.CalendarRepository.GetByDate(DateTime.UtcNow);
 
 			if (calendarDay is null)

@@ -1,9 +1,6 @@
 ﻿using Database.Adapter.Entities.BaseTypes.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Schema;
-using System.Xml.Serialization;
-using static Database.Adapter.Entities.Constants.XmlConstants;
 
 namespace Database.Adapter.Entities.BaseTypes;
 
@@ -17,17 +14,12 @@ namespace Database.Adapter.Entities.BaseTypes;
 /// <item>The <see cref="IConcurrencyModel"/> interface</item>
 /// </list>
 /// </remarks>
-[XmlRoot(Namespace = XmlNameSpaces.IDENTITY_NAMESPACE)]
 public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
 	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	[XmlAttribute(AttributeName = nameof(Id), Form = XmlSchemaForm.Qualified)]
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
 	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	[XmlAttribute(AttributeName = nameof(Timestamp), DataType = XmlDataType.BYTEARRAY, Form = XmlSchemaForm.Qualified)]
 	public byte[] Timestamp { get; set; } = default!;
-	/// <inheritdoc/>
-	public bool ShouldSerializeTimestamp() => false;
 }

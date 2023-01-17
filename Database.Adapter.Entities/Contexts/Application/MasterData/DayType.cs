@@ -1,5 +1,4 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
-using System.Xml.Serialization;
 
 namespace Database.Adapter.Entities.Contexts.Application.MasterData;
 
@@ -9,7 +8,6 @@ namespace Database.Adapter.Entities.Contexts.Application.MasterData;
 /// <remarks>
 /// Inherits from the <see cref="EnumeratorModel"/> class.
 /// </remarks>
-[XmlRoot(ElementName = nameof(DayType))]
 public partial class DayType : EnumeratorModel
 {
 }

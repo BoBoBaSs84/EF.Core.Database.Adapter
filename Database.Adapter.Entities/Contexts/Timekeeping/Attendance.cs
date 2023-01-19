@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 
-namespace Database.Adapter.Entities.Contexts.Application.Timekeeping;
+namespace Database.Adapter.Entities.Contexts.Timekeeping;
 
 /// <summary>
 /// The attendance entity class.
@@ -14,19 +14,31 @@ namespace Database.Adapter.Entities.Contexts.Application.Timekeeping;
 [Index(nameof(UserId), nameof(CalendarDayId), IsUnique = true)]
 public partial class Attendance : AuditedModel
 {
-	/// <summary> The <see cref="UserId"/> property.</summary>
-	public int UserId { get; set; }
-	/// <summary> The <see cref="CalendarDayId"/> property.</summary>
-	public int CalendarDayId { get; set; }
-	/// <summary> The <see cref="DayTypeId"/> property.</summary>
-	public int DayTypeId { get; set; }
-	/// <summary> The <see cref="StartTime"/> property.</summary>
+	/// <summary>
+	/// The <see cref="UserId"/> property.
+	/// </summary>
+	public int UserId { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="CalendarDayId"/> property.
+	/// </summary>
+	public int CalendarDayId { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="DayTypeId"/> property.
+	/// </summary>
+	public int DayTypeId { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="StartTime"/> property.
+	/// </summary>
 	[Column(TypeName = SqlDataType.TIME0)]
-	public TimeSpan? StartTime { get; set; }
-	/// <summary> The <see cref="EndTime"/> property.</summary>
+	public TimeSpan? StartTime { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="EndTime"/> property.
+	/// </summary>
 	[Column(TypeName = SqlDataType.TIME0)]
-	public TimeSpan? EndTime { get; set; }
-	/// <summary> The <see cref="BreakTime"/> property.</summary>
+	public TimeSpan? EndTime { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="BreakTime"/> property.
+	/// </summary>
 	[Column(TypeName = SqlDataType.TIME0)]
-	public TimeSpan? BreakTime { get; set; }
+	public TimeSpan? BreakTime { get; set; } = default!;
 }

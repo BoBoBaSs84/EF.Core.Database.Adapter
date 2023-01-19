@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
+﻿using Database.Adapter.Entities.Contexts.Timekeeping;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

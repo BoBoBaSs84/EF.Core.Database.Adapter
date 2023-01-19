@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Enumerators;
 using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Infrastructure.Extensions;

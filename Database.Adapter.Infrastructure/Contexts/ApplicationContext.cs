@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Infrastructure.Extensions;
 using Database.Adapter.Infrastructure.Factories;
@@ -20,7 +20,9 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
 	/// </summary>
-	public ApplicationContext() : base(ApplicationContextFactory.DbContextOptions) => Database.EnsureCreated();
+	public ApplicationContext() : base(ApplicationContextFactory.DbContextOptions)
+	{
+	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.

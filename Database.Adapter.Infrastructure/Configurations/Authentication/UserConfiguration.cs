@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,31 +17,43 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
 		builder.HasMany(e => e.Claims)
 			.WithOne(e => e.User)
-			.HasForeignKey(uc => uc.UserId)
+			.HasForeignKey(ucl => ucl.UserId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired(true);
 
 		builder.HasMany(e => e.Logins)
 			.WithOne(e => e.User)
-			.HasForeignKey(ul => ul.UserId)
+			.HasForeignKey(ulo => ulo.UserId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired(true);
 
 		builder.HasMany(e => e.Tokens)
 			.WithOne(e => e.User)
-			.HasForeignKey(ut => ut.UserId)
+			.HasForeignKey(uto => uto.UserId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired(true);
 
 		builder.HasMany(e => e.UserRoles)
 			.WithOne(e => e.User)
-			.HasForeignKey(ur => ur.UserId)
+			.HasForeignKey(uro => uro.UserId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired(true);
 
 		builder.HasMany(e => e.Attendances)
 			.WithOne(e => e.User)
-			.HasForeignKey(ua => ua.UserId)
+			.HasForeignKey(uat => uat.UserId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
+
+		builder.HasMany(e => e.Cards)
+			.WithOne(e => e.User)
+			.HasForeignKey(eca => eca.UserId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
+
+		builder.HasMany(e => e.AccountUsers)
+			.WithOne(e => e.User)
+			.HasForeignKey(e => e.UserId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired(true);
 	}

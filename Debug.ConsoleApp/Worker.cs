@@ -1,4 +1,4 @@
-using Database.Adapter.Entities.Contexts.Application.MasterData;
+using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
@@ -42,8 +42,12 @@ public class Worker : BackgroundService
 				}
 				_ = repositoryManager.CalendarRepository.Create(newCalendarDays.OrderBy(x => x.Date));
 				_ = repositoryManager.CommitChanges();
+				calendarDay = repositoryManager.CalendarRepository.GetByDate(DateTime.UtcNow);
 			}
-			calendarDay = repositoryManager.CalendarRepository.GetByDate(DateTime.UtcNow);
+
+			IEnumerable<CalendarDay> cday = repositoryManager.CalendarRepository.GetByDayType("end");
+
+			IEnumerable<CalendarDay> cday2 = repositoryManager.CalendarRepository.GetByDayType(2);
 
 			_logger.LogInformation("Worker running at: {time} - {day}", DateTimeOffset.Now, calendarDay.WeekDayName);
 

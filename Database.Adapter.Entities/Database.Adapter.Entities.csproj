@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>		
+		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="[6.0.12]" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.13" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -13,17 +13,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
+		<Compile Update="Properties\EnumeratorResources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
+			<DependentUpon>EnumeratorResources.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
+		<EmbeddedResource Update="Properties\EnumeratorResources.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<LastGenOutput>EnumeratorResources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 

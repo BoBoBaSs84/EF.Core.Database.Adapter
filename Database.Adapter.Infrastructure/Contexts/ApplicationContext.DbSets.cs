@@ -1,15 +1,38 @@
-﻿using Database.Adapter.Entities.Contexts.Application.MasterData;
-using Database.Adapter.Entities.Contexts.Application.Timekeeping;
+﻿using Database.Adapter.Entities.Contexts.Timekeeping;
+using Database.Adapter.Entities.Contexts.MasterData;
 using Microsoft.EntityFrameworkCore;
+using Database.Adapter.Entities.Contexts.Finances;
 
 namespace Database.Adapter.Infrastructure.Contexts;
 
 public sealed partial class ApplicationContext
 {
-	/// <summary>The <see cref="CalendarDays"/> property.</summary>
+	/// <summary>
+	/// The <see cref="CalendarDays"/> property.
+	/// </summary>
 	public DbSet<CalendarDay> CalendarDays { get; set; } = default!;
-	/// <summary>The <see cref="DayTypes"/> property.</summary>
+	/// <summary>
+	/// The <see cref="CardTypes"/> property.
+	/// </summary>
+	public DbSet<CardType> CardTypes { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="DayTypes"/> property.
+	/// </summary>
 	public DbSet<DayType> DayTypes { get; set; } = default!;
-	/// <summary>The <see cref="Attendances"/> property.</summary>
+	/// <summary>
+	/// The <see cref="Attendances"/> property.
+	/// </summary>
 	public DbSet<Attendance> Attendances { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="Accounts"/> property.
+	/// </summary>
+	public DbSet<Account> Accounts { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="Cards"/> property.
+	/// </summary>
+	public DbSet<Card> Cards { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="Transactions"/> property.
+	/// </summary>
+	public DbSet<Transaction> Transactions { get; set; } = default!;
 }

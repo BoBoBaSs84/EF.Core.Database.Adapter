@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories.BaseTypes.Interfaces;
 
 namespace Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
@@ -28,5 +28,19 @@ public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
 	/// <param name="maxDate">The date to end with.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <returns>A collection of calendar entities.</returns>
-	IEnumerable<CalendarDay> GetByDateRange(DateTime minDate, DateTime maxDate, bool trackChanges = false);
+	IEnumerable<CalendarDay> GetByDate(DateTime minDate, DateTime maxDate, bool trackChanges = false);
+	/// <summary>
+	/// Should get a collection of calendar entities by the day type name.
+	/// </summary>
+	/// <param name="dayTypeName">The name of the day type.</param>
+	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <returns>A collection of calendar entities.</returns>
+	IEnumerable<CalendarDay> GetByDayType(string dayTypeName, bool trackChanges = false);
+	/// <summary>
+	/// Should get a collection of calendar entities by the day type identifier.
+	/// </summary>
+	/// <param name="dayTypeId">The the day identifier.</param>
+	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <returns>A collection of calendar entities.</returns>
+	IEnumerable<CalendarDay> GetByDayType(int dayTypeId, bool trackChanges = false);
 }

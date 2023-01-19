@@ -20,12 +20,8 @@ public static class Constants
 		/// </summary>
 		public static class SqlSchema
 		{
-			/// <summary>The <see cref="APPLICATION"/> constant.</summary>
-			public const string APPLICATION = "application";
-			/// <summary>The <see cref="CLR"/> constant.</summary>
-			public const string CLR = "clr";
-			/// <summary>The <see cref="ENUMERATOR"/> constant.</summary>
-			public const string ENUMERATOR = "enumerator";
+			/// <summary>The <see cref="ENUMERATE"/> constant.</summary>
+			public const string ENUMERATE = "enumerate";
 			/// <summary>The <see cref="HISTORY"/> constant.</summary>
 			public const string HISTORY = "history";
 			/// <summary>The <see cref="IDENTITY"/> constant.</summary>
@@ -99,6 +95,7 @@ public static class Constants
 			namespaces.Add("at", XmlNameSpaces.ATTENDANCE_NAMESPACE);
 			namespaces.Add("cd", XmlNameSpaces.CALENDARDAY_NAMESPACE);
 			namespaces.Add("en", XmlNameSpaces.ENUMERATOR_NAMSPACE);
+			namespaces.Add("fi", XmlNameSpaces.FINANCE_NAMSPACE);
 			namespaces.Add("id", XmlNameSpaces.IDENTITY_NAMESPACE);
 			return namespaces;
 		}
@@ -118,6 +115,8 @@ public static class Constants
 			public const string CALENDARDAY_NAMESPACE = "http://Database.Adapter.Entities.org/CalendarDay";
 			/// <summary>The <see cref="ENUMERATOR_NAMSPACE"/> constant.</summary>
 			public const string ENUMERATOR_NAMSPACE = "http://Database.Adapter.Entities.org/Enumerator";
+			/// <summary>The <see cref="FINANCE_NAMSPACE"/> constant.</summary>
+			public const string FINANCE_NAMSPACE = "http://Database.Adapter.Entities.org/Finance";
 			/// <summary>The <see cref="IDENTITY_NAMESPACE"/> constant.</summary>
 			public const string IDENTITY_NAMESPACE = "http://Database.Adapter.Entities.org/Identity";
 		}

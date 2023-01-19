@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
+﻿using Database.Adapter.Entities.Contexts.Timekeeping;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
 using Microsoft.EntityFrameworkCore;

@@ -18,8 +18,17 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
 		builder.HasKey(e => e.Id)
 			.IsClustered(false);
 
-		builder.HasMany(e => e.Transactions)
-			.WithMany(e => e.Accounts);
+		builder.HasMany(e => e.AccountUsers)
+			.WithOne(e => e.Account)
+			.HasForeignKey(e => e.AccountId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
+
+		builder.HasMany(e => e.AccountTransactions)
+			.WithOne(e => e.Account)
+			.HasForeignKey(e => e.AccountId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
 
 		builder.HasMany(e => e.Cards)
 			.WithOne(e => e.Account)

@@ -1,13 +1,17 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
-
-namespace Database.Adapter.Entities.Contexts.Finances;
+﻿namespace Database.Adapter.Entities.Contexts.Finances;
 
 public partial class Account
 {
-	/// <summary>The <see cref="Users"/> property.</summary>
-	public virtual ICollection<User> Users { get; set; } = default!;
-	/// <summary>The <see cref="Transactions"/> property.</summary>
-	public virtual ICollection<Transaction> Transactions { get; set; } = default!;
-	/// <summary>The <see cref="Cards"/> property.</summary>
+	/// <summary>
+	/// The <see cref="AccountUsers"/> property.
+	/// </summary>
+	public virtual ICollection<AccountUser> AccountUsers { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="AccountTransactions"/> property.
+	/// </summary>
+	public virtual ICollection<AccountTransaction> AccountTransactions { get; set; } = default!;
+	/// <summary>
+	/// The <see cref="Cards"/> property.
+	/// </summary>
 	public virtual ICollection<Card> Cards { get; set; } = default!;
 }

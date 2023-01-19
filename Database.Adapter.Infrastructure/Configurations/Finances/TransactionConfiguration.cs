@@ -17,5 +17,17 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
 
 		builder.HasKey(e => e.Id)
 			.IsClustered(false);
+
+		builder.HasMany(e => e.AccountTransactions)
+			.WithOne(e => e.Transaction)
+			.HasForeignKey(e => e.TransactionId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
+
+		builder.HasMany(e => e.CardTransactions)
+			.WithOne(e => e.Transaction)
+			.HasForeignKey(e => e.TransactionId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
 	}
 }

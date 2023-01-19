@@ -23,7 +23,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.Role", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +82,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "54f76b81-6c41-4e3c-8d1e-2f9dcf54cc42",
+                            ConcurrencyStamp = "a6129950-70dd-4d7d-8ad0-4c2168737cea",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -90,7 +90,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "5182d577-d6d4-441f-ba3f-287bfb0ababf",
+                            ConcurrencyStamp = "0c65859a-ed71-4743-963d-fb8e0a463e35",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -98,14 +98,14 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "9818c449-3bb2-45a1-bc50-63bc618e0e60",
+                            ConcurrencyStamp = "060b3ded-6e41-4422-bb42-2c6ca15d09bb",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
                         });
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.RoleClaim", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.RoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +151,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.User", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -264,7 +264,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserClaim", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -310,7 +310,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserLogin", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -353,7 +353,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserRole", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -390,7 +390,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserToken", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserToken", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -431,7 +431,371 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.MasterData.CalendarDay", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("IBAN")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<string>("Provider")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("IBAN")
+                        .IsUnique();
+
+                    b.ToTable("Account", "finance");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("Account", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.AccountTransaction", b =>
+                {
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.HasKey("AccountId", "TransactionId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("AccountId", "TransactionId"), false);
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("AccountTransaction", "finance");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("AccountTransaction", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.AccountUser", b =>
+                {
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.HasKey("AccountId", "UserId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("AccountId", "UserId"), false);
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AccountUser", "finance");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("AccountUser", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Card", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CardTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ValidUntil")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("CardTypeId");
+
+                    b.HasIndex("Number")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Card", "finance");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("Card", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.CardTransaction", b =>
+                {
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.HasKey("CardId", "TransactionId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("CardId", "TransactionId"), false);
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("CardTransaction", "finance");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("CardTransaction", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<decimal>("AmountEur")
+                        .HasColumnType("money");
+
+                    b.Property<string>("BankCode")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<DateTime>("BookingDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ClientBeneficiary")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("CreditorId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("CustomerReference")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("MandateReference")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<string>("PostingText")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Purpose")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
+
+                    b.Property<DateTime>("ValueDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.ToTable("Transaction", "finance");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("Transaction", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.CalendarDay", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -541,7 +905,80 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.MasterData.DayType", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.CardType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("CardType", "enumerate");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb.UseHistoryTable("CardType", "history");
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder's accrued debt.",
+                            IsActive = true,
+                            Name = "Credit card"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "A debit card, also known as a check card or bank card is a payment card that can be used in place of cash to make purchases.",
+                            IsActive = true,
+                            Name = "Debit card"
+                        });
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.DayType", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
@@ -583,7 +1020,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("DayType", "enumerator");
+                    b.ToTable("DayType", "enumerate");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                         {
@@ -698,7 +1135,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         });
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Timekeeping.Attendance", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Timekeeping.Attendance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -776,9 +1213,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.RoleClaim", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.RoleClaim", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.Authentication.Role", "Role")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.Role", "Role")
                         .WithMany("RoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -787,9 +1224,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserClaim", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserClaim", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.Authentication.User", "User")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -798,9 +1235,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserLogin", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserLogin", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.Authentication.User", "User")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -809,15 +1246,15 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserRole", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserRole", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.Authentication.Role", "Role")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.Authentication.User", "User")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -828,9 +1265,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.UserToken", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserToken", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.Authentication.User", "User")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -839,9 +1276,93 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.MasterData.CalendarDay", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.AccountTransaction", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.MasterData.DayType", "DayType")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Finances.Account", "Account")
+                        .WithMany("AccountTransactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Database.Adapter.Entities.Contexts.Finances.Transaction", "Transaction")
+                        .WithMany("AccountTransactions")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.AccountUser", b =>
+                {
+                    b.HasOne("Database.Adapter.Entities.Contexts.Finances.Account", "Account")
+                        .WithMany("AccountUsers")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
+                        .WithMany("AccountUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Card", b =>
+                {
+                    b.HasOne("Database.Adapter.Entities.Contexts.Finances.Account", "Account")
+                        .WithMany("Cards")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Database.Adapter.Entities.Contexts.MasterData.CardType", "CardType")
+                        .WithMany("Cards")
+                        .HasForeignKey("CardTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
+                        .WithMany("Cards")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("CardType");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.CardTransaction", b =>
+                {
+                    b.HasOne("Database.Adapter.Entities.Contexts.Finances.Card", "Card")
+                        .WithMany("CardTransactions")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Database.Adapter.Entities.Contexts.Finances.Transaction", "Transaction")
+                        .WithMany("CardTransactions")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.CalendarDay", b =>
+                {
+                    b.HasOne("Database.Adapter.Entities.Contexts.MasterData.DayType", "DayType")
                         .WithMany("CalendarDays")
                         .HasForeignKey("DayTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -850,21 +1371,21 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("DayType");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Timekeeping.Attendance", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Timekeeping.Attendance", b =>
                 {
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.MasterData.CalendarDay", "CalendarDay")
+                    b.HasOne("Database.Adapter.Entities.Contexts.MasterData.CalendarDay", "CalendarDay")
                         .WithMany("Attendances")
                         .HasForeignKey("CalendarDayId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.MasterData.DayType", "DayType")
+                    b.HasOne("Database.Adapter.Entities.Contexts.MasterData.DayType", "DayType")
                         .WithMany("Attendances")
                         .HasForeignKey("DayTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Database.Adapter.Entities.Contexts.Application.Authentication.User", "User")
+                    b.HasOne("Database.Adapter.Entities.Contexts.Authentication.User", "User")
                         .WithMany("Attendances")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -877,16 +1398,20 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.Role", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.Role", b =>
                 {
                     b.Navigation("RoleClaims");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.Authentication.User", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.User", b =>
                 {
+                    b.Navigation("AccountUsers");
+
                     b.Navigation("Attendances");
+
+                    b.Navigation("Cards");
 
                     b.Navigation("Claims");
 
@@ -897,12 +1422,38 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.MasterData.CalendarDay", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Account", b =>
+                {
+                    b.Navigation("AccountTransactions");
+
+                    b.Navigation("AccountUsers");
+
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Card", b =>
+                {
+                    b.Navigation("CardTransactions");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Transaction", b =>
+                {
+                    b.Navigation("AccountTransactions");
+
+                    b.Navigation("CardTransactions");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.CalendarDay", b =>
                 {
                     b.Navigation("Attendances");
                 });
 
-            modelBuilder.Entity("Database.Adapter.Entities.Contexts.Application.MasterData.DayType", b =>
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.CardType", b =>
+                {
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.DayType", b =>
                 {
                     b.Navigation("Attendances");
 

@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

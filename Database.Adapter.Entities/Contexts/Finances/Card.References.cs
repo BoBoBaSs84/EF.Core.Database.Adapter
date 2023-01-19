@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Contexts.MasterData;
 
 namespace Database.Adapter.Entities.Contexts.Finances;
@@ -14,9 +14,9 @@ public partial class Card
 	/// </summary>
 	public virtual Account Account { get; set; } = default!;
 	/// <summary>
-	/// The <see cref="Transactions"/> property.
+	/// The <see cref="CardTransactions"/> property.
 	/// </summary>
-	public virtual ICollection<Transaction> Transactions { get; set; } = default!;
+	public virtual ICollection<CardTransaction> CardTransactions { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="CardType"/> property.
 	/// </summary>

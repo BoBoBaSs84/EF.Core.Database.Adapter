@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Database.Adapter.Entities.Constants.SqlConstants;
 
-namespace Database.Adapter.Entities.Contexts.Application.MasterData;
+namespace Database.Adapter.Entities.Contexts.MasterData;
 
 /// <summary>
 /// The calendar entity class.
@@ -14,30 +14,53 @@ namespace Database.Adapter.Entities.Contexts.Application.MasterData;
 [Index(nameof(Date), IsUnique = true), Index(nameof(Year), IsUnique = false)]
 public partial class CalendarDay : IdentityModel
 {
-	/// <summary>The <see cref="Date"/> property.</summary>
+	/// <summary>
+	/// The <see cref="Date"/> property.
+	/// </summary>
 	[Column(TypeName = SqlDataType.DATE)]
 	public DateTime Date { get; set; } = default!;
-	/// <summary>The <see cref="Year"/> property.</summary>
+	/// <summary>
+	/// The <see cref="Year"/> property.
+	/// </summary>
 	public int Year { get; private set; } = default!;
-	/// <summary>The <see cref="Month"/> property.</summary>
+	/// <summary>
+	/// The <see cref="Month"/> property.
+	/// </summary>
 	public int Month { get; private set; } = default!;
-	/// <summary>The <see cref="Day"/> property.</summary>
+	/// <summary>
+	/// The <see cref="Day"/> property.
+	/// </summary>
 	public int Day { get; private set; } = default!;
-	/// <summary>The <see cref="Week"/> property.</summary>
+	/// <summary>
+	/// The <see cref="Week"/> property.
+	/// </summary>
 	public int Week { get; private set; } = default!;
-	/// <summary>The <see cref="IsoWeek"/> property.</summary>
+	/// <summary>
+	/// The <see cref="IsoWeek"/> property.
+	/// </summary>
 	public int IsoWeek { get; private set; } = default!;
-	/// <summary>The <see cref="DayOfYear"/> property.</summary>
+	/// <summary>
+	/// The <see cref="DayOfYear"/> property.
+	/// </summary>
 	public int DayOfYear { get; private set; } = default!;
-	/// <summary>The <see cref="WeekDay"/> property.</summary>
+	/// <summary>
+	/// The <see cref="WeekDay"/> property.
+	/// </summary>
 	public int WeekDay { get; private set; } = default!;
-	/// <summary>The <see cref="EndOfMonth"/> property.</summary>
+	/// <summary>
+	/// The <see cref="EndOfMonth"/> property.
+	/// </summary>
 	public DateTime EndOfMonth { get; private set; } = default!;
-	/// <summary>The <see cref="WeekDayName"/> property.</summary>
+	/// <summary>
+	/// The <see cref="WeekDayName"/> property.
+	/// </summary>
 	public string WeekDayName { get; private set; } = default!;
-	/// <summary>The <see cref="MonthName"/> property.</summary>
+	/// <summary>
+	/// The <see cref="MonthName"/> property.
+	/// </summary>
 	public string MonthName { get; private set; } = default!;
-
-	/// <summary>The <see cref="DayTypeId"/> property.</summary>
+	/// <summary>
+	/// The <see cref="DayTypeId"/> property.
+	/// </summary>
 	public int DayTypeId { get; set; } = default!;
 }

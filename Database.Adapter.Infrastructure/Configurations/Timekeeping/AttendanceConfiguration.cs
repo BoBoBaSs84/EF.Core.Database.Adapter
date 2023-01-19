@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
+﻿using Database.Adapter.Entities.Contexts.Timekeeping;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

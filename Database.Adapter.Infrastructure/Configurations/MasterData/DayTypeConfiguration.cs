@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,7 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<DayType> builder)
 	{
-		builder.ToSytemVersionedTable(nameof(DayType), ENUMERATOR);
+		builder.ToSytemVersionedTable(nameof(DayType), ENUMERATE);
 
 		builder.HasKey(e => e.Id)
 			.IsClustered(false);

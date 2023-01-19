@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -40,7 +40,7 @@ public class CalendarDayRepositoryTests
 		DateTime mindateTime = DateTime.Today, maxDateTime = DateTime.Today.AddDays(14);
 
 		IEnumerable<CalendarDay> dbCalendarDays =
-			repositoryManager.CalendarRepository.GetByDateRange(mindateTime, maxDateTime);
+			repositoryManager.CalendarRepository.GetByDate(mindateTime, maxDateTime);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 		dbCalendarDays.First().Date.Should().Be(mindateTime);

@@ -1,4 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Authentication;
+﻿using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -45,12 +45,15 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired(true);
 
-		builder.HasMany(e => e.Accounts)
-			.WithMany(e => e.Users);
-
 		builder.HasMany(e => e.Cards)
 			.WithOne(e => e.User)
 			.HasForeignKey(eca => eca.UserId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
+
+		builder.HasMany(e => e.AccountUsers)
+			.WithOne(e => e.User)
+			.HasForeignKey(e => e.UserId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired(true);
 	}

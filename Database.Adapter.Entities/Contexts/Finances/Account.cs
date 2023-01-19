@@ -14,10 +14,14 @@ namespace Database.Adapter.Entities.Contexts.Finances;
 [Index(nameof(IBAN), IsUnique = true)]
 public partial class Account : AuditedModel
 {
-	/// <summary>The <see cref="IBAN"/> property.</summary>
+	/// <summary>
+	/// The <see cref="IBAN"/> property.
+	/// </summary>
 	[StringLength(SqlStringLength.MAX_LENGHT_32)]
 	public string IBAN { get; set; } = default!;
-	/// <summary>The <see cref="Provider"/> property.</summary>
+	/// <summary>
+	/// The <see cref="Provider"/> property.
+	/// </summary>
 	[StringLength(SqlStringLength.MAX_LENGHT_64)]
 	public string Provider { get; set; } = default!;
 }

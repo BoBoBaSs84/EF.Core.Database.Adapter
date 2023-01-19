@@ -1,6 +1,6 @@
-﻿using Database.Adapter.Entities.Contexts.Application.Timekeeping;
+﻿using Database.Adapter.Entities.Contexts.Timekeeping;
 
-namespace Database.Adapter.Entities.Contexts.Application.MasterData;
+namespace Database.Adapter.Entities.Contexts.MasterData;
 
 public partial class DayType
 {

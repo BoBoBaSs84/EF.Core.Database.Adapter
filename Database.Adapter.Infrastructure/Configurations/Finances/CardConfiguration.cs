@@ -18,7 +18,10 @@ internal sealed class CardConfiguration : IEntityTypeConfiguration<Card>
 		builder.HasKey(e => e.Id)
 			.IsClustered(false);
 
-		builder.HasMany(e => e.Transactions)
-			.WithMany(e => e.Cards);
+		builder.HasMany(e => e.CardTransactions)
+			.WithOne(e => e.Card)
+			.HasForeignKey(e => e.CardId)
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(true);
 	}
 }

@@ -27,5 +27,6 @@ public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>
 		lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(Context));
 		lazyDayTypeRepository = new Lazy<IDayTypeRepository>(() => new DayTypeRepository(Context));
 		lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(Context));
+		lazyCardTypeRepository = new Lazy<ICardTypeRepository>(() => new CardTypeRepository(Context));
 	}
 }

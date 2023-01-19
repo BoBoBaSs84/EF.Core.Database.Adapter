@@ -16,16 +16,26 @@ namespace Database.Adapter.Entities.Contexts.Finances;
 [Index(nameof(Number), IsUnique = true)]
 public partial class Card : AuditedModel
 {
-	/// <summary>The <see cref="UserId"/> property.</summary>
+	/// <summary>
+	/// The <see cref="UserId"/> property.
+	/// </summary>
 	public int UserId { get; set; } = default!;
-	/// <summary>The <see cref="AccountId"/> property.</summary>
+	/// <summary>
+	/// The <see cref="AccountId"/> property.
+	/// </summary>
 	public int AccountId { get; set; } = default!;
-	/// <summary>The <see cref="CardTypeId"/> property.</summary>
+	/// <summary>
+	/// The <see cref="CardTypeId"/> property.
+	/// </summary>
 	public int CardTypeId { get; set; } = default!;
-
+	/// <summary>
+	/// The <see cref="Number"/> property.
+	/// </summary>
 	[StringLength(SqlStringLength.MAX_LENGHT_32)]
 	public string Number { get; set; } = default!;
-
+	/// <summary>
+	/// The <see cref="ValidUntil"/> property.
+	/// </summary>
 	[Column(TypeName = SqlDataType.DATE)]
 	public DateTime ValidUntil { get; set; } = default!;
 }

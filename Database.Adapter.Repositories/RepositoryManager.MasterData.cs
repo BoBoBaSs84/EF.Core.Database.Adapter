@@ -7,7 +7,7 @@ namespace Database.Adapter.Repositories;
 
 public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>, IRepositoryManager
 {
-	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository;	
+	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository;
 	private readonly Lazy<IDayTypeRepository> lazyDayTypeRepository;
 	private readonly Lazy<ICardTypeRepository> lazyCardTypeRepository;
 

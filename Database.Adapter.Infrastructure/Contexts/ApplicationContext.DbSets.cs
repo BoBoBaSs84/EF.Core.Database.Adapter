@@ -1,7 +1,7 @@
-﻿using Database.Adapter.Entities.Contexts.Timekeeping;
+﻿using Database.Adapter.Entities.Contexts.Finances;
 using Database.Adapter.Entities.Contexts.MasterData;
+using Database.Adapter.Entities.Contexts.Timekeeping;
 using Microsoft.EntityFrameworkCore;
-using Database.Adapter.Entities.Contexts.Finances;
 
 namespace Database.Adapter.Infrastructure.Contexts;
 

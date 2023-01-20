@@ -43,7 +43,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 			trackChanges: trackChanges
 			);
 	/// <inheritdoc/>
-	public IEnumerable<CalendarDay> GetByDayType(string dayTypeName, bool trackChanges = false) => 
+	public IEnumerable<CalendarDay> GetByDayType(string dayTypeName, bool trackChanges = false) =>
 		GetManyByCondition(
 			expression: x => x.DayType.Name.Contains(dayTypeName),
 			trackChanges: trackChanges
@@ -51,7 +51,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	/// <inheritdoc/>
 	public IEnumerable<CalendarDay> GetByDayType(int dayTypeId, bool trackChanges = false) =>
 		GetManyByCondition(
-			expression: x=>x.DayTypeId.Equals(dayTypeId),
-			trackChanges: trackChanges			
+			expression: x => x.DayTypeId.Equals(dayTypeId),
+			trackChanges: trackChanges
 			);
 }

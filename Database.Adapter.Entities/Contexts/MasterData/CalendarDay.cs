@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Database.Adapter.Entities.Constants.SqlConstants;
+using static Database.Adapter.Entities.Constants.Sql;
 
 namespace Database.Adapter.Entities.Contexts.MasterData;
 
@@ -17,7 +17,7 @@ public partial class CalendarDay : IdentityModel
 	/// <summary>
 	/// The <see cref="Date"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.DATE)]
+	[Column(TypeName = DataType.DATE)]
 	public DateTime Date { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="Year"/> property.

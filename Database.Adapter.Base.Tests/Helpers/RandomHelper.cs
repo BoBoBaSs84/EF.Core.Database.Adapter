@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Fare;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using static Database.Adapter.Base.Tests.Constants;
 
@@ -25,6 +26,11 @@ public static class RandomHelper
 	public static string GetString() => RandomString();
 	public static string GetString(int maxChars) => RandomString(maxChars);
 	public static string GetString(int maxChars, string pattern) => RandomString(maxChars, pattern);
+	public static string GetString(string regexPattern)
+	{
+		Xeger xeger = new(regexPattern, Random);
+		return xeger.Generate();
+	}
 
 	private static string RandomString(int length = 10, string pattern = CharsOnly)
 	{

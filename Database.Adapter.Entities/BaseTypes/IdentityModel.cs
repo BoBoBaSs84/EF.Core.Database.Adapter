@@ -18,8 +18,8 @@ public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
 	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	public int Id { get; set; } = default!;
+	public int Id { get; private set; } = default!;
 	/// <inheritdoc/>
 	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	public byte[] Timestamp { get; set; } = default!;
+	public byte[] Timestamp { get; private set; } = default!;
 }

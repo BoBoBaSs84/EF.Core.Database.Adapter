@@ -1,7 +1,9 @@
 ﻿using Database.Adapter.Entities.Contexts.Finances;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.Finances.Interfaces;
+using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Adapter.Repositories.Contexts.Finances;
 
@@ -14,6 +16,7 @@ namespace Database.Adapter.Repositories.Contexts.Finances;
 /// <item>The <see cref="IAccountRepository"/> interface</item>
 /// </list>
 /// </remarks>
+[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 internal sealed class AccountRepository : GenericRepository<Account>, IAccountRepository
 {
 	/// <summary>
@@ -23,4 +26,15 @@ internal sealed class AccountRepository : GenericRepository<Account>, IAccountRe
 	public AccountRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
+
+	public Account GetAccount(string IBAN, bool trackChanges = false) =>
+		GetByCondition(
+			expression: x => x.IBAN.Equals(IBAN.RemoveWhitespace()),
+			trackChanges: trackChanges
+			);
+	public IEnumerable<Account> GetAccounts(int userId, bool trackChanges = false) =>
+		GetManyByCondition(
+			expression: x => x.AccountUsers.Select(x => x.UserId).Equals(userId),
+			trackChanges: trackChanges
+			);
 }

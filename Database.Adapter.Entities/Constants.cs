@@ -13,12 +13,12 @@ public static class Constants
 	/// <summary>
 	/// The sql constants class.
 	/// </summary>
-	public static class SqlConstants
+	public static class Sql
 	{
 		/// <summary>
 		/// The sql schema class.
 		/// </summary>
-		public static class SqlSchema
+		public static class Schema
 		{
 			/// <summary>The <see cref="ENUMERATE"/> constant.</summary>
 			public const string ENUMERATE = "enumerate";
@@ -35,7 +35,7 @@ public static class Constants
 		/// <summary>
 		/// The sql data type class.
 		/// </summary>
-		public static class SqlDataType
+		public static class DataType
 		{
 			/// <summary>The <see cref="DATETIME"/> constant.</summary>
 			public const string DATETIME = "datetime";
@@ -57,7 +57,7 @@ public static class Constants
 		/// <summary>
 		/// The sql string length class.
 		/// </summary>
-		public static class SqlStringLength
+		public static class StringLength
 		{
 			/// <summary>The <see cref="MAX_LENGHT_32"/> constant.</summary>
 			public const int MAX_LENGHT_32 = 32;
@@ -81,29 +81,29 @@ public static class Constants
 	/// <summary>
 	/// The xml constants class.
 	/// </summary>
-	public static class XmlConstants
+	public static class Xml
 	{
 		/// <summary>
 		/// The method should return all the available xml namespaces.
 		/// </summary>
 		/// <returns>Serializable xml namespaces.</returns>
-		public static XmlSerializerNamespaces GetXmlSerializerNamespaces()
+		public static XmlSerializerNamespaces GetNamespaces()
 		{
 			XmlSerializerNamespaces namespaces = new();
-			namespaces.Add("ac", XmlNameSpaces.ACTIVATABLE_NAMESPACE);
-			namespaces.Add("ad", XmlNameSpaces.AUDITED_NAMESPACE);
-			namespaces.Add("at", XmlNameSpaces.ATTENDANCE_NAMESPACE);
-			namespaces.Add("cd", XmlNameSpaces.CALENDARDAY_NAMESPACE);
-			namespaces.Add("en", XmlNameSpaces.ENUMERATOR_NAMSPACE);
-			namespaces.Add("fi", XmlNameSpaces.FINANCE_NAMSPACE);
-			namespaces.Add("id", XmlNameSpaces.IDENTITY_NAMESPACE);
+			namespaces.Add("ac", NameSpaces.ACTIVATABLE_NAMESPACE);
+			namespaces.Add("ad", NameSpaces.AUDITED_NAMESPACE);
+			namespaces.Add("at", NameSpaces.ATTENDANCE_NAMESPACE);
+			namespaces.Add("cd", NameSpaces.CALENDARDAY_NAMESPACE);
+			namespaces.Add("en", NameSpaces.ENUMERATOR_NAMSPACE);
+			namespaces.Add("fi", NameSpaces.FINANCE_NAMSPACE);
+			namespaces.Add("id", NameSpaces.IDENTITY_NAMESPACE);
 			return namespaces;
 		}
 
 		/// <summary>
 		/// The xml name space class.
 		/// </summary>
-		public static class XmlNameSpaces
+		public static class NameSpaces
 		{
 			/// <summary>The <see cref="ACTIVATABLE_NAMESPACE"/> constant.</summary>
 			public const string ACTIVATABLE_NAMESPACE = "http://Database.Adapter.Entities.org/Activatable";
@@ -123,7 +123,7 @@ public static class Constants
 		/// <summary>
 		/// The xml data type class.
 		/// </summary>
-		public static class XmlDataType
+		public static class DataType
 		{
 			/// <summary>The <see cref="BOOL"/> constant.</summary>
 			public const string BOOL = "boolean";
@@ -144,5 +144,26 @@ public static class Constants
 			/// <summary>The <see cref="ID"/> constant.</summary>
 			public const string ID = "ID";
 		}
+	}
+
+	/// <summary>
+	/// The regex constants class.
+	/// </summary>
+	public static class Regex
+	{
+		/// <summary>
+		/// The <see cref="IBAN"/> property.
+		/// </summary>
+		/// <remarks>
+		/// The International Bank Account Number
+		/// </remarks>
+		public const string IBAN = @"^[A-Z]{2}(?:[ ]?[0-9]){18,20}$";
+		/// <summary>
+		/// The <see cref="CC"/> property.
+		/// </summary>
+		/// <remarks>
+		/// Credit card number is the card unique identifier found on payment cards.
+		/// </remarks>
+		public const string CC = @"(^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\d{3})\d{11}$)";
 	}
 }

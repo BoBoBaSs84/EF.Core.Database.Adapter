@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
-using Database.Adapter.Repositories.Extensions;
+using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Repositories.Contexts.MasterData;

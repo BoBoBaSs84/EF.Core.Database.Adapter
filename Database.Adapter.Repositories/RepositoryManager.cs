@@ -2,6 +2,8 @@
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.Authentication;
 using Database.Adapter.Repositories.Contexts.Authentication.Interfaces;
+using Database.Adapter.Repositories.Contexts.Finances;
+using Database.Adapter.Repositories.Contexts.Finances.Interfaces;
 using Database.Adapter.Repositories.Contexts.MasterData;
 using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 using Database.Adapter.Repositories.Contexts.Timekeeping;
@@ -38,5 +40,8 @@ public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>
 		lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(DbContext));
 		lazyCardTypeRepository = new Lazy<ICardTypeRepository>(() => new CardTypeRepository(DbContext));
 		lazyUserRepository = new Lazy<IUserRepository>(() => new UserRepository(DbContext));
+		lazyAccountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(DbContext));
+		lazyCardRepository = new Lazy<ICardRepository>(() => new CardRepository(DbContext));
+		lazyTransactionRepository = new Lazy<ITransactionRepository>(() => new TransactionRepository(DbContext));
 	}
 }

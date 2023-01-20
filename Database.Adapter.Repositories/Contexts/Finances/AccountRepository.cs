@@ -34,7 +34,7 @@ internal sealed class AccountRepository : GenericRepository<Account>, IAccountRe
 			);
 	public IEnumerable<Account> GetAccounts(int userId, bool trackChanges = false) =>
 		GetManyByCondition(
-			expression: x => x.AccountUsers.Select(x => x.UserId).Equals(userId),
+			expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId),
 			trackChanges: trackChanges
 			);
 }

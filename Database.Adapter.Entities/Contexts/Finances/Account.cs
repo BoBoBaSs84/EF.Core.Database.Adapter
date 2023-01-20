@@ -1,4 +1,5 @@
-﻿using Database.Adapter.Entities.BaseTypes;
+﻿using Database.Adapter.Entities.Extensions;
+using Database.Adapter.Entities.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using static Database.Adapter.Entities.Constants;
@@ -15,11 +16,13 @@ namespace Database.Adapter.Entities.Contexts.Finances;
 [Index(nameof(IBAN), IsUnique = true)]
 public partial class Account : AuditedModel
 {
+	private string iBAN = default!;
+
 	/// <summary>
 	/// The <see cref="IBAN"/> property.
 	/// </summary>
-	[StringLength(42), RegularExpression(Regex.IBAN), Unicode(false)]
-	public string IBAN { get; set; } = default!;
+	[StringLength(20), RegularExpression(Regex.IBAN), Unicode(false)]
+	public string IBAN { get => iBAN; set => iBAN = value.RemoveWhitespace(); }
 	/// <summary>
 	/// The <see cref="Provider"/> property.
 	/// </summary>

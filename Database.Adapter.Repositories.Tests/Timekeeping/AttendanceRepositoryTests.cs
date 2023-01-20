@@ -1,5 +1,6 @@
-﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Base.Tests.Helpers;
+﻿using Database.Adapter.Base.Tests.Helpers;
+using Database.Adapter.Entities.Contexts.Authentication;
+using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Entities.Contexts.Timekeeping;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
@@ -11,6 +12,7 @@ namespace Database.Adapter.Repositories.Tests.Timekeeping;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
+[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 public class AttendanceRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
@@ -29,11 +31,15 @@ public class AttendanceRepositoryTests
 	[TestMethod]
 	public void GetAllAttendancesByUserIdTest()
 	{
-		CreateTestUser();
-		CreateTestAttendance();
-		int userId = repositoryManager.UserRepository.GetByCondition(x => x.UserName == Constants.UnitTestUserName).Id;
+		User newUser = EntityHelper.GetNewUser();
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(1);
+		DayType dbDayType = repositoryManager.DayTypeRepository.GetById(1);
+		newUser.Attendances = EntityHelper.GetNewAttendanceCollection(newUser, dbCalendarDay, dbDayType);
+		repositoryManager.UserRepository.Create(newUser);
+		repositoryManager.CommitChanges();
+		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
 
-		IEnumerable<Attendance> dbAttendances = repositoryManager.AttendanceRepository.GetAllAttendances(userId);
+		IEnumerable<Attendance> dbAttendances = repositoryManager.AttendanceRepository.GetAllAttendances(dbUserId);
 
 		dbAttendances.Should().NotBeNullOrEmpty();
 	}
@@ -41,12 +47,15 @@ public class AttendanceRepositoryTests
 	[TestMethod]
 	public void GetAttendanceByUserIdAndCalendarIdTest()
 	{
-		CreateTestUser();
-		CreateTestAttendance();
-		int userId = repositoryManager.UserRepository.GetByCondition(x => x.UserName == Constants.UnitTestUserName).Id,
-			calendarDayId = repositoryManager.CalendarRepository.GetByDate(DateTime.Today).Id;
+		User newUser = EntityHelper.GetNewUser();
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(1);
+		DayType dbDayType = repositoryManager.DayTypeRepository.GetById(1);
+		newUser.Attendances = EntityHelper.GetNewAttendanceCollection(newUser, dbCalendarDay, dbDayType);
+		repositoryManager.UserRepository.Create(newUser);
+		repositoryManager.CommitChanges();
+		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(userId, calendarDayId);
+		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, dbCalendarDay.Id);
 
 		dbAttendance.Should().NotBeNull();
 	}
@@ -54,43 +63,16 @@ public class AttendanceRepositoryTests
 	[TestMethod]
 	public void GetAttendanceByUserIdAndCalendarDateTest()
 	{
-		CreateTestUser();
-		CreateTestAttendance();
-		int userId = repositoryManager.UserRepository.GetByCondition(x => x.UserName == Constants.UnitTestUserName).Id;
-		DateTime calendarDate = DateTime.Today;
-
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(userId, calendarDate);
-
-		dbAttendance.Should().NotBeNull();
-	}
-
-	private void CreateTestUser()
-	{
-		Entities.Contexts.Authentication.User newUser = new()
-		{
-			FirstName = RandomHelper.GetString(64),
-			LastName = RandomHelper.GetString(64),
-			Email = "UnitTest@Test.org",
-			NormalizedEmail = "UNITTEST@TEST.ORG",
-			UserName = Constants.UnitTestUserName,
-			NormalizedUserName = Constants.UnitTestUserName.ToUpper(),
-		};
+		User newUser = EntityHelper.GetNewUser();
+		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(1);
+		DayType dbDayType = repositoryManager.DayTypeRepository.GetById(1);
+		newUser.Attendances = EntityHelper.GetNewAttendanceCollection(newUser, dbCalendarDay, dbDayType);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
-	}
+		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
 
-	private void CreateTestAttendance()
-	{
-		var user = repositoryManager.UserRepository.GetByCondition(x => x.UserName == Constants.UnitTestUserName);
+		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, dbCalendarDay.Date);
 
-		Attendance newAttendance = new()
-		{
-			CalendarDayId = repositoryManager.CalendarRepository.GetByDate(DateTime.Today).Id,
-			UserId = user.Id,
-			DayTypeId = (int)Entities.Enumerators.DayType.VACATION
-		};
-
-		repositoryManager.AttendanceRepository.Create(newAttendance);
-		repositoryManager.CommitChanges();
+		dbAttendance.Should().NotBeNull();
 	}
 }

@@ -45,10 +45,6 @@ public class Worker : BackgroundService
 				calendarDay = repositoryManager.CalendarRepository.GetByDate(DateTime.UtcNow);
 			}
 
-			IEnumerable<CalendarDay> cday = repositoryManager.CalendarRepository.GetByDayType("end");
-
-			IEnumerable<CalendarDay> cday2 = repositoryManager.CalendarRepository.GetByDayType(2);
-
 			_logger.LogInformation("Worker running at: {time} - {day}", DateTimeOffset.Now, calendarDay.WeekDayName);
 
 			await Task.Delay(10000, stoppingToken);

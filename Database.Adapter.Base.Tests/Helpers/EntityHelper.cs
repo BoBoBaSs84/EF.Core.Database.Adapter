@@ -9,7 +9,7 @@ namespace Database.Adapter.Base.Tests.Helpers;
 
 public static class EntityHelper
 {
-	public static User GetNewUser()
+	public static User GetNewUser(bool attendanceSeed = false, bool accountSeed = false)
 	{
 		string firstName = RandomHelper.GetString(12),
 			lastName = RandomHelper.GetString(12),
@@ -25,13 +25,15 @@ public static class EntityHelper
 			NormalizedUserName = Constants.UnitTestUserName.ToUpper(CurrentCulture),
 		};
 
-		userToReturn.Attendances = GetNewAttendanceCollection(userToReturn);
-		userToReturn.AccountUsers = GetNewAccountUserColection(userToReturn);
+		if (attendanceSeed)
+			userToReturn.Attendances = GetNewAttendanceCollection(userToReturn);
+		if (accountSeed)
+			userToReturn.AccountUsers = GetNewAccountUserColection(userToReturn);
 
 		return userToReturn;
 	}
 
-	public static ICollection<Attendance> GetNewAttendanceCollection(User user, int entryAmount = 10)
+	public static ICollection<Attendance> GetNewAttendanceCollection(User user, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
@@ -41,7 +43,7 @@ public static class EntityHelper
 		return attendances;
 	}
 
-	public static ICollection<AccountUser> GetNewAccountUserColection(User user, int entryAmount = 10)
+	public static ICollection<AccountUser> GetNewAccountUserColection(User user, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
@@ -66,7 +68,7 @@ public static class EntityHelper
 		return accountToReturn;
 	}
 
-	public static ICollection<AccountTransaction> GetNewAccountTransactionColection(Account account, int entryAmount = 10)
+	public static ICollection<AccountTransaction> GetNewAccountTransactionColection(Account account, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));

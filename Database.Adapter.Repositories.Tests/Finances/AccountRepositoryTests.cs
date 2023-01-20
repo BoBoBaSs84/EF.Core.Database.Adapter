@@ -34,7 +34,7 @@ public class AccountRepositoryTests
 	{
 		string iban = RandomHelper.GetString(Regex.IBAN).RemoveWhitespace();
 		Account newAccount = EntityHelper.GetNewAccount(iban);
-		User newUser = EntityHelper.GetNewUser();
+		User newUser = EntityHelper.GetNewUser(accountSeed: true);
 		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();			
@@ -46,7 +46,7 @@ public class AccountRepositoryTests
 	[TestMethod]
 	public void GetGetAccountsByUserIdTest()
 	{
-		User newUser = EntityHelper.GetNewUser();
+		User newUser = EntityHelper.GetNewUser(accountSeed: true);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;

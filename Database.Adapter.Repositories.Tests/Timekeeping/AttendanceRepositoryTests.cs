@@ -31,7 +31,7 @@ public class AttendanceRepositoryTests
 	[TestMethod]
 	public void GetAllAttendancesByUserIdTest()
 	{
-		User newUser = EntityHelper.GetNewUser();
+		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
@@ -44,7 +44,7 @@ public class AttendanceRepositoryTests
 	[TestMethod]
 	public void GetAttendanceByUserIdAndCalendarIdTest()
 	{
-		User newUser = EntityHelper.GetNewUser();
+		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
@@ -57,7 +57,7 @@ public class AttendanceRepositoryTests
 	[TestMethod]
 	public void GetAttendanceByUserIdAndCalendarDateTest()
 	{
-		User newUser = EntityHelper.GetNewUser();
+		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;

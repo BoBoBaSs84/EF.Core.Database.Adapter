@@ -29,17 +29,28 @@ public class AttendanceRepositoryTests
 	{
 		int userId = 1;
 
-		IEnumerable<Attendance> dbAttendances = repositoryManager.AttendanceRepository.GetAllAttendancesByUserId(userId);
+		IEnumerable<Attendance> dbAttendances = repositoryManager.AttendanceRepository.GetAllAttendances(userId);
 
 		dbAttendances.Should().NotBeNullOrEmpty();
 	}
 
 	[TestMethod]
-	public void GetAttendancesByUserIdTest()
+	public void GetAttendanceByUserIdAndCalendarIdTest()
 	{
 		int userId = 1, calendarDayId = 1;
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendanceByUserId(userId, calendarDayId);
+		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(userId, calendarDayId);
+
+		dbAttendance.Should().NotBeNull();
+	}
+
+	[TestMethod]
+	public void GetAttendanceByUserIdAndCalendarDateTest()
+	{
+		int userId = 1;
+		DateTime calendarDate = DateTime.Today;
+
+		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(userId, calendarDate);
 
 		dbAttendance.Should().NotBeNull();
 	}

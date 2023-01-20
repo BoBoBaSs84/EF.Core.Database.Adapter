@@ -33,8 +33,13 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	/// <inheritdoc/>
 	public IEnumerable<CalendarDay> GetByDate(DateTime minDate, DateTime maxDate, bool trackChanges = false) =>
 		GetManyByCondition(
-			expression: x => x.Date >= minDate.ToSqlDate()
-			&& x.Date <= maxDate.ToSqlDate(),
+			expression: x => x.Date >= minDate.ToSqlDate() && x.Date <= maxDate.ToSqlDate(),
+			trackChanges: trackChanges
+			);
+	/// <inheritdoc/>
+	public IEnumerable<CalendarDay> GetByDate(IEnumerable<DateTime> dates, bool trackChanges = false) =>
+		GetManyByCondition(
+			expression: x => dates.Contains(x.Date),
 			trackChanges: trackChanges
 			);
 	/// <inheritdoc/>

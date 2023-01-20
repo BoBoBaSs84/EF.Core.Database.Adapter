@@ -10,13 +10,21 @@ namespace Database.Adapter.Entities.Enumerators;
 public enum DayType
 {
 	/// <summary>
+	/// The <see cref="HOLIDAY"/> day type.
+	/// </summary>
+	[Display(ResourceType = typeof(EnumeratorResources),
+		Name = nameof(DayType_Holiday_Name),
+		ShortName = nameof(DayType_Holiday_ShortName),
+		Description = nameof(DayType_Holiday_Description))]
+	HOLIDAY,
+	/// <summary>
 	/// The <see cref="WEEKDAY"/> day type.
 	/// </summary>
 	[Display(ResourceType = typeof(EnumeratorResources),
 		Name = nameof(DayType_Weekday_Name),
 		ShortName = nameof(DayType_Weekday_ShortName),
 		Description = nameof(DayType_Weekday_Description))]
-	WEEKDAY = 1,
+	WEEKDAY,
 	/// <summary>
 	/// The <see cref="WEEKENDDAY"/> day type.
 	/// </summary>
@@ -65,14 +73,6 @@ public enum DayType
 		ShortName = nameof(DayType_Suspension_ShortName),
 		Description = nameof(DayType_Suspension_Description))]
 	SUSPENSION,
-	/// <summary>
-	/// The <see cref="HOLIDAY"/> day type.
-	/// </summary>
-	[Display(ResourceType = typeof(EnumeratorResources),
-		Name = nameof(DayType_Holiday_Name),
-		ShortName = nameof(DayType_Holiday_ShortName),
-		Description = nameof(DayType_Holiday_Description))]
-	HOLIDAY,
 	/// <summary>
 	/// The <see cref="MOBILEWORKING"/> day type.
 	/// </summary>

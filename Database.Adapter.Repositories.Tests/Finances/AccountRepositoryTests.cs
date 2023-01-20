@@ -1,6 +1,7 @@
 ﻿using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Contexts.Finances;
+using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,11 +32,10 @@ public class AccountRepositoryTests
 	[TestMethod]
 	public void GetAccountByIBANTest()
 	{
-		string iban = RandomHelper.GetString(Regex.IBAN);
-		
-		User newUser = EntityHelper.GetNewUser();
+		string iban = RandomHelper.GetString(Regex.IBAN).RemoveWhitespace();
 		Account newAccount = EntityHelper.GetNewAccount(iban);
-		newUser.AccountUsers = EntityHelper.GetNewAccountUserColection(newUser, newAccount);
+		User newUser = EntityHelper.GetNewUser();
+		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();			
 		
@@ -47,8 +47,6 @@ public class AccountRepositoryTests
 	public void GetGetAccountsByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser();
-		Account newAccount = EntityHelper.GetNewAccount();
-		newUser.AccountUsers = EntityHelper.GetNewAccountUserColection(newUser, newAccount);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;

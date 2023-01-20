@@ -270,7 +270,7 @@ public class GenericRepositoryTests
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth)
 			);
 		foreach (CalendarDay dbCalendarDay in dbCalendarDays.Where(x => x.Day.Equals(25) || x.Day.Equals(26)))
-			dbCalendarDay.DayTypeId = (int)HOLIDAY;
+			dbCalendarDay.DayTypeId = (int)ABSENCE;
 		repositoryManager.CalendarRepository.Update(dbCalendarDays);
 		int commit = repositoryManager.CommitChanges();
 
@@ -286,12 +286,12 @@ public class GenericRepositoryTests
 			expression: x => x.Id.Equals(calendarDayId),
 			trackChanges: true
 			);
-		dbCalendarDay.DayTypeId = (int)HOLIDAY;
+		dbCalendarDay.DayTypeId = (int)SICKNESS;
 		repositoryManager.CommitChanges();
 		dbCalendarDay = repositoryManager.CalendarRepository.GetById(calendarDayId);
 
 		dbCalendarDay.Should().NotBeNull();
-		dbCalendarDay.DayTypeId.Should().Be((int)HOLIDAY);
+		dbCalendarDay.DayTypeId.Should().Be((int)SICKNESS);
 	}
 
 	[TestMethod]
@@ -305,7 +305,7 @@ public class GenericRepositoryTests
 			trackChanges: true
 			);
 		foreach (CalendarDay dbCalendarDay in dbCalendarDays.Where(x => x.Day.Equals(25) || x.Day.Equals(26)))
-			dbCalendarDay.DayTypeId = (int)HOLIDAY;
+			dbCalendarDay.DayTypeId = (int)BUISNESSTRIP;
 		int commit = repositoryManager.CommitChanges();
 
 		commit.Should().Be(2);

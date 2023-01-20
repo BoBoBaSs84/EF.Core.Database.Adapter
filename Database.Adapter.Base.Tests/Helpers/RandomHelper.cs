@@ -15,6 +15,11 @@ public static class RandomHelper
 		Random.NextBytes(bytes);
 		return bytes;
 	}
+	public static DateTime GetDateTime()
+	{
+		DateTime newDateTime = new(1900, 1, 1);
+		return newDateTime.AddDays(GetInt(100, 1000));
+	}
 	public static double GetDouble() => Random.NextDouble();
 	public static float GetFloat() => Random.NextSingle();
 	public static int GetInt() => Random.Next();

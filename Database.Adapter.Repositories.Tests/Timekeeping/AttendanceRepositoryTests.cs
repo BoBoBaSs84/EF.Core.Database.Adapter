@@ -32,9 +32,6 @@ public class AttendanceRepositoryTests
 	public void GetAllAttendancesByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser();
-		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(1);
-		DayType dbDayType = repositoryManager.DayTypeRepository.GetById(1);
-		newUser.Attendances = EntityHelper.GetNewAttendanceCollection(newUser, dbCalendarDay, dbDayType);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
@@ -48,14 +45,11 @@ public class AttendanceRepositoryTests
 	public void GetAttendanceByUserIdAndCalendarIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser();
-		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(1);
-		DayType dbDayType = repositoryManager.DayTypeRepository.GetById(1);
-		newUser.Attendances = EntityHelper.GetNewAttendanceCollection(newUser, dbCalendarDay, dbDayType);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, dbCalendarDay.Id);
+		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, 1);
 
 		dbAttendance.Should().NotBeNull();
 	}
@@ -64,14 +58,11 @@ public class AttendanceRepositoryTests
 	public void GetAttendanceByUserIdAndCalendarDateTest()
 	{
 		User newUser = EntityHelper.GetNewUser();
-		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetById(1);
-		DayType dbDayType = repositoryManager.DayTypeRepository.GetById(1);
-		newUser.Attendances = EntityHelper.GetNewAttendanceCollection(newUser, dbCalendarDay, dbDayType);
 		repositoryManager.UserRepository.Create(newUser);
 		repositoryManager.CommitChanges();
 		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, dbCalendarDay.Date);
+		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, new DateTime(1900, 1, 1));
 
 		dbAttendance.Should().NotBeNull();
 	}

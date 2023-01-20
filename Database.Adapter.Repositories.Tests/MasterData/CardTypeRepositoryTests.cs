@@ -11,7 +11,7 @@ namespace Database.Adapter.Repositories.Tests.MasterData;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class DayTypeRepositoryTests
+public class CardTypeRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
 	private IRepositoryManager repositoryManager = default!;
@@ -29,28 +29,28 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void GetByNameFailedTest()
 	{
-		string dayTypeName = RandomHelper.GetString(12);
+		string cardTypeName = RandomHelper.GetString(12);
 
-		DayType dayType = repositoryManager.DayTypeRepository.GetByName(dayTypeName);
+		CardType cardType = repositoryManager.CardTypeRepository.GetByName(cardTypeName);
 
-		dayType.Should().BeNull();
+		cardType.Should().BeNull();
 	}
 
 	[TestMethod]
 	public void GetByNameSuccessTest()
 	{
-		string dayTypeName = Entities.Enumerators.DayType.PLANNEDVACATION.GetName();
+		string cardTypeName = Entities.Enumerators.CardType.CREDIT.GetName();
 
-		DayType dayType = repositoryManager.DayTypeRepository.GetByName(dayTypeName);
+		CardType cardType = repositoryManager.CardTypeRepository.GetByName(cardTypeName);
 
-		dayType.Should().NotBeNull();
-		dayType.Name.Should().Be(dayTypeName);
+		cardType.Should().NotBeNull();
+		cardType.Name.Should().Be(cardTypeName);
 	}
 
 	[TestMethod]
 	public void GetAllActiveTest()
 	{
-		IEnumerable<DayType> dayTypes = repositoryManager.DayTypeRepository.GetAllActive();
-		dayTypes.Should().NotBeNullOrEmpty();
+		IEnumerable<CardType> cardTypes = repositoryManager.CardTypeRepository.GetAllActive();
+		cardTypes.Should().NotBeNullOrEmpty();
 	}
 }

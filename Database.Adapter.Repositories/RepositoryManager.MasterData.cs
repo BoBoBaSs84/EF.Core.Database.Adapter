@@ -1,11 +1,8 @@
-﻿using Database.Adapter.Infrastructure.Contexts;
-using Database.Adapter.Repositories.BaseTypes;
-using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
-using Database.Adapter.Repositories.Interfaces;
+﻿using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 
 namespace Database.Adapter.Repositories;
 
-public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>, IRepositoryManager
+public sealed partial class RepositoryManager
 {
 	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository;
 	private readonly Lazy<IDayTypeRepository> lazyDayTypeRepository;

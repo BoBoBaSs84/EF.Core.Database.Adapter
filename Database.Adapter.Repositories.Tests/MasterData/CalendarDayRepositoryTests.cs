@@ -77,7 +77,7 @@ public class CalendarDayRepositoryTests
 	[TestMethod]
 	public void GetByDateTypeNameTest()
 	{
-		string dayTypeName = Entities.Enumerators.DayType.WEEKDAY.GetEnumName();
+		string dayTypeName = Entities.Enumerators.DayType.WEEKDAY.GetName();
 
 		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetByDayType(dayTypeName);
 

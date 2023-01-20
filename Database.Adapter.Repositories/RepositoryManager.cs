@@ -22,7 +22,7 @@ namespace Database.Adapter.Repositories;
 /// <item>The <see cref="IRepositoryManager"/> interface</item>
 /// </list>
 /// </remarks>
-public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>
+public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>, IRepositoryManager
 {
 	/// <summary>
 	/// The <see cref="DbContext"/> property.

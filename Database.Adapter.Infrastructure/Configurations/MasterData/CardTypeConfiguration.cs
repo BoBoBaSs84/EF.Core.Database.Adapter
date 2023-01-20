@@ -37,8 +37,8 @@ internal sealed class CardTypeConfiguration : IEntityTypeConfiguration<CardType>
 			listToReturn.Add(new CardType()
 			{
 				Id = (int)dayType,
-				Name = dayType.GetEnumName(),
-				Description = dayType.GetEnumDescription(),
+				Name = dayType.GetName(),
+				Description = dayType.GetDescription(),
 				IsActive = true
 			});
 

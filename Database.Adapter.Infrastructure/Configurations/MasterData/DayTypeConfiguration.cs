@@ -44,8 +44,8 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 			listToReturn.Add(new DayType()
 			{
 				Id = (int)dayType,
-				Name = dayType.GetEnumName(),
-				Description = dayType.GetEnumDescription(),
+				Name = dayType.GetName(),
+				Description = dayType.GetDescription(),
 				IsActive = true
 			});
 

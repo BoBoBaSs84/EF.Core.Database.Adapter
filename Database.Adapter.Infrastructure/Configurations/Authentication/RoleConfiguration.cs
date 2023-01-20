@@ -39,9 +39,9 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 			listToReturn.Add(new Role()
 			{
 				Id = (int)roleType,
-				Name = roleType.GetEnumName(),
+				Name = roleType.GetName(),
 				NormalizedName = roleType.ToString(),
-				Description = roleType.GetEnumDescription()
+				Description = roleType.GetDescription()
 			});
 		return listToReturn;
 	}

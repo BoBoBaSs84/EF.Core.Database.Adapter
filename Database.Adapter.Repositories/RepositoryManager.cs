@@ -1,10 +1,13 @@
 ﻿using Database.Adapter.Infrastructure.Contexts;
 using Database.Adapter.Repositories.BaseTypes;
+using Database.Adapter.Repositories.Contexts.Authentication;
+using Database.Adapter.Repositories.Contexts.Authentication.Interfaces;
 using Database.Adapter.Repositories.Contexts.MasterData;
 using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 using Database.Adapter.Repositories.Contexts.Timekeeping;
 using Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
 using Database.Adapter.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Repositories;
 
@@ -20,13 +23,20 @@ namespace Database.Adapter.Repositories;
 public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>
 {
 	/// <summary>
+	/// The <see cref="DbContext"/> property.
+	/// </summary>
+	public DbContext DbContext { get; private set; }
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="RepositoryManager"/> class.
 	/// </summary>
-	public RepositoryManager()
+	public RepositoryManager(DbContext? dbContext = null)
 	{
-		lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(Context));
-		lazyDayTypeRepository = new Lazy<IDayTypeRepository>(() => new DayTypeRepository(Context));
-		lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(Context));
-		lazyCardTypeRepository = new Lazy<ICardTypeRepository>(() => new CardTypeRepository(Context));
+		DbContext = (dbContext is null) ? base.Context : dbContext;
+		lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(DbContext));
+		lazyDayTypeRepository = new Lazy<IDayTypeRepository>(() => new DayTypeRepository(DbContext));
+		lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(DbContext));
+		lazyCardTypeRepository = new Lazy<ICardTypeRepository>(() => new CardTypeRepository(DbContext));
+		lazyUserRepository = new Lazy<IUserRepository>(() => new UserRepository(DbContext));
 	}
 }

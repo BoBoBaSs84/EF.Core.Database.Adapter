@@ -20,8 +20,4 @@
 		<ProjectReference Include="..\Database.Adapter.Infrastructure\Database.Adapter.Infrastructure.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Factories\" />
-	</ItemGroup>
-
 </Project>

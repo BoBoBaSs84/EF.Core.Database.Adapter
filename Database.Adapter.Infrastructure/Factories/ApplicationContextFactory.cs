@@ -21,7 +21,6 @@ public sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<Appl
 		{
 			Configuration configuration = new();
 			DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
-			optionsBuilder.UseLazyLoadingProxies();
 			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)));
 #if DEBUG
 			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);

@@ -26,12 +26,13 @@ internal sealed class AccountRepository : GenericRepository<Account>, IAccountRe
 	public AccountRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
-
+	/// <inheritdoc/>
 	public Account GetAccount(string IBAN, bool trackChanges = false) =>
 		GetByCondition(
 			expression: x => x.IBAN.Equals(IBAN.RemoveWhitespace()),
 			trackChanges: trackChanges
 			);
+	/// <inheritdoc/>
 	public IEnumerable<Account> GetAccounts(int userId, bool trackChanges = false) =>
 		GetManyByCondition(
 			expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId),

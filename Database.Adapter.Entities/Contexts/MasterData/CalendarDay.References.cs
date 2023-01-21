@@ -11,5 +11,5 @@ public partial class CalendarDay
 	/// <summary>
 	/// The <see cref="Attendances"/> property.
 	/// </summary>
-	public virtual ICollection<Attendance> Attendances { get; set; } = default!;
+	public virtual ICollection<Attendance> Attendances { get; set; } = new HashSet<Attendance>();
 }

@@ -11,7 +11,7 @@ using static Database.Adapter.Entities.Constants;
 
 namespace Database.Adapter.Repositories.Tests.Finances;
 
-[TestClass()]
+[TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 [SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 public class AccountRepositoryTests

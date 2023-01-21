@@ -12,17 +12,17 @@ public partial class User : IdentityUser<int>
 	/// <summary>
 	/// The <see cref="FirstName"/> property.
 	/// </summary>
-	[MaxLength(StringLength.MAX_LENGHT_64)]
+	[MaxLength(MaxLength.MAX_100)]
 	public string FirstName { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="MiddleName"/> property.
 	/// </summary>
-	[MaxLength(StringLength.MAX_LENGHT_64)]
+	[MaxLength(MaxLength.MAX_100)]
 	public string? MiddleName { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="LastName"/> property.
 	/// </summary>
-	[MaxLength(StringLength.MAX_LENGHT_64)]
+	[MaxLength(MaxLength.MAX_100)]
 	public string LastName { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="DateOfBirth"/> property.

@@ -31,8 +31,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     ModifiedBy = table.Column<int>(type: "int", nullable: true),
-                    IBAN = table.Column<string>(type: "varchar(42)", unicode: false, maxLength: 42, nullable: false),
-                    Provider = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    IBAN = table.Column<string>(type: "varchar(25)", unicode: false, maxLength: 25, nullable: false),
+                    Provider = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
@@ -68,8 +68,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -98,8 +98,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -120,7 +120,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
@@ -155,15 +155,15 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ModifiedBy = table.Column<int>(type: "int", nullable: true),
                     BookingDate = table.Column<DateTime>(type: "date", nullable: false),
                     ValueDate = table.Column<DateTime>(type: "date", nullable: false),
-                    PostingText = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ClientBeneficiary = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Purpose = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
-                    AccountNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    BankCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    PostingText = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ClientBeneficiary = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Purpose = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    AccountNumber = table.Column<string>(type: "varchar(25)", unicode: false, maxLength: 25, nullable: false),
+                    BankCode = table.Column<string>(type: "varchar(25)", unicode: false, maxLength: 25, nullable: false),
                     AmountEur = table.Column<decimal>(type: "money", nullable: false),
-                    CreditorId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    MandateReference = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    CustomerReference = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreditorId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    MandateReference = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CustomerReference = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
@@ -191,9 +191,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    MiddleName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "date", nullable: true),
                     Preferences = table.Column<string>(type: "xml", nullable: true),
                     Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
@@ -408,7 +408,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     UserId = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: false),
                     CardTypeId = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<string>(type: "nvarchar(19)", maxLength: 19, nullable: false),
+                    PAN = table.Column<string>(type: "varchar(25)", unicode: false, maxLength: 25, nullable: false),
                     ValidUntil = table.Column<DateTime>(type: "date", nullable: false),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
@@ -711,6 +711,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                 columns: new[] { "Id", "Description", "IsActive", "Name" },
                 values: new object[,]
                 {
+                    { 0, "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.", true, "Holiday" },
                     { 1, "A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.", true, "Weekday" },
                     { 2, "Generally refers to the period between the end of a usual work week and the beginning of the new work week.", true, "Weekend day" },
                     { 3, "Day on which professional work is performed or is to be performed.", true, "Workday" },
@@ -718,13 +719,12 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     { 5, "Is an authorised prolonged absence from work, for any reason authorised by the workplace.", true, "Absence" },
                     { 6, "Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes.", true, "Buisness trip" },
                     { 7, "In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties.", true, "Suspension" },
-                    { 8, "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.", true, "Holiday" },
-                    { 9, "The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.", true, "Mobile working" },
-                    { 10, "Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.", true, "Planned vacation" },
-                    { 11, "Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.", true, "Short time work" },
-                    { 12, "The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.", true, "Sickness" },
-                    { 13, "Is either a leave of absence from a regular job or an instance of leisure travel away from home.", true, "Vacation" },
-                    { 14, "With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.", true, "Vacation block" }
+                    { 8, "The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.", true, "Mobile working" },
+                    { 9, "Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.", true, "Planned vacation" },
+                    { 10, "Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.", true, "Short time work" },
+                    { 11, "The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.", true, "Sickness" },
+                    { 12, "Is either a leave of absence from a regular job or an instance of leisure travel away from home.", true, "Vacation" },
+                    { 13, "With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.", true, "Vacation block" }
                 });
 
             migrationBuilder.InsertData(
@@ -733,9 +733,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "9f60b2aa-c08c-4a87-87b8-5d3f570478c2", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-                    { 2, "89aa7764-40d6-4017-8e87-c34f8d371dd8", "This is a normal user with normal user rights.", "User", "USER" },
-                    { 3, "16b2f3cc-cbdf-4dd8-97ee-c853a61774bb", "The user with extended user rights.", "Super user", "SUPERUSER" }
+                    { 1, "9fbef370-8824-47e4-9f9d-e86eafe327f5", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+                    { 2, "6fcf6e6b-e6d1-42ac-8407-0cfea2a50eca", "This is a normal user with normal user rights.", "User", "USER" },
+                    { 3, "04ea7e8f-8f36-41a7-9750-b2c1f8b2da15", "The user with extended user rights.", "Super user", "SUPERUSER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -808,10 +808,10 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                 column: "CardTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_Number",
+                name: "IX_Card_PAN",
                 schema: "finance",
                 table: "Card",
-                column: "Number",
+                column: "PAN",
                 unique: true);
 
             migrationBuilder.CreateIndex(

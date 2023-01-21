@@ -55,26 +55,26 @@ public static class Constants
 			public const string MONEY = "money";
 		}
 		/// <summary>
-		/// The sql string length class.
+		/// The sql max length class.
 		/// </summary>
-		public static class StringLength
+		public static class MaxLength
 		{
-			/// <summary>The <see cref="MAX_LENGHT_32"/> constant.</summary>
-			public const int MAX_LENGHT_32 = 32;
-			/// <summary>The <see cref="MAX_LENGHT_64"/> constant.</summary>
-			public const int MAX_LENGHT_64 = 64;
-			/// <summary>The <see cref="MAX_LENGHT_128"/> constant.</summary>
-			public const int MAX_LENGHT_128 = 128;
-			/// <summary>The <see cref="MAX_LENGHT_256"/> constant.</summary>
-			public const int MAX_LENGHT_256 = 256;
-			/// <summary>The <see cref="MAX_LENGHT_512"/> constant.</summary>
-			public const int MAX_LENGHT_512 = 512;
-			/// <summary>The <see cref="MAX_LENGHT_1024"/> constant.</summary>
-			public const int MAX_LENGHT_1024 = 1024;
-			/// <summary>The <see cref="MAX_LENGHT_2048"/> constant.</summary>
-			public const int MAX_LENGHT_2048 = 2048;
-			/// <summary>The <see cref="MAX_LENGHT_4092"/> constant.</summary>
-			public const int MAX_LENGHT_4092 = 4092;
+			/// <summary>The <see cref="MAX_25"/> constant.</summary>
+			public const int MAX_25 = 25;
+			/// <summary>The <see cref="MAX_50"/> constant.</summary>
+			public const int MAX_50 = 50;
+			/// <summary>The <see cref="MAX_100"/> constant.</summary>
+			public const int MAX_100 = 100;
+			/// <summary>The <see cref="MAX_250"/> constant.</summary>
+			public const int MAX_250 = 250;
+			/// <summary>The <see cref="MAX_500"/> constant.</summary>
+			public const int MAX_500 = 500;
+			/// <summary>The <see cref="MAX_1000"/> constant.</summary>
+			public const int MAX_1000 = 1000;
+			/// <summary>The <see cref="MAX_2000"/> constant.</summary>
+			public const int MAX_2000 = 2000;
+			/// <summary>The <see cref="MAX_4000"/> constant.</summary>
+			public const int MAX_4000 = 4000;
 		}
 	}
 

@@ -28,10 +28,10 @@ public abstract class EnumeratorModel : IIdentityModel, IConcurrencyModel, IActi
 	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 	public byte[] Timestamp { get; private set; } = default!;
 	/// <inheritdoc/>
-	[StringLength(StringLength.MAX_LENGHT_128)]
+	[MaxLength(MaxLength.MAX_250)]
 	public string Name { get; set; } = default!;
 	/// <inheritdoc/>
-	[StringLength(StringLength.MAX_LENGHT_512)]
+	[MaxLength(MaxLength.MAX_1000)]
 	public string? Description { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool IsActive { get; set; } = default!;

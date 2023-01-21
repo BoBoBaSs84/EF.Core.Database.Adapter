@@ -20,6 +20,12 @@ public static class RandomHelper
 		DateTime newDateTime = new(1900, 1, 1);
 		return newDateTime.AddDays(GetInt(100, 1000));
 	}
+	public static decimal GetDecimal()
+	{
+		byte scale = (byte)Random.Next(29);
+		bool sign = Random.Next(2).Equals(1);
+		return new decimal(Random.Next(), Random.Next(), Random.Next(), sign, scale);
+	}
 	public static double GetDouble() => Random.NextDouble();
 	public static float GetFloat() => Random.NextSingle();
 	public static int GetInt() => Random.Next();

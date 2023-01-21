@@ -18,7 +18,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("private")
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -82,7 +82,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a6129950-70dd-4d7d-8ad0-4c2168737cea",
+                            ConcurrencyStamp = "9f60b2aa-c08c-4a87-87b8-5d3f570478c2",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -90,7 +90,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "0c65859a-ed71-4743-963d-fb8e0a463e35",
+                            ConcurrencyStamp = "89aa7764-40d6-4017-8e87-c34f8d371dd8",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -98,7 +98,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "060b3ded-6e41-4422-bb42-2c6ca15d09bb",
+                            ConcurrencyStamp = "16b2f3cc-cbdf-4dd8-97ee-c853a61774bb",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -446,8 +446,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("IBAN")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(42)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(42)");
 
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
@@ -465,8 +466,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("Provider")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
@@ -600,8 +601,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("Number")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(19)
+                        .HasColumnType("nvarchar(19)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()

@@ -1,5 +1,6 @@
 ﻿using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.MasterData;
+using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +39,7 @@ public class DayTypeRepositoryTests
 	[TestMethod]
 	public void GetByNameSuccessTest()
 	{
-		string dayTypeName = "Holiday";
+		string dayTypeName = Entities.Enumerators.DayType.PLANNEDVACATION.GetName();
 
 		DayType dayType = repositoryManager.DayTypeRepository.GetByName(dayTypeName);
 

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Database.Adapter.Entities.Constants.SqlConstants;
+using static Database.Adapter.Entities.Constants.Sql;
 
 namespace Database.Adapter.Entities.BaseTypes;
 
@@ -26,12 +26,12 @@ public abstract class EnumeratorModel : IIdentityModel, IConcurrencyModel, IActi
 	public int Id { get; set; } = default!;
 	/// <inheritdoc/>
 	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	public byte[] Timestamp { get; set; } = default!;
+	public byte[] Timestamp { get; private set; } = default!;
 	/// <inheritdoc/>
-	[StringLength(SqlStringLength.MAX_LENGHT_128)]
+	[StringLength(StringLength.MAX_LENGHT_128)]
 	public string Name { get; set; } = default!;
 	/// <inheritdoc/>
-	[StringLength(SqlStringLength.MAX_LENGHT_512)]
+	[StringLength(StringLength.MAX_LENGHT_512)]
 	public string? Description { get; set; } = default!;
 	/// <inheritdoc/>
 	public bool IsActive { get; set; } = default!;

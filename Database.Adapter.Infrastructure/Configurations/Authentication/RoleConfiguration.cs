@@ -5,7 +5,7 @@ using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
-using static Database.Adapter.Entities.Constants.SqlConstants.SqlSchema;
+using static Database.Adapter.Entities.Constants.Sql.Schema;
 
 namespace Database.Adapter.Infrastructure.Configurations.Authentication;
 
@@ -39,9 +39,9 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 			listToReturn.Add(new Role()
 			{
 				Id = (int)roleType,
-				Name = roleType.GetEnumName(),
+				Name = roleType.GetName(),
 				NormalizedName = roleType.ToString(),
-				Description = roleType.GetEnumDescription()
+				Description = roleType.GetDescription()
 			});
 		return listToReturn;
 	}

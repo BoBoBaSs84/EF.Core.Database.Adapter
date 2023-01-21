@@ -17,7 +17,7 @@ public static class EnumeratorExtensions
 	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute.Description"/> or or an empty string.</returns>
-	public static string GetEnumDescription<TEnum>(this TEnum enumValue) where TEnum : Enum
+	public static string GetDescription<TEnum>(this TEnum enumValue) where TEnum : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
 		return attribute is not null ? attribute.GetDescription() ?? string.Empty : string.Empty;
@@ -32,7 +32,7 @@ public static class EnumeratorExtensions
 	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute.Name"/> or or an empty string.</returns>
-	public static string GetEnumName<TEnum>(this TEnum enumValue) where TEnum : Enum
+	public static string GetName<TEnum>(this TEnum enumValue) where TEnum : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
 		return attribute is not null ? attribute.GetName() ?? string.Empty : string.Empty;
@@ -47,7 +47,7 @@ public static class EnumeratorExtensions
 	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The <see cref="DisplayAttribute.ShortName"/> or an empty string.</returns>
-	public static string GetEnumShortName<TEnum>(this TEnum enumValue) where TEnum : Enum
+	public static string GetShortName<TEnum>(this TEnum enumValue) where TEnum : Enum
 	{
 		DisplayAttribute? attribute = enumValue.GetDisplayAttribute();
 		return attribute is not null ? attribute.GetShortName() ?? string.Empty : string.Empty;
@@ -59,8 +59,8 @@ public static class EnumeratorExtensions
 	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>A list of all enums of the provided type.</returns>
-	public static List<TEnum> GetListFromEnum<TEnum>(this TEnum enumValue) where TEnum : Enum
-		=> Enum.GetValues(enumValue.GetType()).Cast<TEnum>().ToList();
+	public static List<TEnum> GetListFromEnum<TEnum>(this TEnum enumValue) where TEnum : Enum =>
+		Enum.GetValues(enumValue.GetType()).Cast<TEnum>().ToList();
 
 	/// <summary>
 	/// Should return the field metadata of an enumerator.
@@ -68,8 +68,7 @@ public static class EnumeratorExtensions
 	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The field metadata.</returns>
-	public static FieldInfo GetFieldInfo<TEnum>(this TEnum enumValue)
-		where TEnum : Enum =>
+	public static FieldInfo GetFieldInfo<TEnum>(this TEnum enumValue) where TEnum : Enum =>
 		enumValue.GetType().GetField(enumValue.ToString())!;
 
 	/// <summary>

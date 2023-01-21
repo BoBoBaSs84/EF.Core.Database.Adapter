@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Fare;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using static Database.Adapter.Base.Tests.Constants;
 
@@ -14,6 +15,11 @@ public static class RandomHelper
 		Random.NextBytes(bytes);
 		return bytes;
 	}
+	public static DateTime GetDateTime()
+	{
+		DateTime newDateTime = new(1900, 1, 1);
+		return newDateTime.AddDays(GetInt(100, 1000));
+	}
 	public static double GetDouble() => Random.NextDouble();
 	public static float GetFloat() => Random.NextSingle();
 	public static int GetInt() => Random.Next();
@@ -25,6 +31,11 @@ public static class RandomHelper
 	public static string GetString() => RandomString();
 	public static string GetString(int maxChars) => RandomString(maxChars);
 	public static string GetString(int maxChars, string pattern) => RandomString(maxChars, pattern);
+	public static string GetString(string regexPattern)
+	{
+		Xeger xeger = new(regexPattern, Random);
+		return xeger.Generate();
+	}
 
 	private static string RandomString(int length = 10, string pattern = CharsOnly)
 	{

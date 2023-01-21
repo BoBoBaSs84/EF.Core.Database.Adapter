@@ -1,11 +1,10 @@
 ﻿using Database.Adapter.Entities.Contexts.Authentication;
-using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Infrastructure.Extensions;
 using Database.Adapter.Infrastructure.Factories;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
-using static Database.Adapter.Entities.Constants.SqlConstants;
+using static Database.Adapter.Entities.Constants.Sql;
 
 namespace Database.Adapter.Infrastructure.Contexts;
 
@@ -38,7 +37,7 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	{
 		base.OnModelCreating(builder);
 
-		builder.HasDefaultSchema(SqlSchema.PRIVATE);
+		builder.HasDefaultSchema(Schema.PRIVATE);
 
 		builder.ApplyConfigurationsForContextEntities();
 	}

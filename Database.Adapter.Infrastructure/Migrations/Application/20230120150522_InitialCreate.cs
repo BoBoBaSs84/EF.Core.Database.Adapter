@@ -31,8 +31,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     ModifiedBy = table.Column<int>(type: "int", nullable: true),
-                    IBAN = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Provider = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    IBAN = table.Column<string>(type: "varchar(42)", unicode: false, maxLength: 42, nullable: false),
+                    Provider = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
@@ -408,7 +408,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     UserId = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: false),
                     CardTypeId = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(19)", maxLength: 19, nullable: false),
                     ValidUntil = table.Column<DateTime>(type: "date", nullable: false),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
@@ -733,9 +733,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "a6129950-70dd-4d7d-8ad0-4c2168737cea", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-                    { 2, "0c65859a-ed71-4743-963d-fb8e0a463e35", "This is a normal user with normal user rights.", "User", "USER" },
-                    { 3, "060b3ded-6e41-4422-bb42-2c6ca15d09bb", "The user with extended user rights.", "Super user", "SUPERUSER" }
+                    { 1, "9f60b2aa-c08c-4a87-87b8-5d3f570478c2", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+                    { 2, "89aa7764-40d6-4017-8e87-c34f8d371dd8", "This is a normal user with normal user rights.", "User", "USER" },
+                    { 3, "16b2f3cc-cbdf-4dd8-97ee-c853a61774bb", "The user with extended user rights.", "Super user", "SUPERUSER" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Database.Adapter.Entities.Constants.SqlConstants;
+using static Database.Adapter.Entities.Constants;
 
 namespace Database.Adapter.Entities.Contexts.Finances;
 
@@ -31,11 +31,11 @@ public partial class Card : AuditedModel
 	/// <summary>
 	/// The <see cref="Number"/> property.
 	/// </summary>
-	[StringLength(SqlStringLength.MAX_LENGHT_32)]
+	[StringLength(19, MinimumLength = 8), RegularExpression(Regex.CC), Unicode(false)]
 	public string Number { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="ValidUntil"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.DATE)]
+	[Column(TypeName = Sql.DataType.DATE)]
 	public DateTime ValidUntil { get; set; } = default!;
 }

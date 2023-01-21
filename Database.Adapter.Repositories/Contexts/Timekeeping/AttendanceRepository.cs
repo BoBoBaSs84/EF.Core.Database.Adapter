@@ -1,6 +1,7 @@
 ﻿using Database.Adapter.Entities.Contexts.Timekeeping;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
+using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Repositories.Contexts.Timekeeping;
@@ -24,13 +25,19 @@ internal sealed class AttendanceRepository : GenericRepository<Attendance>, IAtt
 	{
 	}
 	/// <inheritdoc/>
-	public IEnumerable<Attendance> GetAllAttendancesByUserId(int userId, bool trackChanges = false) =>
+	public IEnumerable<Attendance> GetAllAttendances(int userId, bool trackChanges = false) =>
 		GetManyByCondition(
 			expression: x => x.UserId.Equals(userId),
 			trackChanges: trackChanges
 			);
 	/// <inheritdoc/>
-	public Attendance GetAttendanceByUserId(int userId, int calendarDayId, bool trackChanges = false) =>
+	public Attendance GetAttendance(int userId, DateTime calendarDate, bool trackChanges = false) =>
+		GetByCondition(
+			expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(calendarDate.ToSqlDate()),
+			trackChanges: trackChanges
+			);
+	/// <inheritdoc/>
+	public Attendance GetAttendance(int userId, int calendarDayId, bool trackChanges = false) =>
 		GetByCondition(
 			expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
 			trackChanges: trackChanges

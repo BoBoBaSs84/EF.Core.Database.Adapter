@@ -14,7 +14,7 @@ public class EnumeratorExtensionsTests
 	public void GetEnumDescriptionSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
-		string description = testEnum.GetEnumDescription();
+		string description = testEnum.GetDescription();
 		description.Should().Be(nameof(description));
 	}
 
@@ -22,7 +22,7 @@ public class EnumeratorExtensionsTests
 	public void GetEnumDescriptionFailTest()
 	{
 		TestEnum testEnum = TestEnum.NODESCRIPTION;
-		string description = testEnum.GetEnumDescription();
+		string description = testEnum.GetDescription();
 		description.Should().NotBeSameAs(nameof(description));
 	}
 
@@ -30,7 +30,7 @@ public class EnumeratorExtensionsTests
 	public void GetEnumNameSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
-		string name = testEnum.GetEnumName();
+		string name = testEnum.GetName();
 		name.Should().Be(nameof(name));
 	}
 
@@ -38,7 +38,7 @@ public class EnumeratorExtensionsTests
 	public void GetEnumNameFailTest()
 	{
 		TestEnum testEnum = TestEnum.NONAME;
-		string name = testEnum.GetEnumName();
+		string name = testEnum.GetName();
 		name.Should().NotBeSameAs(nameof(name));
 	}
 
@@ -46,7 +46,7 @@ public class EnumeratorExtensionsTests
 	public void GetEnumShortNameSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
-		string shortname = testEnum.GetEnumShortName();
+		string shortname = testEnum.GetShortName();
 		shortname.Should().Be(nameof(shortname));
 	}
 
@@ -54,7 +54,7 @@ public class EnumeratorExtensionsTests
 	public void GetEnumShortNameFailTest()
 	{
 		TestEnum testEnum = TestEnum.NOSHORTNAME;
-		string shortname = testEnum.GetEnumShortName();
+		string shortname = testEnum.GetShortName();
 		shortname.Should().NotBeSameAs(nameof(shortname));
 	}
 

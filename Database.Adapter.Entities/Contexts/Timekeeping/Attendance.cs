@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Database.Adapter.Entities.Constants.SqlConstants;
+using static Database.Adapter.Entities.Constants.Sql;
 
 namespace Database.Adapter.Entities.Contexts.Timekeeping;
 
@@ -29,16 +29,16 @@ public partial class Attendance : AuditedModel
 	/// <summary>
 	/// The <see cref="StartTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
+	[Column(TypeName = DataType.TIME0)]
 	public TimeSpan? StartTime { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="EndTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
+	[Column(TypeName = DataType.TIME0)]
 	public TimeSpan? EndTime { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="BreakTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
+	[Column(TypeName = DataType.TIME0)]
 	public TimeSpan? BreakTime { get; set; } = default!;
 }

@@ -1,6 +1,4 @@
-﻿using Database.Adapter.Entities.Contexts.Authentication;
-
-namespace Database.Adapter.Entities.Contexts.Authentication;
+﻿namespace Database.Adapter.Entities.Contexts.Authentication;
 
 public partial class UserRole
 {

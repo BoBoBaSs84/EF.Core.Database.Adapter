@@ -30,6 +30,13 @@ public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
 	/// <returns>A collection of calendar entities.</returns>
 	IEnumerable<CalendarDay> GetByDate(DateTime minDate, DateTime maxDate, bool trackChanges = false);
 	/// <summary>
+	/// Should get a collection of calendar entities by the provided dates.
+	/// </summary>
+	/// <param name="dates">The list of dates.</param>
+	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <returns>A collection of calendar entities.</returns>
+	IEnumerable<CalendarDay> GetByDate(IEnumerable<DateTime> dates, bool trackChanges = false);
+	/// <summary>
 	/// Should get a collection of calendar entities by the day type name.
 	/// </summary>
 	/// <param name="dayTypeName">The name of the day type.</param>

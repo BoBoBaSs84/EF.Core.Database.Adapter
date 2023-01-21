@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
-using Database.Adapter.Repositories.Extensions;
+using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Repositories.Contexts.MasterData;
@@ -33,12 +33,17 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	/// <inheritdoc/>
 	public IEnumerable<CalendarDay> GetByDate(DateTime minDate, DateTime maxDate, bool trackChanges = false) =>
 		GetManyByCondition(
-			expression: x => x.Date >= minDate.ToSqlDate()
-			&& x.Date <= maxDate.ToSqlDate(),
+			expression: x => x.Date >= minDate.ToSqlDate() && x.Date <= maxDate.ToSqlDate(),
 			trackChanges: trackChanges
 			);
 	/// <inheritdoc/>
-	public IEnumerable<CalendarDay> GetByDayType(string dayTypeName, bool trackChanges = false) => 
+	public IEnumerable<CalendarDay> GetByDate(IEnumerable<DateTime> dates, bool trackChanges = false) =>
+		GetManyByCondition(
+			expression: x => dates.Contains(x.Date),
+			trackChanges: trackChanges
+			);
+	/// <inheritdoc/>
+	public IEnumerable<CalendarDay> GetByDayType(string dayTypeName, bool trackChanges = false) =>
 		GetManyByCondition(
 			expression: x => x.DayType.Name.Contains(dayTypeName),
 			trackChanges: trackChanges
@@ -46,7 +51,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	/// <inheritdoc/>
 	public IEnumerable<CalendarDay> GetByDayType(int dayTypeId, bool trackChanges = false) =>
 		GetManyByCondition(
-			expression: x=>x.DayTypeId.Equals(dayTypeId),
-			trackChanges: trackChanges			
+			expression: x => x.DayTypeId.Equals(dayTypeId),
+			trackChanges: trackChanges
 			);
 }

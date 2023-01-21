@@ -4,7 +4,7 @@ using Database.Adapter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
-using static Database.Adapter.Entities.Constants.SqlConstants.SqlSchema;
+using static Database.Adapter.Entities.Constants.Sql.Schema;
 
 namespace Database.Adapter.Infrastructure.Configurations.MasterData;
 
@@ -37,8 +37,8 @@ internal sealed class CardTypeConfiguration : IEntityTypeConfiguration<CardType>
 			listToReturn.Add(new CardType()
 			{
 				Id = (int)dayType,
-				Name = dayType.GetEnumName(),
-				Description = dayType.GetEnumDescription(),
+				Name = dayType.GetName(),
+				Description = dayType.GetDescription(),
 				IsActive = true
 			});
 

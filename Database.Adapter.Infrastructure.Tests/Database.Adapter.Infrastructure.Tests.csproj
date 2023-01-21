@@ -6,7 +6,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="6.9.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
 		<PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
@@ -19,10 +18,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Database.Adapter.Base.Tests\Database.Adapter.Base.Tests.csproj" />
 		<ProjectReference Include="..\Database.Adapter.Infrastructure\Database.Adapter.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Factories\" />
 	</ItemGroup>
 
 </Project>

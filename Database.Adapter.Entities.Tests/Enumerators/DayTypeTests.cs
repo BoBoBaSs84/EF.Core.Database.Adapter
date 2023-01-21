@@ -19,7 +19,7 @@ public class DayTypeTests
 	{
 		foreach (DayType e in _dayTypes)
 		{
-			string description = e.GetEnumDescription();
+			string description = e.GetDescription();
 			description.Should().NotBeNullOrWhiteSpace();
 		}
 	}
@@ -29,7 +29,7 @@ public class DayTypeTests
 	{
 		foreach (DayType e in _dayTypes)
 		{
-			string shortName = e.GetEnumShortName();
+			string shortName = e.GetShortName();
 			shortName.Should().NotBeNullOrWhiteSpace();
 		}
 	}
@@ -39,7 +39,7 @@ public class DayTypeTests
 	{
 		foreach (DayType e in _dayTypes)
 		{
-			string name = e.GetEnumName();
+			string name = e.GetName();
 			name.Should().NotBeNullOrWhiteSpace();
 		}
 	}

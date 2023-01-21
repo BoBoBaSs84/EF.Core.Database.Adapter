@@ -1,38 +1,24 @@
-﻿using Database.Adapter.Entities.Contexts.MasterData;
-using Database.Adapter.Repositories.Interfaces;
+﻿using Database.Adapter.Base.Tests;
+using Database.Adapter.Entities.Contexts.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using System.Transactions;
 using static Database.Adapter.Entities.Enumerators.DayType;
 
 namespace Database.Adapter.Repositories.Tests.BaseTypes;
 
 [TestClass()]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class GenericRepositoryTests
+public class GenericRepositoryTests : BaseTest
 {
-	private TransactionScope transactionScope = default!;
-	private IRepositoryManager repositoryManager = default!;
-
-	[TestInitialize]
-	public void TestInitialize()
-	{
-		transactionScope = new TransactionScope();
-		repositoryManager = new RepositoryManager();
-	}
-
-	[TestCleanup]
-	public void TestCleanup() => transactionScope.Dispose();
-
 	[TestMethod]
 	public async Task CreateTest()
 	{
 		CalendarDay newCalendarDay = GetCalendarDay();
 
-		await repositoryManager.CalendarRepository.CreateAsync(newCalendarDay);
-		await repositoryManager.CommitChangesAsync();
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByConditionAsync(
+		await RepositoryManager.CalendarRepository.CreateAsync(newCalendarDay);
+		await RepositoryManager.CommitChangesAsync();
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Date.Equals(newCalendarDay.Date));
 
 		dbCalendarDay.Should().NotBeNull();
@@ -44,8 +30,8 @@ public class GenericRepositoryTests
 	{
 		IEnumerable<CalendarDay> calendarDays = GetCalendarDays(2);
 
-		await repositoryManager.CalendarRepository.CreateAsync(calendarDays);
-		int commit = await repositoryManager.CommitChangesAsync();
+		await RepositoryManager.CalendarRepository.CreateAsync(calendarDays);
+		int commit = await RepositoryManager.CommitChangesAsync();
 
 		commit.Should().Be(calendarDays.Count());
 	}
@@ -55,10 +41,10 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 10;
 
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
-		await repositoryManager.CalendarRepository.DeleteAsync(dbCalendarDay);
-		await repositoryManager.CommitChangesAsync();
-		dbCalendarDay = await repositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
+		await RepositoryManager.CalendarRepository.DeleteAsync(dbCalendarDay);
+		await RepositoryManager.CommitChangesAsync();
+		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
 		dbCalendarDay.Should().BeNull();
 	}
@@ -68,9 +54,9 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 10;
 
-		await repositoryManager.CalendarRepository.DeleteAsync(calendarDayId);
-		await repositoryManager.CommitChangesAsync();
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
+		await RepositoryManager.CalendarRepository.DeleteAsync(calendarDayId);
+		await RepositoryManager.CommitChangesAsync();
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
 		dbCalendarDay.Should().BeNull();
 	}
@@ -80,9 +66,9 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 10;
 
-		await repositoryManager.CalendarRepository.DeleteAsync(x => x.Id.Equals(calendarDayId));
-		await repositoryManager.CommitChangesAsync();
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
+		await RepositoryManager.CalendarRepository.DeleteAsync(x => x.Id.Equals(calendarDayId));
+		await RepositoryManager.CommitChangesAsync();
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
 		dbCalendarDay.Should().BeNull();
 	}
@@ -93,11 +79,11 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth));
-		await repositoryManager.CalendarRepository.DeleteAsync(dbCalendarDays);
-		await repositoryManager.CommitChangesAsync();
-		dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		await RepositoryManager.CalendarRepository.DeleteAsync(dbCalendarDays);
+		await RepositoryManager.CommitChangesAsync();
+		dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth));
 
 		dbCalendarDays.Should().BeEmpty();
@@ -106,7 +92,7 @@ public class GenericRepositoryTests
 	[TestMethod]
 	public async Task GetAllTest()
 	{
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetAllAsync();
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetAllAsync();
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}
@@ -117,7 +103,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth));
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
@@ -131,7 +117,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderByDescending(x => x.Date));
 
@@ -145,7 +131,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderBy(x => x.Date),
 			top: 10,
@@ -163,7 +149,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderBy(x => x.Date),
 			top: 12);
@@ -180,7 +166,7 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderBy(x => x.Id),
 			top: 1,
@@ -195,7 +181,7 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 1;
 
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
 		dbCalendarDay.Should().NotBeNull();
 		dbCalendarDay.Id.Should().Be(calendarDayId);
@@ -208,7 +194,7 @@ public class GenericRepositoryTests
 			calendarMonth = 12,
 			calenderDay = 6;
 
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByConditionAsync(
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth) && x.Day.Equals(calenderDay));
 
 		dbCalendarDay.Should().NotBeNull();
@@ -224,7 +210,7 @@ public class GenericRepositoryTests
 			calendarMonth = 12,
 			calenderDay = 24;
 
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByConditionAsync(
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth) && x.Day.Equals(calenderDay),
 			includeProperties: new[] { nameof(CalendarDay.DayType) }
 			);
@@ -240,14 +226,14 @@ public class GenericRepositoryTests
 	public async Task UpdateTest()
 	{
 		int calendarDayId = 12;
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByConditionAsync(
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Id.Equals(calendarDayId)
 			);
 
 		dbCalendarDay.Date = GetDateTime();
-		await repositoryManager.CalendarRepository.UpdateAsync(dbCalendarDay);
-		await repositoryManager.CommitChangesAsync();
-		dbCalendarDay = await repositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
+		await RepositoryManager.CalendarRepository.UpdateAsync(dbCalendarDay);
+		await RepositoryManager.CommitChangesAsync();
+		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
 		dbCalendarDay.Should().NotBeNull();
 		dbCalendarDay.Date.Should().Be(GetDateTime());
@@ -259,12 +245,12 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth));
 		foreach (CalendarDay dbCalendarDay in dbCalendarDays.Where(x => x.Day.Equals(25) || x.Day.Equals(26)))
 			dbCalendarDay.DayTypeId = (int)ABSENCE;
-		await repositoryManager.CalendarRepository.UpdateAsync(dbCalendarDays);
-		int commit = await repositoryManager.CommitChangesAsync();
+		await RepositoryManager.CalendarRepository.UpdateAsync(dbCalendarDays);
+		int commit = await RepositoryManager.CommitChangesAsync();
 
 		commit.Should().Be(31);
 	}
@@ -274,11 +260,11 @@ public class GenericRepositoryTests
 	{
 		int calendarDayId = 12;
 
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByConditionAsync(
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Id.Equals(calendarDayId), trackChanges: true);
 		dbCalendarDay.DayTypeId = (int)SICKNESS;
-		await repositoryManager.CommitChangesAsync();
-		dbCalendarDay = await repositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
+		await RepositoryManager.CommitChangesAsync();
+		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
 		dbCalendarDay.Should().NotBeNull();
 		dbCalendarDay.DayTypeId.Should().Be((int)SICKNESS);
@@ -290,12 +276,12 @@ public class GenericRepositoryTests
 		int calendarYear = 2020,
 			calendarMonth = 12;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetManyByConditionAsync(
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			trackChanges: true);
 		foreach (CalendarDay dbCalendarDay in dbCalendarDays.Where(x => x.Day.Equals(25) || x.Day.Equals(26)))
 			dbCalendarDay.DayTypeId = (int)BUISNESSTRIP;
-		int commit = await repositoryManager.CommitChangesAsync();
+		int commit = await RepositoryManager.CommitChangesAsync();
 
 		commit.Should().Be(2);
 	}

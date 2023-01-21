@@ -72,14 +72,14 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 			query = query.Where(expression);
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
-		return await query.SingleAsync(cancellationToken);
+		return await query.SingleOrDefaultAsync(cancellationToken);
 	}
 
-	public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) => 
-		await dbSet.FindAsync(id, cancellationToken);
+	public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+		await dbSet.FindAsync(keyValues: new object[] { id }, cancellationToken: cancellationToken);
 
 	public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
-		await dbSet.FindAsync(id, cancellationToken)!;
+		await dbSet.FindAsync(keyValues: new object[] { id }, cancellationToken: cancellationToken);
 
 	public Task DeleteAsync(TEntity entity)
 	{

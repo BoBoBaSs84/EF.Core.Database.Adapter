@@ -1,36 +1,22 @@
-﻿using Database.Adapter.Entities.Contexts.MasterData;
+﻿using Database.Adapter.Base.Tests;
+using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Entities.Extensions;
-using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using System.Transactions;
 
 namespace Database.Adapter.Repositories.Tests.MasterData;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class CalendarDayRepositoryTests
+public class CalendarDayRepositoryTests : BaseTest
 {
-	private TransactionScope transactionScope = default!;
-	private IRepositoryManager repositoryManager = default!;
-
-	[TestInitialize]
-	public void TestInitialize()
-	{
-		transactionScope = new TransactionScope();
-		repositoryManager = new RepositoryManager();
-	}
-
-	[TestCleanup]
-	public void TestCleanup() => transactionScope.Dispose();
-
 	[TestMethod]
 	public async Task GetByDateTest()
 	{
 		DateTime dateTime = DateTime.Now;
 
-		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByDateAsync(dateTime);
+		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByDateAsync(dateTime);
 
 		dbCalendarDay.Should().NotBeNull();
 	}
@@ -46,7 +32,7 @@ public class CalendarDayRepositoryTests
 			DateTime.Today.AddDays(15),
 		};
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDateAsync(dateTimes);
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDateAsync(dateTimes);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 		dbCalendarDays.Should().HaveCount(dateTimes.Count());
@@ -57,11 +43,11 @@ public class CalendarDayRepositoryTests
 	{
 		DateTime mindateTime = DateTime.Now, maxDateTime = DateTime.Now.AddDays(14);
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDateAsync(mindateTime, maxDateTime);
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDateAsync(mindateTime, maxDateTime);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
-		dbCalendarDays.First().Date.Should().Be(mindateTime);
-		dbCalendarDays.Last().Date.Should().Be(maxDateTime);
+		dbCalendarDays.First().Date.Should().Be(mindateTime.ToSqlDate());
+		dbCalendarDays.Last().Date.Should().Be(maxDateTime.ToSqlDate());
 	}
 
 	[TestMethod]
@@ -69,7 +55,7 @@ public class CalendarDayRepositoryTests
 	{
 		int dayTypeId = (int)Entities.Enumerators.DayType.WEEKENDDAY;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeId);
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeId);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}
@@ -79,7 +65,7 @@ public class CalendarDayRepositoryTests
 	{
 		string dayTypeName = Entities.Enumerators.DayType.WEEKDAY.GetName();
 
-		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeName);
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeName);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}

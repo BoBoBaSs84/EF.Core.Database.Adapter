@@ -1,33 +1,19 @@
-﻿using Database.Adapter.Base.Tests.Helpers;
+﻿using Database.Adapter.Base.Tests;
+using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Contexts.Finances;
 using Database.Adapter.Entities.Extensions;
-using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using System.Transactions;
 using static Database.Adapter.Entities.Constants;
 
 namespace Database.Adapter.Repositories.Tests.Finances;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class CardRepositoryTests
+public class CardRepositoryTests : BaseTest
 {
-	private TransactionScope transactionScope = default!;
-	private IRepositoryManager repositoryManager = default!;
-
-	[TestInitialize]
-	public void TestInitialize()
-	{
-		transactionScope = new TransactionScope();
-		repositoryManager = new RepositoryManager();
-	}
-
-	[TestCleanup]
-	public void TestCleanup() => transactionScope.Dispose();
-
 	[TestMethod]
 	public async Task GetCardByNumberTest()
 	{
@@ -38,10 +24,10 @@ public class CardRepositoryTests
 		Card newCard = EntityHelper.GetNewCard(newUser, newAccount, newCardNumber);
 		newAccount.Cards.Add(newCard);
 		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });
-		await repositoryManager.UserRepository.CreateAsync(newUser);
-		await repositoryManager.CommitChangesAsync();
+		await RepositoryManager.UserRepository.CreateAsync(newUser);
+		await RepositoryManager.CommitChangesAsync();
 
-		Card dbCard = await repositoryManager.CardRepository.GetCardAsync(newCardNumber);
+		Card dbCard = await RepositoryManager.CardRepository.GetCardAsync(newCardNumber);
 		dbCard.Should().NotBeNull();
 	}
 
@@ -49,10 +35,10 @@ public class CardRepositoryTests
 	public async Task GetCardsByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		await repositoryManager.UserRepository.CreateAsync(newUser);
-		await repositoryManager.CommitChangesAsync();
+		await RepositoryManager.UserRepository.CreateAsync(newUser);
+		await RepositoryManager.CommitChangesAsync();
 
-		IEnumerable<Card> dbCards = await repositoryManager.CardRepository.GetCardsAsync(newUser.Id);
+		IEnumerable<Card> dbCards = await RepositoryManager.CardRepository.GetCardsAsync(newUser.Id);
 		dbCards.Should().NotBeNullOrEmpty();
 		dbCards.Should().HaveCount(newUser.Cards.Count);
 	}

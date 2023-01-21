@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.Contexts.Timekeeping;
+using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.Timekeeping.Interfaces;
-using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Repositories.Contexts.Timekeeping;
@@ -24,22 +24,25 @@ internal sealed class AttendanceRepository : GenericRepository<Attendance>, IAtt
 	public AttendanceRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
-	/// <inheritdoc/>
-	public IEnumerable<Attendance> GetAllAttendances(int userId, bool trackChanges = false) =>
-		GetManyByCondition(
+
+	public async Task<IEnumerable<Attendance>> GetAttendancesAsync(int userId,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.UserId.Equals(userId),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public Attendance GetAttendance(int userId, DateTime calendarDate, bool trackChanges = false) =>
-		GetByCondition(
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<Attendance> GetAttendanceAsync(int userId, DateTime calendarDate,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetByConditionAsync(
 			expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(calendarDate.ToSqlDate()),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public Attendance GetAttendance(int userId, int calendarDayId, bool trackChanges = false) =>
-		GetByCondition(
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<Attendance> GetAttendanceAsync(int userId, int calendarDayId,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetByConditionAsync(
 			expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
-			trackChanges: trackChanges
-			);
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
 }

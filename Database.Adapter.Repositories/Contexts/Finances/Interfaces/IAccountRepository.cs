@@ -15,17 +15,20 @@ namespace Database.Adapter.Repositories.Contexts.Finances.Interfaces;
 public interface IAccountRepository : IGenericRepository<Account>
 {
 	/// <summary>
-	/// Should get the account entity by the international bank account number.
+	/// Should get a account entity by the international bank account number.
 	/// </summary>
-	/// <param name="IBAN">The international bank account number.</param>
+	/// <param name="iban">The international bank account number.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A account entity.</returns>
-	Account GetAccount(string IBAN, bool trackChanges = false);
+	Task<Account> GetAccountAsync(string iban, bool trackChanges = false, CancellationToken cancellationToken = default);
+
 	/// <summary>
 	/// Should get a collection of account entities by the user identifier.
 	/// </summary>
 	/// <param name="userId">The identifier of the user.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A collection of account entities.</returns>
-	IEnumerable<Account> GetAccounts(int userId, bool trackChanges = false);
+	Task<IEnumerable<Account>> GetAccountsAsync(int userId, bool trackChanges = false, CancellationToken cancellationToken = default);
 }

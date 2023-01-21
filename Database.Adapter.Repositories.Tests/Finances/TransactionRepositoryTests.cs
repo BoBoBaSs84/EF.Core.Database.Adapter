@@ -26,68 +26,68 @@ public class TransactionRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetAccountTransactionByUserIdAccountIdTest()
+	public async Task GetAccountTransactionByUserIdAccountIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.UserRepository.Create(EntityHelper.GetNewUser(accountSeed: true));
-		repositoryManager.CommitChanges();
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.UserRepository.CreateAsync(EntityHelper.GetNewUser(accountSeed: true));
+		await repositoryManager.CommitChangesAsync();
 		int userId = newUser.Id,
 			accountId = newUser.AccountUsers.Select(x => x.AccountId).FirstOrDefault();
 
 		IEnumerable<Entities.Contexts.Finances.Transaction> dbTransactions =
-			repositoryManager.TransactionRepository.GetAccountTransaction(userId, accountId);
+			await repositoryManager.TransactionRepository.GetAccountTransactionAsync(userId, accountId);
 
 		dbTransactions.Should().NotBeNullOrEmpty();
 		dbTransactions.Should().HaveCount(2);
 	}
 
 	[TestMethod]
-	public void GetAccountTransactionByUserIdAccountNumberTest()
+	public async Task GetAccountTransactionByUserIdAccountNumberTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.UserRepository.Create(EntityHelper.GetNewUser(accountSeed: true));
-		repositoryManager.CommitChanges();
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.UserRepository.CreateAsync(EntityHelper.GetNewUser(accountSeed: true));
+		await repositoryManager.CommitChangesAsync();
 		int userId = newUser.Id;
 		string accountNumber = newUser.AccountUsers.Select(x => x.Account.IBAN).FirstOrDefault()!;
 
 		IEnumerable<Entities.Contexts.Finances.Transaction> dbTransactions =
-			repositoryManager.TransactionRepository.GetAccountTransaction(userId, accountNumber);
+			await repositoryManager.TransactionRepository.GetAccountTransactionAsync(userId, accountNumber);
 
 		dbTransactions.Should().NotBeNullOrEmpty();
 		dbTransactions.Should().HaveCount(2);
 	}
 
 	[TestMethod]
-	public void GetCardTransactionByUserIdCardIdTest()
+	public async Task GetCardTransactionByUserIdCardIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.UserRepository.Create(EntityHelper.GetNewUser(accountSeed: true));
-		repositoryManager.CommitChanges();
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.UserRepository.CreateAsync(EntityHelper.GetNewUser(accountSeed: true));
+		await repositoryManager.CommitChangesAsync();
 		int userId = newUser.Id,
 			cardId = newUser.Cards.Select(x => x.Id).FirstOrDefault();
 
 		IEnumerable<Entities.Contexts.Finances.Transaction> dbTransactions =
-					repositoryManager.TransactionRepository.GetCardTransaction(userId, cardId);
+			await repositoryManager.TransactionRepository.GetCardTransactionAsync(userId, cardId);
 
 		dbTransactions.Should().NotBeNullOrEmpty();
 		dbTransactions.Should().HaveCount(2);
 	}
 
 	[TestMethod]
-	public void GetCardTransactionByUserIdCardNumberTest()
+	public async Task GetCardTransactionByUserIdCardNumberTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.UserRepository.Create(EntityHelper.GetNewUser(accountSeed: true));
-		repositoryManager.CommitChanges();
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.UserRepository.CreateAsync(EntityHelper.GetNewUser(accountSeed: true));
+		await repositoryManager.CommitChangesAsync();
 		int userId = newUser.Id;
 		string cardNumber = newUser.Cards.Select(x => x.PAN).FirstOrDefault()!;
 
 		IEnumerable<Entities.Contexts.Finances.Transaction> dbTransactions =
-					repositoryManager.TransactionRepository.GetCardTransaction(userId, cardNumber);
+			await repositoryManager.TransactionRepository.GetCardTransactionAsync(userId, cardNumber);
 
 		dbTransactions.Should().NotBeNullOrEmpty();
 		dbTransactions.Should().HaveCount(2);

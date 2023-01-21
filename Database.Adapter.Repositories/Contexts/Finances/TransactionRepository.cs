@@ -1,4 +1,5 @@
 ﻿using Database.Adapter.Entities.Contexts.Finances;
+using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.Finances.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -26,34 +27,37 @@ internal sealed class TransactionRepository : GenericRepository<Transaction>, IT
 	{
 	}
 
-	/// <inheritdoc/>
-	public IEnumerable<Transaction> GetAccountTransaction(int userId, int accountId, bool trackChanges = false) =>
-		GetManyByCondition(
+	public async Task<IEnumerable<Transaction>> GetAccountTransactionAsync(int userId, int accountId,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.AccountTransactions.SelectMany(x => x.Account.AccountUsers)
 			.Any(x => x.UserId.Equals(userId)) && x.AccountTransactions
 			.Any(x => x.AccountId.Equals(accountId)),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<Transaction> GetAccountTransaction(int userId, string accountNumber, bool trackChanges = false) =>
-		GetManyByCondition(
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<Transaction>> GetAccountTransactionAsync(int userId, string iban,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.AccountTransactions.SelectMany(x => x.Account.AccountUsers)
 			.Any(x => x.UserId.Equals(userId)) && x.AccountTransactions.Select(x => x.Account)
-			.Any(x => x.IBAN.Equals(accountNumber)),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<Transaction> GetCardTransaction(int userId, int cardId, bool trackChanges = false) =>
-		GetManyByCondition(
+			.Any(x => x.IBAN.Equals(iban.RemoveWhitespace())),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<Transaction>> GetCardTransactionAsync(int userId, int cardId,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.CardTransactions.Select(x => x.Card)
 			.Any(x => x.UserId.Equals(userId) && x.Id.Equals(cardId)),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<Transaction> GetCardTransaction(int userId, string cardNumber, bool trackChanges = false) =>
-		GetManyByCondition(
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<Transaction>> GetCardTransactionAsync(int userId, string pan,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.CardTransactions.Select(x => x.Card)
-			.Any(x => x.UserId.Equals(userId) && x.PAN.Equals(cardNumber)),
-			trackChanges: trackChanges
-			);
+			.Any(x => x.UserId.Equals(userId) && x.PAN.Equals(pan.RemoveWhitespace())),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
 }

@@ -27,30 +27,30 @@ public class CardTypeRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetByNameFailedTest()
+	public async Task GetByNameFailedTest()
 	{
 		string cardTypeName = RandomHelper.GetString(12);
 
-		CardType cardType = repositoryManager.CardTypeRepository.GetByName(cardTypeName);
+		CardType cardType = await repositoryManager.CardTypeRepository.GetByNameAsync(cardTypeName);
 
 		cardType.Should().BeNull();
 	}
 
 	[TestMethod]
-	public void GetByNameSuccessTest()
+	public async Task GetByNameSuccessTest()
 	{
 		string cardTypeName = Entities.Enumerators.CardType.CREDIT.GetName();
 
-		CardType cardType = repositoryManager.CardTypeRepository.GetByName(cardTypeName);
+		CardType cardType = await repositoryManager.CardTypeRepository.GetByNameAsync(cardTypeName);
 
 		cardType.Should().NotBeNull();
 		cardType.Name.Should().Be(cardTypeName);
 	}
 
 	[TestMethod]
-	public void GetAllActiveTest()
+	public async Task GetAllActiveTest()
 	{
-		IEnumerable<CardType> cardTypes = repositoryManager.CardTypeRepository.GetAllActive();
+		IEnumerable<CardType> cardTypes = await repositoryManager.CardTypeRepository.GetAllActiveAsync();
 		cardTypes.Should().NotBeNullOrEmpty();
 	}
 }

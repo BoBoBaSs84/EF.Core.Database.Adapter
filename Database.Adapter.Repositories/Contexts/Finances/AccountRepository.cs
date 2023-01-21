@@ -1,7 +1,7 @@
 ﻿using Database.Adapter.Entities.Contexts.Finances;
+using Database.Adapter.Entities.Extensions;
 using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.Finances.Interfaces;
-using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
@@ -26,16 +26,18 @@ internal sealed class AccountRepository : GenericRepository<Account>, IAccountRe
 	public AccountRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
-	/// <inheritdoc/>
-	public Account GetAccount(string IBAN, bool trackChanges = false) =>
-		GetByCondition(
-			expression: x => x.IBAN.Equals(IBAN.RemoveWhitespace()),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<Account> GetAccounts(int userId, bool trackChanges = false) =>
-		GetManyByCondition(
+
+	public async Task<Account> GetAccountAsync(string iban,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetByConditionAsync(
+			expression: x => x.IBAN.Equals(iban.RemoveWhitespace()),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<Account>> GetAccountsAsync(int userId,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId),
-			trackChanges: trackChanges
-			);
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
 }

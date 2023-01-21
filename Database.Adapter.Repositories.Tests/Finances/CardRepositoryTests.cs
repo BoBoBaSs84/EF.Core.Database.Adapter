@@ -13,7 +13,6 @@ namespace Database.Adapter.Repositories.Tests.Finances;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 public class CardRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
@@ -30,7 +29,7 @@ public class CardRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetCardByNumberTest()
+	public async Task GetCardByNumberTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
 		string newIBAN = RandomHelper.GetString(Regex.IBAN).RemoveWhitespace();
@@ -39,22 +38,21 @@ public class CardRepositoryTests
 		Card newCard = EntityHelper.GetNewCard(newUser, newAccount, newCardNumber);
 		newAccount.Cards.Add(newCard);
 		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.CommitChangesAsync();
 
-		Card dbCard = repositoryManager.CardRepository.GetCard(newCardNumber);
+		Card dbCard = await repositoryManager.CardRepository.GetCardAsync(newCardNumber);
 		dbCard.Should().NotBeNull();
 	}
 
 	[TestMethod]
-	public void GetCardsByUserIdTest()
+	public async Task GetCardsByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.CommitChangesAsync();
 
-		IEnumerable<Card> dbCards = repositoryManager.CardRepository.GetCards(dbUserId);
+		IEnumerable<Card> dbCards = await repositoryManager.CardRepository.GetCardsAsync(newUser.Id);
 		dbCards.Should().NotBeNullOrEmpty();
 		dbCards.Should().HaveCount(newUser.Cards.Count);
 	}

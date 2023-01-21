@@ -26,38 +26,38 @@ public class CalendarDayRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetByDateTest()
+	public async Task GetByDateTest()
 	{
 		DateTime dateTime = DateTime.Now;
 
-		CalendarDay dbCalendarDay = repositoryManager.CalendarRepository.GetByDate(dateTime);
+		CalendarDay dbCalendarDay = await repositoryManager.CalendarRepository.GetByDateAsync(dateTime);
 
 		dbCalendarDay.Should().NotBeNull();
 	}
 
 	[TestMethod]
-	public void GetByDatesTest()
+	public async Task GetByDatesTest()
 	{
 		IEnumerable<DateTime> dateTimes = new List<DateTime>()
 		{
-			DateTime.Today,
+			DateTime.Now,
 			DateTime.Today.AddDays(5),
-			DateTime.Today.AddDays(10),
+			DateTime.Now.AddDays(10),
 			DateTime.Today.AddDays(15),
 		};
 
-		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetByDate(dateTimes);
+		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDateAsync(dateTimes);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 		dbCalendarDays.Should().HaveCount(dateTimes.Count());
 	}
 
 	[TestMethod]
-	public void GetByDateRangeTest()
+	public async Task GetByDateRangeTest()
 	{
-		DateTime mindateTime = DateTime.Today, maxDateTime = DateTime.Today.AddDays(14);
+		DateTime mindateTime = DateTime.Now, maxDateTime = DateTime.Now.AddDays(14);
 
-		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetByDate(mindateTime, maxDateTime);
+		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDateAsync(mindateTime, maxDateTime);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 		dbCalendarDays.First().Date.Should().Be(mindateTime);
@@ -65,21 +65,21 @@ public class CalendarDayRepositoryTests
 	}
 
 	[TestMethod]
-	public void GetByDateTypeIdTest()
+	public async Task GetByDateTypeIdTest()
 	{
 		int dayTypeId = (int)Entities.Enumerators.DayType.WEEKENDDAY;
 
-		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetByDayType(dayTypeId);
+		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeId);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}
 
 	[TestMethod]
-	public void GetByDateTypeNameTest()
+	public async Task GetByDateTypeNameTest()
 	{
 		string dayTypeName = Entities.Enumerators.DayType.WEEKDAY.GetName();
 
-		IEnumerable<CalendarDay> dbCalendarDays = repositoryManager.CalendarRepository.GetByDayType(dayTypeName);
+		IEnumerable<CalendarDay> dbCalendarDays = await repositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeName);
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}

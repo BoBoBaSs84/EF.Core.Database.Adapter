@@ -13,7 +13,6 @@ namespace Database.Adapter.Repositories.Tests.Finances;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 public class AccountRepositoryTests
 {
 	private TransactionScope transactionScope = default!;
@@ -30,28 +29,27 @@ public class AccountRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetAccountByIBANTest()
+	public async Task GetAccountByIBANTest()
 	{
 		string iban = RandomHelper.GetString(Regex.IBAN).RemoveWhitespace();
 		Account newAccount = EntityHelper.GetNewAccount(iban);
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
 		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();			
-		
-		Account dbaccount = repositoryManager.AccountRepository.GetAccount(iban);
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.CommitChangesAsync();
+
+		Account dbaccount = await repositoryManager.AccountRepository.GetAccountAsync(iban);
 		dbaccount.Should().NotBeNull();
 	}
 
 	[TestMethod]
-	public void GetGetAccountsByUserIdTest()
+	public async Task GetGetAccountsByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.CommitChangesAsync();
 
-		IEnumerable<Account> dbAccounts = repositoryManager.AccountRepository.GetAccounts(dbUserId);
+		IEnumerable<Account> dbAccounts = await repositoryManager.AccountRepository.GetAccountsAsync(newUser.Id);
 		dbAccounts.Should().NotBeNullOrEmpty();
 		dbAccounts.Should().HaveCount(newUser.AccountUsers.Count);
 	}

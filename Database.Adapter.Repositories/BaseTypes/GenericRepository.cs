@@ -13,11 +13,11 @@ namespace Database.Adapter.Repositories.BaseTypes;
 /// <typeparam name="TEntity">The entity to work with.</typeparam>
 internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-	private readonly DbContext dbContext;
-	private readonly DbSet<TEntity> dbSet;
+	protected DbContext dbContext;
+	protected DbSet<TEntity> dbSet;
 
 	/// <summary>
-	/// The standard constructor.
+	/// Initializes a new instance of the <see cref="GenericRepository{TEntity}"/> class.
 	/// </summary>
 	/// <remarks>
 	/// Any context that inherits from <see cref="DbContext"/> should work.
@@ -29,17 +29,22 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		dbSet = dbContext.Set<TEntity>();
 	}
 
-	/// <inheritdoc/>
-	public IEnumerable<TEntity> GetAll(bool trackChanges = false) =>
-		!trackChanges ? dbSet.AsNoTracking() : dbContext.Set<TEntity>();
+	public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default) =>
+		await dbSet.AddAsync(entity, cancellationToken);
 
-	/// <inheritdoc/>
-	public IEnumerable<TEntity> GetManyByCondition(
+	public async Task CreateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) =>
+		await dbSet.AddRangeAsync(entities, cancellationToken);
+
+	public async Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await (!trackChanges ? dbSet.AsNoTracking().ToListAsync(cancellationToken) : dbSet.ToListAsync(cancellationToken));
+
+	public async Task<IEnumerable<TEntity>> GetManyByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		int? top = null,
 		int? skip = null,
 		bool trackChanges = false,
+		CancellationToken cancellationToken = default,
 		params string[] includeProperties)
 	{
 		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
@@ -53,74 +58,71 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 			query = query.Skip(skip.Value);
 		if (top.HasValue)
 			query = query.Take(top.Value);
-		return query.ToList();
+		return await query.ToListAsync(cancellationToken);
 	}
 
-	/// <inheritdoc/>
-	public TEntity GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false, params string[] includeProperties)
+	public async Task<TEntity> GetByConditionAsync(
+		Expression<Func<TEntity, bool>> expression,
+		bool trackChanges = false,
+		CancellationToken cancellationToken = default,
+		params string[] includeProperties)
 	{
 		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
 		if (expression is not null)
 			query = query.Where(expression);
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
-		return query.SingleOrDefault()!;
+		return await query.SingleAsync(cancellationToken);
 	}
 
+	public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) => 
+		await dbSet.FindAsync(id, cancellationToken);
 
-	/// <inheritdoc/>
-	public TEntity GetById(Guid id) => dbSet.Find(id)!;
+	public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
+		await dbSet.FindAsync(id, cancellationToken)!;
 
-	/// <inheritdoc/>
-	public TEntity GetById(int id) => dbSet.Find(id)!;
-
-	/// <inheritdoc/>
-	public void Delete(TEntity entity) => dbSet.Remove(entity);
-
-	/// <inheritdoc/>
-	public void Delete(Guid id)
+	public Task DeleteAsync(TEntity entity)
 	{
-		TEntity entity = dbSet.Find(id)!;
-		if (entity is not null)
-			Delete(entity);
+		_ = dbSet.Remove(entity);
+		return Task.CompletedTask;
 	}
-
-	/// <inheritdoc/>
-	public void Delete(int id)
+	
+	public async Task DeleteAsync(Guid id)
 	{
-		TEntity entity = dbSet.Find(id)!;
+		TEntity? entity = await dbSet.FindAsync(id);
 		if (entity is not null)
-			Delete(entity);
+			await DeleteAsync(entity);
 	}
-
-	/// <inheritdoc/>
-	public void Delete(Expression<Func<TEntity, bool>> expression)
+	
+	public async Task DeleteAsync(int id)
+	{
+		TEntity? entity = await dbSet.FindAsync(id);
+		if (entity is not null)
+			await DeleteAsync(entity);
+	}
+	
+	public Task DeleteAsync(Expression<Func<TEntity, bool>> expression)
 	{
 		IQueryable<TEntity> entities = dbSet.Where(expression);
-		Delete(entities);
+		dbSet.RemoveRange(entities);
+		return Task.CompletedTask;
 	}
-
-	/// <inheritdoc/>
-	public void Delete(IEnumerable<TEntity> entities) => dbSet.RemoveRange(entities);
-
-	/// <inheritdoc/>
-	public TEntity Create(TEntity entity)
+	
+	public Task DeleteAsync(IEnumerable<TEntity> entities)
 	{
-		_ = dbSet.Add(entity);
-		return entity;
-
+		dbSet.RemoveRange(entities);
+		return Task.CompletedTask;
 	}
-
-	/// <inheritdoc/>
-	public IEnumerable<TEntity> Create(IEnumerable<TEntity> entities)
+	
+	public Task UpdateAsync(TEntity entity)
 	{
-		dbSet.AddRange(entities);
-		return entities;
+		_ = dbSet.Update(entity);
+		return Task.CompletedTask;
 	}
-
-	/// <inheritdoc/>
-	public void Update(TEntity entity) => dbSet.Update(entity);
-
-	/// <inheritdoc/>
-	public void Update(IEnumerable<TEntity> entities) => dbSet.UpdateRange(entities);
+	
+	public Task UpdateAsync(IEnumerable<TEntity> entities)
+	{
+		dbSet.UpdateRange(entities);
+		return Task.CompletedTask;
+	}
 }

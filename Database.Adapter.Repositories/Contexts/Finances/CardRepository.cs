@@ -26,16 +26,17 @@ internal sealed class CardRepository : GenericRepository<Card>, ICardRepository
 	public CardRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
-	/// <inheritdoc/>
-	public Card GetCard(string cardNumber, bool trackChanges = false) =>
-		GetByCondition(
-			expression: x => x.PAN.Equals(cardNumber.RemoveWhitespace()),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<Card> GetCards(int userId, bool trackChanges = false) =>
-		GetManyByCondition(
+
+	public async Task<Card> GetCardAsync(string pan,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetByConditionAsync(expression: x => x.PAN.Equals(pan.RemoveWhitespace()),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<Card>> GetCardsAsync(int userId,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.UserId.Equals(userId),
-			trackChanges: trackChanges
-			);
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
 }

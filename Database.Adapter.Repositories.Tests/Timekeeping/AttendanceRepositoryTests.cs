@@ -1,6 +1,5 @@
 ﻿using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.Authentication;
-using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Entities.Contexts.Timekeeping;
 using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
@@ -29,40 +28,38 @@ public class AttendanceRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetAllAttendancesByUserIdTest()
+	public async Task GetAllAttendancesByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.CommitChangesAsync();
+		int dbUserId = repositoryManager.UserRepository.GetByConditionAsync(x => x.UserName.Equals(newUser.UserName)).Id;
 
-		IEnumerable<Attendance> dbAttendances = repositoryManager.AttendanceRepository.GetAllAttendances(dbUserId);
+		IEnumerable<Attendance> dbAttendances = await repositoryManager.AttendanceRepository.GetAttendancesAsync(dbUserId);
 
 		dbAttendances.Should().NotBeNullOrEmpty();
 	}
 
 	[TestMethod]
-	public void GetAttendanceByUserIdAndCalendarIdTest()
+	public async Task GetAttendanceByUserIdAndCalendarIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.CommitChangesAsync();
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, 1);
+		Attendance dbAttendance = await repositoryManager.AttendanceRepository.GetAttendanceAsync(newUser.Id, 1);
 
 		dbAttendance.Should().NotBeNull();
 	}
 
 	[TestMethod]
-	public void GetAttendanceByUserIdAndCalendarDateTest()
+	public async Task GetAttendanceByUserIdAndCalendarDateTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await repositoryManager.UserRepository.CreateAsync(newUser);
+		await repositoryManager.CommitChangesAsync();
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, new DateTime(1900, 1, 1));
+		Attendance dbAttendance = await repositoryManager.AttendanceRepository.GetAttendanceAsync(newUser.Id, new DateTime(1900, 1, 1));
 
 		dbAttendance.Should().NotBeNull();
 	}

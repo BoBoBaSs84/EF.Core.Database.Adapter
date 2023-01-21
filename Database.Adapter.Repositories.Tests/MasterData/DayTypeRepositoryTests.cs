@@ -27,30 +27,30 @@ public class DayTypeRepositoryTests
 	public void TestCleanup() => transactionScope.Dispose();
 
 	[TestMethod]
-	public void GetByNameFailedTest()
+	public async Task GetByNameFailedTest()
 	{
 		string dayTypeName = RandomHelper.GetString(12);
 
-		DayType dayType = repositoryManager.DayTypeRepository.GetByName(dayTypeName);
+		DayType dayType = await repositoryManager.DayTypeRepository.GetByNameAsync(dayTypeName);
 
 		dayType.Should().BeNull();
 	}
 
 	[TestMethod]
-	public void GetByNameSuccessTest()
+	public async Task GetByNameSuccessTest()
 	{
 		string dayTypeName = Entities.Enumerators.DayType.PLANNEDVACATION.GetName();
 
-		DayType dayType = repositoryManager.DayTypeRepository.GetByName(dayTypeName);
+		DayType dayType = await repositoryManager.DayTypeRepository.GetByNameAsync(dayTypeName);
 
 		dayType.Should().NotBeNull();
 		dayType.Name.Should().Be(dayTypeName);
 	}
 
 	[TestMethod]
-	public void GetAllActiveTest()
+	public async Task GetAllActiveTest()
 	{
-		IEnumerable<DayType> dayTypes = repositoryManager.DayTypeRepository.GetAllActive();
+		IEnumerable<DayType> dayTypes = await repositoryManager.DayTypeRepository.GetAllActiveAsync();
 		dayTypes.Should().NotBeNullOrEmpty();
 	}
 }

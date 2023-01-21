@@ -1,9 +1,11 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
+using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Database.Adapter.Entities.Constants;
+using static Database.Adapter.Entities.Constants.Sql;
 
 namespace Database.Adapter.Entities.Contexts.Finances;
 
@@ -13,9 +15,11 @@ namespace Database.Adapter.Entities.Contexts.Finances;
 /// <remarks>
 /// Inherits from the <see cref="AuditedModel"/> class.
 /// </remarks>
-[Index(nameof(Number), IsUnique = true)]
+[Index(nameof(PAN), IsUnique = true)]
 public partial class Card : AuditedModel
 {
+	private string pan = default!;
+
 	/// <summary>
 	/// The <see cref="UserId"/> property.
 	/// </summary>
@@ -29,10 +33,17 @@ public partial class Card : AuditedModel
 	/// </summary>
 	public int CardTypeId { get; set; } = default!;
 	/// <summary>
-	/// The <see cref="Number"/> property.
+	/// The <see cref="PAN"/> property.
 	/// </summary>
-	[StringLength(19, MinimumLength = 8), RegularExpression(Regex.CC), Unicode(false)]
-	public string Number { get; set; } = default!;
+	/// <remarks>
+	/// The payment card number or <b>p</b>rimary <b>a</b>ccount <b>n</b>umber.
+	/// </remarks>
+	[MaxLength(MaxLength.MAX_25), Unicode(false), RegularExpression(Regex.CC)]
+	public string PAN
+	{
+		get => pan;
+		set => pan = value.RemoveWhitespace();
+	}
 	/// <summary>
 	/// The <see cref="ValidUntil"/> property.
 	/// </summary>

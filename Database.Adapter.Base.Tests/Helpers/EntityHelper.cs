@@ -4,6 +4,7 @@ using Database.Adapter.Entities.Contexts.Finances;
 using Database.Adapter.Entities.Contexts.Timekeeping;
 using static Database.Adapter.Entities.Constants;
 using static Database.Adapter.Entities.Statics;
+using static Database.Adapter.Entities.Constants.Sql;
 
 namespace Database.Adapter.Base.Tests.Helpers;
 
@@ -87,7 +88,7 @@ public static class EntityHelper
 			Account = account,
 			CardTypeId = 1,
 			CardTransactions = cardTransactions ?? default!,
-			Number = cardNumber ?? RandomHelper.GetString(Regex.CC),
+			PAN = cardNumber ?? RandomHelper.GetString(Regex.CC),
 			User = user
 		};
 		return cardToReturn;
@@ -123,15 +124,15 @@ public static class EntityHelper
 		{
 			BookingDate = RandomHelper.GetDateTime(),
 			ValueDate = RandomHelper.GetDateTime(),
-			PostingText = RandomHelper.GetString(128),
-			ClientBeneficiary = RandomHelper.GetString(128),
-			Purpose = RandomHelper.GetString(1024),
+			PostingText = RandomHelper.GetString(MaxLength.MAX_100),
+			ClientBeneficiary = RandomHelper.GetString(MaxLength.MAX_250),
+			Purpose = RandomHelper.GetString(MaxLength.MAX_4000),
 			AccountNumber = RandomHelper.GetString(Regex.IBAN).RemoveWhitespace(),
-			BankCode = RandomHelper.GetString(12),
-			AmountEur = RandomHelper.GetInt(-500, 500),
-			CreditorId = RandomHelper.GetString(),
-			MandateReference = RandomHelper.GetString(64),
-			CustomerReference = RandomHelper.GetString(64)
+			BankCode = RandomHelper.GetString(MaxLength.MAX_25),
+			AmountEur = RandomHelper.GetInt(-100, 250),
+			CreditorId = RandomHelper.GetString(MaxLength.MAX_25),
+			MandateReference = RandomHelper.GetString(MaxLength.MAX_50),
+			CustomerReference = RandomHelper.GetString(MaxLength.MAX_50)
 		};
 		return transactionToReturn;
 	}

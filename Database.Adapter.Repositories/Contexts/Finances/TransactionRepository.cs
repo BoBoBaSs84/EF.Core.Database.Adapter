@@ -53,7 +53,7 @@ internal sealed class TransactionRepository : GenericRepository<Transaction>, IT
 	public IEnumerable<Transaction> GetCardTransaction(int userId, string cardNumber, bool trackChanges = false) =>
 		GetManyByCondition(
 			expression: x => x.CardTransactions.Select(x => x.Card)
-			.Any(x => x.UserId.Equals(userId) && x.Number.Equals(cardNumber)),
+			.Any(x => x.UserId.Equals(userId) && x.PAN.Equals(cardNumber)),
 			trackChanges: trackChanges
 			);
 }

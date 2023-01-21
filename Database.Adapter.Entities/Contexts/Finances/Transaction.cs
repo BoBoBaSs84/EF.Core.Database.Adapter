@@ -1,4 +1,5 @@
 ﻿using Database.Adapter.Entities.BaseTypes;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Database.Adapter.Entities.Constants.Sql;
@@ -26,27 +27,27 @@ public partial class Transaction : AuditedModel
 	/// <summary>
 	/// The <see cref="PostingText"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_128)]
+	[MaxLength(MaxLength.MAX_100)]
 	public string PostingText { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="ClientBeneficiary"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_128)]
+	[MaxLength(MaxLength.MAX_250)]
 	public string ClientBeneficiary { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="Purpose"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_2048)]
+	[MaxLength(MaxLength.MAX_4000)]
 	public string Purpose { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="AccountNumber"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_32)]
+	[MaxLength(MaxLength.MAX_25), Unicode(false)]
 	public string AccountNumber { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="BankCode"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_32)]
+	[MaxLength(MaxLength.MAX_25), Unicode(false)]
 	public string BankCode { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="AmountEur"/> property.
@@ -56,16 +57,16 @@ public partial class Transaction : AuditedModel
 	/// <summary>
 	/// The <see cref="CreditorId"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_32)]
+	[MaxLength(MaxLength.MAX_25)]
 	public string CreditorId { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="MandateReference"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_64)]
+	[MaxLength(MaxLength.MAX_50)]
 	public string MandateReference { get; set; } = default!;
 	/// <summary>
 	/// The <see cref="CustomerReference"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_64)]
+	[MaxLength(MaxLength.MAX_50)]
 	public string CustomerReference { get; set; } = default!;
 }

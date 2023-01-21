@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Adapter.Infrastructure.Migrations.Application
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230120150522_InitialCreate")]
+    [Migration("20230121092823_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,8 +38,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -84,7 +84,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "9f60b2aa-c08c-4a87-87b8-5d3f570478c2",
+                            ConcurrencyStamp = "9fbef370-8824-47e4-9f9d-e86eafe327f5",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -92,7 +92,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "89aa7764-40d6-4017-8e87-c34f8d371dd8",
+                            ConcurrencyStamp = "6fcf6e6b-e6d1-42ac-8407-0cfea2a50eca",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -100,7 +100,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "16b2f3cc-cbdf-4dd8-97ee-c853a61774bb",
+                            ConcurrencyStamp = "04ea7e8f-8f36-41a7-9750-b2c1f8b2da15",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -180,13 +180,13 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -195,8 +195,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("MiddleName")
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -448,9 +448,9 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("IBAN")
                         .IsRequired()
-                        .HasMaxLength(42)
+                        .HasMaxLength(25)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(42)");
+                        .HasColumnType("varchar(25)");
 
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
@@ -468,8 +468,8 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("Provider")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
@@ -601,10 +601,11 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("int")
                         .HasColumnOrder(4);
 
-                    b.Property<string>("Number")
+                    b.Property<string>("PAN")
                         .IsRequired()
-                        .HasMaxLength(19)
-                        .HasColumnType("nvarchar(19)");
+                        .HasMaxLength(25)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(25)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -637,7 +638,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("CardTypeId");
 
-                    b.HasIndex("Number")
+                    b.HasIndex("PAN")
                         .IsUnique();
 
                     b.HasIndex("UserId");
@@ -707,24 +708,26 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(25)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(25)");
 
                     b.Property<decimal>("AmountEur")
                         .HasColumnType("money");
 
                     b.Property<string>("BankCode")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(25)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(25)");
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("date");
 
                     b.Property<string>("ClientBeneficiary")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int")
@@ -732,18 +735,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("CreditorId")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("CustomerReference")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("MandateReference")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
@@ -761,13 +764,13 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.Property<string>("PostingText")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Purpose")
                         .IsRequired()
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
@@ -915,16 +918,16 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnOrder(1);
 
                     b.Property<string>("Description")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -988,16 +991,16 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnOrder(1);
 
                     b.Property<string>("Description")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -1038,6 +1041,13 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     ));
 
                     b.HasData(
+                        new
+                        {
+                            Id = 0,
+                            Description = "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.",
+                            IsActive = true,
+                            Name = "Holiday"
+                        },
                         new
                         {
                             Id = 1,
@@ -1090,48 +1100,41 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 8,
-                            Description = "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.",
-                            IsActive = true,
-                            Name = "Holiday"
-                        },
-                        new
-                        {
-                            Id = 9,
                             Description = "The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.",
                             IsActive = true,
                             Name = "Mobile working"
                         },
                         new
                         {
-                            Id = 10,
+                            Id = 9,
                             Description = "Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.",
                             IsActive = true,
                             Name = "Planned vacation"
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 10,
                             Description = "Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.",
                             IsActive = true,
                             Name = "Short time work"
                         },
                         new
                         {
-                            Id = 12,
+                            Id = 11,
                             Description = "The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.",
                             IsActive = true,
                             Name = "Sickness"
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 12,
                             Description = "Is either a leave of absence from a regular job or an instance of leisure travel away from home.",
                             IsActive = true,
                             Name = "Vacation"
                         },
                         new
                         {
-                            Id = 14,
+                            Id = 13,
                             Description = "With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.",
                             IsActive = true,
                             Name = "Vacation block"

@@ -29,7 +29,7 @@ internal sealed class CardRepository : GenericRepository<Card>, ICardRepository
 	/// <inheritdoc/>
 	public Card GetCard(string cardNumber, bool trackChanges = false) =>
 		GetByCondition(
-			expression: x => x.Number.Equals(cardNumber.RemoveWhitespace()),
+			expression: x => x.PAN.Equals(cardNumber.RemoveWhitespace()),
 			trackChanges: trackChanges
 			);
 	/// <inheritdoc/>

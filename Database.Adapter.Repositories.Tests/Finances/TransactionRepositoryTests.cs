@@ -84,7 +84,7 @@ public class TransactionRepositoryTests
 		repositoryManager.UserRepository.Create(EntityHelper.GetNewUser(accountSeed: true));
 		repositoryManager.CommitChanges();
 		int userId = newUser.Id;
-		string cardNumber = newUser.Cards.Select(x => x.Number).FirstOrDefault()!;
+		string cardNumber = newUser.Cards.Select(x => x.PAN).FirstOrDefault()!;
 
 		IEnumerable<Entities.Contexts.Finances.Transaction> dbTransactions =
 					repositoryManager.TransactionRepository.GetCardTransaction(userId, cardNumber);

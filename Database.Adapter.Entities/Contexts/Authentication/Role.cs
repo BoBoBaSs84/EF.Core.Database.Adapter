@@ -10,6 +10,6 @@ public partial class Role : IdentityRole<int>
 	/// <summary>
 	/// The <see cref="Description"/> property.
 	/// </summary>
-	[MaxLength(StringLength.MAX_LENGHT_256)]
+	[MaxLength(MaxLength.MAX_500)]
 	public string? Description { get; set; } = default!;
 }

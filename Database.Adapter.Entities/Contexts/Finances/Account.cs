@@ -16,16 +16,20 @@ namespace Database.Adapter.Entities.Contexts.Finances;
 [Index(nameof(IBAN), IsUnique = true)]
 public partial class Account : AuditedModel
 {
-	private string iBAN = default!;
+	private string iban = default!;
 
 	/// <summary>
 	/// The <see cref="IBAN"/> property.
 	/// </summary>
-	[StringLength(20), RegularExpression(Regex.IBAN), Unicode(false)]
-	public string IBAN { get => iBAN; set => iBAN = value.RemoveWhitespace(); }
+	[MaxLength(MaxLength.MAX_25), Unicode(false), RegularExpression(Regex.IBAN)]
+	public string IBAN
+	{
+		get => iban;
+		set => iban = value.RemoveWhitespace();
+	}
 	/// <summary>
 	/// The <see cref="Provider"/> property.
 	/// </summary>
-	[StringLength(StringLength.MAX_LENGHT_256)]
+	[MaxLength(MaxLength.MAX_500)]
 	public string Provider { get; set; } = default!;
 }

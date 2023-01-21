@@ -3,6 +3,7 @@ using Database.Adapter.Repositories.BaseTypes;
 using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Adapter.Repositories.Contexts.MasterData;
 
@@ -15,6 +16,7 @@ namespace Database.Adapter.Repositories.Contexts.MasterData;
 /// <item>The <see cref="ICalendarDayRepository"/> interface</item>
 /// </list>
 /// </remarks>
+[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, ICalendarDayRepository
 {
 	/// <summary>
@@ -24,34 +26,39 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	public CalendarDayRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
-	/// <inheritdoc/>
-	public CalendarDay GetByDate(DateTime dateTime, bool trackChanges = false) =>
-		GetByCondition(
+
+	public async Task<CalendarDay> GetByDateAsync(DateTime dateTime,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await	GetByConditionAsync(
 			expression: x => x.Date.Equals(dateTime.ToSqlDate()),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<CalendarDay> GetByDate(DateTime minDate, DateTime maxDate, bool trackChanges = false) =>
-		GetManyByCondition(
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<CalendarDay>> GetByDateAsync(DateTime minDate, DateTime maxDate,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.Date >= minDate.ToSqlDate() && x.Date <= maxDate.ToSqlDate(),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<CalendarDay> GetByDate(IEnumerable<DateTime> dates, bool trackChanges = false) =>
-		GetManyByCondition(
-			expression: x => dates.Contains(x.Date),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<CalendarDay> GetByDayType(string dayTypeName, bool trackChanges = false) =>
-		GetManyByCondition(
-			expression: x => x.DayType.Name.Contains(dayTypeName),
-			trackChanges: trackChanges
-			);
-	/// <inheritdoc/>
-	public IEnumerable<CalendarDay> GetByDayType(int dayTypeId, bool trackChanges = false) =>
-		GetManyByCondition(
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<CalendarDay>> GetByDateAsync(IEnumerable<DateTime> dates,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
+			expression: x=> dates.Contains(x.Date),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<CalendarDay>> GetByDayTypeAsync(string dayTypeName,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
+			expression: x => x.DayType.Name.Equals(dayTypeName),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<CalendarDay>> GetByDayTypeAsync(int dayTypeId,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
 			expression: x => x.DayTypeId.Equals(dayTypeId),
-			trackChanges: trackChanges
-			);
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
 }

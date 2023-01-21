@@ -12,16 +12,19 @@
 public interface IEnumeratorRepository<TEnum> : IGenericRepository<TEnum> where TEnum : class
 {
 	/// <summary>
-	/// The method should return only the active enumerators.
+	/// Should return only active enumerator entities.
 	/// </summary>
 	/// <param name="trackChanges">Should changes be tracked?</param>
-	/// <returns>All active enumerators.</returns>
-	IEnumerable<TEnum> GetAllActive(bool trackChanges = false);
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns>All active enumerator entities.</returns>
+	Task<IEnumerable<TEnum>> GetAllActiveAsync(bool trackChanges = false, CancellationToken cancellationToken = default);
+	
 	/// <summary>
-	/// The method should return the enumerator by its unique name.
+	/// Should return the enumerator by its unique name.
 	/// </summary>
 	/// <param name="name">The name of the enumerator.</param>
 	/// <param name="trackChanges">Should changes be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>The named enumerator.</returns>
-	TEnum GetByName(string name, bool trackChanges = false);
+	Task<TEnum> GetByNameAsync(string name, bool trackChanges = false, CancellationToken cancellationToken = default);
 }

@@ -15,8 +15,10 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// Should find all entries of an entity.
 	/// </summary>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A list of entries.</returns>
-	IEnumerable<TEntity> GetAll(bool trackChanges = false);
+	Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges = false, CancellationToken cancellationToken = default);
+	
 	/// <summary>
 	/// Should find a collection of entities based on the specified criteria.
 	/// </summary>
@@ -25,96 +27,111 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="top">The number of records to limit the results to.</param>
 	/// <param name="skip">The number of records to skip.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <param name="includeProperties">Any other navigation properties to include when returning the collection.</param>
 	/// <returns>A collection of entities.</returns>
-	IEnumerable<TEntity> GetManyByCondition(
+	Task<IEnumerable<TEntity>> GetManyByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		int? top = null,
 		int? skip = null,
 		bool trackChanges = false,
+		CancellationToken cancellationToken = default,
 		params string[] includeProperties);
+	
 	/// <summary>
 	/// Should find an entry of an entity by its primary key.
 	/// </summary>
-	/// <remarks>
-	/// <paramref name="id"/> is of type <see cref="Guid"/>
-	/// </remarks>
 	/// <param name="id">The primary key of the entity.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>One entry of an entity.</returns>
-	TEntity GetById(Guid id);
+	Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+	
 	/// <summary>
 	/// Should find an entry of an entity by its primary key.
 	/// </summary>
-	/// <remarks>
-	/// <paramref name="id"/> is of type <see cref="int"/>
-	/// </remarks>
 	/// <param name="id">The primary key of the entity.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>One entry of an entity.</returns>
-	TEntity GetById(int id);
+	Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+	
 	/// <summary>
 	/// Should find an entry of an entity by a certain condition.
 	/// </summary>
 	/// <param name="expression">The search condition.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <param name="includeProperties">Any other navigation properties to include when returning the entity.</param>
 	/// <returns>One entry of an entity.</returns>
-	TEntity GetByCondition(
+	Task<TEntity> GetByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
 		bool trackChanges = false,
+		CancellationToken cancellationToken = default,
 		params string[] includeProperties
 		);
+
 	/// <summary>
-	/// Should delete an entry of an entity.
+	/// Should delete an entity.
 	/// </summary>
-	/// <param name="entity">The entry of an entity to delete.</param>
-	void Delete(TEntity entity);
+	/// <param name="entity">The entity to delete.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task DeleteAsync(TEntity entity);
+
 	/// <summary>
-	/// Should delete an entry of an entity by its identifier.
+	/// Should delete an entity by its identifier
 	/// </summary>
-	/// <remarks>
-	/// <paramref name="id"/> is of type <see cref="Guid"/>
-	/// </remarks>
-	/// <param name="id">The identifier of the entity.</param>
-	void Delete(Guid id);
+	/// <param name="id">The identifier of the entity to delete.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task DeleteAsync(Guid id);
+
 	/// <summary>
-	/// Should delete an entry of an entity by its identifier.
+	/// Should delete an entity by its identifier
 	/// </summary>
-	/// <remarks>
-	/// <paramref name="id"/> is of type <see cref="int"/>
-	/// </remarks>
-	/// <param name="id">The identifier of the entity.</param>
-	void Delete(int id);
+	/// <param name="id">The identifier of the entity to delete.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task DeleteAsync(int id);
+
 	/// <summary>
-	/// Should delete one entry or many entries of an entity by a certain condition.
+	/// Should delete one or many entities by a certain condition.
 	/// </summary>
-	/// <param name="expression"></param>
-	void Delete(Expression<Func<TEntity, bool>> expression);
+	/// <param name="expression">The condition the entities must fulfil to be deleted.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task DeleteAsync(Expression<Func<TEntity, bool>> expression);
+
 	/// <summary>
-	/// Should delete multiple entries of an entity.
+	/// Should delete multiple entities.
 	/// </summary>
-	/// <param name="entities">The entries of an entity to delete.</param>
-	void Delete(IEnumerable<TEntity> entities);
+	/// <param name="entities">The entities to delete.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task DeleteAsync(IEnumerable<TEntity> entities);
+
 	/// <summary>
-	/// Should create an entry of an entity.
+	/// Should create an entity.
 	/// </summary>
-	/// <param name="entity">The entry of an entity to create.</param>
-	/// <returns>The created entity.</returns>
-	TEntity Create(TEntity entity);
+	/// <param name="entity">The entity to create.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default);
+
 	/// <summary>
-	/// Should create multiple entries of an entity.
+	/// Should create multiple entities.
 	/// </summary>
-	/// <param name="entities">The entries of an entity to create.</param>
-	/// <returns>The created entities.</returns>
-	IEnumerable<TEntity> Create(IEnumerable<TEntity> entities);
+	/// <param name="entities">The entities to create.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task CreateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+
 	/// <summary>
-	/// Should update an entry of an entity.
+	/// Should update an entity.
 	/// </summary>
-	/// <param name="entity">The entry of an entity to update.</param>
-	void Update(TEntity entity);
+	/// <param name="entity">The entity to update.</param>
+	/// <returns><see cref="Task"/></returns>
+	Task UpdateAsync(TEntity entity);
+
 	/// <summary>
-	/// Should update multiple entries of an entity.
+	/// Should update multiple entities.
 	/// </summary>
-	/// <param name="entities">The entries of an entity to update.</param>	
-	void Update(IEnumerable<TEntity> entities);
+	/// <param name="entities">The entities to update.</param>	
+	/// <returns><see cref="Task"/></returns>
+	Task UpdateAsync(IEnumerable<TEntity> entities);
 }

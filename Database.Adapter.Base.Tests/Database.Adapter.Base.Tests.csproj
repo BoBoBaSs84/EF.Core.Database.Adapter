@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Database.Adapter.Entities\Database.Adapter.Entities.csproj" />
+		<ProjectReference Include="..\Database.Adapter.Repositories\Database.Adapter.Repositories.csproj" />
 	</ItemGroup>
 
 </Project>

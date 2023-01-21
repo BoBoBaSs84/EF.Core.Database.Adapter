@@ -21,7 +21,7 @@ public class Worker : BackgroundService
 	{
 		while (!stoppingToken.IsCancellationRequested)
 		{
-			CalendarDay? calendarDay = repositoryManager.CalendarRepository.GetByDate(DateTime.UtcNow);
+			CalendarDay? calendarDay = await repositoryManager.CalendarRepository.GetByDateAsync(DateTime.UtcNow, cancellationToken: stoppingToken);
 
 			if (calendarDay is null)
 			{
@@ -40,9 +40,9 @@ public class Worker : BackgroundService
 					newCalendarDays.Add(newcalendarDay);
 					startDate = startDate.AddDays(1);
 				}
-				_ = repositoryManager.CalendarRepository.Create(newCalendarDays.OrderBy(x => x.Date));
-				_ = repositoryManager.CommitChanges();
-				calendarDay = repositoryManager.CalendarRepository.GetByDate(DateTime.UtcNow);
+				await repositoryManager.CalendarRepository.CreateAsync(newCalendarDays.OrderBy(x => x.Date), stoppingToken);
+				_ = await repositoryManager.CommitChangesAsync(stoppingToken);
+				calendarDay = await repositoryManager.CalendarRepository.GetByDateAsync(DateTime.UtcNow, cancellationToken: stoppingToken);
 			}
 
 			_logger.LogInformation("Worker running at: {time} - {day}", DateTimeOffset.Now, calendarDay.WeekDayName);

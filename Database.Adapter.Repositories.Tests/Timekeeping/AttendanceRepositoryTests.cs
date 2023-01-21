@@ -1,68 +1,49 @@
-﻿using Database.Adapter.Base.Tests.Helpers;
+﻿using Database.Adapter.Base.Tests;
+using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.Authentication;
-using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Entities.Contexts.Timekeeping;
-using Database.Adapter.Repositories.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using System.Transactions;
 
 namespace Database.Adapter.Repositories.Tests.Timekeeping;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
-public class AttendanceRepositoryTests
+public class AttendanceRepositoryTests : BaseTest
 {
-	private TransactionScope transactionScope = default!;
-	private IRepositoryManager repositoryManager = default!;
-
-	[TestInitialize]
-	public void TestInitialize()
-	{
-		transactionScope = new TransactionScope();
-		repositoryManager = new RepositoryManager();
-	}
-
-	[TestCleanup]
-	public void TestCleanup() => transactionScope.Dispose();
-
 	[TestMethod]
-	public void GetAllAttendancesByUserIdTest()
+	public async Task GetAllAttendancesByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await RepositoryManager.UserRepository.CreateAsync(newUser);
+		await RepositoryManager.CommitChangesAsync();
 
-		IEnumerable<Attendance> dbAttendances = repositoryManager.AttendanceRepository.GetAllAttendances(dbUserId);
+		IEnumerable<Attendance> dbAttendances = await RepositoryManager.AttendanceRepository.GetAttendancesAsync(newUser.Id);
 
 		dbAttendances.Should().NotBeNullOrEmpty();
 	}
 
 	[TestMethod]
-	public void GetAttendanceByUserIdAndCalendarIdTest()
+	public async Task GetAttendanceByUserIdAndCalendarIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await RepositoryManager.UserRepository.CreateAsync(newUser);
+		await RepositoryManager.CommitChangesAsync();
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, 1);
+		Attendance dbAttendance = await RepositoryManager.AttendanceRepository.GetAttendanceAsync(newUser.Id, 1);
 
 		dbAttendance.Should().NotBeNull();
 	}
 
 	[TestMethod]
-	public void GetAttendanceByUserIdAndCalendarDateTest()
+	public async Task GetAttendanceByUserIdAndCalendarDateTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
-		repositoryManager.UserRepository.Create(newUser);
-		repositoryManager.CommitChanges();
-		int dbUserId = repositoryManager.UserRepository.GetByCondition(x => x.UserName.Equals(newUser.UserName)).Id;
+		await RepositoryManager.UserRepository.CreateAsync(newUser);
+		await RepositoryManager.CommitChangesAsync();
 
-		Attendance dbAttendance = repositoryManager.AttendanceRepository.GetAttendance(dbUserId, new DateTime(1900, 1, 1));
+		Attendance dbAttendance = await RepositoryManager.AttendanceRepository.GetAttendanceAsync(newUser.Id, new DateTime(1900, 1, 1));
 
 		dbAttendance.Should().NotBeNull();
 	}

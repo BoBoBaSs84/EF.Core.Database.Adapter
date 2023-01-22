@@ -1,4 +1,6 @@
-﻿using Database.Adapter.Infrastructure.Configurations;
+﻿using Database.Adapter.Base.Tests.Helpers;
+using Database.Adapter.Infrastructure.Common;
+using Database.Adapter.Infrastructure.Configurations;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +14,6 @@ namespace Database.Adapter.Infrastructure.Tests;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class InfrastructureBaseTests
 {
-	private readonly Assembly _assembly = typeof(Statics).Assembly;
-
 	[TestMethod]
 	public void DatabaseContextHaveConfigurationTest()
 	{
@@ -35,11 +35,12 @@ public class InfrastructureBaseTests
 			type.IsSealed.Should().BeTrue();
 	}
 
-	private ICollection<Type> GetContextTypes()
+	private static ICollection<Type> GetContextTypes()
 	{
-		List<Type> types = new();
-		foreach (Type type in _assembly.GetTypes().Where(x => x.BaseType is not null && (x.BaseType.Equals(typeof(DbContext)) || x.BaseType.Equals(typeof(IdentityDbContext)))))
-			types.Add(type);
-		return types;
+		Assembly assembly = typeof(IAssemblyMarker).Assembly;
+
+		return TypeHelper.GetAssemblyTypes(
+			assembly,
+			x => x.BaseType is not null && (x.BaseType.Equals(typeof(DbContext)) || x.BaseType.Equals(typeof(IdentityDbContext))));
 	}
 }

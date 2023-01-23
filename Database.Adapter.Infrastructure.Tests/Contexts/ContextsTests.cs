@@ -2,6 +2,7 @@
 using Database.Adapter.Infrastructure.Common;
 using Database.Adapter.Infrastructure.Configurations;
 using FluentAssertions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -45,11 +46,10 @@ public class ContextsTests : InfrastructureBaseTests
 	private static ICollection<Type> GetContextTypes()
 	{
 		Assembly assembly = typeof(IAssemblyMarker).Assembly;
-		return TypeHelper.GetAssemblyTypes(
-			assembly,
+		return TypeHelper.GetAssemblyTypes(assembly,
 			x => x.Name.EndsWith("Context")
 			&& x.BaseType is not null
-			&& x.BaseType.BaseType is not null
-			&& x.BaseType.BaseType.Equals(typeof(DbContext)));
+			&& (x.BaseType.Name.Contains(nameof(DbContext)) || x.BaseType.Name.Contains(nameof(IdentityDbContext)))
+			);
 	}
 }

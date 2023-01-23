@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Database.Adapter.Infrastructure.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database.Adapter.Infrastructure.Extensions;
 
@@ -14,7 +15,7 @@ internal static class ModelBuilderExtension
 		HashSet<Type> types = modelBuilder.Model.GetEntityTypes().Select(t => t.ClrType).ToHashSet();
 
 		return modelBuilder.ApplyConfigurationsFromAssembly(
-			typeof(ModelBuilderExtension).Assembly,
+			typeof(IAssemblyMarker).Assembly,
 				t => t.GetInterfaces().Any(i => i.IsGenericType
 					&& i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)
 					&& types.Contains(i.GenericTypeArguments[0]))

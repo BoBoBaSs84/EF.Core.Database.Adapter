@@ -10,7 +10,7 @@ namespace Database.Adapter.Entities.Tests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class RoleTests
+public class RoleTests : EntitiesBaseTest
 {
 	private readonly ICollection<RoleType> _dayTypes = RoleType.ADMINISTRATOR.GetListFromEnum();
 
@@ -19,6 +19,7 @@ public class RoleTests
 	{
 		foreach (RoleType e in _dayTypes)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			string description = e.GetDescription();
 			description.Should().NotBeNullOrWhiteSpace();
 		}
@@ -29,6 +30,7 @@ public class RoleTests
 	{
 		foreach (RoleType e in _dayTypes)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			string shortName = e.GetShortName();
 			shortName.Should().NotBeNullOrWhiteSpace();
 		}
@@ -39,6 +41,7 @@ public class RoleTests
 	{
 		foreach (RoleType e in _dayTypes)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			string name = e.GetName();
 			name.Should().NotBeNullOrWhiteSpace();
 		}
@@ -48,7 +51,10 @@ public class RoleTests
 	public void AllRoleTypeEnumeratorsHaveDisplayAttributeTest()
 	{
 		foreach (RoleType e in _dayTypes)
+		{
+			TestContext.WriteLine($"Testing: {e}");
 			AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();
+		}
 	}
 
 	[TestMethod()]
@@ -56,6 +62,7 @@ public class RoleTests
 	{
 		foreach (RoleType e in _dayTypes)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			DisplayAttribute? displayAttribute = e.GetDisplayAttribute();
 			displayAttribute.Should().NotBeNull();
 			displayAttribute!.ResourceType.Should().NotBeNull();

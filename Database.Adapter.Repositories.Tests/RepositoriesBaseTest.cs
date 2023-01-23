@@ -1,32 +1,28 @@
 ﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Base.Tests.Helpers;
-using Database.Adapter.Repositories.Common;
-using FluentAssertions;
+using Database.Adapter.Repositories.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
+using System.Transactions;
 
 namespace Database.Adapter.Repositories.Tests;
 
 [TestClass]
-[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-[SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
-public class RepositoriesBaseTest : BaseTest
+public abstract class RepositoriesBaseTest : BaseTest
 {
-	private readonly Assembly _assembly = typeof(IAssemblyMarker).Assembly;
+	private TransactionScope transactionScope = default!;
+	public IRepositoryManager RepositoryManager { get; private set; } = default!;
 
-	[TestMethod]
-	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
+	[TestInitialize]
+	public override void Initialize()
 	{
-		ICollection<Type> typeList = 
-			TypeHelper.GetAssemblyTypes(_assembly, x => x.Name.EndsWith("Repository") && x.IsInterface.Equals(false));
-		
-		foreach (Type type in typeList)
-		{
-			TestContext.WriteLine($"Testing: {type.Name}");
-			type.IsSealed.Should().BeTrue();
-			type.IsPublic.Should().BeFalse();
-			type.IsVisible.Should().BeFalse();
-		}
+		base.Initialize();
+		transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+		RepositoryManager = new RepositoryManager();
+	}
+
+	[TestCleanup]
+	public override void Cleanup()
+	{
+		base.Cleanup();
+		transactionScope.Dispose();
 	}
 }

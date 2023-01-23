@@ -10,7 +10,7 @@ namespace Database.Adapter.Infrastructure.Tests.Configurations;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class ConfigurationTests
+public class ConfigurationTests : InfrastructureBaseTests
 {
 	private readonly Configuration configuration = new();
 	private readonly string configFilePath = Path.Combine(BaseDirectory, ConfigurationFileName);

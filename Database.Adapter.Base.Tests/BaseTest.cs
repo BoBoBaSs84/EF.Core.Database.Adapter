@@ -1,26 +1,17 @@
-﻿using Database.Adapter.Repositories;
-using Database.Adapter.Repositories.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics;
-using System.Transactions;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Database.Adapter.Base.Tests;
 
 [TestClass]
 public abstract class BaseTest
 {
-	private TransactionScope transactionScope = default!;
-	public IRepositoryManager RepositoryManager { get; private set; } = default!;
 	public TestContext TestContext { get; set; } = default!;
 
 	[TestInitialize]
-	public virtual void TestInitialize()
-	{
-		Trace.WriteLine(TestContext.TestName);
-		transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-		RepositoryManager = new RepositoryManager();
-	}
+	public virtual void Initialize() =>
+		TestContext.WriteLine($"{nameof(Initialize)}: {TestContext.TestName}");
 
 	[TestCleanup]
-	public virtual void TestCleanup() => transactionScope.Dispose();
+	public virtual void Cleanup() =>
+		TestContext.WriteLine($"{nameof(Cleanup)}: {TestContext.TestName}");
 }

@@ -1,15 +1,14 @@
-﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Entities.Contexts.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Entities.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Database.Adapter.Repositories.Tests.MasterData;
+namespace Database.Adapter.Repositories.Tests.Contexts.MasterData;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class CalendarDayRepositoryTests : BaseTest
+public class CalendarDayRepositoryTests : RepositoriesBaseTest
 {
 	[TestMethod]
 	public async Task GetByDateTest()

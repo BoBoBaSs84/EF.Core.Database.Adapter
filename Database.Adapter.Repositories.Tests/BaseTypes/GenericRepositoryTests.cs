@@ -1,5 +1,4 @@
-﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Entities.Contexts.MasterData;
+﻿using Database.Adapter.Entities.Contexts.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -9,7 +8,7 @@ namespace Database.Adapter.Repositories.Tests.BaseTypes;
 
 [TestClass()]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class GenericRepositoryTests : BaseTest
+public class GenericRepositoryTests : RepositoriesBaseTest
 {
 	[TestMethod]
 	public async Task CreateTest()

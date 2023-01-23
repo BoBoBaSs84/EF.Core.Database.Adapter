@@ -1,15 +1,14 @@
-﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Base.Tests.Helpers;
+﻿using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.Authentication;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Database.Adapter.Repositories.Tests.Finances;
+namespace Database.Adapter.Repositories.Tests.Contexts.Finances;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class TransactionRepositoryTests : BaseTest
+public class TransactionRepositoryTests : RepositoriesBaseTest
 {
 	[TestMethod]
 	public async Task GetAccountTransactionByUserIdAccountIdTest()

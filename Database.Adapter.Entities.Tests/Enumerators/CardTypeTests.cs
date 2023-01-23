@@ -10,7 +10,7 @@ namespace Database.Adapter.Entities.Tests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class CardTypeTests
+public class CardTypeTests : EntitiesBaseTest
 {
 	private readonly ICollection<CardType> _cardType = CardType.CREDIT.GetListFromEnum();
 
@@ -19,6 +19,7 @@ public class CardTypeTests
 	{
 		foreach (CardType e in _cardType)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			string description = e.GetDescription();
 			description.Should().NotBeNullOrWhiteSpace();
 		}
@@ -29,6 +30,7 @@ public class CardTypeTests
 	{
 		foreach (CardType e in _cardType)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			string shortName = e.GetShortName();
 			shortName.Should().NotBeNullOrWhiteSpace();
 		}
@@ -39,6 +41,7 @@ public class CardTypeTests
 	{
 		foreach (CardType e in _cardType)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			string name = e.GetName();
 			name.Should().NotBeNullOrWhiteSpace();
 		}
@@ -48,7 +51,10 @@ public class CardTypeTests
 	public void AllCardTypeEnumeratorsHaveDisplayAttributeTest()
 	{
 		foreach (CardType e in _cardType)
+		{
+			TestContext.WriteLine($"Testing: {e}");
 			AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();
+		}
 	}
 
 	[TestMethod()]
@@ -56,6 +62,7 @@ public class CardTypeTests
 	{
 		foreach (CardType e in _cardType)
 		{
+			TestContext.WriteLine($"Testing: {e}");
 			DisplayAttribute? displayAttribute = e.GetDisplayAttribute();
 			displayAttribute.Should().NotBeNull();
 			displayAttribute!.ResourceType.Should().NotBeNull();

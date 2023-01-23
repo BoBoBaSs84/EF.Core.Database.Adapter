@@ -1,9 +1,9 @@
 ﻿using Database.Adapter.Base.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Database.Adapter.Infrastructure.Tests;
+namespace Database.Adapter.Entities.Tests;
 
 [TestClass]
-public class InfrastructureBaseTests : BaseTest
+public class EntitiesBaseTest : BaseTest
 {
 }

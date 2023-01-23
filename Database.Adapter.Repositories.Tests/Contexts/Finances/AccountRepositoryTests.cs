@@ -1,5 +1,4 @@
-﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Base.Tests.Helpers;
+﻿using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Contexts.Finances;
 using Database.Adapter.Entities.Extensions;
@@ -8,11 +7,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static Database.Adapter.Entities.Constants;
 
-namespace Database.Adapter.Repositories.Tests.Finances;
+namespace Database.Adapter.Repositories.Tests.Contexts.Finances;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class AccountRepositoryTests : BaseTest
+public class AccountRepositoryTests : RepositoriesBaseTest
 {
 	[TestMethod]
 	public async Task GetAccountByIBANTest()

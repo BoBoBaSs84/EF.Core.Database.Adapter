@@ -8,7 +8,7 @@ namespace Database.Adapter.Entities.Tests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class EnumeratorExtensionsTests
+public class EnumeratorExtensionsTests : EntitiesBaseTest
 {
 	[TestMethod]
 	public void GetEnumDescriptionSuccessTest()

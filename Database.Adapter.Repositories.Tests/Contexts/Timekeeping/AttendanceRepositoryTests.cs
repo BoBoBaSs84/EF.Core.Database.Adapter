@@ -1,16 +1,15 @@
-﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Base.Tests.Helpers;
+﻿using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.Authentication;
 using Database.Adapter.Entities.Contexts.Timekeeping;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Database.Adapter.Repositories.Tests.Timekeeping;
+namespace Database.Adapter.Repositories.Tests.Contexts.Timekeeping;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class AttendanceRepositoryTests : BaseTest
+public class AttendanceRepositoryTests : RepositoriesBaseTest
 {
 	[TestMethod]
 	public async Task GetAllAttendancesByUserIdTest()

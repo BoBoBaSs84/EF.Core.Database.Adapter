@@ -1,16 +1,15 @@
-﻿using Database.Adapter.Base.Tests;
-using Database.Adapter.Base.Tests.Helpers;
+﻿using Database.Adapter.Base.Tests.Helpers;
 using Database.Adapter.Entities.Contexts.MasterData;
 using Database.Adapter.Entities.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Database.Adapter.Repositories.Tests.MasterData;
+namespace Database.Adapter.Repositories.Tests.Contexts.MasterData;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class DayTypeRepositoryTests : BaseTest
+public class DayTypeRepositoryTests : RepositoriesBaseTest
 {
 	[TestMethod]
 	public async Task GetByNameFailedTest()

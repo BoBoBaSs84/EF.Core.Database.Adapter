@@ -1,7 +1,7 @@
 ﻿using DA.Infrastructure.Extensions;
+using DA.Models.Contexts.Authentication;
 using DA.Models.Enumerators;
 using DA.Models.Extensions;
-using DA.Models.Contexts.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;

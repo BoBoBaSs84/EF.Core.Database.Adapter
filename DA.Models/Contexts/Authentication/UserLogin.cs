@@ -1,5 +1,4 @@
-﻿using DA.Models.Contexts.Authentication;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace DA.Models.Contexts.Authentication;
 

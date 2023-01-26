@@ -1,10 +1,10 @@
 ﻿using DA.Models.Contexts.MasterData;
+using DA.Models.Extensions;
+using DA.Repositories.BaseTypes;
+using DA.Repositories.Contexts.MasterData.Interfaces;
+using Database.Adapter.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
-using Database.Adapter.Infrastructure.Contexts;
-using DA.Repositories.Contexts.MasterData.Interfaces;
-using DA.Repositories.BaseTypes;
-using DA.Models.Extensions;
 
 namespace DA.Repositories.Contexts.MasterData;
 

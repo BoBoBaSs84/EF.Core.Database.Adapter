@@ -1,5 +1,4 @@
-﻿using DA.Models;
-using DA.Models.BaseTypes;
+﻿using DA.Models.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

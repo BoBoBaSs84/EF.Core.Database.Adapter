@@ -1,5 +1,5 @@
-﻿using DA.Repositories.BaseTypes.Interfaces;
-using DA.Models.Contexts.Authentication;
+﻿using DA.Models.Contexts.Authentication;
+using DA.Repositories.BaseTypes.Interfaces;
 
 namespace DA.Repositories.Contexts.Authentication.Interfaces;
 

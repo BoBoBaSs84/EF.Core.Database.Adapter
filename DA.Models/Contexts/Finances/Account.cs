@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DA.Models.BaseTypes;
+using DA.Models.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using static DA.Models.Constants;
 using static DA.Models.Constants.Sql;
-using DA.Models.BaseTypes;
-using DA.Models.Extensions;
 
 namespace DA.Models.Contexts.Finances;
 

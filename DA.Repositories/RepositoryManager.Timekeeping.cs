@@ -1,5 +1,5 @@
-﻿using DA.Repositories.Contexts.Timekeeping.Interfaces;
-using DA.Repositories.Contexts.Timekeeping;
+﻿using DA.Repositories.Contexts.Timekeeping;
+using DA.Repositories.Contexts.Timekeeping.Interfaces;
 
 namespace Database.Adapter.Repositories;
 

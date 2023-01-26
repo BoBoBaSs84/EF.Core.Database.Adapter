@@ -1,5 +1,4 @@
-﻿using DA.Repositories.Tests;
-using DA.Models.Contexts.MasterData;
+﻿using DA.Models.Contexts.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;

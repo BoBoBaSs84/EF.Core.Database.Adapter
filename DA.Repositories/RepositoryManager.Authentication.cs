@@ -1,5 +1,5 @@
-﻿using DA.Repositories.Contexts.Authentication.Interfaces;
-using DA.Repositories.Contexts.Authentication;
+﻿using DA.Repositories.Contexts.Authentication;
+using DA.Repositories.Contexts.Authentication.Interfaces;
 
 namespace Database.Adapter.Repositories;
 

@@ -1,6 +1,6 @@
 ﻿using DA.Base.Tests.Helpers;
-using DA.Models.Extensions;
 using DA.Models.Contexts.MasterData;
+using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;

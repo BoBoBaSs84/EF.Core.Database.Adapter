@@ -1,10 +1,10 @@
 ﻿using DA.Models.Contexts.Authentication;
 using DA.Models.Contexts.Finances;
 using DA.Models.Contexts.Timekeeping;
-using static DA.Models.Constants;
-using static DA.Models.Statics;
-using static DA.Models.Constants.Sql;
 using DA.Models.Extensions;
+using static DA.Models.Constants;
+using static DA.Models.Constants.Sql;
+using static DA.Models.Statics;
 
 namespace DA.Base.Tests.Helpers;
 

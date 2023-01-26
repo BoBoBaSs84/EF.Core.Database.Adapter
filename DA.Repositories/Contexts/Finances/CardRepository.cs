@@ -1,7 +1,7 @@
-﻿using DA.Models.Extensions;
+﻿using DA.Models.Contexts.Finances;
+using DA.Models.Extensions;
 using DA.Repositories.BaseTypes;
 using DA.Repositories.Contexts.Finances.Interfaces;
-using DA.Models.Contexts.Finances;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 

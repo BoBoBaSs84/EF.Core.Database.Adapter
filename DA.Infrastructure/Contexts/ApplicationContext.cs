@@ -1,7 +1,6 @@
 ﻿using DA.Infrastructure.Extensions;
 using DA.Infrastructure.Factories;
 using DA.Models.Contexts.Authentication;
-using DA.Models.Contexts.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;

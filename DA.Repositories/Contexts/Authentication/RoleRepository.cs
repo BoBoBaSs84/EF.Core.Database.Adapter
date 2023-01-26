@@ -1,6 +1,6 @@
-﻿using DA.Repositories.BaseTypes;
+﻿using DA.Models.Contexts.Authentication;
+using DA.Repositories.BaseTypes;
 using DA.Repositories.Contexts.Authentication.Interfaces;
-using DA.Models.Contexts.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 namespace DA.Repositories.Contexts.Authentication;

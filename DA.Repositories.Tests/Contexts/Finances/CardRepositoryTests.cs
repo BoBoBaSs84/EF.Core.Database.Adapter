@@ -1,8 +1,7 @@
 ﻿using DA.Base.Tests.Helpers;
-using DA.Models.Extensions;
-using DA.Repositories.Tests;
 using DA.Models.Contexts.Authentication;
 using DA.Models.Contexts.Finances;
+using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;

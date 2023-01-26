@@ -1,6 +1,4 @@
-﻿using DA.Models.Contexts.Authentication;
-
-namespace DA.Models.Contexts.Authentication;
+﻿namespace DA.Models.Contexts.Authentication;
 
 public partial class Role
 {

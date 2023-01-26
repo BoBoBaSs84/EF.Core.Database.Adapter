@@ -1,5 +1,5 @@
-﻿using DA.Repositories.BaseTypes.Interfaces;
-using DA.Models.Contexts.Timekeeping;
+﻿using DA.Models.Contexts.Timekeeping;
+using DA.Repositories.BaseTypes.Interfaces;
 
 namespace DA.Repositories.Contexts.Timekeeping.Interfaces;
 

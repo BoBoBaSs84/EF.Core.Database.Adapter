@@ -1,5 +1,5 @@
-﻿using DA.Repositories.BaseTypes.Interfaces;
-using DA.Models.Contexts.MasterData;
+﻿using DA.Models.Contexts.MasterData;
+using DA.Repositories.BaseTypes.Interfaces;
 
 namespace DA.Repositories.Contexts.MasterData.Interfaces;
 

@@ -1,6 +1,6 @@
-﻿using DA.Repositories.BaseTypes;
+﻿using DA.Models.Contexts.MasterData;
+using DA.Repositories.BaseTypes;
 using DA.Repositories.Contexts.MasterData.Interfaces;
-using DA.Models.Contexts.MasterData;
 using Microsoft.EntityFrameworkCore;
 
 namespace DA.Repositories.Contexts.MasterData;

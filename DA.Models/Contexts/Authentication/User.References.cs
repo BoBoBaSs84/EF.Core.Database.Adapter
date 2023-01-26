@@ -1,5 +1,4 @@
-﻿using DA.Models.Contexts.Authentication;
-using DA.Models.Contexts.Finances;
+﻿using DA.Models.Contexts.Finances;
 using DA.Models.Contexts.Timekeeping;
 
 namespace DA.Models.Contexts.Authentication;

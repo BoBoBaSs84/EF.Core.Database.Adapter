@@ -1,5 +1,4 @@
 ﻿using DA.Base.Tests.Helpers;
-using DA.Repositories.Tests;
 using DA.Models.Contexts.Authentication;
 using DA.Models.Contexts.Timekeeping;
 using FluentAssertions;

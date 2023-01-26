@@ -1,5 +1,5 @@
-﻿using DA.Repositories.BaseTypes.Interfaces;
-using DA.Models.Contexts.Finances;
+﻿using DA.Models.Contexts.Finances;
+using DA.Repositories.BaseTypes.Interfaces;
 
 namespace DA.Repositories.Contexts.Finances.Interfaces;
 

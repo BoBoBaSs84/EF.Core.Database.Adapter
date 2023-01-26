@@ -1,6 +1,5 @@
 ﻿using DA.Base.Tests.Helpers;
 using DA.Repositories.Common;
-using DA.Repositories.Tests;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;

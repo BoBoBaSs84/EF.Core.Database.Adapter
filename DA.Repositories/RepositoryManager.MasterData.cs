@@ -1,5 +1,5 @@
-﻿using DA.Repositories.Contexts.MasterData.Interfaces;
-using DA.Repositories.Contexts.MasterData;
+﻿using DA.Repositories.Contexts.MasterData;
+using DA.Repositories.Contexts.MasterData.Interfaces;
 
 namespace Database.Adapter.Repositories;
 

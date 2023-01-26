@@ -7,25 +7,25 @@ using static Database.Adapter.Entities.Constants.Sql;
 namespace Database.Adapter.Infrastructure.Factories;
 
 /// <summary>
-/// The application context factory class.
+/// The master context factory class.
 /// </summary>
-internal sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
+internal sealed class MasterContextFactory : IDesignTimeDbContextFactory<MasterContext>
 {
 	/// <inheritdoc/>
-	public ApplicationContext CreateDbContext(string[] args) => new(DbContextOptions);
+	public MasterContext CreateDbContext(string[] args) => new(DbContextOptions);
 
 	/// <summary>
 	/// The <see cref="DbContextOptions"/> property provides fast access to the
-	/// options of the <see cref="ApplicationContext"/>.
+	/// options of the <see cref="MasterContext"/>.
 	/// </summary>
-	public static DbContextOptions<ApplicationContext> DbContextOptions
+	public static DbContextOptions<MasterContext> DbContextOptions
 	{
 		get
 		{
 			Configuration configuration = new();
-			DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
-			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
-				options => options.MigrationsHistoryTable(nameof(ApplicationContext), Schema.MIGRATION));
+			DbContextOptionsBuilder<MasterContext> optionsBuilder = new();
+			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(MasterContext)),
+				options => options.MigrationsHistoryTable(nameof(MasterContext), Schema.MIGRATION));
 #if DEBUG
 			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
 			optionsBuilder.EnableSensitiveDataLogging(true);

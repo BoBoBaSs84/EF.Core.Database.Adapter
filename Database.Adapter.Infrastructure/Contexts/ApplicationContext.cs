@@ -26,7 +26,7 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
 	/// </summary>
-	/// <param name="dbContextOptions"></param>
+	/// <param name="dbContextOptions">The database context options.</param>
 	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions) : base(dbContextOptions)
 	{
 	}

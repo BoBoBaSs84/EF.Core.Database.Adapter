@@ -5,17 +5,21 @@ namespace Database.Adapter.Repositories;
 
 public sealed partial class RepositoryManager
 {
-	private readonly Lazy<ICalendarDayRepository> lazyCalendarRepository = default!;
-	private readonly Lazy<IDayTypeRepository> lazyDayTypeRepository = default!;
-	private readonly Lazy<ICardTypeRepository> lazyCardTypeRepository = default!;
+	private Lazy<ICalendarDayRepository> lazyCalendarRepository = default!;
+	private Lazy<IDayTypeRepository> lazyDayTypeRepository = default!;
+	private Lazy<ICardTypeRepository> lazyCardTypeRepository = default!;
 
 	/// <inheritdoc/>
-	public ICalendarDayRepository CalendarRepository =>
-		lazyCalendarRepository.Value ?? new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(DbContext)).Value;
+	public ICalendarDayRepository CalendarRepository => lazyCalendarRepository.Value;
 	/// <inheritdoc/>
-	public IDayTypeRepository DayTypeRepository =>
-		lazyDayTypeRepository.Value ?? new Lazy<IDayTypeRepository>(() => new DayTypeRepository(DbContext)).Value;
+	public IDayTypeRepository DayTypeRepository => lazyDayTypeRepository.Value;
 	/// <inheritdoc/>
-	public ICardTypeRepository CardTypeRepository
-		=> lazyCardTypeRepository.Value ?? new Lazy<ICardTypeRepository>(() => new CardTypeRepository(DbContext)).Value;
+	public ICardTypeRepository CardTypeRepository => lazyCardTypeRepository.Value;
+
+	private void InitializeMasterData()
+	{
+		lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(DbContext));
+		lazyDayTypeRepository = new Lazy<IDayTypeRepository>(() => new DayTypeRepository(DbContext));
+		lazyCardTypeRepository = new Lazy<ICardTypeRepository>(() => new CardTypeRepository(DbContext));
+	}
 }

@@ -16,6 +16,25 @@ public static class Constants
 	public static class Sql
 	{
 		/// <summary>
+		/// The db function class.
+		/// </summary>
+		public static class DbFunction
+		{
+			/// <summary>
+			/// The end of month function.
+			/// </summary>
+			public const string EOMONTH = "EOMONTH";
+			/// <summary>
+			/// The sound ex function.
+			/// </summary>
+			public const string SOUNDEX = "SOUNDEX";
+			/// <summary>
+			/// The translate function.
+			/// </summary>
+			public const string TRANSLATE = "TRANSLATE";
+		}
+
+		/// <summary>
 		/// The sql schema class.
 		/// </summary>
 		public static class Schema

@@ -59,4 +59,13 @@ public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A collection of calendar entities.</returns>
 	Task<IEnumerable<CalendarDay>> GetByDayTypeAsync(int dayTypeId, bool trackChanges = false, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Should get a collection of calendar entities by the date of the end of the month.
+	/// </summary>
+	/// <param name="dateTime">A date for which the last day of the month should be used.</param>
+	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns>A collection of calendar entities.</returns>
+	Task<IEnumerable<CalendarDay>> GetByEndOfMonthAsync(DateTime dateTime, bool trackChanges = false, CancellationToken cancellationToken = default);
 }

@@ -19,11 +19,18 @@ public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>, 
 	/// <summary>
 	/// The <see cref="DbContext"/> property.
 	/// </summary>
-	public DbContext DbContext { get; private set; }
+	public DbContext DbContext { get; private set; } = default!;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RepositoryManager"/> class.
 	/// </summary>
-	public RepositoryManager(DbContext? dbContext = null) =>
-		DbContext = (dbContext is null) ? base.Context : dbContext;
+	/// <param name="dbContext">The database context.</param>
+	public RepositoryManager(DbContext? dbContext = null)
+	{
+		DbContext = (dbContext is null) ? Context : dbContext;
+		InitializeAuthentication();
+		InitializeMasterData();
+		InitializeTimekeeping();
+		InitializeFinances();
+	}
 }

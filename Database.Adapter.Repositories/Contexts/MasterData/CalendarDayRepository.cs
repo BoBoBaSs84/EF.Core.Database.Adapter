@@ -4,6 +4,7 @@ using Database.Adapter.Repositories.Contexts.MasterData.Interfaces;
 using Database.Adapter.Entities.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using Database.Adapter.Infrastructure.Contexts;
 
 namespace Database.Adapter.Repositories.Contexts.MasterData;
 
@@ -29,7 +30,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 
 	public async Task<CalendarDay> GetByDateAsync(DateTime dateTime,
 		bool trackChanges = false, CancellationToken cancellationToken = default) =>
-		await	GetByConditionAsync(
+		await GetByConditionAsync(
 			expression: x => x.Date.Equals(dateTime.ToSqlDate()),
 			trackChanges: trackChanges,
 			cancellationToken: cancellationToken);
@@ -44,7 +45,7 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 	public async Task<IEnumerable<CalendarDay>> GetByDateAsync(IEnumerable<DateTime> dates,
 		bool trackChanges = false, CancellationToken cancellationToken = default) =>
 		await GetManyByConditionAsync(
-			expression: x=> dates.Contains(x.Date),
+			expression: x => dates.Contains(x.Date),
 			trackChanges: trackChanges,
 			cancellationToken: cancellationToken);
 
@@ -59,6 +60,13 @@ internal sealed class CalendarDayRepository : GenericRepository<CalendarDay>, IC
 		bool trackChanges = false, CancellationToken cancellationToken = default) =>
 		await GetManyByConditionAsync(
 			expression: x => x.DayTypeId.Equals(dayTypeId),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<CalendarDay>> GetByEndOfMonthAsync(DateTime dateTime,
+		bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
+			expression: x => x.EndOfMonth.Equals(ApplicationContext.EndOfMonth(dateTime.ToSqlDate())),
 			trackChanges: trackChanges,
 			cancellationToken: cancellationToken);
 }

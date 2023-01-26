@@ -68,4 +68,14 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}
+
+	[TestMethod]
+	public async Task GetByEndOfMonthTest()
+	{
+		DateTime dateTime = DateTime.Now;
+
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByEndOfMonthAsync(dateTime);
+
+		dbCalendarDays.Should().NotBeNullOrEmpty();
+	}
 }

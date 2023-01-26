@@ -40,15 +40,17 @@ public static class Constants
 		public static class Schema
 		{
 			/// <summary>The <see cref="ENUMERATE"/> constant.</summary>
-			public const string ENUMERATE = "enumerate";
+			public const string ENUMERATE = "Enumerate";
 			/// <summary>The <see cref="HISTORY"/> constant.</summary>
-			public const string HISTORY = "history";
+			public const string HISTORY = "History";
 			/// <summary>The <see cref="IDENTITY"/> constant.</summary>
-			public const string IDENTITY = "identity";
+			public const string IDENTITY = "Identity";
+			/// <summary>The <see cref="MIGRATION"/> constant.</summary>
+			public const string MIGRATION = "Migration";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
-			public const string PRIVATE = "private";
+			public const string PRIVATE = "Private";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
-			public const string FINANCE = "finance";
+			public const string FINANCE = "Finance";
 
 		}
 		/// <summary>

@@ -12,18 +12,19 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Adapter.Infrastructure.Migrations.Application
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230121092823_InitialCreate")]
+    [Migration("20230126200011_InitialCreate")]
     partial class InitialCreate
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("private")
-                .HasAnnotation("ProductVersion", "6.0.13")
+                .HasDefaultSchema("Private")
+                .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.Role", b =>
                 {
@@ -31,7 +32,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -66,25 +67,24 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Role", "identity");
+                    b.ToTable("Role", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Role", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Role", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "9fbef370-8824-47e4-9f9d-e86eafe327f5",
+                            ConcurrencyStamp = "e639fe3b-982c-4d72-a598-b7dda75de485",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -92,7 +92,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "6fcf6e6b-e6d1-42ac-8407-0cfea2a50eca",
+                            ConcurrencyStamp = "d6ca87ba-d778-4fb1-ad53-de70fd387d5f",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -100,7 +100,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "04ea7e8f-8f36-41a7-9750-b2c1f8b2da15",
+                            ConcurrencyStamp = "d32f97c8-05b4-40de-8266-1b9315647d1a",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -113,7 +113,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -138,19 +138,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaim", "identity");
+                    b.ToTable("RoleClaim", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("RoleClaim", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("RoleClaim", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.User", b =>
@@ -159,7 +158,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -251,19 +250,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("User", "identity");
+                    b.ToTable("User", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("User", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("User", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserClaim", b =>
@@ -272,7 +270,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -297,19 +295,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaim", "identity");
+                    b.ToTable("UserClaim", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserClaim", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserClaim", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserLogin", b =>
@@ -340,19 +337,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogin", "identity");
+                    b.ToTable("UserLogin", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserLogin", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserLogin", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserRole", b =>
@@ -377,19 +373,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole", "identity");
+                    b.ToTable("UserRole", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserRole", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserRole", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.UserToken", b =>
@@ -418,19 +413,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserToken", "identity");
+                    b.ToTable("UserToken", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserToken", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserToken", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Account", b =>
@@ -440,7 +434,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int")
@@ -485,19 +479,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.HasIndex("IBAN")
                         .IsUnique();
 
-                    b.ToTable("Account", "finance");
+                    b.ToTable("Account", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Account", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Account", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.AccountTransaction", b =>
@@ -524,19 +517,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("TransactionId");
 
-                    b.ToTable("AccountTransaction", "finance");
+                    b.ToTable("AccountTransaction", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("AccountTransaction", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("AccountTransaction", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.AccountUser", b =>
@@ -563,19 +555,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AccountUser", "finance");
+                    b.ToTable("AccountUser", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("AccountUser", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("AccountUser", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Card", b =>
@@ -585,7 +576,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
@@ -643,19 +634,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Card", "finance");
+                    b.ToTable("Card", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Card", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Card", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.CardTransaction", b =>
@@ -682,19 +672,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("TransactionId");
 
-                    b.ToTable("CardTransaction", "finance");
+                    b.ToTable("CardTransaction", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("CardTransaction", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("CardTransaction", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Finances.Transaction", b =>
@@ -704,7 +693,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
@@ -786,19 +775,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.ToTable("Transaction", "finance");
+                    b.ToTable("Transaction", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Transaction", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Transaction", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.CalendarDay", b =>
@@ -808,7 +796,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
@@ -896,19 +884,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
 
                     b.HasIndex("Year");
 
-                    b.ToTable("CalendarDay", "private");
+                    b.ToTable("CalendarDay", "Private");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("CalendarDay", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("CalendarDay", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.MasterData.CardType", b =>
@@ -953,19 +940,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("CardType", "enumerate");
+                    b.ToTable("CardType", "Enumerate");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("CardType", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("CardType", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
 
                     b.HasData(
                         new
@@ -1026,19 +1012,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("DayType", "enumerate");
+                    b.ToTable("DayType", "Enumerate");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("DayType", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("DayType", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
 
                     b.HasData(
                         new
@@ -1148,7 +1133,7 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<TimeSpan?>("BreakTime")
                         .HasColumnType("time(0)");
@@ -1204,19 +1189,18 @@ namespace Database.Adapter.Infrastructure.Migrations.Application
                     b.HasIndex("UserId", "CalendarDayId")
                         .IsUnique();
 
-                    b.ToTable("Attendance", "private");
+                    b.ToTable("Attendance", "Private");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Attendance", "history");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Attendance", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Database.Adapter.Entities.Contexts.Authentication.RoleClaim", b =>

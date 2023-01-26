@@ -1,4 +1,4 @@
-using Database.Adapter.Entities.Contexts.MasterData;
+using DA.Models.Contexts.MasterData;
 using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;

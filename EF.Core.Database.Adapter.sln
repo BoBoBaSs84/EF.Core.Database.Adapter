@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Infrastructure", "Database.Adapter.Infrastructure\Database.Adapter.Infrastructure.csproj", "{AD52C26E-8C26-438F-835A-7CB922A5D156}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Infrastructure", "DA.Infrastructure\DA.Infrastructure.csproj", "{AD52C26E-8C26-438F-835A-7CB922A5D156}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Entities", "Database.Adapter.Entities\Database.Adapter.Entities.csproj", "{D018FA03-F916-489D-87CE-BF07105753D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Models", "DA.Models\DA.Models.csproj", "{D018FA03-F916-489D-87CE-BF07105753D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Repositories", "Database.Adapter.Repositories\Database.Adapter.Repositories.csproj", "{A0521EDC-12DE-4781-A578-E08797C8BCC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Repositories", "DA.Repositories\DA.Repositories.csproj", "{A0521EDC-12DE-4781-A578-E08797C8BCC0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AD4C18A4-5A1C-498A-AE05-E2018C9AB197}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,13 +25,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debug", "Debug", "{E12D5C36
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{2CBA8CAC-8A98-47BF-9E5F-C81BA22B10F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Entities.Tests", "Database.Adapter.Entities.Tests\Database.Adapter.Entities.Tests.csproj", "{14473797-0A87-43CA-B4E2-3859560F86C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Models.Tests", "DA.Models.Tests\DA.Models.Tests.csproj", "{14473797-0A87-43CA-B4E2-3859560F86C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Infrastructure.Tests", "Database.Adapter.Infrastructure.Tests\Database.Adapter.Infrastructure.Tests.csproj", "{B88B08E7-9CEF-44D4-AB9E-71A50ECF3942}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Infrastructure.Tests", "DA.Infrastructure.Tests\DA.Infrastructure.Tests.csproj", "{B88B08E7-9CEF-44D4-AB9E-71A50ECF3942}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Repositories.Tests", "Database.Adapter.Repositories.Tests\Database.Adapter.Repositories.Tests.csproj", "{73C910D0-5424-48B5-A631-E69C6311D514}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Repositories.Tests", "DA.Repositories.Tests\DA.Repositories.Tests.csproj", "{73C910D0-5424-48B5-A631-E69C6311D514}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Adapter.Base.Tests", "Database.Adapter.Base.Tests\Database.Adapter.Base.Tests.csproj", "{A775D92E-BC12-47FD-B94F-BE6F6215FCE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Base.Tests", "DA.Base.Tests\DA.Base.Tests.csproj", "{A775D92E-BC12-47FD-B94F-BE6F6215FCE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

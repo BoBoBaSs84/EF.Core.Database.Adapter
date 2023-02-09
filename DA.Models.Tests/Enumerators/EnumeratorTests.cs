@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Models.Tests.Enumerators;
 
@@ -13,7 +14,7 @@ namespace DA.Models.Tests.Enumerators;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public sealed class EnumeratorTests : EntitiesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void AllEnumeratorsHaveDisplayAttributeTest()
 	{
 		ICollection<Type> types = GetEnumTypes();
@@ -29,7 +30,7 @@ public sealed class EnumeratorTests : EntitiesBaseTest
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void AllEnumeratorsHaveResourceTypeTest()
 	{
 		ICollection<Type> types = GetEnumTypes();
@@ -47,7 +48,7 @@ public sealed class EnumeratorTests : EntitiesBaseTest
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void AllEnumeratorsHaveDescriptionTest()
 	{
 		ICollection<Type> types = GetEnumTypes();
@@ -64,7 +65,7 @@ public sealed class EnumeratorTests : EntitiesBaseTest
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void AllEnumeratorsHaveShortNameTest()
 	{
 		ICollection<Type> types = GetEnumTypes();
@@ -81,7 +82,7 @@ public sealed class EnumeratorTests : EntitiesBaseTest
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void AllEnumeratorsHaveNameTest()
 	{
 		ICollection<Type> types = GetEnumTypes();

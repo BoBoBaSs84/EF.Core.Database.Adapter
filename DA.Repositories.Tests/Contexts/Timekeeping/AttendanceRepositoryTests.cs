@@ -4,6 +4,7 @@ using DA.Models.Contexts.Timekeeping;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Repositories.Tests.Contexts.Timekeeping;
 
@@ -11,7 +12,7 @@ namespace DA.Repositories.Tests.Contexts.Timekeeping;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class AttendanceRepositoryTests : RepositoriesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAllAttendancesByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
@@ -23,7 +24,7 @@ public class AttendanceRepositoryTests : RepositoriesBaseTest
 		dbAttendances.Should().NotBeNullOrEmpty();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAttendanceByUserIdAndCalendarIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
@@ -35,7 +36,7 @@ public class AttendanceRepositoryTests : RepositoriesBaseTest
 		dbAttendance.Should().NotBeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAttendanceByUserIdAndCalendarDateTest()
 	{
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);

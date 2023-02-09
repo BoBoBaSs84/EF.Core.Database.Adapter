@@ -7,4 +7,6 @@ public static class Constants
 	public const string CharsOnly = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 	public const string NumbersOnly = "0123456789";
+
+	public const string Bobo = "BoBoBaSs84";
 }

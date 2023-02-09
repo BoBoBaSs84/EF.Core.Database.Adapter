@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Repositories.Tests.Contexts;
 
@@ -14,7 +15,7 @@ public class ContextsTest : RepositoriesBaseTest
 {
 	private readonly Assembly _assembly = typeof(IAssemblyMarker).Assembly;
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
 	{
 		ICollection<Type> repositoriesList =
@@ -25,9 +26,13 @@ public class ContextsTest : RepositoriesBaseTest
 		foreach (Type type in repositoriesList)
 		{
 			TestContext.WriteLine($"Testing: {type.Name}");
-			type.IsSealed.Should().BeTrue();
-			type.IsPublic.Should().BeFalse();
-			type.IsVisible.Should().BeFalse();
+
+			AssertionHelper.AssertInScope(() =>
+			{
+				type.IsSealed.Should().BeTrue();
+				type.IsPublic.Should().BeFalse();
+				type.IsVisible.Should().BeFalse();
+			});
 		}
 	}
 }

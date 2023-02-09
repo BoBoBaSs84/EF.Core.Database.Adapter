@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Infrastructure.Tests.Contexts;
 
@@ -15,7 +16,7 @@ namespace DA.Infrastructure.Tests.Contexts;
 [SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
 public class ContextsTests : InfrastructureBaseTests
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void DatabaseContextHaveConfigurationTest()
 	{
 		ICollection<Type> contextTypes = GetContextTypes();
@@ -30,7 +31,7 @@ public class ContextsTests : InfrastructureBaseTests
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void DatabaseContextMustBeSealed()
 	{
 		ICollection<Type> contextTypes = GetContextTypes();

@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Models.Tests.Extensions;
 
@@ -9,7 +10,7 @@ namespace DA.Models.Tests.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class StringExtensionTests : EntitiesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void RemoveWhitespaceSuccessTest()
 	{
 		string testString = "Hallo Test!";
@@ -19,7 +20,7 @@ public class StringExtensionTests : EntitiesBaseTest
 		testString.Should().NotContain(" ");
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void RemoveWhitespaceFailTest()
 	{
 		string testString = "Hallo Test!";

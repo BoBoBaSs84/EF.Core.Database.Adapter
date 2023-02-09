@@ -5,6 +5,7 @@ using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 using static DA.Models.Constants;
 
 namespace DA.Repositories.Tests.Contexts.Finances;
@@ -13,7 +14,7 @@ namespace DA.Repositories.Tests.Contexts.Finances;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class CardRepositoryTests : RepositoriesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetCardByNumberTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
@@ -30,7 +31,7 @@ public class CardRepositoryTests : RepositoriesBaseTest
 		dbCard.Should().NotBeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetCardsByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);

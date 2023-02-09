@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Models.Tests.Extensions;
 
@@ -10,7 +11,7 @@ namespace DA.Models.Tests.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class EnumeratorExtensionsTests : EntitiesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumDescriptionSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
@@ -18,7 +19,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		description.Should().Be(nameof(description));
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumDescriptionFailTest()
 	{
 		TestEnum testEnum = TestEnum.NODESCRIPTION;
@@ -26,7 +27,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		description.Should().NotBeSameAs(nameof(description));
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumNameSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
@@ -34,7 +35,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		name.Should().Be(nameof(name));
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumNameFailTest()
 	{
 		TestEnum testEnum = TestEnum.NONAME;
@@ -42,7 +43,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		name.Should().NotBeSameAs(nameof(name));
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumShortNameSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
@@ -50,7 +51,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		shortname.Should().Be(nameof(shortname));
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumShortNameFailTest()
 	{
 		TestEnum testEnum = TestEnum.NOSHORTNAME;
@@ -58,7 +59,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		shortname.Should().NotBeSameAs(nameof(shortname));
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumDisplayAttributeSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
@@ -66,7 +67,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		displayAttribute.Should().NotBeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumDisplayAttributeFailTest()
 	{
 		TestEnum testEnum = TestEnum.NODISPLAYATTRIBUTE;
@@ -74,7 +75,7 @@ public class EnumeratorExtensionsTests : EntitiesBaseTest
 		displayAttribute.Should().BeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void GetEnumListSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;

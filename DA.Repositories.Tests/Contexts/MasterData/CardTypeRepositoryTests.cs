@@ -4,6 +4,7 @@ using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Repositories.Tests.Contexts.MasterData;
 
@@ -11,7 +12,7 @@ namespace DA.Repositories.Tests.Contexts.MasterData;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class CardTypeRepositoryTests : RepositoriesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByNameFailedTest()
 	{
 		string cardTypeName = RandomHelper.GetString(12);
@@ -21,7 +22,7 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 		cardType.Should().BeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByNameSuccessTest()
 	{
 		string cardTypeName = Models.Enumerators.CardType.CREDIT.GetName();
@@ -32,7 +33,7 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 		cardType.Name.Should().Be(cardTypeName);
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAllActiveTest()
 	{
 		IEnumerable<CardType> cardTypes = await RepositoryManager.CardTypeRepository.GetAllActiveAsync();

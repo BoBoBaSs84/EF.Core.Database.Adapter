@@ -1,9 +1,11 @@
-﻿using DA.Infrastructure.Configurations;
+﻿using DA.Base.Tests.Helpers;
+using DA.Infrastructure.Configurations;
 using DA.Infrastructure.Exceptions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using static DA.Base.Tests.Constants;
 using static DA.Infrastructure.Statics;
 
 namespace DA.Infrastructure.Tests.Configurations;
@@ -27,24 +29,35 @@ public class ConfigurationTests : InfrastructureBaseTests
 	[TestCleanup]
 	public void TestCleanup() => File.WriteAllText(configFilePath, configJson);
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
+	[Description("")]
 	public void GetConnectionStringSuccessTest()
 	{
 		Configuration configuration = new();
 		string connectionString = configuration.GetConnectionString("MasterContext");
-		connectionString.Should().NotBeNullOrWhiteSpace();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			connectionString.Should().NotBeNullOrWhiteSpace();
+			connectionString.Should().Contain("Server");
+			connectionString.Should().Contain("Database");
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void LoadSuccessTest()
 	{
 		Configuration configuration = new();
 		configuration.Load();
-		configuration.SqlServers.Should().NotBeNullOrEmpty();
-		configuration.Contexts.Should().NotBeNullOrEmpty();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			configuration.SqlServers.Should().NotBeNullOrEmpty();
+			configuration.Contexts.Should().NotBeNullOrEmpty();
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void LoadExceptionAlreadyLoadedTest()
 	{
 		Configuration configuration = new();
@@ -59,7 +72,7 @@ public class ConfigurationTests : InfrastructureBaseTests
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void LoadExceptionFileFailedTest()
 	{
 		Configuration configuration = new();
@@ -77,7 +90,7 @@ public class ConfigurationTests : InfrastructureBaseTests
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void LoadExceptionFailedTest()
 	{
 		Configuration configuration = new();

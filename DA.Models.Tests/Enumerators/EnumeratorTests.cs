@@ -15,91 +15,31 @@ namespace DA.Models.Tests.Enumerators;
 public sealed class EnumeratorTests : EntitiesBaseTest
 {
 	[TestMethod, Owner(Bobo)]
-	public void AllEnumeratorsHaveDisplayAttributeTest()
+	public void AllEnumeratorsHaveDescriptionNameShortNameAndResourceTest()
 	{
-		ICollection<Type> types = GetEnumTypes();
+		IEnumerable<Type> types = GetEnumTypes();
 		foreach (Type type in types)
 		{
-			TestContext.WriteLine($"Testing: {type.Name}");
-			ICollection<Enum> enums = GetEnums(type);
+			TestContext.WriteLine($"Testing enum: {type.Name}");
+			IEnumerable<Enum> enums = GetEnums(type);
 			foreach (Enum e in enums)
 			{
-				TestContext.WriteLine($"Testing: {e}");
-				AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();
+				TestContext.WriteLine($"Value: {e}");
+
+				AssertionHelper.AssertInScope(() =>
+				{
+					AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();
+					e.GetDisplayAttribute().Should().NotBeNull();
+					e.GetDisplayAttribute()!.ResourceType.Should().NotBeNull();
+					e.GetDescription().Should().NotBeNullOrWhiteSpace();
+					e.GetShortName().Should().NotBeNullOrWhiteSpace();
+					e.GetName().Should().NotBeNullOrWhiteSpace();
+				});
 			}
 		}
 	}
 
-	[TestMethod, Owner(Bobo)]
-	public void AllEnumeratorsHaveResourceTypeTest()
-	{
-		ICollection<Type> types = GetEnumTypes();
-		foreach (Type type in types)
-		{
-			TestContext.WriteLine($"Testing: {type.Name}");
-			ICollection<Enum> enums = GetEnums(type);
-			foreach (Enum e in enums)
-			{
-				TestContext.WriteLine($"Testing: {e}");
-				DisplayAttribute? displayAttribute = e.GetDisplayAttribute();
-				displayAttribute.Should().NotBeNull();
-				displayAttribute!.ResourceType.Should().NotBeNull();
-			}
-		}
-	}
-
-	[TestMethod, Owner(Bobo)]
-	public void AllEnumeratorsHaveDescriptionTest()
-	{
-		ICollection<Type> types = GetEnumTypes();
-		foreach (Type type in types)
-		{
-			TestContext.WriteLine($"Testing: {type.Name}");
-			ICollection<Enum> enums = GetEnums(type);
-			foreach (Enum e in enums)
-			{
-				TestContext.WriteLine($"Testing: {e}");
-				string description = e.GetDescription();
-				description.Should().NotBeNullOrWhiteSpace();
-			}
-		}
-	}
-
-	[TestMethod, Owner(Bobo)]
-	public void AllEnumeratorsHaveShortNameTest()
-	{
-		ICollection<Type> types = GetEnumTypes();
-		foreach (Type type in types)
-		{
-			TestContext.WriteLine($"Testing: {type.Name}");
-			ICollection<Enum> enums = GetEnums(type);
-			foreach (Enum e in enums)
-			{
-				TestContext.WriteLine($"Testing: {e}");
-				string description = e.GetShortName();
-				description.Should().NotBeNullOrWhiteSpace();
-			}
-		}
-	}
-
-	[TestMethod, Owner(Bobo)]
-	public void AllEnumeratorsHaveNameTest()
-	{
-		ICollection<Type> types = GetEnumTypes();
-		foreach (Type type in types)
-		{
-			TestContext.WriteLine($"Testing: {type.Name}");
-			ICollection<Enum> enums = GetEnums(type);
-			foreach (Enum e in enums)
-			{
-				TestContext.WriteLine($"Testing: {e}");
-				string description = e.GetName();
-				description.Should().NotBeNullOrWhiteSpace();
-			}
-		}
-	}
-
-	private static ICollection<Type> GetEnumTypes()
+	private static IEnumerable<Type> GetEnumTypes()
 	{
 		Assembly assembly = typeof(IAssemblyMarker).Assembly;
 		return TypeHelper.GetAssemblyTypes(
@@ -108,6 +48,6 @@ public sealed class EnumeratorTests : EntitiesBaseTest
 			);
 	}
 
-	private static ICollection<Enum> GetEnums(Type type) =>
+	private static IEnumerable<Enum> GetEnums(Type type) =>
 		Enum.GetValues(type).Cast<Enum>().ToList();
 }

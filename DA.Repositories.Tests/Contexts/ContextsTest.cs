@@ -18,7 +18,7 @@ public class ContextsTest : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
 	{
-		ICollection<Type> repositoriesList =
+		IEnumerable<Type> repositoriesList =
 			TypeHelper.GetAssemblyTypes(_assembly, x => x.Name.EndsWith("Repository") && x.IsInterface.Equals(false));
 
 		repositoriesList.Should().NotBeNullOrEmpty();

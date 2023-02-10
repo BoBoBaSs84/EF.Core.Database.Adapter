@@ -3,7 +3,6 @@ using DA.Infrastructure.Factories;
 using DA.Models.Contexts.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 using static DA.Models.Constants.Sql;
 
 namespace Database.Adapter.Infrastructure.Contexts;
@@ -31,14 +30,12 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	{
 	}
 
-	/// <inheritdoc/>
-	[SuppressMessage("Style", "IDE0058", Justification = "Not needed here.")]
+	/// <inheritdoc/>	
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);
 
-		builder.HasDefaultSchema(Schema.PRIVATE);
-
-		builder.ApplyConfigurationsForContextEntities();
+		builder.HasDefaultSchema(Schema.PRIVATE)
+			.ApplyConfigurationsForContextEntities();
 	}
 }

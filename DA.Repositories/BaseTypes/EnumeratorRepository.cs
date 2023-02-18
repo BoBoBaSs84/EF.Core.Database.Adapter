@@ -14,9 +14,9 @@ namespace DA.Repositories.BaseTypes;
 /// <item>The <see cref="IEntityTypeConfiguration{TEntity}"/> interface</item>
 /// </list>
 /// </remarks>
-/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TEnumeratorEntity"></typeparam>
 [SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
-internal abstract class EnumeratorRepository<TEntity> : GenericRepository<TEntity>, IEnumeratorRepository<TEntity> where TEntity : EnumeratorModel
+internal abstract class EnumeratorRepository<TEnumeratorEntity> : GenericRepository<TEnumeratorEntity>, IEnumeratorRepository<TEnumeratorEntity> where TEnumeratorEntity : EnumeratorModel
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="EnumeratorRepository{TEnum}"/> class.
@@ -26,15 +26,21 @@ internal abstract class EnumeratorRepository<TEntity> : GenericRepository<TEntit
 	{
 	}
 
-	public async Task<IEnumerable<TEntity>> GetAllActiveAsync(bool trackChanges = false, CancellationToken cancellationToken = default) =>
+	public async Task<IEnumerable<TEnumeratorEntity>> GetAllActiveAsync(bool trackChanges = false, CancellationToken cancellationToken = default) =>
 		await GetManyByConditionAsync(
 			expression: x => x.IsActive.Equals(true),
 			trackChanges: trackChanges,
 			cancellationToken: cancellationToken);
 
-	public async Task<TEntity> GetByNameAsync(string name, bool trackChanges = false, CancellationToken cancellationToken = default) =>
+	public async Task<TEnumeratorEntity> GetByNameAsync(string name, bool trackChanges = false, CancellationToken cancellationToken = default) =>
 		await GetByConditionAsync(
 			expression: x => x.Name.Equals(name),
+			trackChanges: trackChanges,
+			cancellationToken: cancellationToken);
+
+	public async Task<IEnumerable<TEnumeratorEntity>> GetByNamesAsync(IEnumerable<string> names, bool trackChanges = false, CancellationToken cancellationToken = default) =>
+		await GetManyByConditionAsync(
+			expression: x => names.Contains(x.Name),
 			trackChanges: trackChanges,
 			cancellationToken: cancellationToken);
 }

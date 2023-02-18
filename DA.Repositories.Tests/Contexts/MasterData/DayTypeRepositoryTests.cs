@@ -23,6 +23,20 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 	}
 
 	[TestMethod, Owner(Bobo)]
+	public async Task GetByNamesFailedTest()
+	{
+		IEnumerable<string> dayTypeNames = new[]
+		{
+			RandomHelper.GetString(12),
+			RandomHelper.GetString(12)
+		};
+
+		IEnumerable<DayType> dayTypes = await RepositoryManager.DayTypeRepository.GetByNamesAsync(dayTypeNames);
+
+		dayTypes.Should().BeNullOrEmpty();
+	}
+
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByNameSuccessTest()
 	{
 		string dayTypeName = Models.Enumerators.DayType.PLANNEDVACATION.GetName();
@@ -31,6 +45,21 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 
 		dayType.Should().NotBeNull();
 		dayType.Name.Should().Be(dayTypeName);
+	}
+
+	[TestMethod, Owner(Bobo)]
+	public async Task GetByNamesSuccessTest()
+	{
+		IEnumerable<string> dayTypeNames = new[]
+		{
+			Models.Enumerators.DayType.PLANNEDVACATION.GetName(),
+			Models.Enumerators.DayType.WORKDAY.GetName()
+		};
+
+		IEnumerable<DayType> dayTypes = await RepositoryManager.DayTypeRepository.GetByNamesAsync(dayTypeNames);
+
+		dayTypes.Should().NotBeNullOrEmpty();
+		dayTypes.Should().HaveCount(dayTypeNames.Count());
 	}
 
 	[TestMethod, Owner(Bobo)]

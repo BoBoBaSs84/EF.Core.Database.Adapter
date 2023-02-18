@@ -6,7 +6,7 @@ namespace DA.Repositories.BaseTypes.Interfaces;
 /// The generic repository interface.
 /// </summary>
 /// <remarks>
-/// The mother interface of all repositories.
+/// The mother interface of all repository interfaces.
 /// </remarks>
 /// <typeparam name="TEntity"></typeparam>
 public interface IGenericRepository<TEntity> where TEntity : class

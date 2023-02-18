@@ -201,6 +201,17 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 	}
 
 	[TestMethod, Owner(Bobo)]
+	public async Task GetByIdsTest()
+	{
+		IEnumerable<int> ids = new[] { 1, 2, 3, 4, 5, 6, 7 };
+
+		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByIdsAsync(ids);
+
+		dbCalendarDays.Should().NotBeNull();
+		dbCalendarDays.Should().HaveCount(ids.Count());
+	}
+
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByConditionTest()
 	{
 		int calendarYear = 2020,

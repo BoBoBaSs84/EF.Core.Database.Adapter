@@ -9,10 +9,10 @@ namespace DA.Repositories.Contexts.Finances.Interfaces;
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IGenericRepository{TEntity}"/> interface.</item>
+/// <item>The <see cref="IIdentityRepository{TIdentityEntity}"/> interface.</item>
 /// </list>
 /// </remarks>
-public interface ITransactionRepository : IGenericRepository<Transaction>
+public interface ITransactionRepository : IIdentityRepository<Transaction>
 {
 	/// <summary>
 	/// Should get a collection of transaction entities by the user identifier and the card identifier.

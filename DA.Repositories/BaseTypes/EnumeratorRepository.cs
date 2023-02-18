@@ -21,7 +21,7 @@ internal abstract class EnumeratorRepository<TEntity> : GenericRepository<TEntit
 	/// <summary>
 	/// Initializes a new instance of the <see cref="EnumeratorRepository{TEnum}"/> class.
 	/// </summary>
-	/// <param name="dbContext">The database context.</param>
+	/// <inheritdoc/>
 	protected EnumeratorRepository(DbContext dbContext) : base(dbContext)
 	{
 	}

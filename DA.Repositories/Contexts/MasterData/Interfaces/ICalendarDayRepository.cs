@@ -9,10 +9,10 @@ namespace DA.Repositories.Contexts.MasterData.Interfaces;
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IGenericRepository{TEntity}"/> interface.</item>
+/// <item>The <see cref="IIdentityRepository{TIdentityEntity}"/> interface.</item>
 /// </list>
 /// </remarks>
-public interface ICalendarDayRepository : IGenericRepository<CalendarDay>
+public interface ICalendarDayRepository : IIdentityRepository<CalendarDay>
 {
 	/// <summary>
 	/// Should get a calendar entity by date.

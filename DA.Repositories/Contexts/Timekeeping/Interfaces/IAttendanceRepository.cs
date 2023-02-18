@@ -9,10 +9,10 @@ namespace DA.Repositories.Contexts.Timekeeping.Interfaces;
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IGenericRepository{TEntity}"/> interface.</item>
+/// <item>The <see cref="IIdentityRepository{TIdentityEntity}"/> interface.</item>
 /// </list>
 /// </remarks>
-public interface IAttendanceRepository : IGenericRepository<Attendance>
+public interface IAttendanceRepository : IIdentityRepository<Attendance>
 {
 	/// <summary>
 	/// Should get one attendance entity by user and calendar identifier.

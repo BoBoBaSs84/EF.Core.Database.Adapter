@@ -22,7 +22,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	/// <remarks>
 	/// Any context that inherits from <see cref="DbContext"/> should work.
 	/// </remarks>
-	/// <param name="dbContext">The context to work with.</param>	
+	/// <param name="dbContext">The database context to work with.</param>	
 	public GenericRepository(DbContext dbContext)
 	{
 		this.dbContext = dbContext;

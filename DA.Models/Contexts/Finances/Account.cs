@@ -25,7 +25,11 @@ public partial class Account : AuditedModel
 	public string IBAN
 	{
 		get => iban;
-		set => iban = value.RemoveWhitespace();
+		set
+		{
+			if (value != iban)
+				iban = value.RemoveWhitespace();
+		}
 	}
 	/// <summary>
 	/// The <see cref="Provider"/> property.

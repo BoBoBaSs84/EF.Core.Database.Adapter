@@ -16,8 +16,8 @@ public abstract class AuditedModel : IdentityModel, IAuditedModel
 {
 	/// <inheritdoc/>
 	[Column(Order = 3)]
-	public int CreatedBy { get; set; } = default;
+	public int CreatedBy { get; private set; } = default;
 	/// <inheritdoc/>
 	[Column(Order = 4)]
-	public int? ModifiedBy { get; set; } = default!;
+	public int? ModifiedBy { get; private set; } = default!;
 }

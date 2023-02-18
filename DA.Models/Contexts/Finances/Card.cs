@@ -42,7 +42,11 @@ public partial class Card : AuditedModel
 	public string PAN
 	{
 		get => pan;
-		set => pan = value.RemoveWhitespace();
+		set
+		{
+			if (value != pan)
+				pan = value.RemoveWhitespace();
+		}
 	}
 	/// <summary>
 	/// The <see cref="ValidUntil"/> property.

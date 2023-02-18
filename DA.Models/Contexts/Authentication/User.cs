@@ -45,6 +45,10 @@ public partial class User : IdentityUser<int>
 	public XElement XmlPreferencesWrapper
 	{
 		get => Preferences is not null ? XElement.Parse(Preferences) : default!;
-		set => Preferences = value.ToString();
+		set
+		{
+			if (value.ToString() != Preferences)
+				Preferences = value.ToString();
+		}
 	}
 }

@@ -1,5 +1,5 @@
-﻿using DA.Infrastructure.Factories;
-using Database.Adapter.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Contexts;
+using DA.Infrastructure.Factories;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;

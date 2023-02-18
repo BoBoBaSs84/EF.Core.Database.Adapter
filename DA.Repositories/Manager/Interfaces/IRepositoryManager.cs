@@ -1,5 +1,5 @@
-﻿using DA.Repositories.BaseTypes.Interfaces;
-using Database.Adapter.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Contexts;
+using DA.Repositories.BaseTypes.Interfaces;
 
 namespace DA.Repositories.Manager.Interfaces;
 

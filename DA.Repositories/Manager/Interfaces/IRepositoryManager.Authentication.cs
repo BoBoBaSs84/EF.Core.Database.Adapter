@@ -1,6 +1,6 @@
 ﻿using DA.Repositories.Contexts.Authentication.Interfaces;
 
-namespace Database.Adapter.Repositories.Interfaces;
+namespace DA.Repositories.Manager.Interfaces;
 
 public partial interface IRepositoryManager
 {

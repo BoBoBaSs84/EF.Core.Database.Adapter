@@ -1,9 +1,9 @@
 ﻿using DA.Repositories.Contexts.MasterData;
 using DA.Repositories.Contexts.MasterData.Interfaces;
 
-namespace Database.Adapter.Repositories;
+namespace DA.Repositories.Manager;
 
-public sealed partial class RepositoryManager
+internal sealed partial class RepositoryManager
 {
 	private Lazy<ICalendarDayRepository> lazyCalendarRepository = default!;
 	private Lazy<IDayTypeRepository> lazyDayTypeRepository = default!;

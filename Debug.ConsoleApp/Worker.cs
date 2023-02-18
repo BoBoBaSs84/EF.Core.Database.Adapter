@@ -1,5 +1,5 @@
 using DA.Models.Contexts.MasterData;
-using Database.Adapter.Repositories.Interfaces;
+using DA.Repositories.Manager.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -8,19 +8,19 @@ namespace Debug.ConsoleApp;
 public class Worker : BackgroundService
 {
 	private readonly ILogger<Worker> _logger;
-	private readonly IRepositoryManager repositoryManager;
+	private readonly IRepositoryManager _repositoryManager;
 
-	public Worker(ILogger<Worker> logger)
+	public Worker(ILogger<Worker> logger, IRepositoryManager repositoryManager)
 	{
 		_logger = logger;
-		//repositoryManager = new RepositoryManager();
+		_repositoryManager = repositoryManager;
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		while (!stoppingToken.IsCancellationRequested)
 		{
-			CalendarDay? calendarDay = await repositoryManager.CalendarRepository.GetByDateAsync(DateTime.UtcNow, cancellationToken: stoppingToken);
+			CalendarDay? calendarDay = await _repositoryManager.CalendarRepository.GetByDateAsync(DateTime.UtcNow, cancellationToken: stoppingToken);
 
 			if (calendarDay is null)
 			{
@@ -39,9 +39,9 @@ public class Worker : BackgroundService
 					newCalendarDays.Add(newcalendarDay);
 					startDate = startDate.AddDays(1);
 				}
-				await repositoryManager.CalendarRepository.CreateAsync(newCalendarDays.OrderBy(x => x.Date), stoppingToken);
-				_ = await repositoryManager.CommitChangesAsync(stoppingToken);
-				calendarDay = await repositoryManager.CalendarRepository.GetByDateAsync(DateTime.UtcNow, cancellationToken: stoppingToken);
+				await _repositoryManager.CalendarRepository.CreateAsync(newCalendarDays.OrderBy(x => x.Date), stoppingToken);
+				_ = await _repositoryManager.CommitChangesAsync(stoppingToken);
+				calendarDay = await _repositoryManager.CalendarRepository.GetByDateAsync(DateTime.UtcNow, cancellationToken: stoppingToken);
 			}
 
 			_logger.LogInformation("Worker running at: {time} - {day}", DateTimeOffset.Now, calendarDay.WeekDayName);

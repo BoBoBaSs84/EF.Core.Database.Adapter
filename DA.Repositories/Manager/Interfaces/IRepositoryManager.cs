@@ -1,7 +1,7 @@
 ﻿using DA.Repositories.BaseTypes.Interfaces;
 using Database.Adapter.Infrastructure.Contexts;
 
-namespace Database.Adapter.Repositories.Interfaces;
+namespace DA.Repositories.Manager.Interfaces;
 
 /// <summary>
 /// The master repository interface.

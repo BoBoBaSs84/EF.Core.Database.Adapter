@@ -1,9 +1,9 @@
 ﻿using DA.Repositories.BaseTypes;
 using Database.Adapter.Infrastructure.Contexts;
-using Database.Adapter.Repositories.Interfaces;
+using DA.Repositories.Manager.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.Adapter.Repositories;
+namespace DA.Repositories.Manager;
 
 /// <summary>
 /// The master repository class.
@@ -14,7 +14,7 @@ namespace Database.Adapter.Repositories;
 /// <item>The <see cref="IRepositoryManager"/> interface</item>
 /// </list>
 /// </remarks>
-public sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>, IRepositoryManager
+internal sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>, IRepositoryManager
 {
 	/// <summary>
 	/// The <see cref="DbContext"/> property.

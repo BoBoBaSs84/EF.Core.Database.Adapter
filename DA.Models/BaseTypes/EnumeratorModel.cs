@@ -12,14 +12,14 @@ namespace DA.Models.BaseTypes;
 /// <remarks>
 /// Implements the following interface members:
 /// <list type="bullet">
-/// <item>The <see cref="IIdentityModel"/> interface</item>
+/// <item>The <see cref="IIdentityModel{TKey}"/> interface</item>
 /// <item>The <see cref="IConcurrencyModel"/> interface</item>
 /// <item>The <see cref="IActivatableModel"/> interface</item>
 /// <item>The <see cref="IEnumeratorModel"/> interface</item>
 /// </list>
 /// </remarks>
 [Index(nameof(Name), IsUnique = true)]
-public abstract class EnumeratorModel : IIdentityModel, IConcurrencyModel, IActivatableModel, IEnumeratorModel
+public abstract class EnumeratorModel : IIdentityModel<int>, IConcurrencyModel, IActivatableModel, IEnumeratorModel
 {
 	/// <inheritdoc/>
 	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.None)]

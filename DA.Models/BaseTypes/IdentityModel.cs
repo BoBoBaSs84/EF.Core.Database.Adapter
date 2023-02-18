@@ -10,11 +10,11 @@ namespace DA.Models.BaseTypes;
 /// <remarks>
 /// Implements the following interface members:
 /// <list type="bullet">
-/// <item>The <see cref="IIdentityModel"/> interface</item>
+/// <item>The <see cref="IIdentityModel{TKey}"/> interface</item>
 /// <item>The <see cref="IConcurrencyModel"/> interface</item>
 /// </list>
 /// </remarks>
-public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
+public abstract class IdentityModel : IIdentityModel<int>, IConcurrencyModel
 {
 	/// <inheritdoc/>
 	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]

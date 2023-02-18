@@ -1,6 +1,6 @@
 ﻿using DA.Base.Tests;
-using Database.Adapter.Repositories;
-using Database.Adapter.Repositories.Interfaces;
+using DA.Repositories.Manager;
+using DA.Repositories.Manager.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Transactions;
 

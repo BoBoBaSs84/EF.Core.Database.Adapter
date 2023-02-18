@@ -1,9 +1,9 @@
 ﻿using DA.Repositories.Contexts.Finances;
 using DA.Repositories.Contexts.Finances.Interfaces;
 
-namespace Database.Adapter.Repositories;
+namespace DA.Repositories.Manager;
 
-public sealed partial class RepositoryManager
+internal sealed partial class RepositoryManager
 {
 	private Lazy<IAccountRepository> lazyAccountRepository = default!;
 	private Lazy<ICardRepository> lazyCardRepository = default!;

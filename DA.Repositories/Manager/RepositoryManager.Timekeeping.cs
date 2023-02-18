@@ -1,9 +1,9 @@
 ﻿using DA.Repositories.Contexts.Timekeeping;
 using DA.Repositories.Contexts.Timekeeping.Interfaces;
 
-namespace Database.Adapter.Repositories;
+namespace DA.Repositories.Manager;
 
-public sealed partial class RepositoryManager
+internal sealed partial class RepositoryManager
 {
 	private Lazy<IAttendanceRepository> lazyAttendanceRepository = default!;
 

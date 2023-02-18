@@ -11,13 +11,13 @@ namespace DA.Repositories.Contexts.Finances;
 /// The transaction repository class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
+/// Inherits from the <see cref="IdentityRepository{TIdentityEntity}"/> class and implements the interfaces:
 /// <list type="bullet">
 /// <item>The <see cref="IAccountRepository"/> interface</item>
 /// </list>
 /// </remarks>
 [SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
-internal sealed class TransactionRepository : GenericRepository<Transaction>, ITransactionRepository
+internal sealed class TransactionRepository : IdentityRepository<Transaction>, ITransactionRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="TransactionRepository"/> class.

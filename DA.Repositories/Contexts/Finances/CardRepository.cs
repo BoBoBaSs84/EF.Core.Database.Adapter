@@ -11,13 +11,13 @@ namespace DA.Repositories.Contexts.Finances;
 /// The card repository class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
+/// Inherits from the <see cref="IdentityRepository{TIdentityEntity}"/> class and implements the interfaces:
 /// <list type="bullet">
 /// <item>The <see cref="IAccountRepository"/> interface</item>
 /// </list>
 /// </remarks>
 [SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
-internal sealed class CardRepository : GenericRepository<Card>, ICardRepository
+internal sealed class CardRepository : IdentityRepository<Card>, ICardRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="CardRepository"/> class.

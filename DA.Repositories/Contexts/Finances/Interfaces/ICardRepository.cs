@@ -9,10 +9,10 @@ namespace DA.Repositories.Contexts.Finances.Interfaces;
 /// <remarks>
 /// Inherits from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IGenericRepository{TEntity}"/> interface.</item>
+/// <item>The <see cref="IIdentityRepository{TIdentityEntity}"/> interface.</item>
 /// </list>
 /// </remarks>
-public interface ICardRepository : IGenericRepository<Card>
+public interface ICardRepository : IIdentityRepository<Card>
 {
 	/// <summary>
 	/// Should get a card entity by the primary account number.

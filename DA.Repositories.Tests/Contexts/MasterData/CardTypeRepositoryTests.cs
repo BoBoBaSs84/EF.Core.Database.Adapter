@@ -23,6 +23,20 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 	}
 
 	[TestMethod, Owner(Bobo)]
+	public async Task GetByNamesFailedTest()
+	{
+		IEnumerable<string> cardNames = new[]
+		{
+			RandomHelper.GetString(12),
+			RandomHelper.GetString(12)
+		};
+
+		IEnumerable<CardType> cardTypes = await RepositoryManager.CardTypeRepository.GetByNamesAsync(cardNames);
+
+		cardTypes.Should().BeNullOrEmpty();
+	}
+
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByNameSuccessTest()
 	{
 		string cardTypeName = Models.Enumerators.CardType.CREDIT.GetName();
@@ -31,6 +45,21 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 
 		cardType.Should().NotBeNull();
 		cardType.Name.Should().Be(cardTypeName);
+	}
+
+	[TestMethod, Owner(Bobo)]
+	public async Task GetByNamesSuccessTest()
+	{
+		IEnumerable<string> cardNames = new[]
+		{
+			Models.Enumerators.CardType.CREDIT.GetName(),
+			Models.Enumerators.CardType.DEBIT.GetName()
+		};
+
+		IEnumerable<CardType> cardTypes = await RepositoryManager.CardTypeRepository.GetByNamesAsync(cardNames);
+
+		cardTypes.Should().NotBeNullOrEmpty();
+		cardTypes.Should().HaveCount(cardNames.Count());
 	}
 
 	[TestMethod, Owner(Bobo)]

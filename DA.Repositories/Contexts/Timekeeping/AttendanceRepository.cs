@@ -10,12 +10,12 @@ namespace DA.Repositories.Contexts.Timekeeping;
 /// The calendar day repository class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
+/// Inherits from the <see cref="IdentityRepository{TIdentityEntity}"/> class and implements the interfaces:
 /// <list type="bullet">
 /// <item>The <see cref="IAttendanceRepository"/> interface</item>
 /// </list>
 /// </remarks>
-internal sealed class AttendanceRepository : GenericRepository<Attendance>, IAttendanceRepository
+internal sealed class AttendanceRepository : IdentityRepository<Attendance>, IAttendanceRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AttendanceRepository"/> class.

@@ -1,5 +1,6 @@
 using DA.Models.Contexts.MasterData;
 using DA.Repositories.Manager.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 

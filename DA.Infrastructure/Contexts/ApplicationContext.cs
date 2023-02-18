@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static DA.Models.Constants.Sql;
 
-namespace Database.Adapter.Infrastructure.Contexts;
+namespace DA.Infrastructure.Contexts;
 
 /// <summary>
 /// The application database context class.

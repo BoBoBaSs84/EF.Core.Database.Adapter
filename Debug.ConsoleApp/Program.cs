@@ -13,7 +13,8 @@ internal sealed class Program
 			.ConfigureServices(services =>
 			{
 				services.AddHostedService<Worker>();
-				services.GetRepositoryManagerService();
+				services.GetRepositoryManager();
+				services.GetIdentityService();
 			})
 			.ConfigureLogging((context, logging) => _ = logging.AddConsole())
 			.Build();

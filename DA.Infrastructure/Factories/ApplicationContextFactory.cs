@@ -1,5 +1,5 @@
 ﻿using DA.Infrastructure.Configurations;
-using Database.Adapter.Infrastructure.Contexts;
+using DA.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using static DA.Models.Constants.Sql;

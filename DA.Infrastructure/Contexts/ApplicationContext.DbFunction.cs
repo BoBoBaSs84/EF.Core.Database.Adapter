@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using static DA.Models.Constants.Sql;
 
-namespace Database.Adapter.Infrastructure.Contexts;
+namespace DA.Infrastructure.Contexts;
 
 public partial class ApplicationContext
 {

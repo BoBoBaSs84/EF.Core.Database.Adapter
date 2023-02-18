@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Debug.ConsoleApp;
 
-internal class Program
+internal sealed class Program
 {
 	private static void Main(string[] args)
 	{

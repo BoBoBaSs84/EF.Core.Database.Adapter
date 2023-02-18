@@ -4,6 +4,7 @@ using DA.Models.Contexts.Finances;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Repositories.Tests.Contexts.Finances;
 
@@ -11,7 +12,7 @@ namespace DA.Repositories.Tests.Contexts.Finances;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class TransactionRepositoryTests : RepositoriesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAccountTransactionByUserIdAccountIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
@@ -28,7 +29,7 @@ public class TransactionRepositoryTests : RepositoriesBaseTest
 		dbTransactions.Should().HaveCount(2);
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAccountTransactionByUserIdAccountNumberTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
@@ -45,7 +46,7 @@ public class TransactionRepositoryTests : RepositoriesBaseTest
 		dbTransactions.Should().HaveCount(2);
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetCardTransactionByUserIdCardIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
@@ -62,7 +63,7 @@ public class TransactionRepositoryTests : RepositoriesBaseTest
 		dbTransactions.Should().HaveCount(2);
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetCardTransactionByUserIdCardNumberTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);

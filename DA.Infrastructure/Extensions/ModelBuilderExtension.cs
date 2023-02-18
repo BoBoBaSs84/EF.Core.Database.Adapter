@@ -1,5 +1,6 @@
 ﻿using DA.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DA.Infrastructure.Extensions;
 
@@ -9,16 +10,16 @@ internal static class ModelBuilderExtension
 	/// Wraps the "ApplyConfigurationsFromAssembly" method.
 	/// </summary>
 	/// <param name="modelBuilder">The <see cref="ModelBuilder"/> itself.</param>
-	/// <returns>The <see cref="ModelBuilder"/> itself.</returns>
-	public static ModelBuilder ApplyConfigurationsForContextEntities(this ModelBuilder modelBuilder)
+	[SuppressMessage("Style", "IDE0058", Justification = "Not needed here.")]
+	public static void ApplyConfigurationsForContextEntities(this ModelBuilder modelBuilder)
 	{
 		HashSet<Type> types = modelBuilder.Model.GetEntityTypes().Select(t => t.ClrType).ToHashSet();
 
-		return modelBuilder.ApplyConfigurationsFromAssembly(
+		modelBuilder.ApplyConfigurationsFromAssembly(
 			typeof(IAssemblyMarker).Assembly,
-				t => t.GetInterfaces().Any(i => i.IsGenericType
-					&& i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)
-					&& types.Contains(i.GenericTypeArguments[0]))
+			t => t.GetInterfaces().Any(i => i.IsGenericType
+			&& i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)
+			&& types.Contains(i.GenericTypeArguments[0]))
 			);
 	}
 }

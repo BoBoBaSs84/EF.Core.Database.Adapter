@@ -3,6 +3,7 @@ using Database.Adapter.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Infrastructure.Tests.Factories;
 
@@ -10,7 +11,7 @@ namespace DA.Infrastructure.Tests.Factories;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class ApplicationContextFactoryTests : InfrastructureBaseTests
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void CreateDbContextTest()
 	{
 		ApplicationContextFactory contextFactory = new();

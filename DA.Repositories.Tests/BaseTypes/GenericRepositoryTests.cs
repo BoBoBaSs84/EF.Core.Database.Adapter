@@ -1,7 +1,9 @@
-﻿using DA.Models.Contexts.MasterData;
+﻿using DA.Base.Tests.Helpers;
+using DA.Models.Contexts.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 using static DA.Models.Enumerators.DayType;
 
 namespace DA.Repositories.Tests.BaseTypes;
@@ -10,7 +12,7 @@ namespace DA.Repositories.Tests.BaseTypes;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class GenericRepositoryTests : RepositoriesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task CreateTest()
 	{
 		CalendarDay newCalendarDay = GetCalendarDay();
@@ -24,7 +26,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		dbCalendarDay.Date.Should().Be(newCalendarDay.Date);
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task CreateManyTest()
 	{
 		IEnumerable<CalendarDay> calendarDays = GetCalendarDays(2);
@@ -35,7 +37,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		commit.Should().Be(calendarDays.Count());
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task DeleteByEntityTest()
 	{
 		int calendarDayId = 10;
@@ -48,7 +50,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		dbCalendarDay.Should().BeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task DeleteByIdTest()
 	{
 		int calendarDayId = 10;
@@ -60,7 +62,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		dbCalendarDay.Should().BeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task DeleteByExpressionTest()
 	{
 		int calendarDayId = 10;
@@ -72,7 +74,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		dbCalendarDay.Should().BeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task DeleteManyTest()
 	{
 		int calendarYear = 2020,
@@ -88,7 +90,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		dbCalendarDays.Should().BeEmpty();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAllTest()
 	{
 		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetAllAsync();
@@ -105,12 +107,15 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth));
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
-		dbCalendarDays.First().Year.Should().Be(calendarYear);
-		dbCalendarDays.First().Month.Should().Be(calendarMonth);
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDays.Should().NotBeNullOrEmpty();
+			dbCalendarDays.First().Year.Should().Be(calendarYear);
+			dbCalendarDays.First().Month.Should().Be(calendarMonth);
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetManyByConditionWithOrderByDescendingTest()
 	{
 		int calendarYear = 2020,
@@ -120,11 +125,14 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderByDescending(x => x.Date));
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
-		dbCalendarDays.First().Day.Should().Be(31);
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDays.Should().NotBeNullOrEmpty();
+			dbCalendarDays.First().Day.Should().Be(31);
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetManyByConditionWithSkippingFirstTenTakingNextTenTest()
 	{
 		int calendarYear = 2020,
@@ -136,13 +144,16 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			top: 10,
 			skip: 10);
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
-		dbCalendarDays.Should().HaveCount(10);
-		dbCalendarDays.First().Day.Should().Be(11);
-		dbCalendarDays.Last().Day.Should().Be(20);
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDays.Should().NotBeNullOrEmpty();
+			dbCalendarDays.Should().HaveCount(10);
+			dbCalendarDays.First().Day.Should().Be(11);
+			dbCalendarDays.Last().Day.Should().Be(20);
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetManyByConditionWithTakingTwelveTest()
 	{
 		int calendarYear = 2020,
@@ -153,13 +164,16 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			orderBy: x => x.OrderBy(x => x.Date),
 			top: 12);
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
-		dbCalendarDays.Should().HaveCount(12);
-		dbCalendarDays.First().Day.Should().Be(1);
-		dbCalendarDays.Last().Day.Should().Be(12);
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDays.Should().NotBeNullOrEmpty();
+			dbCalendarDays.Should().HaveCount(12);
+			dbCalendarDays.First().Day.Should().Be(1);
+			dbCalendarDays.Last().Day.Should().Be(12);
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetManyByConditionWithIncludeTest()
 	{
 		int calendarYear = 2020,
@@ -175,7 +189,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		dbCalendarDays.First().DayType.Should().NotBeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByIdTest()
 	{
 		int calendarDayId = 1;
@@ -186,7 +200,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		dbCalendarDay.Id.Should().Be(calendarDayId);
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByConditionTest()
 	{
 		int calendarYear = 2020,
@@ -196,13 +210,16 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth) && x.Day.Equals(calenderDay));
 
-		dbCalendarDay.Should().NotBeNull();
-		dbCalendarDay.Year.Should().Be(calendarYear);
-		dbCalendarDay.Month.Should().Be(calendarMonth);
-		dbCalendarDay.Day.Should().Be(calenderDay);
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDay.Should().NotBeNull();
+			dbCalendarDay.Year.Should().Be(calendarYear);
+			dbCalendarDay.Month.Should().Be(calendarMonth);
+			dbCalendarDay.Day.Should().Be(calenderDay);
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByConditionWithInclude()
 	{
 		int calendarYear = 2020,
@@ -214,14 +231,17 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			includeProperties: new[] { nameof(CalendarDay.DayType) }
 			);
 
-		dbCalendarDay.Should().NotBeNull();
-		dbCalendarDay.Year.Should().Be(calendarYear);
-		dbCalendarDay.Month.Should().Be(calendarMonth);
-		dbCalendarDay.Day.Should().Be(calenderDay);
-		dbCalendarDay.DayType.Should().NotBeNull();
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDay.Should().NotBeNull();
+			dbCalendarDay.Year.Should().Be(calendarYear);
+			dbCalendarDay.Month.Should().Be(calendarMonth);
+			dbCalendarDay.Day.Should().Be(calenderDay);
+			dbCalendarDay.DayType.Should().NotBeNull();
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task UpdateTest()
 	{
 		int calendarDayId = 12;
@@ -234,11 +254,14 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		await RepositoryManager.CommitChangesAsync();
 		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
-		dbCalendarDay.Should().NotBeNull();
-		dbCalendarDay.Date.Should().Be(GetDateTime());
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDay.Should().NotBeNull();
+			dbCalendarDay.Date.Should().Be(GetDateTime());
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task UpdateManyTest()
 	{
 		int calendarYear = 2020,
@@ -254,7 +277,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		commit.Should().Be(31);
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task UpdateTrackChangesTest()
 	{
 		int calendarDayId = 12;
@@ -265,11 +288,14 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		await RepositoryManager.CommitChangesAsync();
 		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
-		dbCalendarDay.Should().NotBeNull();
-		dbCalendarDay.DayTypeId.Should().Be((int)SICKNESS);
+		AssertionHelper.AssertInScope(() =>
+		{
+			dbCalendarDay.Should().NotBeNull();
+			dbCalendarDay.DayTypeId.Should().Be((int)SICKNESS);
+		});
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task UpdateManyTrackChangesTest()
 	{
 		int calendarYear = 2020,

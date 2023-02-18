@@ -3,6 +3,7 @@ using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Repositories.Tests.Contexts.MasterData;
 
@@ -10,7 +11,7 @@ namespace DA.Repositories.Tests.Contexts.MasterData;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class CalendarDayRepositoryTests : RepositoriesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByDateTest()
 	{
 		DateTime dateTime = DateTime.Now;
@@ -20,7 +21,7 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 		dbCalendarDay.Should().NotBeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByDatesTest()
 	{
 		IEnumerable<DateTime> dateTimes = new List<DateTime>()
@@ -37,7 +38,7 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 		dbCalendarDays.Should().HaveCount(dateTimes.Count());
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByDateRangeTest()
 	{
 		DateTime mindateTime = DateTime.Now, maxDateTime = DateTime.Now.AddDays(14);
@@ -49,7 +50,7 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 		dbCalendarDays.Last().Date.Should().Be(maxDateTime.ToSqlDate());
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByDateTypeIdTest()
 	{
 		int dayTypeId = (int)Models.Enumerators.DayType.WEEKENDDAY;
@@ -59,7 +60,7 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByDateTypeNameTest()
 	{
 		string dayTypeName = Models.Enumerators.DayType.WEEKDAY.GetName();
@@ -69,7 +70,7 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 		dbCalendarDays.Should().NotBeNullOrEmpty();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByEndOfMonthTest()
 	{
 		DateTime dateTime = DateTime.Now;

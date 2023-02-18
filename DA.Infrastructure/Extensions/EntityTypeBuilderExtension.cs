@@ -13,8 +13,7 @@ internal static class EntityTypeBuilderExtension
 	/// <param name="tableName">The name of the table.</param>
 	/// <param name="tableSchema">The schema of the table.</param>
 	/// <param name="versionSchema">The schema of the versiong table schema.</param>
-	/// <returns>The <see cref="EntityTypeBuilder"/> itself.</returns>
-	public static EntityTypeBuilder ToSytemVersionedTable(
+	public static void ToSytemVersionedTable(
 		this EntityTypeBuilder entityTypeBuilder,
 		string tableName,
 		string tableSchema = Schema.PRIVATE,

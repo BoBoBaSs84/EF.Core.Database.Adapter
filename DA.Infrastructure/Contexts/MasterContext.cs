@@ -1,7 +1,6 @@
 ﻿using DA.Infrastructure.Extensions;
 using DA.Infrastructure.Factories;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DA.Infrastructure.Contexts;
 
@@ -29,7 +28,6 @@ public sealed partial class MasterContext : DbContext
 	}
 
 	/// <inheritdoc/>
-	[SuppressMessage("Style", "IDE0058", Justification = "Not needed here.")]
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);

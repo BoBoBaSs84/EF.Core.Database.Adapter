@@ -2,11 +2,10 @@
 using DA.Infrastructure.Common;
 using DA.Infrastructure.Configurations;
 using FluentAssertions;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using static DA.Base.Tests.Constants;
 
 namespace DA.Infrastructure.Tests.Contexts;
 
@@ -15,10 +14,10 @@ namespace DA.Infrastructure.Tests.Contexts;
 [SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
 public class ContextsTests : InfrastructureBaseTests
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void DatabaseContextHaveConfigurationTest()
 	{
-		ICollection<Type> contextTypes = GetContextTypes();
+		IEnumerable<Type> contextTypes = GetContextTypes();
 		contextTypes.Should().NotBeNullOrEmpty();
 
 		foreach (Type type in contextTypes)
@@ -30,10 +29,10 @@ public class ContextsTests : InfrastructureBaseTests
 		}
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public void DatabaseContextMustBeSealed()
 	{
-		ICollection<Type> contextTypes = GetContextTypes();
+		IEnumerable<Type> contextTypes = GetContextTypes();
 		contextTypes.Should().NotBeNullOrEmpty();
 
 		foreach (Type type in contextTypes)
@@ -43,13 +42,13 @@ public class ContextsTests : InfrastructureBaseTests
 		}
 	}
 
-	private static ICollection<Type> GetContextTypes()
+	private static IEnumerable<Type> GetContextTypes()
 	{
 		Assembly assembly = typeof(IAssemblyMarker).Assembly;
 		return TypeHelper.GetAssemblyTypes(assembly,
 			x => x.Name.EndsWith("Context")
 			&& x.BaseType is not null
-			&& (x.BaseType.Name.Contains(nameof(DbContext)) || x.BaseType.Name.Contains(nameof(IdentityDbContext)))
+			&& (x.BaseType.Name.Contains("DbContext") || x.BaseType.Name.Contains("IdentityDbContext"))
 			);
 	}
 }

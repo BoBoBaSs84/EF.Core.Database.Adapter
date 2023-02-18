@@ -30,8 +30,13 @@ internal sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<Ap
 			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
+#elif UNITTEST
+			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
+			optionsBuilder.EnableSensitiveDataLogging(true);
+			optionsBuilder.EnableDetailedErrors(true);
+			optionsBuilder.UseInMemoryDatabase(nameof(ApplicationContext));
 #else
-		optionsBuilder.EnableSensitiveDataLogging(false);
+			optionsBuilder.EnableSensitiveDataLogging(false);
 		optionsBuilder.EnableDetailedErrors(false);
 #endif
 			return optionsBuilder.Options;

@@ -9,7 +9,7 @@ public partial class ApplicationContext
 	/// Returns a four-character (SOUNDEX) code to evaluate the similarity of two strings.
 	/// </summary>
 	/// <param name="inputString">Is an alphanumeric expression of character data.</param>
-	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = DbFunction.SOUNDEX)]
+	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = DbFunction.SOUNDLIKE)]
 	public static string SoundLike(string inputString)
 		=> throw new NotImplementedException();
 
@@ -28,7 +28,7 @@ public partial class ApplicationContext
 	/// This function returns the last day of the month containing a specified date.
 	/// </summary>
 	/// <param name="inputDate">A date expression that specifies the date for which to return the last day of the month.</param>
-	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = DbFunction.EOMONTH)]
+	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = DbFunction.ENDOFMONTH)]
 	public static DateTime EndOfMonth(DateTime inputDate)
 		=> throw new NotImplementedException();
 }

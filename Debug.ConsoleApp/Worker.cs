@@ -1,5 +1,4 @@
 using DA.Models.Contexts.MasterData;
-using Database.Adapter.Repositories;
 using Database.Adapter.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,7 +13,7 @@ public class Worker : BackgroundService
 	public Worker(ILogger<Worker> logger)
 	{
 		_logger = logger;
-		repositoryManager = new RepositoryManager();
+		//repositoryManager = new RepositoryManager();
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)

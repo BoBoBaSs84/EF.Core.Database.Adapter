@@ -5,6 +5,7 @@ using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using static DA.Base.Tests.Constants;
 using static DA.Models.Constants;
 
 namespace DA.Repositories.Tests.Contexts.Finances;
@@ -13,7 +14,7 @@ namespace DA.Repositories.Tests.Contexts.Finances;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class AccountRepositoryTests : RepositoriesBaseTest
 {
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetAccountByIBANTest()
 	{
 		string iban = RandomHelper.GetString(Regex.IBAN).RemoveWhitespace();
@@ -27,7 +28,7 @@ public class AccountRepositoryTests : RepositoriesBaseTest
 		dbaccount.Should().NotBeNull();
 	}
 
-	[TestMethod]
+	[TestMethod, Owner(Bobo)]
 	public async Task GetGetAccountsByUserIdTest()
 	{
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);

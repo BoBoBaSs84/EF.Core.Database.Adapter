@@ -23,11 +23,11 @@ public static class Constants
 			/// <summary>
 			/// The end of month function.
 			/// </summary>
-			public const string EOMONTH = "EOMONTH";
+			public const string ENDOFMONTH = "EOMONTH";
 			/// <summary>
 			/// The sound ex function.
 			/// </summary>
-			public const string SOUNDEX = "SOUNDEX";
+			public const string SOUNDLIKE = "SOUNDEX";
 			/// <summary>
 			/// The translate function.
 			/// </summary>

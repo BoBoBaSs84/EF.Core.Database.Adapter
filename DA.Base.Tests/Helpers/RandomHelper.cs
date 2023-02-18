@@ -9,6 +9,7 @@ namespace DA.Base.Tests.Helpers;
 public static class RandomHelper
 {
 	private static Random Random { get; } = new();
+
 	public static byte[] GetBytes(int length = 8)
 	{
 		byte[] bytes = new byte[length];

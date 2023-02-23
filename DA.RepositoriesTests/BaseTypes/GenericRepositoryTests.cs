@@ -1,9 +1,9 @@
-﻿using DA.BaseTests.Helpers;
-using DA.Models.Contexts.MasterData;
+﻿using DA.Models.Contexts.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 using static DA.Models.Enumerators.DayType;
 
 namespace DA.RepositoriesTests.BaseTypes;
@@ -22,8 +22,11 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Date.Equals(newCalendarDay.Date));
 
-		dbCalendarDay.Should().NotBeNull();
-		dbCalendarDay.Date.Should().Be(newCalendarDay.Date);
+		AssertInScope(() =>
+		{
+			dbCalendarDay.Should().NotBeNull();
+			dbCalendarDay.Date.Should().Be(newCalendarDay.Date);
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -107,7 +110,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetManyByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth));
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDays.Should().NotBeNullOrEmpty();
 			dbCalendarDays.First().Year.Should().Be(calendarYear);
@@ -125,7 +128,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth),
 			orderBy: x => x.OrderByDescending(x => x.Date));
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDays.Should().NotBeNullOrEmpty();
 			dbCalendarDays.First().Day.Should().Be(31);
@@ -144,7 +147,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			top: 10,
 			skip: 10);
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDays.Should().NotBeNullOrEmpty();
 			dbCalendarDays.Should().HaveCount(10);
@@ -164,7 +167,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			orderBy: x => x.OrderBy(x => x.Date),
 			top: 12);
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDays.Should().NotBeNullOrEmpty();
 			dbCalendarDays.Should().HaveCount(12);
@@ -221,7 +224,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		CalendarDay dbCalendarDay = await RepositoryManager.CalendarRepository.GetByConditionAsync(
 			expression: x => x.Year.Equals(calendarYear) && x.Month.Equals(calendarMonth) && x.Day.Equals(calenderDay));
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDay.Should().NotBeNull();
 			dbCalendarDay.Year.Should().Be(calendarYear);
@@ -242,7 +245,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			includeProperties: new[] { nameof(CalendarDay.DayType) }
 			);
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDay.Should().NotBeNull();
 			dbCalendarDay.Year.Should().Be(calendarYear);
@@ -265,7 +268,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		await RepositoryManager.CommitChangesAsync();
 		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDay.Should().NotBeNull();
 			dbCalendarDay.Date.Should().Be(GetDateTime());
@@ -299,7 +302,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		await RepositoryManager.CommitChangesAsync();
 		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			dbCalendarDay.Should().NotBeNull();
 			dbCalendarDay.DayTypeId.Should().Be((int)SICKNESS);

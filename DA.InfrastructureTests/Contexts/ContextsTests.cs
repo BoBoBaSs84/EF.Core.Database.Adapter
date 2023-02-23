@@ -45,10 +45,9 @@ public class ContextsTests : InfrastructureBaseTests
 	private static IEnumerable<Type> GetContextTypes()
 	{
 		Assembly assembly = typeof(IAssemblyMarker).Assembly;
-		return TypeHelper.GetAssemblyTypes(assembly,
-			x => x.Name.EndsWith("Context")
-			&& x.BaseType is not null
-			&& (x.BaseType.Name.Contains("DbContext") || x.BaseType.Name.Contains("IdentityDbContext"))
+		return TypeHelper.GetAssemblyTypes(
+			assembly: assembly,
+			expression: x => x.Name.EndsWith("Context") && x.BaseType is not null && (x.BaseType.Name.Contains("DbContext") || x.BaseType.Name.Contains("IdentityDbContext"))
 			);
 	}
 }

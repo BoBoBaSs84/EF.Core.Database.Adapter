@@ -1,11 +1,11 @@
-﻿using DA.BaseTests.Helpers;
-using DA.Infrastructure.Configurations;
+﻿using DA.Infrastructure.Configurations;
 using DA.Infrastructure.Exceptions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 using static DA.Infrastructure.Statics;
 
 namespace DA.InfrastructureTests.Configurations;
@@ -30,13 +30,12 @@ public class ConfigurationTests : InfrastructureBaseTests
 	public void TestCleanup() => File.WriteAllText(configFilePath, configJson);
 
 	[TestMethod, Owner(Bobo)]
-	[Description("")]
 	public void GetConnectionStringSuccessTest()
 	{
 		Configuration configuration = new();
 		string connectionString = configuration.GetConnectionString("MasterContext");
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			connectionString.Should().NotBeNullOrWhiteSpace();
 			connectionString.Should().Contain("Server");
@@ -50,7 +49,7 @@ public class ConfigurationTests : InfrastructureBaseTests
 		Configuration configuration = new();
 		configuration.Load();
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			configuration.SqlServers.Should().NotBeNullOrEmpty();
 			configuration.Contexts.Should().NotBeNullOrEmpty();

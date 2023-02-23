@@ -1,9 +1,9 @@
-﻿using DA.BaseTests.Helpers;
-using DA.Models.Extensions;
+﻿using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 
 namespace DA.ModelsTests.Extensions;
 
@@ -19,7 +19,7 @@ public class DateTimeExtensionTests : ModelsBaseTest
 
 		sqlDate = dateTimeNow.ToSqlDate();
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			sqlDate.Hour.Should().Be(0);
 			sqlDate.Minute.Should().Be(0);
@@ -35,7 +35,7 @@ public class DateTimeExtensionTests : ModelsBaseTest
 	{
 		DateTime sqlDate = DateTime.Now.ToSqlDate();
 
-		AssertionHelper.AssertInScope(() =>
+		AssertInScope(() =>
 		{
 			sqlDate.Hour.Should().NotBe(1);
 			sqlDate.Minute.Should().NotBe(1);

@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 
 namespace DA.RepositoriesTests.Contexts.MasterData;
 
@@ -43,8 +44,11 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 
 		CardType cardType = await RepositoryManager.CardTypeRepository.GetByNameAsync(cardTypeName);
 
-		cardType.Should().NotBeNull();
-		cardType.Name.Should().Be(cardTypeName);
+		AssertInScope(() =>
+		{
+			cardType.Should().NotBeNull();
+			cardType.Name.Should().Be(cardTypeName);
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -58,8 +62,11 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 
 		IEnumerable<CardType> cardTypes = await RepositoryManager.CardTypeRepository.GetByNamesAsync(cardNames);
 
-		cardTypes.Should().NotBeNullOrEmpty();
-		cardTypes.Should().HaveCount(cardNames.Count());
+		AssertInScope(() =>
+		{
+			cardTypes.Should().NotBeNullOrEmpty();
+			cardTypes.Should().HaveCount(cardNames.Count());
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]

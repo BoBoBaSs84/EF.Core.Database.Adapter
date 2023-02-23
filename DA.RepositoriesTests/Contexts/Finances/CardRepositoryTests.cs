@@ -6,6 +6,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 using static DA.Models.Constants;
 
 namespace DA.RepositoriesTests.Contexts.Finances;
@@ -39,7 +40,11 @@ public class CardRepositoryTests : RepositoriesBaseTest
 		await RepositoryManager.CommitChangesAsync();
 
 		IEnumerable<Card> dbCards = await RepositoryManager.CardRepository.GetCardsAsync(newUser.Id);
-		dbCards.Should().NotBeNullOrEmpty();
-		dbCards.Should().HaveCount(newUser.Cards.Count);
+
+		AssertInScope(() =>
+		{
+			dbCards.Should().NotBeNullOrEmpty();
+			dbCards.Should().HaveCount(newUser.Cards.Count);
+		});
 	}
 }

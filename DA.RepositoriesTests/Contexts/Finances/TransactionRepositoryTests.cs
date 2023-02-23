@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 
 namespace DA.RepositoriesTests.Contexts.Finances;
 
@@ -25,8 +26,11 @@ public class TransactionRepositoryTests : RepositoriesBaseTest
 		IEnumerable<Transaction> dbTransactions =
 			await RepositoryManager.TransactionRepository.GetAccountTransactionAsync(userId, accountId);
 
-		dbTransactions.Should().NotBeNullOrEmpty();
-		dbTransactions.Should().HaveCount(2);
+		AssertInScope(() =>
+		{
+			dbTransactions.Should().NotBeNullOrEmpty();
+			dbTransactions.Should().HaveCount(2);
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -42,8 +46,11 @@ public class TransactionRepositoryTests : RepositoriesBaseTest
 		IEnumerable<Transaction> dbTransactions =
 			await RepositoryManager.TransactionRepository.GetAccountTransactionAsync(userId, accountNumber);
 
-		dbTransactions.Should().NotBeNullOrEmpty();
-		dbTransactions.Should().HaveCount(2);
+		AssertInScope(() =>
+		{
+			dbTransactions.Should().NotBeNullOrEmpty();
+			dbTransactions.Should().HaveCount(2);
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -59,8 +66,11 @@ public class TransactionRepositoryTests : RepositoriesBaseTest
 		IEnumerable<Transaction> dbTransactions =
 			await RepositoryManager.TransactionRepository.GetCardTransactionAsync(userId, cardId);
 
-		dbTransactions.Should().NotBeNullOrEmpty();
-		dbTransactions.Should().HaveCount(2);
+		AssertInScope(() =>
+		{
+			dbTransactions.Should().NotBeNullOrEmpty();
+			dbTransactions.Should().HaveCount(2);
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -76,7 +86,10 @@ public class TransactionRepositoryTests : RepositoriesBaseTest
 		IEnumerable<Transaction> dbTransactions =
 			await RepositoryManager.TransactionRepository.GetCardTransactionAsync(userId, cardNumber);
 
-		dbTransactions.Should().NotBeNullOrEmpty();
-		dbTransactions.Should().HaveCount(2);
+		AssertInScope(() =>
+		{
+			dbTransactions.Should().NotBeNullOrEmpty();
+			dbTransactions.Should().HaveCount(2);
+		});
 	}
 }

@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 
 namespace DA.RepositoriesTests.Contexts.MasterData;
 
@@ -34,8 +35,11 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 
 		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDateAsync(dateTimes);
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
-		dbCalendarDays.Should().HaveCount(dateTimes.Count());
+		AssertInScope(() =>
+		{
+			dbCalendarDays.Should().NotBeNullOrEmpty();
+			dbCalendarDays.Should().HaveCount(dateTimes.Count());
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -45,9 +49,12 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 
 		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDateAsync(mindateTime, maxDateTime);
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
-		dbCalendarDays.First().Date.Should().Be(mindateTime.ToSqlDate());
-		dbCalendarDays.Last().Date.Should().Be(maxDateTime.ToSqlDate());
+		AssertInScope(() =>
+		{
+			dbCalendarDays.Should().NotBeNullOrEmpty();
+			dbCalendarDays.First().Date.Should().Be(mindateTime.ToSqlDate());
+			dbCalendarDays.Last().Date.Should().Be(maxDateTime.ToSqlDate());
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]

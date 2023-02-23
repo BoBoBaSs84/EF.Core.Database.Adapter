@@ -33,15 +33,13 @@ public class DateTimeExtensionTests : ModelsBaseTest
 	[TestMethod, Owner(Bobo)]
 	public void ToSqlDateFailTest()
 	{
-		DateTime dateTimeNow = DateTime.Now;
-
-		dateTimeNow.ToSqlDate();
+		DateTime sqlDate = DateTime.Now.ToSqlDate();
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			dateTimeNow.Hour.Should().NotBe(0);
-			dateTimeNow.Minute.Should().NotBe(0);
-			dateTimeNow.Second.Should().NotBe(0);
+			sqlDate.Hour.Should().NotBe(1);
+			sqlDate.Minute.Should().NotBe(1);
+			sqlDate.Second.Should().NotBe(1);
 		});
 	}
 }

@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 
 namespace DA.RepositoriesTests.Contexts.MasterData;
 
@@ -43,8 +44,11 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 
 		DayType dayType = await RepositoryManager.DayTypeRepository.GetByNameAsync(dayTypeName);
 
-		dayType.Should().NotBeNull();
-		dayType.Name.Should().Be(dayTypeName);
+		AssertInScope(() =>
+		{
+			dayType.Should().NotBeNull();
+			dayType.Name.Should().Be(dayTypeName);
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -58,8 +62,11 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 
 		IEnumerable<DayType> dayTypes = await RepositoryManager.DayTypeRepository.GetByNamesAsync(dayTypeNames);
 
-		dayTypes.Should().NotBeNullOrEmpty();
-		dayTypes.Should().HaveCount(dayTypeNames.Count());
+		AssertInScope(() =>
+		{
+			dayTypes.Should().NotBeNullOrEmpty();
+			dayTypes.Should().HaveCount(dayTypeNames.Count());
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]

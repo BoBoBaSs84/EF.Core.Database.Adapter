@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 
 namespace DA.RepositoriesTests.Contexts;
 
@@ -18,16 +19,18 @@ public class ContextsTest : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
 	{
-		IEnumerable<Type> repositoriesList =
-			TypeHelper.GetAssemblyTypes(_assembly, x => x.Name.EndsWith("Repository") && x.IsInterface.Equals(false));
+		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
+			assembly: _assembly,
+			expression: x => x.Name.EndsWith("Repository") && x.IsInterface.Equals(false)
+			);
 
-		repositoriesList.Should().NotBeNullOrEmpty();
+		typeList.Should().NotBeNullOrEmpty();
 
-		foreach (Type type in repositoriesList)
+		foreach (Type type in typeList)
 		{
 			TestContext.WriteLine($"Testing: {type.Name}");
 
-			AssertionHelper.AssertInScope(() =>
+			AssertInScope(() =>
 			{
 				type.IsSealed.Should().BeTrue();
 				type.IsPublic.Should().BeFalse();

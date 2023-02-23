@@ -12,6 +12,12 @@ public static class Statics
 	/// The <see cref="CurrentCulture"/> property.
 	/// </summary>
 	public static CultureInfo CurrentCulture { get; } = CultureInfo.CurrentCulture;
+
+	/// <summary>
+	/// The <see cref="InvariantCulture"/> property.
+	/// </summary>
+	public static CultureInfo InvariantCulture { get; } = CultureInfo.InvariantCulture;
+
 	/// <summary>
 	/// The <see cref="WhitespaceRegex"/> property.
 	/// </summary>

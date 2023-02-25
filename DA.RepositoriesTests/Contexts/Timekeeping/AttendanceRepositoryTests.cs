@@ -22,13 +22,14 @@ public class AttendanceRepositoryTests : RepositoriesBaseTest
 	public async Task GetAllAttendancesByUserIdTest()
 	{
 		User newUser = GetNewUser(attendanceSeed: true);
-		string password = $"{GetString(12, CharsAndNumbers)}!@#";
+		string password = GetString(32, WildCardChars);
 
 		IdentityResult result = await _userService.CreateAsync(newUser, password);
 		IEnumerable<Attendance> dbAttendances = await RepositoryManager.AttendanceRepository.GetAttendancesAsync(newUser.Id);
 
 		AssertInScope(() =>
 		{
+			result.Succeeded.Should().BeTrue();
 			result.Errors.Should().BeEmpty();
 			dbAttendances.Should().NotBeNullOrEmpty();
 			dbAttendances.Should().HaveCount(newUser.Attendances.Count);
@@ -39,23 +40,33 @@ public class AttendanceRepositoryTests : RepositoriesBaseTest
 	public async Task GetAttendanceByUserIdAndCalendarIdTest()
 	{
 		User newUser = GetNewUser(attendanceSeed: true);
-		await RepositoryManager.UserRepository.CreateAsync(newUser);
-		await RepositoryManager.CommitChangesAsync();
+		string password = GetString(32, WildCardChars);
 
+		IdentityResult result = await _userService.CreateAsync(newUser, password);
 		Attendance dbAttendance = await RepositoryManager.AttendanceRepository.GetAttendanceAsync(newUser.Id, 1);
 
-		dbAttendance.Should().NotBeNull();
+		AssertInScope(() =>
+		{
+			result.Succeeded.Should().BeTrue();
+			result.Errors.Should().BeEmpty();
+			dbAttendance.Should().NotBeNull();
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]
 	public async Task GetAttendanceByUserIdAndCalendarDateTest()
 	{
 		User newUser = GetNewUser(attendanceSeed: true);
-		await RepositoryManager.UserRepository.CreateAsync(newUser);
-		await RepositoryManager.CommitChangesAsync();
+		string password = GetString(32, WildCardChars);
 
+		IdentityResult result = await _userService.CreateAsync(newUser, password);
 		Attendance dbAttendance = await RepositoryManager.AttendanceRepository.GetAttendanceAsync(newUser.Id, new DateTime(1900, 1, 1));
 
-		dbAttendance.Should().NotBeNull();
+		AssertInScope(() =>
+		{
+			result.Succeeded.Should().BeTrue();
+			result.Errors.Should().BeEmpty();
+			dbAttendance.Should().NotBeNull();
+		});
 	}
 }

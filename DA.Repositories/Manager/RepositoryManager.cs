@@ -21,7 +21,6 @@ internal sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>
 	/// <param name="dbContext">The database context.</param>
 	public RepositoryManager(ApplicationContext dbContext) : base(dbContext)
 	{
-		InitializeAuthentication();
 		InitializeMasterData();
 		InitializeTimekeeping();
 		InitializeFinances();

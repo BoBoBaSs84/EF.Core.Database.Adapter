@@ -1,4 +1,5 @@
-﻿using DA.Infrastructure.Extensions;
+﻿using DA.Infrastructure.Contexts.Interfaces;
+using DA.Infrastructure.Extensions;
 using DA.Infrastructure.Factories;
 using DA.Models.Contexts.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,12 +14,12 @@ namespace DA.Infrastructure.Contexts;
 /// <remarks>
 /// Inherits from the <see cref="IdentityDbContext{TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken}"/> class.
 /// </remarks>
-public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
+public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IApplicationContext
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
 	/// </summary>
-	public ApplicationContext() : base(ApplicationContextFactory.DbContextOptions)
+	public ApplicationContext() : base(ApplicationContextFactory.Options)
 	{
 	}
 
@@ -30,7 +31,15 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	{
 	}
 
-	/// <inheritdoc/>	
+	/// <inheritdoc/>
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	{
+		if (!optionsBuilder.IsConfigured)
+			optionsBuilder = ApplicationContextFactory.OptionsBuilder;
+		base.OnConfiguring(optionsBuilder);
+	}
+
+	/// <inheritdoc/>
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);

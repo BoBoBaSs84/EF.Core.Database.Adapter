@@ -16,7 +16,7 @@ public class ApplicationContextFactoryTests : InfrastructureBaseTests
 	{
 		ApplicationContextFactory contextFactory = new();
 
-		ApplicationContext applicationContext = contextFactory.CreateDbContext(null!);
+		ApplicationContext applicationContext = contextFactory.CreateDbContext(new[] { string.Empty });
 
 		applicationContext.Should().NotBeNull();
 	}

@@ -1,7 +1,7 @@
-﻿using Debug.ConsoleApp.Services.Interface;
-using Debug.ConsoleApp.Services;
+﻿using Debug.ConsoleApp.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Debug.ConsoleApp.Services.Interfaces;
 
 internal class Program
 {

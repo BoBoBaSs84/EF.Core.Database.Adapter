@@ -12,34 +12,35 @@ namespace DA.Infrastructure.Factories;
 internal sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
 {
 	/// <inheritdoc/>
-	public ApplicationContext CreateDbContext(string[] args) => new(DbContextOptions);
+	public ApplicationContext CreateDbContext(string[] args) => new(Options);
 
 	/// <summary>
-	/// The <see cref="DbContextOptions"/> property provides fast access to the
+	/// The <see cref="Options"/> property provides fast access to the context
 	/// options of the <see cref="ApplicationContext"/>.
 	/// </summary>
-	public static DbContextOptions<ApplicationContext> DbContextOptions
+	public static DbContextOptions<ApplicationContext> Options => OptionsBuilder.Options;
+
+	/// <summary>
+	/// The <see cref="OptionsBuilder"/> property provides fast access to the
+	/// context option builder of the <see cref="ApplicationContext"/>.
+	/// </summary>
+	public static DbContextOptionsBuilder<ApplicationContext> OptionsBuilder
 	{
 		get
 		{
 			Configuration configuration = new();
 			DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
 			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
-				options => options.MigrationsHistoryTable(nameof(ApplicationContext), Schema.MIGRATION));
-#if DEBUG
-			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
+				options => options.MigrationsHistoryTable($"{nameof(ApplicationContext)}{Schema.MIGRATION}", Schema.PRIVATE));
+#if DEBUG			
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
-#elif UNITTEST
-			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
-			optionsBuilder.EnableSensitiveDataLogging(true);
-			optionsBuilder.EnableDetailedErrors(true);
-			optionsBuilder.UseInMemoryDatabase(nameof(ApplicationContext));
+			optionsBuilder.LogTo(Console.WriteLine);
 #else
 			optionsBuilder.EnableSensitiveDataLogging(false);
-		optionsBuilder.EnableDetailedErrors(false);
+			optionsBuilder.EnableDetailedErrors(false);
 #endif
-			return optionsBuilder.Options;
+			return optionsBuilder;
 		}
 	}
 }

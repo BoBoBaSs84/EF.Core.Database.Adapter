@@ -3,7 +3,7 @@
 namespace DA.BaseTests;
 
 [TestClass]
-public abstract class BaseTest
+public abstract class BaseTestUnit
 {
 	public TestContext TestContext { get; set; } = default!;
 

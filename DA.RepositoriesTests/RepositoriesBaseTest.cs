@@ -1,4 +1,5 @@
 ﻿using DA.BaseTests;
+using DA.Infrastructure.Contexts;
 using DA.Repositories.Manager;
 using DA.Repositories.Manager.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,17 +8,19 @@ using System.Transactions;
 namespace DA.RepositoriesTests;
 
 [TestClass]
-public abstract class RepositoriesBaseTest : BaseTest
+public abstract class RepositoriesBaseTest : BaseTestUnit
 {
 	private TransactionScope transactionScope = default!;
+	private ApplicationContext applicationContext = default!;
 	public IRepositoryManager RepositoryManager { get; private set; } = default!;
 
 	[TestInitialize]
 	public override void Initialize()
 	{
-		base.Initialize();
+		applicationContext = new ApplicationContext();
+		RepositoryManager = new RepositoryManager(applicationContext);
 		transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-		RepositoryManager = new RepositoryManager();
+		base.Initialize();
 	}
 
 	[TestCleanup]

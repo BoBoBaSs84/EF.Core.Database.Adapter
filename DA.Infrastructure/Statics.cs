@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 
 namespace DA.Infrastructure;
@@ -36,10 +35,6 @@ internal static class Statics
 	/// </summary>
 	public static string MachineName { get; private set; }
 	/// <summary>
-	/// The <see cref="LoggerFactory"/> property.
-	/// </summary>
-	public static ILoggerFactory LoggerFactory { get; private set; }
-	/// <summary>
 	/// The <see cref="UserName"/> property.
 	/// </summary>
 	public static string UserName { get; private set; }
@@ -56,7 +51,6 @@ internal static class Statics
 		ConfigurationFileName = $"{AssemblyName}.json";
 		CurrentCulture = CultureInfo.CurrentCulture;
 		MachineName = Environment.MachineName;
-		LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(builder => builder.AddConsole());
 		UserName = Environment.UserName;
 	}
 }

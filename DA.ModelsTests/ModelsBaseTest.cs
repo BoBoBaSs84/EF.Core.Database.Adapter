@@ -4,6 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DA.ModelsTests;
 
 [TestClass]
-public class ModelsBaseTest : BaseTest
+public class ModelsBaseTest : BaseTestUnit
 {
 }

@@ -1,4 +1,5 @@
 ﻿using DA.BaseTests.Helpers;
+using DA.Models.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -6,7 +7,7 @@ using System.Text.Json.Serialization;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
 
-namespace DA.Models.Extensions.Test;
+namespace DA.ModelsTests.Extensions;
 
 [TestClass()]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

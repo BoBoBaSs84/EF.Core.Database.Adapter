@@ -7,32 +7,18 @@ namespace DA.Infrastructure.Contexts;
 
 public sealed partial class ApplicationContext
 {
-	/// <summary>
-	/// The <see cref="CalendarDays"/> property.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<CalendarDay> CalendarDays { get; set; } = default!;
-	/// <summary>
-	/// The <see cref="CardTypes"/> property.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<CardType> CardTypes { get; set; } = default!;
-	/// <summary>
-	/// The <see cref="DayTypes"/> property.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<DayType> DayTypes { get; set; } = default!;
-	/// <summary>
-	/// The <see cref="Attendances"/> property.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<Attendance> Attendances { get; set; } = default!;
-	/// <summary>
-	/// The <see cref="Accounts"/> property.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<Account> Accounts { get; set; } = default!;
-	/// <summary>
-	/// The <see cref="Cards"/> property.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<Card> Cards { get; set; } = default!;
-	/// <summary>
-	/// The <see cref="Transactions"/> property.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<Transaction> Transactions { get; set; } = default!;
 }

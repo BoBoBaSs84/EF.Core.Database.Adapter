@@ -3,4 +3,4 @@
 /// <summary>
 /// The assembly marker interface.
 /// </summary>
-public interface IAssemblyMarker { }
+public interface IRepositoriesAssemblyMarker { }

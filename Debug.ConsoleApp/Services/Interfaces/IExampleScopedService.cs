@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Debug.ConsoleApp.Services.Interface;
+namespace Debug.ConsoleApp.Services.Interfaces;
 
 public interface IExampleScopedService : IReportServiceLifetime
 {

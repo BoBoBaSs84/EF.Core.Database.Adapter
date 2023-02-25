@@ -1,24 +1,41 @@
-﻿using DA.Repositories.Installer;
+﻿using Debug.ConsoleApp.Services.Interface;
+using Debug.ConsoleApp.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace Debug.ConsoleApp;
-
-internal sealed class Program
+internal class Program
 {
-	private static void Main(string[] args)
+	private static async Task Main(string[] args)
 	{
-		IHost host = Host.CreateDefaultBuilder(args)
+		using IHost host = Host.CreateDefaultBuilder(args)
 			.ConfigureServices(services =>
 			{
-				services.AddHostedService<Worker>();
-				services.GetRepositoryManager();
-				services.GetIdentityService();
-			})
-			.ConfigureLogging((context, logging) => _ = logging.AddConsole())
-			.Build();
+				services.AddTransient<IExampleTransientService, ExampleTransientService>();
+				services.AddScoped<IExampleScopedService, ExampleScopedService>();
+				services.AddSingleton<IExampleSingletonService, ExampleSingletonService>();
+				services.AddTransient<ServiceLifetimeReporter>();
+			}).Build();
 
-		host.Run();
+		ExemplifyServiceLifetime(host.Services, "Lifetime 1");
+		ExemplifyServiceLifetime(host.Services, "Lifetime 2");
+
+		await host.RunAsync();
+	}
+
+	static void ExemplifyServiceLifetime(IServiceProvider hostProvider, string lifetime)
+	{
+		using IServiceScope serviceScope = hostProvider.CreateScope();
+		IServiceProvider provider = serviceScope.ServiceProvider;
+		ServiceLifetimeReporter logger = provider.GetRequiredService<ServiceLifetimeReporter>();
+		logger.ReportServiceLifetimeDetails(
+				$"{lifetime}: Call 1 to provider.GetRequiredService<ServiceLifetimeLogger>()");
+
+		Console.WriteLine("...");
+
+		logger = provider.GetRequiredService<ServiceLifetimeReporter>();
+		logger.ReportServiceLifetimeDetails(
+				$"{lifetime}: Call 2 to provider.GetRequiredService<ServiceLifetimeLogger>()");
+
+		Console.WriteLine();
 	}
 }

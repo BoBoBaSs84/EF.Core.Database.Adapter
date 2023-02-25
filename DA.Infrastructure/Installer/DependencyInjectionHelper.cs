@@ -1,10 +1,13 @@
-﻿using DA.Infrastructure.Data;
-using DA.Domain.Models.Identity;
+﻿using DA.Domain.Models.Identity;
+using DA.Infrastructure.Application;
+using DA.Infrastructure.Application.Interfaces;
+using DA.Infrastructure.Data;
+using DA.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using static DA.Domain.Constants.Sql;
-using DA.Infrastructure.Models;
 
 namespace DA.Infrastructure.Installer;
 
@@ -22,6 +25,8 @@ public static class DependencyInjectionHelper
 	{
 		services.AddApplicationContext();
 		services.AddIdentityService();
+		services.AddRoleService();
+		services.AddUserService();
 		return services;
 	}
 
@@ -50,7 +55,7 @@ public static class DependencyInjectionHelper
 	/// <summary>
 	/// Registers the identity service.
 	/// </summary>
-	/// <param name="services">The service collection to enrich.</param>	
+	/// <param name="services">The service collection to enrich.</param>
 	private static void AddIdentityService(this IServiceCollection services) =>
 		services.AddIdentity<User, Role>(options =>
 		{
@@ -65,5 +70,21 @@ public static class DependencyInjectionHelper
 			options.User.RequireUniqueEmail = true;
 		})
 		.AddEntityFrameworkStores<ApplicationContext>()
-		.AddDefaultTokenProviders();
+		.AddDefaultTokenProviders()
+		.AddUserManager<UserService>()
+		.AddRoleManager<RoleService>();
+
+	/// <summary>
+	/// Registers the role service.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	private static void AddRoleService(this IServiceCollection services) =>
+		services.TryAddScoped<IRoleService, RoleService>();
+
+	/// <summary>
+	/// Registers the user service.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	private static void AddUserService(this IServiceCollection services) =>
+		services.TryAddScoped<IUserService, UserService>();
 }

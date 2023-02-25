@@ -1,4 +1,6 @@
 ﻿using DA.Domain.Extensions;
+using DA.Domain.Models.Identity;
+using DA.Infrastructure.Application.Interfaces;
 using DA.Infrastructure.Installer;
 using DA.Repositories.Installer;
 using DA.Repositories.Manager.Interfaces;
@@ -27,6 +29,7 @@ internal class Program
 		//ExemplifyServiceLifetime(host.Services, "Lifetime 2");
 
 		await GetToday(host.Services);
+		await CreateTestUser(host.Services);
 		await host.RunAsync();
 	}
 
@@ -51,7 +54,29 @@ internal class Program
 	{
 		Console.WriteLine("...");
 		IRepositoryManager manager = serviceProvider.GetRequiredService<IRepositoryManager>();
-		var calendarDay = await manager.CalendarRepository.GetByDateAsync(DateTime.UtcNow);
+		DA.Domain.Models.MasterData.CalendarDay calendarDay = await manager.CalendarRepository.GetByDateAsync(DateTime.UtcNow);
 		Console.WriteLine(calendarDay.ToJsonString());
+	}
+
+	private static async Task CreateTestUser(IServiceProvider serviceProvider)
+	{
+		Console.WriteLine("...");
+		IUserService userService = serviceProvider.GetRequiredService<IUserService>();
+
+		string password = "Test123456!";
+		User newUser = new()
+		{
+			UserName = "TestUser",
+			Email = "TestUser@Test.User"
+		};
+
+		Microsoft.AspNetCore.Identity.IdentityResult result = await userService.CreateAsync(newUser, password);
+		if (result.Succeeded)
+			Console.WriteLine($"{newUser.UserName} created!");
+		else
+		{
+			foreach (Microsoft.AspNetCore.Identity.IdentityError? error in result.Errors)
+				Console.WriteLine($"{error.Code} -> {error.Description}");
+		}
 	}
 }

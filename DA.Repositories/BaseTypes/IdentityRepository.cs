@@ -1,4 +1,4 @@
-﻿using DA.Models.BaseTypes;
+﻿using DA.Domain.Models.BaseTypes;
 using DA.Repositories.BaseTypes.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

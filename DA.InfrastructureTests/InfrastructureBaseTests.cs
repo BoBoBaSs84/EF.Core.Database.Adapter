@@ -4,6 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DA.InfrastructureTests;
 
 [TestClass]
-public class InfrastructureBaseTests : BaseTest
+public class InfrastructureBaseTests : BaseTestUnit
 {
 }

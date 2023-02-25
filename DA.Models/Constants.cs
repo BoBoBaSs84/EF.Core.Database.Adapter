@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
-namespace DA.Models;
+namespace DA.Domain;
 
 /// <summary>
 /// The constants class.
@@ -39,14 +39,12 @@ public static class Constants
 		/// </summary>
 		public static class Schema
 		{
-			/// <summary>The <see cref="ENUMERATE"/> constant.</summary>
-			public const string ENUMERATE = "Enumerate";
+			/// <summary>The <see cref="ENUMERATOR"/> constant.</summary>
+			public const string ENUMERATOR = "Enumerator";
 			/// <summary>The <see cref="HISTORY"/> constant.</summary>
 			public const string HISTORY = "History";
 			/// <summary>The <see cref="IDENTITY"/> constant.</summary>
 			public const string IDENTITY = "Identity";
-			/// <summary>The <see cref="MIGRATION"/> constant.</summary>
-			public const string MIGRATION = "Migration";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>
 			public const string PRIVATE = "Private";
 			/// <summary>The <see cref="PRIVATE"/> constant.</summary>

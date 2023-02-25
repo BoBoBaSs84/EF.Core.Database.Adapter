@@ -1,5 +1,5 @@
-﻿using DA.Models.Contexts.MasterData;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
+using DA.Domain.Models.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -60,7 +60,7 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetByDateTypeIdTest()
 	{
-		int dayTypeId = (int)Models.Enumerators.DayType.WEEKENDDAY;
+		int dayTypeId = (int)Domain.Enumerators.DayType.WEEKENDDAY;
 
 		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeId);
 
@@ -70,7 +70,7 @@ public class CalendarDayRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetByDateTypeNameTest()
 	{
-		string dayTypeName = Models.Enumerators.DayType.WEEKDAY.GetName();
+		string dayTypeName = Domain.Enumerators.DayType.WEEKDAY.GetName();
 
 		IEnumerable<CalendarDay> dbCalendarDays = await RepositoryManager.CalendarRepository.GetByDayTypeAsync(dayTypeName);
 

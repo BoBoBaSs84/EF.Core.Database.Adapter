@@ -1,5 +1,4 @@
-﻿using DA.BaseTests.Helpers;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -8,8 +7,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
+using static DA.BaseTests.Helpers.RandomHelper;
 
-namespace DA.ModelsTests.Extensions;
+namespace DA.DomainTests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
@@ -78,8 +78,8 @@ public class XmlExtensionTests
 		AssertInScope(() =>
 		{
 			fancy.Id.Should().NotBe(Guid.NewGuid());
-			fancy.Name.Should().NotBe(RandomHelper.GetString(10));
-			fancy.Description.Should().NotBe(RandomHelper.GetString(40));
+			fancy.Name.Should().NotBe(GetString(10));
+			fancy.Description.Should().NotBe(GetString(40));
 		});
 	}
 
@@ -89,9 +89,9 @@ public class XmlExtensionTests
 		[XmlAttribute]
 		public Guid Id { get; set; } = Guid.NewGuid();
 		[XmlElement]
-		public string Name { get; set; } = RandomHelper.GetString(10);
+		public string Name { get; set; } = GetString(10);
 		[XmlElement]
-		public string Description { get; set; } = RandomHelper.GetString(40);
+		public string Description { get; set; } = GetString(40);
 	}
 
 	private const string XmlTextString = @"<Fancy Id=""348798ee-12f2-4a20-b030-756bb6a4134d""><Name>UnitTest</Name><Description>UnitTestDescription</Description></Fancy>";

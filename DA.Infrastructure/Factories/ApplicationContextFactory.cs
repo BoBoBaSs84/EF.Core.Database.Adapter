@@ -1,8 +1,8 @@
-﻿using DA.Infrastructure.Configurations;
-using DA.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Data;
+using DA.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using static DA.Models.Constants.Sql;
+using static DA.Domain.Constants.Sql;
 
 namespace DA.Infrastructure.Factories;
 
@@ -12,34 +12,20 @@ namespace DA.Infrastructure.Factories;
 internal sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
 {
 	/// <inheritdoc/>
-	public ApplicationContext CreateDbContext(string[] args) => new(DbContextOptions);
-
-	/// <summary>
-	/// The <see cref="DbContextOptions"/> property provides fast access to the
-	/// options of the <see cref="ApplicationContext"/>.
-	/// </summary>
-	public static DbContextOptions<ApplicationContext> DbContextOptions
+	public ApplicationContext CreateDbContext(string[] args)
 	{
-		get
-		{
-			Configuration configuration = new();
-			DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
-			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
-				options => options.MigrationsHistoryTable(nameof(ApplicationContext), Schema.MIGRATION));
+		Configuration configuration = new();
+		DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
+		optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
+			options => options.MigrationsHistoryTable("Migration", Schema.PRIVATE));
 #if DEBUG
-			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
-			optionsBuilder.EnableSensitiveDataLogging(true);
-			optionsBuilder.EnableDetailedErrors(true);
-#elif UNITTEST
-			optionsBuilder.UseLoggerFactory(Statics.LoggerFactory);
-			optionsBuilder.EnableSensitiveDataLogging(true);
-			optionsBuilder.EnableDetailedErrors(true);
-			optionsBuilder.UseInMemoryDatabase(nameof(ApplicationContext));
+		optionsBuilder.EnableSensitiveDataLogging(true);
+		optionsBuilder.EnableDetailedErrors(true);
+		optionsBuilder.LogTo(Console.WriteLine);
 #else
-			optionsBuilder.EnableSensitiveDataLogging(false);
+		optionsBuilder.EnableSensitiveDataLogging(false);
 		optionsBuilder.EnableDetailedErrors(false);
 #endif
-			return optionsBuilder.Options;
-		}
+		return new(optionsBuilder.Options);
 	}
 }

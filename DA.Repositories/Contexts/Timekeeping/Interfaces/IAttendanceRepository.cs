@@ -1,4 +1,4 @@
-﻿using DA.Models.Contexts.Timekeeping;
+﻿using DA.Domain.Models.Timekeeping;
 using DA.Repositories.BaseTypes.Interfaces;
 
 namespace DA.Repositories.Contexts.Timekeeping.Interfaces;

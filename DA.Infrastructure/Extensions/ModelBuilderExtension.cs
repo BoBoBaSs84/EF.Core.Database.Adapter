@@ -16,7 +16,7 @@ internal static class ModelBuilderExtension
 		HashSet<Type> types = modelBuilder.Model.GetEntityTypes().Select(t => t.ClrType).ToHashSet();
 
 		modelBuilder.ApplyConfigurationsFromAssembly(
-			typeof(IAssemblyMarker).Assembly,
+			typeof(IInfrastructureAssemblyMarker).Assembly,
 			t => t.GetInterfaces().Any(i => i.IsGenericType
 			&& i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)
 			&& types.Contains(i.GenericTypeArguments[0]))

@@ -1,6 +1,6 @@
 ﻿using DA.BaseTests.Helpers;
 using DA.Infrastructure.Common;
-using DA.Infrastructure.Configurations;
+using DA.Infrastructure.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -44,7 +44,7 @@ public class ContextsTests : InfrastructureBaseTests
 
 	private static IEnumerable<Type> GetContextTypes()
 	{
-		Assembly assembly = typeof(IAssemblyMarker).Assembly;
+		Assembly assembly = typeof(IInfrastructureAssemblyMarker).Assembly;
 		return TypeHelper.GetAssemblyTypes(
 			assembly: assembly,
 			expression: x => x.Name.EndsWith("Context") && x.BaseType is not null && (x.BaseType.Name.Contains("DbContext") || x.BaseType.Name.Contains("IdentityDbContext"))

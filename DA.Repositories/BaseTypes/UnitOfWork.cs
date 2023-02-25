@@ -10,23 +10,23 @@ namespace DA.Repositories.BaseTypes;
 /// Implemnts the members of the <see cref="IUnitOfWork{TContext}"/> interface.
 /// </remarks>
 /// <typeparam name="TContext"></typeparam>
-public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext, new()
+public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
 {
 	/// <summary>
-	/// The standard constructor.
+	/// Initializes a new instance of the <see cref="UnitOfWork{TContext}"/> class.
 	/// </summary>
-	public UnitOfWork() =>
-		Context = new TContext();
+	/// <param name="context">The database context.</param>
+	public UnitOfWork(TContext context) => DbContext = context;
 
 	/// <summary>
-	/// The <see cref="Context"/> property.
+	/// The <see cref="DbContext"/> property.
 	/// </summary>
-	protected TContext Context { get; }
+	protected TContext DbContext { get; }
 
 	/// <inheritdoc/>
-	public int CommitChanges() =>
-		Context.SaveChanges();
+	public int CommitChanges() => DbContext.SaveChanges();
+
 	/// <inheritdoc/>
 	public Task<int> CommitChangesAsync(CancellationToken cancellationToken = default) =>
-		Context.SaveChangesAsync(cancellationToken);
+		DbContext.SaveChangesAsync(cancellationToken);
 }

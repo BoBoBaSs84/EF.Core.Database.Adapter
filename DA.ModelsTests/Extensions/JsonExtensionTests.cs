@@ -1,12 +1,13 @@
-﻿using DA.BaseTests.Helpers;
+﻿using DA.Domain.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
+using static DA.BaseTests.Helpers.RandomHelper;
 
-namespace DA.Models.Extensions.Test;
+namespace DA.DomainTests.Extensions;
 
 [TestClass()]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
@@ -67,8 +68,8 @@ public class JsonExtensionTests
 		AssertInScope(() =>
 		{
 			testClass.Id.Should().NotBe(Guid.NewGuid());
-			testClass.Name.Should().NotBe(RandomHelper.GetString(10));
-			testClass.Description.Should().NotBe(RandomHelper.GetString(40));
+			testClass.Name.Should().NotBe(GetString(10));
+			testClass.Description.Should().NotBe(GetString(40));
 		});
 	}
 
@@ -77,9 +78,9 @@ public class JsonExtensionTests
 		[JsonPropertyName(nameof(Id))]
 		public Guid Id { get; set; } = Guid.NewGuid();
 		[JsonPropertyName(nameof(Name))]
-		public string Name { get; set; } = RandomHelper.GetString(10);
+		public string Name { get; set; } = GetString(10);
 		[JsonPropertyName(nameof(Description))]
-		public string Description { get; set; } = RandomHelper.GetString(40);
+		public string Description { get; set; } = GetString(40);
 	}
 
 	private const string JsonTestString = @"{""Id"":""356e4b9a-09f9-4399-82c7-d78c02cefb48"",""Name"":""qkxTAlLXUs"",""Description"":""QGVaYoljjHDTHasFRlGhDfJSehDCUnLqLsqfFesN""}";

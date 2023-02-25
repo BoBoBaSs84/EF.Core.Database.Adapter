@@ -1,5 +1,5 @@
-﻿using DA.Models.Contexts.Timekeeping;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
+using DA.Domain.Models.Timekeeping;
 using DA.Repositories.BaseTypes;
 using DA.Repositories.Contexts.Timekeeping.Interfaces;
 using Microsoft.EntityFrameworkCore;

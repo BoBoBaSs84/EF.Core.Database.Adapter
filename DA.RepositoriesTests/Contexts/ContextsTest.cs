@@ -14,7 +14,7 @@ namespace DA.RepositoriesTests.Contexts;
 [SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
 public class ContextsTest : RepositoriesBaseTest
 {
-	private readonly Assembly _assembly = typeof(IAssemblyMarker).Assembly;
+	private readonly Assembly _assembly = typeof(IRepositoriesAssemblyMarker).Assembly;
 
 	[TestMethod, Owner(Bobo)]
 	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()

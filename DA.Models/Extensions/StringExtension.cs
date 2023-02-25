@@ -1,6 +1,6 @@
-﻿using static DA.Models.Statics;
+﻿using static DA.Domain.Statics;
 
-namespace DA.Models.Extensions;
+namespace DA.Domain.Extensions;
 
 /// <summary>
 /// The string extension class.

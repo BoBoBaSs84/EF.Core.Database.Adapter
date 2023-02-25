@@ -1,11 +1,11 @@
-﻿using DA.BaseTests.Helpers;
-using DA.Models.Contexts.MasterData;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
+using DA.Domain.Models.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
+using static DA.BaseTests.Helpers.RandomHelper;
 
 namespace DA.RepositoriesTests.Contexts.MasterData;
 
@@ -16,7 +16,7 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetByNameFailedTest()
 	{
-		string dayTypeName = RandomHelper.GetString(12);
+		string dayTypeName = GetString(12);
 
 		DayType dayType = await RepositoryManager.DayTypeRepository.GetByNameAsync(dayTypeName);
 
@@ -28,8 +28,8 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 	{
 		IEnumerable<string> dayTypeNames = new[]
 		{
-			RandomHelper.GetString(12),
-			RandomHelper.GetString(12)
+			GetString(12),
+			GetString(12)
 		};
 
 		IEnumerable<DayType> dayTypes = await RepositoryManager.DayTypeRepository.GetByNamesAsync(dayTypeNames);
@@ -40,7 +40,7 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetByNameSuccessTest()
 	{
-		string dayTypeName = Models.Enumerators.DayType.PLANNEDVACATION.GetName();
+		string dayTypeName = Domain.Enumerators.DayType.PLANNEDVACATION.GetName();
 
 		DayType dayType = await RepositoryManager.DayTypeRepository.GetByNameAsync(dayTypeName);
 
@@ -56,8 +56,8 @@ public class DayTypeRepositoryTests : RepositoriesBaseTest
 	{
 		IEnumerable<string> dayTypeNames = new[]
 		{
-			Models.Enumerators.DayType.PLANNEDVACATION.GetName(),
-			Models.Enumerators.DayType.WORKDAY.GetName()
+			Domain.Enumerators.DayType.PLANNEDVACATION.GetName(),
+			Domain.Enumerators.DayType.WORKDAY.GetName()
 		};
 
 		IEnumerable<DayType> dayTypes = await RepositoryManager.DayTypeRepository.GetByNamesAsync(dayTypeNames);

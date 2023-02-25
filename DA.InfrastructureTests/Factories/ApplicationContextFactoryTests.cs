@@ -1,4 +1,4 @@
-﻿using DA.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Data;
 using DA.Infrastructure.Factories;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +16,7 @@ public class ApplicationContextFactoryTests : InfrastructureBaseTests
 	{
 		ApplicationContextFactory contextFactory = new();
 
-		ApplicationContext applicationContext = contextFactory.CreateDbContext(null!);
+		ApplicationContext applicationContext = contextFactory.CreateDbContext(new[] { string.Empty });
 
 		applicationContext.Should().NotBeNull();
 	}

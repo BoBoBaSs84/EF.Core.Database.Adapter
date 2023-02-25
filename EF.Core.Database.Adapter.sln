@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Infrastructure", "DA.Infrastructure\DA.Infrastructure.csproj", "{AD52C26E-8C26-438F-835A-7CB922A5D156}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Models", "DA.Models\DA.Models.csproj", "{D018FA03-F916-489D-87CE-BF07105753D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Domain", "DA.Models\DA.Domain.csproj", "{D018FA03-F916-489D-87CE-BF07105753D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.Repositories", "DA.Repositories\DA.Repositories.csproj", "{A0521EDC-12DE-4781-A578-E08797C8BCC0}"
 EndProject
@@ -27,11 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.InfrastructureTests", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.RepositoriesTests", "DA.RepositoriesTests\DA.RepositoriesTests.csproj", "{A5B1ED23-760F-41EF-9015-C6202F11D756}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.ModelsTests", "DA.ModelsTests\DA.ModelsTests.csproj", "{0B2C71CF-6B35-4B75-912A-D532AFDE637C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.DomainTests", "DA.ModelsTests\DA.DomainTests.csproj", "{0B2C71CF-6B35-4B75-912A-D532AFDE637C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DA.BaseTests", "DA.BaseTests\DA.BaseTests.csproj", "{58CFBAD9-EB8F-48EA-BEE8-DABE516334E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Debug.ConsoleApp", "Debug.ConsoleApp\Debug.ConsoleApp.csproj", "{3F571EC2-AD4C-4C94-B247-9D85CBBD2002}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Debug.ConsoleApp", "Debug.ConsoleApp\Debug.ConsoleApp.csproj", "{3F571EC2-AD4C-4C94-B247-9D85CBBD2002}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

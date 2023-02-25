@@ -1,7 +1,6 @@
-﻿using DA.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Data;
 using DA.Repositories.BaseTypes;
 using DA.Repositories.Manager.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace DA.Repositories.Manager;
 
@@ -17,18 +16,11 @@ namespace DA.Repositories.Manager;
 internal sealed partial class RepositoryManager : UnitOfWork<ApplicationContext>, IRepositoryManager
 {
 	/// <summary>
-	/// The <see cref="DbContext"/> property.
-	/// </summary>
-	public DbContext DbContext { get; private set; } = default!;
-
-	/// <summary>
 	/// Initializes a new instance of the <see cref="RepositoryManager"/> class.
 	/// </summary>
 	/// <param name="dbContext">The database context.</param>
-	public RepositoryManager(DbContext? dbContext = null)
+	public RepositoryManager(ApplicationContext dbContext) : base(dbContext)
 	{
-		DbContext = (dbContext is null) ? Context : dbContext;
-		InitializeAuthentication();
 		InitializeMasterData();
 		InitializeTimekeeping();
 		InitializeFinances();

@@ -1,5 +1,5 @@
-﻿using DA.Models.Contexts.Finances;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
+using DA.Domain.Models.Finances;
 using DA.Repositories.BaseTypes;
 using DA.Repositories.Contexts.Finances.Interfaces;
 using Microsoft.EntityFrameworkCore;

@@ -18,8 +18,9 @@ public static class RandomHelper
 	}
 	public static DateTime GetDateTime()
 	{
-		DateTime newDateTime = new(1900, 1, 1);
-		return newDateTime.AddDays(GetInt(100, 1000));
+		DateTime startDate = new(1753, 1, 1);
+		int range = (DateTime.Today - startDate).Days;
+		return startDate.AddDays(Random.Next(range));
 	}
 	public static decimal GetDecimal()
 	{

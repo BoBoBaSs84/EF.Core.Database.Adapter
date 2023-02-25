@@ -1,9 +1,9 @@
 ﻿using DA.BaseTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DA.ModelsTests;
+namespace DA.DomainTests;
 
 [TestClass]
-public class ModelsBaseTest : BaseTest
+public class ModelsBaseTest : BaseTestUnit
 {
 }

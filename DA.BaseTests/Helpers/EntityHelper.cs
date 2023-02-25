@@ -1,10 +1,10 @@
-﻿using DA.Models.Contexts.Authentication;
-using DA.Models.Contexts.Finances;
-using DA.Models.Contexts.Timekeeping;
-using DA.Models.Extensions;
-using static DA.Models.Constants;
-using static DA.Models.Constants.Sql;
-using static DA.Models.Statics;
+﻿using DA.Domain.Extensions;
+using DA.Domain.Models.Finances;
+using DA.Domain.Models.Identity;
+using DA.Domain.Models.Timekeeping;
+using static DA.BaseTests.Helpers.RandomHelper;
+using static DA.Domain.Constants;
+using static DA.Domain.Constants.Sql;
 
 namespace DA.BaseTests.Helpers;
 
@@ -12,8 +12,8 @@ public static class EntityHelper
 {
 	public static User GetNewUser(bool attendanceSeed = false, bool accountSeed = false)
 	{
-		string firstName = RandomHelper.GetString(12),
-			lastName = RandomHelper.GetString(12),
+		string firstName = GetString(),
+			lastName = GetString(),
 			email = $"{firstName}.{lastName}@UnitTest.org",
 			userName = $"{firstName}.{lastName}";
 
@@ -22,9 +22,7 @@ public static class EntityHelper
 			FirstName = firstName,
 			LastName = lastName,
 			Email = email,
-			NormalizedEmail = email.ToUpper(InvariantCulture),
 			UserName = userName,
-			NormalizedUserName = userName.ToUpper(InvariantCulture),
 		};
 
 		if (attendanceSeed)
@@ -41,7 +39,7 @@ public static class EntityHelper
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
 		List<Attendance> attendances = new();
 		for (int i = 1; i <= entryAmount; i++)
-			attendances.Add(new() { User = user, CalendarDayId = i, DayTypeId = RandomHelper.GetInt(3, 13) });
+			attendances.Add(new() { User = user, CalendarDayId = i, DayTypeId = GetInt(3, 13) });
 		return attendances;
 	}
 
@@ -64,8 +62,8 @@ public static class EntityHelper
 	{
 		Account accountToReturn = new()
 		{
-			IBAN = iban ?? RandomHelper.GetString(Regex.IBAN),
-			Provider = RandomHelper.GetString(128),
+			IBAN = iban ?? GetString(Regex.IBAN),
+			Provider = GetString(128),
 			AccountTransactions = accountTransactions ?? default!
 		};
 		return accountToReturn;
@@ -88,7 +86,7 @@ public static class EntityHelper
 			Account = account,
 			CardTypeId = 1,
 			CardTransactions = cardTransactions ?? default!,
-			PAN = cardNumber ?? RandomHelper.GetString(Regex.CC),
+			PAN = cardNumber ?? GetString(Regex.CC),
 			User = user
 		};
 		return cardToReturn;
@@ -122,17 +120,17 @@ public static class EntityHelper
 	{
 		Transaction transactionToReturn = new()
 		{
-			BookingDate = RandomHelper.GetDateTime(),
-			ValueDate = RandomHelper.GetDateTime(),
-			PostingText = RandomHelper.GetString(MaxLength.MAX_100),
-			ClientBeneficiary = RandomHelper.GetString(MaxLength.MAX_250),
-			Purpose = RandomHelper.GetString(MaxLength.MAX_4000),
-			AccountNumber = RandomHelper.GetString(Regex.IBAN).RemoveWhitespace(),
-			BankCode = RandomHelper.GetString(MaxLength.MAX_25),
-			AmountEur = RandomHelper.GetInt(-100, 250),
-			CreditorId = RandomHelper.GetString(MaxLength.MAX_25),
-			MandateReference = RandomHelper.GetString(MaxLength.MAX_50),
-			CustomerReference = RandomHelper.GetString(MaxLength.MAX_50)
+			BookingDate = GetDateTime(),
+			ValueDate = GetDateTime(),
+			PostingText = GetString(MaxLength.MAX_100),
+			ClientBeneficiary = GetString(MaxLength.MAX_250),
+			Purpose = GetString(MaxLength.MAX_4000),
+			AccountNumber = GetString(Regex.IBAN).RemoveWhitespace(),
+			BankCode = GetString(MaxLength.MAX_25),
+			AmountEur = GetInt(-100, 250),
+			CreditorId = GetString(MaxLength.MAX_25),
+			MandateReference = GetString(MaxLength.MAX_50),
+			CustomerReference = GetString(MaxLength.MAX_50)
 		};
 		return transactionToReturn;
 	}

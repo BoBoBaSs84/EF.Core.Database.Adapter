@@ -1,8 +1,8 @@
-﻿using DA.Models.Properties;
+﻿using DA.Domain.Properties;
 using System.ComponentModel.DataAnnotations;
-using static DA.Models.Properties.EnumeratorResources;
+using static DA.Domain.Properties.Resources;
 
-namespace DA.Models.Enumerators;
+namespace DA.Domain.Enumerators;
 
 /// <summary>
 /// The card type enumerator.
@@ -12,7 +12,7 @@ public enum CardType
 	/// <summary>
 	/// The <see cref="CREDIT"/> card type.
 	/// </summary>
-	[Display(ResourceType = typeof(EnumeratorResources),
+	[Display(ResourceType = typeof(Resources),
 		Name = nameof(CardType_Credit_Name),
 		ShortName = nameof(CardType_Credit_ShortName),
 		Description = nameof(CardType_Credit_Description))]
@@ -20,7 +20,7 @@ public enum CardType
 	/// <summary>
 	/// The <see cref="DEBIT"/> card type.
 	/// </summary>
-	[Display(ResourceType = typeof(EnumeratorResources),
+	[Display(ResourceType = typeof(Resources),
 		Name = nameof(CardType_Debit_Name),
 		ShortName = nameof(CardType_Debit_ShortName),
 		Description = nameof(CardType_Debit_Description))]

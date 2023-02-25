@@ -41,7 +41,7 @@ public sealed class EnumeratorTests : ModelsBaseTest
 
 	private static IEnumerable<Type> GetEnumTypes()
 	{
-		Assembly assembly = typeof(IModelsAssemblyMarker).Assembly;
+		Assembly assembly = typeof(IDomainAssemblyMarker).Assembly;
 		return TypeHelper.GetAssemblyTypes(
 			assembly: assembly,
 			expression: x => x.IsEnum.Equals(true) && x.BaseType is not null && x.BaseType.Equals(typeof(Enum))

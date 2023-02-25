@@ -12,8 +12,8 @@ public static class EntityHelper
 {
 	public static User GetNewUser(bool attendanceSeed = false, bool accountSeed = false)
 	{
-		string firstName = GetString(12),
-			lastName = GetString(12),
+		string firstName = GetString(),
+			lastName = GetString(),
 			email = $"{firstName}.{lastName}@UnitTest.org",
 			userName = $"{firstName}.{lastName}";
 

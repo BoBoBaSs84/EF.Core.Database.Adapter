@@ -1,10 +1,14 @@
 ﻿using DA.Domain.Models.Identity;
 using DA.Domain.Models.Timekeeping;
+using DA.Infrastructure.Application.Interfaces;
 using FluentAssertions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.AssertionHelper;
 using static DA.BaseTests.Helpers.EntityHelper;
+using static DA.BaseTests.Helpers.RandomHelper;
 
 namespace DA.RepositoriesTests.Contexts.Timekeeping;
 
@@ -12,16 +16,23 @@ namespace DA.RepositoriesTests.Contexts.Timekeeping;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class AttendanceRepositoryTests : RepositoriesBaseTest
 {
+	private readonly IUserService _userService = GetRequiredService<IUserService>();
+
 	[TestMethod, Owner(Bobo)]
 	public async Task GetAllAttendancesByUserIdTest()
 	{
 		User newUser = GetNewUser(attendanceSeed: true);
-		await RepositoryManager.UserRepository.CreateAsync(newUser);
-		await RepositoryManager.CommitChangesAsync();
+		string password = $"{GetString(12, CharsAndNumbers)}!@#";
 
+		IdentityResult result = await _userService.CreateAsync(newUser, password);
 		IEnumerable<Attendance> dbAttendances = await RepositoryManager.AttendanceRepository.GetAttendancesAsync(newUser.Id);
 
-		dbAttendances.Should().NotBeNullOrEmpty();
+		AssertInScope(() =>
+		{
+			result.Errors.Should().BeEmpty();
+			dbAttendances.Should().NotBeNullOrEmpty();
+			dbAttendances.Should().HaveCount(newUser.Attendances.Count);
+		});
 	}
 
 	[TestMethod, Owner(Bobo)]

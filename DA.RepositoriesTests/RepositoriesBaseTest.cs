@@ -24,8 +24,8 @@ public abstract class RepositoriesBaseTest : BaseTestUnit
 	[TestInitialize]
 	public override void Initialize()
 	{
-		RepositoryManager = GetRequiredService<IRepositoryManager>();
 		transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+		RepositoryManager = GetRequiredService<IRepositoryManager>();		
 		base.Initialize();
 	}
 
@@ -50,6 +50,11 @@ public abstract class RepositoriesBaseTest : BaseTestUnit
 		return hostBuilder.Start();
 	}
 
-	private static T GetRequiredService<T>() =>
-		(T)testHost.Services.GetRequiredService(typeof(T));
+	/// <summary>
+	/// Should return the requested service if it was registered within the service collection.
+	/// </summary>
+	/// <typeparam name="TService">The type of service we are operating on.</typeparam>
+	/// <returns>The requested service.</returns>
+	public static TService GetRequiredService<TService>() =>
+		(TService)testHost.Services.GetRequiredService(typeof(TService));
 }

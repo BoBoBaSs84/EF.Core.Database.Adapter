@@ -23,8 +23,8 @@ internal class Program
 				services.AddRepositoryManager();
 			}).Build();
 
-		ExemplifyServiceLifetime(host.Services, "Lifetime 1");
-		ExemplifyServiceLifetime(host.Services, "Lifetime 2");
+		//ExemplifyServiceLifetime(host.Services, "Lifetime 1");
+		//ExemplifyServiceLifetime(host.Services, "Lifetime 2");
 
 		await GetToday(host.Services);
 		await host.RunAsync();

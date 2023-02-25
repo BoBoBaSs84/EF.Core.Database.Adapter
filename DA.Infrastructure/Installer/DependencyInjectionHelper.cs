@@ -42,7 +42,7 @@ public static class DependencyInjectionHelper
 			options.LogTo(Console.WriteLine);
 #else
 			options.EnableSensitiveDataLogging(false);
-			optionslder.EnableDetailedErrors(false);
+			options.EnableDetailedErrors(false);
 #endif
 		});
 	}

@@ -3,7 +3,7 @@ using DA.Domain.Models.MasterData;
 using DA.Domain.Models.Timekeeping;
 using Microsoft.EntityFrameworkCore;
 
-namespace DA.Infrastructure.Contexts;
+namespace DA.Infrastructure.Data;
 
 public sealed partial class ApplicationContext
 {

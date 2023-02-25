@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using static DA.Infrastructure.Properties.Resources;
 using static DA.Infrastructure.Statics;
 
-namespace DA.Infrastructure.Configurations;
+namespace DA.Infrastructure.Models;
 
 /// <summary>
 /// The configuration class.

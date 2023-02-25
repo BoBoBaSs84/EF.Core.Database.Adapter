@@ -1,5 +1,5 @@
-﻿using DA.Infrastructure.Configurations;
-using DA.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Data;
+using DA.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using static DA.Domain.Constants.Sql;
@@ -17,7 +17,7 @@ internal sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<Ap
 		Configuration configuration = new();
 		DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
 		optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
-			options => options.MigrationsHistoryTable($"{nameof(ApplicationContext)}{Schema.MIGRATION}", Schema.PRIVATE));
+			options => options.MigrationsHistoryTable("Migration", Schema.PRIVATE));
 #if DEBUG
 		optionsBuilder.EnableSensitiveDataLogging(true);
 		optionsBuilder.EnableDetailedErrors(true);

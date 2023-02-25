@@ -263,7 +263,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 			expression: x => x.Id.Equals(calendarDayId)
 			);
 
-		dbCalendarDay.Date = GetDateTime();
+		dbCalendarDay.Date = GetDateTime(100);
 		await RepositoryManager.CalendarRepository.UpdateAsync(dbCalendarDay);
 		await RepositoryManager.CommitChangesAsync();
 		dbCalendarDay = await RepositoryManager.CalendarRepository.GetByIdAsync(calendarDayId);
@@ -271,7 +271,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 		AssertInScope(() =>
 		{
 			dbCalendarDay.Should().NotBeNull();
-			dbCalendarDay.Date.Should().Be(GetDateTime());
+			dbCalendarDay.Date.Should().Be(GetDateTime(100));
 		});
 	}
 
@@ -327,7 +327,7 @@ public class GenericRepositoryTests : RepositoriesBaseTest
 
 	private static DateTime GetDateTime(int dayToAdd = 0)
 	{
-		DateTime newDateTime = new(2199, 1, 1);
+		DateTime newDateTime = new(2299, 1, 1);
 		return newDateTime.AddDays(dayToAdd);
 	}
 

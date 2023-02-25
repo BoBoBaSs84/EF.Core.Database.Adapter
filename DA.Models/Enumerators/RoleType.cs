@@ -7,7 +7,7 @@ namespace DA.Domain.Enumerators;
 /// <summary>
 /// The role type enumerator.
 /// </summary>
-public enum RoleType
+public enum ERT
 {
 	/// <summary>
 	/// The <see cref="ADMINISTRATOR"/> role type.

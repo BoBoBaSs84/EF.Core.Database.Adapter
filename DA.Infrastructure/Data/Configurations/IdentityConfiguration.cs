@@ -1,13 +1,13 @@
-﻿using DA.Domain.Enumerators;
-using DA.Domain.Extensions;
+﻿using DA.Domain.Extensions;
 using DA.Domain.Models.Identity;
 using DA.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
 using static DA.Domain.Constants.Sql.Schema;
+using ERT = DA.Domain.Enumerators.ERT;
 
-namespace DA.Infrastructure.Configurations.Identity;
+namespace DA.Infrastructure.Data.Configurations;
 
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 internal static class IdentityConfiguration
@@ -85,10 +85,10 @@ internal static class IdentityConfiguration
 
 		private static ICollection<Role> GetRoleTypes()
 		{
-			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetListFromEnum();
+			List<ERT> roleTypes = ERT.ADMINISTRATOR.GetListFromEnum();
 			ICollection<Role> listToReturn = new List<Role>();
 
-			foreach (RoleType roleType in roleTypes)
+			foreach (ERT roleType in roleTypes)
 				listToReturn.Add(new Role()
 				{
 					Id = (int)roleType,

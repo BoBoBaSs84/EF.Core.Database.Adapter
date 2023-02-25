@@ -1,9 +1,9 @@
-﻿using DA.Infrastructure.Configurations;
+﻿using DA.Domain.Extensions;
 using DA.Infrastructure.Exceptions;
+using DA.Infrastructure.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
 using static DA.Infrastructure.Statics;
@@ -16,18 +16,17 @@ public class ConfigurationTests : InfrastructureBaseTests
 {
 	private readonly Configuration configuration = new();
 	private readonly string configFilePath = Path.Combine(BaseDirectory, ConfigurationFileName);
-	private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = false };
-	private string configJson = string.Empty;
+	private string jsonConfigString = string.Empty;
 
 	[TestInitialize]
 	public void TestInitialize()
 	{
 		configuration.Load();
-		configJson = JsonSerializer.Serialize(configuration, jsonSerializerOptions);
+		jsonConfigString = configuration.ToJsonString();
 	}
 
 	[TestCleanup]
-	public void TestCleanup() => File.WriteAllText(configFilePath, configJson);
+	public void TestCleanup() => File.WriteAllText(configFilePath, jsonConfigString);
 
 	[TestMethod, Owner(Bobo)]
 	public void GetConnectionStringSuccessTest()

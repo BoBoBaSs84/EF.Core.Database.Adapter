@@ -1,6 +1,6 @@
 ﻿using DA.BaseTests.Helpers;
 using DA.Infrastructure.Common;
-using DA.Infrastructure.Configurations;
+using DA.Infrastructure.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;

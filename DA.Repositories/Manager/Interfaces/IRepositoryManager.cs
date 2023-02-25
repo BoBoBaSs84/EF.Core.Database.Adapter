@@ -1,4 +1,4 @@
-﻿using DA.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Data;
 using DA.Repositories.BaseTypes.Interfaces;
 
 namespace DA.Repositories.Manager.Interfaces;

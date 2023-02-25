@@ -1,11 +1,11 @@
 ﻿using DA.Domain.Models.Identity;
-using DA.Infrastructure.Contexts.Interfaces;
+using DA.Infrastructure.Data.Interfaces;
 using DA.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static DA.Domain.Constants.Sql;
 
-namespace DA.Infrastructure.Contexts;
+namespace DA.Infrastructure.Data;
 
 /// <summary>
 /// The application database context class.

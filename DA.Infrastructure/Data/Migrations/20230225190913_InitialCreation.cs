@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DA.Infrastructure.Migrations
+namespace DA.Infrastructure.Data.Migrations
 {
     public partial class InitialCreation : Migration
     {
@@ -16,7 +16,7 @@ namespace DA.Infrastructure.Migrations
                 name: "Private");
 
             migrationBuilder.EnsureSchema(
-                name: "Enumerate");
+                name: "Enumerator");
 
             migrationBuilder.EnsureSchema(
                 name: "Identity");
@@ -55,7 +55,7 @@ namespace DA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CardType",
-                schema: "Enumerate",
+                schema: "Enumerator",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -85,7 +85,7 @@ namespace DA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "DayType",
-                schema: "Enumerate",
+                schema: "Enumerator",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -266,7 +266,7 @@ namespace DA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_CalendarDay_DayType_DayTypeId",
                         column: x => x.DayTypeId,
-                        principalSchema: "Enumerate",
+                        principalSchema: "Enumerator",
                         principalTable: "DayType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -433,7 +433,7 @@ namespace DA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Card_CardType_CardTypeId",
                         column: x => x.CardTypeId,
-                        principalSchema: "Enumerate",
+                        principalSchema: "Enumerator",
                         principalTable: "CardType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -636,7 +636,7 @@ namespace DA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Attendance_DayType_DayTypeId",
                         column: x => x.DayTypeId,
-                        principalSchema: "Enumerate",
+                        principalSchema: "Enumerator",
                         principalTable: "DayType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -696,7 +696,7 @@ namespace DA.Infrastructure.Migrations
                 .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
 
             migrationBuilder.InsertData(
-                schema: "Enumerate",
+                schema: "Enumerator",
                 table: "CardType",
                 columns: new[] { "Id", "Description", "IsActive", "Name" },
                 values: new object[,]
@@ -706,7 +706,7 @@ namespace DA.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "Enumerate",
+                schema: "Enumerator",
                 table: "DayType",
                 columns: new[] { "Id", "Description", "IsActive", "Name" },
                 values: new object[,]
@@ -733,9 +733,9 @@ namespace DA.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "30925ad7-225a-42e0-bc4d-da0b7f7aee4f", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-                    { 2, "5764325e-480c-4094-9b39-a4bdc10ae64a", "This is a normal user with normal user rights.", "User", "USER" },
-                    { 3, "7db9aaf8-a207-4eb5-a71b-d6363775994e", "The user with extended user rights.", "Super user", "SUPERUSER" }
+                    { 1, "662c4698-3e2e-4e8a-a53a-d9358680519d", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+                    { 2, "b3d73a1e-8023-4923-86e9-e69d86e63862", "This is a normal user with normal user rights.", "User", "USER" },
+                    { 3, "a768953b-2647-4c9d-8d83-e17ad54777c5", "The user with extended user rights.", "Super user", "SUPERUSER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -828,14 +828,14 @@ namespace DA.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_CardType_Name",
-                schema: "Enumerate",
+                schema: "Enumerator",
                 table: "CardType",
                 column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DayType_Name",
-                schema: "Enumerate",
+                schema: "Enumerator",
                 table: "DayType",
                 column: "Name",
                 unique: true);
@@ -1008,7 +1008,7 @@ namespace DA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "DayType",
-                schema: "Enumerate")
+                schema: "Enumerator")
                 .Annotation("SqlServer:IsTemporal", true)
                 .Annotation("SqlServer:TemporalHistoryTableName", "DayType")
                 .Annotation("SqlServer:TemporalHistoryTableSchema", "History")
@@ -1026,7 +1026,7 @@ namespace DA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "CardType",
-                schema: "Enumerate")
+                schema: "Enumerator")
                 .Annotation("SqlServer:IsTemporal", true)
                 .Annotation("SqlServer:TemporalHistoryTableName", "CardType")
                 .Annotation("SqlServer:TemporalHistoryTableSchema", "History")

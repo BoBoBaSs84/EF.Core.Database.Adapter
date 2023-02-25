@@ -1,10 +1,10 @@
-﻿using DA.Infrastructure.Configurations;
-using DA.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Data;
 using DA.Domain.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using static DA.Domain.Constants.Sql;
+using DA.Infrastructure.Models;
 
 namespace DA.Infrastructure.Installer;
 
@@ -35,7 +35,7 @@ public static class DependencyInjectionHelper
 		services.AddDbContext<ApplicationContext>(options =>
 		{
 			options.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
-				options => options.MigrationsHistoryTable($"{nameof(ApplicationContext)}{Schema.MIGRATION}", Schema.PRIVATE));
+				options => options.MigrationsHistoryTable("Migration", Schema.PRIVATE));
 #if DEBUG
 			options.EnableSensitiveDataLogging(true);
 			options.EnableDetailedErrors(true);

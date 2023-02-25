@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DA.Infrastructure.Contexts.Interfaces;
 
+/// <summary>
+/// The application context interface.
+/// </summary>
 public interface IApplicationContext
 {
 	/// <summary>

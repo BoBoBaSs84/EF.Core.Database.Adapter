@@ -11,4 +11,8 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\DA.Repositories\DA.Repositories.csproj" />
+	</ItemGroup>
+
 </Project>

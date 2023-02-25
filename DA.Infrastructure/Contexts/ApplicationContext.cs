@@ -1,6 +1,5 @@
 ﻿using DA.Infrastructure.Contexts.Interfaces;
 using DA.Infrastructure.Extensions;
-using DA.Infrastructure.Factories;
 using DA.Models.Contexts.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,24 +18,9 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
 	/// </summary>
-	public ApplicationContext() : base(ApplicationContextFactory.Options)
-	{
-	}
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
-	/// </summary>
 	/// <param name="dbContextOptions">The database context options.</param>
 	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions) : base(dbContextOptions)
 	{
-	}
-
-	/// <inheritdoc/>
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-	{
-		if (!optionsBuilder.IsConfigured)
-			optionsBuilder = ApplicationContextFactory.OptionsBuilder;
-		base.OnConfiguring(optionsBuilder);
 	}
 
 	/// <inheritdoc/>

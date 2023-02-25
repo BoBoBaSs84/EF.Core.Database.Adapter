@@ -15,7 +15,7 @@ public static class DependencyInjectionHelper
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection</returns>
-	public static IServiceCollection GetRepositoryService(this IServiceCollection services)
+	public static IServiceCollection AddRepositoryManager(this IServiceCollection services)
 	{
 		services.TryAddScoped<IRepositoryManager, RepositoryManager>();
 		return services;

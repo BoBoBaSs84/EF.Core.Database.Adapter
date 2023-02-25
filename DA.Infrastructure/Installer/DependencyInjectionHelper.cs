@@ -1,7 +1,10 @@
-﻿using DA.Infrastructure.Contexts;
+﻿using DA.Infrastructure.Configurations;
+using DA.Infrastructure.Contexts;
 using DA.Models.Contexts.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using static DA.Models.Constants.Sql;
 
 namespace DA.Infrastructure.Installer;
 
@@ -15,7 +18,7 @@ public static class DependencyInjectionHelper
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	public static IServiceCollection GetInfrastructureServices(this IServiceCollection services)
+	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
 	{
 		services.AddApplicationContext();
 		services.AddIdentityService();
@@ -26,8 +29,23 @@ public static class DependencyInjectionHelper
 	/// Registers the application context.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
-	private static void AddApplicationContext(this IServiceCollection services) =>
-		services.AddDbContext<ApplicationContext>();
+	private static void AddApplicationContext(this IServiceCollection services)
+	{
+		Configuration configuration = new();
+		services.AddDbContext<ApplicationContext>(options =>
+		{
+			options.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
+				options => options.MigrationsHistoryTable($"{nameof(ApplicationContext)}{Schema.MIGRATION}", Schema.PRIVATE));
+#if DEBUG
+			options.EnableSensitiveDataLogging(true);
+			options.EnableDetailedErrors(true);
+			options.LogTo(Console.WriteLine);
+#else
+			options.EnableSensitiveDataLogging(false);
+			optionslder.EnableDetailedErrors(false);
+#endif
+		});
+	}
 
 	/// <summary>
 	/// Registers the identity service.

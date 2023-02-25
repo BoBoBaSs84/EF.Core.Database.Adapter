@@ -15,8 +15,8 @@ internal sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<Ap
 	public ApplicationContext CreateDbContext(string[] args) => new(Options);
 
 	/// <summary>
-	/// The <see cref="Options"/> property provides fast access to the context
-	/// options of the <see cref="ApplicationContext"/>.
+	/// The <see cref="Options"/> property provides fast access to the
+	/// context options of the <see cref="ApplicationContext"/>.
 	/// </summary>
 	public static DbContextOptions<ApplicationContext> Options => OptionsBuilder.Options;
 
@@ -32,13 +32,13 @@ internal sealed class ApplicationContextFactory : IDesignTimeDbContextFactory<Ap
 			DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new();
 			optionsBuilder.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationContext)),
 				options => options.MigrationsHistoryTable($"{nameof(ApplicationContext)}{Schema.MIGRATION}", Schema.PRIVATE));
-#if DEBUG			
+#if DEBUG
 			optionsBuilder.EnableSensitiveDataLogging(true);
 			optionsBuilder.EnableDetailedErrors(true);
 			optionsBuilder.LogTo(Console.WriteLine);
 #else
 			optionsBuilder.EnableSensitiveDataLogging(false);
-			optionsBuilder.EnableDetailedErrors(false);
+		optionsBuilder.EnableDetailedErrors(false);
 #endif
 			return optionsBuilder;
 		}

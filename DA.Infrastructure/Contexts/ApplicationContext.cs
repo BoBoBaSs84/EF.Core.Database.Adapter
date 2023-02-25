@@ -1,9 +1,9 @@
-﻿using DA.Infrastructure.Contexts.Interfaces;
+﻿using DA.Domain.Models.Identity;
+using DA.Infrastructure.Contexts.Interfaces;
 using DA.Infrastructure.Extensions;
-using DA.Models.Contexts.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using static DA.Models.Constants.Sql;
+using static DA.Domain.Constants.Sql;
 
 namespace DA.Infrastructure.Contexts;
 

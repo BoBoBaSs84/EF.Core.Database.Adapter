@@ -1,5 +1,5 @@
-﻿using DA.Infrastructure.Extensions;
-using DA.Models.Contexts.MasterData;
+﻿using DA.Domain.Models.MasterData;
+using DA.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;

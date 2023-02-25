@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using static DA.Models.Constants.Sql;
+using static DA.Domain.Constants.Sql;
 
 namespace DA.Infrastructure.Contexts;
 

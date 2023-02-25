@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace DA.Models.Extensions;
+namespace DA.Domain.Extensions;
 
 /// <summary>
 /// The enumerator extensions class.

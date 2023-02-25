@@ -1,10 +1,10 @@
-﻿using DA.BaseTests.Helpers;
-using DA.Models.Contexts.Authentication;
-using DA.Models.Contexts.Timekeeping;
+﻿using DA.Domain.Models.Identity;
+using DA.Domain.Models.Timekeeping;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
+using static DA.BaseTests.Helpers.EntityHelper;
 
 namespace DA.RepositoriesTests.Contexts.Timekeeping;
 
@@ -15,7 +15,7 @@ public class AttendanceRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetAllAttendancesByUserIdTest()
 	{
-		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
+		User newUser = GetNewUser(attendanceSeed: true);
 		await RepositoryManager.UserRepository.CreateAsync(newUser);
 		await RepositoryManager.CommitChangesAsync();
 
@@ -27,7 +27,7 @@ public class AttendanceRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetAttendanceByUserIdAndCalendarIdTest()
 	{
-		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
+		User newUser = GetNewUser(attendanceSeed: true);
 		await RepositoryManager.UserRepository.CreateAsync(newUser);
 		await RepositoryManager.CommitChangesAsync();
 
@@ -39,7 +39,7 @@ public class AttendanceRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetAttendanceByUserIdAndCalendarDateTest()
 	{
-		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
+		User newUser = GetNewUser(attendanceSeed: true);
 		await RepositoryManager.UserRepository.CreateAsync(newUser);
 		await RepositoryManager.CommitChangesAsync();
 

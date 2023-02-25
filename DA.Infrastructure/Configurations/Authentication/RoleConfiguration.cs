@@ -1,11 +1,11 @@
-﻿using DA.Infrastructure.Extensions;
-using DA.Models.Contexts.Authentication;
-using DA.Models.Enumerators;
-using DA.Models.Extensions;
+﻿using DA.Domain.Enumerators;
+using DA.Domain.Extensions;
+using DA.Infrastructure.Extensions;
+using DA.Domain.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
-using static DA.Models.Constants.Sql.Schema;
+using static DA.Domain.Constants.Sql.Schema;
 
 namespace DA.Infrastructure.Configurations.Authentication;
 

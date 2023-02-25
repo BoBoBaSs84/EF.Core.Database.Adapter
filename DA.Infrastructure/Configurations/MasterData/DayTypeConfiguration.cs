@@ -1,10 +1,10 @@
-﻿using DA.Infrastructure.Extensions;
-using DA.Models.Contexts.MasterData;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
+using DA.Infrastructure.Extensions;
+using DA.Domain.Models.MasterData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
-using static DA.Models.Constants.Sql.Schema;
+using static DA.Domain.Constants.Sql.Schema;
 
 namespace DA.Infrastructure.Configurations.MasterData;
 
@@ -37,10 +37,10 @@ internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
 
 	private static IEnumerable<DayType> GetEnDayTypes()
 	{
-		List<Models.Enumerators.DayType> enumList = Models.Enumerators.DayType.ABSENCE.GetListFromEnum();
+		List<Domain.Enumerators.DayType> enumList = Domain.Enumerators.DayType.ABSENCE.GetListFromEnum();
 		IList<DayType> listToReturn = new List<DayType>();
 
-		foreach (Models.Enumerators.DayType dayType in enumList)
+		foreach (Domain.Enumerators.DayType dayType in enumList)
 			listToReturn.Add(new DayType()
 			{
 				Id = (int)dayType,

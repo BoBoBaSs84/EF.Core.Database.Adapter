@@ -2,7 +2,7 @@
 using DA.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using static DA.Models.Constants.Sql;
+using static DA.Domain.Constants.Sql;
 
 namespace DA.Infrastructure.Factories;
 

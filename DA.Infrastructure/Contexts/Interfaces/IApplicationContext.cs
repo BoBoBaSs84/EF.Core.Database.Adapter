@@ -1,6 +1,6 @@
-﻿using DA.Models.Contexts.Finances;
-using DA.Models.Contexts.MasterData;
-using DA.Models.Contexts.Timekeeping;
+﻿using DA.Domain.Models.Finances;
+using DA.Domain.Models.MasterData;
+using DA.Domain.Models.Timekeeping;
 using Microsoft.EntityFrameworkCore;
 
 namespace DA.Infrastructure.Contexts.Interfaces;

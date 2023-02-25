@@ -1,4 +1,4 @@
-﻿namespace DA.Models.Common;
+﻿namespace DA.Domain.Common;
 
 /// <summary>
 /// The assembly marker interface.

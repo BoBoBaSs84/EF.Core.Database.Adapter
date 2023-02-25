@@ -1,6 +1,6 @@
 ﻿using DA.BaseTests.Helpers;
-using DA.Models.Contexts.MasterData;
-using DA.Models.Extensions;
+using DA.Domain.Extensions;
+using DA.Domain.Models.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -40,7 +40,7 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 	[TestMethod, Owner(Bobo)]
 	public async Task GetByNameSuccessTest()
 	{
-		string cardTypeName = Models.Enumerators.CardType.CREDIT.GetName();
+		string cardTypeName = Domain.Enumerators.CardType.CREDIT.GetName();
 
 		CardType cardType = await RepositoryManager.CardTypeRepository.GetByNameAsync(cardTypeName);
 
@@ -56,8 +56,8 @@ public class CardTypeRepositoryTests : RepositoriesBaseTest
 	{
 		IEnumerable<string> cardNames = new[]
 		{
-			Models.Enumerators.CardType.CREDIT.GetName(),
-			Models.Enumerators.CardType.DEBIT.GetName()
+			Domain.Enumerators.CardType.CREDIT.GetName(),
+			Domain.Enumerators.CardType.DEBIT.GetName()
 		};
 
 		IEnumerable<CardType> cardTypes = await RepositoryManager.CardTypeRepository.GetByNamesAsync(cardNames);

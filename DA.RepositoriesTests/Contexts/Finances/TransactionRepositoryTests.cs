@@ -1,6 +1,6 @@
 ﻿using DA.BaseTests.Helpers;
-using DA.Models.Contexts.Authentication;
-using DA.Models.Contexts.Finances;
+using DA.Domain.Models.Identity;
+using DA.Domain.Models.Finances;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;

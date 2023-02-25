@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace DA.Models;
+namespace DA.Domain;
 
 /// <summary>
 /// The statics class.

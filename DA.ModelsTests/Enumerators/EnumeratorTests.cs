@@ -1,6 +1,6 @@
 ﻿using DA.BaseTests.Helpers;
-using DA.Models.Common;
-using DA.Models.Extensions;
+using DA.Domain.Common;
+using DA.Domain.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using static DA.BaseTests.Constants;
 
-namespace DA.ModelsTests.Enumerators;
+namespace DA.DomainTests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

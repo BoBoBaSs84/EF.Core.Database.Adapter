@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
-namespace DA.Models;
+namespace DA.Domain;
 
 /// <summary>
 /// The constants class.

@@ -1,8 +1,8 @@
-﻿using DA.Models.Properties;
+﻿using DA.Domain.Properties;
 using System.ComponentModel.DataAnnotations;
-using static DA.Models.Properties.Resources;
+using static DA.Domain.Properties.Resources;
 
-namespace DA.Models.Enumerators;
+namespace DA.Domain.Enumerators;
 
 /// <summary>
 /// The card type enumerator.

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DA.Models.Extensions;
+namespace DA.Domain.Extensions;
 
 /// <summary>
 /// The JSON extension class.

@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DA.Models.Extensions;
+namespace DA.Domain.Extensions;
 
 /// <summary>
 /// The XML extension class.

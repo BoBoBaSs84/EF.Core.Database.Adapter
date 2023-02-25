@@ -1,11 +1,11 @@
-﻿using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
 
-namespace DA.ModelsTests.Extensions;
+namespace DA.DomainTests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

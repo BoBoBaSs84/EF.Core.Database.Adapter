@@ -1,4 +1,4 @@
-﻿using DA.Models.Contexts.Authentication;
+﻿using DA.Domain.Models.Identity;
 using DA.Repositories.BaseTypes;
 using DA.Repositories.Contexts.Authentication.Interfaces;
 using Microsoft.EntityFrameworkCore;

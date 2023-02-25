@@ -1,13 +1,13 @@
 ﻿using DA.BaseTests.Helpers;
-using DA.Models.Contexts.Authentication;
-using DA.Models.Contexts.Finances;
-using DA.Models.Extensions;
+using DA.Domain.Extensions;
+using DA.Domain.Models.Finances;
+using DA.Domain.Models.Identity;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
-using static DA.Models.Constants;
+using static DA.Domain.Constants;
 
 namespace DA.RepositoriesTests.Contexts.Finances;
 

@@ -1,10 +1,10 @@
-﻿using DA.Models.Contexts.MasterData;
+﻿using DA.Domain.Models.MasterData;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using static DA.BaseTests.Constants;
 using static DA.BaseTests.Helpers.AssertionHelper;
-using static DA.Models.Enumerators.DayType;
+using static DA.Domain.Enumerators.DayType;
 
 namespace DA.RepositoriesTests.BaseTypes;
 

@@ -1,4 +1,4 @@
-﻿using DA.Models.Contexts.MasterData;
+﻿using DA.Domain.Models.MasterData;
 using DA.Repositories.BaseTypes;
 using DA.Repositories.Contexts.MasterData.Interfaces;
 using Microsoft.EntityFrameworkCore;

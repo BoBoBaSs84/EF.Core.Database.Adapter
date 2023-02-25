@@ -1,10 +1,10 @@
-﻿using DA.Infrastructure.Extensions;
-using DA.Models.Contexts.MasterData;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
+using DA.Domain.Models.MasterData;
+using DA.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
-using static DA.Models.Constants.Sql.Schema;
+using static DA.Domain.Constants.Sql.Schema;
 
 namespace DA.Infrastructure.Configurations.MasterData;
 
@@ -30,10 +30,10 @@ internal sealed class CardTypeConfiguration : IEntityTypeConfiguration<CardType>
 
 	private static IEnumerable<CardType> GetEnDayTypes()
 	{
-		List<Models.Enumerators.CardType> enumList = Models.Enumerators.CardType.CREDIT.GetListFromEnum();
+		List<Domain.Enumerators.CardType> enumList = Domain.Enumerators.CardType.CREDIT.GetListFromEnum();
 		IList<CardType> listToReturn = new List<CardType>();
 
-		foreach (Models.Enumerators.CardType dayType in enumList)
+		foreach (Domain.Enumerators.CardType dayType in enumList)
 			listToReturn.Add(new CardType()
 			{
 				Id = (int)dayType,

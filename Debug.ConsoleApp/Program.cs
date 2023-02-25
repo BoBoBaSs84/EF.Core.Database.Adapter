@@ -1,5 +1,5 @@
-﻿using DA.Infrastructure.Installer;
-using DA.Models.Extensions;
+﻿using DA.Domain.Extensions;
+using DA.Infrastructure.Installer;
 using DA.Repositories.Installer;
 using DA.Repositories.Manager.Interfaces;
 using Debug.ConsoleApp.Services;

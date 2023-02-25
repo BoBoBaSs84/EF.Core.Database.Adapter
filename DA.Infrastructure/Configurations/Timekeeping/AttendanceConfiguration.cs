@@ -1,5 +1,5 @@
-﻿using DA.Infrastructure.Extensions;
-using DA.Models.Contexts.Timekeeping;
+﻿using DA.Domain.Models.Timekeeping;
+using DA.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;

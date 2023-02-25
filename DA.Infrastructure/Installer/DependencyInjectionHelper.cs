@@ -1,10 +1,10 @@
 ﻿using DA.Infrastructure.Configurations;
 using DA.Infrastructure.Contexts;
-using DA.Models.Contexts.Authentication;
+using DA.Domain.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using static DA.Models.Constants.Sql;
+using static DA.Domain.Constants.Sql;
 
 namespace DA.Infrastructure.Installer;
 

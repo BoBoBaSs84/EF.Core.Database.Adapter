@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DayType.Absence.Description" xml:space="preserve">
+    <value>Is an authorised prolonged absence from work, for any reason authorised by the workplace.</value>
+  </data>
+  <data name="DayType.Absence.Name" xml:space="preserve">
+    <value>Absence</value>
+  </data>
+  <data name="DayType.Absence.ShortName" xml:space="preserve">
+    <value>AB</value>
+  </data>
+  <data name="DayType.BuisnessTrip.Description" xml:space="preserve">
+    <value>Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes.</value>
+  </data>
+  <data name="DayType.BuisnessTrip.Name" xml:space="preserve">
+    <value>Buisness trip</value>
+  </data>
+  <data name="DayType.BuisnessTrip.ShortName" xml:space="preserve">
+    <value>BT</value>
+  </data>
+  <data name="DayType.Holiday.Description" xml:space="preserve">
+    <value>A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.</value>
+  </data>
+  <data name="DayType.Holiday.Name" xml:space="preserve">
+    <value>Holiday</value>
+  </data>
+  <data name="DayType.Holiday.ShortName" xml:space="preserve">
+    <value>HD</value>
+  </data>
+  <data name="DayType.MobileWorking.Description" xml:space="preserve">
+    <value>The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.</value>
+  </data>
+  <data name="DayType.MobileWorking.Name" xml:space="preserve">
+    <value>Mobile working</value>
+  </data>
+  <data name="DayType.MobileWorking.ShortName" xml:space="preserve">
+    <value>MW</value>
+  </data>
+  <data name="DayType.PlannedVacation.Description" xml:space="preserve">
+    <value>Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.</value>
+  </data>
+  <data name="DayType.PlannedVacation.Name" xml:space="preserve">
+    <value>Planned vacation</value>
+  </data>
+  <data name="DayType.PlannedVacation.ShortName" xml:space="preserve">
+    <value>PV</value>
+  </data>
+  <data name="DayType.ShortTimeWork.Description" xml:space="preserve">
+    <value>Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.</value>
+  </data>
+  <data name="DayType.ShortTimeWork.Name" xml:space="preserve">
+    <value>Short time work</value>
+  </data>
+  <data name="DayType.ShortTimeWork.ShortName" xml:space="preserve">
+    <value>ST</value>
+  </data>
+  <data name="DayType.Sickness.Description" xml:space="preserve">
+    <value>The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.</value>
+  </data>
+  <data name="DayType.Sickness.Name" xml:space="preserve">
+    <value>Sickness</value>
+  </data>
+  <data name="DayType.Sickness.ShortName" xml:space="preserve">
+    <value>SN</value>
+  </data>
+  <data name="DayType.Suspension.Description" xml:space="preserve">
+    <value>In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties.</value>
+  </data>
+  <data name="DayType.Suspension.Name" xml:space="preserve">
+    <value>Suspension</value>
+  </data>
+  <data name="DayType.Suspension.ShortName" xml:space="preserve">
+    <value>SP</value>
+  </data>
+  <data name="DayType.Vacation.Description" xml:space="preserve">
+    <value>Is either a leave of absence from a regular job or an instance of leisure travel away from home.</value>
+  </data>
+  <data name="DayType.Vacation.Name" xml:space="preserve">
+    <value>Vacation</value>
+  </data>
+  <data name="DayType.Vacation.ShortName" xml:space="preserve">
+    <value>VC</value>
+  </data>
+  <data name="DayType.VacationBlock.Description" xml:space="preserve">
+    <value>With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.</value>
+  </data>
+  <data name="DayType.VacationBlock.Name" xml:space="preserve">
+    <value>Vacation block</value>
+  </data>
+  <data name="DayType.VacationBlock.ShortName" xml:space="preserve">
+    <value>VB</value>
+  </data>
+  <data name="DayType.Weekday.Description" xml:space="preserve">
+    <value>A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.</value>
+  </data>
+  <data name="DayType.Weekday.Name" xml:space="preserve">
+    <value>Weekday</value>
+  </data>
+  <data name="DayType.Weekday.ShortName" xml:space="preserve">
+    <value>WD</value>
+  </data>
+  <data name="DayType.WeekendDay.Description" xml:space="preserve">
+    <value>Generally refers to the period between the end of a usual work week and the beginning of the new work week.</value>
+  </data>
+  <data name="DayType.WeekendDay.Name" xml:space="preserve">
+    <value>Weekend day</value>
+  </data>
+  <data name="DayType.WeekendDay.ShortName" xml:space="preserve">
+    <value>WE</value>
+  </data>
+  <data name="DayType.WeekendWorkday.Description" xml:space="preserve">
+    <value>Weekend work means working on days that are usually non-working days.</value>
+  </data>
+  <data name="DayType.WeekendWorkday.Name" xml:space="preserve">
+    <value>Weekend workday</value>
+  </data>
+  <data name="DayType.WeekendWorkday.ShortName" xml:space="preserve">
+    <value>WW</value>
+  </data>
+  <data name="DayType.Workday.Description" xml:space="preserve">
+    <value>Day on which professional work is performed or is to be performed.</value>
+  </data>
+  <data name="DayType.Workday.Name" xml:space="preserve">
+    <value>Workday</value>
+  </data>
+  <data name="DayType.Workday.ShortName" xml:space="preserve">
+    <value>WK</value>
+  </data>
+  <data name="RoleType.Administrator.Description" xml:space="preserve">
+    <value>This is the ultimate god role ... so to say.</value>
+  </data>
+  <data name="RoleType.Administrator.Name" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="RoleType.Administrator.ShortName" xml:space="preserve">
+    <value>ADM</value>
+  </data>
+  <data name="RoleType.User.Name" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="RoleType.User.ShortName" xml:space="preserve">
+    <value>USR</value>
+  </data>
+  <data name="RoleType.User.Description" xml:space="preserve">
+    <value>This is a normal user with normal user rights.</value>
+  </data>
+  <data name="RoleType.SuperUser.Name" xml:space="preserve">
+    <value>Super user</value>
+  </data>
+  <data name="RoleType.SuperUser.ShortName" xml:space="preserve">
+    <value>SUSR</value>
+  </data>
+  <data name="RoleType.SuperUser.Description" xml:space="preserve">
+    <value>The user with extended user rights.</value>
+  </data>
+  <data name="CardType.Credit.Name" xml:space="preserve">
+    <value>Credit card</value>
+  </data>
+  <data name="CardType.Debit.Name" xml:space="preserve">
+    <value>Debit card</value>
+  </data>
+  <data name="CardType.Credit.Description" xml:space="preserve">
+    <value>A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder's accrued debt.</value>
+  </data>
+  <data name="CardType.Credit.ShortName" xml:space="preserve">
+    <value>CC</value>
+  </data>
+  <data name="CardType.Debit.ShortName" xml:space="preserve">
+    <value>DC</value>
+  </data>
+  <data name="CardType.Debit.Description" xml:space="preserve">
+    <value>A debit card, also known as a check card or bank card is a payment card that can be used in place of cash to make purchases.</value>
+  </data>
+</root>

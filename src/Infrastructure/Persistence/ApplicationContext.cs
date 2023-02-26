@@ -1,0 +1,59 @@
+﻿using Domain.Entities.Identity;
+using Infrastructure.Common;
+using Infrastructure.Persistence.Interceptors;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using static Domain.Constants.Sql;
+
+namespace Infrastructure.Persistence;
+
+/// <summary>
+/// The application database context class.
+/// </summary>
+/// <remarks>
+/// Derives from the <see cref="IdentityDbContext{TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken}"/> class.
+/// </remarks>
+public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
+{
+	private readonly AuditableEntitySaveChangesInterceptor _changesInterceptor;
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
+	/// </summary>
+	/// <param name="dbContextOptions">The database context options.</param>
+	/// <param name="changesInterceptor">The auditable entity save changes interceptor.</param>
+	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions, AuditableEntitySaveChangesInterceptor changesInterceptor) : base(dbContextOptions)
+	{
+		_changesInterceptor = changesInterceptor;
+	}
+
+
+	/// <inheritdoc/>
+	protected override void OnModelCreating(ModelBuilder builder)
+	{
+		builder.HasDefaultSchema(Schema.PRIVATE)
+			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
+
+		base.OnModelCreating(builder);
+	}
+
+	/// <inheritdoc/>
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	{
+		optionsBuilder.AddInterceptors(_changesInterceptor);
+	}
+
+	/// <inheritdoc/>
+	public override int SaveChanges()
+	{
+		// TODO: other events?
+		return base.SaveChanges();
+	}
+
+	/// <inheritdoc/>
+	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+	{
+		// TODO: other events?
+		return await base.SaveChangesAsync(cancellationToken);
+	}
+}

@@ -1,15 +1,13 @@
-﻿using DA.Domain.Extensions;
-using DA.Domain.Models.Identity;
-using DA.Infrastructure.Application.Interfaces;
-using DA.Infrastructure.Installer;
+﻿using DA.Infrastructure.Installer;
 using DA.Repositories.Installer;
-using DA.Repositories.Manager.Interfaces;
 using Debug.ConsoleApp.Services;
 using Debug.ConsoleApp.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics.CodeAnalysis;
 
-internal class Program
+[SuppressMessage("Style", "IDE0058", Justification = "DEBUG - Not relevant here.")]
+internal sealed class Program
 {
 	private static async Task Main(string[] args)
 	{
@@ -25,11 +23,9 @@ internal class Program
 				services.AddRepositoryManager();
 			}).Build();
 
-		//ExemplifyServiceLifetime(host.Services, "Lifetime 1");
-		//ExemplifyServiceLifetime(host.Services, "Lifetime 2");
+		ExemplifyServiceLifetime(host.Services, "Lifetime 1");
+		ExemplifyServiceLifetime(host.Services, "Lifetime 2");
 
-		await GetToday(host.Services);
-		await CreateTestUser(host.Services);
 		await host.RunAsync();
 	}
 
@@ -48,35 +44,5 @@ internal class Program
 				$"{lifetime}: Call 2 to provider.GetRequiredService<ServiceLifetimeLogger>()");
 
 		Console.WriteLine();
-	}
-
-	private static async Task GetToday(IServiceProvider serviceProvider)
-	{
-		Console.WriteLine("...");
-		IRepositoryManager manager = serviceProvider.GetRequiredService<IRepositoryManager>();
-		DA.Domain.Models.MasterData.CalendarDay calendarDay = await manager.CalendarRepository.GetByDateAsync(DateTime.UtcNow);
-		Console.WriteLine(calendarDay.ToJsonString());
-	}
-
-	private static async Task CreateTestUser(IServiceProvider serviceProvider)
-	{
-		Console.WriteLine("...");
-		IUserService userService = serviceProvider.GetRequiredService<IUserService>();
-
-		string password = "Test123456!";
-		User newUser = new()
-		{
-			UserName = "TestUser",
-			Email = "TestUser@Test.User"
-		};
-
-		Microsoft.AspNetCore.Identity.IdentityResult result = await userService.CreateAsync(newUser, password);
-		if (result.Succeeded)
-			Console.WriteLine($"{newUser.UserName} created!");
-		else
-		{
-			foreach (Microsoft.AspNetCore.Identity.IdentityError? error in result.Errors)
-				Console.WriteLine($"{error.Code} -> {error.Description}");
-		}
 	}
 }

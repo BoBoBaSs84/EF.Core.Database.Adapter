@@ -5,11 +5,13 @@ using DA.Repositories.Manager.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 using System.Transactions;
 
 namespace DA.RepositoriesTests;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest - Not relevant here.")]
 public abstract class RepositoriesBaseTest : BaseTestUnit
 {
 	private TransactionScope transactionScope = default!;

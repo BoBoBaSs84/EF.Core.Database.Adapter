@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Identity;
+using Domain;
 using Domain.Entities.Identity;
 using Domain.Enumerators;
 using Domain.Extensions;
@@ -14,8 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics.CodeAnalysis;
-using static Domain.Constants.Sql;
 
 namespace Infrastructure.Installer;
 
@@ -54,23 +53,23 @@ public static class DependencyInjectionHelper
 	{
 		services.AddDbContext<ApplicationContext>(options =>
 		{
-			options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
 				{
-					builder.MigrationsHistoryTable("Migration", Schema.PRIVATE);
+					builder.MigrationsHistoryTable("Migration", Constants.Sql.Schema.PRIVATE);
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 
 			if (environment.IsDevelopment())
 				options.LogTo(Console.WriteLine, LogLevel.Debug);
 
-			if (environment.IsEnvironment("UnitTest"))
+			if (environment.IsEnvironment(Constants.Environment.Test))
 				options.LogTo(Console.WriteLine, LogLevel.Error);
 
-			if (environment.IsProduction())
+			if (!environment.IsProduction())
 			{
-				options.EnableSensitiveDataLogging(false);
-				options.EnableDetailedErrors(false);
+				options.EnableSensitiveDataLogging(true);
+				options.EnableDetailedErrors(true);
 			}
 		});
 

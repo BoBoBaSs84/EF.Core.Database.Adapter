@@ -11,6 +11,25 @@ namespace Domain;
 public static class Constants
 {
 	/// <summary>
+	/// The environment constants class.
+	/// </summary>
+	public static class Environment
+	{
+		/// <summary>
+		/// The development environment.
+		/// </summary>
+		public const string Development = "Development";
+		/// <summary>
+		/// The test environment.
+		/// </summary>
+		public const string Test = "Test";
+		/// <summary>
+		/// The production environment.
+		/// </summary>
+		public const string Production = "Production";
+	}
+
+	/// <summary>
 	/// The sql constants class.
 	/// </summary>
 	public static class Sql

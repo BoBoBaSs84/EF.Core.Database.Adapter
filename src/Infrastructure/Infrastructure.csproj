@@ -17,4 +17,8 @@
 		<InternalsVisibleTo Include="$(AssemblyName)Tests" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Using Include="System.Diagnostics.CodeAnalysis" />
+	</ItemGroup>
+
 </Project>

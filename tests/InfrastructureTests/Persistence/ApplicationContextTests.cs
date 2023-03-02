@@ -11,10 +11,16 @@ namespace InfrastructureTests.Persistence;
 [SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
 public class ApplicationContextTests : InfrastructureBaseTests
 {
+	private readonly Assembly _assembly = typeof(IInfrastructureAssemblyMarker).Assembly;
+
 	[TestMethod, Owner(Bobo)]
-	public void MustBeSealedTest()
+	public void ContextMustBeSealedTest()
 	{
-		IEnumerable<Type> contextTypes = GetContextTypes();
+		IEnumerable<Type> contextTypes = TypeHelper.GetAssemblyTypes(
+			assembly: _assembly,
+			expression: x => x.Name.EndsWith("Context") && x.BaseType is not null
+			&& (x.BaseType.Name.Contains("DbContext") || x.BaseType.Name.Contains("IdentityDbContext"))
+			);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -27,12 +33,26 @@ public class ApplicationContextTests : InfrastructureBaseTests
 		});
 	}
 
-	private static IEnumerable<Type> GetContextTypes()
+	[TestMethod, Owner(Bobo)]
+	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
 	{
-		Assembly assembly = typeof(IInfrastructureAssemblyMarker).Assembly;
-		return TypeHelper.GetAssemblyTypes(
-			assembly: assembly,
-			expression: x => x.Name.EndsWith("Context") && x.BaseType is not null && (x.BaseType.Name.Contains("DbContext") || x.BaseType.Name.Contains("IdentityDbContext"))
+		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
+			assembly: _assembly,
+			expression: x => x.Name.EndsWith("Repository") && x.IsInterface.Equals(false)
 			);
+
+		typeList.Should().NotBeNullOrEmpty();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			typeList.Should().NotBeNullOrEmpty();
+			foreach (Type type in typeList)
+			{
+				TestContext.WriteLine($"Testing: {type.Name}");
+				type.IsSealed.Should().BeTrue();
+				type.IsPublic.Should().BeFalse();
+				type.IsVisible.Should().BeFalse();
+			}
+		});
 	}
 }

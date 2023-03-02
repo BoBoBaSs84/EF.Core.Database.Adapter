@@ -16,20 +16,60 @@ public sealed class CalendarDayRepositoryTests : InfrastructureBaseTests
 	private readonly int _year = DateTime.Today.Year;
 
 	[TestMethod, Owner(Bobo)]
+	public async Task GetAllAsyncTest()
+	{
+		_unitOfWork = GetRequiredService<IUnitOfWork>();
+
+		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetAllAsync();
+
+		result.Should().NotBeNullOrEmpty();
+	}
+
+	[TestMethod, Owner(Bobo)]
+	public async Task GetByIdAsyncTest()
+	{
+		_unitOfWork = GetRequiredService<IUnitOfWork>();
+
+		int calendarDayId = 1;
+		CalendarDay result = await _unitOfWork.CalendarDayRepository.GetByIdAsync(calendarDayId);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNull();
+			result.Id.Should().Be(calendarDayId);
+		});
+	}
+
+	[TestMethod, Owner(Bobo)]
+	public async Task GetByIdsAsyncTest()
+	{
+		_unitOfWork = GetRequiredService<IUnitOfWork>();
+
+		IEnumerable<int> calendarDayIds = new[] { 1, 2 };
+		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetByIdsAsync(calendarDayIds);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNullOrEmpty();
+			result.Should().HaveCount(calendarDayIds.Count());
+		});
+	}
+
+	[TestMethod, Owner(Bobo)]
 	public async Task GetByDateAsyncTest()
 	{
 		_unitOfWork = GetRequiredService<IUnitOfWork>();
 
 		DateTime date = RandomHelper.GetDateTime(_year);
 
-		CalendarDay dbCalendarDay = await _unitOfWork.CalendarDayRepository.GetByDateAsync(date);
+		CalendarDay result = await _unitOfWork.CalendarDayRepository.GetByDateAsync(date);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			dbCalendarDay.Should().NotBeNull();
-			dbCalendarDay.Year.Should().Be(date.Year);
-			dbCalendarDay.Month.Should().Be(date.Month);
-			dbCalendarDay.Day.Should().Be(date.Day);
+			result.Should().NotBeNull();
+			result.Year.Should().Be(date.Year);
+			result.Month.Should().Be(date.Month);
+			result.Day.Should().Be(date.Day);
 		});
 	}
 
@@ -45,12 +85,12 @@ public sealed class CalendarDayRepositoryTests : InfrastructureBaseTests
 			RandomHelper.GetDateTime(_year)
 		};
 
-		IEnumerable<CalendarDay> dbCalendarDays = await _unitOfWork.CalendarDayRepository.GetByDateAsync(dates);
+		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetByDateAsync(dates);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			dbCalendarDays.Should().NotBeNullOrEmpty();
-			dbCalendarDays.Should().HaveCount(dates.Count());
+			result.Should().NotBeNullOrEmpty();
+			result.Should().HaveCount(dates.Count());
 		});
 	}
 
@@ -62,13 +102,13 @@ public sealed class CalendarDayRepositoryTests : InfrastructureBaseTests
 		DateTime startDate = new(_year, 1, 1);
 		DateTime endDate = startDate.AddDays(14);
 
-		IEnumerable<CalendarDay> dbCalendarDays = await _unitOfWork.CalendarDayRepository.GetByDateAsync(startDate, endDate);
+		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetByDateAsync(startDate, endDate);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			dbCalendarDays.Should().NotBeNullOrEmpty();
-			dbCalendarDays.First().Date.Should().Be(startDate);
-			dbCalendarDays.Last().Date.Should().Be(endDate);
+			result.Should().NotBeNullOrEmpty();
+			result.First().Date.Should().Be(startDate);
+			result.Last().Date.Should().Be(endDate);
 		});
 	}
 
@@ -79,9 +119,9 @@ public sealed class CalendarDayRepositoryTests : InfrastructureBaseTests
 
 		int dayTypeId = (int)DayTypes.WEEKDAY;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await _unitOfWork.CalendarDayRepository.GetByDayTypeAsync(dayTypeId);
+		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetByDayTypeAsync(dayTypeId);
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
+		result.Should().NotBeNullOrEmpty();
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -91,9 +131,9 @@ public sealed class CalendarDayRepositoryTests : InfrastructureBaseTests
 
 		string dayTypeName = DayTypes.WEEKDAY.GetName();
 
-		IEnumerable<CalendarDay> dbCalendarDays = await _unitOfWork.CalendarDayRepository.GetByDayTypeAsync(dayTypeName);
+		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetByDayTypeAsync(dayTypeName);
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
+		result.Should().NotBeNullOrEmpty();
 	}
 
 	[TestMethod, Owner(Bobo)]
@@ -103,8 +143,8 @@ public sealed class CalendarDayRepositoryTests : InfrastructureBaseTests
 
 		DateTime dateTime = DateTime.Now;
 
-		IEnumerable<CalendarDay> dbCalendarDays = await _unitOfWork.CalendarDayRepository.GetByEndOfMonthAsync(dateTime);
+		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetByEndOfMonthAsync(dateTime);
 
-		dbCalendarDays.Should().NotBeNullOrEmpty();
+		result.Should().NotBeNullOrEmpty();
 	}
 }

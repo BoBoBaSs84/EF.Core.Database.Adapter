@@ -10,6 +10,23 @@ namespace InfrastructureTests.Helpers;
 
 public static class EntityHelper
 {
+	public static ICollection<CalendarDay> GetCalendarDays()
+	{
+		ICollection<CalendarDay> calendarDays = new List<CalendarDay>();
+		DateTime startDate = new(DateTime.Now.Year, 1, 1), endDate = new(DateTime.Now.Year, 12, 31);
+		while (!Equals(startDate, endDate))
+		{
+			CalendarDay calendarDay = new()
+			{
+				Date = startDate,
+				DayTypeId = (startDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? 2 : 1
+			};
+			calendarDays.Add(calendarDay);
+			startDate = startDate.AddDays(1);
+		}
+		return calendarDays;
+	}
+
 	public static User GetNewUser(bool attendanceSeed = false, bool accountSeed = false)
 	{
 		string firstName = GetString(),

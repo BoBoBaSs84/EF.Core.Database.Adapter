@@ -3,7 +3,6 @@ using Domain.Entities.Private;
 using Domain.Extensions;
 using Infrastructure.Persistence.Repositories.BaseTypes;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Persistence.Repositories;
 

@@ -3,6 +3,7 @@ using BaseTests;
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
 using Infrastructure.Persistence;
+using InfrastructureTests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +25,9 @@ public class InfrastructureBaseTests : BaseTestUnit
 
 		ApplicationContext dbContext = GetRequiredService<ApplicationContext>();
 		dbContext.Database.EnsureCreated();
+
+		dbContext.CalendarDays.AddRange(EntityHelper.GetCalendarDays());
+		dbContext.SaveChanges();
 	}
 
 	[AssemblyCleanup]

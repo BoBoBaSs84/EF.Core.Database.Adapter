@@ -8,9 +8,9 @@ namespace Infrastructure.Persistence;
 /// The unit of work class.
 /// </summary>
 /// <remarks>
-/// Implemnts the members of the <see cref="IUnitOfWork"/> interface.
+/// Implements the members of the <see cref="IUnitOfWork"/> interface.
 /// </remarks>
-public abstract class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
 	private readonly ApplicationContext _context;
 	private bool _disposed;

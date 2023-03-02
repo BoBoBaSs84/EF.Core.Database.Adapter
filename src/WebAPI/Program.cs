@@ -1,12 +1,20 @@
+using Application.Common.Interfaces.Identity;
+using Infrastructure.Installer;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using WebAPI.Services;
+
 namespace WebAPI;
 
 public class Program
 {
 	public static void Main(string[] args)
 	{
-		var builder = WebApplication.CreateBuilder(args);
+		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 		// Add services to the container.
+		builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment);
+
+		builder.Services.TryAddSingleton<ICurrentUserService, CurrentUserService>();
 
 		builder.Services.AddControllers();
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

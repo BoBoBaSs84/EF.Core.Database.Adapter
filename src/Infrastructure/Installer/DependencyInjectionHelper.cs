@@ -36,7 +36,7 @@ public static class DependencyInjectionHelper
 		services.AddApplicationContext(configuration, environment);
 		services.AddIdentityService();
 
-		services.TryAddScoped<AuditableEntitySaveChangesInterceptor>();
+		services.TryAddScoped<SaveChangesInterceptor>();
 		services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 
 		return services;
@@ -97,7 +97,6 @@ public static class DependencyInjectionHelper
 		})
 			.AddEntityFrameworkStores<ApplicationContext>()
 			.AddDefaultTokenProviders()
-			.AddRoles<Role>()
 			.AddUserManager<UserService>()
 			.AddRoleManager<RoleService>();
 

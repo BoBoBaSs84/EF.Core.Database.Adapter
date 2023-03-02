@@ -3,7 +3,6 @@ using Domain.Extensions;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Diagnostics.CodeAnalysis;
 using static Domain.Constants.Sql.Schema;
 using ERT = Domain.Enumerators.RoleTypes;
 

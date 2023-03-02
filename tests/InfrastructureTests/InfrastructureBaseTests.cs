@@ -1,22 +1,37 @@
-﻿using BaseTests;
+﻿using Application.Common.Interfaces.Identity;
+using BaseTests;
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
+using Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using static Domain.Constants.Environment;
 
 namespace InfrastructureTests;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest - Not relevant here.")]
-[SuppressMessage("Style", "IDE0053", Justification = "UnitTest - Not relevant here.")]
 public class InfrastructureBaseTests : BaseTestUnit
 {
 	private static IHost testHost = default!;
+	private const string Environment = Domain.Constants.Environment.Test;
 
 	[AssemblyInitialize]
-	public static void AssemblyInitialize(TestContext context) =>
+	public static void AssemblyInitialize(TestContext context)
+	{
+		context.WriteLine($"{nameof(AssemblyInitialize)} ...");
 		testHost = InitializeHost(context);
+
+		ApplicationContext dbContext = GetRequiredService<ApplicationContext>();
+		dbContext.Database.EnsureCreated();
+	}
+
+	[AssemblyCleanup]
+	public static void AssemblyCleanup()
+	{
+		ApplicationContext dbContext = GetRequiredService<ApplicationContext>();
+		dbContext.Database.EnsureDeleted();
+	}
 
 	/// <summary>
 	/// Should return the requested service if it was registered within the service collection.
@@ -31,10 +46,12 @@ public class InfrastructureBaseTests : BaseTestUnit
 		context.WriteLine($"{nameof(InitializeHost)} ...");
 
 		IHostBuilder hostBuilder = Host.CreateDefaultBuilder(new[] { string.Empty })
-			.ConfigureAppSettings(Test)
+			.ConfigureAppSettings(Environment)
+			.UseEnvironment(Environment)
 			.ConfigureServices((hostContext, services) =>
 			{
 				services.AddInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
+				services.TryAddSingleton<ICurrentUserService, CurrentTestUserService>();
 			});
 
 		return hostBuilder.Start();

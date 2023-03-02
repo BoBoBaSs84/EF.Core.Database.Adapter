@@ -15,33 +15,29 @@ namespace Infrastructure.Persistence;
 /// </remarks>
 public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
-	private readonly AuditableEntitySaveChangesInterceptor _changesInterceptor;
+	private readonly SaveChangesInterceptor _changesInterceptor;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
 	/// </summary>
 	/// <param name="dbContextOptions">The database context options.</param>
 	/// <param name="changesInterceptor">The auditable entity save changes interceptor.</param>
-	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions, AuditableEntitySaveChangesInterceptor changesInterceptor) : base(dbContextOptions)
-	{
-		_changesInterceptor = changesInterceptor;
-	}
-
+	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions, SaveChangesInterceptor changesInterceptor)
+		: base(dbContextOptions) => _changesInterceptor = changesInterceptor;
 
 	/// <inheritdoc/>
+	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
-		builder.HasDefaultSchema(Schema.PRIVATE)
-			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
-
 		base.OnModelCreating(builder);
+
+		builder.HasDefaultSchema(Schema.PRIVATE)
+			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);		
 	}
 
 	/// <inheritdoc/>
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-	{
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
 		optionsBuilder.AddInterceptors(_changesInterceptor);
-	}
 
 	/// <inheritdoc/>
 	public override int SaveChanges()

@@ -7,20 +7,20 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 namespace Infrastructure.Persistence.Interceptors;
 
 /// <summary>
-/// The auditable entity save changes interceptor class.
+/// The save changes interceptor class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="SaveChangesInterceptor"/> class.
+/// Derives from the <see cref="Microsoft.EntityFrameworkCore.Diagnostics.SaveChangesInterceptor"/> class.
 /// </remarks>
-public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
+public sealed class SaveChangesInterceptor : Microsoft.EntityFrameworkCore.Diagnostics.SaveChangesInterceptor
 {
 	private readonly ICurrentUserService _currentUserService;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="AuditableEntitySaveChangesInterceptor"/> class.
+	/// Initializes a new instance of the <see cref="SaveChangesInterceptor"/> class.
 	/// </summary>
 	/// <param name="currentUserService">The current user service.</param>
-	public AuditableEntitySaveChangesInterceptor(ICurrentUserService currentUserService) =>
+	public SaveChangesInterceptor(ICurrentUserService currentUserService) =>
 		_currentUserService = currentUserService;
 
 	/// <inheritdoc/>

@@ -1,7 +1,10 @@
-﻿using Infrastructure.Installer;
+﻿using Application.Common.Interfaces.Identity;
 using Debug.ConsoleApp.Services;
 using Debug.ConsoleApp.Services.Interfaces;
+using Infrastructure.Extensions;
+using Infrastructure.Installer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.CodeAnalysis;
 
@@ -11,12 +14,14 @@ internal sealed class Program
 	private static async Task Main(string[] args)
 	{
 		using IHost host = Host.CreateDefaultBuilder(args)
+			.ConfigureAppSettings()
 			.ConfigureServices((ctx, services) =>
 			{
-				services.AddTransient<IExampleTransientService, ExampleTransientService>();
-				services.AddScoped<IExampleScopedService, ExampleScopedService>();
-				services.AddSingleton<IExampleSingletonService, ExampleSingletonService>();
-				services.AddTransient<ServiceLifetimeReporter>();
+				services.TryAddSingleton<ICurrentUserService, CurrentUserService>();
+				services.TryAddTransient<IExampleTransientService, ExampleTransientService>();
+				services.TryAddScoped<IExampleScopedService, ExampleScopedService>();
+				services.TryAddSingleton<IExampleSingletonService, ExampleSingletonService>();
+				services.TryAddTransient<ServiceLifetimeReporter>();
 
 				services.AddInfrastructureServices(ctx.Configuration, ctx.HostingEnvironment);
 			}).Build();

@@ -1,8 +1,5 @@
 ﻿using Domain.Extensions;
-using DomainTests;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using static BaseTests.Constants;
 

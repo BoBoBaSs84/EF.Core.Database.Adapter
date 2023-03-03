@@ -2,9 +2,7 @@
 using Domain.Common;
 using Domain.Extensions;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using static BaseTests.Constants;
 

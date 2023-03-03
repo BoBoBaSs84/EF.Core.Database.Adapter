@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace BaseTests;
+﻿namespace BaseTests;
 
 [TestClass]
 public abstract class BaseTestUnit

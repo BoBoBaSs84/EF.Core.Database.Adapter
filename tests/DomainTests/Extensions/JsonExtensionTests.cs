@@ -1,7 +1,5 @@
 ﻿using Domain.Extensions;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using static BaseTests.Constants;
 using static BaseTests.Helpers.AssertionHelper;

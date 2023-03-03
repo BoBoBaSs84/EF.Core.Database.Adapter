@@ -1,9 +1,6 @@
 ﻿using Domain.Extensions;
-using DomainTests;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using static BaseTests.Constants;
 
 namespace DomainTests.Extensions;

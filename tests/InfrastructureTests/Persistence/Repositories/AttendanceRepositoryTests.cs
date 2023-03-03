@@ -66,7 +66,6 @@ public sealed class AttendanceRepositoryTests : InfrastructureBaseTests
 
 		User newUser = EntityHelper.GetNewUser(attendanceSeed: true);
 		string password = RandomHelper.GetString(32, WildCardChars);
-
 		IdentityResult result = await _userService.CreateAsync(newUser, password);
 		Attendance dbAttendance = await _unitOfWork.AttendanceRepository.GetAttendanceAsync(newUser.Id, new DateTime(_year, 1, 1));
 

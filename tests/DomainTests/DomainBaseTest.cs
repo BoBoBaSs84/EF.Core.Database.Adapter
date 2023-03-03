@@ -1,5 +1,4 @@
 ﻿using BaseTests;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DomainTests;
 

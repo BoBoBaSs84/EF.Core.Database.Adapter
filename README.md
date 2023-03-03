@@ -4,3 +4,5 @@
 [![stars](https://img.shields.io/github/stars/BoBoBaSs84/EF.Core.Database.Adapter)](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/stargazers)
 [![License](https://img.shields.io/github/license/BoBoBaSs84/EF.Core.Database.Adapter)](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/blob/main/LICENSE)
 # EF.Core.Database.Adapter
+
+This is just an attempt to have a clean base architecture for database access.

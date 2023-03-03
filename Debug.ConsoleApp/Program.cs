@@ -1,5 +1,4 @@
-﻿using DA.Infrastructure.Installer;
-using DA.Repositories.Installer;
+﻿using Infrastructure.Installer;
 using Debug.ConsoleApp.Services;
 using Debug.ConsoleApp.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,15 +11,14 @@ internal sealed class Program
 	private static async Task Main(string[] args)
 	{
 		using IHost host = Host.CreateDefaultBuilder(args)
-			.ConfigureServices(services =>
+			.ConfigureServices((ctx, services) =>
 			{
 				services.AddTransient<IExampleTransientService, ExampleTransientService>();
 				services.AddScoped<IExampleScopedService, ExampleScopedService>();
 				services.AddSingleton<IExampleSingletonService, ExampleSingletonService>();
 				services.AddTransient<ServiceLifetimeReporter>();
 
-				services.AddInfrastructureServices();
-				services.AddRepositoryManager();
+				services.AddInfrastructureServices(ctx.Configuration, ctx.HostingEnvironment);
 			}).Build();
 
 		ExemplifyServiceLifetime(host.Services, "Lifetime 1");

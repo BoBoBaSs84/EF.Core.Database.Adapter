@@ -78,12 +78,7 @@ public sealed class CalendarDayRepositoryTests : InfrastructureBaseTests
 	{
 		_unitOfWork = GetRequiredService<IUnitOfWork>();
 
-		IEnumerable<DateTime> dates = new List<DateTime>()
-		{
-			RandomHelper.GetDateTime(_year),
-			RandomHelper.GetDateTime(_year),
-			RandomHelper.GetDateTime(_year)
-		};
+		IEnumerable<DateTime> dates = new List<DateTime>() { new(_year, 1, 1), new(_year, 1, 2) };
 
 		IEnumerable<CalendarDay> result = await _unitOfWork.CalendarDayRepository.GetByDateAsync(dates);
 

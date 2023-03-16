@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 [ApiController]
 [Route("[controller]")]
+[ApiExplorerSettings(GroupName = "v1")]
 public class WeatherForecastController : ControllerBase
 {
 	private static readonly string[] Summaries = new[]

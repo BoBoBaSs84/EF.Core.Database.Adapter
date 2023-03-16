@@ -97,6 +97,7 @@ public class AuthenticationController : ControllerBase
 		user.FirstName = updateRequest.FirstName;
 		user.MiddleName = updateRequest.MiddleName;
 		user.LastName = updateRequest.LastName;
+		user.DateOfBirth = updateRequest.DateOfBirth;
 		user.Email = updateRequest.Email;
 
 		IdentityResult result = await _userService.UpdateAsync(user);

@@ -15,7 +15,7 @@ namespace InfrastructureTests;
 public class InfrastructureBaseTests : BaseTestUnit
 {
 	private static IHost testHost = default!;
-	private const string Environment = Domain.Constants.Environment.Test;
+	private const string Environment = Domain.Constants.DomainConstants.Environment.Testing;
 
 	[AssemblyInitialize]
 	public static void AssemblyInitialize(TestContext context)

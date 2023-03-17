@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Identity;
 using BaseTests.Helpers;
-using Domain;
+using Domain.Constants;
 using Domain.Entities.Finance;
 using Domain.Entities.Identity;
 using Domain.Extensions;
@@ -26,9 +26,9 @@ public sealed class CardRepositoryTests : InfrastructureBaseTests
 		_userService = GetRequiredService<IUserService>();
 
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		string newIBAN = RandomHelper.GetString(Constants.Regex.IBAN).RemoveWhitespace();
+		string newIBAN = RandomHelper.GetString(DomainConstants.Regex.IBAN).RemoveWhitespace();
 		Account newAccount = EntityHelper.GetNewAccount(newIBAN);
-		string newCardNumber = RandomHelper.GetString(Constants.Regex.CC).RemoveWhitespace();
+		string newCardNumber = RandomHelper.GetString(DomainConstants.Regex.CC).RemoveWhitespace();
 		Card newCard = EntityHelper.GetNewCard(newUser, newAccount, newCardNumber);
 		newAccount.Cards.Add(newCard);
 		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });

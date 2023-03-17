@@ -3,10 +3,9 @@ using Domain.Extensions;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Diagnostics.CodeAnalysis;
-using static Domain.Constants.Sql.Schema;
 using ECT = Domain.Enumerators.CardTypes;
 using EDT = Domain.Enumerators.DayTypes;
+using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -18,7 +17,7 @@ internal static class EnumeratorConfiguration
 	{
 		public void Configure(EntityTypeBuilder<CardType> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(CardType), ENUMERATOR);
+			builder.ToSytemVersionedTable(nameof(CardType), Schema.ENUMERATOR);
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(true);
@@ -56,7 +55,7 @@ internal static class EnumeratorConfiguration
 		/// <inheritdoc/>
 		public void Configure(EntityTypeBuilder<DayType> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(DayType), ENUMERATOR);
+			builder.ToSytemVersionedTable(nameof(DayType), Schema.ENUMERATOR);
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(true);

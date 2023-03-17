@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Identity;
-using Domain;
+using Domain.Constants;
 using Domain.Entities.Identity;
 using Domain.Enumerators;
 using Domain.Extensions;
@@ -56,14 +56,14 @@ public static class DependencyInjectionHelper
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
 				{
-					builder.MigrationsHistoryTable("Migration", Constants.Sql.Schema.PRIVATE);
+					builder.MigrationsHistoryTable("Migration", DomainConstants.Sql.Schema.PRIVATE);
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 
 			if (environment.IsDevelopment())
 				options.LogTo(Console.WriteLine, LogLevel.Debug);
 
-			if (environment.IsEnvironment(Constants.Environment.Test))
+			if (environment.IsEnvironment(DomainConstants.Environment.Testing))
 				options.LogTo(Console.WriteLine, LogLevel.Error);
 
 			if (!environment.IsProduction())

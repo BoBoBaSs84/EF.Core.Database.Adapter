@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Identity;
 using BaseTests.Helpers;
-using Domain;
+using Domain.Constants;
 using Domain.Entities.Finance;
 using Domain.Entities.Identity;
 using Domain.Extensions;
@@ -25,7 +25,7 @@ public sealed class AccountRepositoryTests : InfrastructureBaseTests
 		_unitOfWork = GetRequiredService<IUnitOfWork>();
 		_userService = GetRequiredService<IUserService>();
 
-		string iban = RandomHelper.GetString(Constants.Regex.IBAN).RemoveWhitespace();
+		string iban = RandomHelper.GetString(DomainConstants.Regex.IBAN).RemoveWhitespace();
 		Account newAccount = EntityHelper.GetNewAccount(iban);
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
 		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });

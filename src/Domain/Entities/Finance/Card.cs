@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Domain.Constants;
-using static Domain.Constants.Sql;
+using static Domain.Constants.DomainConstants;
+using static Domain.Constants.DomainConstants.Sql;
 
 namespace Domain.Entities.Finance;
 

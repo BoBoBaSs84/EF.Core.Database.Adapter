@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static Domain.Constants.Sql.Schema;
+using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Extensions;
 
@@ -20,7 +20,7 @@ internal static class EntityTypeBuilderExtensions
 	/// <returns>The enriched <paramref name="entityTypeBuilder"/> class.</returns>
 	/// <exception cref="ArgumentNullException"></exception>
 	public static EntityTypeBuilder ToSytemVersionedTable(this EntityTypeBuilder entityTypeBuilder,
-		string tableName, string? tableSchema = PRIVATE, string? versionSchema = HISTORY)
+		string tableName, string? tableSchema = Schema.PRIVATE, string? versionSchema = Schema.HISTORY)
 	{
 		if (string.IsNullOrWhiteSpace(tableName))
 			throw new ArgumentNullException(nameof(tableName));

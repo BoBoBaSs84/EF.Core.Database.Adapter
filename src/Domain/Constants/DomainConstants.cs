@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
-namespace Domain;
+namespace Domain.Constants;
 
 /// <summary>
 /// The constants class.
 /// </summary>
 [SuppressMessage("Naming", "CA1720", Justification = "Constants.")]
 [SuppressMessage("Naming", "CA1707", Justification = "Constants.")]
-public static class Constants
+public static class DomainConstants
 {
 	/// <summary>
 	/// The environment constants class.
@@ -22,7 +22,7 @@ public static class Constants
 		/// <summary>
 		/// The test environment.
 		/// </summary>
-		public const string Test = "Test";
+		public const string Testing = "Testing";
 		/// <summary>
 		/// The production environment.
 		/// </summary>

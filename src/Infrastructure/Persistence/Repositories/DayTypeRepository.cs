@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Repositories;
+﻿using Application.Interfaces.Infrastructure.Repositories;
 using Domain.Entities.Enumerator;
 using Infrastructure.Persistence.Repositories.BaseTypes;
 using Microsoft.EntityFrameworkCore;

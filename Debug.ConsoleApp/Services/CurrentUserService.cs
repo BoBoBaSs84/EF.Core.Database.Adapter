@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure.Identity;
 
 namespace Debug.ConsoleApp.Services;
 

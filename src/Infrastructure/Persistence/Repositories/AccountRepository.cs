@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Repositories;
+﻿using Application.Interfaces.Infrastructure.Repositories;
 using Domain.Entities.Finance;
 using Domain.Extensions;
 using Infrastructure.Persistence.Repositories.BaseTypes;

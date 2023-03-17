@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Interfaces.Infrastructure;
 using BaseTests.Helpers;
 using Domain.Entities.Enumerator;
 using Domain.Enumerators;

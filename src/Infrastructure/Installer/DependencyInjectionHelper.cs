@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure;
+using Application.Interfaces.Infrastructure.Identity;
 using Domain;
 using Domain.Entities.Identity;
 using Domain.Enumerators;

@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure;
+using Application.Interfaces.Infrastructure.Identity;
 using BaseTests.Helpers;
 using Domain.Entities.Finance;
 using Domain.Entities.Identity;

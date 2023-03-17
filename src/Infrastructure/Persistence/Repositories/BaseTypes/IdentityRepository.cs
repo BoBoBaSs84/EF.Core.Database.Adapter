@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Repositories.BaseTypes;
+﻿using Application.Interfaces.Infrastructure.Repositories.BaseTypes;
 using Domain.Common.EntityBaseTypes;
 using Microsoft.EntityFrameworkCore;
 

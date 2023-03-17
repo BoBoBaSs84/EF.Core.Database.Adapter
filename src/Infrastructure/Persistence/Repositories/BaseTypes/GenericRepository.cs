@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Repositories.BaseTypes;
+﻿using Application.Interfaces.Infrastructure.Repositories.BaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

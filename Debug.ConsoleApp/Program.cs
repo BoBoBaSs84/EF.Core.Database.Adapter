@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure.Identity;
 using Debug.ConsoleApp.Services;
 using Debug.ConsoleApp.Services.Interfaces;
 using Infrastructure.Extensions;

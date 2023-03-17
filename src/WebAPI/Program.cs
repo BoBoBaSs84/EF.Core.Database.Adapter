@@ -8,9 +8,10 @@ using WebAPI.Services;
 
 namespace WebAPI;
 
-public class Program
+internal sealed class Program
 {
-	public static void Main(string[] args)
+	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
+	internal static void Main(string[] args)
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

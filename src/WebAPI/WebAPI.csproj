@@ -5,12 +5,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="appsettings.Test.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[6.0.14]" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="[6.0.14]">
@@ -23,6 +17,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 		<ProjectReference Include="..\Presentation\Presentation.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Diagnostics.CodeAnalysis" />
 	</ItemGroup>
 
 </Project>

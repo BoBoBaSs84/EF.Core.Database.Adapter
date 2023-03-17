@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-internal class AuthenticationService : IAuthenticationService
+public class AuthenticationService : IAuthenticationService
 {
 	private readonly ILogger<AuthenticationService> _logger;
 	private readonly IUserService _userService;

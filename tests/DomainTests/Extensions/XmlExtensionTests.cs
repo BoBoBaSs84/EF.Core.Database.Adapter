@@ -3,7 +3,7 @@ using FluentAssertions;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 using static BaseTests.Helpers.AssertionHelper;
 using static BaseTests.Helpers.RandomHelper;
 

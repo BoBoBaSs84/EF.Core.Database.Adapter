@@ -6,7 +6,7 @@ using Domain.Entities.Private;
 using FluentAssertions;
 using InfrastructureTests.Helpers;
 using Microsoft.AspNetCore.Identity;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 
 namespace InfrastructureTests.Persistence.Repositories;
 

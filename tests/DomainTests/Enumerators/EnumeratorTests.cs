@@ -4,7 +4,7 @@ using Domain.Extensions;
 using FluentAssertions;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 
 namespace DomainTests.Enumerators;
 

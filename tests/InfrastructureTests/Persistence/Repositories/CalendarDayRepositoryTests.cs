@@ -4,7 +4,7 @@ using Domain.Entities.Private;
 using Domain.Enumerators;
 using Domain.Extensions;
 using FluentAssertions;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 
 namespace InfrastructureTests.Persistence.Repositories;
 

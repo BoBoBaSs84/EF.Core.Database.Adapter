@@ -1,4 +1,5 @@
 ﻿using Application.Errors.Base;
+using Domain.Enumerators;
 using Domain.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -67,7 +68,7 @@ public abstract class ApiControllerBase : ControllerBase
 		if (errors?.Any() != true)
 			throw new InvalidOperationException("Should not call Problem(errors) without errors");
 
-		if (errors.All(error => error.Type == ErrorType.Validation))
+		if (errors.All(error => error.Type == ErrorTypes.Validation))
 			return ValidationProblem(errors);
 
 		if (errors.Count > 1)
@@ -220,10 +221,10 @@ public abstract class ApiControllerBase : ControllerBase
 
 		int statusCode = error.Type switch
 		{
-			ErrorType.NotFound => StatusCodes.Status404NotFound,
-			ErrorType.Conflict => StatusCodes.Status409Conflict,
-			ErrorType.Validation => StatusCodes.Status400BadRequest,
-			ErrorType.NoContent => StatusCodes.Status204NoContent,
+			ErrorTypes.NotFound => StatusCodes.Status404NotFound,
+			ErrorTypes.Conflict => StatusCodes.Status409Conflict,
+			ErrorTypes.Validation => StatusCodes.Status400BadRequest,
+			ErrorTypes.NoContent => StatusCodes.Status204NoContent,
 			_ => StatusCodes.Status500InternalServerError
 		};
 

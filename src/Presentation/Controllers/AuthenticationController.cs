@@ -33,14 +33,16 @@ public sealed class AuthenticationController : ApiControllerBase
 	/// </summary>
 	/// <param name="createRequest">The user create request.</param>
 	/// <response code="201">If the new user was created.</response>
-	/// <response code="400">If something is not right with the request.</response>
+	/// <response code="400">If something is not right with the request.</response>\
+	/// <response code="500">If the something went wrong.</response>
 	[HttpPost(Endpoints.Authentication.CreateUser)]
 	[ProducesResponseType(StatusCodes.Status201Created)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest createRequest)
 	{
 		ErrorOr<Created> result = await _authenticationService.CreateUser(createRequest);
-		return Get(result);
+		return PostWithoutLocation(result);
 	}
 
 	/// <summary>
@@ -52,11 +54,13 @@ public sealed class AuthenticationController : ApiControllerBase
 	/// <response code="400">If something is not right with the request.</response>
 	/// <response code="401">If you are not authorize to update the user.</response>
 	/// <response code="404">If the user to update was not found.</response>
+	/// <response code="500">If the something went wrong.</response>
 	[HttpPut(Endpoints.Authentication.UpdateUser)]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> UpdateUser(string userName, [FromBody] UserUpdateRequest updateRequest)
 	{
 		ErrorOr<Updated> result = await _authenticationService.UpdateUser(userName, updateRequest);
@@ -71,11 +75,13 @@ public sealed class AuthenticationController : ApiControllerBase
 	/// <response code="400">If something is not right with the request.</response>
 	/// <response code="401">If you are not authorize to login.</response>
 	/// <response code="404">If the user to login was not found.</response>
+	/// <response code="500">If the something went wrong.</response>
 	[HttpPost(Endpoints.Authentication.AuthenticateUser)]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> AuthenticateUser([FromBody] UserLoginRequest loginRequest)
 	{
 		ErrorOr<Success> result = await _authenticationService.AuthenticateUser(loginRequest);

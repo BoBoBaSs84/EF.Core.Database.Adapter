@@ -13,11 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Contracts\Common\" />
-		<Folder Include="Contracts\Responses\" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 	</ItemGroup>
 

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Presentation.Constants;
 using Presentation.Extensions;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Security.Principal;
 
@@ -37,10 +36,7 @@ public abstract class ApiControllerBase : ControllerBase
 		IPAddress ip = HttpContext.Connection.RemoteIpAddress
 			?? throw new InvalidOperationException("Remote ip not found!");
 
-		if (TryGetMachineName(ip, out string? machineName))
-			return machineName;
-
-		return ip.ToString();
+		return TryGetMachineName(ip, out string? machineName) ? machineName : ip.ToString();
 	}
 
 	protected bool TryGetFormFile(out IFormFile? formFile)

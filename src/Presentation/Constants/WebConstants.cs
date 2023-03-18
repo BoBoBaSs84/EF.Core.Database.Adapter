@@ -1,12 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net;
+﻿using System.Net;
 
 namespace Presentation.Constants;
 
 /// <summary>
 /// Class with some constants for web
 /// </summary>
-[SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Constants")]
 public static class WebConstants
 {
 	/// <summary>
@@ -15,9 +13,9 @@ public static class WebConstants
 	public static class Policies
 	{
 		/// <summary>
-		/// WKC cors policy
+		/// Cors policy
 		/// </summary>
-		public const string Cors = "WkcCorsPolicy";
+		public const string Cors = "CorsPolicy";
 	}
 
 	/// <summary>
@@ -60,6 +58,11 @@ public static class WebConstants
 		/// Http request header for api version
 		/// </summary>
 		public const string Version = "X-Version";
+
+		/// <summary>
+		/// Http response header for pagination
+		/// </summary>
+		public const string Pagination = "X-Pagination";
 	}
 
 	/// <summary>
@@ -81,7 +84,7 @@ public static class WebConstants
 		/// <summary>
 		/// Validation logger
 		/// </summary>
-		public const string ValidationLogger = "WkcValidationLogger";
+		public const string ValidationLogger = "ValidationLogger";
 	}
 
 	/// <summary>

@@ -2,6 +2,7 @@
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Identity;
+using AutoMapper;
 using Domain.Entities.Identity;
 using Domain.Errors;
 using Domain.Results;
@@ -10,20 +11,22 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class AuthenticationService : IAuthenticationService
+internal class AuthenticationService : IAuthenticationService
 {
 	private readonly ILogger<AuthenticationService> _logger;
 	private readonly IUserService _userService;
+	private readonly IMapper _mapper;
 
 	/// <summary>
 	/// Initilizes an instance of <see cref="AuthenticationService"/> class.
 	/// </summary>
 	/// <param name="logger">The logger service.</param>
 	/// <param name="userService">The user service.</param>
-	public AuthenticationService(ILogger<AuthenticationService> logger, IUserService userService)
+	public AuthenticationService(ILogger<AuthenticationService> logger, IUserService userService, IMapper mapper)
 	{
 		_logger = logger;
 		_userService = userService;
+		_mapper = mapper;
 	}
 
 	public async Task<ErrorOr<Success>> AuthenticateUser(UserLoginRequest loginRequest)
@@ -53,13 +56,7 @@ public class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			User user = new()
-			{
-				FirstName = createRequest.FirstName,
-				LastName = createRequest.LastName,
-				Email = createRequest.Email,
-				UserName = createRequest.UserName
-			};
+			User user = _mapper.Map<User>(createRequest);
 
 			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
 			if (!result.Succeeded)

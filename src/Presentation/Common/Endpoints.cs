@@ -21,4 +21,13 @@ internal static class Endpoints
 		internal const string UpdateUser = "{userName}";
 		internal const string AuthenticateUser = "Login";
 	}
+
+	/// <summary>
+	/// The calendar route.
+	/// </summary>
+	internal static class Calendar
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Calendar);
+		internal const string GetAll = EmptySuffix;
+	}
 }

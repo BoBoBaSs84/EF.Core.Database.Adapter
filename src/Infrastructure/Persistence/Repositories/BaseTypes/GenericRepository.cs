@@ -41,7 +41,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	public async Task<IEnumerable<TEntity>> GetManyByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-		int? top = null,
+		int? take = null,
 		int? skip = null,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default,
@@ -56,12 +56,12 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 			query = orderBy(query);
 		if (skip.HasValue)
 			query = query.Skip(skip.Value);
-		if (top.HasValue)
-			query = query.Take(top.Value);
+		if (take.HasValue)
+			query = query.Take(take.Value);
 		return await query.ToListAsync(cancellationToken);
 	}
 
-	public async Task<TEntity> GetByConditionAsync(
+	public async Task<TEntity?> GetByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default,
@@ -75,10 +75,10 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		return await query.SingleOrDefaultAsync(cancellationToken);
 	}
 
-	public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+	public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
 		await dbSet.FindAsync(keyValues: new object[] { id }, cancellationToken: cancellationToken);
 
-	public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
+	public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
 		await dbSet.FindAsync(keyValues: new object[] { id }, cancellationToken: cancellationToken);
 
 	public Task DeleteAsync(TEntity entity)

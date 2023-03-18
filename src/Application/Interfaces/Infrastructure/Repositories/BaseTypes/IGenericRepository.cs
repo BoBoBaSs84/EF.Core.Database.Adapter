@@ -24,7 +24,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// </summary>
 	/// <param name="expression">The condition the entities must fulfil to be returned.</param>
 	/// <param name="orderBy">The function used to order the entities.</param>
-	/// <param name="top">The number of records to limit the results to.</param>
+	/// <param name="take">The number of records to limit the results to.</param>
 	/// <param name="skip">The number of records to skip.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
@@ -33,7 +33,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	Task<IEnumerable<TEntity>> GetManyByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-		int? top = null,
+		int? take = null,
 		int? skip = null,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default,
@@ -45,7 +45,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="id">The primary key of the entity.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>One entry of an entity.</returns>
-	Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+	Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should find an entry of an <typeparamref name="TEntity"/> entity by its primary key.
@@ -53,7 +53,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="id">The primary key of the entity.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>One entry of an entity.</returns>
-	Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+	Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should find an entry of an <typeparamref name="TEntity"/> entity by a certain condition.
@@ -63,7 +63,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <param name="includeProperties">Any other navigation properties to include when returning the entity.</param>
 	/// <returns>One entry of an entity.</returns>
-	Task<TEntity> GetByConditionAsync(
+	Task<TEntity?> GetByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default,

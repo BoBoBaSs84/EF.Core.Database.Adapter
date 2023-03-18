@@ -18,6 +18,7 @@ internal sealed class Program
 		// Add services to the container.
 		builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment);
 		builder.Services.AddApplicationServices(builder.Configuration, builder.Environment);
+		builder.Services.AddAutoMapper();
 
 		builder.Services.TryAddSingleton<ICurrentUserService, CurrentUserService>();
 

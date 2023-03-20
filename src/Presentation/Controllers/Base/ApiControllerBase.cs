@@ -18,43 +18,6 @@ namespace Presentation.Controllers.Base;
 public abstract class ApiControllerBase : ControllerBase
 {
 	/// <summary>
-	/// Gets the logged user
-	/// </summary>
-	protected string? LoggedUser => User.Identity?.Name;
-
-	/// <summary>
-	/// Gets the <see cref="WindowsIdentity"/> of the logged user
-	/// </summary>
-	protected WindowsIdentity? WinIdentity => User.Identity as WindowsIdentity;
-
-	/// <summary>
-	/// Gets the machine name for a given ip address
-	/// </summary>
-	/// <returns></returns>
-	protected string? GetMachineNameOrIp()
-	{
-		IPAddress ip = HttpContext.Connection.RemoteIpAddress
-			?? throw new InvalidOperationException("Remote ip not found!");
-
-		return TryGetMachineName(ip, out string? machineName) ? machineName : ip.ToString();
-	}
-
-	protected bool TryGetFormFile(out IFormFile? formFile)
-	{
-		formFile = null;
-
-		try
-		{
-			formFile = Request.Form.Files[0];
-			return formFile is not null;
-		}
-		catch (Exception)
-		{
-			return false;
-		}
-	}
-
-	/// <summary>
 	/// Returns a <see cref="ProblemDetails.ProblemDetails"/> result from a list of <see cref="Error"/>
 	/// </summary>
 	/// <param name="errors">List of errors</param>
@@ -152,34 +115,6 @@ public abstract class ApiControllerBase : ControllerBase
 	}
 
 	#endregion HttpMethods
-
-	////TODO: maybe a better solution than static method here?
-	//public static 
-
-	private static bool TryGetMachineName(IPAddress ip, [NotNullWhen(true)] out string? result)
-	{
-		result = null;
-		string? hostNameFull;
-
-		try
-		{
-			hostNameFull = Dns.GetHostEntry(ip)?.HostName;
-		}
-		catch (Exception)
-		{
-			return false;
-		}
-
-		if (hostNameFull is null)
-			return false;
-
-		if (hostNameFull.Split(".").FirstOrDefault() is not string pcName)
-			result = hostNameFull;
-		else
-			result = pcName;
-
-		return result is not null;
-	}
 
 	private IActionResult ValidationProblem(IList<Error> errors)
 	{

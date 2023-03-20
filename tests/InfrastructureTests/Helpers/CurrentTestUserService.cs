@@ -5,4 +5,6 @@ namespace InfrastructureTests.Helpers;
 internal sealed class CurrentTestUserService : ICurrentUserService
 {
 	public int UserId => 1;
+
+	public string? UserName => throw new NotImplementedException();
 }

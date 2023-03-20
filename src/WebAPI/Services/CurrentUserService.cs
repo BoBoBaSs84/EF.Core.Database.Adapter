@@ -1,16 +1,25 @@
 ﻿using Application.Interfaces.Infrastructure.Identity;
+using System.Security.Claims;
 
 namespace WebAPI.Services;
 
+/// <summary>
+/// The current user service class.
+/// </summary>
 public sealed class CurrentUserService : ICurrentUserService
 {
 	private readonly IHttpContextAccessor _contextAccessor;
 
-	public CurrentUserService(IHttpContextAccessor contextAccessor)
-	{
-		_contextAccessor = contextAccessor;
-	}
+	/// <summary>
+	/// Initializes a instance of the <see cref="CurrentUserService"/> class.
+	/// </summary>
+	/// <param name="contextAccessor">The http context accessor.</param>
+	public CurrentUserService(IHttpContextAccessor contextAccessor) => _contextAccessor = contextAccessor;
 
 	// HACK: for now (>.<)
+	/// <inheritdoc/>
 	public int UserId => 1;
+	
+	/// <inheritdoc/>
+	public string? UserName => _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 }

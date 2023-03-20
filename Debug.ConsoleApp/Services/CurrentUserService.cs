@@ -6,4 +6,6 @@ public sealed class CurrentUserService : ICurrentUserService
 {
 	// HACK: for now (>.<)
 	public int UserId => 1;
+
+	public string? UserName => throw new NotImplementedException();
 }

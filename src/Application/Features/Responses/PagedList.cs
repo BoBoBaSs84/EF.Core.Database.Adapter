@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Common;
 
-namespace Application.Contracts.Features.Responses;
+namespace Application.Features.Responses;
 
 /// <summary>
 /// The paged list class.
@@ -17,13 +17,14 @@ public sealed class PagedList<T> : List<T>, IPagedList<T> where T : BaseResponse
 	/// <summary>
 	/// Initilizes an instance of <see cref="PagedList{T}"/> class.
 	/// </summary>
-	/// <param name="items">The list items of <typeparamref name="T"/></param>
-	/// <param name="count">The count of the list items.</param>
+	/// <param name="items">The enumerable interface of <typeparamref name="T"/>.</param>
+	/// <param name="totalCount">The count of the list items.</param>
 	/// <param name="pageNumber">The page number.</param>
 	/// <param name="pageSize">The page size.</param>
-	public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+	public PagedList(IEnumerable<T> items, int totalCount, int pageNumber, int pageSize)
 	{
-		MetaData = new(pageNumber, (int)Math.Ceiling(count / (double)pageSize), pageSize, count);
+		int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+		MetaData = new(pageNumber, totalPages, pageSize, totalCount);
 		AddRange(items);
 	}
 }

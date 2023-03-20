@@ -2,7 +2,7 @@
 using Domain.Common.EntityBaseTypes;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.Repositories.BaseTypes;
+namespace Infrastructure.Persistence.Repositories.Base;
 
 /// <summary>
 /// The identity repository class.

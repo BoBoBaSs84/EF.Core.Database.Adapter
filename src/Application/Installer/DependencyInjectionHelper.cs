@@ -24,7 +24,8 @@ public static class DependencyInjectionHelper
 	public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
 		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
-		services.TryAddScoped<ICalendarService, CalendarService>();
+		services.TryAddScoped<ICalendarDayService, CalendarDayService>();
+		services.TryAddScoped<IDayTypeService, DayTypeService>();
 		return services;
 	}
 

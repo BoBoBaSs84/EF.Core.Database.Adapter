@@ -23,11 +23,22 @@ internal static class Endpoints
 	}
 
 	/// <summary>
-	/// The calendar route.
+	/// The calendar day route.
 	/// </summary>
-	internal static class Calendar
+	internal static class CalendarDay
 	{
-		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Calendar);
-		internal const string GetAll = EmptySuffix;
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(CalendarDay);
+		internal const string GetPagedByParameters = EmptySuffix;
+	}
+
+	/// <summary>
+	/// The day type route.
+	/// </summary>
+	internal static class DayType
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(DayType);
+		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string GetByName = "{name}";
+		internal const string GetById = "{id:int}";
 	}
 }

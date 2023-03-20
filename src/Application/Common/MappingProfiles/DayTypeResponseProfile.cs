@@ -1,15 +1,15 @@
 ﻿using Application.Contracts.Responses;
 using AutoMapper;
-using Domain.Entities.Private;
+using Domain.Entities.Enumerator;
 
 namespace Application.Common.MappingProfiles;
 
 [SuppressMessage("Style", "IDE0058", Justification = "AutoMapper")]
-internal sealed class CalendarResponseProfile : Profile
+internal sealed class DayTypeResponseProfile : Profile
 {
-	public CalendarResponseProfile()
+	public DayTypeResponseProfile()
 	{
-		CreateMap<CalendarDay, CalendarDayResponse>()
+		CreateMap<DayType, DayTypeResponse>()
 			.ReverseMap();
 	}
 }

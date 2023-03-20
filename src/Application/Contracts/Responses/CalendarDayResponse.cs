@@ -8,7 +8,7 @@ namespace Application.Contracts.Responses;
 /// <summary>
 /// The calendar response class.
 /// </summary>
-public sealed class CalendarResponse : BaseResponseModel
+public sealed class CalendarDayResponse : BaseResponseModel
 {
 	/// <summary>
 	/// The <see cref="Date"/> property.
@@ -71,10 +71,4 @@ public sealed class CalendarResponse : BaseResponseModel
 	/// The <see cref="DayTypeId"/> property.
 	/// </summary>
 	public int DayTypeId { get; set; } = default!;
-
-	/// <summary>
-	/// The day type as enumerator.
-	/// </summary>
-	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public DayTypes DayType => (DayTypes)DayTypeId;
 }

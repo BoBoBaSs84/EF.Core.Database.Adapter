@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Infrastructure.Repositories;
 using Domain.Entities.Private;
 using Domain.Extensions;
-using Infrastructure.Persistence.Repositories.BaseTypes;
+using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;

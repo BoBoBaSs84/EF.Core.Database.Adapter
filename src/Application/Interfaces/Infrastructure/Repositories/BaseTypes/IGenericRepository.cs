@@ -12,6 +12,19 @@ namespace Application.Interfaces.Infrastructure.Repositories.BaseTypes;
 public interface IGenericRepository<TEntity> where TEntity : class
 {
 	/// <summary>
+	/// The total record count of <typeparamref name="TEntity"/>.
+	/// </summary>
+	int TotalCount { get; }
+
+	/// <summary>
+	/// The query record count of <typeparamref name="TEntity"/>.
+	/// </summary>
+	/// <remarks>
+	/// This is the record count of the last query.
+	/// </remarks>
+	int QueryCount { get; }
+
+	/// <summary>
 	/// Should find all entries of the <typeparamref name="TEntity"/> entity.
 	/// </summary>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
@@ -23,6 +36,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// Should find a collection of <typeparamref name="TEntity"/> entities based on the specified criteria.
 	/// </summary>
 	/// <param name="expression">The condition the entities must fulfil to be returned.</param>
+	/// <param name="filterBy">The function used to filter the entities.</param>
 	/// <param name="orderBy">The function used to order the entities.</param>
 	/// <param name="take">The number of records to limit the results to.</param>
 	/// <param name="skip">The number of records to skip.</param>
@@ -31,7 +45,8 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="includeProperties">Any other navigation properties to include when returning the collection.</param>
 	/// <returns>A collection of entities.</returns>
 	Task<IEnumerable<TEntity>> GetManyByConditionAsync(
-		Expression<Func<TEntity, bool>> expression,
+		Expression<Func<TEntity, bool>>? expression = null,
+		Func<IQueryable<TEntity>, IQueryable<TEntity>>? filterBy = null,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		int? take = null,
 		int? skip = null,

@@ -1,4 +1,4 @@
-﻿namespace Application.Contracts.Features.Responses;
+﻿namespace Application.Features.Responses;
 
 /// <summary>
 /// The meta data class.
@@ -9,22 +9,27 @@ public sealed class MetaData
 	/// The current page property.
 	/// </summary>
 	public int CurrentPage { get; private set; }
+
 	/// <summary>
 	/// The total pages property.
 	/// </summary>
 	public int TotalPages { get; private set; }
+
 	/// <summary>
 	/// The page size property.
 	/// </summary>
 	public int PageSize { get; private set; }
+
 	/// <summary>
 	/// The total count property.
 	/// </summary>
 	public int TotalCount { get; private set; }
+
 	/// <summary>
 	/// Is there a previous page available?
 	/// </summary>
 	public bool HasPrevious => CurrentPage > 1;
+
 	/// <summary>
 	/// Is there a next page available?
 	/// </summary>

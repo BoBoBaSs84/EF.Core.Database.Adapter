@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Repositories;
 using Domain.Entities.Enumerator;
-using Infrastructure.Persistence.Repositories.BaseTypes;
+using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
@@ -9,12 +9,12 @@ namespace Infrastructure.Persistence.Repositories;
 /// The card type repository class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="EnumeratorRepository{TEntity}"/> class and implements the interfaces:
+/// Derives from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
 /// <list type="bullet">
 /// <item>The <see cref="ICardTypeRepository"/> interface</item>
 /// </list>
 /// </remarks>
-internal sealed class CardTypeRepository : EnumeratorRepository<CardType>, ICardTypeRepository
+internal sealed class CardTypeRepository : GenericRepository<CardType>, ICardTypeRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="CardTypeRepository"/> class.

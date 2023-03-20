@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Persistence.Repositories.BaseTypes;
+namespace Infrastructure.Persistence.Repositories.Base;
 
 /// <summary>
 /// The generic repository class.
@@ -16,6 +16,12 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	protected DbContext dbContext;
 	protected DbSet<TEntity> dbSet;
 
+	/// <inheritdoc/>
+	public int TotalCount { get; private set; }
+
+	/// <inheritdoc/>
+	public int QueryCount { get; private set; }
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GenericRepository{TEntity}"/> class.
 	/// </summary>
@@ -27,6 +33,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	{
 		this.dbContext = dbContext;
 		dbSet = dbContext.Set<TEntity>();
+		TotalCount = dbSet.Count();
 	}
 
 	public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default) =>
@@ -39,7 +46,8 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		await (!trackChanges ? dbSet.AsNoTracking().ToListAsync(cancellationToken) : dbSet.ToListAsync(cancellationToken));
 
 	public async Task<IEnumerable<TEntity>> GetManyByConditionAsync(
-		Expression<Func<TEntity, bool>> expression,
+		Expression<Func<TEntity, bool>>? expression = null,
+		Func<IQueryable<TEntity>, IQueryable<TEntity>>? filterBy = null,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		int? take = null,
 		int? skip = null,
@@ -48,16 +56,27 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		params string[] includeProperties)
 	{
 		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		
 		if (expression is not null)
 			query = query.Where(expression);
+		
+		if (filterBy is not null)
+			query = filterBy(query);
+		
+		QueryCount = await query.CountAsync(cancellationToken);
+		
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
+		
 		if (orderBy is not null)
 			query = orderBy(query);
+		
 		if (skip.HasValue)
 			query = query.Skip(skip.Value);
+		
 		if (take.HasValue)
 			query = query.Take(take.Value);
+		
 		return await query.ToListAsync(cancellationToken);
 	}
 
@@ -68,10 +87,13 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		params string[] includeProperties)
 	{
 		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		
 		if (expression is not null)
 			query = query.Where(expression);
+		
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
+		
 		return await query.SingleOrDefaultAsync(cancellationToken);
 	}
 

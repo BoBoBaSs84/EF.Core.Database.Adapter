@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Common;
 
-namespace Application.Contracts.Features.Responses;
+namespace Application.Features.Responses;
 
 /// <summary>
 /// The paged list interface.

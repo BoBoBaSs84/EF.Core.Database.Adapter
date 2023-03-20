@@ -9,9 +9,9 @@ namespace Application.Interfaces.Infrastructure.Repositories;
 /// <remarks>
 /// Derives from the following interfaces:
 /// <list type="bullet">
-/// <item>The <see cref="IEnumeratorRepository{TEntity}"/> interface</item>
+/// <item>The <see cref="IGenericRepository{TEntity}"/> interface</item>
 /// </list>
 /// </remarks>
-public interface ICardTypeRepository : IEnumeratorRepository<CardType>
+public interface ICardTypeRepository : IGenericRepository<CardType>
 {
 }

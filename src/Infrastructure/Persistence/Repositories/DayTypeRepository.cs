@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Repositories;
 using Domain.Entities.Enumerator;
-using Infrastructure.Persistence.Repositories.BaseTypes;
+using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
@@ -9,12 +9,12 @@ namespace Infrastructure.Persistence.Repositories;
 /// The day type repository class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="EnumeratorRepository{TEntity}"/> class and implements the interfaces:
+/// Derives from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
 /// <list type="bullet">
 /// <item>The <see cref="IDayTypeRepository"/> interface</item>
 /// </list>
 /// </remarks>
-internal sealed class DayTypeRepository : EnumeratorRepository<DayType>, IDayTypeRepository
+internal sealed class DayTypeRepository : GenericRepository<DayType>, IDayTypeRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DayTypeRepository"/> class.

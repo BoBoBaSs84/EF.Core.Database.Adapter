@@ -29,6 +29,8 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(CalendarDay);
 		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string GetByDate = "{date}";
+		internal const string GetById = "{id:int}";
 	}
 
 	/// <summary>

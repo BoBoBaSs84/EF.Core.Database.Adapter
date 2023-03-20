@@ -31,6 +31,50 @@ internal class CalendarDayService : ICalendarDayService
 		_mapper = mapper;
 	}
 
+	public async Task<ErrorOr<CalendarDayResponse>> GetByDate(DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
+				expression: x => x.Date.Equals(date.ToSqlDate()),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (calendarDay is null)
+				return ApiError.CreateNotFound("", "");
+
+			CalendarDayResponse result = _mapper.Map<CalendarDayResponse>(calendarDay);
+
+			return result;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex.Message, ex);
+			return ApiError.CreateFailure("", "");
+		}
+	}
+
+	public async Task<ErrorOr<CalendarDayResponse>> GetById(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByIdAsync(id, cancellationToken);
+
+			if (calendarDay is null)
+				return ApiError.CreateNotFound("", "");
+
+			CalendarDayResponse result = _mapper.Map<CalendarDayResponse>(calendarDay);
+
+			return result;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex.Message, ex);
+			return ApiError.CreateFailure("", "");
+		}
+	}
+
 	public async Task<ErrorOr<IPagedList<CalendarDayResponse>>> GetPagedByParameters(CalendarDayParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
@@ -43,6 +87,9 @@ internal class CalendarDayService : ICalendarDayService
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
+
+			if (!calendarDays.Any())
+				return ApiError.CreateNotFound("", "");
 
 			IEnumerable<CalendarDayResponse> result = _mapper.Map<IEnumerable<CalendarDayResponse>>(calendarDays);
 

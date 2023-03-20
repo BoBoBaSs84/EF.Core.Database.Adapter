@@ -92,8 +92,8 @@ internal class DayTypeService : IDayTypeService
 				cancellationToken: cancellationToken
 				);
 
-			if (dayTypes is null)
-				return ApiError.NotFound("", "");
+			if (!dayTypes.Any())
+				return ApiError.CreateNotFound("", "");
 
 			IEnumerable<DayTypeResponse> result = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
 

@@ -1,10 +1,12 @@
 ﻿using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Identity;
+using Application.Interfaces.Infrastructure.Logging;
 using Domain.Constants;
 using Domain.Entities.Identity;
 using Domain.Enumerators;
 using Domain.Extensions;
 using Infrastructure.Common;
+using Infrastructure.Logging;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Services;
@@ -33,6 +35,8 @@ public static class DependencyInjectionHelper
 	/// <returns>The enriched service collection.</returns>
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
+		services.AddMicrosoftLogger();
+
 		services.AddApplicationContext(configuration, environment);
 		services.AddIdentityService();
 
@@ -107,6 +111,17 @@ public static class DependencyInjectionHelper
 		services.TryAddTransient<IUserService, UserService>();
 		services.TryAddTransient<IRoleService, RoleService>();
 
+		return services;
+	}
+
+	/// <summary>
+	/// Registers the <see cref="MicrosoftLoggerWrapper{T}"></see> as <b>Singleton</b>
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	private static IServiceCollection AddMicrosoftLogger(this IServiceCollection services)
+	{
+		services.TryAddSingleton(typeof(ILoggerWrapper<>), typeof(MicrosoftLoggerWrapper<>));
 		return services;
 	}
 }

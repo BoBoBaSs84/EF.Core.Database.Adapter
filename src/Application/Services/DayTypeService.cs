@@ -4,6 +4,7 @@ using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure;
+using Application.Interfaces.Infrastructure.Logging;
 using AutoMapper;
 using Domain.Entities.Enumerator;
 using Domain.Errors;
@@ -16,9 +17,15 @@ namespace Application.Services;
 	Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 internal sealed class DayTypeService : IDayTypeService
 {
-	private readonly ILogger<DayTypeService> _logger;
+	private readonly ILoggerWrapper<DayTypeService> _logger;
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
+
+	private static readonly Action<ILogger, Exception?> logException =
+		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
+
+	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
 	/// Initilizes an instance of <see cref="DayTypeService"/> class.
@@ -26,7 +33,7 @@ internal sealed class DayTypeService : IDayTypeService
 	/// <param name="logger">The logger service.</param>
 	/// <param name="unitOfWork">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public DayTypeService(ILogger<DayTypeService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public DayTypeService(ILoggerWrapper<DayTypeService> logger, IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		_logger = logger;
 		_unitOfWork = unitOfWork;
@@ -52,7 +59,7 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logException, ex);
 			return DayTypeServiceErrors.GetByIdFailed;
 		}
 	}
@@ -76,7 +83,7 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logException, ex);
 			return DayTypeServiceErrors.GetByNameFailed;
 		}
 	}
@@ -105,7 +112,7 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logExceptionWithParams, parameters, ex);
 			return DayTypeServiceErrors.GetPagedByParametersFailed;
 		}
 	}

@@ -2,6 +2,7 @@
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Identity;
+using Application.Interfaces.Infrastructure.Logging;
 using AutoMapper;
 using Domain.Entities.Identity;
 using Domain.Errors;
@@ -13,16 +14,22 @@ namespace Application.Services;
 
 internal sealed class AuthenticationService : IAuthenticationService
 {
-	private readonly ILogger<AuthenticationService> _logger;
+	private readonly ILoggerWrapper<AuthenticationService> _logger;
 	private readonly IUserService _userService;
 	private readonly IMapper _mapper;
+
+	private static readonly Action<ILogger, Exception?> logException =
+		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
+
+	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
 	/// Initilizes an instance of <see cref="AuthenticationService"/> class.
 	/// </summary>
 	/// <param name="logger">The logger service.</param>
 	/// <param name="userService">The user service.</param>
-	public AuthenticationService(ILogger<AuthenticationService> logger, IUserService userService, IMapper mapper)
+	public AuthenticationService(ILoggerWrapper<AuthenticationService> logger, IUserService userService, IMapper mapper)
 	{
 		_logger = logger;
 		_userService = userService;
@@ -47,7 +54,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logExceptionWithParams, loginRequest, ex);
 			return AuthenticationServiceErrors.AuthenticateUserFailed;
 		}
 	}
@@ -61,16 +68,18 @@ internal sealed class AuthenticationService : IAuthenticationService
 			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
 			if (!result.Succeeded)
 			{
-				foreach (IdentityError error in result.Errors)
-					_logger.LogError($"{error.Code} - {error.Description}", error);
+				// TODO: !
+				//foreach (IdentityError error in result.Errors)
+				//	_logger.LogError($"{error.Code} - {error.Description}", error);
 				return AuthenticationServiceErrors.CreateUserFailed;
 			}
 
 			result = await _userService.AddToRolesAsync(user, createRequest.Roles);
 			if (!result.Succeeded)
 			{
-				foreach (IdentityError error in result.Errors)
-					_logger.LogError($"{error.Code} - {error.Description}", error);
+				// TODO: !
+				//foreach (IdentityError error in result.Errors)
+				//	_logger.LogError($"{error.Code} - {error.Description}", error);
 				return AuthenticationServiceErrors.CreateUserRolesFailed;
 			}
 
@@ -78,7 +87,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logExceptionWithParams, createRequest, ex);
 			return AuthenticationServiceErrors.CreateUserFailed;
 		}
 	}
@@ -106,8 +115,9 @@ internal sealed class AuthenticationService : IAuthenticationService
 			IdentityResult result = await _userService.UpdateAsync(user);
 			if (!result.Succeeded)
 			{
-				foreach (IdentityError error in result.Errors)
-					_logger.LogError($"{error.Code} - {error.Description}", error);
+				// TODO: !
+				//foreach (IdentityError error in result.Errors)
+				//	_logger.LogError($"{error.Code} - {error.Description}", error);
 				return AuthenticationServiceErrors.UpdateUserFailed;
 			}
 
@@ -115,7 +125,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logExceptionWithParams, updateRequest, ex);
 			return AuthenticationServiceErrors.UpdateUserFailed;
 		}
 	}

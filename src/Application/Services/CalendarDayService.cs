@@ -4,6 +4,7 @@ using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure;
+using Application.Interfaces.Infrastructure.Logging;
 using AutoMapper;
 using Domain.Entities.Private;
 using Domain.Errors;
@@ -15,9 +16,15 @@ namespace Application.Services;
 
 internal sealed class CalendarDayService : ICalendarDayService
 {
-	private readonly ILogger<CalendarDayService> _logger;
+	private readonly ILoggerWrapper<CalendarDayService> _logger;
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
+
+	private static readonly Action<ILogger, Exception?> logException =
+		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
+
+	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
 	/// Initilizes an instance of <see cref="CalendarDayService"/> class.
@@ -25,7 +32,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 	/// <param name="logger">The logger service.</param>
 	/// <param name="unitOfWork">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public CalendarDayService(ILogger<CalendarDayService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public CalendarDayService(ILoggerWrapper<CalendarDayService> logger, IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		_logger = logger;
 		_unitOfWork = unitOfWork;
@@ -51,7 +58,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logException, ex);
 			return CalendarDayServiceErrors.GetByDateFailed;
 		}
 	}
@@ -71,7 +78,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
+			_logger.Log(logException, ex);
 			return CalendarDayServiceErrors.GetByIdFailed;
 		}
 	}
@@ -100,7 +107,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex, parameters);
+			_logger.Log(logExceptionWithParams, parameters, ex);
 			return CalendarDayServiceErrors.GetPagedByParametersFailed;
 		}
 	}

@@ -14,41 +14,38 @@ namespace Application.Services;
 
 [SuppressMessage("Globalization", "CA1309",
 	Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
-internal sealed class DayTypeService : IDayTypeService
+internal sealed class CardTypeService : ICardTypeService
 {
-	private readonly ILogger<DayTypeService> _logger;
+	private readonly ILogger<CardTypeService> _logger;
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
 
 	/// <summary>
-	/// Initilizes an instance of <see cref="DayTypeService"/> class.
+	/// Initilizes an instance of <see cref="CardTypeService"/> class.
 	/// </summary>
 	/// <param name="logger">The logger service.</param>
 	/// <param name="unitOfWork">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public DayTypeService(ILogger<DayTypeService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public CardTypeService(ILogger<CardTypeService> logger, IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		_logger = logger;
 		_unitOfWork = unitOfWork;
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<DayTypeResponse>> GetById(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardTypeResponse>> GetById(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			DayType? dayType = await _unitOfWork.DayTypeRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(id),
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
-				);
+			CardType? cardType = await _unitOfWork.CardTypeRepository.GetByIdAsync(id, cancellationToken);
 
-			if (dayType is null)
+			if (cardType is null)
 				return ApiError.CreateNotFound("", "");
 
-			DayTypeResponse response = _mapper.Map<DayTypeResponse>(dayType);
+			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
 
 			return response;
+
 		}
 		catch (Exception ex)
 		{
@@ -57,22 +54,23 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 	}
 
-	public async Task<ErrorOr<DayTypeResponse>> GetByName(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardTypeResponse>> GetByName(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			DayType? dayType = await _unitOfWork.DayTypeRepository.GetByConditionAsync(
+			CardType? cardType = await _unitOfWork.CardTypeRepository.GetByConditionAsync(
 				expression: x => x.Name.Equals(name),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (dayType is null)
+			if (cardType is null)
 				return ApiError.CreateNotFound("", "");
 
-			DayTypeResponse response = _mapper.Map<DayTypeResponse>(dayType);
+			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
 
 			return response;
+
 		}
 		catch (Exception ex)
 		{
@@ -81,11 +79,11 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<DayTypeResponse>>> GetPagedByParameters(DayTypeParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IPagedList<CardTypeResponse>>> GetPagedByParameters(CardTypeParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<DayType> dayTypes = await _unitOfWork.DayTypeRepository.GetManyByConditionAsync(
+			IEnumerable<CardType> cardTypes = await _unitOfWork.CardTypeRepository.GetManyByConditionAsync(
 				filterBy: x => x.FilterByIsActive(parameters.IsActive).SearchByName(parameters.Name).SearchByDescription(parameters.Description),
 				orderBy: x => x.OrderBy(x => x.Id),
 				take: parameters.PageSize,
@@ -94,14 +92,14 @@ internal sealed class DayTypeService : IDayTypeService
 				cancellationToken: cancellationToken
 				);
 
-			if (!dayTypes.Any())
+			if (!cardTypes.Any())
 				return ApiError.CreateNotFound("", "");
 
-			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
+			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
 
-			int totalCount = _unitOfWork.DayTypeRepository.QueryCount;
+			int totalCount = _unitOfWork.CardRepository.TotalCount;
 
-			return new PagedList<DayTypeResponse>(response, totalCount, parameters.PageNumber, parameters.PageSize);
+			return new PagedList<CardTypeResponse>(response, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
 		catch (Exception ex)
 		{

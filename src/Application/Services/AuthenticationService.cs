@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-internal class AuthenticationService : IAuthenticationService
+internal sealed class AuthenticationService : IAuthenticationService
 {
 	private readonly ILogger<AuthenticationService> _logger;
 	private readonly IUserService _userService;

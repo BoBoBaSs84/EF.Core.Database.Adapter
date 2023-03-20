@@ -113,5 +113,59 @@ namespace Application.Properties {
                 return ResourceManager.GetString("AuthenticationServiceErrors.UserUnauthorized", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the calendar day by date..
+        /// </summary>
+        public static string CalendarDayServiceErrors_GetByDateFailed {
+            get {
+                return ResourceManager.GetString("CalendarDayServiceErrors.GetByDateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No calendar entry with the date: &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string CalendarDayServiceErrors_GetByDateNotFound {
+            get {
+                return ResourceManager.GetString("CalendarDayServiceErrors.GetByDateNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the calendar day by identifier..
+        /// </summary>
+        public static string CalendarDayServiceErrors_GetByIdFailed {
+            get {
+                return ResourceManager.GetString("CalendarDayServiceErrors.GetByIdFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No calendar entry with identifier: &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string CalendarDayServiceErrors_GetByIdNotFound {
+            get {
+                return ResourceManager.GetString("CalendarDayServiceErrors.GetByIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the calendar entries based on the parameterization..
+        /// </summary>
+        public static string CalendarDayServiceErrors_GetPagedByParametersFailed {
+            get {
+                return ResourceManager.GetString("CalendarDayServiceErrors.GetPagedByParametersFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No calendar entries could be found based on the parameterization..
+        /// </summary>
+        public static string CalendarDayServiceErrors_GetPagedByParametersNotFound {
+            get {
+                return ResourceManager.GetString("CalendarDayServiceErrors.GetPagedByParametersNotFound", resourceCulture);
+            }
+        }
     }
 }

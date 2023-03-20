@@ -2,14 +2,14 @@
 using AutoMapper;
 using Domain.Entities.Enumerator;
 
-namespace Application.Common.MappingProfiles;
+namespace Application.Common.MappingProfiles.Responses;
 
 [SuppressMessage("Style", "IDE0058", Justification = "AutoMapper")]
-internal sealed class DayTypeResponseProfile : Profile
+internal sealed class CardTypeResponseProfile : Profile
 {
-	public DayTypeResponseProfile()
+	public CardTypeResponseProfile()
 	{
-		CreateMap<DayType, DayTypeResponse>()
+		CreateMap<CardType, CardTypeResponse>()
 			.ReverseMap();
 	}
 }

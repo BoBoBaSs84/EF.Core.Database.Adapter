@@ -8,6 +8,7 @@ namespace Application.Interfaces.Application;
 /// <summary>
 /// The calendar service interface.
 /// </summary>
+[SuppressMessage("Naming", "CA1716", Justification = "Usable in all available languages in .NET")]
 public interface ICalendarDayService
 {
 	/// <summary>

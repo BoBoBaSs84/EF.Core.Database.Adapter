@@ -35,6 +35,7 @@ public sealed class DayTypeController : ApiControllerBase
 	/// Should return the day type entities as a paged list, filtered by the parameters.
 	/// </summary>
 	/// <param name="parameters">The day type query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
@@ -42,9 +43,10 @@ public sealed class DayTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetPagedByParameters([FromQuery] DayTypeParameters parameters)
+	public async Task<IActionResult> GetPagedByParameters([FromQuery] DayTypeParameters parameters, CancellationToken cancellationToken = default)
 	{
-		ErrorOr<IPagedList<DayTypeResponse>> result = await _dayTypeService.GetPagedByParameters(parameters);
+		ErrorOr<IPagedList<DayTypeResponse>> result =
+			await _dayTypeService.GetPagedByParameters(parameters, false, cancellationToken);
 
 		if (!result.IsError)
 		{
@@ -59,6 +61,7 @@ public sealed class DayTypeController : ApiControllerBase
 	/// Should return the day type by its identifier.
 	/// </summary>
 	/// <param name="id">The identifier of the day type.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
@@ -66,9 +69,10 @@ public sealed class DayTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int id)
+	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
 	{
-		ErrorOr<DayTypeResponse> result = await _dayTypeService.GetById(id);
+		ErrorOr<DayTypeResponse> result =
+			await _dayTypeService.GetById(id, false, cancellationToken);
 		return Get(result);
 	}
 
@@ -76,6 +80,7 @@ public sealed class DayTypeController : ApiControllerBase
 	/// Should return the day type by its name.
 	/// </summary>
 	/// <param name="name">The name of the day type.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
@@ -83,9 +88,10 @@ public sealed class DayTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByName(string name)
+	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken = default)
 	{
-		ErrorOr<DayTypeResponse> result = await _dayTypeService.GetByName(name);
+		ErrorOr<DayTypeResponse> result =
+			await _dayTypeService.GetByName(name, false, cancellationToken);
 		return Get(result);	
 	}
 }

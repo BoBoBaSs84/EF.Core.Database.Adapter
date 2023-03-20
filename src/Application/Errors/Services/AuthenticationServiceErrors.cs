@@ -18,7 +18,7 @@ public static class AuthenticationServiceErrors
 	/// Error that indicates an exception during the user authentication.
 	/// </summary>
 	public static readonly ApiError AuthenticateUserFailed =
-		ApiError.CreateFailure($"{ErrorPrefix}.{nameof(AuthenticateUserFailed)}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(AuthenticateUserFailed)}",
 			RESX.AuthenticationServiceErrors_AuthenticateFailed);
 
 	/// <summary>
@@ -43,20 +43,20 @@ public static class AuthenticationServiceErrors
 	/// Error that indicates an exception during the user creation.
 	/// </summary>
 	public static readonly ApiError CreateUserFailed =
-		ApiError.CreateFailure($"{ErrorPrefix}.{nameof(CreateUserFailed)}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateUserFailed)}",
 			RESX.AuthenticationServiceErrors_CreateUserFailed);
 
 	/// <summary>
 	/// Error that indicates an exception during the user creation.
 	/// </summary>
 	public static readonly ApiError CreateUserRolesFailed =
-		ApiError.CreateFailure($"{ErrorPrefix}.{nameof(CreateUserRolesFailed)}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateUserRolesFailed)}",
 			RESX.AuthenticationServiceErrors_CreateUserRolesFailed);
 
 	/// <summary>
 	/// Error that indicates an exception during the user update.
 	/// </summary>
 	public static readonly ApiError UpdateUserFailed =
-		ApiError.CreateFailure($"{ErrorPrefix}.{nameof(UpdateUserFailed)}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateUserFailed)}",
 			RESX.AuthenticationServiceErrors_UpdateUserFailed);
 }

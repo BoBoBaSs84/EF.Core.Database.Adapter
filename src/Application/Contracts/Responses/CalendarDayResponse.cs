@@ -1,14 +1,15 @@
-﻿using Application.Contracts.Common;
-using Domain.Enumerators;
+﻿using Application.Contracts.Responses.Base;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Application.Contracts.Responses;
 
 /// <summary>
 /// The calendar response class.
 /// </summary>
-public sealed class CalendarDayResponse : BaseResponseModel
+/// <remarks>
+/// Derives from the <see cref="ResponseModel"/> class.
+/// </remarks>
+public sealed class CalendarDayResponse : ResponseModel
 {
 	/// <summary>
 	/// The <see cref="Date"/> property.

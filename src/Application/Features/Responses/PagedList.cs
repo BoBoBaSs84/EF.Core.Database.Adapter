@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Common;
+﻿using Application.Contracts.Responses.Base;
 
 namespace Application.Features.Responses;
 
@@ -9,7 +9,7 @@ namespace Application.Features.Responses;
 /// Derives from the <see cref="List{T}"/> class.
 /// </remarks>
 /// <typeparam name="T"></typeparam>
-public sealed class PagedList<T> : List<T>, IPagedList<T> where T : BaseResponseModel
+public sealed class PagedList<T> : List<T>, IPagedList<T> where T : ResponseModel
 {
 	/// <inheritdoc/>
 	public MetaData MetaData { get; set; }

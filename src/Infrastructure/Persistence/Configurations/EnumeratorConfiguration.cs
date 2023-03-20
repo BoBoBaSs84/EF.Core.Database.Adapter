@@ -22,6 +22,10 @@ internal static class EnumeratorConfiguration
 			builder.HasKey(e => e.Id)
 				.IsClustered(true);
 
+			builder.HasIndex(e => e.Name)
+				.IsClustered(true)
+				.IsUnique(true);
+
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.CardType)
 				.HasForeignKey(e => e.CardTypeId)
@@ -59,6 +63,10 @@ internal static class EnumeratorConfiguration
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(true);
+
+			builder.HasIndex(e => e.Name)
+				.IsClustered(true)
+				.IsUnique(true);
 
 			builder.HasMany(e => e.CalendarDays)
 				.WithOne(e => e.DayType)

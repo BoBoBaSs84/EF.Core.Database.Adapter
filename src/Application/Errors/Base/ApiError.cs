@@ -74,6 +74,6 @@ public record class ApiError : Error
 	/// <param name="code">The unique error code.</param>
 	/// <param name="description">The error description.</param>
 	/// <returns>Api error</returns>
-	public static ApiError CreateFailure(string code, string description) =>
+	public static ApiError CreateFailed(string code, string description) =>
 		new(Failure(code, description), HttpStatusCode.InternalServerError);
 }

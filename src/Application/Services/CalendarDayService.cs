@@ -1,5 +1,5 @@
 ﻿using Application.Contracts.Responses;
-using Application.Errors.Base;
+using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
@@ -8,11 +8,12 @@ using AutoMapper;
 using Domain.Entities.Private;
 using Domain.Errors;
 using Domain.Extensions;
+using Domain.Extensions.QueryExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-internal class CalendarDayService : ICalendarDayService
+internal sealed class CalendarDayService : ICalendarDayService
 {
 	private readonly ILogger<CalendarDayService> _logger;
 	private readonly IUnitOfWork _unitOfWork;
@@ -42,7 +43,7 @@ internal class CalendarDayService : ICalendarDayService
 				);
 
 			if (calendarDay is null)
-				return ApiError.CreateNotFound("", "");
+				return CalendarDayServiceErrors.GetByDateNotFound(date);
 
 			CalendarDayResponse result = _mapper.Map<CalendarDayResponse>(calendarDay);
 
@@ -51,7 +52,7 @@ internal class CalendarDayService : ICalendarDayService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailure("", "");
+			return CalendarDayServiceErrors.GetByDateFailed;
 		}
 	}
 
@@ -62,7 +63,7 @@ internal class CalendarDayService : ICalendarDayService
 			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByIdAsync(id, cancellationToken);
 
 			if (calendarDay is null)
-				return ApiError.CreateNotFound("", "");
+				return CalendarDayServiceErrors.GetByIdNotFound(id);
 
 			CalendarDayResponse result = _mapper.Map<CalendarDayResponse>(calendarDay);
 
@@ -71,7 +72,7 @@ internal class CalendarDayService : ICalendarDayService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailure("", "");
+			return CalendarDayServiceErrors.GetByIdFailed;
 		}
 	}
 
@@ -89,7 +90,7 @@ internal class CalendarDayService : ICalendarDayService
 				);
 
 			if (!calendarDays.Any())
-				return ApiError.CreateNotFound("", "");
+				return CalendarDayServiceErrors.GetPagedByParametersNotFound;
 
 			IEnumerable<CalendarDayResponse> result = _mapper.Map<IEnumerable<CalendarDayResponse>>(calendarDays);
 
@@ -99,8 +100,8 @@ internal class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailure("", "");
+			_logger.LogError(ex.Message, ex, parameters);
+			return CalendarDayServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 }

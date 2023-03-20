@@ -14,6 +14,7 @@ public sealed class CalendarDayParameters : RequestParameters
 	/// <summary>
 	/// The year to be filtered.
 	/// </summary>
+	[Range(1900, 2100)]
 	public int? Year { get; set; }
 
 	/// <summary>
@@ -21,4 +22,16 @@ public sealed class CalendarDayParameters : RequestParameters
 	/// </summary>
 	[Range(1, 12)]
 	public int? Month { get; set; }
+
+	/// <summary>
+	/// The minimum date to be filtered.
+	/// </summary>	
+	[DataType(DataType.Date)]
+	public DateTime? MinDate { get; set; }
+
+	/// <summary>
+	/// The maximum date to be filtered.
+	/// </summary>
+	[DataType(DataType.Date)]
+	public DateTime? MaxDate { get; set; }
 }

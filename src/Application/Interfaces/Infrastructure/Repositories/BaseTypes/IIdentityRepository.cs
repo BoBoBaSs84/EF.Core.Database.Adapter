@@ -1,4 +1,6 @@
-﻿namespace Application.Interfaces.Infrastructure.Repositories.BaseTypes;
+﻿using Domain.Common.EntityBaseTypes;
+
+namespace Application.Interfaces.Infrastructure.Repositories.BaseTypes;
 
 /// <summary>
 /// The identity repository interface.
@@ -10,7 +12,7 @@
 /// </list>
 /// </remarks>
 /// <typeparam name="TEntity">The identity entity work with.</typeparam>
-public interface IIdentityRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+public interface IIdentityRepository<TEntity> : IGenericRepository<TEntity> where TEntity : IdentityModel
 {
 	/// <summary>
 	/// Should fetch a collection of entites by their primary keys.

@@ -27,6 +27,20 @@ public static class QueryExtensions
 		month.HasValue ? query.Where(x => x.Month.Equals(month)) : query;
 
 	/// <summary>
+	/// Should filter the calendar day entities by a date range.
+	/// </summary>
+	/// <param name="query">The query to filter.</param>
+	/// <param name="minDate">The minimum date.</param>
+	/// <param name="maxDate">The maximum date.</param>
+	/// <returns><see cref="IQueryable{T}"/></returns>
+	public static IQueryable<CalendarDay> FilterByDateRange(this IQueryable<CalendarDay> query, DateTime? minDate, DateTime? maxDate)
+	{
+		query = minDate.HasValue ? query.Where(x => x.Date >= minDate) : query;
+		query = maxDate.HasValue ? query.Where(x => x.Date <= maxDate) : query;
+		return query;
+	}
+
+	/// <summary>
 	/// Should search the day type entities by the description.
 	/// </summary>
 	/// <param name="query">The query to search.</param>

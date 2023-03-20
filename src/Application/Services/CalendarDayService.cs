@@ -36,7 +36,7 @@ internal class CalendarDayService : ICalendarDayService
 		try
 		{
 			IEnumerable<CalendarDay> calendarDays = await _unitOfWork.CalendarDayRepository.GetManyByConditionAsync(
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month),
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
 				orderBy: x => x.OrderBy(x => x.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,

@@ -8,7 +8,7 @@ namespace Application.Interfaces.Application;
 /// <summary>
 /// The card type service interface.
 /// </summary>
-internal interface ICardTypeService
+public interface ICardTypeService
 {
 	/// <summary>
 	/// Should return the card type entities as a paged list, filtered by the parameters.

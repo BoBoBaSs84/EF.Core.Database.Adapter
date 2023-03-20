@@ -26,6 +26,7 @@ public static class DependencyInjectionHelper
 		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 		services.TryAddScoped<ICalendarDayService, CalendarDayService>();
 		services.TryAddScoped<IDayTypeService, DayTypeService>();
+		services.TryAddScoped<ICardTypeService, CardTypeService>();
 		return services;
 	}
 

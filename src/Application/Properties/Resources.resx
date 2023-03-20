@@ -139,18 +139,54 @@
     <value>An error occurred while loading the calendar day by date.</value>
   </data>
   <data name="CalendarDayServiceErrors.GetByDateNotFound" xml:space="preserve">
-    <value>No calendar entry with the date: '{0}' could be found.</value>
+    <value>No calendar day entry with the date: '{0}' could be found.</value>
   </data>
   <data name="CalendarDayServiceErrors.GetByIdFailed" xml:space="preserve">
     <value>An error occurred while loading the calendar day by identifier.</value>
   </data>
   <data name="CalendarDayServiceErrors.GetByIdNotFound" xml:space="preserve">
-    <value>No calendar entry with identifier: '{0}' could be found.</value>
+    <value>No calendar day entry with identifier: '{0}' could be found.</value>
   </data>
   <data name="CalendarDayServiceErrors.GetPagedByParametersFailed" xml:space="preserve">
     <value>An error occurred while loading the calendar entries based on the parameterization.</value>
   </data>
   <data name="CalendarDayServiceErrors.GetPagedByParametersNotFound" xml:space="preserve">
     <value>No calendar entries could be found based on the parameterization.</value>
+  </data>
+  <data name="CardTypeServiceErrors.GetByIdFailed" xml:space="preserve">
+    <value>An error occurred while loading the card type by identifier.</value>
+  </data>
+  <data name="CardTypeServiceErrors.GetByIdNotFound" xml:space="preserve">
+    <value>No card type entry with identifier: '{0}' could be found.</value>
+  </data>
+  <data name="CardTypeServiceErrors.GetByNameFailed" xml:space="preserve">
+    <value>An error occurred while loading the card type day by name.</value>
+  </data>
+  <data name="CardTypeServiceErrors.GetByNameNotFound" xml:space="preserve">
+    <value>No card type entry with the name: '{0}' could be found.</value>
+  </data>
+  <data name="CardTypeServiceErrors.GetPagedByParametersFailed" xml:space="preserve">
+    <value>An error occurred while loading the card type entries based on the parameterization.</value>
+  </data>
+  <data name="CardTypeServiceErrors.GetPagedByParametersNotFound" xml:space="preserve">
+    <value>No card type entries could be found based on the parameterization.</value>
+  </data>
+  <data name="DayTypeServiceErrors.GetByIdFailed" xml:space="preserve">
+    <value>An error occurred while loading the day type by identifier.</value>
+  </data>
+  <data name="DayTypeServiceErrors.GetByIdNotFound" xml:space="preserve">
+    <value>No day type entry with identifier: '{0}' could be found.</value>
+  </data>
+  <data name="DayTypeServiceErrors.GetByNameFailed" xml:space="preserve">
+    <value>An error occurred while loading the day type day by name.</value>
+  </data>
+  <data name="DayTypeServiceErrors.GetByNameNotFound" xml:space="preserve">
+    <value>No day type entry with the name: '{0}' could be found.</value>
+  </data>
+  <data name="DayTypeServiceErrors.GetPagedByParametersFailed" xml:space="preserve">
+    <value>An error occurred while loading the day type entries based on the parameterization.</value>
+  </data>
+  <data name="DayTypeServiceErrors.GetPagedByParametersNotFound" xml:space="preserve">
+    <value>No day type entries could be found based on the parameterization.</value>
   </data>
 </root>

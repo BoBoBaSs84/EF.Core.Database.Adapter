@@ -1,5 +1,5 @@
 ﻿using Application.Contracts.Responses;
-using Application.Errors.Base;
+using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
@@ -40,7 +40,7 @@ internal sealed class CardTypeService : ICardTypeService
 			CardType? cardType = await _unitOfWork.CardTypeRepository.GetByIdAsync(id, cancellationToken);
 
 			if (cardType is null)
-				return ApiError.CreateNotFound("", "");
+				return CardTypeServiceErrors.GetByIdNotFound(id);
 
 			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
 
@@ -50,7 +50,7 @@ internal sealed class CardTypeService : ICardTypeService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailed("", "");
+			return CardTypeServiceErrors.GetByIdFailed;
 		}
 	}
 
@@ -65,7 +65,7 @@ internal sealed class CardTypeService : ICardTypeService
 				);
 
 			if (cardType is null)
-				return ApiError.CreateNotFound("", "");
+				return CardTypeServiceErrors.GetByNameNotFound(name);
 
 			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
 
@@ -75,7 +75,7 @@ internal sealed class CardTypeService : ICardTypeService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailed("", "");
+			return CardTypeServiceErrors.GetByNameFailed;
 		}
 	}
 
@@ -93,7 +93,7 @@ internal sealed class CardTypeService : ICardTypeService
 				);
 
 			if (!cardTypes.Any())
-				return ApiError.CreateNotFound("", "");
+				return CardTypeServiceErrors.GetPagedByParametersNotFound;
 
 			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
 
@@ -104,7 +104,7 @@ internal sealed class CardTypeService : ICardTypeService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailed("", "");
+			return CardTypeServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 }

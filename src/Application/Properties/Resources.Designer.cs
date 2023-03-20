@@ -124,7 +124,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No calendar entry with the date: &apos;{0}&apos; could be found..
+        ///   Looks up a localized string similar to No calendar day entry with the date: &apos;{0}&apos; could be found..
         /// </summary>
         public static string CalendarDayServiceErrors_GetByDateNotFound {
             get {
@@ -142,7 +142,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No calendar entry with identifier: &apos;{0}&apos; could be found..
+        ///   Looks up a localized string similar to No calendar day entry with identifier: &apos;{0}&apos; could be found..
         /// </summary>
         public static string CalendarDayServiceErrors_GetByIdNotFound {
             get {
@@ -165,6 +165,114 @@ namespace Application.Properties {
         public static string CalendarDayServiceErrors_GetPagedByParametersNotFound {
             get {
                 return ResourceManager.GetString("CalendarDayServiceErrors.GetPagedByParametersNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the card type by identifier..
+        /// </summary>
+        public static string CardTypeServiceErrors_GetByIdFailed {
+            get {
+                return ResourceManager.GetString("CardTypeServiceErrors.GetByIdFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No card type entry with identifier: &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string CardTypeServiceErrors_GetByIdNotFound {
+            get {
+                return ResourceManager.GetString("CardTypeServiceErrors.GetByIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the card type day by name..
+        /// </summary>
+        public static string CardTypeServiceErrors_GetByNameFailed {
+            get {
+                return ResourceManager.GetString("CardTypeServiceErrors.GetByNameFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No card type entry with the name: &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string CardTypeServiceErrors_GetByNameNotFound {
+            get {
+                return ResourceManager.GetString("CardTypeServiceErrors.GetByNameNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the card type entries based on the parameterization..
+        /// </summary>
+        public static string CardTypeServiceErrors_GetPagedByParametersFailed {
+            get {
+                return ResourceManager.GetString("CardTypeServiceErrors.GetPagedByParametersFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No card type entries could be found based on the parameterization..
+        /// </summary>
+        public static string CardTypeServiceErrors_GetPagedByParametersNotFound {
+            get {
+                return ResourceManager.GetString("CardTypeServiceErrors.GetPagedByParametersNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the day type by identifier..
+        /// </summary>
+        public static string DayTypeServiceErrors_GetByIdFailed {
+            get {
+                return ResourceManager.GetString("DayTypeServiceErrors.GetByIdFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No day type entry with identifier: &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string DayTypeServiceErrors_GetByIdNotFound {
+            get {
+                return ResourceManager.GetString("DayTypeServiceErrors.GetByIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the day type day by name..
+        /// </summary>
+        public static string DayTypeServiceErrors_GetByNameFailed {
+            get {
+                return ResourceManager.GetString("DayTypeServiceErrors.GetByNameFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No day type entry with the name: &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string DayTypeServiceErrors_GetByNameNotFound {
+            get {
+                return ResourceManager.GetString("DayTypeServiceErrors.GetByNameNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the day type entries based on the parameterization..
+        /// </summary>
+        public static string DayTypeServiceErrors_GetPagedByParametersFailed {
+            get {
+                return ResourceManager.GetString("DayTypeServiceErrors.GetPagedByParametersFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No day type entries could be found based on the parameterization..
+        /// </summary>
+        public static string DayTypeServiceErrors_GetPagedByParametersNotFound {
+            get {
+                return ResourceManager.GetString("DayTypeServiceErrors.GetPagedByParametersNotFound", resourceCulture);
             }
         }
     }

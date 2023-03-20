@@ -1,5 +1,5 @@
 ﻿using Application.Contracts.Responses;
-using Application.Errors.Base;
+using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
@@ -44,7 +44,7 @@ internal sealed class DayTypeService : IDayTypeService
 				);
 
 			if (dayType is null)
-				return ApiError.CreateNotFound("", "");
+				return DayTypeServiceErrors.GetByIdNotFound(id);
 
 			DayTypeResponse response = _mapper.Map<DayTypeResponse>(dayType);
 
@@ -53,7 +53,7 @@ internal sealed class DayTypeService : IDayTypeService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailed("", "");
+			return DayTypeServiceErrors.GetByIdFailed;
 		}
 	}
 
@@ -68,7 +68,7 @@ internal sealed class DayTypeService : IDayTypeService
 				);
 
 			if (dayType is null)
-				return ApiError.CreateNotFound("", "");
+				return DayTypeServiceErrors.GetByNameNotFound(name);
 
 			DayTypeResponse response = _mapper.Map<DayTypeResponse>(dayType);
 
@@ -77,7 +77,7 @@ internal sealed class DayTypeService : IDayTypeService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailed("", "");
+			return DayTypeServiceErrors.GetByNameFailed;
 		}
 	}
 
@@ -95,7 +95,7 @@ internal sealed class DayTypeService : IDayTypeService
 				);
 
 			if (!dayTypes.Any())
-				return ApiError.CreateNotFound("", "");
+				return DayTypeServiceErrors.GetPagedByParametersNotFound;
 
 			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
 
@@ -106,7 +106,7 @@ internal sealed class DayTypeService : IDayTypeService
 		catch (Exception ex)
 		{
 			_logger.LogError(ex.Message, ex);
-			return ApiError.CreateFailed("", "");
+			return DayTypeServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 }

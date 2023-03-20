@@ -23,7 +23,6 @@ public static class DependencyInjectionHelper
 	/// <returns>The enriched service collection.</returns>
 	public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
-		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 		services.TryAddScoped<ICalendarDayService, CalendarDayService>();
 		services.TryAddScoped<IDayTypeService, DayTypeService>();
 		services.TryAddScoped<ICardTypeService, CardTypeService>();

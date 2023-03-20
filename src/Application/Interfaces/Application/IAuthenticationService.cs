@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Requests.Identity;
+using Application.Contracts.Responses.Identity;
 using Domain.Errors;
 using Domain.Results;
 
@@ -29,5 +30,5 @@ public interface IAuthenticationService
 	/// </summary>
 	/// <param name="loginRequest">The user create reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Success>> AuthenticateUser(UserLoginRequest loginRequest);
+	Task<ErrorOr<AuthenticationResponse>> AuthenticateUser(UserLoginRequest loginRequest);
 }

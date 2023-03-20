@@ -1,15 +1,15 @@
-﻿using Application.Interfaces.Infrastructure;
+﻿using Application.Interfaces.Application;
+using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Identity;
 using Application.Interfaces.Infrastructure.Logging;
 using Domain.Constants;
 using Domain.Entities.Identity;
-using Domain.Enumerators;
-using Domain.Extensions;
 using Infrastructure.Common;
 using Infrastructure.Logging;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Infrastructure.Installer;
 
@@ -38,10 +40,14 @@ public static class DependencyInjectionHelper
 		services.AddMicrosoftLogger();
 
 		services.AddApplicationContext(configuration, environment);
-		services.AddIdentityService();
+		services.AddIdentityService(configuration);
+		services.ConfigureJWT(configuration);
 
 		services.TryAddScoped<SaveChangesInterceptor>();
 		services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+		services.TryAddScoped<IUserService, UserService>();
+		services.TryAddScoped<IRoleService, RoleService>();
+		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 
 		return services;
 	}
@@ -85,7 +91,7 @@ public static class DependencyInjectionHelper
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	private static IServiceCollection AddIdentityService(this IServiceCollection services)
+	private static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration configuration)
 	{
 		services.AddIdentity<User, Role>(options =>
 		{
@@ -104,12 +110,27 @@ public static class DependencyInjectionHelper
 			.AddUserManager<UserService>()
 			.AddRoleManager<RoleService>();
 
-		services.AddAuthentication();
-		services.AddAuthorization(options => options.AddPolicy("CanPurge",
-			policy => policy.RequireRole(RoleTypes.ADMINISTRATOR.GetName())));
+		return services;
+	}
 
-		services.TryAddTransient<IUserService, UserService>();
-		services.TryAddTransient<IRoleService, RoleService>();
+	private static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+	{
+		IConfigurationSection jwtSettings = configuration.GetRequiredSection("JWTSettings");
+
+		services.AddAuthentication(options =>
+		{
+			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+		}).AddJwtBearer(options => options.TokenValidationParameters = new()
+		{
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateLifetime = true,
+			ValidateIssuerSigningKey = true,
+			ValidIssuer = jwtSettings["validIssuer"],
+			ValidAudience = jwtSettings["validAudience"],
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["securityKey"]))
+		});
 
 		return services;
 	}

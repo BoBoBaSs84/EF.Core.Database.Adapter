@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Requests.Identity;
+using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Identity;
@@ -8,12 +9,20 @@ using Domain.Entities.Identity;
 using Domain.Errors;
 using Domain.Results;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using IC = Infrastructure.Constants.InfrastructureConstants;
 
-namespace Application.Services;
+namespace Infrastructure.Services;
 
 internal sealed class AuthenticationService : IAuthenticationService
 {
+	private readonly IConfiguration _configuration;
+	private readonly IConfigurationSection _jwtSettings;
 	private readonly ILoggerWrapper<AuthenticationService> _logger;
 	private readonly IUserService _userService;
 	private readonly IMapper _mapper;
@@ -27,16 +36,20 @@ internal sealed class AuthenticationService : IAuthenticationService
 	/// <summary>
 	/// Initilizes an instance of <see cref="AuthenticationService"/> class.
 	/// </summary>
+	/// <param name="configuration">The configuration.</param>
 	/// <param name="logger">The logger service.</param>
 	/// <param name="userService">The user service.</param>
-	public AuthenticationService(ILoggerWrapper<AuthenticationService> logger, IUserService userService, IMapper mapper)
+	/// <param name="mapper">The auto mapper.</param>
+	public AuthenticationService(IConfiguration configuration, ILoggerWrapper<AuthenticationService> logger, IUserService userService, IMapper mapper)
 	{
+		_configuration = configuration;
+		_jwtSettings = _configuration.GetRequiredSection(IC.JwtSettings);
 		_logger = logger;
 		_userService = userService;
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Success>> AuthenticateUser(UserLoginRequest loginRequest)
+	public async Task<ErrorOr<AuthenticationResponse>> AuthenticateUser(UserLoginRequest loginRequest)
 	{
 		try
 		{
@@ -45,12 +58,15 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserNotFound(loginRequest.UserName);
 
-			bool success = await _userService.CheckPasswordAsync(user, loginRequest.Password);
-
-			if (!success)
+			if (!await _userService.CheckPasswordAsync(user, loginRequest.Password))
 				return AuthenticationServiceErrors.UserUnauthorized(loginRequest.UserName);
 
-			return Result.Success;
+			SigningCredentials signingCredentials = GetSigningCredentials();
+			IEnumerable<Claim> claims = GetClaims(user);
+			JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+			string token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+			return new AuthenticationResponse() { Token = token };
 		}
 		catch (Exception ex)
 		{
@@ -67,21 +83,17 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
 			if (!result.Succeeded)
-			{
 				// TODO: !
 				//foreach (IdentityError error in result.Errors)
 				//	_logger.LogError($"{error.Code} - {error.Description}", error);
 				return AuthenticationServiceErrors.CreateUserFailed;
-			}
 
 			result = await _userService.AddToRolesAsync(user, createRequest.Roles);
 			if (!result.Succeeded)
-			{
 				// TODO: !
 				//foreach (IdentityError error in result.Errors)
 				//	_logger.LogError($"{error.Code} - {error.Description}", error);
 				return AuthenticationServiceErrors.CreateUserRolesFailed;
-			}
 
 			return Result.Created;
 		}
@@ -114,12 +126,10 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 			IdentityResult result = await _userService.UpdateAsync(user);
 			if (!result.Succeeded)
-			{
 				// TODO: !
 				//foreach (IdentityError error in result.Errors)
 				//	_logger.LogError($"{error.Code} - {error.Description}", error);
 				return AuthenticationServiceErrors.UpdateUserFailed;
-			}
 
 			return Result.Updated;
 		}
@@ -128,5 +138,28 @@ internal sealed class AuthenticationService : IAuthenticationService
 			_logger.Log(logExceptionWithParams, updateRequest, ex);
 			return AuthenticationServiceErrors.UpdateUserFailed;
 		}
+	}
+
+	private SigningCredentials GetSigningCredentials()
+	{
+		byte[] key = Encoding.UTF8.GetBytes(_jwtSettings[IC.SecurityKey]!);
+		SymmetricSecurityKey secret = new(key);
+
+		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+	}
+
+	private static IEnumerable<Claim> GetClaims(User user) =>
+		new List<Claim>() { new Claim(ClaimTypes.Name, user.Email) };
+
+	private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, IEnumerable<Claim> claims)
+	{
+		JwtSecurityToken tokenOptions = new(
+				issuer: _jwtSettings[IC.ValidIssuer],
+				audience: _jwtSettings[IC.ValidAudience],
+				claims: claims,
+				expires: DateTime.Now.AddMinutes(double.Parse(_jwtSettings[IC.ExpiryInMinutes])),
+				signingCredentials: signingCredentials);
+
+		return tokenOptions;
 	}
 }

@@ -18,6 +18,7 @@
 
 	<ItemGroup>
 		<Using Include="System.Diagnostics.CodeAnalysis" />
+		<Using Include="System.Text" />
 	</ItemGroup>
 
 </Project>

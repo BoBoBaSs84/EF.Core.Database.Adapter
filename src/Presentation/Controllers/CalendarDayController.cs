@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.Common;
 using Presentation.Controllers.Base;
 using System.ComponentModel.DataAnnotations;
-using HHC = Presentation.Constants.WebConstants.HttpHeaders;
+using HHC = Presentation.Constants.PresentationConstants.HttpHeaders;
 
 namespace Presentation.Controllers;
 

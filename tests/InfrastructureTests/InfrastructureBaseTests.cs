@@ -54,7 +54,7 @@ public class InfrastructureBaseTests : BaseTestUnit
 			.UseEnvironment(Environment)
 			.ConfigureServices((hostContext, services) =>
 			{
-				services.AddInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
+				services.ConfigureInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
 				services.TryAddSingleton<ICurrentUserService, CurrentTestUserService>();
 			});
 

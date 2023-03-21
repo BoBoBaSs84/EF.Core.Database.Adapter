@@ -5,7 +5,7 @@ namespace Presentation.Constants;
 /// <summary>
 /// Class with some constants for web
 /// </summary>
-public static class WebConstants
+public static class PresentationConstants
 {
 	/// <summary>
 	/// Class with some constants for http policies

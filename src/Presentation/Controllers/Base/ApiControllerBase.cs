@@ -132,7 +132,7 @@ public abstract class ApiControllerBase : ControllerBase
 
 		ProblemDetails problemDetails = new()
 		{
-			Type = WebConstants.ProblemDetailsTypes.Error500Type,
+			Type = PresentationConstants.ProblemDetailsTypes.Error500Type,
 			Status = (int)error.StatusCode,
 			Title = error.Code,
 			Detail = error.Description,

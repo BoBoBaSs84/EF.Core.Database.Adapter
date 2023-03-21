@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using IC = Infrastructure.Constants.InfrastructureConstants;
 
 namespace Infrastructure.Installer;
 
@@ -35,12 +35,12 @@ public static class DependencyInjectionHelper
 	/// <param name="configuration">The current configuration.</param>
 	/// <param name="environment">The hosting environment.</param>
 	/// <returns>The enriched service collection.</returns>
-	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+	public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
 		services.AddMicrosoftLogger();
 
 		services.AddApplicationContext(configuration, environment);
-		services.AddIdentityService(configuration);
+		services.AddIdentityService();
 		services.ConfigureJWT(configuration);
 
 		services.TryAddScoped<SaveChangesInterceptor>();
@@ -91,7 +91,7 @@ public static class DependencyInjectionHelper
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	private static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration configuration)
+	private static IServiceCollection AddIdentityService(this IServiceCollection services)
 	{
 		services.AddIdentity<User, Role>(options =>
 		{
@@ -113,9 +113,15 @@ public static class DependencyInjectionHelper
 		return services;
 	}
 
+	/// <summary>
+	/// Registers the identity jwt bearer authentication.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <param name="configuration">The current configuration.</param>
+	/// <returns>The enriched service collection.</returns>
 	private static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
 	{
-		IConfigurationSection jwtSettings = configuration.GetRequiredSection("JWTSettings");
+		IConfigurationSection jwtSettings = configuration.GetRequiredSection(IC.JwtSettings);
 
 		services.AddAuthentication(options =>
 		{
@@ -127,9 +133,9 @@ public static class DependencyInjectionHelper
 			ValidateAudience = true,
 			ValidateLifetime = true,
 			ValidateIssuerSigningKey = true,
-			ValidIssuer = jwtSettings["validIssuer"],
-			ValidAudience = jwtSettings["validAudience"],
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["securityKey"]))
+			ValidIssuer = jwtSettings[IC.ValidIssuer],
+			ValidAudience = jwtSettings[IC.ValidAudience],
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings[IC.SecurityKey]))
 		});
 
 		return services;

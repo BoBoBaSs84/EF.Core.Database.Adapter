@@ -12,7 +12,7 @@
 		<PackageProjectUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<VersionSuffix Condition=" '$(Configuration)' == 'Debug' ">dev</VersionSuffix>
+		<VersionSuffix Condition="'$(Configuration)'=='Debug'">dev</VersionSuffix>
 		<Version>1.0.0</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">

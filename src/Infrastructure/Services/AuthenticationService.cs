@@ -58,7 +58,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName);
 
 			SigningCredentials signingCredentials = GetSigningCredentials();
-			IEnumerable<Claim> claims = GetClaims(user);
+			IEnumerable<Claim> claims = await GetClaims(user);
 			JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 			string token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
@@ -145,8 +145,23 @@ internal sealed class AuthenticationService : IAuthenticationService
 		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
 	}
 
-	private static IEnumerable<Claim> GetClaims(User user) =>
-		new List<Claim>() { new Claim(ClaimTypes.Name, user.Email) };
+	private async Task<IEnumerable<Claim>> GetClaims(User user)
+	{
+		IList<Claim> claims = new List<Claim>()
+		{
+			new(ClaimTypes.Email, user.Email),
+			new(ClaimTypes.Name, user.UserName),
+			new(ClaimTypes.NameIdentifier, $"{user.Id}"),
+			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}")
+		};
+
+		IList<string> roles = await _userService.GetRolesAsync(user);
+		foreach (string role in roles)
+			claims.Add(new Claim(ClaimTypes.Role, role));
+
+		return claims;
+	}
+		
 
 	private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, IEnumerable<Claim> claims)
 	{

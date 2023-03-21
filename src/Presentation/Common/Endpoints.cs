@@ -54,4 +54,13 @@ internal static class Endpoints
 		internal const string GetByName = "{name}";
 		internal const string GetById = "{id:int}";
 	}
+
+	/// <summary>
+	/// The attendance route.
+	/// </summary>
+	internal static class Attendance
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Attendance);
+		internal const string GetPagedByParameters = EmptySuffix;
+	}
 }

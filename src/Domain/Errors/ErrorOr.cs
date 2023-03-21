@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Domain.Errors;
+﻿namespace Domain.Errors;
 
 /// <summary>
 /// A discriminated union of errors or a value.

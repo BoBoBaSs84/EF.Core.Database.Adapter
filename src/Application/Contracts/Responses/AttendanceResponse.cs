@@ -1,22 +1,19 @@
-﻿using Domain.Common.EntityBaseTypes;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
+﻿using Application.Contracts.Responses.Base;
+using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.Private;
+namespace Application.Contracts.Responses;
 
 /// <summary>
-/// The attendance entity class.
+/// The attendance response class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="AuditedModel"/> class.
+/// Derives from the <see cref="ResponseModel"/> class.
 /// </remarks>
-[Index(nameof(UserId), nameof(CalendarDayId), IsUnique = true)]
-public partial class Attendance : AuditedModel
+public sealed class AttendanceResponse : ResponseModel
 {
 	/// <summary>
 	/// The <see cref="UserId"/> property.
-	/// </summary>
+	/// </summary>	
 	public int UserId { get; set; } = default!;
 
 	/// <summary>
@@ -32,18 +29,18 @@ public partial class Attendance : AuditedModel
 	/// <summary>
 	/// The <see cref="StartTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
+	[DataType(DataType.Time)]
 	public TimeSpan? StartTime { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="EndTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
+	[DataType(DataType.Time)]
 	public TimeSpan? EndTime { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="BreakTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
+	[DataType(DataType.Time)]
 	public TimeSpan? BreakTime { get; set; } = default!;
 }

@@ -1,0 +1,70 @@
+﻿using Application.Contracts.Responses;
+using Application.Errors.Services;
+using Application.Features.Requests;
+using Application.Features.Responses;
+using Application.Interfaces.Application;
+using Application.Interfaces.Infrastructure;
+using Application.Interfaces.Infrastructure.Logging;
+using AutoMapper;
+using Domain.Entities.Private;
+using Domain.Errors;
+using Domain.Extensions.QueryExtensions;
+using Microsoft.Extensions.Logging;
+
+namespace Application.Services;
+
+/// <summary>
+/// The attendance service class.
+/// </summary>
+internal sealed class AttendanceService : IAttendanceService
+{
+	private readonly ILoggerWrapper<AttendanceService> _logger;
+	private readonly IUnitOfWork _unitOfWork;
+	private readonly IMapper _mapper;
+
+	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
+
+	/// <summary>
+	/// Initilizes an instance of <see cref="AttendanceService"/> class.
+	/// </summary>
+	/// <param name="logger">The logger service.</param>
+	/// <param name="unitOfWork">The unit of work.</param>
+	/// <param name="mapper">The auto mapper.</param>
+	public AttendanceService(ILoggerWrapper<AttendanceService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	{
+		_logger = logger;
+		_unitOfWork = unitOfWork;
+		_mapper = mapper;
+	}
+
+	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(int userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			IEnumerable<Attendance> attendances = await _unitOfWork.AttendanceRepository.GetManyByConditionAsync(
+				expression: x => x.UserId.Equals(userId),
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
+				take: parameters.PageSize,
+				skip: (parameters.PageNumber - 1) * parameters.PageSize,
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (!attendances.Any())
+				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+
+			int totalCount = _unitOfWork.CalendarDayRepository.QueryCount;
+
+			IEnumerable<AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
+
+			return new PagedList<AttendanceResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, parameters, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+}

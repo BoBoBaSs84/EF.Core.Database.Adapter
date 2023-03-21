@@ -61,6 +61,24 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the attendance entries based on the parameterization..
+        /// </summary>
+        public static string AttendanceServiceErrors_GetPagedByParameters_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceServiceErrors.GetPagedByParameters.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No attendance entries could be found based on the parameterization..
+        /// </summary>
+        public static string AttendanceServiceErrors_GetPagedByParameters_NotFound {
+            get {
+                return ResourceManager.GetString("AttendanceServiceErrors.GetPagedByParameters.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to authenticate..
         /// </summary>
         public static string AuthenticationServiceErrors_AuthenticateFailed {

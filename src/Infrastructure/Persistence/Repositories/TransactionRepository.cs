@@ -3,7 +3,6 @@ using Domain.Entities.Finance;
 using Domain.Extensions;
 using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Persistence.Repositories;
 

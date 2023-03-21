@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using IC = Infrastructure.Constants.InfrastructureConstants;
 
 namespace Infrastructure.Services;
@@ -26,9 +25,6 @@ internal sealed class AuthenticationService : IAuthenticationService
 	private readonly ILoggerWrapper<AuthenticationService> _logger;
 	private readonly IUserService _userService;
 	private readonly IMapper _mapper;
-
-	private static readonly Action<ILogger, Exception?> logException =
-		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -49,17 +45,17 @@ internal sealed class AuthenticationService : IAuthenticationService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<AuthenticationResponse>> AuthenticateUser(UserLoginRequest loginRequest)
+	public async Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest authRequest)
 	{
 		try
 		{
-			User? user = await _userService.FindByNameAsync(loginRequest.UserName);
+			User? user = await _userService.FindByNameAsync(authRequest.UserName);
 
 			if (user is null)
-				return AuthenticationServiceErrors.UserNotFound(loginRequest.UserName);
+				return AuthenticationServiceErrors.UserNotFound(authRequest.UserName);
 
-			if (!await _userService.CheckPasswordAsync(user, loginRequest.Password))
-				return AuthenticationServiceErrors.UserUnauthorized(loginRequest.UserName);
+			if (!await _userService.CheckPasswordAsync(user, authRequest.Password))
+				return AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName);
 
 			SigningCredentials signingCredentials = GetSigningCredentials();
 			IEnumerable<Claim> claims = GetClaims(user);
@@ -70,7 +66,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, loginRequest, ex);
+			_logger.Log(logExceptionWithParams, authRequest, ex);
 			return AuthenticationServiceErrors.AuthenticateUserFailed;
 		}
 	}
@@ -143,6 +139,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	private SigningCredentials GetSigningCredentials()
 	{
 		byte[] key = Encoding.UTF8.GetBytes(_jwtSettings[IC.SecurityKey]!);
+
 		SymmetricSecurityKey secret = new(key);
 
 		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);

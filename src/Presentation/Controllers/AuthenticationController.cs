@@ -83,9 +83,9 @@ public sealed class AuthenticationController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> AuthenticateUser([FromBody] UserLoginRequest loginRequest)
+	public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticationRequest loginRequest)
 	{
-		ErrorOr<AuthenticationResponse> result = await _authenticationService.AuthenticateUser(loginRequest);
+		ErrorOr<AuthenticationResponse> result = await _authenticationService.Authenticate(loginRequest);
 		return Get(result);
 	}
 }

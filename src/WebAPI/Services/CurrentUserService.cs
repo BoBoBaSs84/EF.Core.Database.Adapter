@@ -19,7 +19,7 @@ public sealed class CurrentUserService : ICurrentUserService
 	// HACK: for now (>.<)
 	/// <inheritdoc/>
 	public int UserId => 1;
-	
+
 	/// <inheritdoc/>
 	public string? UserName => _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 }

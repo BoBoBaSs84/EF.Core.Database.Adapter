@@ -20,7 +20,7 @@ public static class DependencyInjectionHelper
 	{
 		services.ConfigureApiVersioning();
 		services.ConfigureApiControllers();
-		
+
 		return services;
 	}
 
@@ -33,7 +33,7 @@ public static class DependencyInjectionHelper
 	{
 		services.AddControllers()
 			.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly);
-		
+
 		return services;
 	}
 

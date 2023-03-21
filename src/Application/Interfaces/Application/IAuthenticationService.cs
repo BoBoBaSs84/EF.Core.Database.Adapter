@@ -16,7 +16,7 @@ public interface IAuthenticationService
 	/// <param name="createRequest">The user create reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<Created>> CreateUser(UserCreateRequest createRequest);
-	
+
 	/// <summary>
 	/// Updates an existing application user.
 	/// </summary>
@@ -24,11 +24,11 @@ public interface IAuthenticationService
 	/// <param name="updateRequest">The user update reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<Updated>> UpdateUser(string userName, UserUpdateRequest updateRequest);
-	
+
 	/// <summary>
 	/// Authenticates an existing application user.
 	/// </summary>
-	/// <param name="loginRequest">The user create reqeust.</param>
+	/// <param name="authRequest">The authentication reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<AuthenticationResponse>> AuthenticateUser(UserLoginRequest loginRequest);
+	Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest authRequest);
 }

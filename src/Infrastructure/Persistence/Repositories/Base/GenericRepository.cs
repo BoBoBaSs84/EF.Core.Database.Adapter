@@ -56,27 +56,27 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		params string[] includeProperties)
 	{
 		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
-		
+
 		if (expression is not null)
 			query = query.Where(expression);
-		
+
 		if (filterBy is not null)
 			query = filterBy(query);
-		
+
 		QueryCount = await query.CountAsync(cancellationToken);
-		
+
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
-		
+
 		if (orderBy is not null)
 			query = orderBy(query);
-		
+
 		if (skip.HasValue)
 			query = query.Skip(skip.Value);
-		
+
 		if (take.HasValue)
 			query = query.Take(take.Value);
-		
+
 		return await query.ToListAsync(cancellationToken);
 	}
 
@@ -87,13 +87,13 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		params string[] includeProperties)
 	{
 		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
-		
+
 		if (expression is not null)
 			query = query.Where(expression);
-		
+
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
-		
+
 		return await query.SingleOrDefaultAsync(cancellationToken);
 	}
 

@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Presentation.Constants;
 using Presentation.Extensions;
-using System.Net;
-using System.Security.Principal;
 
 namespace Presentation.Controllers.Base;
 

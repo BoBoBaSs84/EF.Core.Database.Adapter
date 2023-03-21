@@ -3,9 +3,9 @@
 namespace Application.Contracts.Requests.Identity;
 
 /// <summary>
-/// The user login request class.
+/// The authentication request class.
 /// </summary>
-public sealed class UserLoginRequest
+public sealed class AuthenticationRequest
 {
 	/// <summary>
 	/// The user name of the user.

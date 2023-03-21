@@ -92,6 +92,6 @@ public sealed class DayTypeController : ApiControllerBase
 	{
 		ErrorOr<DayTypeResponse> result =
 			await _dayTypeService.GetByName(name, false, cancellationToken);
-		return Get(result);	
+		return Get(result);
 	}
 }

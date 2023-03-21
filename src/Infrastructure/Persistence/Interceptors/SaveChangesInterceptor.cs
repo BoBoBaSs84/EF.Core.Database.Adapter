@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure.Identity;
 using Domain.Common.EntityBaseTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

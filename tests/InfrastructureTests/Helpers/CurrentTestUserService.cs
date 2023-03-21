@@ -1,8 +1,10 @@
-﻿using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure.Identity;
 
 namespace InfrastructureTests.Helpers;
 
-internal class CurrentTestUserService : ICurrentUserService
+internal sealed class CurrentTestUserService : ICurrentUserService
 {
 	public int UserId => 1;
+
+	public string? UserName => throw new NotImplementedException();
 }

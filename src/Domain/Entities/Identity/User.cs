@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
-using static Domain.Constants.Sql;
+using DC = Domain.Constants.DomainConstants;
 
 namespace Domain.Entities.Identity;
 
@@ -12,31 +12,31 @@ public partial class User : IdentityUser<int>
 	/// <summary>
 	/// The <see cref="FirstName"/> property.
 	/// </summary>
-	[MaxLength(MaxLength.MAX_100)]
+	[MaxLength(DC.Sql.MaxLength.MAX_100)]
 	public string FirstName { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="MiddleName"/> property.
 	/// </summary>
-	[MaxLength(MaxLength.MAX_100)]
+	[MaxLength(DC.Sql.MaxLength.MAX_100)]
 	public string? MiddleName { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="LastName"/> property.
 	/// </summary>
-	[MaxLength(MaxLength.MAX_100)]
+	[MaxLength(DC.Sql.MaxLength.MAX_100)]
 	public string LastName { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="DateOfBirth"/> property.
 	/// </summary>
-	[Column(TypeName = Constants.Sql.DataType.DATE)]
+	[Column(TypeName = DC.Sql.DataType.DATE)]
 	public DateTime? DateOfBirth { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="Preferences"/> property.
 	/// </summary>
-	[Column(TypeName = Constants.Sql.DataType.XML)]
+	[Column(TypeName = DC.Sql.DataType.XML)]
 	public string? Preferences { get; set; } = default!;
 
 	/// <summary>

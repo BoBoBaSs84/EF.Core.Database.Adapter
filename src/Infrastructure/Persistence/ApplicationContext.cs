@@ -3,7 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using static Domain.Constants.Sql;
+using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence;
 
@@ -32,7 +32,7 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 		base.OnModelCreating(builder);
 
 		builder.HasDefaultSchema(Schema.PRIVATE)
-			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);		
+			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
 	}
 
 	/// <inheritdoc/>

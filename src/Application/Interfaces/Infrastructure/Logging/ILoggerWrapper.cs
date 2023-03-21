@@ -1,0 +1,123 @@
+﻿using Microsoft.Extensions.Logging;
+
+namespace Application.Interfaces.Infrastructure.Logging;
+
+/// <summary>
+/// The logger wrapper interface.
+/// </summary>
+/// <typeparam name="TLogger"></typeparam>
+public interface ILoggerWrapper<TLogger>
+{
+	/// <summary>
+	/// Logs a message with the help of a delegate
+	/// </summary>
+	/// <remarks>Delegate must be defined like this: <b>LoggerMessage.Define(LogLevel, EventId, "test")</b></remarks>
+	/// <param name="del">Delegate which performs the logging</param>
+	/// <param name="exception">Exception (optional)</param>
+	void Log(Action<ILogger, Exception?> del, Exception? exception = null);
+
+	/// <summary>
+	/// Logs a message with the help of a delegate
+	/// </summary>
+	/// <remarks>Delegate must be defined like this: <b>LoggerMessage.Define{T}(LogLevel, EventId, "test {param}")</b></remarks>
+	/// <typeparam name="T">Type of parameter of the string template</typeparam>
+	/// <param name="del">Delegate which performs the logging</param>
+	/// <param name="param">Parameter</param>
+	/// <param name="exception">Exception (optional)</param>
+	void Log<T>(Action<ILogger, T, Exception?> del, T param, Exception? exception = null);
+
+	/// <summary>
+	/// Logs a message with the help of a delegate
+	/// </summary>
+	/// <remarks>Delegate must be defined like this: <b>LoggerMessage.Define{T1, T2}(LogLevel, EventId, "test {param1} {param2}")</b></remarks>
+	/// <typeparam name="T1">Type of parameter 1 of the string template</typeparam>
+	/// <typeparam name="T2">Type of parameter 2 of the string template</typeparam>
+	/// <param name="del">Delegate which performs the logging</param>
+	/// <param name="param1">Parameter 1</param>
+	/// <param name="param2">Parameter 2</param>
+	/// <param name="exception">Exception (optional)</param>
+	void Log<T1, T2>(Action<ILogger, T1, T2, Exception?> del, T1 param1, T2 param2, Exception? exception = null);
+
+	/// <summary>
+	/// Logs a message with the help of a delegate
+	/// </summary>
+	/// <remarks>Delegate must be defined like this: <b>LoggerMessage.Define{T1, T2, T3}(LogLevel, EventId, "test {param1} {param2} {param3}")</b></remarks>
+	/// <typeparam name="T1">Type of parameter 1 of the string template</typeparam>
+	/// <typeparam name="T2">Type of parameter 2 of the string template</typeparam>
+	/// <typeparam name="T3">Type of parameter 3 of the string template</typeparam>
+	/// <param name="del">Delegate which performs the logging</param>
+	/// <param name="param1">Parameter 1</param>
+	/// <param name="param2">Parameter 2</param>
+	/// <param name="param3">Parameter 3</param>
+	/// <param name="exception">Exception (optional)</param>
+	void Log<T1, T2, T3>(Action<ILogger, T1, T2, T3, Exception?> del, T1 param1, T2 param2, T3 param3,
+		Exception? exception = null);
+
+	/// <summary>
+	/// Logs a message with the help of a delegate
+	/// </summary>
+	/// <remarks>Delegate must be defined like this: <b>LoggerMessage.Define{T1, T2, T3, T4}(LogLevel, EventId, "test {param1} {param2} {param3} {param4}")</b></remarks>
+	/// <typeparam name="T1">Type of parameter 1 of the string template</typeparam>
+	/// <typeparam name="T2">Type of parameter 2 of the string template</typeparam>
+	/// <typeparam name="T3">Type of parameter 3 of the string template</typeparam>
+	/// <typeparam name="T4">Type of parameter 4 of the string template</typeparam>
+	/// <param name="del">Delegate which performs the logging</param>
+	/// <param name="param1">Parameter 1</param>
+	/// <param name="param2">Parameter 2</param>
+	/// <param name="param3">Parameter 3</param>
+	/// <param name="param4">Parameter 4</param>
+	void Log<T1, T2, T3, T4>(Action<ILogger, T1, T2, T3, T4, Exception?> del, T1 param1, T2 param2, T3 param3, T4 param4);
+
+	/// <summary>
+	/// Logs a message with the help of a delegate
+	/// </summary>
+	/// <remarks>Delegate must be defined like this: <b>LoggerMessage.Define{T1, T2, T3, T4, T5}(LogLevel, EventId, "test {param1} {param2} {param3} {param4} {param5}")</b></remarks>
+	/// <typeparam name="T1">Type of parameter 1 of the string template</typeparam>
+	/// <typeparam name="T2">Type of parameter 2 of the string template</typeparam>
+	/// <typeparam name="T3">Type of parameter 3 of the string template</typeparam>
+	/// <typeparam name="T4">Type of parameter 4 of the string template</typeparam>
+	/// <typeparam name="T5">Type of parameter 5 of the string template</typeparam>
+	/// <param name="del">Delegate which performs the logging</param>
+	/// <param name="param1">Parameter 1</param>
+	/// <param name="param2">Parameter 2</param>
+	/// <param name="param3">Parameter 3</param>
+	/// <param name="param4">Parameter 4</param>
+	/// <param name="param5">Parameter 5</param>
+	void Log<T1, T2, T3, T4, T5>(Action<ILogger, T1, T2, T3, T4, T5, Exception?> del, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5);
+
+	/// <summary>
+	/// Logs a message with the help of a delegate
+	/// </summary>
+	/// <remarks>Delegate must be defined like this: <b>LoggerMessage.Define{T1, T2, T3, T4, T5, T6}(LogLevel, EventId, "test {param1} {param2} {param3} {param4} {param5} {param6}")</b></remarks>
+	/// <typeparam name="T1">Type of parameter 1 of the string template</typeparam>
+	/// <typeparam name="T2">Type of parameter 2 of the string template</typeparam>
+	/// <typeparam name="T3">Type of parameter 3 of the string template</typeparam>
+	/// <typeparam name="T4">Type of parameter 4 of the string template</typeparam>
+	/// <typeparam name="T5">Type of parameter 5 of the string template</typeparam>
+	/// <typeparam name="T6">Type of parameter 6 of the string template</typeparam>
+	/// <param name="del">Delegate which performs the logging</param>
+	/// <param name="param1">Parameter 1</param>
+	/// <param name="param2">Parameter 2</param>
+	/// <param name="param3">Parameter 3</param>
+	/// <param name="param4">Parameter 4</param>
+	/// <param name="param5">Parameter 5</param>
+	/// <param name="param6">Parameter 6</param>
+	void Log<T1, T2, T3, T4, T5, T6>(Action<ILogger, T1, T2, T3, T4, T5, T6, Exception?> del, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6);
+
+	/// <summary>
+	/// Logs a message
+	/// </summary>
+	/// <remarks><b>DO NOT USE IF PERFORMANCE IS IMPORTANT !</b> Use Log() or Log{T}() instead</remarks>
+	/// <param name="level">Log level</param>
+	/// <param name="messageTemplate">Message template</param>
+	/// <param name="args">Parameters for message template</param>
+	void LogSlow(LogLevel level, string messageTemplate, params object[] args);
+
+	/// <summary>
+	/// Logs an exception
+	/// </summary>
+	/// <remarks><b>DO NOT USE IF PERFORMANCE IS IMPORTANT !</b> Use Log() or Log{T}() instead</remarks>
+	/// <param name="exception">Exception</param>
+	/// <param name="message">Message</param>
+	void LogExceptionSlow(Exception exception, string message);
+}

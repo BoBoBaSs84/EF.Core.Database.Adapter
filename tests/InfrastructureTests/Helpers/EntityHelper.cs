@@ -3,8 +3,8 @@ using Domain.Entities.Identity;
 using Domain.Entities.Private;
 using Domain.Extensions;
 using static BaseTests.Helpers.RandomHelper;
-using static Domain.Constants;
-using static Domain.Constants.Sql;
+using static Domain.Constants.DomainConstants;
+using static Domain.Constants.DomainConstants.Sql;
 
 namespace InfrastructureTests.Helpers;
 

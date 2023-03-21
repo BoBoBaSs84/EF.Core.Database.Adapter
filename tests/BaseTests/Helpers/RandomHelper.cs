@@ -1,6 +1,6 @@
 ﻿using Fare;
 using System.Text;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 
 namespace BaseTests.Helpers;
 

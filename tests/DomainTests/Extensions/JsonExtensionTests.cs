@@ -1,7 +1,7 @@
 ﻿using Domain.Extensions;
 using FluentAssertions;
 using System.Text.Json.Serialization;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 using static BaseTests.Helpers.AssertionHelper;
 using static BaseTests.Helpers.RandomHelper;
 

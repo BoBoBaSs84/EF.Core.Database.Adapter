@@ -1,13 +1,15 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Identity;
-using Domain;
+﻿using Application.Interfaces.Application;
+using Application.Interfaces.Infrastructure;
+using Application.Interfaces.Infrastructure.Identity;
+using Application.Interfaces.Infrastructure.Logging;
+using Domain.Constants;
 using Domain.Entities.Identity;
-using Domain.Enumerators;
-using Domain.Extensions;
 using Infrastructure.Common;
+using Infrastructure.Logging;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using IC = Infrastructure.Constants.InfrastructureConstants;
 
 namespace Infrastructure.Installer;
 
@@ -31,13 +35,19 @@ public static class DependencyInjectionHelper
 	/// <param name="configuration">The current configuration.</param>
 	/// <param name="environment">The hosting environment.</param>
 	/// <returns>The enriched service collection.</returns>
-	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+	public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
+		services.AddMicrosoftLogger();
+
 		services.AddApplicationContext(configuration, environment);
 		services.AddIdentityService();
+		services.ConfigureJWT(configuration);
 
 		services.TryAddScoped<SaveChangesInterceptor>();
 		services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+		services.TryAddScoped<IUserService, UserService>();
+		services.TryAddScoped<IRoleService, RoleService>();
+		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 
 		return services;
 	}
@@ -56,14 +66,14 @@ public static class DependencyInjectionHelper
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
 				{
-					builder.MigrationsHistoryTable("Migration", Constants.Sql.Schema.PRIVATE);
+					builder.MigrationsHistoryTable("Migration", DomainConstants.Sql.Schema.PRIVATE);
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 
 			if (environment.IsDevelopment())
 				options.LogTo(Console.WriteLine, LogLevel.Debug);
 
-			if (environment.IsEnvironment(Constants.Environment.Test))
+			if (environment.IsEnvironment(DomainConstants.Environment.Testing))
 				options.LogTo(Console.WriteLine, LogLevel.Error);
 
 			if (!environment.IsProduction())
@@ -100,13 +110,45 @@ public static class DependencyInjectionHelper
 			.AddUserManager<UserService>()
 			.AddRoleManager<RoleService>();
 
-		services.AddAuthentication();
-		services.AddAuthorization(options => options.AddPolicy("CanPurge",
-			policy => policy.RequireRole(RoleTypes.ADMINISTRATOR.GetName())));
+		return services;
+	}
 
-		services.TryAddTransient<IUserService, UserService>();
-		services.TryAddTransient<IRoleService, RoleService>();
+	/// <summary>
+	/// Registers the identity jwt bearer authentication.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <param name="configuration">The current configuration.</param>
+	/// <returns>The enriched service collection.</returns>
+	private static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+	{
+		IConfigurationSection jwtSettings = configuration.GetRequiredSection(IC.JwtSettings);
 
+		services.AddAuthentication(options =>
+		{
+			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+		}).AddJwtBearer(options => options.TokenValidationParameters = new()
+		{
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateLifetime = true,
+			ValidateIssuerSigningKey = true,
+			ValidIssuer = jwtSettings[IC.ValidIssuer],
+			ValidAudience = jwtSettings[IC.ValidAudience],
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings[IC.SecurityKey]))
+		});
+
+		return services;
+	}
+
+	/// <summary>
+	/// Registers the <see cref="MicrosoftLoggerWrapper{T}"></see> as <b>Singleton</b>
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	private static IServiceCollection AddMicrosoftLogger(this IServiceCollection services)
+	{
+		services.TryAddSingleton(typeof(ILoggerWrapper<>), typeof(MicrosoftLoggerWrapper<>));
 		return services;
 	}
 }

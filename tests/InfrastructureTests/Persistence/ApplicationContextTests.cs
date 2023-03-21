@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Infrastructure.Common;
 using System.Reflection;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 
 namespace InfrastructureTests.Persistence;
 

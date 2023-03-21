@@ -2,8 +2,7 @@
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Diagnostics.CodeAnalysis;
-using static Domain.Constants.Sql.Schema;
+using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -15,7 +14,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<Account> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Account), FINANCE);
+			builder.ToSytemVersionedTable(nameof(Account), Schema.FINANCE);
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);
@@ -45,7 +44,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<AccountTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(AccountTransaction), FINANCE);
+			builder.ToSytemVersionedTable(nameof(AccountTransaction), Schema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.TransactionId })
 				.IsClustered(false);
@@ -57,7 +56,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<AccountUser> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(AccountUser), FINANCE);
+			builder.ToSytemVersionedTable(nameof(AccountUser), Schema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.UserId })
 				.IsClustered(false);
@@ -69,7 +68,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<Card> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Card), FINANCE);
+			builder.ToSytemVersionedTable(nameof(Card), Schema.FINANCE);
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);
@@ -87,7 +86,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<CardTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(CardTransaction), FINANCE);
+			builder.ToSytemVersionedTable(nameof(CardTransaction), Schema.FINANCE);
 
 			builder.HasKey(e => new { e.CardId, e.TransactionId })
 				.IsClustered(false);
@@ -99,7 +98,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<Transaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Transaction), FINANCE);
+			builder.ToSytemVersionedTable(nameof(Transaction), Schema.FINANCE);
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);

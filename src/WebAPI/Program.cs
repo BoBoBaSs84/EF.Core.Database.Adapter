@@ -1,42 +1,43 @@
-using Application.Common.Interfaces.Identity;
+using Application.Installer;
 using Infrastructure.Installer;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using WebAPI.Services;
+using Presentation.Installer;
+using WebAPI.Extensions;
+using WebAPI.Installer;
 
 namespace WebAPI;
 
-public class Program
+internal sealed class Program
 {
-	public static void Main(string[] args)
+	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
+	internal static void Main(string[] args)
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 		// Add services to the container.
-		builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment);
+		builder.Services.ConfigureInfrastructureServices(builder.Configuration, builder.Environment);
+		builder.Services.ConfigureApplicationServices();
+		builder.Services.ConfigurePresentationServices();
+		builder.Services.ConfigureWebApiServices();
 
-		builder.Services.TryAddSingleton<ICurrentUserService, CurrentUserService>();
-
-		builder.Services.AddControllers();
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer();
-		builder.Services.AddSwaggerGen();
+		builder.Services.ConfigureSwagger();
 
-		var app = builder.Build();
-
+		WebApplication app = builder.Build();
 		// Configure the HTTP request pipeline.
 		if (!app.Environment.IsProduction())
 		{
-			app.UseSwagger();
-			app.UseSwaggerUI();
+			app.ConfigureSwaggerUI();
 		}
 
 		app.UseHttpsRedirection();
+		app.UseStaticFiles();
+		app.UseRouting();
 
+		app.UseAuthentication();
 		app.UseAuthorization();
 
-
 		app.MapControllers();
-
 		app.Run();
 	}
 }

@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure.Identity;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

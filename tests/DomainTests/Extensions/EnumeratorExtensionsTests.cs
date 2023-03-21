@@ -1,7 +1,7 @@
 ﻿using Domain.Extensions;
 using FluentAssertions;
 using System.ComponentModel.DataAnnotations;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 
 namespace DomainTests.Extensions;
 

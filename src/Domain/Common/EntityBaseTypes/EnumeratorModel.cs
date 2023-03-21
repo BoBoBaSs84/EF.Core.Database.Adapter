@@ -1,7 +1,7 @@
 ﻿using Domain.Common.EntityBaseTypes.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Domain.Constants.Sql;
+using DC = Domain.Constants.DomainConstants;
 
 namespace Domain.Common.EntityBaseTypes;
 
@@ -29,11 +29,11 @@ public abstract class EnumeratorModel : IdentityModel, IActivatableModel, IEnume
 	new public int Id { get; set; } = default!;
 
 	/// <inheritdoc/>
-	[MaxLength(MaxLength.MAX_250)]
+	[MaxLength(DC.Sql.MaxLength.MAX_250)]
 	public string Name { get; set; } = default!;
 
 	/// <inheritdoc/>
-	[MaxLength(MaxLength.MAX_1000)]
+	[MaxLength(DC.Sql.MaxLength.MAX_1000)]
 	public string? Description { get; set; } = default!;
 
 	/// <inheritdoc/>

@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Identity;
+﻿using Application.Interfaces.Infrastructure.Identity;
 using BaseTests;
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
@@ -15,7 +15,7 @@ namespace InfrastructureTests;
 public class InfrastructureBaseTests : BaseTestUnit
 {
 	private static IHost testHost = default!;
-	private const string Environment = Domain.Constants.Environment.Test;
+	private const string Environment = Domain.Constants.DomainConstants.Environment.Testing;
 
 	[AssemblyInitialize]
 	public static void AssemblyInitialize(TestContext context)
@@ -54,7 +54,7 @@ public class InfrastructureBaseTests : BaseTestUnit
 			.UseEnvironment(Environment)
 			.ConfigureServices((hostContext, services) =>
 			{
-				services.AddInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
+				services.ConfigureInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
 				services.TryAddSingleton<ICurrentUserService, CurrentTestUserService>();
 			});
 

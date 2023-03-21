@@ -1,6 +1,6 @@
 ﻿using Domain.Extensions;
 using FluentAssertions;
-using static BaseTests.Constants;
+using static BaseTests.Constants.TestConstants;
 using static BaseTests.Helpers.AssertionHelper;
 
 namespace DomainTests.Extensions;

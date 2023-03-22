@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Responses;
+﻿using Application.Contracts.Requests;
+using Application.Contracts.Responses;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
@@ -8,7 +9,9 @@ using Application.Interfaces.Infrastructure.Logging;
 using AutoMapper;
 using Domain.Entities.Private;
 using Domain.Errors;
+using Domain.Extensions;
 using Domain.Extensions.QueryExtensions;
+using Domain.Results;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -38,6 +41,102 @@ internal sealed class AttendanceService : IAttendanceService
 		_mapper = mapper;
 	}
 
+	// TODO: Errors!
+	public async Task<ErrorOr<Created>> Create(int userId, AttendanceCreateRequest createRequest, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			Attendance newAttendance = _mapper.Map<Attendance>(createRequest);
+			newAttendance.UserId = userId;
+
+			await _unitOfWork.AttendanceRepository.CreateAsync(newAttendance, cancellationToken);
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return Result.Created;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, createRequest, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors!
+	public async Task<ErrorOr<Created>> Create(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			IEnumerable<Attendance> newAttendances = _mapper.Map<IEnumerable<Attendance>>(createRequest);
+
+			foreach (Attendance attendance in newAttendances)
+				attendance.UserId = userId;
+
+			await _unitOfWork.AttendanceRepository.CreateAsync(newAttendances, cancellationToken);
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return Result.Created;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, createRequest, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors!
+	public async Task<ErrorOr<Deleted>> Delete(int userId, int calendarDayId, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new string[] { $"{userId}", $"{calendarDayId}" };
+		try
+		{
+			Attendance? dbAttendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
+				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
+				trackChanges: true,
+				cancellationToken: cancellationToken
+				);
+
+			if (dbAttendance is null)
+				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+
+			await _unitOfWork.AttendanceRepository.DeleteAsync(dbAttendance);
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, parameters, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors!
+	public async Task<ErrorOr<Deleted>> Delete(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new string[] { $"{userId}", $"{calendarDayIds.ToJsonString()}" };
+		try
+		{
+			IEnumerable<Attendance> dbAttendances = await _unitOfWork.AttendanceRepository.GetManyByConditionAsync(
+				expression: x => calendarDayIds.Contains(x.CalendarDayId) && x.UserId.Equals(userId),
+				trackChanges: true,
+				cancellationToken: cancellationToken
+				);
+
+			if (!dbAttendances.Any())
+				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+
+			await _unitOfWork.AttendanceRepository.DeleteAsync(dbAttendances);
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, parameters, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
 	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(int userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
@@ -64,6 +163,97 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors!
+	public async Task<ErrorOr<AttendanceResponse>> GetByDate(int userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
+				expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(date.ToSqlDate()),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (attendance is null)
+				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+
+			AttendanceResponse result = _mapper.Map<AttendanceResponse>(attendance);
+
+			return result;
+
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors!
+	public async Task<ErrorOr<AttendanceResponse>> GetById(int userId, int calendarDayId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new string[] { $"{userId}", $"{calendarDayId}" };
+		try
+		{
+			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
+				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (attendance is null)
+				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+
+			AttendanceResponse result = _mapper.Map<AttendanceResponse>(attendance);
+
+			return result;
+
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, parameters, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors!
+	public async Task<ErrorOr<Updated>> Update(AttendanceUpdadteRequest updateRequest, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			Attendance attendance = _mapper.Map<Attendance>(updateRequest);
+
+			await _unitOfWork.AttendanceRepository.UpdateAsync(attendance);
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return Result.Updated;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, updateRequest, ex);
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors!
+	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdadteRequest> updateRequest, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			IEnumerable<Attendance> attendances = _mapper.Map<IEnumerable<Attendance>>(updateRequest);
+
+			await _unitOfWork.AttendanceRepository.UpdateAsync(attendances);
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return Result.Updated;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.GetPagedByParametersFailed;
 		}
 	}

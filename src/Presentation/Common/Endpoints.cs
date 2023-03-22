@@ -62,5 +62,13 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Attendance);
 		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string GetByDate = "{date}";
+		internal const string GetById = "{calendarDayId:int}";
+		internal const string Post = EmptySuffix;
+		internal const string PostMultiple = $"Multiple";
+		internal const string Delete = "{calendarDayId:int}";
+		internal const string DeleteMultiple = "Multiple";
+		internal const string Put = EmptySuffix;
+		internal const string PutMultiple = "Multiple";
 	}
 }

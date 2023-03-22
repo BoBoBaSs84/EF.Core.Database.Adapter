@@ -1,9 +1,11 @@
-﻿using Application.Contracts.Responses;
+﻿using Application.Contracts.Requests;
+using Application.Contracts.Responses;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Identity;
 using Domain.Errors;
+using Domain.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +59,79 @@ public sealed class AttendanceController : ApiControllerBase
 	{
 		ErrorOr<IPagedList<AttendanceResponse>> result =
 			await _attendanceService.GetPagedByParameters(_currentUserService.UserId, parameters, false, cancellationToken);
+		
 		return Get(result, result.Value?.MetaData);
+	}
+
+	[HttpGet(Endpoints.Attendance.GetById)]
+	public async Task<IActionResult> GetById(int calendarDayId, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<AttendanceResponse> result =
+			await _attendanceService.GetById(_currentUserService.UserId, calendarDayId, false, cancellationToken);
+		
+		return Get(result);
+	}
+
+	[HttpGet(Endpoints.Attendance.GetByDate)]
+	public async Task<IActionResult> GetByDate(DateTime date, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<AttendanceResponse> result =
+			await _attendanceService.GetByDate(_currentUserService.UserId, date, false, cancellationToken);
+
+		return Get(result);
+	}
+
+	[HttpDelete(Endpoints.Attendance.Delete)]
+	public async Task<IActionResult> Delete(int calendarDayId, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<Deleted> result =
+			await _attendanceService.Delete(_currentUserService.UserId, calendarDayId, cancellationToken);
+
+		return Delete(result);
+	}
+
+	[HttpDelete(Endpoints.Attendance.DeleteMultiple)]
+	public async Task<IActionResult> Delete([FromBody] IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<Deleted> result =
+			await _attendanceService.Delete(_currentUserService.UserId, calendarDayIds, cancellationToken);
+
+		return Delete(result);
+	}
+
+	[HttpPost(Endpoints.Attendance.Post)]
+	public async Task<IActionResult> Post([FromBody] AttendanceCreateRequest createRequest, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<Created> result =
+			await _attendanceService.Create(_currentUserService.UserId, createRequest, cancellationToken);
+
+		return PostWithoutLocation(result);
+	}
+
+	[HttpPost(Endpoints.Attendance.PostMultiple)]
+	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<Created> result =
+			await _attendanceService.Create(_currentUserService.UserId, createRequest, cancellationToken);
+
+		return PostWithoutLocation(result);
+	}
+
+	[HttpPut(Endpoints.Attendance.Put)]
+	public async Task<IActionResult> Put([FromBody] AttendanceUpdadteRequest updadteRequest, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<Updated> result =
+			await _attendanceService.Update(updadteRequest, cancellationToken);
+
+		return Put(result);
+	}
+
+	[HttpPut(Endpoints.Attendance.PutMultiple)]
+	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdadteRequest> updadteRequest, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<Updated> result =
+			await _attendanceService.Update(updadteRequest, cancellationToken);
+
+		return Put(result);
 	}
 }

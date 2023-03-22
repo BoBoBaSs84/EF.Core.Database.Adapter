@@ -75,23 +75,26 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
+			ErrorOr<Created> response = new();
 			User user = _mapper.Map<User>(createRequest);
 
 			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
 			if (!result.Succeeded)
-				// TODO: !
-				//foreach (IdentityError error in result.Errors)
-				//	_logger.LogError($"{error.Code} - {error.Description}", error);
-				return AuthenticationServiceErrors.CreateUserFailed;
+			{
+				foreach (IdentityError error in result.Errors)
+					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return response;
+			}
 
 			result = await _userService.AddToRolesAsync(user, createRequest.Roles);
 			if (!result.Succeeded)
-				// TODO: !
-				//foreach (IdentityError error in result.Errors)
-				//	_logger.LogError($"{error.Code} - {error.Description}", error);
-				return AuthenticationServiceErrors.CreateUserRolesFailed;
+			{
+				foreach (IdentityError error in result.Errors)
+					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return response;
+			}
 
-			return Result.Created;
+			return response;
 		}
 		catch (Exception ex)
 		{
@@ -104,6 +107,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
+			ErrorOr<Updated> response = new();
 			User user = await _userService.FindByNameAsync(userName);
 
 			if (user is null)
@@ -122,12 +126,13 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 			IdentityResult result = await _userService.UpdateAsync(user);
 			if (!result.Succeeded)
-				// TODO: !
-				//foreach (IdentityError error in result.Errors)
-				//	_logger.LogError($"{error.Code} - {error.Description}", error);
-				return AuthenticationServiceErrors.UpdateUserFailed;
+			{
+				foreach (IdentityError error in result.Errors)
+					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return response;
+			}
 
-			return Result.Updated;
+			return response;
 		}
 		catch (Exception ex)
 		{

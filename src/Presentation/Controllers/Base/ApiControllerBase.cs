@@ -1,11 +1,14 @@
 ﻿using Application.Errors.Base;
+using Application.Features.Responses;
 using Domain.Enumerators;
 using Domain.Errors;
+using Domain.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Presentation.Constants;
 using Presentation.Extensions;
+using HttpHeaders = Presentation.Constants.PresentationConstants.HttpHeaders;
 
 namespace Presentation.Controllers.Base;
 
@@ -61,6 +64,23 @@ public abstract class ApiControllerBase : ControllerBase
 	/// <param name="result">ErrorOr{T}</param>
 	/// <returns>IActionResult</returns>
 	protected IActionResult Get<T>(T result) => Ok(result);
+
+	/// <summary>
+	/// Returns the api result for a get action for a paged list.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="result">ErrorOr{T}</param>
+	/// <param name="metaData">The meta data of th e paged list.</param>
+	/// <returns>IActionResult</returns>
+	protected IActionResult Get<T>(ErrorOr<T> result, MetaData? metaData)
+	{
+		IActionResult resonse = result.Match(success => Ok(result), Problem);
+		
+		if (!result.IsError && metaData is not null)
+			Response.Headers.Add(HttpHeaders.Pagination, metaData.ToJsonString());			
+		
+		return resonse;
+	}
 
 	/// <summary>
 	/// Returns the api result for a put action

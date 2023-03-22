@@ -59,4 +59,13 @@ public static class AuthenticationServiceErrors
 	public static readonly ApiError UpdateUserFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateUserFailed)}",
 			RESX.AuthenticationServiceErrors_UpdateUserFailed);
+
+	/// <summary>
+	/// Error that indicates an exception during the identity opertations.
+	/// </summary>
+	/// <param name="code">The identity error code.</param>
+	/// <param name="description">The identity error description.</param>
+	public static ApiError IdentityError(string code, string description) =>
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(IdentityError)}",
+			$"{code} - {description}");
 }

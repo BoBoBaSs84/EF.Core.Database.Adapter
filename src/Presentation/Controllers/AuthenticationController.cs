@@ -42,7 +42,9 @@ public sealed class AuthenticationController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest createRequest)
 	{
-		ErrorOr<Created> result = await _authenticationService.CreateUser(createRequest);
+		ErrorOr<Created> result =
+			await _authenticationService.CreateUser(createRequest);
+		
 		return PostWithoutLocation(result);
 	}
 
@@ -64,7 +66,9 @@ public sealed class AuthenticationController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> UpdateUser(string userName, [FromBody] UserUpdateRequest updateRequest)
 	{
-		ErrorOr<Updated> result = await _authenticationService.UpdateUser(userName, updateRequest);
+		ErrorOr<Updated> result =
+			await _authenticationService.UpdateUser(userName, updateRequest);
+		
 		return Get(result);
 	}
 
@@ -85,7 +89,9 @@ public sealed class AuthenticationController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticationRequest loginRequest)
 	{
-		ErrorOr<AuthenticationResponse> result = await _authenticationService.Authenticate(loginRequest);
+		ErrorOr<AuthenticationResponse> result =
+			await _authenticationService.Authenticate(loginRequest);
+		
 		return Get(result);
 	}
 }

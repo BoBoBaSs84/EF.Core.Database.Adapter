@@ -149,7 +149,6 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 		return IsError ? onFirstError(FirstError) : onValue(Value);
 	}
 }
-
 public static class ErrorOr
 {
 	public static ErrorOr<TValue> From<TValue>(TValue value) => value;

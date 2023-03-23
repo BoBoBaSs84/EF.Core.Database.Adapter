@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses;
+﻿using Application.Contracts.Responses.Enumerator;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;

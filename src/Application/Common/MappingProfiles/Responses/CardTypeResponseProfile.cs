@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses;
+﻿using Application.Contracts.Responses.Enumerator;
 using AutoMapper;
 using Domain.Entities.Enumerator;
 

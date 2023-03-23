@@ -12,6 +12,16 @@ internal static class Endpoints
 	internal const string EmptySuffix = "";
 
 	/// <summary>
+	/// The account route.
+	/// </summary>
+	internal static class Account
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Account);
+		internal const string GetAll = EmptySuffix;
+		internal const string GetByIban = "{iban}";
+	}
+
+	/// <summary>
 	/// The authentication route.
 	/// </summary>
 	internal static class Authentication

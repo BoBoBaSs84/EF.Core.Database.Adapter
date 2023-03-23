@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses.Base;
 
-namespace Application.Contracts.Responses;
+namespace Application.Contracts.Responses.Enumerator;
 
 /// <summary>
 /// The card type response class.

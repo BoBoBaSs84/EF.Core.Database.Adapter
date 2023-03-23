@@ -60,7 +60,6 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<Created>> CreateMany(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
 	{
 		try
@@ -82,7 +81,6 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<Deleted>> Delete(int userId, int calendarDayId, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayId}" };
@@ -109,7 +107,6 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<Deleted>> DeleteMany(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayIds.ToJsonString()}" };
@@ -167,7 +164,6 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<AttendanceResponse>> GetByDate(int userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
@@ -194,7 +190,6 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<AttendanceResponse>> GetById(int userId, int calendarDayId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayId}" };
@@ -222,7 +217,6 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest updateRequest, CancellationToken cancellationToken = default)
 	{
 		try
@@ -246,7 +240,6 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<Updated>> UpdateMany(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default)
 	{
 		try

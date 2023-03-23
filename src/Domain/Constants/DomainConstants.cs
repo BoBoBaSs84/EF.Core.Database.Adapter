@@ -187,7 +187,7 @@ public static class DomainConstants
 	/// <summary>
 	/// The regex constants class.
 	/// </summary>
-	public static class Regex
+	public static class RegexPatterns
 	{
 		/// <summary>
 		/// The <see cref="IBAN"/> property.

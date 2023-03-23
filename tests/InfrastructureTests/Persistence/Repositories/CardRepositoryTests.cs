@@ -26,9 +26,9 @@ public sealed class CardRepositoryTests : InfrastructureBaseTests
 		_userService = GetRequiredService<IUserService>();
 
 		User newUser = EntityHelper.GetNewUser(accountSeed: true);
-		string newIBAN = RandomHelper.GetString(DomainConstants.Regex.IBAN).RemoveWhitespace();
+		string newIBAN = RandomHelper.GetString(DomainConstants.RegexPatterns.IBAN).RemoveWhitespace();
 		Account newAccount = EntityHelper.GetNewAccount(newIBAN);
-		string newCardNumber = RandomHelper.GetString(DomainConstants.Regex.CC).RemoveWhitespace();
+		string newCardNumber = RandomHelper.GetString(DomainConstants.RegexPatterns.CC).RemoveWhitespace();
 		Card newCard = EntityHelper.GetNewCard(newUser, newAccount, newCardNumber);
 		newAccount.Cards.Add(newCard);
 		newUser.AccountUsers.Add(new() { Account = newAccount, User = newUser });

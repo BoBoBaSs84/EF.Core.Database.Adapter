@@ -2,7 +2,8 @@
 using Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using DC = Domain.Constants.DomainConstants;
+using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
+using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
 namespace Domain.Entities.Finance;
 
@@ -12,6 +13,7 @@ namespace Domain.Entities.Finance;
 /// <remarks>
 /// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
+// TODO: infrastructure! -> index
 [Index(nameof(IBAN), IsUnique = true)]
 public partial class Account : AuditedModel
 {
@@ -20,7 +22,7 @@ public partial class Account : AuditedModel
 	/// <summary>
 	/// The <see cref="IBAN"/> property.
 	/// </summary>
-	[MaxLength(DC.Sql.MaxLength.MAX_25), Unicode(false), RegularExpression(DC.Regex.IBAN)]
+	[MaxLength(SqlMaxLength.MAX_25), Unicode(false), RegularExpression(RegexPatterns.IBAN)]
 	public string IBAN
 	{
 		get => iban;
@@ -34,6 +36,6 @@ public partial class Account : AuditedModel
 	/// <summary>
 	/// The <see cref="Provider"/> property.
 	/// </summary>
-	[MaxLength(DC.Sql.MaxLength.MAX_500)]
+	[MaxLength(SqlMaxLength.MAX_500)]
 	public string Provider { get; set; } = default!;
 }

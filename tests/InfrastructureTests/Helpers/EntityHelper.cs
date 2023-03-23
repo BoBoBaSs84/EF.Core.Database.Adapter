@@ -80,7 +80,7 @@ public static class EntityHelper
 	{
 		Account accountToReturn = new()
 		{
-			IBAN = iban ?? GetString(Regex.IBAN),
+			IBAN = iban ?? GetString(RegexPatterns.IBAN),
 			Provider = GetString(128),
 			AccountTransactions = accountTransactions ?? default!
 		};
@@ -104,7 +104,7 @@ public static class EntityHelper
 			Account = account,
 			CardTypeId = 1,
 			CardTransactions = cardTransactions ?? default!,
-			PAN = cardNumber ?? GetString(Regex.CC),
+			PAN = cardNumber ?? GetString(RegexPatterns.CC),
 			User = user
 		};
 		return cardToReturn;
@@ -143,7 +143,7 @@ public static class EntityHelper
 			PostingText = GetString(MaxLength.MAX_100),
 			ClientBeneficiary = GetString(MaxLength.MAX_250),
 			Purpose = GetString(MaxLength.MAX_4000),
-			AccountNumber = GetString(Regex.IBAN).RemoveWhitespace(),
+			AccountNumber = GetString(RegexPatterns.IBAN).RemoveWhitespace(),
 			BankCode = GetString(MaxLength.MAX_25),
 			AmountEur = GetInt(-100, 250),
 			CreditorId = GetString(MaxLength.MAX_25),

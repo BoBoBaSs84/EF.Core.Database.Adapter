@@ -41,7 +41,7 @@ public sealed class CardTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<CardTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetPagedByParameters([FromQuery] CardTypeParameters parameters, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetPagedByParameters([FromQuery] CardTypeParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<CardTypeResponse>> result =
 			await _cardTypeService.GetPagedByParameters(parameters, false, cancellationToken);
@@ -61,7 +61,7 @@ public sealed class CardTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<CardTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
 		ErrorOr<CardTypeResponse> result =
 			await _cardTypeService.GetById(id, false, cancellationToken);
@@ -81,7 +81,7 @@ public sealed class CardTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<CardTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken)
 	{
 		ErrorOr<CardTypeResponse> result =
 			await _cardTypeService.GetByName(name, false, cancellationToken);

@@ -10,7 +10,7 @@ internal sealed class AttendanceResponseProfile : Profile
 	public AttendanceResponseProfile()
 	{
 		CreateMap<Attendance, AttendanceResponse>()
-			.ForMember(dest => dest.CalendarDate, opt => opt.MapFrom(src => src.CalendarDay.Date))
+			.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CalendarDay.Date))
 			.ForMember(dest => dest.DayType, opt => opt.MapFrom(src => src.DayType.Name));
 	}
 }

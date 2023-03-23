@@ -64,6 +64,7 @@ public sealed class AuthenticationController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	// TODO: Rework needed...
 	public async Task<IActionResult> UpdateUser(string userName, [FromBody] UserUpdateRequest updateRequest)
 	{
 		ErrorOr<Updated> result =

@@ -33,7 +33,7 @@ public interface IAttendanceService
 	Task<ErrorOr<Created>> Create(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Should delete a attendance.
+	/// Should delete a attendance by the calendat day identifier.
 	/// </summary>
 	/// <param name="userId">the user identifier.</param>
 	/// <param name="calendarDayId">The calendar day identifier to delete.</param>
@@ -42,7 +42,7 @@ public interface IAttendanceService
 	Task<ErrorOr<Deleted>> Delete(int userId, int calendarDayId, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Should delete multiple attendances.
+	/// Should delete multiple attendances by the calendar day identifiers.
 	/// </summary>
 	/// <param name="userId">the user identifier.</param>
 	/// <param name="calendarDayIds">The calendar day identifiers to delete.</param>
@@ -61,10 +61,10 @@ public interface IAttendanceService
 	Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(int userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Should return the attendance entity by date.
+	/// Should return the attendance entity by the calendar day date.
 	/// </summary>
 	/// <param name="userId">the user identifier.</param>
-	/// <param name="date"></param>
+	/// <param name="date">The calendar day date.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>

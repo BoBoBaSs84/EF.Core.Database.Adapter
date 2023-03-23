@@ -42,7 +42,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<CalendarDayResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetPagedByParameters([FromQuery] CalendarDayParameters parameters, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetPagedByParameters([FromQuery] CalendarDayParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<CalendarDayResponse>> result =
 			await _calendarDayService.GetPagedByParameters(parameters, false, cancellationToken);
@@ -62,7 +62,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	[ProducesResponseType(typeof(CalendarDayResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByDate([DataType(DataType.Date)] DateTime date, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetByDate([DataType(DataType.Date)] DateTime date, CancellationToken cancellationToken)
 	{
 		ErrorOr<CalendarDayResponse> result =
 			await _calendarDayService.GetByDate(date, false, cancellationToken);
@@ -82,7 +82,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	[ProducesResponseType(typeof(CalendarDayResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
 		ErrorOr<CalendarDayResponse> result =
 			await _calendarDayService.GetById(id, false, cancellationToken);

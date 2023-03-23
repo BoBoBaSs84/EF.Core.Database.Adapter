@@ -14,10 +14,10 @@ namespace Application.Contracts.Responses;
 public sealed class AttendanceResponse : ResponseModel
 {
 	/// <summary>
-	/// The <see cref="CalendarDate"/> property.
+	/// The <see cref="Date"/> property.
 	/// </summary>
 	[DataType(DataType.Date)]
-	public DateTime CalendarDate { get; set; } = default!;
+	public DateTime Date { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="DayType"/> property.
@@ -41,4 +41,14 @@ public sealed class AttendanceResponse : ResponseModel
 	/// </summary>
 	[JsonConverter(typeof(TimeSpanJsonConverter))]
 	public TimeSpan? BreakTime { get; set; } = default!;
+
+	/// <summary>
+	/// The <see cref="DayTypeId"/> property.
+	/// </summary>
+	public int CalendarDayId { get; set; } = default!;
+
+	/// <summary>
+	/// The <see cref="DayTypeId"/> property.
+	/// </summary>
+	public int DayTypeId { get; set; } = default!;
 }

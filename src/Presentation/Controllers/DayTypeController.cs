@@ -41,7 +41,7 @@ public sealed class DayTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetPagedByParameters([FromQuery] DayTypeParameters parameters, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetPagedByParameters([FromQuery] DayTypeParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<DayTypeResponse>> result =
 			await _dayTypeService.GetPagedByParameters(parameters, false, cancellationToken);
@@ -61,7 +61,7 @@ public sealed class DayTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
 		ErrorOr<DayTypeResponse> result =
 			await _dayTypeService.GetById(id, false, cancellationToken);
@@ -81,7 +81,7 @@ public sealed class DayTypeController : ApiControllerBase
 	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken)
 	{
 		ErrorOr<DayTypeResponse> result =
 			await _dayTypeService.GetByName(name, false, cancellationToken);

@@ -23,7 +23,7 @@ internal static class EnumeratorConfiguration
 				.IsClustered(true);
 
 			builder.HasIndex(e => e.Name)
-				.IsClustered(true)
+				.IsClustered(false)
 				.IsUnique(true);
 
 			builder.HasMany(e => e.Cards)
@@ -32,10 +32,10 @@ internal static class EnumeratorConfiguration
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
 
-			builder.HasData(GetEnDayTypes());
+			builder.HasData(GetCardTypes());
 		}
 
-		private static IEnumerable<CardType> GetEnDayTypes()
+		private static IEnumerable<CardType> GetCardTypes()
 		{
 			List<ECT> enumList = ECT.CREDIT.GetListFromEnum();
 			IList<CardType> listToReturn = new List<CardType>();
@@ -65,7 +65,7 @@ internal static class EnumeratorConfiguration
 				.IsClustered(true);
 
 			builder.HasIndex(e => e.Name)
-				.IsClustered(true)
+				.IsClustered(false)
 				.IsUnique(true);
 
 			builder.HasMany(e => e.CalendarDays)
@@ -80,10 +80,10 @@ internal static class EnumeratorConfiguration
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
 
-			builder.HasData(GetEnDayTypes());
+			builder.HasData(GetDayTypes());
 		}
 
-		private static IEnumerable<DayType> GetEnDayTypes()
+		private static IEnumerable<DayType> GetDayTypes()
 		{
 			List<EDT> enumList = EDT.ABSENCE.GetListFromEnum();
 			IList<DayType> listToReturn = new List<DayType>();

@@ -148,7 +148,8 @@ internal sealed class AttendanceService : IAttendanceService
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { $"{nameof(Attendance.CalendarDay)}", $"{nameof(Attendance.DayType)}" }
 				);
 
 			if (!attendances.Any())
@@ -175,7 +176,8 @@ internal sealed class AttendanceService : IAttendanceService
 			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { $"{nameof(Attendance.CalendarDay)}", $"{nameof(Attendance.DayType)}" }
 				);
 
 			if (attendance is null)
@@ -202,7 +204,8 @@ internal sealed class AttendanceService : IAttendanceService
 			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { $"{nameof(Attendance.CalendarDay)}", $"{nameof(Attendance.DayType)}" }
 				);
 
 			if (attendance is null)
@@ -221,11 +224,16 @@ internal sealed class AttendanceService : IAttendanceService
 	}
 
 	// TODO: Errors!
-	public async Task<ErrorOr<Updated>> Update(AttendanceUpdadteRequest updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest updateRequest, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			Attendance attendance = _mapper.Map<Attendance>(updateRequest);
+			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByIdAsync(updateRequest.Id, cancellationToken);
+
+			if (attendance is null)
+				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+
+			UpdateAttendance(attendance, updateRequest);
 
 			await _unitOfWork.AttendanceRepository.UpdateAsync(attendance);
 			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
@@ -240,11 +248,18 @@ internal sealed class AttendanceService : IAttendanceService
 	}
 
 	// TODO: Errors!
-	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdadteRequest> updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<Attendance> attendances = _mapper.Map<IEnumerable<Attendance>>(updateRequest);
+			IEnumerable<Attendance> attendances =
+				await _unitOfWork.AttendanceRepository.GetByIdsAsync(updateRequest.Select(x => x.Id), true, cancellationToken);
+
+			if (!attendances.Any())
+				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+
+			foreach (Attendance attendance in attendances)
+				UpdateAttendance(attendance, updateRequest.Where(x => x.Id.Equals(attendance.Id)).First());
 
 			await _unitOfWork.AttendanceRepository.UpdateAsync(attendances);
 			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
@@ -256,5 +271,18 @@ internal sealed class AttendanceService : IAttendanceService
 			_logger.Log(logExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.GetPagedByParametersFailed;
 		}
+	}
+
+	/// <summary>
+	/// Should update the attendance with the update request.
+	/// </summary>
+	/// <param name="attendance">The attendance to update.</param>
+	/// <param name="updateRequest">The request to update with.</param>
+	private static void UpdateAttendance(Attendance attendance, AttendanceUpdateRequest updateRequest)
+	{
+		attendance.DayTypeId = updateRequest.DayTypeId;
+		attendance.StartTime = updateRequest.StartTime;
+		attendance.EndTime = updateRequest.EndTime;
+		attendance.BreakTime = updateRequest.BreakTime;
 	}
 }

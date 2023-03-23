@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.OpenApi.Models;
-using Presentation.Common;
+using WebAPI.Extensions;
 using WebAPI.Services;
 
 namespace WebAPI.Installer;
@@ -21,41 +20,10 @@ internal static class DependencyInjectionHelper
 	{
 		services.AddSwaggerGen(options =>
 		{
-			options.SwaggerDoc(Versioning.CurrentVersion, new OpenApiInfo()
-			{
-				Title = "BoBoBaSs84 API",
-				Version = Versioning.CurrentVersion
-			});
-
-			options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-			{
-				In = ParameterLocation.Header,
-				Description = "Please enter token",
-				Name = "Authorization",
-				Type = SecuritySchemeType.Http,
-				BearerFormat = "JWT",
-				Scheme = "Bearer"
-			});
-
-			options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-			{
-				{
-					new OpenApiSecurityScheme
-					{
-						Reference = new OpenApiReference
-						{
-							Type = ReferenceType.SecurityScheme,
-							Id = "Bearer"
-						}
-					},
-					Array.Empty<string>()
-				}
-			});
-
-			string xmlFile = $"{typeof(IPresentationAssemblyMarker).Assembly.GetName().Name}.xml";
-			string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-			options.IncludeXmlComments(xmlPath);
+			options.ConfigureTypeMapping();
+			options.ConfigureSecurityDefinition();
+			options.ConfigureSecurityRequirement();
+			options.ConfigureApiDocumentation();
 		});
 
 		return services;

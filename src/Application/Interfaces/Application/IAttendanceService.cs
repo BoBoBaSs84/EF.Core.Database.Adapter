@@ -86,7 +86,7 @@ public interface IAttendanceService
 	/// <param name="updateRequest">The attendance update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(AttendanceUpdadteRequest updateRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest updateRequest, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should update multiple attendances.
@@ -94,5 +94,5 @@ public interface IAttendanceService
 	/// <param name="updateRequest">The attendance update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdadteRequest> updateRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default);
 }

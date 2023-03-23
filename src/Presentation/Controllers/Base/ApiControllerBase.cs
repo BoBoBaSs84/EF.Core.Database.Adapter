@@ -74,12 +74,10 @@ public abstract class ApiControllerBase : ControllerBase
 	/// <returns>IActionResult</returns>
 	protected IActionResult Get<T>(ErrorOr<T> result, MetaData? metaData)
 	{
-		IActionResult resonse = result.Match(success => Ok(result), Problem);
-		
 		if (!result.IsError && metaData is not null)
-			Response.Headers.Add(HttpHeaders.Pagination, metaData.ToJsonString());			
-		
-		return resonse;
+			Response.Headers.Add(HttpHeaders.Pagination, metaData.ToJsonString());
+
+		return Get(result);
 	}
 
 	/// <summary>

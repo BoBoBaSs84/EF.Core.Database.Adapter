@@ -9,7 +9,6 @@ internal sealed class UserRequestProfile : Profile
 {
 	public UserRequestProfile()
 	{
-		CreateMap<User, UserCreateRequest>()
-			.ReverseMap();
+		CreateMap<UserCreateRequest, User>();
 	}
 }

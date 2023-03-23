@@ -9,7 +9,6 @@ internal sealed class CardTypeResponseProfile : Profile
 {
 	public CardTypeResponseProfile()
 	{
-		CreateMap<CardType, CardTypeResponse>()
-			.ReverseMap();
+		CreateMap<CardType, CardTypeResponse>();
 	}
 }

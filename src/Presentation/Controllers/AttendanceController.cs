@@ -118,7 +118,7 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	[HttpPut(Endpoints.Attendance.Put)]
-	public async Task<IActionResult> Put([FromBody] AttendanceUpdadteRequest updadteRequest, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> Put([FromBody] AttendanceUpdateRequest updadteRequest, CancellationToken cancellationToken = default)
 	{
 		ErrorOr<Updated> result =
 			await _attendanceService.Update(updadteRequest, cancellationToken);
@@ -127,7 +127,7 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	[HttpPut(Endpoints.Attendance.PutMultiple)]
-	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdadteRequest> updadteRequest, CancellationToken cancellationToken = default)
+	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdateRequest> updadteRequest, CancellationToken cancellationToken = default)
 	{
 		ErrorOr<Updated> result =
 			await _attendanceService.Update(updadteRequest, cancellationToken);

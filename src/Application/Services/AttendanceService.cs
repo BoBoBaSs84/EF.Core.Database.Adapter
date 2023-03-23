@@ -41,7 +41,6 @@ internal sealed class AttendanceService : IAttendanceService
 		_mapper = mapper;
 	}
 
-	// TODO: Errors!
 	public async Task<ErrorOr<Created>> Create(int userId, AttendanceCreateRequest createRequest, CancellationToken cancellationToken = default)
 	{
 		try
@@ -57,12 +56,12 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, createRequest, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.CreateFailed;
 		}
 	}
 
 	// TODO: Errors!
-	public async Task<ErrorOr<Created>> Create(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> CreateMany(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -79,7 +78,7 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, createRequest, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.CreateManyFailed;
 		}
 	}
 
@@ -96,7 +95,7 @@ internal sealed class AttendanceService : IAttendanceService
 				);
 
 			if (dbAttendance is null)
-				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+				return AttendanceServiceErrors.DeleteNotFound;
 
 			await _unitOfWork.AttendanceRepository.DeleteAsync(dbAttendance);
 			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
@@ -106,12 +105,12 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.DeleteFailed;
 		}
 	}
 
 	// TODO: Errors!
-	public async Task<ErrorOr<Deleted>> Delete(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> DeleteMany(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayIds.ToJsonString()}" };
 		try
@@ -123,7 +122,7 @@ internal sealed class AttendanceService : IAttendanceService
 				);
 
 			if (!dbAttendances.Any())
-				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+				return AttendanceServiceErrors.DeleteManyNotFound;
 
 			await _unitOfWork.AttendanceRepository.DeleteAsync(dbAttendances);
 			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
@@ -133,7 +132,7 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.DeleteManyFailed;
 		}
 	}
 
@@ -181,7 +180,7 @@ internal sealed class AttendanceService : IAttendanceService
 				);
 
 			if (attendance is null)
-				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+				return AttendanceServiceErrors.GetByDateNotFound(date);
 
 			AttendanceResponse result = _mapper.Map<AttendanceResponse>(attendance);
 
@@ -191,7 +190,7 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.GetByDateFailed(date);
 		}
 	}
 
@@ -209,7 +208,7 @@ internal sealed class AttendanceService : IAttendanceService
 				);
 
 			if (attendance is null)
-				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+				return AttendanceServiceErrors.GetByIdNotFound(calendarDayId);
 
 			AttendanceResponse result = _mapper.Map<AttendanceResponse>(attendance);
 
@@ -219,7 +218,7 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.GetByIdFailed(calendarDayId);
 		}
 	}
 
@@ -231,7 +230,7 @@ internal sealed class AttendanceService : IAttendanceService
 			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByIdAsync(updateRequest.Id, cancellationToken);
 
 			if (attendance is null)
-				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+				return AttendanceServiceErrors.UpdateNotFound;
 
 			UpdateAttendance(attendance, updateRequest);
 
@@ -243,12 +242,12 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, updateRequest, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.UpdateFailed;
 		}
 	}
 
 	// TODO: Errors!
-	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> UpdateMany(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -256,7 +255,7 @@ internal sealed class AttendanceService : IAttendanceService
 				await _unitOfWork.AttendanceRepository.GetByIdsAsync(updateRequest.Select(x => x.Id), true, cancellationToken);
 
 			if (!attendances.Any())
-				return AttendanceServiceErrors.GetPagedByParametersNotFound;
+				return AttendanceServiceErrors.UpdateManyNotFound;
 
 			foreach (Attendance attendance in attendances)
 				UpdateAttendance(attendance, updateRequest.Where(x => x.Id.Equals(attendance.Id)).First());
@@ -269,7 +268,7 @@ internal sealed class AttendanceService : IAttendanceService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, updateRequest, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.UpdateManyFailed;
 		}
 	}
 

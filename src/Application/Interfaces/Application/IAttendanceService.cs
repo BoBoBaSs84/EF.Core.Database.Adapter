@@ -30,7 +30,7 @@ public interface IAttendanceService
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	/// <returns></returns>
-	Task<ErrorOr<Created>> Create(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> CreateMany(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should delete a attendance by the calendat day identifier.
@@ -48,7 +48,7 @@ public interface IAttendanceService
 	/// <param name="calendarDayIds">The calendar day identifiers to delete.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Deleted>> DeleteMany(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should return the attendance entities as a paged list, filtered by the parameters.
@@ -94,5 +94,5 @@ public interface IAttendanceService
 	/// <param name="updateRequest">The attendance update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> UpdateMany(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default);
 }

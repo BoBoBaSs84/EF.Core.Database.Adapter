@@ -154,7 +154,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> Delete([FromBody] IEnumerable<int> calendarDayIds, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
-			await _attendanceService.Delete(_currentUserService.UserId, calendarDayIds, cancellationToken);
+			await _attendanceService.DeleteMany(_currentUserService.UserId, calendarDayIds, cancellationToken);
 
 		return Delete(result);
 	}
@@ -202,7 +202,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> result =
-			await _attendanceService.Create(_currentUserService.UserId, createRequest, cancellationToken);
+			await _attendanceService.CreateMany(_currentUserService.UserId, createRequest, cancellationToken);
 
 		return PostWithoutLocation(result);
 	}
@@ -250,7 +250,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> result =
-			await _attendanceService.Update(updateRequest, cancellationToken);
+			await _attendanceService.UpdateMany(updateRequest, cancellationToken);
 
 		return Put(result);
 	}

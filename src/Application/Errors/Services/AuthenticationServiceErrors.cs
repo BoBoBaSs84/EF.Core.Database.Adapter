@@ -28,9 +28,9 @@ public static class AuthenticationServiceErrors
 	/// </summary>
 	/// <param name="userName">The user name.</param>
 	/// <returns><see cref="ApiError"/></returns>
-	public static ApiError UserNotFound(string userName) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserNotFound)}",
-			RESX.AuthenticationService_User_NotFound.Format(CurrentCulture, userName));
+	public static ApiError UserByNameNotFound(string userName) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByNameNotFound)}",
+			RESX.AuthenticationService_UserById_NotFound.Format(CurrentCulture, userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.

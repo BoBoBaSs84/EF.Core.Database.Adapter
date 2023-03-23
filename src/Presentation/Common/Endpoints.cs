@@ -18,7 +18,7 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Authentication);
 		internal const string CreateUser = EmptySuffix;
-		internal const string UpdateUser = "{userName}";
+		internal const string UpdateUser = EmptySuffix;
 		internal const string AuthenticateUser = "Login";
 	}
 

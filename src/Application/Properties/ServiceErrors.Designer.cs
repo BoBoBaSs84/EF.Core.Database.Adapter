@@ -241,20 +241,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user with the user name &apos;{0}&apos; could not be found..
-        /// </summary>
-        public static string AuthenticationService_User_NotFound {
-            get {
-                return ResourceManager.GetString("AuthenticationService.User.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The user with the user name &apos;{0}&apos; could not be authorized..
         /// </summary>
         public static string AuthenticationService_User_Unauthorized {
             get {
                 return ResourceManager.GetString("AuthenticationService.User.Unauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user with the user identifier: &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string AuthenticationService_UserById_NotFound {
+            get {
+                return ResourceManager.GetString("AuthenticationService.UserById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user with the user name: &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string AuthenticationService_UserByName_NotFound {
+            get {
+                return ResourceManager.GetString("AuthenticationService.UserByName.NotFound", resourceCulture);
             }
         }
         

@@ -177,11 +177,14 @@
   <data name="AuthenticationService.UpdateUser.Failed" xml:space="preserve">
     <value>An error occurred while trying to update the user.</value>
   </data>
-  <data name="AuthenticationService.User.NotFound" xml:space="preserve">
-    <value>The user with the user name '{0}' could not be found.</value>
-  </data>
   <data name="AuthenticationService.User.Unauthorized" xml:space="preserve">
     <value>The user with the user name '{0}' could not be authorized.</value>
+  </data>
+  <data name="AuthenticationService.UserById.NotFound" xml:space="preserve">
+    <value>The user with the user identifier: '{0}' could not be found.</value>
+  </data>
+  <data name="AuthenticationService.UserByName.NotFound" xml:space="preserve">
+    <value>The user with the user name: '{0}' could not be found.</value>
   </data>
   <data name="CalendarDayService.GetByDate.Failed" xml:space="preserve">
     <value>An error occurred while loading the calendar day by date.</value>

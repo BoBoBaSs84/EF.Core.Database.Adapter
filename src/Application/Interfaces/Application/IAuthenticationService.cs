@@ -20,10 +20,10 @@ public interface IAuthenticationService
 	/// <summary>
 	/// Updates an existing application user.
 	/// </summary>
-	/// <param name="userName">The user to update.</param>
+	/// <param name="userId">The user identifier of the user to update.</param>
 	/// <param name="updateRequest">The user update reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> UpdateUser(string userName, UserUpdateRequest updateRequest);
+	Task<ErrorOr<Updated>> UpdateUser(int userId, UserUpdateRequest updateRequest);
 
 	/// <summary>
 	/// Authenticates an existing application user.

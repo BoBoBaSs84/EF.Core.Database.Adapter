@@ -52,7 +52,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			User? user = await _userService.FindByNameAsync(authRequest.UserName);
 
 			if (user is null)
-				return AuthenticationServiceErrors.UserNotFound(authRequest.UserName);
+				return AuthenticationServiceErrors.UserByNameNotFound(authRequest.UserName);
 
 			if (!await _userService.CheckPasswordAsync(user, authRequest.Password))
 				return AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName);
@@ -71,30 +71,31 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
+	// TODO: Error multiple error messages better ...
 	public async Task<ErrorOr<Created>> CreateUser(UserCreateRequest createRequest)
 	{
+		List<Error> errors = new();
 		try
 		{
-			ErrorOr<Created> response = new();
 			User user = _mapper.Map<User>(createRequest);
 
 			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
 			if (!result.Succeeded)
 			{
-				foreach (IdentityError error in result.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
-				return response;
+				foreach (IdentityError error in result.Errors)					
+					errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return ErrorOr<Created>.From(errors);
 			}
 
 			result = await _userService.AddToRolesAsync(user, createRequest.Roles);
 			if (!result.Succeeded)
 			{
 				foreach (IdentityError error in result.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
-				return response;
+					errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return ErrorOr<Created>.From(errors);
 			}
 
-			return response;
+			return Result.Created;
 		}
 		catch (Exception ex)
 		{
@@ -103,32 +104,26 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateUser(string userName, UserUpdateRequest updateRequest)
+	public async Task<ErrorOr<Updated>> UpdateUser(int userId, UserUpdateRequest updateRequest)
 	{
+		List<Error> errors = new();
 		try
 		{
 			ErrorOr<Updated> response = new();
-			User user = await _userService.FindByNameAsync(userName);
-
-			if (user is null)
-				return AuthenticationServiceErrors.UserNotFound(userName);
-
-			bool success = await _userService.CheckPasswordAsync(user, updateRequest.Password);
-
-			if (!success)
-				return AuthenticationServiceErrors.UserUnauthorized(userName);
+			User user = await _userService.FindByIdAsync($"{userId}");
 
 			user.FirstName = updateRequest.FirstName;
 			user.MiddleName = updateRequest.MiddleName;
 			user.LastName = updateRequest.LastName;
 			user.DateOfBirth = updateRequest.DateOfBirth;
 			user.Email = updateRequest.Email;
+			user.PhoneNumber = updateRequest.PhoneNumber;
 
 			IdentityResult result = await _userService.UpdateAsync(user);
 			if (!result.Succeeded)
 			{
 				foreach (IdentityError error in result.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+					errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
 				return response;
 			}
 

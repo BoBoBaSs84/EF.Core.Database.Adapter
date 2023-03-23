@@ -13,5 +13,10 @@ public interface ICurrentUserService
 	/// <summary>
 	/// The current user name.
 	/// </summary>
-	string? UserName { get; }
+	string UserName { get; }
+
+	/// <summary>
+	/// The current user email.
+	/// </summary>
+	string Email { get; }
 }

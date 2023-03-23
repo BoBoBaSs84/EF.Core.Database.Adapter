@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces.Infrastructure.Repositories;
 using Domain.Entities.Private;
-using Domain.Extensions;
 using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,25 +23,4 @@ internal sealed class AttendanceRepository : IdentityRepository<Attendance>, IAt
 	public AttendanceRepository(DbContext dbContext) : base(dbContext)
 	{
 	}
-
-	public async Task<IEnumerable<Attendance>> GetAttendancesAsync(int userId,
-		bool trackChanges = false, CancellationToken cancellationToken = default) =>
-		await GetManyByConditionAsync(
-			expression: x => x.UserId.Equals(userId),
-			trackChanges: trackChanges,
-			cancellationToken: cancellationToken);
-
-	public async Task<Attendance> GetAttendanceAsync(int userId, DateTime calendarDate,
-		bool trackChanges = false, CancellationToken cancellationToken = default) =>
-		await GetByConditionAsync(
-			expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(calendarDate.ToSqlDate()),
-			trackChanges: trackChanges,
-			cancellationToken: cancellationToken);
-
-	public async Task<Attendance> GetAttendanceAsync(int userId, int calendarDayId,
-		bool trackChanges = false, CancellationToken cancellationToken = default) =>
-		await GetByConditionAsync(
-			expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
-			trackChanges: trackChanges,
-			cancellationToken: cancellationToken);
 }

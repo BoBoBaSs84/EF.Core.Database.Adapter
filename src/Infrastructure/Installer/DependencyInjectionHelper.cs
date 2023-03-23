@@ -43,7 +43,7 @@ public static class DependencyInjectionHelper
 		services.AddIdentityService();
 		services.ConfigureJWT(configuration);
 
-		services.TryAddScoped<SaveChangesInterceptor>();
+		services.TryAddScoped<CustomSaveChangesInterceptor>();
 		services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 		services.TryAddScoped<IUserService, UserService>();
 		services.TryAddScoped<IRoleService, RoleService>();

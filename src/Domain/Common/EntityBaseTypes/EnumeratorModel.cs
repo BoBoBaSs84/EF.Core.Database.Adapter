@@ -15,8 +15,6 @@ namespace Domain.Common.EntityBaseTypes;
 /// <item>The <see cref="IConcurrencyModel"/> interface</item>
 /// </list>
 /// </remarks>
-//[Index(nameof(Name), IsUnique = true)]
-// TODO: Should be done in the infrastructure layer ... for every enumerator!
 public abstract class EnumeratorModel : IdentityModel, IActivatableModel, IEnumeratorModel
 {
 	/// <summary>

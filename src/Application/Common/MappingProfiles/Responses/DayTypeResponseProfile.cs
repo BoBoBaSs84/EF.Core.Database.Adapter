@@ -9,7 +9,6 @@ internal sealed class DayTypeResponseProfile : Profile
 {
 	public DayTypeResponseProfile()
 	{
-		CreateMap<DayType, DayTypeResponse>()
-			.ReverseMap();
+		CreateMap<DayType, DayTypeResponse>();
 	}
 }

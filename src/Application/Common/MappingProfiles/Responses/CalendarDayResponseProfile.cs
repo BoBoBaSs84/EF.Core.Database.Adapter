@@ -9,7 +9,6 @@ internal sealed class CalendarResponseProfile : Profile
 {
 	public CalendarResponseProfile()
 	{
-		CreateMap<CalendarDay, CalendarDayResponse>()
-			.ReverseMap();
+		CreateMap<CalendarDay, CalendarDayResponse>();
 	}
 }

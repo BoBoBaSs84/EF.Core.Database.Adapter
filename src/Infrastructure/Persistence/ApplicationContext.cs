@@ -15,14 +15,14 @@ namespace Infrastructure.Persistence;
 /// </remarks>
 public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
-	private readonly SaveChangesInterceptor _changesInterceptor;
+	private readonly CustomSaveChangesInterceptor _changesInterceptor;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
 	/// </summary>
 	/// <param name="dbContextOptions">The database context options.</param>
 	/// <param name="changesInterceptor">The auditable entity save changes interceptor.</param>
-	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions, SaveChangesInterceptor changesInterceptor)
+	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions, CustomSaveChangesInterceptor changesInterceptor)
 		: base(dbContextOptions) => _changesInterceptor = changesInterceptor;
 
 	/// <inheritdoc/>

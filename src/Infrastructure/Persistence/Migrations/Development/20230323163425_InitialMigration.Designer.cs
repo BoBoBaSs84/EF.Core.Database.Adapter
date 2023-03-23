@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations.Development
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230303054932_InitialMigration")]
+    [Migration("20230323163425_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace Infrastructure.Persistence.Migrations.Development
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Private")
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -63,6 +63,11 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasKey("Id");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Name"), false);
 
                     b.ToTable("CardType", "Enumerator");
 
@@ -133,6 +138,11 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasKey("Id");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Name"), false);
 
                     b.ToTable("DayType", "Enumerator");
 
@@ -676,7 +686,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "217aa3c8-1bc6-4ffc-b91c-30a858922922",
+                            ConcurrencyStamp = "d328c8c7-ad86-440b-8ea5-44743081644d",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -684,7 +694,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "192f07fc-985e-4a2e-af80-1da90c9ad81d",
+                            ConcurrencyStamp = "8de12b41-9003-48de-9e8c-2398d9345798",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -692,7 +702,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "4e52cf0c-402d-47fe-9884-b02da8e49cdb",
+                            ConcurrencyStamp = "572c0150-add9-4ea5-8907-f35375862d8c",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"

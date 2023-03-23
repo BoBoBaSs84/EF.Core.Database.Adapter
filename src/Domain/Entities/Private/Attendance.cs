@@ -1,7 +1,7 @@
 ﻿using Domain.Common.EntityBaseTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
-using DC = Domain.Constants.DomainConstants;
+using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 
 namespace Domain.Entities.Private;
 
@@ -32,18 +32,18 @@ public partial class Attendance : AuditedModel
 	/// <summary>
 	/// The <see cref="StartTime"/> property.
 	/// </summary>
-	[Column(TypeName = DC.Sql.DataType.TIME0)]
+	[Column(TypeName = SqlDataType.TIME0)]
 	public TimeSpan? StartTime { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="EndTime"/> property.
 	/// </summary>
-	[Column(TypeName = DC.Sql.DataType.TIME0)]
+	[Column(TypeName = SqlDataType.TIME0)]
 	public TimeSpan? EndTime { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="BreakTime"/> property.
 	/// </summary>
-	[Column(TypeName = DC.Sql.DataType.TIME0)]
+	[Column(TypeName = SqlDataType.TIME0)]
 	public TimeSpan? BreakTime { get; set; } = default!;
 }

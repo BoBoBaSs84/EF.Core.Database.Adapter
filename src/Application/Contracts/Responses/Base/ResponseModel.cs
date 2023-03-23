@@ -8,4 +8,8 @@
 /// </remarks>
 public abstract class ResponseModel
 {
+	/// <summary>
+	/// The <see cref="Id"/> property.
+	/// </summary>
+	public int Id { get; set; } = default!;
 }

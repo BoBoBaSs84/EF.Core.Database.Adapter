@@ -21,6 +21,7 @@ public static class DependencyInjectionHelper
 	{
 		services.ConfigureAutoMapper();
 
+		services.TryAddScoped<IAttendanceService, AttendanceService>();
 		services.TryAddScoped<ICalendarDayService, CalendarDayService>();
 		services.TryAddScoped<IDayTypeService, DayTypeService>();
 		services.TryAddScoped<ICardTypeService, CardTypeService>();

@@ -2,7 +2,8 @@
 using Application.Features.Requests;
 using Application.Services;
 using Domain.Extensions;
-using RESX = Application.Properties.Resources;
+using System.Globalization;
+using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
 
@@ -14,6 +15,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 internal static class DayTypeServiceErrors
 {
+	private static readonly CultureInfo CurrentCulture = Domain.Statics.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(DayTypeServiceErrors)}";
 
 	/// <summary>
@@ -22,7 +24,7 @@ internal static class DayTypeServiceErrors
 	/// </summary>
 	public static readonly ApiError GetByIdFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
-			RESX.DayTypeServiceErrors_GetByIdFailed);
+			RESX.DayTypeService_GetById_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -30,7 +32,7 @@ internal static class DayTypeServiceErrors
 	/// </summary>
 	public static ApiError GetByIdNotFound(int id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.DayTypeServiceErrors_GetByIdNotFound.FormatInvariant(id));
+			RESX.DayTypeService_GetById_NotFound.Format(CurrentCulture, id));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -38,7 +40,7 @@ internal static class DayTypeServiceErrors
 	/// </summary>
 	public static readonly ApiError GetByNameFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByNameFailed)}",
-			RESX.DayTypeServiceErrors_GetByNameFailed);
+			RESX.DayTypeService_GetByName_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -46,7 +48,7 @@ internal static class DayTypeServiceErrors
 	/// </summary>
 	public static ApiError GetByNameNotFound(string name) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByNameNotFound)}",
-			RESX.DayTypeServiceErrors_GetByNameNotFound.FormatInvariant(name));
+			RESX.DayTypeService_GetByName_NotFound.Format(CurrentCulture, name));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -54,7 +56,7 @@ internal static class DayTypeServiceErrors
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
-			RESX.DayTypeServiceErrors_GetPagedByParametersFailed);
+			RESX.DayTypeService_GetPagedByParameters_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -62,5 +64,5 @@ internal static class DayTypeServiceErrors
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetPagedByParametersNotFound)}",
-			RESX.DayTypeServiceErrors_GetPagedByParametersNotFound);
+			RESX.DayTypeService_GetPagedByParameters_NotFound);
 }

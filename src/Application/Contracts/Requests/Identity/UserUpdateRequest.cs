@@ -38,8 +38,8 @@ public sealed class UserUpdateRequest
 	public string Email { get; set; } = default!;
 
 	/// <summary>
-	/// The password of the user.
+	/// The phone number of the user.
 	/// </summary>
-	[Required, DataType(DataType.Password)]
-	public string Password { get; set; } = default!;
+	[Phone, DataType(DataType.PhoneNumber)]
+	public string? PhoneNumber { get; set; } = default!;
 }

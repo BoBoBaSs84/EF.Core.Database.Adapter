@@ -9,11 +9,6 @@
 public abstract class EnumeratorResponseModel : ResponseModel
 {
 	/// <summary>
-	/// The <see cref="Id"/> property.
-	/// </summary>
-	public int Id { get; set; } = default!;
-
-	/// <summary>
 	/// The <see cref="Name"/> property.
 	/// </summary>
 	public string Name { get; set; } = default!;

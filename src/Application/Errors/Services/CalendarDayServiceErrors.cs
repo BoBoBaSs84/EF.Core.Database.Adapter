@@ -2,7 +2,8 @@
 using Application.Features.Requests;
 using Application.Services;
 using Domain.Extensions;
-using RESX = Application.Properties.Resources;
+using System.Globalization;
+using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
 
@@ -14,6 +15,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CalendarDayServiceErrors
 {
+	private static readonly CultureInfo CurrentCulture = Domain.Statics.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(CalendarDayServiceErrors)}";
 
 	/// <summary>
@@ -22,7 +24,7 @@ public static class CalendarDayServiceErrors
 	/// </summary>
 	public static readonly ApiError GetByDateFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByDateFailed)}",
-			RESX.CalendarDayServiceErrors_GetByDateFailed);
+			RESX.CalendarDayService_GetByDate_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -30,7 +32,7 @@ public static class CalendarDayServiceErrors
 	/// </summary>
 	public static ApiError GetByDateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
-			RESX.CalendarDayServiceErrors_GetByDateNotFound.FormatInvariant(date));
+			RESX.CalendarDayService_GetByDate_NotFound.Format(CurrentCulture, date));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -38,7 +40,7 @@ public static class CalendarDayServiceErrors
 	/// </summary>
 	public static readonly ApiError GetByIdFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
-			RESX.CalendarDayServiceErrors_GetByIdFailed);
+			RESX.CalendarDayService_GetById_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -46,7 +48,7 @@ public static class CalendarDayServiceErrors
 	/// </summary>
 	public static ApiError GetByIdNotFound(int id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.CalendarDayServiceErrors_GetByIdNotFound.FormatInvariant(id));
+			RESX.CardTypeService_GetByName_NotFound.Format(CurrentCulture, id));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -54,7 +56,7 @@ public static class CalendarDayServiceErrors
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
-			RESX.CalendarDayServiceErrors_GetPagedByParametersFailed);
+			RESX.CalendarDayService_GetPagedByParameters_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -62,5 +64,5 @@ public static class CalendarDayServiceErrors
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetPagedByParametersNotFound)}",
-			RESX.CalendarDayServiceErrors_GetPagedByParametersNotFound);
+			RESX.CalendarDayService_GetPagedByParameters_NotFound);
 }

@@ -18,7 +18,7 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Authentication);
 		internal const string CreateUser = EmptySuffix;
-		internal const string UpdateUser = "{userName}";
+		internal const string UpdateUser = EmptySuffix;
 		internal const string AuthenticateUser = "Login";
 	}
 
@@ -53,5 +53,22 @@ internal static class Endpoints
 		internal const string GetPagedByParameters = EmptySuffix;
 		internal const string GetByName = "{name}";
 		internal const string GetById = "{id:int}";
+	}
+
+	/// <summary>
+	/// The attendance route.
+	/// </summary>
+	internal static class Attendance
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Attendance);
+		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string GetByDate = "{date}";
+		internal const string GetById = "{calendarDayId:int}";
+		internal const string Post = EmptySuffix;
+		internal const string PostMultiple = $"Multiple";
+		internal const string Delete = "{calendarDayId:int}";
+		internal const string DeleteMultiple = "Multiple";
+		internal const string Put = EmptySuffix;
+		internal const string PutMultiple = "Multiple";
 	}
 }

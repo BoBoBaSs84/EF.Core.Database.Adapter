@@ -52,13 +52,13 @@ internal sealed class AuthenticationService : IAuthenticationService
 			User? user = await _userService.FindByNameAsync(authRequest.UserName);
 
 			if (user is null)
-				return AuthenticationServiceErrors.UserNotFound(authRequest.UserName);
+				return AuthenticationServiceErrors.UserByNameNotFound(authRequest.UserName);
 
 			if (!await _userService.CheckPasswordAsync(user, authRequest.Password))
 				return AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName);
 
 			SigningCredentials signingCredentials = GetSigningCredentials();
-			IEnumerable<Claim> claims = GetClaims(user);
+			IEnumerable<Claim> claims = await GetClaims(user);
 			JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 			string token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
@@ -71,25 +71,29 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
+	// TODO: Error multiple error messages better ...
 	public async Task<ErrorOr<Created>> CreateUser(UserCreateRequest createRequest)
 	{
+		List<Error> errors = new();
 		try
 		{
 			User user = _mapper.Map<User>(createRequest);
 
 			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
 			if (!result.Succeeded)
-				// TODO: !
-				//foreach (IdentityError error in result.Errors)
-				//	_logger.LogError($"{error.Code} - {error.Description}", error);
-				return AuthenticationServiceErrors.CreateUserFailed;
+			{
+				foreach (IdentityError error in result.Errors)					
+					errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return ErrorOr<Created>.From(errors);
+			}
 
 			result = await _userService.AddToRolesAsync(user, createRequest.Roles);
 			if (!result.Succeeded)
-				// TODO: !
-				//foreach (IdentityError error in result.Errors)
-				//	_logger.LogError($"{error.Code} - {error.Description}", error);
-				return AuthenticationServiceErrors.CreateUserRolesFailed;
+			{
+				foreach (IdentityError error in result.Errors)
+					errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return ErrorOr<Created>.From(errors);
+			}
 
 			return Result.Created;
 		}
@@ -100,34 +104,30 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateUser(string userName, UserUpdateRequest updateRequest)
+	public async Task<ErrorOr<Updated>> UpdateUser(int userId, UserUpdateRequest updateRequest)
 	{
+		List<Error> errors = new();
 		try
 		{
-			User user = await _userService.FindByNameAsync(userName);
-
-			if (user is null)
-				return AuthenticationServiceErrors.UserNotFound(userName);
-
-			bool success = await _userService.CheckPasswordAsync(user, updateRequest.Password);
-
-			if (!success)
-				return AuthenticationServiceErrors.UserUnauthorized(userName);
+			ErrorOr<Updated> response = new();
+			User user = await _userService.FindByIdAsync($"{userId}");
 
 			user.FirstName = updateRequest.FirstName;
 			user.MiddleName = updateRequest.MiddleName;
 			user.LastName = updateRequest.LastName;
 			user.DateOfBirth = updateRequest.DateOfBirth;
 			user.Email = updateRequest.Email;
+			user.PhoneNumber = updateRequest.PhoneNumber;
 
 			IdentityResult result = await _userService.UpdateAsync(user);
 			if (!result.Succeeded)
-				// TODO: !
-				//foreach (IdentityError error in result.Errors)
-				//	_logger.LogError($"{error.Code} - {error.Description}", error);
-				return AuthenticationServiceErrors.UpdateUserFailed;
+			{
+				foreach (IdentityError error in result.Errors)
+					errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+				return response;
+			}
 
-			return Result.Updated;
+			return response;
 		}
 		catch (Exception ex)
 		{
@@ -145,8 +145,23 @@ internal sealed class AuthenticationService : IAuthenticationService
 		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
 	}
 
-	private static IEnumerable<Claim> GetClaims(User user) =>
-		new List<Claim>() { new Claim(ClaimTypes.Name, user.Email) };
+	private async Task<IEnumerable<Claim>> GetClaims(User user)
+	{
+		IList<Claim> claims = new List<Claim>()
+		{
+			new(ClaimTypes.Email, user.Email),
+			new(ClaimTypes.Name, user.UserName),
+			new(ClaimTypes.NameIdentifier, $"{user.Id}"),
+			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}")
+		};
+
+		IList<string> roles = await _userService.GetRolesAsync(user);
+		foreach (string role in roles)
+			claims.Add(new Claim(ClaimTypes.Role, role));
+
+		return claims;
+	}
+		
 
 	private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, IEnumerable<Claim> claims)
 	{

@@ -33,16 +33,18 @@ public record class ApiError : Error
 		new(error, statusCode);
 
 	/// <summary>
-	/// Creates a Authentication <see cref="ApiError"/> with a given code and description
+	/// Creates an api error with the status <see cref="HttpStatusCode.Unauthorized"/>
+	/// with the given code and description.
 	/// </summary>
 	/// <param name="code">The unique error code.</param>
 	/// <param name="description">The error description.</param>
 	/// <returns>Api error</returns>
 	public static ApiError CreateUnauthorized(string code, string description) =>
-		new(Authentication(code, description), HttpStatusCode.Unauthorized);
+		new(Unauthorized(code, description), HttpStatusCode.Unauthorized);
 
 	/// <summary>
-	/// Creates a Validation <see cref="ApiError"/> with a given code and description
+	/// Creates an api error with the status <see cref="HttpStatusCode.BadRequest"/>
+	/// with the given code and description.
 	/// </summary>
 	/// <param name="code">The unique error code.</param>
 	/// <param name="description">The error description.</param>
@@ -51,7 +53,8 @@ public record class ApiError : Error
 		new(Validation(code, description), HttpStatusCode.BadRequest);
 
 	/// <summary>
-	/// Creates a NotFound <see cref="ApiError"/> with a given code and description
+	/// Creates an api error with the status <see cref="HttpStatusCode.NotFound"/>
+	/// with the given code and description.
 	/// </summary>
 	/// <param name="code">The unique error code.</param>
 	/// <param name="description">The error description.</param>
@@ -60,7 +63,8 @@ public record class ApiError : Error
 		new(NotFound(code, description), HttpStatusCode.NotFound);
 
 	/// <summary>
-	/// Creates a Conflict <see cref="ApiError"/> with a given code and description
+	/// Creates an api error with the status <see cref="HttpStatusCode.Conflict"/>
+	/// with the given code and description.
 	/// </summary>
 	/// <param name="code">The unique error code.</param>
 	/// <param name="description">The error description.</param>
@@ -69,11 +73,22 @@ public record class ApiError : Error
 		new(Conflict(code, description), HttpStatusCode.Conflict);
 
 	/// <summary>
-	/// Creates a Failure <see cref="ApiError"/> with a given code and description
+	/// Creates an api error with the status <see cref="HttpStatusCode.InternalServerError"/>
+	/// with the given code and description.
 	/// </summary>
 	/// <param name="code">The unique error code.</param>
 	/// <param name="description">The error description.</param>
 	/// <returns>Api error</returns>
 	public static ApiError CreateFailed(string code, string description) =>
 		new(Failure(code, description), HttpStatusCode.InternalServerError);
+
+	/// <summary>
+	/// Creates an api error with the status <see cref="HttpStatusCode.Forbidden"/>
+	/// with the given code and description.
+	/// </summary>
+	/// <param name="code">The unique error code.</param>
+	/// <param name="description">The error description.</param>
+	/// <returns>Api error</returns>
+	public static ApiError CreateForbidden(string code, string description) =>
+		new(Forbidden(code, description), HttpStatusCode.Forbidden);
 }

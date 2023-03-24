@@ -15,25 +15,17 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Initilizes an instance of <see cref="ErrorOr"/>.
 	/// </summary>
-	public ErrorOr() => IsError = false;
+	public ErrorOr()
+	{ }
 
-	private ErrorOr(Error error)
-	{
+	private ErrorOr(Error error) =>
 		Errors = new List<Error> { error };
-		IsError = true;
-	}
 
-	private ErrorOr(List<Error> errors)
-	{
+	private ErrorOr(List<Error> errors) =>
 		Errors = errors;
-		IsError = true;
-	}
 
-	private ErrorOr(TValue value)
-	{
+	private ErrorOr(TValue value) =>
 		this.value = value;
-		IsError = false;
-	}
 
 	/// <summary>
 	/// Creates an <see cref="ErrorOr{TValue}"/> from a list of errors.
@@ -43,7 +35,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets a value indicating whether the state is error.
 	/// </summary>
-	public bool IsError { get; }
+	public bool IsError => Errors.Any();
 
 	/// <summary>
 	/// Gets the list of errors.

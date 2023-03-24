@@ -39,13 +39,18 @@ public enum ErrorTypes
 	[Display(ResourceType = typeof(RESX))]
 	NoContent,
 	/// <summary>
-	/// The <see cref="Authentication"/> error type.
+	/// The <see cref="Unauthorized"/> error type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX))]
-	Authentication,
+	Unauthorized,
 	/// <summary>
 	/// The <see cref="Composite"/> error type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX))]
-	Composite
+	Composite,
+	/// <summary>
+	/// The <see cref="Forbidden"/> error type.
+	/// </summary>
+	[Display(ResourceType = typeof(RESX))]
+	Forbidden
 }

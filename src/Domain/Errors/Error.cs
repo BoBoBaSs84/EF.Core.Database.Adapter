@@ -48,6 +48,16 @@ public record class Error
 		new(code, description, ErrorTypes.Failure);
 
 	/// <summary>
+	/// Creates an <see cref="Error"/> of type <see cref="ErrorTypes.Forbidden"/> from a code and description.
+	/// </summary>
+	/// <param name="code">The unique error code.</param>
+	/// <param name="description">The error description.</param>
+	public static Error Forbidden(
+		string code = "Error.Forbidden",
+		string description = "A forbidden error has occurred.") =>
+		new(code, description, ErrorTypes.Forbidden);
+
+	/// <summary>
 	/// Creates an <see cref="Error"/> of type <see cref="ErrorTypes.Unexpected"/> from a code and description.
 	/// </summary>
 	/// <param name="code">The unique error code.</param>
@@ -98,14 +108,14 @@ public record class Error
 		new(code, description, ErrorTypes.NoContent);
 
 	/// <summary>
-	/// Creates an <see cref="Error"/> of type <see cref="ErrorTypes.Authentication"/> from a code and description.
+	/// Creates an <see cref="Error"/> of type <see cref="ErrorTypes.Unauthorized"/> from a code and description.
 	/// </summary>
 	/// <param name="code">The unique error code.</param>
 	/// <param name="description">The error description.</param>
-	public static Error Authentication(
+	public static Error Unauthorized(
 		string code = "Error.Unauthorized",
 		string description = "An 'Authentication' error has occurred.") =>
-		new(code, description, ErrorTypes.Authentication);
+		new(code, description, ErrorTypes.Unauthorized);
 
 	/// <summary>
 	/// Creates an <see cref="Error"/> of type <see cref="ErrorTypes.Composite"/> from a code and description.

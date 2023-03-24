@@ -11,11 +11,25 @@ namespace Application.Interfaces.Application;
 public interface IAuthenticationService
 {
 	/// <summary>
+	/// Should add a user to a certein role.
+	/// </summary>
+	/// <param name="userId">the user identifier.</param>
+	/// <param name="roleName">The role the user should be added to.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Created>> AddUserToRole(int userId, string roleName);
+
+	/// <summary>
 	/// Authenticates an existing application user.
 	/// </summary>
 	/// <param name="authRequest">The authentication reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest authRequest);
+
+	/// <summary>
+	/// Should retrieve all apllication users.
+	/// </summary>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<IEnumerable<UserResponse>>> GetAll();
 
 	/// <summary>
 	/// Creates a new application user.
@@ -37,6 +51,14 @@ public interface IAuthenticationService
 	/// <param name="userName">the user name.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<UserResponse>> GetUserByName(string userName);
+
+	/// <summary>
+	/// Should remove a user from a certein role.
+	/// </summary>
+	/// <param name="userId">the user identifier.</param>
+	/// <param name="roleName">The role the user should be removed from.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Deleted>> RemoveUserToRole(int userId, string roleName);
 
 	/// <summary>
 	/// Updates an existing application user.

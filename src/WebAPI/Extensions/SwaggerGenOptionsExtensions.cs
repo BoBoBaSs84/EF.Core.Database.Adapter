@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Presentation.Common;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using WebAPI.Common;
 using Auth = Presentation.Constants.PresentationConstants.Authentication;
 
 namespace WebAPI.Extensions;
@@ -23,7 +24,7 @@ internal static class SwaggerGenOptionsExtensions
 	{
 		options.SwaggerDoc(Versioning.CurrentVersion, new OpenApiInfo()
 		{
-			Title = "BoBoBaSs84 API",
+			Title = typeof(IWebApiAssemblyMarker).Assembly.GetName().Name,
 			Version = Versioning.CurrentVersion
 		});
 

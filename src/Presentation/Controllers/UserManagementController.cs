@@ -38,6 +38,16 @@ public sealed class UserManagementController : ApiControllerBase
 		_currentUserService = currentUserService;
 	}
 
+	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[HttpPost(Endpoints.UserManagement.AddUserToRole)]
+	public async Task<IActionResult> AddUserToRole(int userId, string roleName)
+	{
+		ErrorOr<Created> result =
+			await _authenticationService.AddUserToRole(userId, roleName);
+
+		return Get(result);
+	}
+
 	/// <summary>
 	/// Should create a new application user.
 	/// </summary>
@@ -48,19 +58,41 @@ public sealed class UserManagementController : ApiControllerBase
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
-	[HttpPost(Endpoints.UserManagement.CreateUser)]
+	[HttpPost(Endpoints.UserManagement.Create)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest createRequest)
+	public async Task<IActionResult> Create([FromBody] UserCreateRequest createRequest)
 	{
 		ErrorOr<Created> result =
 			await _authenticationService.CreateUser(createRequest);
 
 		return PostWithoutLocation(result);
 	}
+
+	/// <summary>
+	/// Should retrieve all apllication users.
+	/// </summary>
+	/// <response code="200">The successful response.</response>
+	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Not enough privileges to perform an action.</response>
+	/// <response code="500">If the something went wrong.</response>
+	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[HttpGet(Endpoints.UserManagement.GetAll)]
+	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public async Task<IActionResult> GetAll()
+	{
+		ErrorOr<IEnumerable<UserResponse>> result =
+			await _authenticationService.GetAll();
+
+		return Get(result);
+	}
+
 
 	/// <summary>
 	/// Should return the application user by its user name.
@@ -72,12 +104,12 @@ public sealed class UserManagementController : ApiControllerBase
 	/// <response code="404">If the user was not found.</response>
 	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
-	[HttpGet(Endpoints.UserManagement.GetUserByName)]
+	[HttpGet(Endpoints.UserManagement.GetByName)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetUserByName(string userName)
+	public async Task<IActionResult> GetByName(string userName)
 	{
 		ErrorOr<UserResponse> result =
 			await _authenticationService.GetUserByName(userName);
@@ -91,14 +123,24 @@ public sealed class UserManagementController : ApiControllerBase
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="500">If the something went wrong.</response>
-	[HttpGet(Endpoints.UserManagement.GetCurrentUser)]
+	[HttpGet(Endpoints.UserManagement.GetCurrent)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetCurrentUser()
+	public async Task<IActionResult> GetCurrent()
 	{
 		ErrorOr<UserResponse> result =
 			await _authenticationService.GetUserById(_currentUserService.UserId);
+
+		return Get(result);
+	}
+
+	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[HttpDelete(Endpoints.UserManagement.RemoveUserToRole)]
+	public async Task<IActionResult> RemoveUserToRole(int userId, string roleName)
+	{
+		ErrorOr<Deleted> result =
+			await _authenticationService.RemoveUserToRole(userId, roleName);
 
 		return Get(result);
 	}
@@ -113,14 +155,14 @@ public sealed class UserManagementController : ApiControllerBase
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the user to update was not found.</response>
 	/// <response code="500">If the something went wrong.</response>
-	[HttpPut(Endpoints.UserManagement.UpdateCurrentUser)]
+	[HttpPut(Endpoints.UserManagement.UpdateCurrent)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> UpdateCurrentUser([FromBody] UserUpdateRequest updateRequest)
+	public async Task<IActionResult> UpdateCurrent([FromBody] UserUpdateRequest updateRequest)
 	{
 		ErrorOr<Updated> result =
 			await _authenticationService.UpdateUser(_currentUserService.UserId, updateRequest);

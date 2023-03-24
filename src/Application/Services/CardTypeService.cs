@@ -102,9 +102,12 @@ internal sealed class CardTypeService : ICardTypeService
 			if (!cardTypes.Any())
 				return CardTypeServiceErrors.GetPagedByParametersNotFound;
 
-			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
+			int totalCount = await _unitOfWork.CardTypeRepository.GetCountAsync(
+				filterBy: x => x.FilterByIsActive(parameters.IsActive).SearchByName(parameters.Name).SearchByDescription(parameters.Description),
+				cancellationToken: cancellationToken
+				);
 
-			int totalCount = _unitOfWork.CardRepository.TotalCount;
+			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
 
 			return new PagedList<CardTypeResponse>(response, totalCount, parameters.PageNumber, parameters.PageSize);
 		}

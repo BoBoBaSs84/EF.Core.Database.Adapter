@@ -99,9 +99,12 @@ internal sealed class CalendarDayService : ICalendarDayService
 			if (!calendarDays.Any())
 				return CalendarDayServiceErrors.GetPagedByParametersNotFound;
 
-			IEnumerable<CalendarDayResponse> result = _mapper.Map<IEnumerable<CalendarDayResponse>>(calendarDays);
+			int totalCount = await _unitOfWork.CalendarDayRepository.GetCountAsync(
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				cancellationToken: cancellationToken
+				);
 
-			int totalCount = _unitOfWork.CalendarDayRepository.QueryCount;
+			IEnumerable<CalendarDayResponse> result = _mapper.Map<IEnumerable<CalendarDayResponse>>(calendarDays);
 
 			return new PagedList<CalendarDayResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}

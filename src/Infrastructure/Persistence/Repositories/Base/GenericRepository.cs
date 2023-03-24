@@ -16,12 +16,6 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	protected DbContext dbContext;
 	protected DbSet<TEntity> dbSet;
 
-	/// <inheritdoc/>
-	public int TotalCount { get; private set; }
-
-	/// <inheritdoc/>
-	public int QueryCount { get; private set; }
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GenericRepository{TEntity}"/> class.
 	/// </summary>
@@ -33,7 +27,6 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	{
 		this.dbContext = dbContext;
 		dbSet = dbContext.Set<TEntity>();
-		TotalCount = dbSet.Count();
 	}
 
 	public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default) =>
@@ -62,8 +55,6 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 
 		if (filterBy is not null)
 			query = filterBy(query);
-
-		QueryCount = await query.CountAsync(cancellationToken);
 
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));
@@ -147,4 +138,23 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		dbSet.UpdateRange(entities);
 		return Task.CompletedTask;
 	}
+
+	public async Task<int> GetCountAsync(
+		Expression<Func<TEntity, bool>>? expression = null,
+		Func<IQueryable<TEntity>, IQueryable<TEntity>>? filterBy = null,
+		CancellationToken cancellationToken = default)
+	{
+		IQueryable<TEntity> query = dbSet.AsNoTracking();
+		
+		if (expression is not null)
+			query = query.Where(expression);
+
+		if (filterBy is not null)
+			query = filterBy(query);
+
+		return await query.CountAsync(cancellationToken);
+	}
+	
+	public Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default) =>
+		dbSet.CountAsync(cancellationToken);
 }

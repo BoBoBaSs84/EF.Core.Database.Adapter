@@ -104,9 +104,12 @@ internal sealed class DayTypeService : IDayTypeService
 			if (!dayTypes.Any())
 				return DayTypeServiceErrors.GetPagedByParametersNotFound;
 
-			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
+			int totalCount = await _unitOfWork.DayTypeRepository.GetCountAsync(
+				filterBy: x => x.FilterByIsActive(parameters.IsActive).SearchByName(parameters.Name).SearchByDescription(parameters.Description),
+				cancellationToken: cancellationToken
+				);
 
-			int totalCount = _unitOfWork.DayTypeRepository.QueryCount;
+			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
 
 			return new PagedList<DayTypeResponse>(response, totalCount, parameters.PageNumber, parameters.PageSize);
 		}

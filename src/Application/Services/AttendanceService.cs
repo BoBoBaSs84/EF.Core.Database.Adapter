@@ -151,9 +151,12 @@ internal sealed class AttendanceService : IAttendanceService
 			if (!attendances.Any())
 				return AttendanceServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = _unitOfWork.CalendarDayRepository.QueryCount;
+			int totalCount = await _unitOfWork.AttendanceRepository.GetCountAsync(
+				expression: x => x.UserId.Equals(userId),
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				cancellationToken: cancellationToken);
 
-			IEnumerable<AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
+			IEnumerable <AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
 
 			return new PagedList<AttendanceResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}

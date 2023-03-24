@@ -12,17 +12,23 @@ namespace Application.Interfaces.Infrastructure.Repositories.BaseTypes;
 public interface IGenericRepository<TEntity> where TEntity : class
 {
 	/// <summary>
-	/// The total record count of <typeparamref name="TEntity"/>.
+	/// Returns the number of entities in dependence to the expression.
 	/// </summary>
-	int TotalCount { get; }
+	/// <param name="expression">The condition the entities must fulfill to be counted.</param>
+	/// <param name="filterBy">The function used to filter the entities.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns>The number of entities in dependence to the expression.</returns>
+	Task<int> GetCountAsync(
+		Expression<Func<TEntity, bool>>? expression = null,
+		Func<IQueryable<TEntity>, IQueryable<TEntity>>? filterBy = null,
+		CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// The query record count of <typeparamref name="TEntity"/>.
+	/// Returns the number of all entities.
 	/// </summary>
-	/// <remarks>
-	/// This is the record count of the last query.
-	/// </remarks>
-	int QueryCount { get; }
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns>The number of all entities.</returns>
+	Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should find all entries of the <typeparamref name="TEntity"/> entity.
@@ -35,7 +41,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <summary>
 	/// Should find a collection of <typeparamref name="TEntity"/> entities based on the specified criteria.
 	/// </summary>
-	/// <param name="expression">The condition the entities must fulfil to be returned.</param>
+	/// <param name="expression">The condition the entities must fulfill to be returned.</param>
 	/// <param name="filterBy">The function used to filter the entities.</param>
 	/// <param name="orderBy">The function used to order the entities.</param>
 	/// <param name="take">The number of records to limit the results to.</param>

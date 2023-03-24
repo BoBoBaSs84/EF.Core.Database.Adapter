@@ -2,11 +2,11 @@
 
 namespace InfrastructureTests.Helpers;
 
-internal sealed class CurrentTestUserService : ICurrentUserService
+internal class CurrentTestUserService : ICurrentUserService
 {
-	public int UserId => 1;
+	public int UserId => 0;
 
-	public string UserName => throw new NotImplementedException();
+	public string UserName => "TestUser";
 
-	public string Email => throw new NotImplementedException();
+	public string Email => "Test@Unit.com";
 }

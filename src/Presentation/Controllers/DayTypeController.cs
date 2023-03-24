@@ -1,5 +1,4 @@
 ﻿using Application.Contracts.Responses.Enumerator;
-using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Domain.Errors;
@@ -30,23 +29,22 @@ public sealed class DayTypeController : ApiControllerBase
 		_dayTypeService = dayTypeService;
 
 	/// <summary>
-	/// Should return the day type entities as a paged list, filtered by the parameters.
+	/// Should return all day type entities.
 	/// </summary>
-	/// <param name="parameters">The day type query parameters.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
-	[HttpGet(Endpoints.DayType.GetPagedByParameters)]
-	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
+	[HttpGet(Endpoints.DayType.GetAll)]
+	[ProducesResponseType(typeof(IEnumerable<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetPagedByParameters([FromQuery] DayTypeParameters parameters, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
-		ErrorOr<IPagedList<DayTypeResponse>> result =
-			await _dayTypeService.GetPagedByParameters(parameters, false, cancellationToken);
-		
-		return Get(result, result.Value?.MetaData);
+		ErrorOr<IEnumerable<DayTypeResponse>> result =
+			await _dayTypeService.GetAll(false, cancellationToken);
+
+		return Get(result);
 	}
 
 	/// <summary>
@@ -65,7 +63,7 @@ public sealed class DayTypeController : ApiControllerBase
 	{
 		ErrorOr<DayTypeResponse> result =
 			await _dayTypeService.GetById(id, false, cancellationToken);
-		
+
 		return Get(result);
 	}
 
@@ -85,7 +83,7 @@ public sealed class DayTypeController : ApiControllerBase
 	{
 		ErrorOr<DayTypeResponse> result =
 			await _dayTypeService.GetByName(name, false, cancellationToken);
-		
+
 		return Get(result);
 	}
 }

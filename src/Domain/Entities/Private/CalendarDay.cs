@@ -1,5 +1,4 @@
 ﻿using Domain.Common.EntityBaseTypes;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using DC = Domain.Constants.DomainConstants;
 
@@ -11,7 +10,6 @@ namespace Domain.Entities.Private;
 /// <remarks>
 /// Derives from the <see cref="IdentityModel"/> class.
 /// </remarks>
-[Index(nameof(Date), IsUnique = true), Index(nameof(Year), IsUnique = false)]
 public partial class CalendarDay : IdentityModel
 {
 	/// <summary>
@@ -19,27 +17,27 @@ public partial class CalendarDay : IdentityModel
 	/// </summary>
 	[Column(TypeName = DC.Sql.DataType.DATE)]
 	public DateTime Date { get; set; } = default!;
-	
+
 	/// <summary>
 	/// The <see cref="Year"/> property.
 	/// </summary>
 	public int Year { get; private set; } = default!;
-	
+
 	/// <summary>
 	/// The <see cref="Month"/> property.
 	/// </summary>
 	public int Month { get; private set; } = default!;
-	
+
 	/// <summary>
 	/// The <see cref="Day"/> property.
 	/// </summary>
 	public int Day { get; private set; } = default!;
-	
+
 	/// <summary>
 	/// The <see cref="Week"/> property.
 	/// </summary>
 	public int Week { get; private set; } = default!;
-	
+
 	/// <summary>
 	/// The <see cref="IsoWeek"/> property.
 	/// </summary>

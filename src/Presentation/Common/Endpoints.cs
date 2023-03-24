@@ -53,7 +53,7 @@ internal static class Endpoints
 
 		internal const string GetById = "{id:int}";
 		internal const string GetByName = "{name}";
-		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string GetAll = EmptySuffix;
 	}
 
 	/// <summary>
@@ -65,7 +65,7 @@ internal static class Endpoints
 
 		internal const string GetById = "{id:int}";
 		internal const string GetByName = "{name}";
-		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string GetAll = EmptySuffix;
 	}
 
 	/// <summary>

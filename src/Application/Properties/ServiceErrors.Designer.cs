@@ -61,6 +61,42 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank accounts..
+        /// </summary>
+        public static string AccountService_GetAll_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.GetAll.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank accounts could be found to load..
+        /// </summary>
+        public static string AccountService_GetAll_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.GetAll.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank account with the number: &apos;{0}&apos;..
+        /// </summary>
+        public static string AccountService_GetByNumber_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.GetByNumber.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank account with the number: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string AccountService_GetByNumber_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.GetByNumber.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while creating the attendance/absence..
         /// </summary>
         public static string AttendanceService_Create_Failed {
@@ -205,6 +241,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while adding the user to the user role..
+        /// </summary>
+        public static string AuthenticationService_AddUserToRole_Failed {
+            get {
+                return ResourceManager.GetString("AuthenticationService.AddUserToRole.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to authenticate..
         /// </summary>
         public static string AuthenticationService_Authenticate_Failed {
@@ -232,20 +277,20 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the application users..
+        /// </summary>
+        public static string AuthenticationService_GetAll_Failed {
+            get {
+                return ResourceManager.GetString("AuthenticationService.GetAll.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the user with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string AuthenticationService_GetUserById_Failed {
             get {
                 return ResourceManager.GetString("AuthenticationService.GetUserById.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The user with the user identifier: &apos;{0}&apos; could not be found..
-        /// </summary>
-        public static string AuthenticationService_GetUserById_NotFound {
-            get {
-                return ResourceManager.GetString("AuthenticationService.GetUserById.NotFound", resourceCulture);
             }
         }
         
@@ -259,11 +304,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user with the user name: &apos;{0}&apos; could not be found..
+        ///   Looks up a localized string similar to The user with the name: &apos;{0}&apos; could not be found..
         /// </summary>
         public static string AuthenticationService_GetUserByName_NotFound {
             get {
                 return ResourceManager.GetString("AuthenticationService.GetUserByName.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while removing the user to the user role..
+        /// </summary>
+        public static string AuthenticationService_RemoveUserToRole_Failed {
+            get {
+                return ResourceManager.GetString("AuthenticationService.RemoveUserToRole.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The role with the name: &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string AuthenticationService_RoleByName_NotFound {
+            get {
+                return ResourceManager.GetString("AuthenticationService.RoleByName.NotFound", resourceCulture);
             }
         }
         
@@ -277,7 +340,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user with the user name &apos;{0}&apos; could not be authorized..
+        ///   Looks up a localized string similar to The user with the name &apos;{0}&apos; could not be authorized..
         /// </summary>
         public static string AuthenticationService_User_Unauthorized {
             get {
@@ -286,7 +349,16 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user with the user name: &apos;{0}&apos; could not be found..
+        ///   Looks up a localized string similar to The user with the user identifier: &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string AuthenticationService_UserById_NotFound {
+            get {
+                return ResourceManager.GetString("AuthenticationService.UserById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user with the name: &apos;{0}&apos; could not be found..
         /// </summary>
         public static string AuthenticationService_UserByName_NotFound {
             get {

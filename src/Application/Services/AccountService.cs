@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Responses.Finance;
 using Application.Errors.Base;
+using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Logging;
@@ -48,9 +49,8 @@ internal sealed class AccountService : IAccountService
 				cancellationToken: cancellationToken
 				);
 
-			// TODO: Error
 			if (!accounts.Any())
-				return ApiError.CreateNotFound("", "");
+				return AccountServiceErrors.GetAllNotFound;
 
 			IEnumerable<AccountResponse> result = _mapper.Map<IEnumerable<AccountResponse>>(accounts);
 
@@ -59,12 +59,11 @@ internal sealed class AccountService : IAccountService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, userId, ex);
-			// TODO: Error
-			return ApiError.CreateFailed("", "");
+			return AccountServiceErrors.GetAllFailed;
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> GetByIban(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AccountResponse>> GetByNumber(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{iban}" };
 		try
@@ -75,9 +74,8 @@ internal sealed class AccountService : IAccountService
 				cancellationToken: cancellationToken
 				);
 
-			// TODO: Error
 			if (account is null)
-				return ApiError.CreateNotFound("", "");
+				return AccountServiceErrors.GetByNumberNotFound(iban);
 
 			AccountResponse result = _mapper.Map<AccountResponse>(account);
 
@@ -86,8 +84,7 @@ internal sealed class AccountService : IAccountService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
-			// TODO: Error
-			return ApiError.CreateFailed("", "");
+			return AccountServiceErrors.GetByNumberFailed(iban);
 		}
 	}
 }

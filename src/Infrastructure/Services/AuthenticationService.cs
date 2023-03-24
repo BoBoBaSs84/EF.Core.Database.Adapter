@@ -26,6 +26,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	private readonly IConfiguration _configuration;
 	private readonly IConfigurationSection _jwtSettings;
 	private readonly ILoggerWrapper<AuthenticationService> _logger;
+	private readonly IRoleService _roleService;
 	private readonly IUserService _userService;
 	private readonly IMapper _mapper;
 
@@ -40,11 +41,13 @@ internal sealed class AuthenticationService : IAuthenticationService
 	/// </summary>
 	/// <param name="configuration">The configuration.</param>
 	/// <param name="logger">The logger service.</param>
+	/// <param name="roleService">The role service.</param>
 	/// <param name="userService">The user service.</param>
 	/// <param name="mapper">The auto mapper.</param>
 	public AuthenticationService(
 		IConfiguration configuration,
 		ILoggerWrapper<AuthenticationService> logger,
+		IRoleService roleService,
 		IUserService userService,
 		IMapper mapper
 		)
@@ -52,6 +55,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		_configuration = configuration;
 		_jwtSettings = _configuration.GetRequiredSection(Jwt.JwtSettings);
 		_logger = logger;
+		_roleService = roleService;
 		_userService = userService;
 		_mapper = mapper;
 	}
@@ -66,7 +70,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 			User user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
-				return ApiError.CreateNotFound("", "");
+				return AuthenticationServiceErrors.UserByIdNotFound(userId);
+
+			Role role = await _roleService.FindByNameAsync(roleName);
+
+			if (role is null)
+				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
 
 			IdentityResult identityResult = await _userService.AddToRoleAsync(user, roleName);
 			
@@ -159,7 +168,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		catch (Exception ex)
 		{
 			_logger.Log(logException, ex);
-			return ApiError.CreateFailed("", "");
+			return AuthenticationServiceErrors.GetAllFailed;
 		}
 	}
 
@@ -170,7 +179,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			User user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
-				return AuthenticationServiceErrors.GetUserByIdNotFound(userId);
+				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
 			UserResponse response = _mapper.Map<UserResponse>(user);
 
@@ -190,7 +199,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			User user = await _userService.FindByNameAsync(userName);
 
 			if (user is null)
-				return AuthenticationServiceErrors.GetUserByNameNotFound(userName);
+				return AuthenticationServiceErrors.UserByNameNotFound(userName);
 
 			UserResponse response = _mapper.Map<UserResponse>(user);
 
@@ -213,7 +222,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 			User user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
-				return ApiError.CreateNotFound("", "");
+				return AuthenticationServiceErrors.UserByIdNotFound(userId);
+
+			Role role = await _roleService.FindByNameAsync(roleName);
+
+			if (role is null)
+				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
 
 			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, roleName);
 			
@@ -229,7 +243,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
-			return ApiError.CreateFailed("", "");
+			return AuthenticationServiceErrors.RemoveUserToRoleFailed;
 		}
 	}
 

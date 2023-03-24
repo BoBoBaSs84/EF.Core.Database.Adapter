@@ -11,7 +11,7 @@ namespace Application.Interfaces.Application;
 public interface IAuthenticationService
 {
 	/// <summary>
-	/// Should add a user to a certein role.
+	/// Should add a user to a certain role.
 	/// </summary>
 	/// <param name="userId">the user identifier.</param>
 	/// <param name="roleName">The role the user should be added to.</param>
@@ -53,7 +53,7 @@ public interface IAuthenticationService
 	Task<ErrorOr<UserResponse>> GetUserByName(string userName);
 
 	/// <summary>
-	/// Should remove a user from a certein role.
+	/// Should remove a user from a certain role.
 	/// </summary>
 	/// <param name="userId">the user identifier.</param>
 	/// <param name="roleName">The role the user should be removed from.</param>

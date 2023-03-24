@@ -16,7 +16,7 @@ public interface IAccountService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A account entity.</returns>
-	Task<ErrorOr<AccountResponse>> GetByIban(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<AccountResponse>> GetByNumber(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should get a collection of account entities by the user identifier.

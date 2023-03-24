@@ -8,7 +8,7 @@ namespace Presentation.Attributes;
 /// The authorize roles attribute class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="AuthorizeAttribute"/> class.
+/// Derives from the <see cref="AuthorizeAttribute"/> class.<br></br>
 /// Serves as wrapper class to enable role authorization via enumerators.
 /// </remarks>
 public sealed class AuthorizeRolesAttribute : AuthorizeAttribute

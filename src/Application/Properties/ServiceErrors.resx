@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountService.GetAll.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank accounts.</value>
+  </data>
+  <data name="AccountService.GetAll.NotFound" xml:space="preserve">
+    <value>No bank accounts could be found to load.</value>
+  </data>
+  <data name="AccountService.GetByNumber.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank account with the number: '{0}'.</value>
+  </data>
+  <data name="AccountService.GetByNumber.NotFound" xml:space="preserve">
+    <value>No bank account with the number: '{0}' could be found to load.</value>
+  </data>
   <data name="AttendanceService.Create.Failed" xml:space="preserve">
     <value>An error occurred while creating the attendance/absence.</value>
   </data>
@@ -165,6 +177,9 @@
   <data name="AttendanceService.UpdateMany.NotFound" xml:space="preserve">
     <value>The attendances/absences which should be updated could not be found.</value>
   </data>
+  <data name="AuthenticationService.AddUserToRole.Failed" xml:space="preserve">
+    <value>An error occurred while adding the user to the user role.</value>
+  </data>
   <data name="AuthenticationService.Authenticate.Failed" xml:space="preserve">
     <value>An error occurred while trying to authenticate.</value>
   </data>
@@ -174,26 +189,35 @@
   <data name="AuthenticationService.CreateUserRoles.Failed" xml:space="preserve">
     <value>An error occurred while trying to add the roles for the user.</value>
   </data>
+  <data name="AuthenticationService.GetAll.Failed" xml:space="preserve">
+    <value>An error occurred while loading the application users.</value>
+  </data>
   <data name="AuthenticationService.GetUserById.Failed" xml:space="preserve">
     <value>An error occurred while loading the user with the identifier: '{0}'.</value>
-  </data>
-  <data name="AuthenticationService.GetUserById.NotFound" xml:space="preserve">
-    <value>The user with the user identifier: '{0}' could not be found.</value>
   </data>
   <data name="AuthenticationService.GetUserByName.Failed" xml:space="preserve">
     <value>An error occurred while loading the user with the name: '{0}'.</value>
   </data>
   <data name="AuthenticationService.GetUserByName.NotFound" xml:space="preserve">
-    <value>The user with the user name: '{0}' could not be found.</value>
+    <value>The user with the name: '{0}' could not be found.</value>
+  </data>
+  <data name="AuthenticationService.RemoveUserToRole.Failed" xml:space="preserve">
+    <value>An error occurred while removing the user to the user role.</value>
+  </data>
+  <data name="AuthenticationService.RoleByName.NotFound" xml:space="preserve">
+    <value>The role with the name: '{0}' could not be found.</value>
   </data>
   <data name="AuthenticationService.UpdateUser.Failed" xml:space="preserve">
     <value>An error occurred while trying to update the user.</value>
   </data>
   <data name="AuthenticationService.User.Unauthorized" xml:space="preserve">
-    <value>The user with the user name '{0}' could not be authorized.</value>
+    <value>The user with the name '{0}' could not be authorized.</value>
+  </data>
+  <data name="AuthenticationService.UserById.NotFound" xml:space="preserve">
+    <value>The user with the user identifier: '{0}' could not be found.</value>
   </data>
   <data name="AuthenticationService.UserByName.NotFound" xml:space="preserve">
-    <value>The user with the user name: '{0}' could not be found.</value>
+    <value>The user with the name: '{0}' could not be found.</value>
   </data>
   <data name="CalendarDayService.GetByDate.Failed" xml:space="preserve">
     <value>An error occurred while loading the calendar day by date.</value>

@@ -19,9 +19,9 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
-[AuthorizeRoles(Roles.ADMINISTRATOR, Roles.SUPERUSER, Roles.USER)]
 [Route(Endpoints.UserManagement.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
+[AuthorizeRoles(Roles.ADMINISTRATOR, Roles.SUPERUSER, Roles.USER)]
 public sealed class UserManagementController : ApiControllerBase
 {
 	private readonly IAuthenticationService _authenticationService;
@@ -38,7 +38,23 @@ public sealed class UserManagementController : ApiControllerBase
 		_currentUserService = currentUserService;
 	}
 
+	/// <summary>
+	/// Should add a user to a certain role.
+	/// </summary>
+	/// <param name="userId">the user identifier.</param>
+	/// <param name="roleName">The role the user should be added to.</param>
+	/// <response code="200">If the user was added to the role.</response>
+	/// <response code="400">If something is wrong with the request.</response>
+	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Not enough privileges to perform an action.</response>
+	/// <response code="404">If the user or the role was not found.</response>
+	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	[HttpPost(Endpoints.UserManagement.AddUserToRole)]
 	public async Task<IActionResult> AddUserToRole(int userId, string roleName)
 	{
@@ -135,7 +151,23 @@ public sealed class UserManagementController : ApiControllerBase
 		return Get(result);
 	}
 
+	/// <summary>
+	/// Should remove a user from a certain role.
+	/// </summary>
+	/// <param name="userId">the user identifier.</param>
+	/// <param name="roleName">The role the user should be added to.</param>
+	/// <response code="200">If the user was added to the role.</response>
+	/// <response code="400">If something is wrong with the request.</response>
+	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Not enough privileges to perform an action.</response>
+	/// <response code="404">If the user or the role was not found.</response>
+	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	[HttpDelete(Endpoints.UserManagement.RemoveUserToRole)]
 	public async Task<IActionResult> RemoveUserToRole(int userId, string roleName)
 	{

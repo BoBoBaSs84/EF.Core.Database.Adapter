@@ -18,10 +18,8 @@ public record class ApiError : Error
 	/// </summary>
 	/// <param name="original"></param>
 	/// <param name="statusCode"></param>
-	protected ApiError(Error original, HttpStatusCode statusCode) : base(original)
-	{
+	protected ApiError(Error original, HttpStatusCode statusCode) : base(original) =>
 		StatusCode = statusCode;
-	}
 
 	/// <summary>
 	/// Creates an <see cref="ApiError"/> with a given <see cref="Error"/> and a <see cref="HttpStatusCode"/>,

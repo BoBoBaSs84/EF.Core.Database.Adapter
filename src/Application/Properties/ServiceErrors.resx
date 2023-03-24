@@ -180,6 +180,12 @@
   <data name="AuthenticationService.GetUserById.NotFound" xml:space="preserve">
     <value>The user with the user identifier: '{0}' could not be found.</value>
   </data>
+  <data name="AuthenticationService.GetUserByName.Failed" xml:space="preserve">
+    <value>An error occurred while loading the user with the name: '{0}'.</value>
+  </data>
+  <data name="AuthenticationService.GetUserByName.NotFound" xml:space="preserve">
+    <value>The user with the user name: '{0}' could not be found.</value>
+  </data>
   <data name="AuthenticationService.UpdateUser.Failed" xml:space="preserve">
     <value>An error occurred while trying to update the user.</value>
   </data>

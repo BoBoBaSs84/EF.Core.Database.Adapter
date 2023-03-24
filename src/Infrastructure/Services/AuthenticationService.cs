@@ -127,6 +127,26 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
+	public async Task<ErrorOr<UserResponse>> GetUserByName(string userName)
+	{
+		try
+		{
+			User user = await _userService.FindByNameAsync(userName);
+
+			if (user is null)
+				return AuthenticationServiceErrors.GetUserByNameNotFound(userName);
+
+			UserResponse response = _mapper.Map<UserResponse>(user);
+
+			return response;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, userName, ex);
+			return AuthenticationServiceErrors.GetUserByNameFailed(userName);
+		}
+	}
+
 	public async Task<ErrorOr<Updated>> UpdateUser(int userId, UserUpdateRequest updateRequest)
 	{
 		ErrorOr<Updated> response = new();

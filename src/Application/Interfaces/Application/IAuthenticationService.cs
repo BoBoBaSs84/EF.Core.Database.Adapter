@@ -32,6 +32,13 @@ public interface IAuthenticationService
 	Task<ErrorOr<UserResponse>> GetUserById(int userId);
 
 	/// <summary>
+	/// Should return the application user by the user name.
+	/// </summary>
+	/// <param name="userName">the user name.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<UserResponse>> GetUserByName(string userName);
+
+	/// <summary>
 	/// Updates an existing application user.
 	/// </summary>
 	/// <param name="userId">The user identifier of the user to update.</param>

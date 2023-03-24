@@ -44,6 +44,24 @@ public static class AuthenticationServiceErrors
 	/// </summary>
 	/// <param name="userName">The user name.</param>
 	/// <returns><see cref="ApiError"/></returns>
+	public static ApiError GetUserByNameFailed(string userName) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
+			RESX.AuthenticationService_GetUserByName_Failed.Format(CultureInfo.CurrentCulture, userName));
+
+	/// <summary>
+	/// Error that indicates an exception during the user authentication.
+	/// </summary>
+	/// <param name="userName">The user name.</param>
+	/// <returns><see cref="ApiError"/></returns>
+	public static ApiError GetUserByNameNotFound(string userName) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetUserByIdNotFound)}",
+			RESX.AuthenticationService_GetUserByName_NotFound.Format(CultureInfo.CurrentCulture, userName));
+
+	/// <summary>
+	/// Error that indicates an exception during the user authentication.
+	/// </summary>
+	/// <param name="userName">The user name.</param>
+	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserUnauthorized(string userName) =>
 		ApiError.CreateUnauthorized($"{ErrorPrefix}.{nameof(UserUnauthorized)}",
 			RESX.AuthenticationService_User_Unauthorized.Format(CultureInfo.CurrentCulture, userName));

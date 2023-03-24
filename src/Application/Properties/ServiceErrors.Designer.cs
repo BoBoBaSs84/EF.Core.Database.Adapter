@@ -250,6 +250,24 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the user with the name: &apos;{0}&apos;..
+        /// </summary>
+        public static string AuthenticationService_GetUserByName_Failed {
+            get {
+                return ResourceManager.GetString("AuthenticationService.GetUserByName.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user with the user name: &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string AuthenticationService_GetUserByName_NotFound {
+            get {
+                return ResourceManager.GetString("AuthenticationService.GetUserByName.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to update the user..
         /// </summary>
         public static string AuthenticationService_UpdateUser_Failed {

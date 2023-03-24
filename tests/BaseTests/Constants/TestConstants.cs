@@ -11,4 +11,14 @@ public static class TestConstants
 	public const string WildCardChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-={}[]<>:;.,";
 
 	public const string Bobo = "BoBoBaSs84";
+
+	public static class TestUser
+	{
+		public const string UserName = "TestUser";
+		public const string PassGood = "!*TestPassword21";
+		public const string PassBad = "Test";
+		public const string Email = "TestUser@example.com";
+		public const string FirstName = "Test";
+		public const string LastName = "Unit";
+	}
 }

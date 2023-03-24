@@ -1,14 +1,11 @@
 ﻿using Application.Contracts.Responses.Enumerator;
 using Application.Errors.Services;
-using Application.Features.Requests;
-using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Logging;
 using AutoMapper;
 using Domain.Entities.Enumerator;
 using Domain.Errors;
-using Domain.Extensions.QueryExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -59,7 +56,7 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(logExceptionWithParams, id, ex);
 			return DayTypeServiceErrors.GetByIdFailed;
 		}
 	}
@@ -83,39 +80,27 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(logExceptionWithParams, name, ex);
 			return DayTypeServiceErrors.GetByNameFailed;
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<DayTypeResponse>>> GetPagedByParameters(DayTypeParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<DayTypeResponse>>> GetAll(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<DayType> dayTypes = await _unitOfWork.DayTypeRepository.GetManyByConditionAsync(
-				filterBy: x => x.FilterByIsActive(parameters.IsActive).SearchByName(parameters.Name).SearchByDescription(parameters.Description),
-				orderBy: x => x.OrderBy(x => x.Id),
-				take: parameters.PageSize,
-				skip: (parameters.PageNumber - 1) * parameters.PageSize,
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
-				);
+			IEnumerable<DayType> dayTypes = await _unitOfWork.DayTypeRepository.GetAllAsync(trackChanges, cancellationToken);
 
 			if (!dayTypes.Any())
 				return DayTypeServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = await _unitOfWork.DayTypeRepository.GetCountAsync(
-				filterBy: x => x.FilterByIsActive(parameters.IsActive).SearchByName(parameters.Name).SearchByDescription(parameters.Description),
-				cancellationToken: cancellationToken
-				);
-
 			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
 
-			return new PagedList<DayTypeResponse>(response, totalCount, parameters.PageNumber, parameters.PageSize);
+			return response.ToList();
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(logException, ex);
 			return DayTypeServiceErrors.GetPagedByParametersFailed;
 		}
 	}

@@ -1,6 +1,4 @@
 ﻿using Application.Contracts.Responses.Enumerator;
-using Application.Features.Requests;
-using Application.Features.Responses;
 using Domain.Errors;
 
 namespace Application.Interfaces.Application;
@@ -11,13 +9,12 @@ namespace Application.Interfaces.Application;
 public interface IDayTypeService
 {
 	/// <summary>
-	/// Should return the day type entities as a paged list, filtered by the parameters.
+	/// Should return all day type entities.
 	/// </summary>
-	/// <param name="parameters">The query parameters.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A paged list response.</returns>
-	Task<ErrorOr<IPagedList<DayTypeResponse>>> GetPagedByParameters(DayTypeParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<IEnumerable<DayTypeResponse>>> GetAll(bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Should return the day type by its name.

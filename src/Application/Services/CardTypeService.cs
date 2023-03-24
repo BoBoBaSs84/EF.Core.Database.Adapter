@@ -1,14 +1,11 @@
 ﻿using Application.Contracts.Responses.Enumerator;
 using Application.Errors.Services;
-using Application.Features.Requests;
-using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Logging;
 using AutoMapper;
 using Domain.Entities.Enumerator;
 using Domain.Errors;
-using Domain.Extensions.QueryExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -56,7 +53,7 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(logExceptionWithParams, id, ex);
 			return CardTypeServiceErrors.GetByIdFailed;
 		}
 	}
@@ -81,39 +78,27 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(logExceptionWithParams, name, ex);
 			return CardTypeServiceErrors.GetByNameFailed;
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<CardTypeResponse>>> GetPagedByParameters(CardTypeParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<CardTypeResponse>>> GetAll(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<CardType> cardTypes = await _unitOfWork.CardTypeRepository.GetManyByConditionAsync(
-				filterBy: x => x.FilterByIsActive(parameters.IsActive).SearchByName(parameters.Name).SearchByDescription(parameters.Description),
-				orderBy: x => x.OrderBy(x => x.Id),
-				take: parameters.PageSize,
-				skip: (parameters.PageNumber - 1) * parameters.PageSize,
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
-				);
+			IEnumerable<CardType> cardTypes = await _unitOfWork.CardTypeRepository.GetAllAsync(trackChanges, cancellationToken);
 
 			if (!cardTypes.Any())
 				return CardTypeServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = await _unitOfWork.CardTypeRepository.GetCountAsync(
-				filterBy: x => x.FilterByIsActive(parameters.IsActive).SearchByName(parameters.Name).SearchByDescription(parameters.Description),
-				cancellationToken: cancellationToken
-				);
-
 			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
 
-			return new PagedList<CardTypeResponse>(response, totalCount, parameters.PageNumber, parameters.PageSize);
+			return response.ToList();
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(logException, ex);
 			return CardTypeServiceErrors.GetPagedByParametersFailed;
 		}
 	}

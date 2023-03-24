@@ -29,7 +29,7 @@ public sealed class AttendanceController : ApiControllerBase
 	private readonly ICurrentUserService _currentUserService;
 
 	/// <summary>
-	/// Initializes an instance of <see cref="CalendarDayController"/> class.
+	/// Initializes an instance of <see cref="AttendanceController"/> class.
 	/// </summary>
 	/// <param name="attendanceService">The attendance service.</param>
 	/// <param name="currentUserService">The current user service.</param>

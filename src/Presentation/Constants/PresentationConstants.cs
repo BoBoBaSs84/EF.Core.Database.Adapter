@@ -8,6 +8,27 @@ namespace Presentation.Constants;
 public static class PresentationConstants
 {
 	/// <summary>
+	/// Class with some constatnts for auth related things
+	/// </summary>
+	public static class Authentication
+	{
+		/// <summary>
+		/// The security scheme name
+		/// </summary>
+		public const string SecuritySchemeName = "Authorization";
+
+		/// <summary>
+		/// The bearer token name
+		/// </summary>
+		public const string Bearer = "Bearer";
+		
+		/// <summary>
+		/// The bearer token format
+		/// </summary>
+		public const string BearerFormat = "JWT";
+	}
+
+	/// <summary>
 	/// Class with some constants for http policies
 	/// </summary>
 	public static class Policies
@@ -53,6 +74,11 @@ public static class PresentationConstants
 		/// Content type for json
 		/// </summary>
 		public const string JsonContentType = "application/json";
+
+		/// <summary>
+		/// Content type for xml
+		/// </summary>
+		public const string XmlContentType = "application/xml";
 
 		/// <summary>
 		/// Http request header for api version

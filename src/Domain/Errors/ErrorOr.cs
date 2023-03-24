@@ -7,33 +7,25 @@
 public readonly record struct ErrorOr<TValue> : IErrorOr
 {
 	private readonly TValue? value = default;
-	private readonly List<Error>? errors = null;
 
 	private static readonly Error NoFirstError = Error.Unexpected(
 		code: "ErrorOr.NoFirstError",
 		description: "First error cannot be retrieved from a successful ErrorOr.");
 
-	private static readonly Error NoErrors = Error.Unexpected(
-		code: "ErrorOr.NoErrors",
-		description: "Error list cannot be retrieved from a successful ErrorOr.");
+	/// <summary>
+	/// Initilizes an instance of <see cref="ErrorOr"/>.
+	/// </summary>
+	public ErrorOr()
+	{ }
 
-	private ErrorOr(Error error)
-	{
-		errors = new List<Error> { error };
-		IsError = true;
-	}
+	private ErrorOr(Error error) =>
+		Errors = new List<Error> { error };
 
-	private ErrorOr(List<Error> errors)
-	{
-		this.errors = errors;
-		IsError = true;
-	}
+	private ErrorOr(List<Error> errors) =>
+		Errors = errors;
 
-	private ErrorOr(TValue value)
-	{
+	private ErrorOr(TValue value) =>
 		this.value = value;
-		IsError = false;
-	}
 
 	/// <summary>
 	/// Creates an <see cref="ErrorOr{TValue}"/> from a list of errors.
@@ -43,14 +35,12 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets a value indicating whether the state is error.
 	/// </summary>
-	public bool IsError { get; }
+	public bool IsError => Errors.Any();
 
 	/// <summary>
 	/// Gets the list of errors.
 	/// </summary>
-	public List<Error> Errors => IsError
-		? errors!
-		: new List<Error> { NoErrors };
+	public List<Error> Errors { get; } = new();
 
 	/// <summary>
 	/// Gets the value.
@@ -60,7 +50,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets the first error.
 	/// </summary>
-	public Error FirstError => !IsError ? NoFirstError : errors![0];
+	public Error FirstError => !IsError ? NoFirstError : Errors![0];
 
 	/// <summary>
 	/// Creates an <see cref="ErrorOr{TValue}"/> from a value.
@@ -149,7 +139,6 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 		return IsError ? onFirstError(FirstError) : onValue(Value);
 	}
 }
-
 public static class ErrorOr
 {
 	public static ErrorOr<TValue> From<TValue>(TValue value) => value;

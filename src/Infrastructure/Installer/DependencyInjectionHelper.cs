@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using IC = Infrastructure.Constants.InfrastructureConstants;
+using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
 
 namespace Infrastructure.Installer;
 
@@ -121,7 +121,7 @@ public static class DependencyInjectionHelper
 	/// <returns>The enriched service collection.</returns>
 	private static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
 	{
-		IConfigurationSection jwtSettings = configuration.GetRequiredSection(IC.JwtSettings);
+		IConfigurationSection jwtSettings = configuration.GetRequiredSection(Jwt.JwtSettings);
 
 		services.AddAuthentication(options =>
 		{
@@ -133,9 +133,9 @@ public static class DependencyInjectionHelper
 			ValidateAudience = true,
 			ValidateLifetime = true,
 			ValidateIssuerSigningKey = true,
-			ValidIssuer = jwtSettings[IC.ValidIssuer],
-			ValidAudience = jwtSettings[IC.ValidAudience],
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings[IC.SecurityKey]))
+			ValidIssuer = jwtSettings[Jwt.ValidIssuer],
+			ValidAudience = jwtSettings[Jwt.ValidAudience],
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings[Jwt.SecurityKey]))
 		});
 
 		return services;

@@ -1,0 +1,256 @@
+@startuml schema
+
+header
+
+<font color=red>Warning:</font>
+proof of concept.
+[Application-Development] on [BOBO-DEV\LOCALDB#7F7B41FA]
+
+endheader
+center footer Generated for demonstration
+
+!define table(x) class x << (T,mistyrose) >> 
+!define view(x) class x << (V,lightblue) >> 
+!define tr(x) class x << (R,red) >> 
+!define tf(x) class x << (F,darkorange) >> 
+!define af(x) class x << (F,white) >> 
+!define fn(x) class x << (F,plum) >> 
+!define fs(x) class x << (F,tan) >> 
+!define ft(x) class x << (F,wheat) >> 
+!define if(x) class x << (F,gainsboro) >> 
+!define p(x) class x << (P,indianred) >> 
+!define pc(x) class x << (P,lemonshiffon) >> 
+!define x(x) class x << (P,linen) >> 
+
+hide methods 
+hide stereotypes 
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam classarrowcolor gray
+
+table(Private.Migration) {
+[MigrationId] nvarchar[150] null <<pk>>
+[ProductVersion] nvarchar[32] null
+}
+
+table(Finance.Account) {
+[Id] int null <<pk>>
+[Timestamp] timestamp not null
+[CreatedBy] int null
+[ModifiedBy] int null
+[IBAN] varchar[25] null
+[Provider] nvarchar[500] null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Enumerator.CardType) {
+[Id] int null <<pk>>
+[Timestamp] timestamp not null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[Name] nvarchar[250] null
+[Description] nvarchar[1000] null
+[IsActive] bit null
+}
+
+table(Enumerator.DayType) {
+[Id] int null <<pk>>
+[Timestamp] timestamp not null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[Name] nvarchar[250] null
+[Description] nvarchar[1000] null
+[IsActive] bit null
+}
+
+table(Identity.Role) {
+[Id] int null <<pk>>
+[Description] nvarchar[500] null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[Name] nvarchar[256] null
+[NormalizedName] nvarchar[256] null
+[ConcurrencyStamp] nvarchar[max] null
+}
+
+table(Finance.Transaction) {
+[Id] int null <<pk>>
+[Timestamp] timestamp not null
+[CreatedBy] int null
+[ModifiedBy] int null
+[BookingDate] date null
+[ValueDate] date null
+[PostingText] nvarchar[100] null
+[ClientBeneficiary] nvarchar[250] null
+[Purpose] nvarchar[4000] null
+[AccountNumber] varchar[25] null
+[BankCode] varchar[25] null
+[AmountEur] money null
+[CreditorId] nvarchar[25] null
+[MandateReference] nvarchar[50] null
+[CustomerReference] nvarchar[50] null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Identity.User) {
+[Id] int null <<pk>>
+[FirstName] nvarchar[100] null
+[MiddleName] nvarchar[100] null
+[LastName] nvarchar[100] null
+[DateOfBirth] date null
+[Preferences] xml null
+[Picture] varbinary null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[UserName] nvarchar[256] null
+[NormalizedUserName] nvarchar[256] null
+[Email] nvarchar[256] null
+[NormalizedEmail] nvarchar[256] null
+[EmailConfirmed] bit null
+[PasswordHash] nvarchar[max] null
+[SecurityStamp] nvarchar[max] null
+[ConcurrencyStamp] nvarchar[max] null
+[PhoneNumber] nvarchar[max] null
+[PhoneNumberConfirmed] bit null
+[TwoFactorEnabled] bit null
+[LockoutEnd] datetimeoffset null
+[LockoutEnabled] bit null
+[AccessFailedCount] int null
+}
+
+table(Private.CalendarDay) {
+[Id] int null <<pk>>
+[Timestamp] timestamp not null
+[Date] date null
+[Year] int null
+[Month] int null
+[Day] int null
+[Week] int null
+[IsoWeek] int null
+[DayOfYear] int null
+[WeekDay] int null
+[EndOfMonth] date null
+[WeekDayName] nvarchar[30] null
+[MonthName] nvarchar[30] null
+[DayTypeId] int null <<fk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Identity.RoleClaim) {
+[Id] int null <<pk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[RoleId] int null <<fk>>
+[ClaimType] nvarchar[max] null
+[ClaimValue] nvarchar[max] null
+}
+
+table(Finance.AccountTransaction) {
+[AccountId] int null <<pk>> <<fk>>
+[TransactionId] int null <<pk>> <<fk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Finance.AccountUser) {
+[AccountId] int null <<pk>> <<fk>>
+[UserId] int null <<pk>> <<fk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Finance.Card) {
+[Id] int null <<pk>>
+[Timestamp] timestamp not null
+[CreatedBy] int null
+[ModifiedBy] int null
+[UserId] int null <<fk>>
+[AccountId] int null <<fk>>
+[CardTypeId] int null <<fk>>
+[PAN] varchar[25] null
+[ValidUntil] date null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Identity.UserClaim) {
+[Id] int null <<pk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[UserId] int null <<fk>>
+[ClaimType] nvarchar[max] null
+[ClaimValue] nvarchar[max] null
+}
+
+table(Identity.UserLogin) {
+[LoginProvider] nvarchar[450] null <<pk>>
+[ProviderKey] nvarchar[450] null <<pk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[ProviderDisplayName] nvarchar[max] null
+[UserId] int null <<fk>>
+}
+
+table(Identity.UserRole) {
+[UserId] int null <<pk>> <<fk>>
+[RoleId] int null <<pk>> <<fk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Identity.UserToken) {
+[UserId] int null <<pk>> <<fk>>
+[LoginProvider] nvarchar[450] null <<pk>>
+[Name] nvarchar[450] null <<pk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[Value] nvarchar[max] null
+}
+
+table(Private.Attendance) {
+[Id] int null <<pk>>
+[Timestamp] timestamp not null
+[CreatedBy] int null
+[ModifiedBy] int null
+[UserId] int null <<fk>>
+[CalendarDayId] int null <<fk>>
+[DayTypeId] int null <<fk>>
+[StartTime] time null
+[EndTime] time null
+[BreakTime] time null
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Finance.CardTransaction) {
+[CardId] int null <<pk>> <<fk>>
+[TransactionId] int null <<pk>> <<fk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+Finance.AccountTransaction --> Finance.Account:FK
+Finance.AccountUser --> Finance.Account:FK
+Finance.Card --> Finance.Account:FK
+Finance.Card --> Enumerator.CardType:FK
+Private.CalendarDay --> Enumerator.DayType:FK
+Private.Attendance --> Enumerator.DayType:FK
+Identity.RoleClaim --> Identity.Role:FK
+Identity.UserRole --> Identity.Role:FK
+Finance.AccountTransaction --> Finance.Transaction:FK
+Finance.CardTransaction --> Finance.Transaction:FK
+Finance.AccountUser --> Identity.User:FK
+Finance.Card --> Identity.User:FK
+Identity.UserClaim --> Identity.User:FK
+Identity.UserLogin --> Identity.User:FK
+Identity.UserRole --> Identity.User:FK
+Identity.UserToken --> Identity.User:FK
+Private.Attendance --> Identity.User:FK
+Private.Attendance --> Private.CalendarDay:FK
+Finance.CardTransaction --> Finance.Card:FK
+
+@enduml

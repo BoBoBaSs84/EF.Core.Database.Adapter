@@ -18,11 +18,14 @@ public sealed class CurrentUserService : ICurrentUserService
 		_contextAccessor = contextAccessor;
 
 	/// <inheritdoc/>
-	public int UserId => int.Parse(_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier));
+	public int UserId =>
+		int.Parse(_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!, CultureInfo.CurrentCulture);
 
 	/// <inheritdoc/>
-	public string UserName => _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Name)!;
+	public string UserName =>
+		_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Name)!;
 
 	/// <inheritdoc/>
-	public string Email => _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email);
+	public string Email =>
+		_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email)!;
 }

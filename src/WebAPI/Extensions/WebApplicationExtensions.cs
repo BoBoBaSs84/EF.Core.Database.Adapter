@@ -1,4 +1,5 @@
 ﻿using Presentation.Common;
+using WebAPI.Common;
 using Swagger = Presentation.Constants.PresentationConstants.Swagger;
 
 namespace WebAPI.Extensions;
@@ -19,7 +20,7 @@ public static class WebApplicationExtensions
 		webApplication.UseSwagger();
 		webApplication.UseSwaggerUI(options =>
 		{
-			options.SwaggerEndpoint($"/swagger/{Versioning.CurrentVersion}/swagger.json", Versioning.CurrentVersion);
+			options.SwaggerEndpoint($"/swagger/{Versioning.CurrentVersion}/swagger.json", $"v{Versioning.CurrentVersion}");
 			options.ConfigObject.AdditionalItems.Add(Swagger.SytaxHighlightKey, false);
 		});
 

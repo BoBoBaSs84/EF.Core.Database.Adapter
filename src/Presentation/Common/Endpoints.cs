@@ -12,14 +12,24 @@ internal static class Endpoints
 	internal const string EmptySuffix = "";
 
 	/// <summary>
+	/// The account route.
+	/// </summary>
+	internal static class Account
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Account);
+
+		internal const string GetAll = EmptySuffix;
+		internal const string GetByIban = "{iban}";
+	}
+
+	/// <summary>
 	/// The authentication route.
 	/// </summary>
 	internal static class Authentication
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Authentication);
-		internal const string CreateUser = EmptySuffix;
-		internal const string UpdateUser = EmptySuffix;
-		internal const string AuthenticateUser = "Login";
+
+		internal const string Authenticate = EmptySuffix;
 	}
 
 	/// <summary>
@@ -28,9 +38,10 @@ internal static class Endpoints
 	internal static class CalendarDay
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(CalendarDay);
-		internal const string GetPagedByParameters = EmptySuffix;
+
 		internal const string GetByDate = "{date}";
 		internal const string GetById = "{id:int}";
+		internal const string GetPagedByParameters = EmptySuffix;
 	}
 
 	/// <summary>
@@ -39,9 +50,10 @@ internal static class Endpoints
 	internal static class DayType
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(DayType);
-		internal const string GetPagedByParameters = EmptySuffix;
-		internal const string GetByName = "{name}";
+
 		internal const string GetById = "{id:int}";
+		internal const string GetByName = "{name}";
+		internal const string GetPagedByParameters = EmptySuffix;
 	}
 
 	/// <summary>
@@ -50,9 +62,10 @@ internal static class Endpoints
 	internal static class CardType
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(CardType);
-		internal const string GetPagedByParameters = EmptySuffix;
-		internal const string GetByName = "{name}";
+
 		internal const string GetById = "{id:int}";
+		internal const string GetByName = "{name}";
+		internal const string GetPagedByParameters = EmptySuffix;
 	}
 
 	/// <summary>
@@ -61,14 +74,28 @@ internal static class Endpoints
 	internal static class Attendance
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Attendance);
-		internal const string GetPagedByParameters = EmptySuffix;
-		internal const string GetByDate = "{date}";
-		internal const string GetById = "{calendarDayId:int}";
-		internal const string Post = EmptySuffix;
-		internal const string PostMultiple = $"Multiple";
+
 		internal const string Delete = "{calendarDayId:int}";
 		internal const string DeleteMultiple = "Multiple";
+		internal const string GetByDate = "{date}";
+		internal const string GetById = "{calendarDayId:int}";
+		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string Post = EmptySuffix;
+		internal const string PostMultiple = $"Multiple";
 		internal const string Put = EmptySuffix;
 		internal const string PutMultiple = "Multiple";
+	}
+
+	internal static class UserManagement
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(UserManagement);
+
+		internal const string AddUserToRole = "User/{userId:int}/Roles/{roleName}";
+		internal const string Create = EmptySuffix;
+		internal const string GetAll = EmptySuffix;
+		internal const string GetByName = "{userName}";
+		internal const string GetCurrent = "Current";
+		internal const string RemoveUserToRole = "User/{userId:int}/Roles/{roleName}";
+		internal const string UpdateCurrent = "Current";
 	}
 }

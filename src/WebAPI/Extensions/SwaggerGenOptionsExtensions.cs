@@ -2,6 +2,8 @@
 using Microsoft.OpenApi.Models;
 using Presentation.Common;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using WebAPI.Common;
+using Auth = Presentation.Constants.PresentationConstants.Authentication;
 
 namespace WebAPI.Extensions;
 
@@ -22,7 +24,7 @@ internal static class SwaggerGenOptionsExtensions
 	{
 		options.SwaggerDoc(Versioning.CurrentVersion, new OpenApiInfo()
 		{
-			Title = "BoBoBaSs84 API",
+			Title = typeof(IWebApiAssemblyMarker).Assembly.GetName().Name,
 			Version = Versioning.CurrentVersion
 		});
 
@@ -36,14 +38,14 @@ internal static class SwaggerGenOptionsExtensions
 
 	internal static SwaggerGenOptions ConfigureSecurityDefinition(this SwaggerGenOptions options)
 	{
-		options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+		options.AddSecurityDefinition(Auth.Bearer, new OpenApiSecurityScheme()
 		{
 			In = ParameterLocation.Header,
 			Description = "Please enter token",
-			Name = "Authorization",
+			Name = Auth.SecuritySchemeName,
 			Type = SecuritySchemeType.Http,
-			BearerFormat = "JWT",
-			Scheme = "Bearer"
+			BearerFormat = Auth.BearerFormat,
+			Scheme = Auth.Bearer
 		});
 
 		return options;
@@ -59,7 +61,7 @@ internal static class SwaggerGenOptionsExtensions
 						Reference = new OpenApiReference
 						{
 							Type = ReferenceType.SecurityScheme,
-							Id = "Bearer"
+							Id = Auth.Bearer
 						}
 					},
 					Array.Empty<string>()

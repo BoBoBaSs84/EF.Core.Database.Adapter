@@ -1,7 +1,5 @@
 ﻿using Domain.Common.EntityBaseTypes;
 using Domain.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Domain.Constants.DomainConstants;
@@ -15,7 +13,6 @@ namespace Domain.Entities.Finance;
 /// <remarks>
 /// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-[Index(nameof(PAN), IsUnique = true)]
 public partial class Card : AuditedModel
 {
 	private string pan = default!;
@@ -41,7 +38,7 @@ public partial class Card : AuditedModel
 	/// <remarks>
 	/// The payment card number or <b>p</b>rimary <b>a</b>ccount <b>n</b>umber.
 	/// </remarks>
-	[MaxLength(MaxLength.MAX_25), Unicode(false), RegularExpression(RegexPatterns.CC)]
+	[MaxLength(MaxLength.MAX_25), RegularExpression(RegexPatterns.CC)]
 	public string PAN
 	{
 		get => pan;

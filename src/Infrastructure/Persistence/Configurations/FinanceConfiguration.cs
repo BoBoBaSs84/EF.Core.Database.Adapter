@@ -19,6 +19,13 @@ internal static class FinanceConfiguration
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);
 
+			builder.Property(e => e.IBAN)
+				.IsUnicode(false);
+
+			builder.HasIndex(e => e.IBAN)
+				.IsClustered(false)
+				.IsUnique(true);
+
 			builder.HasMany(e => e.AccountUsers)
 				.WithOne(e => e.Account)
 				.HasForeignKey(e => e.AccountId)
@@ -72,6 +79,13 @@ internal static class FinanceConfiguration
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);
+
+			builder.Property(e => e.PAN)
+				.IsUnicode(false);
+
+			builder.HasIndex(e => e.PAN)
+				.IsClustered(false)
+				.IsUnique(true);
 
 			builder.HasMany(e => e.CardTransactions)
 				.WithOne(e => e.Card)

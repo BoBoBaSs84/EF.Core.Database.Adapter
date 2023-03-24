@@ -17,6 +17,9 @@ internal static class PrivateConfiguration
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);
+
+			builder.HasIndex(e => new { e.UserId, e.CalendarDayId })
+				.IsUnique(true);
 		}
 	}
 
@@ -30,6 +33,15 @@ internal static class PrivateConfiguration
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);
+
+			builder.HasIndex(e => e.Date)
+				.IsUnique(true);
+
+			builder.HasIndex(e => e.Year)
+				.IsUnique(false);
+
+			builder.HasIndex(e => e.Month)
+				.IsUnique(false);
 
 			builder.Property(e => e.Day)
 				.HasComputedColumnSql("(datepart(day,[Date]))", true);

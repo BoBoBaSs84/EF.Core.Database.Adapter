@@ -1,5 +1,4 @@
 ﻿using Domain.Common.EntityBaseTypes;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 
@@ -11,7 +10,6 @@ namespace Domain.Entities.Private;
 /// <remarks>
 /// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-[Index(nameof(UserId), nameof(CalendarDayId), IsUnique = true)]
 public partial class Attendance : AuditedModel
 {
 	/// <summary>

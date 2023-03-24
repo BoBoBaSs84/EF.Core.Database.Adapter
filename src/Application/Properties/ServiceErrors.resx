@@ -174,14 +174,17 @@
   <data name="AuthenticationService.CreateUserRoles.Failed" xml:space="preserve">
     <value>An error occurred while trying to add the roles for the user.</value>
   </data>
+  <data name="AuthenticationService.GetUserById.Failed" xml:space="preserve">
+    <value>An error occurred while loading the user with the identifier: '{0}'.</value>
+  </data>
+  <data name="AuthenticationService.GetUserById.NotFound" xml:space="preserve">
+    <value>The user with the user identifier: '{0}' could not be found.</value>
+  </data>
   <data name="AuthenticationService.UpdateUser.Failed" xml:space="preserve">
     <value>An error occurred while trying to update the user.</value>
   </data>
   <data name="AuthenticationService.User.Unauthorized" xml:space="preserve">
     <value>The user with the user name '{0}' could not be authorized.</value>
-  </data>
-  <data name="AuthenticationService.UserById.NotFound" xml:space="preserve">
-    <value>The user with the user identifier: '{0}' could not be found.</value>
   </data>
   <data name="AuthenticationService.UserByName.NotFound" xml:space="preserve">
     <value>The user with the user name: '{0}' could not be found.</value>

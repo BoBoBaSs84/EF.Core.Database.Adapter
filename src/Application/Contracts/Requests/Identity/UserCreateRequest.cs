@@ -50,7 +50,7 @@ public sealed class UserCreateRequest
 	public string Password { get; set; } = default!;
 
 	/// <summary>
-	/// The roles of the user.
+	/// The picture of the user.
 	/// </summary>
-	public ICollection<string> Roles { get; set; } = default!;
+	public byte[]? Picture { get; set; } = default!;
 }

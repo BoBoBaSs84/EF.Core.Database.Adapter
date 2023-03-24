@@ -11,11 +11,25 @@ namespace Application.Interfaces.Application;
 public interface IAuthenticationService
 {
 	/// <summary>
+	/// Authenticates an existing application user.
+	/// </summary>
+	/// <param name="authRequest">The authentication reqeust.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest authRequest);
+
+	/// <summary>
 	/// Creates a new application user.
 	/// </summary>
 	/// <param name="createRequest">The user create reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<Created>> CreateUser(UserCreateRequest createRequest);
+
+	/// <summary>
+	/// Should return the application user by the identifier.
+	/// </summary>
+	/// <param name="userId">the user identifier.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<UserResponse>> GetUserById(int userId);
 
 	/// <summary>
 	/// Updates an existing application user.
@@ -24,11 +38,4 @@ public interface IAuthenticationService
 	/// <param name="updateRequest">The user update reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<Updated>> UpdateUser(int userId, UserUpdateRequest updateRequest);
-
-	/// <summary>
-	/// Authenticates an existing application user.
-	/// </summary>
-	/// <param name="authRequest">The authentication reqeust.</param>
-	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest authRequest);
 }

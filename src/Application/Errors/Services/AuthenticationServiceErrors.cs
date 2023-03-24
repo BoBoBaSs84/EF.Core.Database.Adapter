@@ -1,6 +1,5 @@
 ﻿using Application.Errors.Base;
 using Domain.Extensions;
-using System.Globalization;
 using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
@@ -13,7 +12,6 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class AuthenticationServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = Domain.Statics.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(AuthenticationServiceErrors)}";
 
 	/// <summary>
@@ -26,11 +24,20 @@ public static class AuthenticationServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
 	/// </summary>
-	/// <param name="userName">The user name.</param>
+	/// <param name="userId">The user identifier.</param>
 	/// <returns><see cref="ApiError"/></returns>
-	public static ApiError UserByNameNotFound(string userName) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByNameNotFound)}",
-			RESX.AuthenticationService_UserById_NotFound.Format(CurrentCulture, userName));
+	public static ApiError GetUserByIdFailed(int userId) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
+			RESX.AuthenticationService_GetUserById_Failed.Format(CultureInfo.CurrentCulture, userId));
+
+	/// <summary>
+	/// Error that indicates an exception during the user authentication.
+	/// </summary>
+	/// <param name="userId">The user identifier.</param>
+	/// <returns><see cref="ApiError"/></returns>
+	public static ApiError GetUserByIdNotFound(int userId) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetUserByIdNotFound)}",
+			RESX.AuthenticationService_GetUserById_NotFound.Format(CultureInfo.CurrentCulture, userId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -39,7 +46,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserUnauthorized(string userName) =>
 		ApiError.CreateUnauthorized($"{ErrorPrefix}.{nameof(UserUnauthorized)}",
-			RESX.AuthenticationService_User_Unauthorized.Format(CurrentCulture, userName));
+			RESX.AuthenticationService_User_Unauthorized.Format(CultureInfo.CurrentCulture, userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the user creation.

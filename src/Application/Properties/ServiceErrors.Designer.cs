@@ -232,6 +232,24 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the user with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string AuthenticationService_GetUserById_Failed {
+            get {
+                return ResourceManager.GetString("AuthenticationService.GetUserById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user with the user identifier: &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string AuthenticationService_GetUserById_NotFound {
+            get {
+                return ResourceManager.GetString("AuthenticationService.GetUserById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to update the user..
         /// </summary>
         public static string AuthenticationService_UpdateUser_Failed {
@@ -246,15 +264,6 @@ namespace Application.Properties {
         public static string AuthenticationService_User_Unauthorized {
             get {
                 return ResourceManager.GetString("AuthenticationService.User.Unauthorized", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The user with the user identifier: &apos;{0}&apos; could not be found..
-        /// </summary>
-        public static string AuthenticationService_UserById_NotFound {
-            get {
-                return ResourceManager.GetString("AuthenticationService.UserById.NotFound", resourceCulture);
             }
         }
         

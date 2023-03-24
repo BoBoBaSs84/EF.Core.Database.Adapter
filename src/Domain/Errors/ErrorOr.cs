@@ -7,25 +7,25 @@
 public readonly record struct ErrorOr<TValue> : IErrorOr
 {
 	private readonly TValue? value = default;
-	private readonly List<Error>? errors = null;
 
 	private static readonly Error NoFirstError = Error.Unexpected(
 		code: "ErrorOr.NoFirstError",
 		description: "First error cannot be retrieved from a successful ErrorOr.");
 
-	private static readonly Error NoErrors = Error.Unexpected(
-		code: "ErrorOr.NoErrors",
-		description: "Error list cannot be retrieved from a successful ErrorOr.");
+	/// <summary>
+	/// Initilizes an instance of <see cref="ErrorOr"/>.
+	/// </summary>
+	public ErrorOr() => IsError = false;
 
 	private ErrorOr(Error error)
 	{
-		errors = new List<Error> { error };
+		Errors = new List<Error> { error };
 		IsError = true;
 	}
 
 	private ErrorOr(List<Error> errors)
 	{
-		this.errors = errors;
+		Errors = errors;
 		IsError = true;
 	}
 
@@ -48,9 +48,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets the list of errors.
 	/// </summary>
-	public List<Error> Errors => IsError
-		? errors!
-		: new List<Error> { NoErrors };
+	public List<Error> Errors { get; } = new();
 
 	/// <summary>
 	/// Gets the value.
@@ -60,7 +58,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets the first error.
 	/// </summary>
-	public Error FirstError => !IsError ? NoFirstError : errors![0];
+	public Error FirstError => !IsError ? NoFirstError : Errors![0];
 
 	/// <summary>
 	/// Creates an <see cref="ErrorOr{TValue}"/> from a value.

@@ -27,9 +27,7 @@ internal static class Endpoints
 	internal static class Authentication
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Authentication);
-		internal const string CreateUser = EmptySuffix;
-		internal const string UpdateUser = EmptySuffix;
-		internal const string AuthenticateUser = "Login";
+		internal const string Authenticate = EmptySuffix;
 	}
 
 	/// <summary>
@@ -80,5 +78,15 @@ internal static class Endpoints
 		internal const string DeleteMultiple = "Multiple";
 		internal const string Put = EmptySuffix;
 		internal const string PutMultiple = "Multiple";
+	}
+
+	internal static class UserManagement
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(UserManagement);
+		internal const string CreateUser = EmptySuffix;
+		internal const string GetCurrentUser = "Current";
+		internal const string GetAllUser = EmptySuffix;
+		internal const string GetUserByName = "{userName}";
+		internal const string UpdateCurrentUser = "Current";
 	}
 }

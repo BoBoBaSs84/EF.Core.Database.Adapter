@@ -16,7 +16,6 @@ public interface IAccountService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A account entity.</returns>
-	/// <returns></returns>
 	Task<ErrorOr<AccountResponse>> GetByIban(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>

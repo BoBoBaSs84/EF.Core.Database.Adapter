@@ -22,14 +22,14 @@ namespace Domain.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public class EnumeratorResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal EnumeratorResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Domain.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Domain.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Domain.Properties.EnumeratorResources", typeof(EnumeratorResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -489,6 +489,249 @@ namespace Domain.Properties {
         public static string DayType_Workday_ShortName {
             get {
                 return ResourceManager.GetString("DayType.Workday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error of multiple sources..
+        /// </summary>
+        public static string ErrorTypes_Composite_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Composite.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Composite.
+        /// </summary>
+        public static string ErrorTypes_Composite_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Composite.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CP.
+        /// </summary>
+        public static string ErrorTypes_Composite_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Composite.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates that the request could not be processed because of conflict in the request, such as the requested resource is not in the expected state..
+        /// </summary>
+        public static string ErrorTypes_Conflict_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Conflict.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conflict.
+        /// </summary>
+        public static string ErrorTypes_Conflict_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Conflict.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CO.
+        /// </summary>
+        public static string ErrorTypes_Conflict_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Conflict.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When the server unexpectedly fails to respond to the sent request..
+        /// </summary>
+        public static string ErrorTypes_Failure_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Failure.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failure.
+        /// </summary>
+        public static string ErrorTypes_Failure_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Failure.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FA.
+        /// </summary>
+        public static string ErrorTypes_Failure_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Failure.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signals to the client that the requested data is access-protected and the request cannot be performed due to a lack of authorization on the part of the client..
+        /// </summary>
+        public static string ErrorTypes_Forbidden_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Forbidden.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forbidden.
+        /// </summary>
+        public static string ErrorTypes_Forbidden_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Forbidden.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FO.
+        /// </summary>
+        public static string ErrorTypes_Forbidden_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Forbidden.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to indicates that a request has succeeded, but that the client doesn&apos;t need to navigate away from its current page..
+        /// </summary>
+        public static string ErrorTypes_NoContent_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.NoContent.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NoContent.
+        /// </summary>
+        public static string ErrorTypes_NoContent_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.NoContent.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NC.
+        /// </summary>
+        public static string ErrorTypes_NoContent_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.NoContent.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates that the requested resource does not exist on the server..
+        /// </summary>
+        public static string ErrorTypes_NotFound_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.NotFound.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NotFound.
+        /// </summary>
+        public static string ErrorTypes_NotFound_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.NotFound.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NF.
+        /// </summary>
+        public static string ErrorTypes_NotFound_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.NotFound.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is the status code to return when the client provides no credentials or invalid credentials..
+        /// </summary>
+        public static string ErrorTypes_Unauthorized_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Unauthorized.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unauthorized.
+        /// </summary>
+        public static string ErrorTypes_Unauthorized_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Unauthorized.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UA.
+        /// </summary>
+        public static string ErrorTypes_Unauthorized_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Unauthorized.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client error response code indicates that the expectation given in the request..
+        /// </summary>
+        public static string ErrorTypes_Unexpected_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Unexpected.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected.
+        /// </summary>
+        public static string ErrorTypes_Unexpected_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Unexpected.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UE.
+        /// </summary>
+        public static string ErrorTypes_Unexpected_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Unexpected.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates that the server cannot or will not process the request due to something that is perceived to be a client error..
+        /// </summary>
+        public static string ErrorTypes_Validation_Description {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Validation.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation.
+        /// </summary>
+        public static string ErrorTypes_Validation_Name {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Validation.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VA.
+        /// </summary>
+        public static string ErrorTypes_Validation_ShortName {
+            get {
+                return ResourceManager.GetString("ErrorTypes.Validation.ShortName", resourceCulture);
             }
         }
         

@@ -5,7 +5,6 @@ using Infrastructure.Installer;
 using Infrastructure.Persistence;
 using InfrastructureTests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace InfrastructureTests;
@@ -55,7 +54,7 @@ public class InfrastructureBaseTests : BaseTestUnit
 			.ConfigureServices((hostContext, services) =>
 			{
 				services.ConfigureInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
-				services.TryAddSingleton<ICurrentUserService, CurrentTestUserService>();
+				services.AddSingleton<ICurrentUserService, CurrentTestUserService>();
 			});
 
 		return hostBuilder.Start();

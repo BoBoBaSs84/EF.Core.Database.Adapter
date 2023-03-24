@@ -79,14 +79,4 @@ public record class ApiError : Error
 	/// <returns>Api error</returns>
 	public static ApiError CreateFailed(string code, string description) =>
 		new(Failure(code, description), HttpStatusCode.InternalServerError);
-
-	/// <summary>
-	/// Creates an api error with the status <see cref="HttpStatusCode.Forbidden"/>
-	/// with the given code and description.
-	/// </summary>
-	/// <param name="code">The unique error code.</param>
-	/// <param name="description">The error description.</param>
-	/// <returns>Api error</returns>
-	public static ApiError CreateForbidden(string code, string description) =>
-		new(Forbidden(code, description), HttpStatusCode.Forbidden);
 }

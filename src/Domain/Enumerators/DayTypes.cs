@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using RESX = Domain.Properties.Resources;
+using RESX = Domain.Properties.EnumeratorResources;
 
 namespace Domain.Enumerators;
 

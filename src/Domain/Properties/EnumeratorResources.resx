@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CardType.Credit.Description" xml:space="preserve">
+    <value>A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder's accrued debt.</value>
+  </data>
+  <data name="CardType.Credit.Name" xml:space="preserve">
+    <value>Credit card</value>
+  </data>
+  <data name="CardType.Credit.ShortName" xml:space="preserve">
+    <value>CC</value>
+  </data>
+  <data name="CardType.Debit.Description" xml:space="preserve">
+    <value>A debit card, also known as a check card or bank card is a payment card that can be used in place of cash to make purchases.</value>
+  </data>
+  <data name="CardType.Debit.Name" xml:space="preserve">
+    <value>Debit card</value>
+  </data>
+  <data name="CardType.Debit.ShortName" xml:space="preserve">
+    <value>DC</value>
+  </data>
   <data name="DayType.Absence.Description" xml:space="preserve">
     <value>Is an authorised prolonged absence from work, for any reason authorised by the workplace.</value>
   </data>
@@ -243,6 +261,87 @@
   <data name="DayType.Workday.ShortName" xml:space="preserve">
     <value>WK</value>
   </data>
+  <data name="ErrorTypes.Composite.Description" xml:space="preserve">
+    <value>Error of multiple sources.</value>
+  </data>
+  <data name="ErrorTypes.Composite.Name" xml:space="preserve">
+    <value>Composite</value>
+  </data>
+  <data name="ErrorTypes.Composite.ShortName" xml:space="preserve">
+    <value>CP</value>
+  </data>
+  <data name="ErrorTypes.Conflict.Description" xml:space="preserve">
+    <value>Indicates that the request could not be processed because of conflict in the request, such as the requested resource is not in the expected state.</value>
+  </data>
+  <data name="ErrorTypes.Conflict.Name" xml:space="preserve">
+    <value>Conflict</value>
+  </data>
+  <data name="ErrorTypes.Conflict.ShortName" xml:space="preserve">
+    <value>CO</value>
+  </data>
+  <data name="ErrorTypes.Failure.Description" xml:space="preserve">
+    <value>When the server unexpectedly fails to respond to the sent request.</value>
+  </data>
+  <data name="ErrorTypes.Failure.Name" xml:space="preserve">
+    <value>Failure</value>
+  </data>
+  <data name="ErrorTypes.Failure.ShortName" xml:space="preserve">
+    <value>FA</value>
+  </data>
+  <data name="ErrorTypes.Forbidden.Description" xml:space="preserve">
+    <value>Signals to the client that the requested data is access-protected and the request cannot be performed due to a lack of authorization on the part of the client.</value>
+  </data>
+  <data name="ErrorTypes.Forbidden.Name" xml:space="preserve">
+    <value>Forbidden</value>
+  </data>
+  <data name="ErrorTypes.Forbidden.ShortName" xml:space="preserve">
+    <value>FO</value>
+  </data>
+  <data name="ErrorTypes.NoContent.Description" xml:space="preserve">
+    <value>indicates that a request has succeeded, but that the client doesn't need to navigate away from its current page.</value>
+  </data>
+  <data name="ErrorTypes.NoContent.Name" xml:space="preserve">
+    <value>NoContent</value>
+  </data>
+  <data name="ErrorTypes.NoContent.ShortName" xml:space="preserve">
+    <value>NC</value>
+  </data>
+  <data name="ErrorTypes.NotFound.Description" xml:space="preserve">
+    <value>Indicates that the requested resource does not exist on the server.</value>
+  </data>
+  <data name="ErrorTypes.NotFound.Name" xml:space="preserve">
+    <value>NotFound</value>
+  </data>
+  <data name="ErrorTypes.NotFound.ShortName" xml:space="preserve">
+    <value>NF</value>
+  </data>
+  <data name="ErrorTypes.Unauthorized.Description" xml:space="preserve">
+    <value>Is the status code to return when the client provides no credentials or invalid credentials.</value>
+  </data>
+  <data name="ErrorTypes.Unauthorized.Name" xml:space="preserve">
+    <value>Unauthorized</value>
+  </data>
+  <data name="ErrorTypes.Unauthorized.ShortName" xml:space="preserve">
+    <value>UA</value>
+  </data>
+  <data name="ErrorTypes.Unexpected.Description" xml:space="preserve">
+    <value>Client error response code indicates that the expectation given in the request.</value>
+  </data>
+  <data name="ErrorTypes.Unexpected.Name" xml:space="preserve">
+    <value>Unexpected</value>
+  </data>
+  <data name="ErrorTypes.Unexpected.ShortName" xml:space="preserve">
+    <value>UE</value>
+  </data>
+  <data name="ErrorTypes.Validation.Description" xml:space="preserve">
+    <value>Indicates that the server cannot or will not process the request due to something that is perceived to be a client error.</value>
+  </data>
+  <data name="ErrorTypes.Validation.Name" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="ErrorTypes.Validation.ShortName" xml:space="preserve">
+    <value>VA</value>
+  </data>
   <data name="RoleType.Administrator.Description" xml:space="preserve">
     <value>This is the ultimate god role ... so to say.</value>
   </data>
@@ -252,14 +351,8 @@
   <data name="RoleType.Administrator.ShortName" xml:space="preserve">
     <value>ADM</value>
   </data>
-  <data name="RoleType.User.Name" xml:space="preserve">
-    <value>User</value>
-  </data>
-  <data name="RoleType.User.ShortName" xml:space="preserve">
-    <value>USR</value>
-  </data>
-  <data name="RoleType.User.Description" xml:space="preserve">
-    <value>This is a normal user with normal user rights.</value>
+  <data name="RoleType.SuperUser.Description" xml:space="preserve">
+    <value>The user with extended user rights.</value>
   </data>
   <data name="RoleType.SuperUser.Name" xml:space="preserve">
     <value>Super user</value>
@@ -267,25 +360,13 @@
   <data name="RoleType.SuperUser.ShortName" xml:space="preserve">
     <value>SUSR</value>
   </data>
-  <data name="RoleType.SuperUser.Description" xml:space="preserve">
-    <value>The user with extended user rights.</value>
+  <data name="RoleType.User.Description" xml:space="preserve">
+    <value>This is a normal user with normal user rights.</value>
   </data>
-  <data name="CardType.Credit.Name" xml:space="preserve">
-    <value>Credit card</value>
+  <data name="RoleType.User.Name" xml:space="preserve">
+    <value>User</value>
   </data>
-  <data name="CardType.Debit.Name" xml:space="preserve">
-    <value>Debit card</value>
-  </data>
-  <data name="CardType.Credit.Description" xml:space="preserve">
-    <value>A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder's accrued debt.</value>
-  </data>
-  <data name="CardType.Credit.ShortName" xml:space="preserve">
-    <value>CC</value>
-  </data>
-  <data name="CardType.Debit.ShortName" xml:space="preserve">
-    <value>DC</value>
-  </data>
-  <data name="CardType.Debit.Description" xml:space="preserve">
-    <value>A debit card, also known as a check card or bank card is a payment card that can be used in place of cash to make purchases.</value>
+  <data name="RoleType.User.ShortName" xml:space="preserve">
+    <value>USR</value>
   </data>
 </root>

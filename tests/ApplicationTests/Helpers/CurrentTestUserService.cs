@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Identity;
 
-namespace InfrastructureTests.Helpers;
+namespace ApplicationTests.Helpers;
 
 internal class CurrentTestUserService : ICurrentUserService
 {

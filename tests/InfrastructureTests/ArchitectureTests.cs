@@ -4,12 +4,12 @@ using Infrastructure.Common;
 using System.Reflection;
 using static BaseTests.Constants.TestConstants;
 
-namespace InfrastructureTests.Persistence;
+namespace InfrastructureTests;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 [SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
-public class ApplicationContextTests : InfrastructureBaseTests
+public class ArchitectureTests : InfrastructureBaseTests
 {
 	private readonly Assembly _assembly = typeof(IInfrastructureAssemblyMarker).Assembly;
 
@@ -39,6 +39,29 @@ public class ApplicationContextTests : InfrastructureBaseTests
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
 			assembly: _assembly,
 			expression: x => x.Name.EndsWith("Repository") && x.IsInterface.Equals(false)
+			);
+
+		typeList.Should().NotBeNullOrEmpty();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			typeList.Should().NotBeNullOrEmpty();
+			foreach (Type type in typeList)
+			{
+				TestContext.WriteLine($"Testing: {type.Name}");
+				type.IsSealed.Should().BeTrue();
+				type.IsPublic.Should().BeFalse();
+				type.IsVisible.Should().BeFalse();
+			}
+		});
+	}
+
+	[TestMethod, Owner(Bobo)]
+	public void ServicesShouldNotBePublicAndShouldBeSealedTest()
+	{
+		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
+			assembly: _assembly,
+			expression: x => x.Name.EndsWith("Service") && x.IsInterface.Equals(false)
 			);
 
 		typeList.Should().NotBeNullOrEmpty();

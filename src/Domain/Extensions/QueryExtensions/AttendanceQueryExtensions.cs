@@ -34,8 +34,17 @@ public static class AttendanceQueryExtensions
 	/// <returns><see cref="IQueryable{T}"/></returns>
 	public static IQueryable<Attendance> FilterByDateRange(this IQueryable<Attendance> query, DateTime? minDate, DateTime? maxDate)
 	{
-		query = minDate.HasValue ? query.Where(x => x.CalendarDay.Date >= minDate) : query;
-		query = maxDate.HasValue ? query.Where(x => x.CalendarDay.Date <= maxDate) : query;
+		query = minDate.HasValue ? query.Where(x => x.CalendarDay.Date >= minDate.ToSqlDate()) : query;
+		query = maxDate.HasValue ? query.Where(x => x.CalendarDay.Date <= maxDate.ToSqlDate()) : query;
 		return query;
 	}
+
+	/// <summary>
+	/// Should filter the attendance entities by the end of month.
+	/// </summary>
+	/// <param name="query">The query to filter.</param>
+	/// <param name="endOfMonth">The end of month to be filtered.</param>s
+	/// <returns><see cref="IQueryable{T}"/></returns>
+	public static IQueryable<Attendance> FilterByEndOfMonth(this IQueryable<Attendance> query, DateTime? endOfMonth) =>
+		endOfMonth.HasValue ? query.Where(x => x.CalendarDay.EndOfMonth.Equals(endOfMonth.ToSqlDate())) : query;
 }

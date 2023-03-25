@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Responses;
+using Application.Errors.Base;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
@@ -43,18 +44,15 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
-				expression: x => x.Date.Equals(date.ToSqlDate()),
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
-				);
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository
+				.GetByConditionAsync(x => x.Date.Equals(date.ToSqlDate()), trackChanges, cancellationToken);
 
 			if (calendarDay is null)
 				return CalendarDayServiceErrors.GetByDateNotFound(date);
 
-			CalendarDayResponse result = _mapper.Map<CalendarDayResponse>(calendarDay);
+			CalendarDayResponse response = _mapper.Map<CalendarDayResponse>(calendarDay);
 
-			return result;
+			return response;
 		}
 		catch (Exception ex)
 		{
@@ -67,14 +65,15 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByIdAsync(id, cancellationToken);
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository
+				.GetByIdAsync(id, cancellationToken);
 
 			if (calendarDay is null)
 				return CalendarDayServiceErrors.GetByIdNotFound(id);
 
-			CalendarDayResponse result = _mapper.Map<CalendarDayResponse>(calendarDay);
+			CalendarDayResponse response = _mapper.Map<CalendarDayResponse>(calendarDay);
 
-			return result;
+			return response;
 		}
 		catch (Exception ex)
 		{
@@ -88,7 +87,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		try
 		{
 			IEnumerable<CalendarDay> calendarDays = await _unitOfWork.CalendarDayRepository.GetManyByConditionAsync(
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				orderBy: x => x.OrderBy(x => x.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -100,7 +99,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 				return CalendarDayServiceErrors.GetPagedByParametersNotFound;
 
 			int totalCount = await _unitOfWork.CalendarDayRepository.GetCountAsync(
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken
 				);
 
@@ -112,6 +111,28 @@ internal sealed class CalendarDayService : ICalendarDayService
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
 			return CalendarDayServiceErrors.GetPagedByParametersFailed;
+		}
+	}
+
+	// TODO: Errors
+	public async Task<ErrorOr<CalendarDayResponse>> GetCurrentDate(bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository
+				.GetByConditionAsync(x => x.Date.Equals(DateTime.Today), trackChanges, cancellationToken);
+
+			if (calendarDay is null)
+				return ApiError.CreateNotFound("", "");
+
+			CalendarDayResponse response = _mapper.Map<CalendarDayResponse>(calendarDay);
+
+			return response;
+		}
+		catch(Exception ex)
+		{
+			_logger.Log(logException, ex);
+			return ApiError.CreateFailed("", "");
 		}
 	}
 }

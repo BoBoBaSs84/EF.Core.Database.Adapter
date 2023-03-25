@@ -89,4 +89,23 @@ public sealed class CalendarDayController : ApiControllerBase
 		
 		return Get(result);
 	}
+
+	/// <summary>
+	/// Should return the current calendar day.
+	/// </summary>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <response code="200">If the result is returned.</response>
+	/// <response code="404">If the result is empty.</response>
+	/// <response code="500">If something went wrong.</response>
+	[HttpGet(Endpoints.CalendarDay.GetCurrent)]
+	[ProducesResponseType(typeof(CalendarDayResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public async Task<IActionResult> GetCurrent(CancellationToken cancellationToken)
+	{
+		ErrorOr<CalendarDayResponse> result =
+			await _calendarDayService.GetCurrentDate(false, cancellationToken);
+
+		return Get(result);
+	}
 }

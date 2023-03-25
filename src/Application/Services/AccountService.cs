@@ -1,5 +1,4 @@
 ﻿using Application.Contracts.Responses.Finance;
-using Application.Errors.Base;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
@@ -7,6 +6,8 @@ using Application.Interfaces.Infrastructure.Persistence;
 using AutoMapper;
 using Domain.Entities.Finance;
 using Domain.Errors;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -41,6 +42,15 @@ internal sealed class AccountService : IAccountService
 
 	public async Task<ErrorOr<IEnumerable<AccountResponse>>> GetAll(int userId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
+		// TODO: figure out how this would work...
+		//var qry = Foo.GroupJoin(
+		//					Bar,
+		//					foo => foo.Foo_Id,
+		//					bar => bar.Foo_Id,
+		//					(x, y) => new { Foo = x, Bars = y })
+		//			 .SelectMany(
+		//					 x => x.Bars.DefaultIfEmpty(),
+		//					 (x, y) => new { Foo = x.Foo, Bar = y });
 		try
 		{
 			IEnumerable<Account> accounts = await _unitOfWork.AccountRepository.GetManyByConditionAsync(
@@ -51,6 +61,16 @@ internal sealed class AccountService : IAccountService
 
 			if (!accounts.Any())
 				return AccountServiceErrors.GetAllNotFound;
+
+			IEnumerable<Card> cards = await _unitOfWork.CardRepository.GetManyByConditionAsync(
+				expression: x => x.UserId.Equals(userId),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(Card.CardType) }
+				);
+
+			foreach (Account account in accounts)
+				account.Cards = cards.Where(x => x.AccountId.Equals(account.Id)).ToList();
 
 			IEnumerable<AccountResponse> result = _mapper.Map<IEnumerable<AccountResponse>>(accounts);
 
@@ -69,9 +89,10 @@ internal sealed class AccountService : IAccountService
 		try
 		{
 			Account? account = await _unitOfWork.AccountRepository.GetByConditionAsync(
-				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban,
+				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban && x.Cards.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(Account.Cards) }
 				);
 
 			if (account is null)

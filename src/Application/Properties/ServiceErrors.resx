@@ -231,6 +231,12 @@
   <data name="CalendarDayService.GetById.NotFound" xml:space="preserve">
     <value>No calendar day entry with identifier: '{0}' could be found.</value>
   </data>
+  <data name="CalendarDayService.GetCurrentDate.Failed" xml:space="preserve">
+    <value>An error occurred while loading the current calendar day.</value>
+  </data>
+  <data name="CalendarDayService.GetCurrentDate.NotFound" xml:space="preserve">
+    <value>The current calendar day could not be found.</value>
+  </data>
   <data name="CalendarDayService.GetPagedByParameters.Failed" xml:space="preserve">
     <value>An error occurred while loading the calendar entries based on the parameterization.</value>
   </data>

@@ -403,6 +403,24 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the current calendar day..
+        /// </summary>
+        public static string CalendarDayService_GetCurrentDate_Failed {
+            get {
+                return ResourceManager.GetString("CalendarDayService.GetCurrentDate.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current calendar day could not be found..
+        /// </summary>
+        public static string CalendarDayService_GetCurrentDate_NotFound {
+            get {
+                return ResourceManager.GetString("CalendarDayService.GetCurrentDate.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the calendar entries based on the parameterization..
         /// </summary>
         public static string CalendarDayService_GetPagedByParameters_Failed {

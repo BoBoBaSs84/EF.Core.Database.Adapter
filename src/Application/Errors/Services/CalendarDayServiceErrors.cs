@@ -52,6 +52,22 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
+	/// <see cref="CalendarDayService.GetCurrentDate(bool, CancellationToken)"/> method.
+	/// </summary>
+	public static readonly ApiError GetCurrentDateFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetCurrentDateFailed)}",
+			RESX.CalendarDayService_GetCurrentDate_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="CalendarDayService.GetCurrentDate(bool, CancellationToken)"/> method.
+	/// </summary>
+	public static readonly ApiError GetCurrentDateNotFound =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetCurrentDateNotFound)}",
+			RESX.CalendarDayService_GetCurrentDate_NotFound);
+
+	/// <summary>
+	/// Error that indicates an exception during the
 	/// <see cref="CalendarDayService.GetPagedByParameters(CalendarDayParameters, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersFailed =

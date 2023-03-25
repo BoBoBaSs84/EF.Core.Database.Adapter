@@ -31,4 +31,12 @@ public sealed partial class ApplicationContext
 	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = DbFunction.ENDOFMONTH)]
 	public static DateTime EndOfMonth(DateTime inputDate)
 		=> throw new NotImplementedException();
+
+	/// <summary>
+	/// This function returns a Unicode string with the delimiters added to make the
+	/// input string a valid SQL Server delimited identifier.
+	/// </summary>
+	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = DbFunction.QUOTENAME)]
+	public static string QuotaName(string inputString)
+		=> throw new NotImplementedException();
 }

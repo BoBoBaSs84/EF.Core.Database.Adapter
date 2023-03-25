@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Application.Interfaces.Infrastructure.Repositories.BaseTypes;
+namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 
 /// <summary>
 /// The generic repository interface.

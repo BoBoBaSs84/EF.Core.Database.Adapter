@@ -1,7 +1,6 @@
 ﻿using Application.Contracts.Responses.Identity;
 using Application.Contracts.Requests.Identity;
 using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure.Identity;
 using Domain.Errors;
 using Domain.Results;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +9,7 @@ using Presentation.Attributes;
 using Presentation.Common;
 using Presentation.Controllers.Base;
 using Roles = Domain.Enumerators.RoleTypes;
+using Application.Interfaces.Infrastructure.Services;
 
 namespace Presentation.Controllers;
 

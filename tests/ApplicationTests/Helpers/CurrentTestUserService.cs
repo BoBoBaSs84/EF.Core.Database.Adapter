@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Infrastructure.Identity;
+﻿using Application.Interfaces.Infrastructure.Services;
 
 namespace ApplicationTests.Helpers;
 

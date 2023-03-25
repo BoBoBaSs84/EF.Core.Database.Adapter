@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Identity;
+﻿using Application.Interfaces.Infrastructure.Persistence;
+using Domain.Entities.Identity;
 using Infrastructure.Common;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,9 +14,9 @@ namespace Infrastructure.Persistence;
 /// <remarks>
 /// Derives from the <see cref="IdentityDbContext{TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken}"/> class.
 /// </remarks>
-public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
+public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IApplicationContext
 {
-	private readonly CustomSaveChangesInterceptor _changesInterceptor;
+	private readonly CustomSaveChangesInterceptor _changesInterceptor = default!;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
@@ -38,18 +39,4 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	/// <inheritdoc/>
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
 		optionsBuilder.AddInterceptors(_changesInterceptor);
-
-	/// <inheritdoc/>
-	public override int SaveChanges()
-	{
-		// TODO: other events?
-		return base.SaveChanges();
-	}
-
-	/// <inheritdoc/>
-	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-	{
-		// TODO: other events?
-		return await base.SaveChangesAsync(cancellationToken);
-	}
 }

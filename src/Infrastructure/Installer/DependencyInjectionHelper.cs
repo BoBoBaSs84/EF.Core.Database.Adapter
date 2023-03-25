@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure;
-using Application.Interfaces.Infrastructure.Identity;
 using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Services;
 using Domain.Constants;
 using Domain.Entities.Identity;
 using Infrastructure.Common;

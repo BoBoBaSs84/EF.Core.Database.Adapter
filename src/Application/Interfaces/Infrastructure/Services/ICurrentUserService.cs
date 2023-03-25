@@ -1,4 +1,4 @@
-﻿namespace Application.Interfaces.Infrastructure.Identity;
+﻿namespace Application.Interfaces.Infrastructure.Services;
 
 /// <summary>
 /// The current user service interface.

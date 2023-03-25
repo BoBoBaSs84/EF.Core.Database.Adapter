@@ -6,7 +6,7 @@ using static BaseTests.Helpers.RandomHelper;
 using static Domain.Constants.DomainConstants;
 using static Domain.Constants.DomainConstants.Sql;
 
-namespace InfrastructureTests.Helpers;
+namespace ApplicationTests.Helpers;
 
 public static class EntityHelper
 {
@@ -19,7 +19,7 @@ public static class EntityHelper
 			CalendarDay calendarDay = new()
 			{
 				Date = startDate,
-				DayTypeId = (startDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? 2 : 1
+				DayTypeId = startDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday ? 2 : 1
 			};
 			calendarDays.Add(calendarDay);
 			startDate = startDate.AddDays(1);

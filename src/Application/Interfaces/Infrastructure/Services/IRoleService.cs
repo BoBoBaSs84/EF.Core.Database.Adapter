@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace Application.Interfaces.Infrastructure.Identity;
+namespace Application.Interfaces.Infrastructure.Services;
 
 /// <summary>
 /// The role service interface.

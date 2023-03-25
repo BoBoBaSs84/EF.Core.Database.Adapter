@@ -1,8 +1,8 @@
 ﻿using Application.Contracts.Responses.Enumerator;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Infrastructure.Persistence;
 using AutoMapper;
 using Domain.Entities.Enumerator;
 using Domain.Errors;

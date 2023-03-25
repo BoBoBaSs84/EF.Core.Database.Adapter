@@ -1,7 +1,7 @@
-﻿using Application.Interfaces.Infrastructure.Repositories.BaseTypes;
+﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 using Domain.Entities.Private;
 
-namespace Application.Interfaces.Infrastructure.Repositories;
+namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 
 /// <summary>
 /// The attendance repository interface.

@@ -2,8 +2,8 @@
 using Application.Errors.Base;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Infrastructure.Persistence;
 using AutoMapper;
 using Domain.Entities.Finance;
 using Domain.Errors;

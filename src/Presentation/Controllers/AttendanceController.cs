@@ -3,7 +3,7 @@ using Application.Contracts.Responses;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure.Identity;
+using Application.Interfaces.Infrastructure.Services;
 using Domain.Errors;
 using Domain.Results;
 using Microsoft.AspNetCore.Authorization;

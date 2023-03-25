@@ -42,6 +42,7 @@ internal static class Endpoints
 		internal const string GetByDate = "{date}";
 		internal const string GetById = "{id:int}";
 		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string GetCurrent = "Current";
 	}
 
 	/// <summary>

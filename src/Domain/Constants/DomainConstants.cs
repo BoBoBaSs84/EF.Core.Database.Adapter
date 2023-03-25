@@ -51,6 +51,10 @@ public static class DomainConstants
 			/// The translate function.
 			/// </summary>
 			public const string TRANSLATE = "TRANSLATE";
+			/// <summary>
+			/// The quote functions.
+			/// </summary>
+			public const string QUOTENAME = "QUOTENAME";
 		}
 
 		/// <summary>

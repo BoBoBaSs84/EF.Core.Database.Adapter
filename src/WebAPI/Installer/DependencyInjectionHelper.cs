@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Infrastructure.Identity;
+﻿using Application.Interfaces.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebAPI.Extensions;
 using WebAPI.Services;

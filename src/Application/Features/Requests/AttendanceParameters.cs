@@ -12,26 +12,32 @@ namespace Application.Features.Requests;
 public sealed class AttendanceParameters : RequestParameters
 {
 	/// <summary>
-	/// The year to be filtered.
+	/// Filter option by the year.
 	/// </summary>
 	[Range(1900, 2100)]
 	public int? Year { get; set; }
 
 	/// <summary>
-	/// The month to be filtered.
+	/// Filter option by the month.
 	/// </summary>
 	[Range(1, 12)]
 	public int? Month { get; set; }
 
 	/// <summary>
-	/// The minimum date to be filtered.
+	/// Filter option by the minimum date.
 	/// </summary>	
 	[DataType(DataType.Date)]
 	public DateTime? MinDate { get; set; }
 
 	/// <summary>
-	/// The maximum date to be filtered.
+	/// Filter option by the maximum date.
 	/// </summary>
 	[DataType(DataType.Date)]
 	public DateTime? MaxDate { get; set; }
+
+	/// <summary>
+	/// Filter option by the end of month.
+	/// </summary>
+	[DataType(DataType.Date)]
+	public DateTime? EndOfMonth { get; set; }
 }

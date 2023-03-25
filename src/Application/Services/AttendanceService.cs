@@ -4,8 +4,8 @@ using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure;
 using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Infrastructure.Persistence;
 using AutoMapper;
 using Domain.Entities.Private;
 using Domain.Errors;
@@ -139,7 +139,7 @@ internal sealed class AttendanceService : IAttendanceService
 		{
 			IEnumerable<Attendance> attendances = await _unitOfWork.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -153,7 +153,7 @@ internal sealed class AttendanceService : IAttendanceService
 
 			int totalCount = await _unitOfWork.AttendanceRepository.GetCountAsync(
 				expression: x => x.UserId.Equals(userId),
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken);
 
 			IEnumerable <AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);

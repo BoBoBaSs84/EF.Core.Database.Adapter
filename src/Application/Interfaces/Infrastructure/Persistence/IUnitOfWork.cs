@@ -1,6 +1,6 @@
-﻿using Application.Interfaces.Infrastructure.Repositories;
+﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
 
-namespace Application.Interfaces.Infrastructure;
+namespace Application.Interfaces.Infrastructure.Persistence;
 
 /// <summary>
 /// The "Unit of Work" interface.

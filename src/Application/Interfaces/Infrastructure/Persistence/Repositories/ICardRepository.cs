@@ -1,7 +1,7 @@
-﻿using Application.Interfaces.Infrastructure.Repositories.BaseTypes;
+﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 using Domain.Entities.Finance;
 
-namespace Application.Interfaces.Infrastructure.Repositories;
+namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 
 /// <summary>
 /// The card repository interface.

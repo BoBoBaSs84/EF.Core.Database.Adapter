@@ -1,6 +1,6 @@
 ﻿using Domain.Common.EntityBaseTypes;
 
-namespace Application.Interfaces.Infrastructure.Repositories.BaseTypes;
+namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 
 /// <summary>
 /// The identity repository interface.

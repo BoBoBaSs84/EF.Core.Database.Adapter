@@ -8,8 +8,14 @@ namespace Application.Contracts.Responses.Identity;
 public sealed class AuthenticationResponse
 {
 	/// <summary>
-	/// The <see cref="Token"/> property.
+	/// The token property.
 	/// </summary>
 	[DataType(DataType.Text)]
 	public string Token { get; set; } = default!;
+
+	/// <summary>
+	/// The expiry date property.
+	/// </summary>
+	[DataType(DataType.DateTime)]
+	public DateTime ExpiryDate { get; set; } = default!;
 }

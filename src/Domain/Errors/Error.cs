@@ -1,5 +1,4 @@
 ﻿using Domain.Enumerators;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Errors;
 

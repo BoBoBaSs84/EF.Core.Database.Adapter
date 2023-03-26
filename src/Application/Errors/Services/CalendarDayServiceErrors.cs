@@ -2,7 +2,6 @@
 using Application.Features.Requests;
 using Application.Services;
 using Domain.Extensions;
-using System.Globalization;
 using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
@@ -15,7 +14,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CalendarDayServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = Domain.Statics.CurrentCulture;
+	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(CalendarDayServiceErrors)}";
 
 	/// <summary>
@@ -49,6 +48,22 @@ public static class CalendarDayServiceErrors
 	public static ApiError GetByIdNotFound(int id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
 			RESX.CardTypeService_GetByName_NotFound.Format(CurrentCulture, id));
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="CalendarDayService.GetCurrentDate(bool, CancellationToken)"/> method.
+	/// </summary>
+	public static readonly ApiError GetCurrentDateFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetCurrentDateFailed)}",
+			RESX.CalendarDayService_GetCurrentDate_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="CalendarDayService.GetCurrentDate(bool, CancellationToken)"/> method.
+	/// </summary>
+	public static readonly ApiError GetCurrentDateNotFound =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetCurrentDateNotFound)}",
+			RESX.CalendarDayService_GetCurrentDate_NotFound);
 
 	/// <summary>
 	/// Error that indicates an exception during the

@@ -22,7 +22,7 @@ public static class StringExtension
 	/// <param name="parameters">The parameters to set for the placeholders.</param>
 	/// <returns>Formated string.</returns>
 	public static string FormatInvariant(this string stringValue, params object[] parameters) =>
-		string.Format(InvariantCulture, stringValue, parameters);
+		string.Format(CultureInfo.InvariantCulture, stringValue, parameters);
 
 	/// <summary>
 	/// Formats the string with <paramref name="parameters"/> an current culture.

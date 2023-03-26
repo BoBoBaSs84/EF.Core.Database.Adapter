@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Common;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using HHC = Presentation.Constants.PresentationConstants.HttpHeaders;
 
 namespace Presentation.Installer;
@@ -31,8 +33,13 @@ public static class DependencyInjectionHelper
 	/// <returns>The enriched service collection.</returns>
 	private static IServiceCollection ConfigureApiControllers(this IServiceCollection services)
 	{
-		services.AddControllers()
-			.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly);
+		services.AddControllers()			
+			.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly)
+			.AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+				options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+			});
 
 		return services;
 	}

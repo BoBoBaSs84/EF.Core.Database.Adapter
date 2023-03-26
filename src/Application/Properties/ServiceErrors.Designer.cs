@@ -61,6 +61,60 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No bank account with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string AccountService_AccountId_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.AccountId.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The account with the number: &apos;{0}&apos; already exists..
+        /// </summary>
+        public static string AccountService_AccountNumber_Conflict {
+            get {
+                return ResourceManager.GetString("AccountService.AccountNumber.Conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank account with the number: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string AccountService_AccountNumber_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.AccountNumber.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No card with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string AccountService_CardId_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.CardId.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The card with the number: &apos;{0}&apos; already exists..
+        /// </summary>
+        public static string AccountService_CardNumber_Conflict {
+            get {
+                return ResourceManager.GetString("AccountService.CardNumber.Conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An internal error occurred while creating the account..
+        /// </summary>
+        public static string AccountService_Create_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.Create.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the bank accounts..
         /// </summary>
         public static string AccountService_GetAll_Failed {
@@ -88,11 +142,11 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No bank account with the number: &apos;{0}&apos; could be found to load..
+        ///   Looks up a localized string similar to An internal error occurred while updating the account..
         /// </summary>
-        public static string AccountService_GetByNumber_NotFound {
+        public static string AccountService_Update_Failed {
             get {
-                return ResourceManager.GetString("AccountService.GetByNumber.NotFound", resourceCulture);
+                return ResourceManager.GetString("AccountService.Update.Failed", resourceCulture);
             }
         }
         
@@ -399,6 +453,24 @@ namespace Application.Properties {
         public static string CalendarDayService_GetById_NotFound {
             get {
                 return ResourceManager.GetString("CalendarDayService.GetById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the current calendar day..
+        /// </summary>
+        public static string CalendarDayService_GetCurrentDate_Failed {
+            get {
+                return ResourceManager.GetString("CalendarDayService.GetCurrentDate.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current calendar day could not be found..
+        /// </summary>
+        public static string CalendarDayService_GetCurrentDate_NotFound {
+            get {
+                return ResourceManager.GetString("CalendarDayService.GetCurrentDate.NotFound", resourceCulture);
             }
         }
         

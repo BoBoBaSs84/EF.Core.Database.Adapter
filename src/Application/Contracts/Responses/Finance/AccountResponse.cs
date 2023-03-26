@@ -19,4 +19,9 @@ public sealed class AccountResponse : ResponseModel
 	/// The account provider.
 	/// </summary>
 	public string Provider { get; set; } = default!;
+
+	/// <summary>
+	/// The cards belonging to this account.
+	/// </summary>
+	public IEnumerable<CardResponse> Cards { get; set; } = new HashSet<CardResponse>();
 }

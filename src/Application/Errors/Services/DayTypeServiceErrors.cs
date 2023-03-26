@@ -1,8 +1,6 @@
 ﻿using Application.Errors.Base;
-using Application.Features.Requests;
 using Application.Services;
 using Domain.Extensions;
-using System.Globalization;
 using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
@@ -15,7 +13,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 internal static class DayTypeServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = Domain.Statics.CurrentCulture;
+	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(DayTypeServiceErrors)}";
 
 	/// <summary>

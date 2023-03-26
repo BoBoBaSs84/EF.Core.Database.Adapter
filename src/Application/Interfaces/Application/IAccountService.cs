@@ -1,5 +1,7 @@
-﻿using Application.Contracts.Responses.Finance;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Contracts.Responses.Finance;
 using Domain.Errors;
+using Domain.Results;
 
 namespace Application.Interfaces.Application;
 
@@ -8,6 +10,15 @@ namespace Application.Interfaces.Application;
 /// </summary>
 public interface IAccountService
 {
+	/// <summary>
+	/// Should create an account for the given <paramref name="userId"/>.
+	/// </summary>
+	/// <param name="userId">the user identifier.</param>
+	/// <param name="createRequest">The account create request.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Created>> Create(int userId, AccountCreateRequest createRequest, CancellationToken cancellationToken = default);
+
 	/// <summary>
 	/// Should get a account entity by the international bank account number.
 	/// </summary>

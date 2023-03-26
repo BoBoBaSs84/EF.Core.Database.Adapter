@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Domain.Converters.JsonConverters;
 
 /// <summary>
-/// The time span json converter class.
+/// The <see cref="TimeSpan"/> json converter class.
 /// </summary>
 /// <remarks>
 /// Derives from the <see cref="JsonConverter{T}"/> class.
@@ -15,7 +15,7 @@ public sealed class TimeSpanJsonConverter : JsonConverter<TimeSpan?>
 	public override TimeSpan? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
 		string? value = reader.GetString();
-		return string.IsNullOrWhiteSpace(value) ? null : TimeSpan.Parse(value, Domain.Statics.CurrentCulture);
+		return string.IsNullOrWhiteSpace(value) ? null : TimeSpan.Parse(value, CultureInfo.CurrentCulture);
 	}
 
 	/// <inheritdoc/>

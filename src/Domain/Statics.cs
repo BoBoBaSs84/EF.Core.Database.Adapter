@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 
 namespace Domain;
 
@@ -9,17 +9,17 @@ namespace Domain;
 public static class Statics
 {
 	/// <summary>
-	/// The <see cref="CurrentCulture"/> property.
+	/// The <see cref="CreditCardRegex"/> property.
 	/// </summary>
-	public static CultureInfo CurrentCulture { get; } = CultureInfo.CurrentCulture;
+	public static Regex CreditCardRegex { get; } = new(RegexPatterns.CC);
 
 	/// <summary>
-	/// The <see cref="InvariantCulture"/> property.
+	/// The <see cref="IbanRegex"/> property.
 	/// </summary>
-	public static CultureInfo InvariantCulture { get; } = CultureInfo.InvariantCulture;
+	public static Regex IbanRegex { get; } = new(RegexPatterns.IBAN);
 
 	/// <summary>
 	/// The <see cref="WhitespaceRegex"/> property.
 	/// </summary>
-	public static Regex WhitespaceRegex { get; } = new(@"\s+");
+	public static Regex WhitespaceRegex { get; } = new(RegexPatterns.Whitespace);
 }

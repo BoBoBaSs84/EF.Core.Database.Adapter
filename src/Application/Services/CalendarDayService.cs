@@ -114,7 +114,6 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 	}
 
-	// TODO: Errors
 	public async Task<ErrorOr<CalendarDayResponse>> GetCurrentDate(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
@@ -123,7 +122,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 				.GetByConditionAsync(x => x.Date.Equals(DateTime.Today), trackChanges, cancellationToken);
 
 			if (calendarDay is null)
-				return ApiError.CreateNotFound("", "");
+				return CalendarDayServiceErrors.GetCurrentDateNotFound;
 
 			CalendarDayResponse response = _mapper.Map<CalendarDayResponse>(calendarDay);
 
@@ -132,7 +131,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		catch(Exception ex)
 		{
 			_logger.Log(logException, ex);
-			return ApiError.CreateFailed("", "");
+			return CalendarDayServiceErrors.GetCurrentDateFailed;
 		}
 	}
 }

@@ -106,6 +106,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No card type with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string AccountService_CardTypeId_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.CardTypeId.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An internal error occurred while creating the account..
         /// </summary>
         public static string AccountService_Create_Failed {

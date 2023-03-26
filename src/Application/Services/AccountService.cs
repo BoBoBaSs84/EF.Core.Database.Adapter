@@ -6,6 +6,7 @@ using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
+using Domain.Entities.Enumerator;
 using Domain.Entities.Finance;
 using Domain.Entities.Identity;
 using Domain.Errors;
@@ -164,5 +165,68 @@ internal sealed class AccountService : IAccountService
 			_logger.Log(logExceptionWithParams, parameters, ex);
 			return AccountServiceErrors.GetByNumberFailed(iban);
 		}
+	}
+
+	public async Task<ErrorOr<Updated>> Update(int userId, AccountUpdateRequest updateRequest, CancellationToken cancellationToken = default)
+	{
+		ErrorOr<Updated> response = new();
+		try
+		{
+			Account? dbAccount = await _unitOfWork.AccountRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(updateRequest.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
+				trackChanges: true,
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(Account.Cards) }
+				);
+
+			if (dbAccount is null)
+				response.Errors.Add(AccountServiceErrors.UpdateAccountNotFound(updateRequest.Id));
+
+			if (updateRequest.Cards is not null)
+				foreach (CardUpdateRequest card in updateRequest.Cards)
+				{
+					Card? dbCard = await _unitOfWork.CardRepository.GetByConditionAsync(
+						expression: x => x.Id.Equals(card.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(updateRequest.Id),
+						trackChanges: false,
+						cancellationToken: cancellationToken
+						);
+
+					if (dbCard is null)
+						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(card.Id));
+
+					CardType? dbCardType = await _unitOfWork.CardTypeRepository
+						.GetByConditionAsync(x => x.Id.Equals(card.CardTypeId), false, cancellationToken);
+
+					if (dbCardType is null)
+						response.Errors.Add(AccountServiceErrors.UpdateCardTypeNotFound(card.CardTypeId));
+				}
+
+			if (response.IsError)
+				return response;
+
+			if (dbAccount is not null)
+				UpdateAccount(dbAccount, updateRequest);
+
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return response;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, updateRequest, ex);
+			return AccountServiceErrors.UpdateAccountFailed;
+		}
+	}
+
+	private static void UpdateAccount(Account account, AccountUpdateRequest updateRequest)
+	{
+		account.Provider = updateRequest.Provider;
+
+		if (account.Cards.Any() && updateRequest.Cards is not null && updateRequest.Cards.Any())
+			foreach (Card card in account.Cards)
+			{
+				card.CardTypeId = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.CardTypeId).First();
+				card.ValidUntil = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.ValidUntil).First();
+			}
 	}
 }

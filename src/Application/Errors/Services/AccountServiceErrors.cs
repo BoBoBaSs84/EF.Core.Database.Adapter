@@ -1,5 +1,6 @@
 ﻿using Application.Errors.Base;
 using Application.Services;
+using Domain.Entities.Finance;
 using Domain.Extensions;
 using RESX = Application.Properties.ServiceErrors;
 
@@ -72,6 +73,42 @@ public static class AccountServiceErrors
 	/// method.
 	/// </summary>
 	public static readonly ApiError CreateAccountFailed =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{CreateAccountFailed}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{CreateAccountFailed}",
 			RESX.AccountService_Create_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// method.
+	/// </summary>
+	public static ApiError UpdateAccountNotFound(int accountId) =>
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateAccountNotFound}",
+			RESX.AccountService_AccountId_NotFound.Format(CultureInfo.CurrentCulture, accountId));
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// method.
+	/// </summary>
+	public static ApiError UpdateCardNotFound(int cardId) =>
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardNotFound}",
+			RESX.AccountService_CardId_NotFound.Format(CultureInfo.CurrentCulture, cardId));
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// method.
+	/// </summary>
+	public static ApiError UpdateCardTypeNotFound(int cardTypeId) =>
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardTypeNotFound}",
+			RESX.AccountService_CardTypeId_NotFound.Format(CultureInfo.CurrentCulture, cardTypeId));
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// method.
+	/// </summary>
+	public static readonly ApiError UpdateAccountFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{UpdateAccountFailed}",
+			RESX.AccountService_Update_Failed);
 }

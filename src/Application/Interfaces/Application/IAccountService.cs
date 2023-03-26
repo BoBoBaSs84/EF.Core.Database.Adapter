@@ -37,4 +37,13 @@ public interface IAccountService
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A collection of account entities.</returns>
 	Task<ErrorOr<IEnumerable<AccountResponse>>> GetAll(int userId, bool trackChanges = false, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Should update an account for the given <paramref name="userId"/>.
+	/// </summary>
+	/// <param name="userId">the user identifier.</param>
+	/// <param name="updateRequest">The account update request.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Updated>> Update(int userId, AccountUpdateRequest updateRequest, CancellationToken cancellationToken = default);
 }

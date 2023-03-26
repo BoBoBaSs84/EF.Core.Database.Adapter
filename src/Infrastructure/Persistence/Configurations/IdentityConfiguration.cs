@@ -22,43 +22,43 @@ internal static class IdentityConfiguration
 				.WithOne(e => e.User)
 				.HasForeignKey(ucl => ucl.UserId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.Logins)
 				.WithOne(e => e.User)
 				.HasForeignKey(ulo => ulo.UserId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.Tokens)
 				.WithOne(e => e.User)
 				.HasForeignKey(uto => uto.UserId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.User)
 				.HasForeignKey(uro => uro.UserId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.Attendances)
 				.WithOne(e => e.User)
 				.HasForeignKey(uat => uat.UserId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.User)
 				.HasForeignKey(eca => eca.UserId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.AccountUsers)
 				.WithOne(e => e.User)
 				.HasForeignKey(e => e.UserId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 		}
 	}
 
@@ -72,12 +72,12 @@ internal static class IdentityConfiguration
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.Role)
 				.HasForeignKey(ur => ur.RoleId)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.RoleClaims)
 				.WithOne(e => e.Role)
 				.HasForeignKey(rc => rc.RoleId)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasData(GetRoleTypes());
 		}

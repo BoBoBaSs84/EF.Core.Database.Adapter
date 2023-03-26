@@ -90,7 +90,7 @@ internal sealed class CardTypeService : ICardTypeService
 			IEnumerable<CardType> cardTypes = await _unitOfWork.CardTypeRepository.GetAllAsync(trackChanges, cancellationToken);
 
 			if (!cardTypes.Any())
-				return CardTypeServiceErrors.GetPagedByParametersNotFound;
+				return CardTypeServiceErrors.GetAllNotFound;
 
 			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
 
@@ -99,7 +99,7 @@ internal sealed class CardTypeService : ICardTypeService
 		catch (Exception ex)
 		{
 			_logger.Log(logException, ex);
-			return CardTypeServiceErrors.GetPagedByParametersFailed;
+			return CardTypeServiceErrors.GetAllFailed;
 		}
 	}
 }

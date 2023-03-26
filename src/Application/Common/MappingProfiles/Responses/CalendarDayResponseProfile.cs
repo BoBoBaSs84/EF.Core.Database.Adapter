@@ -9,6 +9,7 @@ internal sealed class CalendarResponseProfile : Profile
 {
 	public CalendarResponseProfile()
 	{
-		CreateMap<CalendarDay, CalendarDayResponse>();
+		CreateMap<CalendarDay, CalendarDayResponse>()
+			.ForMember(dst => dst.DayType, opt => opt.MapFrom(src => src.DayType.Name));
 	}
 }

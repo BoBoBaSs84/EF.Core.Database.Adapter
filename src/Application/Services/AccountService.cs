@@ -51,7 +51,11 @@ internal sealed class AccountService : IAccountService
 		ErrorOr<Created> response = new();
 		try
 		{
-			Account? dbAccount = await _unitOfWork.AccountRepository.GetByConditionAsync(x => x.IBAN == createRequest.IBAN, false, cancellationToken);
+			Account? dbAccount = await _unitOfWork.AccountRepository.GetByConditionAsync(
+				expression: x => x.IBAN == createRequest.IBAN,
+				trackChanges: false,
+				cancellationToken: cancellationToken
+				);
 
 			if (dbAccount is not null)
 				response.Errors.Add(AccountServiceErrors.CreateAccountNumberConflict(dbAccount.IBAN));
@@ -59,7 +63,11 @@ internal sealed class AccountService : IAccountService
 			if (createRequest.Cards is not null)
 				foreach (CardCreateRequest card in createRequest.Cards)
 				{
-					Card? dbCard = await _unitOfWork.CardRepository.GetByConditionAsync(x => x.PAN == card.PAN, false, cancellationToken);
+					Card? dbCard = await _unitOfWork.CardRepository.GetByConditionAsync(
+						expression: x => x.PAN == card.PAN,
+						trackChanges: false,
+						cancellationToken: cancellationToken
+						);
 
 					if (dbCard is not null)
 						response.Errors.Add(AccountServiceErrors.CreateCardNumberConflict(dbCard.PAN));
@@ -246,8 +254,11 @@ internal sealed class AccountService : IAccountService
 					if (dbCard is null)
 						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(card.Id));
 
-					CardType? dbCardType = await _unitOfWork.CardTypeRepository
-						.GetByConditionAsync(x => x.Id.Equals(card.CardTypeId), false, cancellationToken);
+					CardType? dbCardType = await _unitOfWork.CardTypeRepository.GetByConditionAsync(
+						expression: x => x.Id.Equals(card.CardTypeId),
+						trackChanges: false,
+						cancellationToken: cancellationToken
+						);
 
 					if (dbCardType is null)
 						response.Errors.Add(AccountServiceErrors.UpdateCardTypeNotFound(card.CardTypeId));

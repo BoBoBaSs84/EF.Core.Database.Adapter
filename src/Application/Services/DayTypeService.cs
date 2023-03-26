@@ -92,7 +92,7 @@ internal sealed class DayTypeService : IDayTypeService
 			IEnumerable<DayType> dayTypes = await _unitOfWork.DayTypeRepository.GetAllAsync(trackChanges, cancellationToken);
 
 			if (!dayTypes.Any())
-				return DayTypeServiceErrors.GetPagedByParametersNotFound;
+				return DayTypeServiceErrors.GetAllNotFound;
 
 			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
 
@@ -101,7 +101,7 @@ internal sealed class DayTypeService : IDayTypeService
 		catch (Exception ex)
 		{
 			_logger.Log(logException, ex);
-			return DayTypeServiceErrors.GetPagedByParametersFailed;
+			return DayTypeServiceErrors.GetAllFailed;
 		}
 	}
 }

@@ -15,32 +15,35 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Account> builder)
 		{
+			builder.ToSytemVersionedTable(nameof(Account), SqlSchema.FINANCE);
+
 			builder.Property(e => e.IBAN)
 				.IsUnicode(false);
 
-			builder.HasIndex(e => e.IBAN)
+			builder.HasIndex(e => new { e.IBAN, e.IsDeleted })
 				.IsClustered(false)
-				.IsUnique(true);
+				.IsUnique(true)
+				.HasFilter($"[{nameof(Account.IsDeleted)}]<>(1)");
 
 			builder.HasMany(e => e.AccountUsers)
 				.WithOne(e => e.Account)
 				.HasForeignKey(e => e.AccountId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.AccountTransactions)
 				.WithOne(e => e.Account)
 				.HasForeignKey(e => e.AccountId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.Account)
 				.HasForeignKey(e => e.AccountId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
-			Configure(builder, SqlSchema.FINANCE);
+			base.Configure(builder);
 		}
 	}
 
@@ -73,20 +76,23 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Card> builder)
 		{
+			builder.ToSytemVersionedTable(nameof(Card), SqlSchema.FINANCE);
+
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);
 
-			builder.HasIndex(e => e.PAN)
+			builder.HasIndex(e => new { e.PAN, e.IsDeleted })
 				.IsClustered(false)
-				.IsUnique(true);
+				.IsUnique(true)
+				.HasFilter($"[{nameof(Card.IsDeleted)}]<>(1)");
 
 			builder.HasMany(e => e.CardTransactions)
 				.WithOne(e => e.Card)
 				.HasForeignKey(e => e.CardId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
-			Configure(builder, SqlSchema.FINANCE);
+			base.Configure(builder);
 		}
 	}
 
@@ -107,6 +113,8 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Transaction> builder)
 		{
+			builder.ToSytemVersionedTable(nameof(Transaction), SqlSchema.FINANCE);
+
 			builder.Property(e => e.AccountNumber)
 				.IsUnicode(false);
 
@@ -117,15 +125,15 @@ internal static class FinanceConfiguration
 				.WithOne(e => e.Transaction)
 				.HasForeignKey(e => e.TransactionId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.CardTransactions)
 				.WithOne(e => e.Transaction)
 				.HasForeignKey(e => e.TransactionId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
-			base.Configure(builder, SqlSchema.FINANCE);
+			base.Configure(builder);
 		}
 	}
 }

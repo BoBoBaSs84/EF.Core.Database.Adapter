@@ -139,7 +139,7 @@ internal sealed class AttendanceService : IAttendanceService
 		{
 			IEnumerable<Attendance> attendances = await _unitOfWork.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,

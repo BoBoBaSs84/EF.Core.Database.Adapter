@@ -16,7 +16,7 @@ public sealed class CardUpdateRequest
 	/// <summary>
 	/// The card type identifier.
 	/// </summary>
-	[Required, Range(0, int.MaxValue)]
+	[Required, Range(1, int.MaxValue)]
 	public int CardTypeId { get; set; } = default!;
 
 	/// <summary>

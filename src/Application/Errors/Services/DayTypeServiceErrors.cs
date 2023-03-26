@@ -50,17 +50,17 @@ internal static class DayTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetPagedByParameters(DayTypeParameters, bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.GetAll(bool, CancellationToken)"/> method.
 	/// </summary>
-	public static readonly ApiError GetPagedByParametersFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
-			RESX.DayTypeService_GetPagedByParameters_Failed);
+	public static readonly ApiError GetAllFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAllFailed)}",
+			RESX.DayTypeService_GetAll_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetPagedByParameters(DayTypeParameters, bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.GetAll(bool, CancellationToken)"/> method.
 	/// </summary>
-	public static readonly ApiError GetPagedByParametersNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetPagedByParametersNotFound)}",
-			RESX.DayTypeService_GetPagedByParameters_NotFound);
+	public static readonly ApiError GetAllNotFound =
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetAllNotFound)}",
+			RESX.DayTypeService_GetAll_NotFound);
 }

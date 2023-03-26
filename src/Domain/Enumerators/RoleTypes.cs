@@ -15,7 +15,7 @@ public enum RoleTypes
 		Name = nameof(RESX.RoleType_Administrator_Name),
 		ShortName = nameof(RESX.RoleType_Administrator_ShortName),
 		Description = nameof(RESX.RoleType_Administrator_Description))]
-	ADMINISTRATOR,
+	ADMINISTRATOR = 1,
 	/// <summary>
 	/// The <see cref="USER"/> role type.
 	/// </summary>

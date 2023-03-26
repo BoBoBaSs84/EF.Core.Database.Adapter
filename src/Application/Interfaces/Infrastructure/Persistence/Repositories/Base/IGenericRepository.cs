@@ -42,7 +42,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// Should find a collection of <typeparamref name="TEntity"/> entities based on the specified criteria.
 	/// </summary>
 	/// <param name="expression">The condition the entities must fulfill to be returned.</param>
-	/// <param name="filterBy">The function used to filter the entities.</param>
+	/// <param name="queryFilter">The function used to filter the entities.</param>
 	/// <param name="orderBy">The function used to order the entities.</param>
 	/// <param name="take">The number of records to limit the results to.</param>
 	/// <param name="skip">The number of records to skip.</param>
@@ -52,7 +52,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <returns>A collection of entities.</returns>
 	Task<IEnumerable<TEntity>> GetManyByConditionAsync(
 		Expression<Func<TEntity, bool>>? expression = null,
-		Func<IQueryable<TEntity>, IQueryable<TEntity>>? filterBy = null,
+		Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFilter = null,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		int? take = null,
 		int? skip = null,
@@ -80,12 +80,14 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// Should find an entry of an <typeparamref name="TEntity"/> entity by a certain condition.
 	/// </summary>
 	/// <param name="expression">The search condition.</param>
-	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="queryFilter">The function used to filter the entities.</param>
+	/// <param name="trackChanges">Should the fetched entity be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <param name="includeProperties">Any other navigation properties to include when returning the entity.</param>
 	/// <returns>One entry of an entity.</returns>
 	Task<TEntity?> GetByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
+		Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFilter = null,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default,
 		params string[] includeProperties

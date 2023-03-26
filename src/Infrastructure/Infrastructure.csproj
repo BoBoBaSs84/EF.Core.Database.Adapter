@@ -24,8 +24,4 @@
 		<Using Include="System.Globalization" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Persistence\Maps\" />
-	</ItemGroup>
-
 </Project>

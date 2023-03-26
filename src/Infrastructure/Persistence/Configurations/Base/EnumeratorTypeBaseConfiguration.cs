@@ -1,7 +1,6 @@
 ﻿using Domain.Common.EntityBaseTypes.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations.Base;
 
@@ -12,10 +11,10 @@ namespace Infrastructure.Persistence.Configurations.Base;
 /// Must implement the <see cref="IEnumerator"/> interface.
 /// </typeparam>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, entity type configuration.")]
-internal abstract class EnumeratorTypeBaseConfiguration<TEntity> : EntityTypeBaseConfiguration<TEntity> where TEntity : class, IEnumerator
+internal abstract class EnumeratorTypeBaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : class, IEnumerator
 {
 	/// <inheritdoc/>
-	public override void Configure(EntityTypeBuilder<TEntity> builder)
+	public virtual void Configure(EntityTypeBuilder<TEntity> builder)
 	{
 		builder.HasKey(e => e.Id)
 			.IsClustered(true);
@@ -25,7 +24,5 @@ internal abstract class EnumeratorTypeBaseConfiguration<TEntity> : EntityTypeBas
 			.IsUnique(true);
 
 		builder.HasQueryFilter(x => x.IsActive.Equals(true));
-
-		Configure(builder, SqlSchema.ENUMERATOR);
 	}
 }

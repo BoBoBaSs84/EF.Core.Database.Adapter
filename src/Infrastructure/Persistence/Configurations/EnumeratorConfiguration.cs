@@ -1,10 +1,12 @@
 ﻿using Domain.Entities.Enumerator;
 using Domain.Extensions;
+using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ECT = Domain.Enumerators.CardTypes;
 using EDT = Domain.Enumerators.DayTypes;
+using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -16,11 +18,13 @@ internal static class EnumeratorConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<CardType> builder)
 		{
+			builder.ToSytemVersionedTable(nameof(CardType), SqlSchema.ENUMERATOR);
+
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.CardType)
 				.HasForeignKey(e => e.CardTypeId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasData(GetCardTypeData());
 
@@ -51,17 +55,19 @@ internal static class EnumeratorConfiguration
 		/// <inheritdoc/>
 		public override void Configure(EntityTypeBuilder<DayType> builder)
 		{
+			builder.ToSytemVersionedTable(nameof(DayType), SqlSchema.ENUMERATOR);
+
 			builder.HasMany(e => e.CalendarDays)
 				.WithOne(e => e.DayType)
 				.HasForeignKey(e => e.DayTypeId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.Attendances)
 				.WithOne(e => e.DayType)
 				.HasForeignKey(e => e.DayTypeId)
 				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasData(GetDayTypeData());
 

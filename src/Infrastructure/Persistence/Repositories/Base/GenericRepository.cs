@@ -73,6 +73,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 
 	public async Task<TEntity?> GetByConditionAsync(
 		Expression<Func<TEntity, bool>> expression,
+		Func<IQueryable<TEntity>, IQueryable<TEntity>>? filterBy = null,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default,
 		params string[] includeProperties)
@@ -81,6 +82,9 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 
 		if (expression is not null)
 			query = query.Where(expression);
+
+		if (filterBy is not null)
+			query = filterBy(query);
 
 		if (includeProperties.Length > 0)
 			query = includeProperties.Aggregate(query, (theQuery, theInclude) => theQuery.Include(theInclude));

@@ -18,7 +18,7 @@ public sealed class AttendanceUpdateRequest
 	/// <summary>
 	/// The <see cref="DayTypeId"/> property.
 	/// </summary>
-	[Required, Range(0, int.MaxValue)]
+	[Required, Range(1, int.MaxValue)]
 	public int DayTypeId { get; set; } = default!;
 
 	/// <summary>

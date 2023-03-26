@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountService.AccountId.NotFound" xml:space="preserve">
+    <value>No bank account with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="AccountService.AccountNumber.Conflict" xml:space="preserve">
+    <value>The account with the number: '{0}' already exists.</value>
+  </data>
+  <data name="AccountService.AccountNumber.NotFound" xml:space="preserve">
+    <value>No bank account with the number: '{0}' could be found to load.</value>
+  </data>
+  <data name="AccountService.CardId.NotFound" xml:space="preserve">
+    <value>No card with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="AccountService.CardNumber.Conflict" xml:space="preserve">
+    <value>The card with the number: '{0}' already exists.</value>
+  </data>
+  <data name="AccountService.Create.Failed" xml:space="preserve">
+    <value>An internal error occurred while creating the account.</value>
+  </data>
   <data name="AccountService.GetAll.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank accounts.</value>
   </data>
@@ -126,8 +144,8 @@
   <data name="AccountService.GetByNumber.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank account with the number: '{0}'.</value>
   </data>
-  <data name="AccountService.GetByNumber.NotFound" xml:space="preserve">
-    <value>No bank account with the number: '{0}' could be found to load.</value>
+  <data name="AccountService.Update.Failed" xml:space="preserve">
+    <value>An internal error occurred while updating the account.</value>
   </data>
   <data name="AttendanceService.Create.Failed" xml:space="preserve">
     <value>An error occurred while creating the attendance/absence.</value>

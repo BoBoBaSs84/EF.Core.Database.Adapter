@@ -1,7 +1,9 @@
-﻿using Application.Contracts.Responses.Finance;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Contracts.Responses.Finance;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Services;
 using Domain.Errors;
+using Domain.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Attributes;
@@ -81,6 +83,15 @@ public sealed class AccountController : ApiControllerBase
 	{
 		ErrorOr<AccountResponse> result =
 			await _accountService.GetByNumber(_currentUserService.UserId, iban, false, cancellationToken);
+
+		return Get(result);
+	}
+
+	[HttpPost(Endpoints.Account.Post)]
+	public async Task<IActionResult> Post(AccountCreateRequest createRequest, CancellationToken cancellationToken)
+	{
+		ErrorOr<Created> result =
+			await _accountService.Create(_currentUserService.UserId, createRequest, cancellationToken);
 
 		return Get(result);
 	}

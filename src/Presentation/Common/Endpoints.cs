@@ -20,6 +20,7 @@ internal static class Endpoints
 
 		internal const string GetAll = EmptySuffix;
 		internal const string GetByIban = "{iban}";
+		internal const string Post = EmptySuffix;
 	}
 
 	/// <summary>

@@ -56,6 +56,5 @@ public sealed class UserResponse : ResponseModel
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	[DataType(DataType.Text)]
 	public byte[]? Picture { get; set; } = default!;
 }

@@ -14,7 +14,7 @@ namespace Application.Interfaces.Application;
 public interface IAttendanceService
 {
 	/// <summary>
-	/// Should create a attendance.
+	/// Should create an attendance for the given <paramref name="userId"/>.
 	/// </summary>
 	/// <param name="userId">the user identifier.</param>
 	/// <param name="createRequest">The attendance create request.</param>

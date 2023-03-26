@@ -124,6 +124,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An internal error occurred while deleting the account..
+        /// </summary>
+        public static string AccountService_Delete_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.Delete.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the bank accounts..
         /// </summary>
         public static string AccountService_GetAll_Failed {
@@ -138,6 +147,15 @@ namespace Application.Properties {
         public static string AccountService_GetAll_NotFound {
             get {
                 return ResourceManager.GetString("AccountService.GetAll.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank account with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string AccountService_GetById_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.GetById.Failed", resourceCulture);
             }
         }
         

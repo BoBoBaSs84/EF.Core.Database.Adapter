@@ -90,6 +90,32 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
+	public async Task<ErrorOr<Deleted>> Delete(int userId, int accountId, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
+		try
+		{
+			Account? dbAccount = await _unitOfWork.AccountRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
+				trackChanges: true,
+				cancellationToken: cancellationToken
+				);
+
+			if (dbAccount is null)
+				return AccountServiceErrors.DeleteAccountNotFound(accountId);
+
+			await _unitOfWork.AccountRepository.DeleteAsync(dbAccount);
+			_ = _unitOfWork.CommitChangesAsync(cancellationToken);
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, parameters, ex);
+			return AccountServiceErrors.DeleteAccountFailed;
+		}
+	}
+
 	public async Task<ErrorOr<IEnumerable<AccountResponse>>> GetAll(int userId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		// TODO: figure out how this would work...
@@ -133,6 +159,32 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
+	public async Task<ErrorOr<AccountResponse>> GetById(int userId, int accountId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
+		try
+		{
+			Account? account = await _unitOfWork.AccountRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(Account.Cards) }
+				);
+
+			if (account is null)
+				return AccountServiceErrors.GetByIdNotFound(accountId);
+
+			AccountResponse response = _mapper.Map<AccountResponse>(account);
+
+			return response;
+		}
+		catch(Exception ex)
+		{
+			_logger.Log(logExceptionWithParams, parameters, ex);
+			return AccountServiceErrors.GetByIdFailed(accountId);
+		}
+	}
+
 	public async Task<ErrorOr<AccountResponse>> GetByNumber(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{iban}" };
@@ -156,9 +208,9 @@ internal sealed class AccountService : IAccountService
 
 			account.Cards = cards.ToList();
 
-			AccountResponse result = _mapper.Map<AccountResponse>(account);
+			AccountResponse response = _mapper.Map<AccountResponse>(account);
 
-			return result;
+			return response;
 		}
 		catch (Exception ex)
 		{

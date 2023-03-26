@@ -138,11 +138,17 @@
   <data name="AccountService.Create.Failed" xml:space="preserve">
     <value>An internal error occurred while creating the account.</value>
   </data>
+  <data name="AccountService.Delete.Failed" xml:space="preserve">
+    <value>An internal error occurred while deleting the account.</value>
+  </data>
   <data name="AccountService.GetAll.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank accounts.</value>
   </data>
   <data name="AccountService.GetAll.NotFound" xml:space="preserve">
     <value>No bank accounts could be found to load.</value>
+  </data>
+  <data name="AccountService.GetById.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank account with the identifier: '{0}'.</value>
   </data>
   <data name="AccountService.GetByNumber.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank account with the number: '{0}'.</value>

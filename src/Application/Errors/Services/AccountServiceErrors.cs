@@ -1,6 +1,5 @@
 ﻿using Application.Errors.Base;
 using Application.Services;
-using Domain.Entities.Finance;
 using Domain.Extensions;
 using RESX = Application.Properties.ServiceErrors;
 
@@ -22,16 +21,30 @@ public static class AccountServiceErrors
 	/// <see cref="AccountService.GetAll(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}",
-			RESX.AccountService_GetAll_Failed);
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}", RESX.AccountService_GetAll_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
 	/// <see cref="AccountService.GetAll(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetAllNotFound}",
-			RESX.AccountService_GetAll_NotFound);
+		ApiError.CreateNotFound($"{ErrorPrefix}.{GetAllNotFound}", RESX.AccountService_GetAll_NotFound);
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.GetById(int, int, bool, CancellationToken)"/> method.
+	/// </summary>
+	public static ApiError GetByIdFailed(int accountId) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
+			RESX.AccountService_GetById_Failed.Format(CultureInfo.CurrentCulture, accountId));
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.GetById(int, int, bool, CancellationToken)"/> method.
+	/// </summary>	
+	public static ApiError GetByIdNotFound(int accountId) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
+			RESX.AccountService_AccountId_NotFound.Format(CultureInfo.CurrentCulture, accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -73,8 +86,22 @@ public static class AccountServiceErrors
 	/// method.
 	/// </summary>
 	public static readonly ApiError CreateAccountFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{CreateAccountFailed}",
-			RESX.AccountService_Create_Failed);
+		ApiError.CreateFailed($"{ErrorPrefix}.{CreateAccountFailed}", RESX.AccountService_Create_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.Delete(int, int, CancellationToken)"/> method.
+	/// </summary>
+	public static ApiError DeleteAccountNotFound(int accountId) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteAccountNotFound)}",
+			RESX.AccountService_AccountId_NotFound.Format(CultureInfo.CurrentCulture, accountId));
+
+	/// <summary>
+	/// Error that indicates an exception during the
+	/// <see cref="AccountService.Delete(int, int, CancellationToken)"/> method.
+	/// </summary>
+	public static readonly ApiError DeleteAccountFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{DeleteAccountFailed}", RESX.AccountService_Delete_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -109,6 +136,5 @@ public static class AccountServiceErrors
 	/// method.
 	/// </summary>
 	public static readonly ApiError UpdateAccountFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{UpdateAccountFailed}",
-			RESX.AccountService_Update_Failed);
+		ApiError.CreateFailed($"{ErrorPrefix}.{UpdateAccountFailed}", RESX.AccountService_Update_Failed);
 }

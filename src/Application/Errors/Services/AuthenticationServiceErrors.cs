@@ -1,4 +1,5 @@
 ﻿using Application.Errors.Base;
+using Domain.Entities.Identity;
 using Domain.Extensions;
 using RESX = Application.Properties.ServiceErrors;
 

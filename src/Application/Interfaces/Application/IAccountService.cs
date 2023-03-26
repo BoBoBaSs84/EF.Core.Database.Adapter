@@ -13,16 +13,35 @@ public interface IAccountService
 	/// <summary>
 	/// Should create an account for the given <paramref name="userId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
+	/// <param name="userId">The user identifier.</param>
 	/// <param name="createRequest">The account create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<Created>> Create(int userId, AccountCreateRequest createRequest, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Should get a account entity by the international bank account number.
+	/// Should delete an account by the <paramref name="accountId"/> for the given <paramref name="userId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
+	/// <param name="userId">The user identifier.</param>
+	/// <param name="accountId">The account identifier.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Deleted>> Delete(int userId, int accountId, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Should get a account by the <paramref name="accountId"/> for the given <paramref name="userId"/>.
+	/// </summary>
+	/// <param name="userId">The user identifier.</param>
+	/// <param name="accountId">The account identifier.</param>
+	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<AccountResponse>> GetById(int userId, int accountId, bool trackChanges = false, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Should get a account by the international bank account number for the given <paramref name="userId"/>.
+	/// </summary>
+	/// <param name="userId">The user identifier.</param>
 	/// <param name="iban">The international bank account number.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
@@ -30,9 +49,9 @@ public interface IAccountService
 	Task<ErrorOr<AccountResponse>> GetByNumber(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Should get a collection of account entities by the user identifier.
+	/// Should get a collection of accounts for the given <paramref name="userId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
+	/// <param name="userId">The user identifier.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A collection of account entities.</returns>
@@ -41,7 +60,7 @@ public interface IAccountService
 	/// <summary>
 	/// Should update an account for the given <paramref name="userId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
+	/// <param name="userId">The user identifier.</param>
 	/// <param name="updateRequest">The account update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>

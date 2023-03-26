@@ -4,6 +4,7 @@ using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Services;
 using Domain.Errors;
 using Domain.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Attributes;
@@ -23,7 +24,7 @@ namespace Presentation.Controllers;
 /// </remarks>
 [Route(Endpoints.Account.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-[AuthorizeRoles(Roles.USER, Roles.SUPERUSER, Roles.ADMINISTRATOR)]
+[Authorize]
 public sealed class AccountController : ApiControllerBase
 {
 	private readonly IAccountService _accountService;
@@ -50,6 +51,7 @@ public sealed class AccountController : ApiControllerBase
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the account to delete was not found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
+	[AuthorizeRoles(Roles.ADMINISTRATOR)]
 	[HttpDelete(Endpoints.Account.Delete)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -105,7 +107,7 @@ public sealed class AccountController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetById(int accountId, CancellationToken cancellationToken)
 	{
-		ErrorOr<AccountResponse> result = 
+		ErrorOr<AccountResponse> result =
 			await _accountService.GetById(_currentUserService.UserId, accountId, false, cancellationToken);
 
 		return Get(result);

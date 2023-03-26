@@ -31,6 +31,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     IBAN = table.Column<string>(type: "varchar(25)", unicode: false, maxLength: 25, nullable: false),
                     Provider = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -153,6 +154,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     BookingDate = table.Column<DateTime>(type: "date", nullable: false),
                     ValueDate = table.Column<DateTime>(type: "date", nullable: false),
                     PostingText = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -405,6 +407,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: false),
                     CardTypeId = table.Column<int>(type: "int", nullable: false),
@@ -607,6 +610,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CalendarDayId = table.Column<int>(type: "int", nullable: false),
                     DayTypeId = table.Column<int>(type: "int", nullable: false),
@@ -733,9 +737,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "d328c8c7-ad86-440b-8ea5-44743081644d", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-                    { 2, "8de12b41-9003-48de-9e8c-2398d9345798", "This is a normal user with normal user rights.", "User", "USER" },
-                    { 3, "572c0150-add9-4ea5-8907-f35375862d8c", "The user with extended user rights.", "Super user", "SUPERUSER" }
+                    { 1, "08937b05-34d6-4218-a35b-8d9707db17c4", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+                    { 2, "6ef6d99d-f2c5-4468-a311-df65c59f0ca8", "This is a normal user with normal user rights.", "User", "USER" },
+                    { 3, "f715fc09-4fe3-4b1c-8890-ac83c50bd0d0", "The user with extended user rights.", "Super user", "SUPERUSER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -743,7 +747,8 @@ namespace Infrastructure.Persistence.Migrations.Development
                 schema: "Finance",
                 table: "Account",
                 column: "IBAN",
-                unique: true);
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountTransaction_TransactionId",
@@ -790,6 +795,12 @@ namespace Infrastructure.Persistence.Migrations.Development
                 column: "DayTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CalendarDay_Month",
+                schema: "Private",
+                table: "CalendarDay",
+                column: "Month");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CalendarDay_Year",
                 schema: "Private",
                 table: "CalendarDay",
@@ -812,7 +823,8 @@ namespace Infrastructure.Persistence.Migrations.Development
                 schema: "Finance",
                 table: "Card",
                 column: "PAN",
-                unique: true);
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Card_UserId",

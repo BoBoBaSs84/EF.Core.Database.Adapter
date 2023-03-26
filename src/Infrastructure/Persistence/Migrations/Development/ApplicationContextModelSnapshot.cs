@@ -276,6 +276,10 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .IsUnicode(false)
                         .HasColumnType("varchar(25)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnOrder(5);
+
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
                         .HasColumnOrder(4);
@@ -308,6 +312,8 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.HasIndex("IBAN")
                         .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("IBAN"), false);
 
                     b.ToTable("Account", "Finance");
 
@@ -421,6 +427,10 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("int")
                         .HasColumnOrder(3);
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnOrder(5);
+
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
                         .HasColumnOrder(4);
@@ -464,6 +474,8 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.HasIndex("PAN")
                         .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("PAN"), false);
 
                     b.HasIndex("UserId");
 
@@ -566,6 +578,10 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("MandateReference")
                         .IsRequired()
@@ -684,7 +700,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d328c8c7-ad86-440b-8ea5-44743081644d",
+                            ConcurrencyStamp = "08937b05-34d6-4218-a35b-8d9707db17c4",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -692,7 +708,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "8de12b41-9003-48de-9e8c-2398d9345798",
+                            ConcurrencyStamp = "6ef6d99d-f2c5-4468-a311-df65c59f0ca8",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -700,7 +716,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "572c0150-add9-4ea5-8907-f35375862d8c",
+                            ConcurrencyStamp = "f715fc09-4fe3-4b1c-8890-ac83c50bd0d0",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -1058,6 +1074,10 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Property<TimeSpan?>("EndTime")
                         .HasColumnType("time(0)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnOrder(5);
+
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
                         .HasColumnOrder(4);
@@ -1203,6 +1223,8 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .IsUnique();
 
                     b.HasIndex("DayTypeId");
+
+                    b.HasIndex("Month");
 
                     b.HasIndex("Year");
 

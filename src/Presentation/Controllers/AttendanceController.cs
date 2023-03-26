@@ -46,13 +46,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.Attendance.GetPagedByParameters)]
 	[ProducesResponseType(typeof(IPagedList<AttendanceResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] AttendanceParameters parameters, CancellationToken cancellationToken)
@@ -70,13 +68,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.Attendance.GetById)]
 	[ProducesResponseType(typeof(AttendanceResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetById(int calendarDayId, CancellationToken cancellationToken)
@@ -94,13 +90,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.Attendance.GetByDate)]
 	[ProducesResponseType(typeof(AttendanceResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetByDate(DateTime date, CancellationToken cancellationToken)
@@ -118,13 +112,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendance was deleted.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpDelete(Endpoints.Attendance.Delete)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Delete(int calendarDayId, CancellationToken cancellationToken)
@@ -142,13 +134,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendances were deleted.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpDelete(Endpoints.Attendance.DeleteMultiple)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Delete([FromBody] IEnumerable<int> calendarDayIds, CancellationToken cancellationToken)
@@ -166,13 +156,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="201">If the attendance was created.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPost(Endpoints.Attendance.Post)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Post([FromBody] AttendanceCreateRequest createRequest, CancellationToken cancellationToken)
@@ -190,13 +178,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="201">If the attendances were created.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPost(Endpoints.Attendance.PostMultiple)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken)
@@ -214,13 +200,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendance was updated.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPut(Endpoints.Attendance.Put)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Put([FromBody] AttendanceUpdateRequest updateRequest, CancellationToken cancellationToken)
@@ -238,13 +222,11 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendances were updated.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPut(Endpoints.Attendance.PutMultiple)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken)

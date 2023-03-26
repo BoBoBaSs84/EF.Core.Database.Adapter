@@ -1,16 +1,24 @@
 ﻿namespace Domain.Common.EntityBaseTypes.Interfaces;
 
 /// <summary>
-/// The enumerator model interface.
+/// The enumerator interface.
 /// </summary>
-internal interface IEnumerator
+/// <remarks>
+/// Derives from the following interfaces:
+/// <list type="bullet">
+/// <item>The <see cref="IIdentity{TKey}"/> interface</item>
+/// <item>The <see cref="IActivatable"/> interface</item>
+/// </list>
+/// </remarks>
+public interface IEnumerator : IIdentity<int>, IActivatable
 {
 	/// <summary>
-	/// The <see cref="Name"/> property.
+	/// The enumerator name property.
 	/// </summary>
 	string Name { get; }
+
 	/// <summary>
-	/// The <see cref="Description"/> property.
+	/// The enumerator description property.
 	/// </summary>
 	string? Description { get; }
 }

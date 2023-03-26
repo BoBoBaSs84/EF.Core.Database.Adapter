@@ -1,5 +1,4 @@
 ﻿using Domain.Common.EntityBaseTypes.Interfaces;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
@@ -16,7 +15,7 @@ namespace Domain.Common.EntityBaseTypes;
 /// <item>The <see cref="IConcurrency"/> interface</item>
 /// </list>
 /// </remarks>
-public abstract class EnumeratorModel : IdentityModel, IActivatable, IEnumerator
+public abstract class EnumeratorModel : ActivatableModel, IEnumerator
 {
 	/// <summary>
 	/// The <see cref="Id"/> property.
@@ -34,8 +33,4 @@ public abstract class EnumeratorModel : IdentityModel, IActivatable, IEnumerator
 	/// <inheritdoc/>
 	[MaxLength(SqlMaxLength.MAX_1000)]
 	public string? Description { get; set; } = default!;
-
-	/// <inheritdoc/>
-	[DefaultValue(false)]
-	public bool IsActive { get; set; } = default!;
 }

@@ -3,10 +3,10 @@
 /// <summary>
 /// The soft deleteable interface.
 /// </summary>
-internal interface ISoftDeleteable
+public interface ISoftDeleteable
 {
 	/// <summary>
-	/// Indicates whether the data entry was deleted.
+	/// Indicates whether the data entry was deleted or not.
 	/// </summary>
 	bool IsDeleted { get; }
 }

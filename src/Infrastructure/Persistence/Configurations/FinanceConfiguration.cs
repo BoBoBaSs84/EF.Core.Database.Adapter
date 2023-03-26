@@ -1,8 +1,8 @@
 ﻿using Domain.Entities.Finance;
 using Infrastructure.Extensions;
+using Infrastructure.Persistence.Configurations.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Security.Cryptography.X509Certificates;
 using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -11,14 +11,11 @@ namespace Infrastructure.Persistence.Configurations;
 internal static class FinanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
+	internal sealed class AccountConfiguration : FullAuditTypeBaseConfiguration<Account>
 	{
-		public void Configure(EntityTypeBuilder<Account> builder)
+		public override void Configure(EntityTypeBuilder<Account> builder)
 		{
 			builder.ToSytemVersionedTable(nameof(Account), Schema.FINANCE);
-
-			builder.HasKey(e => e.Id)
-				.IsClustered(false);
 
 			builder.Property(e => e.IBAN)
 				.IsUnicode(false);
@@ -44,6 +41,8 @@ internal static class FinanceConfiguration
 				.HasForeignKey(e => e.AccountId)
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
+
+			base.Configure(builder);
 		}
 	}
 
@@ -72,14 +71,11 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class CardConfiguration : IEntityTypeConfiguration<Card>
+	internal sealed class CardConfiguration : FullAuditTypeBaseConfiguration<Card>
 	{
-		public void Configure(EntityTypeBuilder<Card> builder)
+		public override void Configure(EntityTypeBuilder<Card> builder)
 		{
 			builder.ToSytemVersionedTable(nameof(Card), Schema.FINANCE);
-
-			builder.HasKey(e => e.Id)
-				.IsClustered(false);
 
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);
@@ -93,6 +89,8 @@ internal static class FinanceConfiguration
 				.HasForeignKey(e => e.CardId)
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
+
+			base.Configure(builder);
 		}
 	}
 
@@ -109,14 +107,11 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
+	internal sealed class TransactionConfiguration : FullAuditTypeBaseConfiguration<Transaction>
 	{
-		public void Configure(EntityTypeBuilder<Transaction> builder)
+		public override void Configure(EntityTypeBuilder<Transaction> builder)
 		{
 			builder.ToSytemVersionedTable(nameof(Transaction), Schema.FINANCE);
-
-			builder.HasKey(e => e.Id)
-				.IsClustered(false);
 
 			builder.Property(e => e.AccountNumber)
 				.IsUnicode(false);
@@ -135,6 +130,8 @@ internal static class FinanceConfiguration
 				.HasForeignKey(e => e.TransactionId)
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
+
+			base.Configure(builder);
 		}
 	}
 }

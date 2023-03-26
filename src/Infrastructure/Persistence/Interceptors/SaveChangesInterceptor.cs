@@ -51,5 +51,15 @@ public sealed class CustomSaveChangesInterceptor : SaveChangesInterceptor
 			if (entry.State == EntityState.Modified)
 				entry.Entity.ModifiedBy = _currentUserService.UserId;
 		}
+
+		foreach(EntityEntry<FullAuditedModel> entry in context.ChangeTracker.Entries<FullAuditedModel>())
+		{
+			if (entry.State == EntityState.Deleted)
+			{
+				entry.Entity.ModifiedBy = _currentUserService.UserId;
+				entry.Entity.IsDeleted = true;
+				entry.State = EntityState.Modified;
+			}
+		}
 	}
 }

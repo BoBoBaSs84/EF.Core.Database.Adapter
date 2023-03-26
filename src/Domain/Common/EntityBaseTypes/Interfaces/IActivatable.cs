@@ -3,8 +3,10 @@
 /// <summary>
 /// The activatable interface.
 /// </summary>
-internal interface IActivatable
+public interface IActivatable
 {
-	/// <summary>The <see cref="IsActive"/> property.</summary>
+	/// <summary>
+	/// Indicates whether the data entry is active or not.
+	/// </summary>
 	bool IsActive { get; }
 }

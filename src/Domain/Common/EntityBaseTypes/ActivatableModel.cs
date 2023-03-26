@@ -1,4 +1,5 @@
 ﻿using Domain.Common.EntityBaseTypes.Interfaces;
+using System.ComponentModel;
 
 namespace Domain.Common.EntityBaseTypes;
 
@@ -14,5 +15,6 @@ namespace Domain.Common.EntityBaseTypes;
 public abstract class ActivatableModel : IdentityModel, IActivatable
 {
 	/// <inheritdoc/>
+	[DefaultValue(false)]
 	public bool IsActive { get; set; } = default!;
 }

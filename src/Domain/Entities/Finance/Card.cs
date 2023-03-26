@@ -12,7 +12,7 @@ namespace Domain.Entities.Finance;
 /// The card entity class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="AuditedModel"/> class.
+/// Derives from the <see cref="FullAuditedModel"/> class.
 /// </remarks>
 public partial class Card : FullAuditedModel
 {

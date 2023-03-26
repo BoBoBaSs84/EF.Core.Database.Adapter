@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Private;
 using Infrastructure.Extensions;
+using Infrastructure.Persistence.Configurations.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,30 +10,27 @@ namespace Infrastructure.Persistence.Configurations;
 internal static class PrivateConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AttendanceConfiguration : IEntityTypeConfiguration<Attendance>
+	internal sealed class AttendanceConfiguration : FullAuditTypeBaseConfiguration<Attendance>
 	{
-		public void Configure(EntityTypeBuilder<Attendance> builder)
+		public override void Configure(EntityTypeBuilder<Attendance> builder)
 		{
 			builder.ToSytemVersionedTable(nameof(Attendance));
 
-			builder.HasKey(e => e.Id)
-				.IsClustered(false);
+			builder.HasIndex(e => new { e.UserId, e.CalendarDayId, e.IsDeleted })
+				.IsUnique(true)
+				.HasFilter($"[{nameof(Attendance.IsDeleted)}]<>(1)");
 
-			builder.HasIndex(e => new { e.UserId, e.CalendarDayId })
-				.IsUnique(true);
+			base.Configure(builder);
 		}
 	}
 
 	/// <inheritdoc/>
-	internal sealed class CalendarConfiguration : IEntityTypeConfiguration<CalendarDay>
+	internal sealed class CalendarConfiguration : IdentityTypeBaseConfiguration<CalendarDay>
 	{
 		/// <inheritdoc/>
-		public void Configure(EntityTypeBuilder<CalendarDay> builder)
+		public override void Configure(EntityTypeBuilder<CalendarDay> builder)
 		{
 			builder.ToSytemVersionedTable(nameof(CalendarDay));
-
-			builder.HasKey(e => e.Id)
-				.IsClustered(false);
 
 			builder.HasIndex(e => e.Date)
 				.IsUnique(true);
@@ -78,6 +76,8 @@ internal static class PrivateConfiguration
 				.HasForeignKey(e => e.CalendarDayId)
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
+
+			base.Configure(builder);
 		}
 	}
 }

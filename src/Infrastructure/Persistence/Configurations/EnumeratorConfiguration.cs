@@ -1,11 +1,10 @@
 ﻿using Domain.Entities.Enumerator;
 using Domain.Extensions;
-using Infrastructure.Extensions;
+using Infrastructure.Persistence.Configurations.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ECT = Domain.Enumerators.CardTypes;
 using EDT = Domain.Enumerators.DayTypes;
-using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -13,19 +12,10 @@ namespace Infrastructure.Persistence.Configurations;
 internal static class EnumeratorConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class CardTypeConfiguration : IEntityTypeConfiguration<CardType>
+	internal sealed class CardTypeConfiguration : EnumeratorTypeBaseConfiguration<CardType>
 	{
-		public void Configure(EntityTypeBuilder<CardType> builder)
+		public override void Configure(EntityTypeBuilder<CardType> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(CardType), Schema.ENUMERATOR);
-
-			builder.HasKey(e => e.Id)
-				.IsClustered(true);
-
-			builder.HasIndex(e => e.Name)
-				.IsClustered(false)
-				.IsUnique(true);
-
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.CardType)
 				.HasForeignKey(e => e.CardTypeId)
@@ -33,6 +23,8 @@ internal static class EnumeratorConfiguration
 				.IsRequired(true);
 
 			builder.HasData(GetCardTypes());
+
+			base.Configure(builder);
 		}
 
 		private static IEnumerable<CardType> GetCardTypes()
@@ -54,20 +46,11 @@ internal static class EnumeratorConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class DayTypeConfiguration : IEntityTypeConfiguration<DayType>
+	internal sealed class DayTypeConfiguration : EnumeratorTypeBaseConfiguration<DayType>
 	{
 		/// <inheritdoc/>
-		public void Configure(EntityTypeBuilder<DayType> builder)
+		public override void Configure(EntityTypeBuilder<DayType> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(DayType), Schema.ENUMERATOR);
-
-			builder.HasKey(e => e.Id)
-				.IsClustered(true);
-
-			builder.HasIndex(e => e.Name)
-				.IsClustered(false)
-				.IsUnique(true);
-
 			builder.HasMany(e => e.CalendarDays)
 				.WithOne(e => e.DayType)
 				.HasForeignKey(e => e.DayTypeId)
@@ -81,6 +64,8 @@ internal static class EnumeratorConfiguration
 				.IsRequired(true);
 
 			builder.HasData(GetDayTypes());
+
+			base.Configure(builder);
 		}
 
 		private static IEnumerable<DayType> GetDayTypes()

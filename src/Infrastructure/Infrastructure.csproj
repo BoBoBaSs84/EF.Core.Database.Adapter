@@ -21,7 +21,11 @@
 	<ItemGroup>
 		<Using Include="System.Diagnostics.CodeAnalysis" />
 		<Using Include="System.Text" />
-		<Using Include="System.Globalization"/>
+		<Using Include="System.Globalization" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Persistence\Maps\" />
 	</ItemGroup>
 
 </Project>

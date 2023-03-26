@@ -112,7 +112,13 @@ internal sealed class AuthenticationService : IAuthenticationService
 			JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 			string token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-			return new AuthenticationResponse() { Token = token };
+			AuthenticationResponse response = new()
+			{
+				Token = token,
+				ExpiryDate = tokenOptions.ValidTo
+			};
+
+			return response;
 		}
 		catch (Exception ex)
 		{
@@ -290,10 +296,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		IList<Claim> claims = new List<Claim>()
 		{
-			new(ClaimTypes.Email, user.Email),
 			new(ClaimTypes.Name, user.UserName),
 			new(ClaimTypes.NameIdentifier, $"{user.Id}"),
-			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}")
 		};
 
 		IList<string> roles = await _userService.GetRolesAsync(user);

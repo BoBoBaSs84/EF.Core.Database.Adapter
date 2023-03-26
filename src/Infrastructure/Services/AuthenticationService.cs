@@ -112,7 +112,13 @@ internal sealed class AuthenticationService : IAuthenticationService
 			JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 			string token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-			return new AuthenticationResponse() { Token = token };
+			AuthenticationResponse response = new()
+			{
+				Token = token,
+				ExpiryDate = tokenOptions.ValidTo
+			};
+
+			return response;
 		}
 		catch (Exception ex)
 		{

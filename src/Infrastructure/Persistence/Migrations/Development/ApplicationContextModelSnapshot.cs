@@ -159,98 +159,98 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasData(
                         new
                         {
-                            Id = 0,
+                            Id = 1,
                             Description = "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.",
                             IsActive = true,
                             Name = "Holiday"
                         },
                         new
                         {
-                            Id = 1,
+                            Id = 2,
                             Description = "A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.",
                             IsActive = true,
                             Name = "Weekday"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 3,
                             Description = "Generally refers to the period between the end of a usual work week and the beginning of the new work week.",
                             IsActive = true,
                             Name = "Weekend day"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
                             Description = "Day on which professional work is performed or is to be performed.",
                             IsActive = true,
                             Name = "Workday"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 5,
                             Description = "Weekend work means working on days that are usually non-working days.",
                             IsActive = true,
                             Name = "Weekend workday"
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 6,
                             Description = "Is an authorised prolonged absence from work, for any reason authorised by the workplace.",
                             IsActive = true,
                             Name = "Absence"
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 7,
                             Description = "Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes.",
                             IsActive = true,
                             Name = "Buisness trip"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 8,
                             Description = "In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties.",
                             IsActive = true,
                             Name = "Suspension"
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 9,
                             Description = "The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.",
                             IsActive = true,
                             Name = "Mobile working"
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 10,
                             Description = "Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.",
                             IsActive = true,
                             Name = "Planned vacation"
                         },
                         new
                         {
-                            Id = 10,
+                            Id = 11,
                             Description = "Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.",
                             IsActive = true,
                             Name = "Short time work"
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 12,
                             Description = "The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.",
                             IsActive = true,
                             Name = "Sickness"
                         },
                         new
                         {
-                            Id = 12,
+                            Id = 13,
                             Description = "Is either a leave of absence from a regular job or an instance of leisure travel away from home.",
                             IsActive = true,
                             Name = "Vacation"
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 14,
                             Description = "With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.",
                             IsActive = true,
                             Name = "Vacation block"
@@ -310,10 +310,11 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("IBAN")
-                        .IsUnique();
+                    b.HasIndex("IBAN", "IsDeleted")
+                        .IsUnique()
+                        .HasFilter("[IsDeleted]<>(1)");
 
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("IBAN"), false);
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("IBAN", "IsDeleted"), false);
 
                     b.ToTable("Account", "Finance");
 
@@ -472,12 +473,13 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.HasIndex("CardTypeId");
 
-                    b.HasIndex("PAN")
-                        .IsUnique();
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("PAN"), false);
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("PAN", "IsDeleted")
+                        .IsUnique()
+                        .HasFilter("[IsDeleted]<>(1)");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("PAN", "IsDeleted"), false);
 
                     b.ToTable("Card", "Finance");
 
@@ -700,7 +702,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "4d895325-5289-4053-8402-1e0a1748ca0d",
+                            ConcurrencyStamp = "1b9cce5c-9e8d-4292-9514-b1564a02ea41",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -708,7 +710,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3194a6e4-dd0d-4fae-b29c-8ac5053cebe3",
+                            ConcurrencyStamp = "003d1203-cac5-4c01-bd5d-4ec8fcf620e3",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -716,7 +718,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "2ac6ae20-9881-4180-b81e-35a052d3c388",
+                            ConcurrencyStamp = "96234613-968c-4334-861d-b01ad28b1daf",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -1115,7 +1117,9 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.HasIndex("UserId", "CalendarDayId", "IsDeleted")
                         .IsUnique()
-                        .HasFilter("[IsDeleted] != 0");
+                        .HasFilter("[IsDeleted]<>(1)");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "CalendarDayId", "IsDeleted"), false);
 
                     b.ToTable("Attendance", "Private");
 

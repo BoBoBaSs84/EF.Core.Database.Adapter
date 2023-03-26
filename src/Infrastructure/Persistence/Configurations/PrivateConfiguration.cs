@@ -34,15 +34,12 @@ internal static class PrivateConfiguration
 			builder.ToSytemVersionedTable(nameof(CalendarDay));
 
 			builder.HasIndex(e => e.Date)
-				.IsClustered(true)
 				.IsUnique(true);
 
 			builder.HasIndex(e => e.Year)
-				.IsClustered(true)
 				.IsUnique(false);
 
 			builder.HasIndex(e => e.Month)
-				.IsClustered(true)
 				.IsUnique(false);
 
 			builder.Property(e => e.Day)

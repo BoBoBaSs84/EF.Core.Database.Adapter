@@ -24,4 +24,8 @@
 		<Using Include="System.Globalization" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Persistence\Migrations\Development\" />
+	</ItemGroup>
+
 </Project>

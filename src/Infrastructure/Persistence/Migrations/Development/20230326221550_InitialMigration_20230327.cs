@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Persistence.Migrations.Development
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigration_20230327 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,9 +69,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,9 +99,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -715,20 +715,20 @@ namespace Infrastructure.Persistence.Migrations.Development
                 columns: new[] { "Id", "Description", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { 0, "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.", true, "Holiday" },
-                    { 1, "A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.", true, "Weekday" },
-                    { 2, "Generally refers to the period between the end of a usual work week and the beginning of the new work week.", true, "Weekend day" },
-                    { 3, "Day on which professional work is performed or is to be performed.", true, "Workday" },
-                    { 4, "Weekend work means working on days that are usually non-working days.", true, "Weekend workday" },
-                    { 5, "Is an authorised prolonged absence from work, for any reason authorised by the workplace.", true, "Absence" },
-                    { 6, "Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes.", true, "Buisness trip" },
-                    { 7, "In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties.", true, "Suspension" },
-                    { 8, "The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.", true, "Mobile working" },
-                    { 9, "Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.", true, "Planned vacation" },
-                    { 10, "Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.", true, "Short time work" },
-                    { 11, "The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.", true, "Sickness" },
-                    { 12, "Is either a leave of absence from a regular job or an instance of leisure travel away from home.", true, "Vacation" },
-                    { 13, "With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.", true, "Vacation block" }
+                    { 1, "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.", true, "Holiday" },
+                    { 2, "A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.", true, "Weekday" },
+                    { 3, "Generally refers to the period between the end of a usual work week and the beginning of the new work week.", true, "Weekend day" },
+                    { 4, "Day on which professional work is performed or is to be performed.", true, "Workday" },
+                    { 5, "Weekend work means working on days that are usually non-working days.", true, "Weekend workday" },
+                    { 6, "Is an authorised prolonged absence from work, for any reason authorised by the workplace.", true, "Absence" },
+                    { 7, "Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes.", true, "Buisness trip" },
+                    { 8, "In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties.", true, "Suspension" },
+                    { 9, "The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.", true, "Mobile working" },
+                    { 10, "Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.", true, "Planned vacation" },
+                    { 11, "Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.", true, "Short time work" },
+                    { 12, "The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.", true, "Sickness" },
+                    { 13, "Is either a leave of absence from a regular job or an instance of leisure travel away from home.", true, "Vacation" },
+                    { 14, "With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.", true, "Vacation block" }
                 });
 
             migrationBuilder.InsertData(
@@ -737,17 +737,18 @@ namespace Infrastructure.Persistence.Migrations.Development
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "08937b05-34d6-4218-a35b-8d9707db17c4", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-                    { 2, "6ef6d99d-f2c5-4468-a311-df65c59f0ca8", "This is a normal user with normal user rights.", "User", "USER" },
-                    { 3, "f715fc09-4fe3-4b1c-8890-ac83c50bd0d0", "The user with extended user rights.", "Super user", "SUPERUSER" }
+                    { 1, "1b9cce5c-9e8d-4292-9514-b1564a02ea41", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+                    { 2, "003d1203-cac5-4c01-bd5d-4ec8fcf620e3", "This is a normal user with normal user rights.", "User", "USER" },
+                    { 3, "96234613-968c-4334-861d-b01ad28b1daf", "The user with extended user rights.", "Super user", "SUPERUSER" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Account_IBAN",
+                name: "IX_Account_IBAN_IsDeleted",
                 schema: "Finance",
                 table: "Account",
-                column: "IBAN",
-                unique: true)
+                columns: new[] { "IBAN", "IsDeleted" },
+                unique: true,
+                filter: "[IsDeleted]<>(1)")
                 .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(
@@ -775,11 +776,13 @@ namespace Infrastructure.Persistence.Migrations.Development
                 column: "DayTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendance_UserId_CalendarDayId",
+                name: "IX_Attendance_UserId_CalendarDayId_IsDeleted",
                 schema: "Private",
                 table: "Attendance",
-                columns: new[] { "UserId", "CalendarDayId" },
-                unique: true);
+                columns: new[] { "UserId", "CalendarDayId", "IsDeleted" },
+                unique: true,
+                filter: "[IsDeleted]<>(1)")
+                .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CalendarDay_Date",
@@ -819,11 +822,12 @@ namespace Infrastructure.Persistence.Migrations.Development
                 column: "CardTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_PAN",
+                name: "IX_Card_PAN_IsDeleted",
                 schema: "Finance",
                 table: "Card",
-                column: "PAN",
-                unique: true)
+                columns: new[] { "PAN", "IsDeleted" },
+                unique: true,
+                filter: "[IsDeleted]<>(1)")
                 .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(

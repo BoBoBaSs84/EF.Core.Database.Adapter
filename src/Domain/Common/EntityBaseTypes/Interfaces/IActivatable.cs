@@ -1,9 +1,9 @@
 ﻿namespace Domain.Common.EntityBaseTypes.Interfaces;
 
 /// <summary>
-/// The activatable model interface.
+/// The activatable interface.
 /// </summary>
-internal interface IActivatableModel
+internal interface IActivatable
 {
 	/// <summary>The <see cref="IsActive"/> property.</summary>
 	bool IsActive { get; }

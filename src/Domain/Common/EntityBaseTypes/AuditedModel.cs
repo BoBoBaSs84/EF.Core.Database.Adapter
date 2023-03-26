@@ -9,10 +9,10 @@ namespace Domain.Common.EntityBaseTypes;
 /// <remarks>
 /// Derives from the <see cref="IdentityModel"/> class and implements the following interface members:
 /// <list type="bullet">
-/// <item>The <see cref="IAuditedModel"/> interface</item>
+/// <item>The <see cref="IAudited"/> interface</item>
 /// </list>
 /// </remarks>
-public abstract class AuditedModel : IdentityModel, IAuditedModel
+public abstract class AuditedModel : IdentityModel, IAudited
 {
 	/// <inheritdoc/>
 	[Column(Order = 3)]

@@ -3,7 +3,7 @@
 /// <summary>
 /// The concurrency model interface.
 /// </summary>
-internal interface IConcurrencyModel
+internal interface IConcurrency
 {
 	/// <summary>
 	/// The <see cref="Timestamp"/> property.

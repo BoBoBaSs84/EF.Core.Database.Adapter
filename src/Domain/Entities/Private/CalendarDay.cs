@@ -1,6 +1,6 @@
 ﻿using Domain.Common.EntityBaseTypes;
 using System.ComponentModel.DataAnnotations.Schema;
-using DC = Domain.Constants.DomainConstants;
+using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 
 namespace Domain.Entities.Private;
 
@@ -15,7 +15,7 @@ public partial class CalendarDay : IdentityModel
 	/// <summary>
 	/// The <see cref="Date"/> property.
 	/// </summary>
-	[Column(TypeName = DC.Sql.DataType.DATE)]
+	[Column(TypeName = SqlDataType.DATE)]
 	public DateTime Date { get; set; } = default!;
 
 	/// <summary>

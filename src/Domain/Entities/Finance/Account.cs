@@ -12,7 +12,7 @@ namespace Domain.Entities.Finance;
 /// <remarks>
 /// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-public partial class Account : AuditedModel
+public partial class Account : FullAuditedModel
 {
 	private string iban = default!;
 

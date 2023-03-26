@@ -8,10 +8,10 @@ namespace Domain.Common.EntityBaseTypes;
 /// <remarks>
 /// Derives from the <see cref="IdentityModel"/> class and implements the following interface members:
 /// <list type="bullet">
-/// <item>The <see cref="IActivatableModel"/> interface</item>
+/// <item>The <see cref="IActivatable"/> interface</item>
 /// </list>
 /// </remarks>
-public abstract class ActivatableModel : IdentityModel, IActivatableModel
+public abstract class ActivatableModel : IdentityModel, IActivatable
 {
 	/// <inheritdoc/>
 	public bool IsActive { get; set; } = default!;

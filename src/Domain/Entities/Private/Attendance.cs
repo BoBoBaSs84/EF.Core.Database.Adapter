@@ -10,7 +10,7 @@ namespace Domain.Entities.Private;
 /// <remarks>
 /// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-public partial class Attendance : AuditedModel
+public partial class Attendance : FullAuditedModel
 {
 	/// <summary>
 	/// The <see cref="UserId"/> property.

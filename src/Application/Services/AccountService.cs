@@ -105,7 +105,7 @@ internal sealed class AccountService : IAccountService
 				return AccountServiceErrors.DeleteAccountNotFound(accountId);
 
 			await _unitOfWork.AccountRepository.DeleteAsync(dbAccount);
-			_ = _unitOfWork.CommitChangesAsync(cancellationToken);
+			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
 
 			return Result.Deleted;
 		}

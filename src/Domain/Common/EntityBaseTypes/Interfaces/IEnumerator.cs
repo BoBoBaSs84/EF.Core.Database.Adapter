@@ -3,7 +3,7 @@
 /// <summary>
 /// The enumerator model interface.
 /// </summary>
-internal interface IEnumeratorModel
+internal interface IEnumerator
 {
 	/// <summary>
 	/// The <see cref="Name"/> property.

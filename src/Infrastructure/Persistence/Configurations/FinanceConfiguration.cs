@@ -2,6 +2,7 @@
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Security.Cryptography.X509Certificates;
 using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -116,6 +117,12 @@ internal static class FinanceConfiguration
 
 			builder.HasKey(e => e.Id)
 				.IsClustered(false);
+
+			builder.Property(e => e.AccountNumber)
+				.IsUnicode(false);
+
+			builder.Property(e => e.BankCode)
+				.IsUnicode(false);
 
 			builder.HasMany(e => e.AccountTransactions)
 				.WithOne(e => e.Transaction)

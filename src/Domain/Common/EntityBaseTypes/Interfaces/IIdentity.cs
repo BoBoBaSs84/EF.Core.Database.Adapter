@@ -4,7 +4,7 @@
 /// The identity model interface.
 /// </summary>
 /// <typeparam name="TKey">The primary key type.</typeparam>
-internal interface IIdentityModel<TKey> where TKey : IEquatable<TKey>
+internal interface IIdentity<TKey> where TKey : IEquatable<TKey>
 {
 	/// <summary>
 	/// The <see cref="Id"/> property.

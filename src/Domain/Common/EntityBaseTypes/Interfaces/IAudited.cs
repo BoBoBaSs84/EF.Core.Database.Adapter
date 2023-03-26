@@ -3,7 +3,7 @@
 /// <summary>
 /// The audited model interface.
 /// </summary>
-internal interface IAuditedModel
+internal interface IAudited
 {
 	/// <summary>
 	/// The <see cref="CreatedBy"/> property.

@@ -2,8 +2,9 @@
 using Domain.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Domain.Constants.DomainConstants;
-using static Domain.Constants.DomainConstants.Sql;
+using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
+using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
+using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
 namespace Domain.Entities.Finance;
 
@@ -13,7 +14,7 @@ namespace Domain.Entities.Finance;
 /// <remarks>
 /// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-public partial class Card : AuditedModel
+public partial class Card : FullAuditedModel
 {
 	private string pan = default!;
 
@@ -38,7 +39,7 @@ public partial class Card : AuditedModel
 	/// <remarks>
 	/// The payment card number or <b>p</b>rimary <b>a</b>ccount <b>n</b>umber.
 	/// </remarks>
-	[MaxLength(MaxLength.MAX_25), RegularExpression(RegexPatterns.CC)]
+	[MaxLength(SqlMaxLength.MAX_25), RegularExpression(RegexPatterns.CC)]
 	public string PAN
 	{
 		get => pan;
@@ -52,6 +53,6 @@ public partial class Card : AuditedModel
 	/// <summary>
 	/// The <see cref="ValidUntil"/> property.
 	/// </summary>
-	[Column(TypeName = Sql.DataType.DATE)]
+	[Column(TypeName = SqlDataType.DATE)]
 	public DateTime ValidUntil { get; set; } = default!;
 }

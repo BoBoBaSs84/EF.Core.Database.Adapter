@@ -15,7 +15,7 @@ public enum CardTypes
 		Name = nameof(RESX.CardType_Credit_Name),
 		ShortName = nameof(RESX.CardType_Credit_ShortName),
 		Description = nameof(RESX.CardType_Credit_Description))]
-	CREDIT = 1,
+	CREDIT,
 	/// <summary>
 	/// The <see cref="DEBIT"/> card type.
 	/// </summary>

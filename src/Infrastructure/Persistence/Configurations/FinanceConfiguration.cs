@@ -3,11 +3,11 @@ using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Schema = Domain.Constants.DomainConstants.Sql.Schema;
+using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 
-[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, entity type configuration.")]
 internal static class FinanceConfiguration
 {
 	/// <inheritdoc/>
@@ -15,8 +15,6 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Account> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Account), Schema.FINANCE);
-
 			builder.Property(e => e.IBAN)
 				.IsUnicode(false);
 
@@ -42,7 +40,7 @@ internal static class FinanceConfiguration
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
 
-			base.Configure(builder);
+			Configure(builder, SqlSchema.FINANCE);
 		}
 	}
 
@@ -51,7 +49,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<AccountTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(AccountTransaction), Schema.FINANCE);
+			builder.ToSytemVersionedTable(nameof(AccountTransaction), SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.TransactionId })
 				.IsClustered(false);
@@ -63,7 +61,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<AccountUser> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(AccountUser), Schema.FINANCE);
+			builder.ToSytemVersionedTable(nameof(AccountUser), SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.UserId })
 				.IsClustered(false);
@@ -75,8 +73,6 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Card> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Card), Schema.FINANCE);
-
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);
 
@@ -90,7 +86,7 @@ internal static class FinanceConfiguration
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
 
-			base.Configure(builder);
+			Configure(builder, SqlSchema.FINANCE);
 		}
 	}
 
@@ -99,7 +95,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<CardTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(CardTransaction), Schema.FINANCE);
+			builder.ToSytemVersionedTable(nameof(CardTransaction), SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.CardId, e.TransactionId })
 				.IsClustered(false);
@@ -111,8 +107,6 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Transaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Transaction), Schema.FINANCE);
-
 			builder.Property(e => e.AccountNumber)
 				.IsUnicode(false);
 
@@ -131,7 +125,7 @@ internal static class FinanceConfiguration
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
 
-			base.Configure(builder);
+			base.Configure(builder, SqlSchema.FINANCE);
 		}
 	}
 }

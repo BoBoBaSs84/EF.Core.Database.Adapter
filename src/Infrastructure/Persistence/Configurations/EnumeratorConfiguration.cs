@@ -22,14 +22,14 @@ internal static class EnumeratorConfiguration
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
 
-			builder.HasData(GetCardTypes());
+			builder.HasData(GetCardTypeData());
 
 			base.Configure(builder);
 		}
 
-		private static IEnumerable<CardType> GetCardTypes()
+		private static IEnumerable<CardType> GetCardTypeData()
 		{
-			List<ECT> enumList = ECT.CREDIT.GetListFromEnum();
+			IList<ECT> enumList = ECT.CREDIT.GetListFromEnum();
 			IList<CardType> listToReturn = new List<CardType>();
 
 			foreach (ECT dayType in enumList)
@@ -63,14 +63,14 @@ internal static class EnumeratorConfiguration
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired(true);
 
-			builder.HasData(GetDayTypes());
+			builder.HasData(GetDayTypeData());
 
 			base.Configure(builder);
 		}
 
-		private static IEnumerable<DayType> GetDayTypes()
+		private static IEnumerable<DayType> GetDayTypeData()
 		{
-			List<EDT> enumList = EDT.ABSENCE.GetListFromEnum();
+			IList<EDT> enumList = EDT.ABSENCE.GetListFromEnum();
 			IList<DayType> listToReturn = new List<DayType>();
 
 			foreach (EDT dayType in enumList)

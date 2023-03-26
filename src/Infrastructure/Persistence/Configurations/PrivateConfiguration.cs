@@ -1,5 +1,4 @@
 ﻿using Domain.Entities.Private;
-using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,8 +13,6 @@ internal static class PrivateConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Attendance> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Attendance));
-
 			builder.HasIndex(e => new { e.UserId, e.CalendarDayId, e.IsDeleted })
 				.IsUnique(true)
 				.HasFilter($"[{nameof(Attendance.IsDeleted)}]<>(1)");
@@ -30,8 +27,6 @@ internal static class PrivateConfiguration
 		/// <inheritdoc/>
 		public override void Configure(EntityTypeBuilder<CalendarDay> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(CalendarDay));
-
 			builder.HasIndex(e => e.Date)
 				.IsUnique(true);
 

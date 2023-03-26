@@ -290,10 +290,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		IList<Claim> claims = new List<Claim>()
 		{
-			new(ClaimTypes.Email, user.Email),
 			new(ClaimTypes.Name, user.UserName),
 			new(ClaimTypes.NameIdentifier, $"{user.Id}"),
-			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}")
 		};
 
 		IList<string> roles = await _userService.GetRolesAsync(user);

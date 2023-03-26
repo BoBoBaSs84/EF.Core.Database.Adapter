@@ -2,7 +2,6 @@
 using Application.Features.Requests;
 using Application.Services;
 using Domain.Extensions;
-using System.Globalization;
 using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
@@ -15,7 +14,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CalendarDayServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = Domain.Statics.CurrentCulture;
+	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(CalendarDayServiceErrors)}";
 
 	/// <summary>

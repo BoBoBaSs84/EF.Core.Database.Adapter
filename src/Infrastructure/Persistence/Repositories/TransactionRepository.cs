@@ -9,10 +9,8 @@ namespace Infrastructure.Persistence.Repositories;
 /// The transaction repository class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityRepository{TEntity}"/> class and implements the interfaces:
-/// <list type="bullet">
-/// <item>The <see cref="IAccountRepository"/> interface</item>
-/// </list>
+/// Derives from the <see cref="IdentityRepository{TEntity}"/> class
+/// and implements the <see cref="ITransactionRepository"/> interface.
 /// </remarks>
 internal sealed class TransactionRepository : IdentityRepository<Transaction>, ITransactionRepository
 {

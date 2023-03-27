@@ -9,10 +9,8 @@ namespace Infrastructure.Persistence.Repositories;
 /// The calendar day repository class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityRepository{TEntity}"/> class and implements the interfaces:
-/// <list type="bullet">
-/// <item>The <see cref="ICalendarDayRepository"/> interface</item>
-/// </list>
+/// Derives from the <see cref="IdentityRepository{TEntity}"/> class
+/// and implements the <see cref="ICalendarDayRepository"/> interface.
 /// </remarks>
 internal sealed class CalendarDayRepository : IdentityRepository<CalendarDay>, ICalendarDayRepository
 {

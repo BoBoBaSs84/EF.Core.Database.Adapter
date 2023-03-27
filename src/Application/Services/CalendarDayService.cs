@@ -110,7 +110,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 				return CalendarDayServiceErrors.GetPagedByParametersNotFound;
 
 			int totalCount = await _unitOfWork.CalendarDayRepository.GetCountAsync(
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken
 				);
 

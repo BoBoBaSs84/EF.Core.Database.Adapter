@@ -18,7 +18,7 @@ internal static class EnumeratorConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<CardType> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(CardType), SqlSchema.ENUMERATOR);
+			builder.ToSytemVersionedTable(SqlSchema.ENUMERATOR);
 
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.CardType)
@@ -55,7 +55,7 @@ internal static class EnumeratorConfiguration
 		/// <inheritdoc/>
 		public override void Configure(EntityTypeBuilder<DayType> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(DayType), SqlSchema.ENUMERATOR);
+			builder.ToSytemVersionedTable(SqlSchema.ENUMERATOR);
 
 			builder.HasMany(e => e.CalendarDays)
 				.WithOne(e => e.DayType)

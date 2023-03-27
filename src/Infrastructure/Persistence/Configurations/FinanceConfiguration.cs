@@ -15,12 +15,12 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Account> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Account), SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.Property(e => e.IBAN)
 				.IsUnicode(false);
 
-			builder.HasIndex(e => new { e.IBAN, e.IsDeleted })
+			builder.HasIndex(e => new { e.IBAN })
 				.IsClustered(false)
 				.IsUnique(true)
 				.HasFilter($"[{nameof(Account.IsDeleted)}]<>(1)");
@@ -52,7 +52,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<AccountTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(AccountTransaction), SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.TransactionId })
 				.IsClustered(false);
@@ -64,7 +64,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<AccountUser> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(AccountUser), SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.UserId })
 				.IsClustered(false);
@@ -76,7 +76,7 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Card> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Card), SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);
@@ -101,7 +101,7 @@ internal static class FinanceConfiguration
 	{
 		public void Configure(EntityTypeBuilder<CardTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(CardTransaction), SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.CardId, e.TransactionId })
 				.IsClustered(false);
@@ -113,7 +113,7 @@ internal static class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<Transaction> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Transaction), SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.Property(e => e.AccountNumber)
 				.IsUnicode(false);

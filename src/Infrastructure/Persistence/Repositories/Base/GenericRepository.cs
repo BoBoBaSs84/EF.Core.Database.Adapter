@@ -11,6 +11,7 @@ namespace Infrastructure.Persistence.Repositories.Base;
 /// Implemnts the members of the <see cref="IGenericRepository{TEntity}"/> interface.
 /// </remarks>
 /// <typeparam name="TEntity">The entity to work with.</typeparam>
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, generic repository.")]
 internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
 	protected DbContext dbContext;

@@ -6,7 +6,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.15" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.15" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.15" />
 	</ItemGroup>
 
@@ -21,7 +21,7 @@
 	<ItemGroup>
 		<Using Include="System.Diagnostics.CodeAnalysis" />
 		<Using Include="System.Text" />
-		<Using Include="System.Globalization"/>
+		<Using Include="System.Globalization" />
 	</ItemGroup>
 
 </Project>

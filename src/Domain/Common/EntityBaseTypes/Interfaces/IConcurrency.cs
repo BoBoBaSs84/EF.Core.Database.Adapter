@@ -1,12 +1,12 @@
 ﻿namespace Domain.Common.EntityBaseTypes.Interfaces;
 
 /// <summary>
-/// The concurrency model interface.
+/// The concurrency interface.
 /// </summary>
-internal interface IConcurrencyModel
+public interface IConcurrency
 {
 	/// <summary>
-	/// The <see cref="Timestamp"/> property.
+	/// The timestamp property.
 	/// </summary>
 	public byte[] Timestamp { get; }
 }

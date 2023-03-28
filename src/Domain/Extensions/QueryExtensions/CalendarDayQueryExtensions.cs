@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Private;
+﻿
+using Domain.Entities.Common;
 
 namespace Domain.Extensions.QueryExtensions;
 

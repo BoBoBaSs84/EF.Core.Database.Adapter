@@ -16,49 +16,49 @@ internal static class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(User), Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.IDENTITY);
 
 			builder.HasMany(e => e.Claims)
 				.WithOne(e => e.User)
 				.HasForeignKey(ucl => ucl.UserId)
-				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
 
 			builder.HasMany(e => e.Logins)
 				.WithOne(e => e.User)
 				.HasForeignKey(ulo => ulo.UserId)
-				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
 
 			builder.HasMany(e => e.Tokens)
 				.WithOne(e => e.User)
 				.HasForeignKey(uto => uto.UserId)
-				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
 
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.User)
 				.HasForeignKey(uro => uro.UserId)
-				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
 
 			builder.HasMany(e => e.Attendances)
 				.WithOne(e => e.User)
 				.HasForeignKey(uat => uat.UserId)
-				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
 
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.User)
 				.HasForeignKey(eca => eca.UserId)
-				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
 
 			builder.HasMany(e => e.AccountUsers)
 				.WithOne(e => e.User)
 				.HasForeignKey(e => e.UserId)
-				.OnDelete(DeleteBehavior.Restrict)
-				.IsRequired(true);
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
 		}
 	}
 
@@ -67,17 +67,17 @@ internal static class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<Role> builder)
 		{
-			builder.ToSytemVersionedTable(nameof(Role), Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.IDENTITY);
 
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.Role)
 				.HasForeignKey(ur => ur.RoleId)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasMany(e => e.RoleClaims)
 				.WithOne(e => e.Role)
 				.HasForeignKey(rc => rc.RoleId)
-				.IsRequired(true);
+				.IsRequired();
 
 			builder.HasData(GetRoleTypes());
 		}
@@ -103,34 +103,34 @@ internal static class IdentityConfiguration
 	internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaim>
 	{
 		public void Configure(EntityTypeBuilder<RoleClaim> builder) =>
-			builder.ToSytemVersionedTable(nameof(RoleClaim), Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.IDENTITY);
 	}
 
 	/// <inheritdoc/>
 	internal sealed class UserClaimConfiguration : IEntityTypeConfiguration<UserClaim>
 	{
 		public void Configure(EntityTypeBuilder<UserClaim> builder) =>
-			builder.ToSytemVersionedTable(nameof(UserClaim), Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.IDENTITY);
 	}
 
 	/// <inheritdoc/>
 	internal sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
 	{
 		public void Configure(EntityTypeBuilder<UserLogin> builder) =>
-			builder.ToSytemVersionedTable(nameof(UserLogin), Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.IDENTITY);
 	}
 
 	/// <inheritdoc/>
 	internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 	{
 		public void Configure(EntityTypeBuilder<UserRole> builder) =>
-			builder.ToSytemVersionedTable(nameof(UserRole), Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.IDENTITY);
 	}
 
 	/// <inheritdoc/>
 	internal class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
 	{
 		public void Configure(EntityTypeBuilder<UserToken> builder) =>
-			builder.ToSytemVersionedTable(nameof(UserToken), Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.IDENTITY);
 	}
 }

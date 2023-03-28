@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Enumerator;
+﻿using Domain.Entities.Common;
+using Domain.Entities.Enumerator;
 using Domain.Entities.Finance;
 using Domain.Entities.Private;
 using Microsoft.EntityFrameworkCore;
@@ -44,11 +45,6 @@ public interface IApplicationContext
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Transaction"/>.
 	/// </summary>
 	DbSet<Transaction> Transactions { get; }
-
-	/// <summary>
-	/// Saves the changes.
-	/// </summary>
-	int SaveChanges();
 
 	/// <summary>
 	/// Saves the changes asynchronous.

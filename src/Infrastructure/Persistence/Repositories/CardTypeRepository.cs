@@ -9,10 +9,8 @@ namespace Infrastructure.Persistence.Repositories;
 /// The card type repository class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
-/// <list type="bullet">
-/// <item>The <see cref="ICardTypeRepository"/> interface</item>
-/// </list>
+/// Derives from the <see cref="GenericRepository{TEntity}"/> class
+/// and implements the <see cref="ICardTypeRepository"/> interface.
 /// </remarks>
 internal sealed class CardTypeRepository : GenericRepository<CardType>, ICardTypeRepository
 {

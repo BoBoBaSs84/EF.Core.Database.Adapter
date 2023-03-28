@@ -41,11 +41,8 @@ internal sealed class DayTypeService : IDayTypeService
 	{
 		try
 		{
-			DayType? dayType = await _unitOfWork.DayTypeRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(id),
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
-				);
+			DayType? dayType = await _unitOfWork.DayTypeRepository
+				.GetByConditionAsync(expression: x => x.Id.Equals(id), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (dayType is null)
 				return DayTypeServiceErrors.GetByIdNotFound(id);
@@ -65,11 +62,8 @@ internal sealed class DayTypeService : IDayTypeService
 	{
 		try
 		{
-			DayType? dayType = await _unitOfWork.DayTypeRepository.GetByConditionAsync(
-				expression: x => x.Name.Equals(name),
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
-				);
+			DayType? dayType = await _unitOfWork.DayTypeRepository
+				.GetByConditionAsync(expression: x => x.Name.Equals(name), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (dayType is null)
 				return DayTypeServiceErrors.GetByNameNotFound(name);
@@ -89,10 +83,11 @@ internal sealed class DayTypeService : IDayTypeService
 	{
 		try
 		{
-			IEnumerable<DayType> dayTypes = await _unitOfWork.DayTypeRepository.GetAllAsync(trackChanges, cancellationToken);
+			IEnumerable<DayType> dayTypes = await _unitOfWork.DayTypeRepository
+				.GetAllAsync(ignoreQueryFilters: true, trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (!dayTypes.Any())
-				return DayTypeServiceErrors.GetPagedByParametersNotFound;
+				return DayTypeServiceErrors.GetAllNotFound;
 
 			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
 
@@ -101,7 +96,7 @@ internal sealed class DayTypeService : IDayTypeService
 		catch (Exception ex)
 		{
 			_logger.Log(logException, ex);
-			return DayTypeServiceErrors.GetPagedByParametersFailed;
+			return DayTypeServiceErrors.GetAllFailed;
 		}
 	}
 }

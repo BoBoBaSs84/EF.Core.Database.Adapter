@@ -18,6 +18,11 @@ public sealed class CalendarDayResponse : ResponseModel
 	public DateTime Date { get; set; } = default!;
 
 	/// <summary>
+	/// The <see cref="DayType"/> property.
+	/// </summary>
+	public string DayType { get; set; } = default!;
+
+	/// <summary>
 	/// The <see cref="Year"/> property.
 	/// </summary>
 	public int Year { get; set; } = default!;

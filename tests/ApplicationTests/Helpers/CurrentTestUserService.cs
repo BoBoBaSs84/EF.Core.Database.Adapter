@@ -2,7 +2,7 @@
 
 namespace ApplicationTests.Helpers;
 
-internal class CurrentTestUserService : ICurrentUserService
+internal sealed class CurrentTestUserService : ICurrentUserService
 {
 	public int UserId => 0;
 

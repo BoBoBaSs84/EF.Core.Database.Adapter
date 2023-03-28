@@ -23,5 +23,5 @@ public sealed class AccountResponse : ResponseModel
 	/// <summary>
 	/// The cards belonging to this account.
 	/// </summary>
-	public IEnumerable<CardResponse> Cards { get; set; } = new HashSet<CardResponse>();
+	public IEnumerable<CardResponse>? Cards { get; set; }
 }

@@ -12,13 +12,13 @@ public sealed class AttendanceCreateRequest
 	/// <summary>
 	/// The <see cref="CalendarDayId"/> property.
 	/// </summary>
-	[Required, Range(0, int.MaxValue)]
+	[Required, Range(1, int.MaxValue)]
 	public int CalendarDayId { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="DayTypeId"/> property.
 	/// </summary>
-	[Required, Range(0, int.MaxValue)]
+	[Required, Range(1, int.MaxValue)]
 	public int DayTypeId { get; set; } = default!;
 
 	/// <summary>

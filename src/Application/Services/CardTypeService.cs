@@ -41,7 +41,8 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			CardType? cardType = await _unitOfWork.CardTypeRepository.GetByIdAsync(id, cancellationToken);
+			CardType? cardType = await _unitOfWork.CardTypeRepository
+				.GetByConditionAsync(expression: x => x.Id.Equals(id), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByIdNotFound(id);
@@ -62,11 +63,8 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			CardType? cardType = await _unitOfWork.CardTypeRepository.GetByConditionAsync(
-				expression: x => x.Name.Equals(name),
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
-				);
+			CardType? cardType = await _unitOfWork.CardTypeRepository
+				.GetByConditionAsync(expression: x => x.Name.Equals(name), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByNameNotFound(name);
@@ -87,10 +85,11 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			IEnumerable<CardType> cardTypes = await _unitOfWork.CardTypeRepository.GetAllAsync(trackChanges, cancellationToken);
+			IEnumerable<CardType> cardTypes = await _unitOfWork.CardTypeRepository
+				.GetAllAsync(ignoreQueryFilters: true, trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (!cardTypes.Any())
-				return CardTypeServiceErrors.GetPagedByParametersNotFound;
+				return CardTypeServiceErrors.GetAllNotFound;
 
 			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
 
@@ -99,7 +98,7 @@ internal sealed class CardTypeService : ICardTypeService
 		catch (Exception ex)
 		{
 			_logger.Log(logException, ex);
-			return CardTypeServiceErrors.GetPagedByParametersFailed;
+			return CardTypeServiceErrors.GetAllFailed;
 		}
 	}
 }

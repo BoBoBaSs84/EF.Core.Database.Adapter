@@ -5,6 +5,7 @@ using BaseTests;
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Env = Domain.Constants.DomainConstants.Environment;
@@ -25,6 +26,9 @@ public class ApplicationBaseTests : BaseTestUnit
 		testHost = InitializeHost(context);
 
 		ApplicationContext dbContext = GetRequiredService<ApplicationContext>();
+
+		string sqlScript = dbContext.Database.GenerateCreateScript();
+		
 		dbContext.Database.EnsureCreated();
 
 		dbContext.CalendarDays.AddRange(EntityHelper.GetCalendarDays());

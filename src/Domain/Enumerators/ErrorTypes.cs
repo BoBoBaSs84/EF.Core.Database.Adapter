@@ -15,7 +15,7 @@ public enum ErrorTypes
 		Name = nameof(RESX.ErrorTypes_Failure_Name),
 		ShortName = nameof(RESX.ErrorTypes_Failure_ShortName),
 		ResourceType = typeof(RESX))]
-	Failure,
+	Failure = 1,
 	/// <summary>
 	/// The <see cref="Unexpected"/> error type.
 	/// </summary>

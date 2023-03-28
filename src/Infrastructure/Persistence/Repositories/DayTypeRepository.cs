@@ -9,10 +9,8 @@ namespace Infrastructure.Persistence.Repositories;
 /// The day type repository class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
-/// <list type="bullet">
-/// <item>The <see cref="IDayTypeRepository"/> interface</item>
-/// </list>
+/// Derives from the <see cref="GenericRepository{TEntity}"/> class
+/// and implements the <see cref="IDayTypeRepository"/> interface.
 /// </remarks>
 internal sealed class DayTypeRepository : GenericRepository<DayType>, IDayTypeRepository
 {

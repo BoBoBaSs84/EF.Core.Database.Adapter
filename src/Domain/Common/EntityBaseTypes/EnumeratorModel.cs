@@ -1,7 +1,7 @@
 ﻿using Domain.Common.EntityBaseTypes.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DC = Domain.Constants.DomainConstants;
+using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
 namespace Domain.Common.EntityBaseTypes;
 
@@ -11,11 +11,11 @@ namespace Domain.Common.EntityBaseTypes;
 /// <remarks>
 /// Derives from the <see cref="IdentityModel"/> class and implements the following interface members:
 /// <list type="bullet">
-/// <item>The <see cref="IIdentityModel{TKey}"/> interface</item>
-/// <item>The <see cref="IConcurrencyModel"/> interface</item>
+/// <item>The <see cref="IIdentity{TKey}"/> interface</item>
+/// <item>The <see cref="IConcurrency"/> interface</item>
 /// </list>
 /// </remarks>
-public abstract class EnumeratorModel : IdentityModel, IActivatableModel, IEnumeratorModel
+public abstract class EnumeratorModel : IdentityModel, IEnumerator
 {
 	/// <summary>
 	/// The <see cref="Id"/> property.
@@ -27,13 +27,10 @@ public abstract class EnumeratorModel : IdentityModel, IActivatableModel, IEnume
 	new public int Id { get; set; } = default!;
 
 	/// <inheritdoc/>
-	[MaxLength(DC.Sql.MaxLength.MAX_250)]
+	[Column(Order = 3), MaxLength(SqlMaxLength.MAX_250)]
 	public string Name { get; set; } = default!;
 
 	/// <inheritdoc/>
-	[MaxLength(DC.Sql.MaxLength.MAX_1000)]
+	[Column(Order = 4), MaxLength(SqlMaxLength.MAX_1000)]
 	public string? Description { get; set; } = default!;
-
-	/// <inheritdoc/>
-	public bool IsActive { get; set; } = default!;
 }

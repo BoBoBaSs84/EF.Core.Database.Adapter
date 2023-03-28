@@ -50,17 +50,17 @@ internal static class CardTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardTypeService.GetPagedByParameters(CardTypeParameters, bool, CancellationToken)"/> method.
+	/// <see cref="CardTypeService.GetAll(bool, CancellationToken)"/> method.
 	/// </summary>
-	public static readonly ApiError GetPagedByParametersFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
-			RESX.CardTypeService_GetPagedByParameters_Failed);
+	public static readonly ApiError GetAllFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAllFailed)}",
+			RESX.CardTypeService_GetAll_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardTypeService.GetPagedByParameters(CardTypeParameters, bool, CancellationToken)"/> method.
+	/// <see cref="CardTypeService.GetAll(bool, CancellationToken)"/> method.
 	/// </summary>
-	public static readonly ApiError GetPagedByParametersNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetPagedByParametersNotFound)}",
-			RESX.CardTypeService_GetPagedByParameters_NotFound);
+	public static readonly ApiError GetAllNotFound =
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetAllNotFound)}",
+			RESX.CardTypeService_GetAll_NotFound);
 }

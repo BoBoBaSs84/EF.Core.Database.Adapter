@@ -1,5 +1,4 @@
 ﻿using Application.Contracts.Responses;
-using Application.Errors.Base;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
@@ -7,7 +6,7 @@ using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Persistence;
 using AutoMapper;
-using Domain.Entities.Private;
+using Domain.Entities.Common;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Extensions.QueryExtensions;
@@ -44,8 +43,12 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository
-				.GetByConditionAsync(x => x.Date.Equals(date.ToSqlDate()), trackChanges, cancellationToken);
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
+				expression: x => x.Date.Equals(date.ToSqlDate()),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(CalendarDay.DayType) }
+				);
 
 			if (calendarDay is null)
 				return CalendarDayServiceErrors.GetByDateNotFound(date);
@@ -65,8 +68,12 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository
-				.GetByIdAsync(id, cancellationToken);
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(id),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(CalendarDay.DayType) }
+				);
 
 			if (calendarDay is null)
 				return CalendarDayServiceErrors.GetByIdNotFound(id);
@@ -87,19 +94,23 @@ internal sealed class CalendarDayService : ICalendarDayService
 		try
 		{
 			IEnumerable<CalendarDay> calendarDays = await _unitOfWork.CalendarDayRepository.GetManyByConditionAsync(
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year)
+					.FilterByMonth(parameters.Month)
+					.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+					.FilterByEndOfMonth(parameters.EndOfMonth),
 				orderBy: x => x.OrderBy(x => x.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(CalendarDay.DayType) }
 				);
 
 			if (!calendarDays.Any())
 				return CalendarDayServiceErrors.GetPagedByParametersNotFound;
 
 			int totalCount = await _unitOfWork.CalendarDayRepository.GetCountAsync(
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken
 				);
 
@@ -118,8 +129,12 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository
-				.GetByConditionAsync(x => x.Date.Equals(DateTime.Today), trackChanges, cancellationToken);
+			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
+				expression: x => x.Date.Equals(DateTime.Today),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(CalendarDay.DayType) }
+				);
 
 			if (calendarDay is null)
 				return CalendarDayServiceErrors.GetCurrentDateNotFound;
@@ -128,7 +143,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 
 			return response;
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			_logger.Log(logException, ex);
 			return CalendarDayServiceErrors.GetCurrentDateFailed;

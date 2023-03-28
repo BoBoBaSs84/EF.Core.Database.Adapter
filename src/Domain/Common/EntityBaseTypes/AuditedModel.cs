@@ -7,12 +7,10 @@ namespace Domain.Common.EntityBaseTypes;
 /// The abstract audited model class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityModel"/> class and implements the following interface members:
-/// <list type="bullet">
-/// <item>The <see cref="IAuditedModel"/> interface</item>
-/// </list>
+/// Derives from the <see cref="IdentityModel"/> class
+/// and implements the <see cref="IAudited"/> interface.
 /// </remarks>
-public abstract class AuditedModel : IdentityModel, IAuditedModel
+public abstract class AuditedModel : IdentityModel, IAudited
 {
 	/// <inheritdoc/>
 	[Column(Order = 3)]

@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses;
 using AutoMapper;
-using Domain.Entities.Private;
+using Domain.Entities.Common;
 
 namespace Application.Common.MappingProfiles.Responses;
 
@@ -9,6 +9,7 @@ internal sealed class CalendarResponseProfile : Profile
 {
 	public CalendarResponseProfile()
 	{
-		CreateMap<CalendarDay, CalendarDayResponse>();
+		CreateMap<CalendarDay, CalendarDayResponse>()
+			.ForMember(dst => dst.DayType, opt => opt.MapFrom(src => src.DayType.Name));
 	}
 }

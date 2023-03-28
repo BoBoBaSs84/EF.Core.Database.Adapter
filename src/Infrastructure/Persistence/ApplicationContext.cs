@@ -39,4 +39,25 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	/// <inheritdoc/>
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
 		optionsBuilder.AddInterceptors(_changesInterceptor);
+
+	/// <inheritdoc/>
+	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+	{
+		int i = 0;
+		try
+		{
+			i = await base.SaveChangesAsync(cancellationToken);
+		}
+		// TODO: What todo then?
+		catch (DbUpdateConcurrencyException ex)
+		{
+			Console.WriteLine(ex.Message);
+		}
+		// TODO: What todo then?
+		catch (DbUpdateException ex)
+		{
+			Console.WriteLine(ex.Message);
+		}
+		return i;
+	}
 }

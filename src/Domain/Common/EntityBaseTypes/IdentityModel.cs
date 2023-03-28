@@ -10,11 +10,11 @@ namespace Domain.Common.EntityBaseTypes;
 /// <remarks>
 /// Implements the following interface members:
 /// <list type="bullet">
-/// <item>The <see cref="IIdentityModel{TKey}"/> interface</item>
-/// <item>The <see cref="IConcurrencyModel"/> interface</item>
+/// <item>The <see cref="IIdentity{TKey}"/> interface</item>
+/// <item>The <see cref="IConcurrency"/> interface</item>
 /// </list>
 /// </remarks>
-public abstract class IdentityModel : IIdentityModel<int>, IConcurrencyModel
+public abstract class IdentityModel : IIdentity<int>, IConcurrency
 {
 	/// <inheritdoc/>
 	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]

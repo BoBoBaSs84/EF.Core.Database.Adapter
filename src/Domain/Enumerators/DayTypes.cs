@@ -15,7 +15,7 @@ public enum DayTypes
 		Name = nameof(RESX.DayType_Holiday_Name),
 		ShortName = nameof(RESX.DayType_Holiday_ShortName),
 		Description = nameof(RESX.DayType_Holiday_Description))]
-	HOLIDAY,
+	HOLIDAY = 1,
 	/// <summary>
 	/// The <see cref="WEEKDAY"/> day type.
 	/// </summary>

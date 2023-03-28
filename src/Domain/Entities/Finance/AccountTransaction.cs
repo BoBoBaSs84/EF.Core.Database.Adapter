@@ -1,9 +1,14 @@
-﻿namespace Domain.Entities.Finance;
+﻿using Domain.Common.EntityBaseTypes;
+
+namespace Domain.Entities.Finance;
 
 /// <summary>
 /// The account transaction entity class.
 /// </summary>
-public partial class AccountTransaction
+/// <remarks>
+/// Derives from the <see cref="AuditedCompositeModel"/> class.
+/// </remarks>
+public partial class AccountTransaction : AuditedCompositeModel
 {
 	/// <summary>
 	/// The <see cref="AccountId"/> property.

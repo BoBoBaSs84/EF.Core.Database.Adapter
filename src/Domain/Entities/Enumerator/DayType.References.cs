@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Private;
+﻿using Domain.Entities.Common;
+using Domain.Entities.Private;
 
 namespace Domain.Entities.Enumerator;
 

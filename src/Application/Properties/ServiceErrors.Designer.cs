@@ -106,11 +106,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No card type with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string AccountService_CardTypeId_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.CardTypeId.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An internal error occurred while creating the account..
         /// </summary>
         public static string AccountService_Create_Failed {
             get {
                 return ResourceManager.GetString("AccountService.Create.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An internal error occurred while deleting the account..
+        /// </summary>
+        public static string AccountService_Delete_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.Delete.Failed", resourceCulture);
             }
         }
         
@@ -129,6 +147,15 @@ namespace Application.Properties {
         public static string AccountService_GetAll_NotFound {
             get {
                 return ResourceManager.GetString("AccountService.GetAll.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank account with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string AccountService_GetById_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.GetById.Failed", resourceCulture);
             }
         }
         
@@ -493,6 +520,24 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the card type entries based on the parameterization..
+        /// </summary>
+        public static string CardTypeService_GetAll_Failed {
+            get {
+                return ResourceManager.GetString("CardTypeService.GetAll.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No card type entries could be found based on the parameterization..
+        /// </summary>
+        public static string CardTypeService_GetAll_NotFound {
+            get {
+                return ResourceManager.GetString("CardTypeService.GetAll.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the card type by identifier..
         /// </summary>
         public static string CardTypeService_GetById_Failed {
@@ -529,20 +574,20 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the card type entries based on the parameterization..
+        ///   Looks up a localized string similar to An error occurred while loading the day type entries based on the parameterization..
         /// </summary>
-        public static string CardTypeService_GetPagedByParameters_Failed {
+        public static string DayTypeService_GetAll_Failed {
             get {
-                return ResourceManager.GetString("CardTypeService.GetPagedByParameters.Failed", resourceCulture);
+                return ResourceManager.GetString("DayTypeService.GetAll.Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No card type entries could be found based on the parameterization..
+        ///   Looks up a localized string similar to No day type entries could be found based on the parameterization..
         /// </summary>
-        public static string CardTypeService_GetPagedByParameters_NotFound {
+        public static string DayTypeService_GetAll_NotFound {
             get {
-                return ResourceManager.GetString("CardTypeService.GetPagedByParameters.NotFound", resourceCulture);
+                return ResourceManager.GetString("DayTypeService.GetAll.NotFound", resourceCulture);
             }
         }
         
@@ -579,24 +624,6 @@ namespace Application.Properties {
         public static string DayTypeService_GetByName_NotFound {
             get {
                 return ResourceManager.GetString("DayTypeService.GetByName.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the day type entries based on the parameterization..
-        /// </summary>
-        public static string DayTypeService_GetPagedByParameters_Failed {
-            get {
-                return ResourceManager.GetString("DayTypeService.GetPagedByParameters.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No day type entries could be found based on the parameterization..
-        /// </summary>
-        public static string DayTypeService_GetPagedByParameters_NotFound {
-            get {
-                return ResourceManager.GetString("DayTypeService.GetPagedByParameters.NotFound", resourceCulture);
             }
         }
     }

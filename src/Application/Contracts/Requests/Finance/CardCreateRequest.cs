@@ -10,9 +10,9 @@ namespace Application.Contracts.Requests.Finance;
 public sealed class CardCreateRequest
 {
 	/// <summary>
-	/// The card type.
+	/// The card type identifier.
 	/// </summary>
-	[Required, Range(0, int.MaxValue)]
+	[Required, Range(1, int.MaxValue)]
 	public int CardTypeId { get; set; } = default!;
 
 	/// <summary>

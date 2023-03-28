@@ -139,7 +139,7 @@ internal sealed class AttendanceService : IAttendanceService
 		{
 			IEnumerable<Attendance> attendances = await _unitOfWork.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -153,7 +153,7 @@ internal sealed class AttendanceService : IAttendanceService
 
 			int totalCount = await _unitOfWork.AttendanceRepository.GetCountAsync(
 				expression: x => x.UserId.Equals(userId),
-				filterBy: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken);
 
 			IEnumerable <AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
@@ -224,7 +224,8 @@ internal sealed class AttendanceService : IAttendanceService
 	{
 		try
 		{
-			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByIdAsync(updateRequest.Id, cancellationToken);
+			Attendance? attendance = await _unitOfWork.AttendanceRepository
+				.GetByIdAsync(id: updateRequest.Id, cancellationToken: cancellationToken);
 
 			if (attendance is null)
 				return AttendanceServiceErrors.UpdateNotFound;
@@ -247,8 +248,8 @@ internal sealed class AttendanceService : IAttendanceService
 	{
 		try
 		{
-			IEnumerable<Attendance> attendances =
-				await _unitOfWork.AttendanceRepository.GetByIdsAsync(updateRequest.Select(x => x.Id), true, cancellationToken);
+			IEnumerable<Attendance> attendances = await _unitOfWork.AttendanceRepository
+				.GetByIdsAsync(ids: updateRequest.Select(x => x.Id), trackChanges: true, cancellationToken: cancellationToken);
 
 			if (!attendances.Any())
 				return AttendanceServiceErrors.UpdateManyNotFound;

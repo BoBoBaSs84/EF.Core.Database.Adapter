@@ -18,10 +18,121 @@ namespace Infrastructure.Persistence.Migrations.Development
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Private")
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Domain.Entities.Common.CalendarDay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Day")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("(datepart(day,[Date]))", true);
+
+                    b.Property<int>("DayOfYear")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("(datepart(dayofyear,[Date]))", true);
+
+                    b.Property<int>("DayTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndOfMonth")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasComputedColumnSql("(eomonth([Date]))", true);
+
+                    b.Property<int>("IsoWeek")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("(datepart(iso_week,[Date]))", true);
+
+                    b.Property<int>("Month")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("(datepart(month,[Date]))", true);
+
+                    b.Property<string>("MonthName")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComputedColumnSql("(datename(month,[Date]))", false);
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
+
+                    b.Property<int>("Week")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("(datepart(week,[Date]))", false);
+
+                    b.Property<int>("WeekDay")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("(datepart(weekday,[Date]))", false);
+
+                    b.Property<string>("WeekDayName")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComputedColumnSql("(datename(weekday,[Date]))", false);
+
+                    b.Property<int>("Year")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("(datepart(year,[Date]))", true);
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("Date")
+                        .IsUnique();
+
+                    b.HasIndex("DayTypeId");
+
+                    b.HasIndex("Month");
+
+                    b.HasIndex("Year");
+
+                    b.ToTable("CalendarDay", "Private");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("CalendarDay", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
 
             modelBuilder.Entity("Domain.Entities.Enumerator.CardType", b =>
                 {
@@ -31,15 +142,14 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -70,30 +180,27 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("CardType", "Enumerator");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("CardType", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("CardType", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Description = "A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder's accrued debt.",
-                            IsActive = true,
                             Name = "Credit card"
                         },
                         new
                         {
                             Id = 2,
                             Description = "A debit card, also known as a check card or bank card is a payment card that can be used in place of cash to make purchases.",
-                            IsActive = true,
                             Name = "Debit card"
                         });
                 });
@@ -106,15 +213,14 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -145,114 +251,99 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("DayType", "Enumerator");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("DayType", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("DayType", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
 
                     b.HasData(
                         new
                         {
-                            Id = 0,
+                            Id = 1,
                             Description = "A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.",
-                            IsActive = true,
                             Name = "Holiday"
                         },
                         new
                         {
-                            Id = 1,
+                            Id = 2,
                             Description = "A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.",
-                            IsActive = true,
                             Name = "Weekday"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 3,
                             Description = "Generally refers to the period between the end of a usual work week and the beginning of the new work week.",
-                            IsActive = true,
                             Name = "Weekend day"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
                             Description = "Day on which professional work is performed or is to be performed.",
-                            IsActive = true,
                             Name = "Workday"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 5,
                             Description = "Weekend work means working on days that are usually non-working days.",
-                            IsActive = true,
                             Name = "Weekend workday"
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 6,
                             Description = "Is an authorised prolonged absence from work, for any reason authorised by the workplace.",
-                            IsActive = true,
                             Name = "Absence"
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 7,
                             Description = "Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes.",
-                            IsActive = true,
                             Name = "Buisness trip"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 8,
                             Description = "In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties.",
-                            IsActive = true,
                             Name = "Suspension"
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 9,
                             Description = "The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.",
-                            IsActive = true,
                             Name = "Mobile working"
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 10,
                             Description = "Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.",
-                            IsActive = true,
                             Name = "Planned vacation"
                         },
                         new
                         {
-                            Id = 10,
+                            Id = 11,
                             Description = "Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.",
-                            IsActive = true,
                             Name = "Short time work"
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 12,
                             Description = "The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.",
-                            IsActive = true,
                             Name = "Sickness"
                         },
                         new
                         {
-                            Id = 12,
+                            Id = 13,
                             Description = "Is either a leave of absence from a regular job or an instance of leisure travel away from home.",
-                            IsActive = true,
                             Name = "Vacation"
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 14,
                             Description = "With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.",
-                            IsActive = true,
                             Name = "Vacation block"
                         });
                 });
@@ -264,7 +355,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int")
@@ -309,19 +400,20 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasIndex("IBAN")
                         .IsUnique();
 
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("IBAN"), false);
+
                     b.ToTable("Account", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Account", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Account", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Finance.AccountTransaction", b =>
@@ -332,6 +424,14 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Property<int>("TransactionId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
+
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
@@ -341,6 +441,13 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(1);
 
                     b.HasKey("AccountId", "TransactionId");
 
@@ -351,16 +458,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("AccountTransaction", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("AccountTransaction", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("AccountTransaction", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Finance.AccountUser", b =>
@@ -370,6 +476,14 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -381,6 +495,13 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
 
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(1);
+
                     b.HasKey("AccountId", "UserId");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("AccountId", "UserId"), false);
@@ -390,16 +511,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("AccountUser", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("AccountUser", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("AccountUser", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Finance.Card", b =>
@@ -409,7 +529,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
@@ -465,21 +585,22 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasIndex("PAN")
                         .IsUnique();
 
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("PAN"), false);
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Card", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Card", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Card", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Finance.CardTransaction", b =>
@@ -489,6 +610,14 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.Property<int>("TransactionId")
                         .HasColumnType("int");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -500,6 +629,13 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
 
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(1);
+
                     b.HasKey("CardId", "TransactionId");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("CardId", "TransactionId"), false);
@@ -509,16 +645,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("CardTransaction", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("CardTransaction", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("CardTransaction", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Finance.Transaction", b =>
@@ -528,7 +663,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
@@ -613,16 +748,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("Transaction", "Finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Transaction", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Transaction", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
@@ -631,7 +765,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -669,22 +803,21 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("Role", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Role", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Role", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d328c8c7-ad86-440b-8ea5-44743081644d",
+                            ConcurrencyStamp = "4220afd5-5886-40c9-adfd-7198d532feb8",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -692,7 +825,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "8de12b41-9003-48de-9e8c-2398d9345798",
+                            ConcurrencyStamp = "5e3efd9e-376c-4b43-b537-2c0c1dca2015",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -700,7 +833,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "572c0150-add9-4ea5-8907-f35375862d8c",
+                            ConcurrencyStamp = "c3a36d82-f1a9-41eb-b120-aa09d6af2d71",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -713,7 +846,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -741,16 +874,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("RoleClaim", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("RoleClaim", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("RoleClaim", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.User", b =>
@@ -759,7 +891,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -854,16 +986,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("User", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("User", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("User", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.UserClaim", b =>
@@ -872,7 +1003,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -900,16 +1031,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("UserClaim", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserClaim", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserClaim", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.UserLogin", b =>
@@ -943,16 +1073,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("UserLogin", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserLogin", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserLogin", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.UserRole", b =>
@@ -980,16 +1109,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("UserRole", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserRole", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserRole", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.UserToken", b =>
@@ -1021,16 +1149,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.ToTable("UserToken", "Identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("UserToken", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("UserToken", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Domain.Entities.Private.Attendance", b =>
@@ -1040,7 +1167,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<TimeSpan?>("BreakTime")
                         .HasColumnType("time(0)");
@@ -1096,129 +1223,31 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasIndex("UserId", "CalendarDayId")
                         .IsUnique();
 
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "CalendarDayId"), false);
+
                     b.ToTable("Attendance", "Private");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("Attendance", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("Attendance", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
-            modelBuilder.Entity("Domain.Entities.Private.CalendarDay", b =>
+            modelBuilder.Entity("Domain.Entities.Common.CalendarDay", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
+                    b.HasOne("Domain.Entities.Enumerator.DayType", "DayType")
+                        .WithMany("CalendarDays")
+                        .HasForeignKey("DayTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<int>("Day")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(day,[Date]))", true);
-
-                    b.Property<int>("DayOfYear")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(dayofyear,[Date]))", true);
-
-                    b.Property<int>("DayTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndOfMonth")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("(eomonth([Date]))", true);
-
-                    b.Property<int>("IsoWeek")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(iso_week,[Date]))", true);
-
-                    b.Property<int>("Month")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(month,[Date]))", true);
-
-                    b.Property<string>("MonthName")
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql("(datename(month,[Date]))", false);
-
-                    b.Property<DateTime>("PeriodEnd")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PeriodEnd");
-
-                    b.Property<DateTime>("PeriodStart")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PeriodStart");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
-                        .HasColumnOrder(2);
-
-                    b.Property<int>("Week")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(week,[Date]))", false);
-
-                    b.Property<int>("WeekDay")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(weekday,[Date]))", false);
-
-                    b.Property<string>("WeekDayName")
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql("(datename(weekday,[Date]))", false);
-
-                    b.Property<int>("Year")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(year,[Date]))", true);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.HasIndex("Date")
-                        .IsUnique();
-
-                    b.HasIndex("DayTypeId");
-
-                    b.HasIndex("Year");
-
-                    b.ToTable("CalendarDay", "Private");
-
-                    b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("CalendarDay", "History");
-                            ttb
-                                .HasPeriodStart("PeriodStart")
-                                .HasColumnName("PeriodStart");
-                            ttb
-                                .HasPeriodEnd("PeriodEnd")
-                                .HasColumnName("PeriodEnd");
-                        }
-                    ));
+                    b.Navigation("DayType");
                 });
 
             modelBuilder.Entity("Domain.Entities.Finance.AccountTransaction", b =>
@@ -1251,7 +1280,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Identity.User", "User")
                         .WithMany("AccountUsers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -1276,7 +1305,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Identity.User", "User")
                         .WithMany("Cards")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -1321,7 +1350,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Identity.User", "User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -1332,7 +1361,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Identity.User", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -1349,7 +1378,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Identity.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
@@ -1362,7 +1391,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Identity.User", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -1370,7 +1399,7 @@ namespace Infrastructure.Persistence.Migrations.Development
 
             modelBuilder.Entity("Domain.Entities.Private.Attendance", b =>
                 {
-                    b.HasOne("Domain.Entities.Private.CalendarDay", "CalendarDay")
+                    b.HasOne("Domain.Entities.Common.CalendarDay", "CalendarDay")
                         .WithMany("Attendances")
                         .HasForeignKey("CalendarDayId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1385,7 +1414,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Identity.User", "User")
                         .WithMany("Attendances")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CalendarDay");
@@ -1395,15 +1424,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Private.CalendarDay", b =>
+            modelBuilder.Entity("Domain.Entities.Common.CalendarDay", b =>
                 {
-                    b.HasOne("Domain.Entities.Enumerator.DayType", "DayType")
-                        .WithMany("CalendarDays")
-                        .HasForeignKey("DayTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("DayType");
+                    b.Navigation("Attendances");
                 });
 
             modelBuilder.Entity("Domain.Entities.Enumerator.CardType", b =>
@@ -1461,11 +1484,6 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("Tokens");
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Private.CalendarDay", b =>
-                {
-                    b.Navigation("Attendances");
                 });
 #pragma warning restore 612, 618
         }

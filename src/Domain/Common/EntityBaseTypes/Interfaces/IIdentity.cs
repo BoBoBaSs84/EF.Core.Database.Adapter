@@ -3,11 +3,14 @@
 /// <summary>
 /// The identity model interface.
 /// </summary>
+/// <remarks>
+/// Derives from the <see cref="IEquatable{T}"/> interface.
+/// </remarks>
 /// <typeparam name="TKey">The primary key type.</typeparam>
-internal interface IIdentityModel<TKey> where TKey : IEquatable<TKey>
+public interface IIdentity<TKey> where TKey : IEquatable<TKey>
 {
 	/// <summary>
-	/// The <see cref="Id"/> property.
+	/// The identifier property.
 	/// </summary>
 	/// <remarks>
 	/// This is the primary key of the database table of type <typeparamref name="TKey"/>.

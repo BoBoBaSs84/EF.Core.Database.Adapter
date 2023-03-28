@@ -16,6 +16,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Tynamix.ObjectFiller" Version="1.5.8" />
+		<PackageReference Include="Tynamix.ObjectFiller.RegEx" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

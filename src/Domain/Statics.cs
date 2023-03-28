@@ -14,6 +14,11 @@ public static class Statics
 	public static Regex CreditCardRegex { get; } = new(RegexPatterns.CC);
 
 	/// <summary>
+	/// The <see cref="EmailRegex"/> property.
+	/// </summary>
+	public static Regex EmailRegex { get; } = new(RegexPatterns.Email);
+
+	/// <summary>
 	/// The <see cref="IbanRegex"/> property.
 	/// </summary>
 	public static Regex IbanRegex { get; } = new(RegexPatterns.IBAN);

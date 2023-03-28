@@ -4,13 +4,9 @@
 /// The audited interface.
 /// </summary>
 /// <remarks>
-/// Derives from the following interfaces:
-/// <list type="bullet">
-/// <item>The <see cref="IIdentity{TKey}"/> interface</item>
-/// <item>The <see cref="IConcurrency"/> interface</item>
-/// </list>
+/// Derives from the <see cref="ISoftDeleteable"/> interface.
 /// </remarks>
-public interface IAudited : IIdentity<int>, IConcurrency
+public interface IAudited
 {
 	/// <summary>
 	/// The created by property.

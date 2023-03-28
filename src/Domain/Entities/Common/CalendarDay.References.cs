@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.Enumerator;
+using Domain.Entities.Private;
 
-namespace Domain.Entities.Private;
+namespace Domain.Entities.Common;
 
 public partial class CalendarDay
 {

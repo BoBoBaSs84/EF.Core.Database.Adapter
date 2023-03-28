@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 
-namespace Domain.Entities.Private;
+namespace Domain.Entities.Common;
 
 /// <summary>
 /// The calendar entity class.

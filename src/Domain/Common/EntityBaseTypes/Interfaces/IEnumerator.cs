@@ -4,13 +4,9 @@
 /// The enumerator interface.
 /// </summary>
 /// <remarks>
-/// Derives from the following interfaces:
-/// <list type="bullet">
-/// <item>The <see cref="IIdentity{TKey}"/> interface</item>
-/// <item>The <see cref="IActivatable"/> interface</item>
-/// </list>
+/// Derives from the <see cref="IIdentity{TKey}"/> interface.
 /// </remarks>
-public interface IEnumerator : IIdentity<int>, IActivatable
+public interface IEnumerator : IIdentity<int>
 {
 	/// <summary>
 	/// The enumerator name property.

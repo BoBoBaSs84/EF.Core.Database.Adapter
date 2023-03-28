@@ -1,15 +1,20 @@
-﻿namespace Domain.Entities.Finance;
+﻿using Domain.Common.EntityBaseTypes;
+
+namespace Domain.Entities.Finance;
 
 /// <summary>
 /// The account user entity class.
 /// </summary>
-public partial class AccountUser
+/// <remarks>
+/// Derives from the <see cref="AuditedCompositeModel"/> class.
+/// </remarks>
+public partial class AccountUser : AuditedCompositeModel
 {
 	/// <summary>
 	/// The <see cref="AccountId"/> property.
 	/// </summary>
-
 	public int AccountId { get; set; } = default!;
+	
 	/// <summary>
 	/// The <see cref="UserId"/> property.
 	/// </summary>

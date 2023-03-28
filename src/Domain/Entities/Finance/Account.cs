@@ -10,9 +10,9 @@ namespace Domain.Entities.Finance;
 /// The account entity class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="FullAuditedModel"/> class.
+/// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-public partial class Account : FullAuditedModel
+public partial class Account : AuditedModel
 {
 	private string iban = default!;
 

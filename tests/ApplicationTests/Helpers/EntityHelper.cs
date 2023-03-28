@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Finance;
+﻿using Domain.Entities.Common;
+using Domain.Entities.Finance;
 using Domain.Entities.Identity;
 using Domain.Entities.Private;
 using Domain.Extensions;

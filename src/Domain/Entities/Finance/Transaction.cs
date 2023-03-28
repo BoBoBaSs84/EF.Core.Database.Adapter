@@ -10,9 +10,9 @@ namespace Domain.Entities.Finance;
 /// The transaction entity class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="FullAuditedModel"/> class.
+/// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-public partial class Transaction : FullAuditedModel
+public partial class Transaction : AuditedModel
 {
 	/// <summary>
 	/// The <see cref="BookingDate"/> property.

@@ -6,7 +6,7 @@ using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Persistence;
 using AutoMapper;
-using Domain.Entities.Private;
+using Domain.Entities.Common;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Extensions.QueryExtensions;

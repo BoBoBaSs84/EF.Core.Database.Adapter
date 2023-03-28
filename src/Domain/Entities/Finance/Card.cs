@@ -12,9 +12,9 @@ namespace Domain.Entities.Finance;
 /// The card entity class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="FullAuditedModel"/> class.
+/// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-public partial class Card : FullAuditedModel
+public partial class Card : AuditedModel
 {
 	private string pan = default!;
 

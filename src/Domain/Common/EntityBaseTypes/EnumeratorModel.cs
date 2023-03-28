@@ -15,7 +15,7 @@ namespace Domain.Common.EntityBaseTypes;
 /// <item>The <see cref="IConcurrency"/> interface</item>
 /// </list>
 /// </remarks>
-public abstract class EnumeratorModel : ActivatableModel, IEnumerator
+public abstract class EnumeratorModel : IdentityModel, IEnumerator
 {
 	/// <summary>
 	/// The <see cref="Id"/> property.
@@ -27,10 +27,10 @@ public abstract class EnumeratorModel : ActivatableModel, IEnumerator
 	new public int Id { get; set; } = default!;
 
 	/// <inheritdoc/>
-	[MaxLength(SqlMaxLength.MAX_250)]
+	[Column(Order = 3), MaxLength(SqlMaxLength.MAX_250)]
 	public string Name { get; set; } = default!;
 
 	/// <inheritdoc/>
-	[MaxLength(SqlMaxLength.MAX_1000)]
+	[Column(Order = 4), MaxLength(SqlMaxLength.MAX_1000)]
 	public string? Description { get; set; } = default!;
 }

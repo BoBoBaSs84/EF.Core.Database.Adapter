@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses;
 using AutoMapper;
-using Domain.Entities.Private;
+using Domain.Entities.Common;
 
 namespace Application.Common.MappingProfiles.Responses;
 

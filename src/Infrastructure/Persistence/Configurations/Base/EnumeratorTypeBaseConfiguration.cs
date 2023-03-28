@@ -7,6 +7,9 @@ namespace Infrastructure.Persistence.Configurations.Base;
 /// <summary>
 /// The enumerator type base configuration class.
 /// </summary>
+/// <remarks>
+/// Implements the members of the <see cref="IEntityTypeConfiguration{TEntity}"/> interface.
+/// </remarks>
 /// <typeparam name="TEntity">
 /// Must implement the <see cref="IEnumerator"/> interface.
 /// </typeparam>
@@ -22,7 +25,5 @@ internal abstract class EnumeratorTypeBaseConfiguration<TEntity> : IEntityTypeCo
 		builder.HasIndex(e => e.Name)
 			.IsClustered(false)
 			.IsUnique(true);
-
-		builder.HasQueryFilter(x => x.IsActive.Equals(true));
 	}
 }

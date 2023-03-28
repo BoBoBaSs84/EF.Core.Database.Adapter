@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace Infrastructure.Persistence.Configurations.Finance;
 
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, entity type configuration.")]
 internal static class FinanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AccountConfiguration : FullAuditTypeBaseConfiguration<Account>
+	internal sealed class AccountConfiguration : IdentityTypeBaseConfiguration<Account>
 	{
 		public override void Configure(EntityTypeBuilder<Account> builder)
 		{
@@ -22,8 +22,7 @@ internal static class FinanceConfiguration
 
 			builder.HasIndex(e => new { e.IBAN })
 				.IsClustered(false)
-				.IsUnique(true)
-				.HasFilter($"[{nameof(Account.IsDeleted)}]<>(1)");
+				.IsUnique(true);
 
 			builder.HasMany(e => e.AccountUsers)
 				.WithOne(e => e.Account)
@@ -48,31 +47,35 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class AccountTransactionConfiguration : IEntityTypeConfiguration<AccountTransaction>
+	internal sealed class AccountTransactionConfiguration : CompositeTypeBaseConfiguration<AccountTransaction>
 	{
-		public void Configure(EntityTypeBuilder<AccountTransaction> builder)
+		public override void Configure(EntityTypeBuilder<AccountTransaction> builder)
 		{
 			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.TransactionId })
 				.IsClustered(false);
+
+			base.Configure(builder);
 		}
 	}
 
 	/// <inheritdoc/>
-	internal sealed class AccountUserConfiguration : IEntityTypeConfiguration<AccountUser>
+	internal sealed class AccountUserConfiguration : CompositeTypeBaseConfiguration<AccountUser>
 	{
-		public void Configure(EntityTypeBuilder<AccountUser> builder)
+		public override void Configure(EntityTypeBuilder<AccountUser> builder)
 		{
 			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.AccountId, e.UserId })
 				.IsClustered(false);
+
+			base.Configure(builder);
 		}
 	}
 
 	/// <inheritdoc/>
-	internal sealed class CardConfiguration : FullAuditTypeBaseConfiguration<Card>
+	internal sealed class CardConfiguration : IdentityTypeBaseConfiguration<Card>
 	{
 		public override void Configure(EntityTypeBuilder<Card> builder)
 		{
@@ -81,10 +84,9 @@ internal static class FinanceConfiguration
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);
 
-			builder.HasIndex(e => new { e.PAN, e.IsDeleted })
+			builder.HasIndex(e => new { e.PAN })
 				.IsClustered(false)
-				.IsUnique(true)
-				.HasFilter($"[{nameof(Card.IsDeleted)}]<>(1)");
+				.IsUnique(true);
 
 			builder.HasMany(e => e.CardTransactions)
 				.WithOne(e => e.Card)
@@ -97,19 +99,21 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class CardTransactionConfiguration : IEntityTypeConfiguration<CardTransaction>
+	internal sealed class CardTransactionConfiguration : CompositeTypeBaseConfiguration<CardTransaction>
 	{
-		public void Configure(EntityTypeBuilder<CardTransaction> builder)
+		public override void Configure(EntityTypeBuilder<CardTransaction> builder)
 		{
 			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
 
 			builder.HasKey(e => new { e.CardId, e.TransactionId })
 				.IsClustered(false);
+
+			base.Configure(builder);
 		}
 	}
 
 	/// <inheritdoc/>
-	internal sealed class TransactionConfiguration : FullAuditTypeBaseConfiguration<Transaction>
+	internal sealed class TransactionConfiguration : IdentityTypeBaseConfiguration<Transaction>
 	{
 		public override void Configure(EntityTypeBuilder<Transaction> builder)
 		{

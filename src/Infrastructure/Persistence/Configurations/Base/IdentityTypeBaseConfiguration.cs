@@ -7,6 +7,9 @@ namespace Infrastructure.Persistence.Configurations.Base;
 /// <summary>
 /// The identity type base configuration class.
 /// </summary>
+/// <remarks>
+/// Implements the members of the <see cref="IEntityTypeConfiguration{TEntity}"/> interface.
+/// </remarks>
 /// <typeparam name="TEntity">
 /// Must implement the <see cref="IIdentity{T}"/> and <see cref="IConcurrency"/> interface.
 /// </typeparam>

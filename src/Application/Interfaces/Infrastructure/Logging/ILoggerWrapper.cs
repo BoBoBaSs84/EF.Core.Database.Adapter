@@ -103,21 +103,4 @@ public interface ILoggerWrapper<TLogger>
 	/// <param name="param5">Parameter 5</param>
 	/// <param name="param6">Parameter 6</param>
 	void Log<T1, T2, T3, T4, T5, T6>(Action<ILogger, T1, T2, T3, T4, T5, T6, Exception?> del, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6);
-
-	/// <summary>
-	/// Logs a message
-	/// </summary>
-	/// <remarks><b>DO NOT USE IF PERFORMANCE IS IMPORTANT !</b> Use Log() or Log{T}() instead</remarks>
-	/// <param name="level">Log level</param>
-	/// <param name="messageTemplate">Message template</param>
-	/// <param name="args">Parameters for message template</param>
-	void LogSlow(LogLevel level, string messageTemplate, params object[] args);
-
-	/// <summary>
-	/// Logs an exception
-	/// </summary>
-	/// <remarks><b>DO NOT USE IF PERFORMANCE IS IMPORTANT !</b> Use Log() or Log{T}() instead</remarks>
-	/// <param name="exception">Exception</param>
-	/// <param name="message">Message</param>
-	void LogExceptionSlow(Exception exception, string message);
 }

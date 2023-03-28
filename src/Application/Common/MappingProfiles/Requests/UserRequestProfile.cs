@@ -10,5 +10,6 @@ internal sealed class UserRequestProfile : Profile
 	public UserRequestProfile()
 	{
 		CreateMap<UserCreateRequest, User>();
+		CreateMap<UserUpdateRequest, User>();
 	}
 }

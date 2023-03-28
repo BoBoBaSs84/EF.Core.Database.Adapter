@@ -21,6 +21,9 @@ public static class RequestHelper
 	public static UserUpdateRequest GetUserUpdateRequest(this UserUpdateRequest request)
 	{
 		Filler<UserUpdateRequest> filler = new();
-		return filler.Fill(request);
+		request = filler.Fill(request);
+		request.Email = RandomHelper.GetString(RP.Email);
+		
+		return request;
 	}
 }

@@ -78,7 +78,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
 
 			IdentityResult identityResult = await _userService.AddToRoleAsync(user, roleName);
-			
+
 			if (!identityResult.Succeeded)
 			{
 				foreach (IdentityError error in identityResult.Errors)
@@ -236,7 +236,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
 
 			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, roleName);
-			
+
 			if (!identityResult.Succeeded)
 			{
 				foreach (IdentityError error in identityResult.Errors)

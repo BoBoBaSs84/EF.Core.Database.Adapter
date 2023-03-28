@@ -37,8 +37,8 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	}
 
 	/// <inheritdoc/>
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-		optionsBuilder.AddInterceptors(_changesInterceptor);
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		=> optionsBuilder.AddInterceptors(_changesInterceptor);
 
 	/// <inheritdoc/>
 	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

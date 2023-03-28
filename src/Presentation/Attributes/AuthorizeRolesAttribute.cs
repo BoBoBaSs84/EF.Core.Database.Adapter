@@ -17,6 +17,6 @@ public sealed class AuthorizeRolesAttribute : AuthorizeAttribute
 	/// Initializes an instance of <see cref="AuthorizeRolesAttribute"/>.
 	/// </summary>
 	/// <param name="roles"></param>
-	public AuthorizeRolesAttribute(params RoleTypes[] roles) =>
-		Roles = string.Join(", ", roles.Select(x => x.GetName()));
+	public AuthorizeRolesAttribute(params RoleTypes[] roles)
+		=> Roles = string.Join(", ", roles.Select(x => x.GetName()));
 }

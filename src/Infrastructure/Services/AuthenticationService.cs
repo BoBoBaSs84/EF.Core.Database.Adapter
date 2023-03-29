@@ -260,6 +260,9 @@ internal sealed class AuthenticationService : IAuthenticationService
 		{
 			User user = await _userService.FindByIdAsync($"{userId}");
 
+			if (user is null)
+				return AuthenticationServiceErrors.UserByIdNotFound(userId);
+
 			user.FirstName = updateRequest.FirstName;
 			user.MiddleName = updateRequest.MiddleName;
 			user.LastName = updateRequest.LastName;

@@ -54,7 +54,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	}
 
 	[TestMethod, Owner(TC.Bobo)]
-	public async Task GetAllAsync()
+	public async Task GetAllAsyncSuccessTest()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
@@ -74,13 +74,12 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	}
 
 	[TestMethod, Owner(TC.Bobo)]
-	public async Task GetUserByNameAsync()
+	public async Task GetUserByNameAsyncSuccessTest()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
 		UserCreateRequest createRequest = new();
 		createRequest.GetUserCreateRequest();
-
 		_ = await _authenticationService.CreateUser(createRequest);
 
 		ErrorOr<UserResponse> result = await _authenticationService.GetUserByName(createRequest.UserName);
@@ -94,7 +93,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	}
 
 	[TestMethod, Owner(TC.Bobo)]
-	public async Task GetUserByIdAsync()
+	public async Task GetUserByIdAsyncSuccessTest()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
@@ -115,14 +114,46 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	}
 
 	[TestMethod, Owner(TC.Bobo)]
-	public async Task UpdateUserSuccessAsync()
+	public async Task GetUserByNameAsyncNotFoundTest()
+	{
+		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string userName = "UnitTest";
+
+		ErrorOr<UserResponse> result = await _authenticationService.GetUserByName(userName);
+
+		AH.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().NotBeEmpty();
+			result.Errors.First().Should().Be(AuthenticationServiceErrors.UserByNameNotFound(userName));
+		});
+	}
+
+	[TestMethod, Owner(TC.Bobo)]
+	public async Task GetUserByIdAsyncNotFoundTest()
+	{
+		_authenticationService = GetRequiredService<IAuthenticationService>();
+		int userId = int.MaxValue;
+
+		ErrorOr<UserResponse> result = await _authenticationService.GetUserById(userId);
+
+		AH.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().NotBeEmpty();
+			result.Errors.First().Should().Be(AuthenticationServiceErrors.UserByIdNotFound(userId));
+		});
+	}
+
+	[TestMethod, Owner(TC.Bobo)]
+	public async Task UpdateUserAsyncSuccessTest()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
 		UserCreateRequest createRequest = new();
 		createRequest.GetUserCreateRequest();
-
 		_ = await _authenticationService.CreateUser(createRequest);
+
 		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
 		UserUpdateRequest updateRequest = new();
@@ -135,6 +166,47 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
+		});
+	}
+
+	[TestMethod, Owner(TC.Bobo)]
+	public async Task UpdateUserAsyncNotFoundTest()
+	{
+		_authenticationService = GetRequiredService<IAuthenticationService>();
+		int userId = int.MaxValue;
+
+		UserUpdateRequest updateRequest = new();
+		updateRequest.GetUserUpdateRequest();
+
+		ErrorOr<Updated> result = await _authenticationService.UpdateUser(userId, updateRequest);
+
+		AH.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().NotBeEmpty();
+			result.Errors.First().Should().Be(AuthenticationServiceErrors.UserByIdNotFound(userId));
+		});
+	}
+
+	[TestMethod, Owner(TC.Bobo)]
+	public async Task UpdateUserAsyncIdentityErrorTest()
+	{
+		_authenticationService = GetRequiredService<IAuthenticationService>();
+
+		UserCreateRequest createRequest = new();
+		createRequest.GetUserCreateRequest();
+		_ = await _authenticationService.CreateUser(createRequest);
+
+		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
+
+		UserUpdateRequest updateRequest = new();
+
+		ErrorOr<Updated> result = await _authenticationService.UpdateUser(user.Value.Id, updateRequest);
+
+		AH.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().NotBeEmpty();
 		});
 	}
 

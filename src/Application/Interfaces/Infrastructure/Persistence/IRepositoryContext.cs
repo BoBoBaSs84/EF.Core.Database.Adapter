@@ -9,7 +9,7 @@ namespace Application.Interfaces.Infrastructure.Persistence;
 /// <summary>
 /// The application context interface.
 /// </summary>
-public interface IApplicationContext
+public interface IRepositoryContext
 {
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Account"/>.

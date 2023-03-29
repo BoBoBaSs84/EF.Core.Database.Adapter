@@ -48,7 +48,6 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 
 		return await query.ToListAsync(cancellationToken);
 	}
-		
 
 	public async Task<IEnumerable<TEntity>> GetManyByConditionAsync(
 		Expression<Func<TEntity, bool>>? expression = null,
@@ -143,7 +142,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		CancellationToken cancellationToken = default)
 	{
 		IQueryable<TEntity> query = dbSet.AsNoTracking();
-		
+
 		if (expression is not null)
 			query = query.Where(expression);
 
@@ -155,7 +154,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 
 		return await query.CountAsync(cancellationToken);
 	}
-	
+
 	public async Task<int> GetTotalCountAsync(bool ignoreQueryFilters = false, CancellationToken cancellationToken = default)
 	{
 		IQueryable<TEntity> query = dbSet.AsNoTracking();

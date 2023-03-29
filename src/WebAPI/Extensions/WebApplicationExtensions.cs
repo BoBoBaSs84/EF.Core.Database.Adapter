@@ -1,5 +1,4 @@
 ﻿using Presentation.Common;
-using WebAPI.Common;
 using Swagger = Presentation.Constants.PresentationConstants.Swagger;
 
 namespace WebAPI.Extensions;

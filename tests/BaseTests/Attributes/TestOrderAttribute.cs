@@ -11,6 +11,10 @@ namespace BaseTests.Attributes;
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public sealed class TestOrderAttribute : TestPropertyAttribute
 {
+	/// <summary>
+	/// Initilizes an instance of <see cref="TestOrderAttribute"/> class.
+	/// </summary>
+	/// <param name="order">The order number.</param>
 	public TestOrderAttribute([Range(1, int.MaxValue)] int order) : base("ExecutionOrder", $"{order}")
 	{
 	}

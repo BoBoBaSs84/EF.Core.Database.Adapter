@@ -1,29 +1,49 @@
 ﻿using Application.Contracts.Requests.Identity;
-using BaseTests.Helpers;
 using Tynamix.ObjectFiller;
-using RP = Domain.Constants.DomainConstants.RegexPatterns;
+using TU = BaseTests.Constants.TestConstants.TestUser;
+using RH = BaseTests.Helpers.RandomHelper;
 
 namespace ApplicationTests.Helpers;
 
+/// <summary>
+/// The request helper class.
+/// </summary>
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
 public static class RequestHelper
 {
-	public static UserCreateRequest GetUserCreateRequest(this UserCreateRequest request, string userName, string password)
+	/// <summary>
+	/// Returns a user create request.
+	/// </summary>
+	/// <param name="request">The request to enrich.</param>
+	/// <param name="password">The password for the request.</param>
+	/// <returns>The enriched request.</returns>
+	public static UserCreateRequest GetUserCreateRequest(this UserCreateRequest request, string password = TU.PassGood)
 	{
 		Filler<UserCreateRequest> filler = new();
-		request = filler.Fill(request);
-		request.Email = RandomHelper.GetString(RP.Email);
-		request.UserName = userName;
-		request.Password = password;
+		filler.Setup()
+			.OnProperty(p => p.FirstName).Use(new RealNames(NameStyle.FirstName))
+			.OnProperty(p => p.LastName).Use(new RealNames(NameStyle.LastName))
+			.OnProperty(p => p.DateOfBirth).Use(RH.GetDateTime())
+			.OnProperty(p => p.Email).Use(new EmailAddresses())
+			.OnProperty(p => p.Password).Use(password);
 
-		return request;
+		return filler.Fill(request);
 	}
 
+	/// <summary>
+	/// Returns a user update request.
+	/// </summary>
+	/// <param name="request">The request to enrich.</param>
+	/// <returns>The enriched request.</returns>
 	public static UserUpdateRequest GetUserUpdateRequest(this UserUpdateRequest request)
 	{
 		Filler<UserUpdateRequest> filler = new();
-		request = filler.Fill(request);
-		request.Email = RandomHelper.GetString(RP.Email);
-		
-		return request;
+		filler.Setup()
+			.OnProperty(p => p.FirstName).Use(new RealNames(NameStyle.FirstName))
+			.OnProperty(p => p.LastName).Use(new RealNames(NameStyle.LastName))
+			.OnProperty(p => p.DateOfBirth).Use(RH.GetDateTime())
+			.OnProperty(p => p.Email).Use(new EmailAddresses());
+
+		return filler.Fill(request);
 	}
 }

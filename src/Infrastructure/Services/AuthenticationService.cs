@@ -64,7 +64,6 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		string[] parameters = new[] { $"{userId}", $"{roleName}" };
 		ErrorOr<Created> response = new();
-
 		try
 		{
 			User user = await _userService.FindByIdAsync($"{userId}");
@@ -90,6 +89,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
+			// TODO: Error
 			_logger.Log(logExceptionWithParams, parameters, ex);
 			return ApiError.CreateFailed("", "");
 		}

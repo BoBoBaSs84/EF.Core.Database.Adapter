@@ -335,7 +335,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 		_ = await _authenticationService.CreateUser(createRequest);
 		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
-		string roleName = "User";
+		string roleName = "SuperUser";
 		ErrorOr<Deleted> result = await _authenticationService.RemoveUserToRole(user.Value.Id, roleName);
 
 		AH.AssertInScope(() =>
@@ -363,7 +363,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Should().Be(Result.Created);
+			result.Value.Should().Be(Result.Deleted);
 		});
 	}
 }

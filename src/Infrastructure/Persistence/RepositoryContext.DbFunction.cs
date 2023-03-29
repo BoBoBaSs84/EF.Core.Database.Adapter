@@ -3,7 +3,7 @@ using DbFunction = Domain.Constants.DomainConstants.Sql.DbFunction;
 
 namespace Infrastructure.Persistence;
 
-public sealed partial class ApplicationContext
+public sealed partial class RepositoryContext
 {
 	/// <summary>
 	/// Returns a four-character (SOUNDEX) code to evaluate the similarity of two strings.

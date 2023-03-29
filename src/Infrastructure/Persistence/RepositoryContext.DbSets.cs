@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-public sealed partial class ApplicationContext
+public sealed partial class RepositoryContext
 {
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarDay"/>.

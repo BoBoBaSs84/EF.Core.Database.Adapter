@@ -34,6 +34,7 @@ public class ArchitectureTests : InfrastructureBaseTests
 	}
 
 	[TestMethod, Owner(Bobo)]
+	[Description("The repositories should not be public and should be sealed.")]
 	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
 	{
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
@@ -57,6 +58,7 @@ public class ArchitectureTests : InfrastructureBaseTests
 	}
 
 	[TestMethod, Owner(Bobo)]
+	[Description("The services should not be public and should be sealed.")]
 	public void ServicesShouldNotBePublicAndShouldBeSealedTest()
 	{
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(

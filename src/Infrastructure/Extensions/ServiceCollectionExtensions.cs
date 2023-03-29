@@ -51,9 +51,9 @@ internal static class ServiceCollectionExtensions
 	/// <param name="configuration">The current configuration.</param>
 	/// <param name="environment">The hosting environment.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection AddApplicationContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+	internal static IServiceCollection AddRepositoryContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
-		services.AddDbContext<ApplicationContext>(options =>
+		services.AddDbContext<RepositoryContext>(options =>
 		{
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
@@ -97,7 +97,7 @@ internal static class ServiceCollectionExtensions
 			options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 			options.User.RequireUniqueEmail = true;
 		})
-			.AddEntityFrameworkStores<ApplicationContext>()
+			.AddEntityFrameworkStores<RepositoryContext>()
 			.AddDefaultTokenProviders()
 			.AddUserManager<UserService>()
 			.AddRoleManager<RoleService>();
@@ -141,6 +141,7 @@ internal static class ServiceCollectionExtensions
 	internal static IServiceCollection AddMicrosoftLogger(this IServiceCollection services)
 	{
 		services.TryAddSingleton(typeof(ILoggerWrapper<>), typeof(MicrosoftLoggerWrapper<>));
+
 		return services;
 	}
 }

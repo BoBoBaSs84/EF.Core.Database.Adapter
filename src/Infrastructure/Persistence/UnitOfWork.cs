@@ -12,7 +12,7 @@ namespace Infrastructure.Persistence;
 /// </remarks>
 public class UnitOfWork : IUnitOfWork
 {
-	private readonly ApplicationContext _context;
+	private readonly RepositoryContext _context;
 	private bool _disposed;
 
 	private readonly Lazy<IAccountRepository> lazyAccountRepository;
@@ -27,7 +27,7 @@ public class UnitOfWork : IUnitOfWork
 	/// Initializes a new instance of the <see cref="UnitOfWork"/> class.
 	/// </summary>
 	/// <param name="context">The database context to work with.</param>
-	public UnitOfWork(ApplicationContext context)
+	public UnitOfWork(RepositoryContext context)
 	{
 		_context = context ?? throw new ArgumentNullException(nameof(context));
 

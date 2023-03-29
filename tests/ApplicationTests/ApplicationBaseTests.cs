@@ -13,7 +13,7 @@ using Env = Domain.Constants.DomainConstants.Environment;
 namespace ApplicationTests;
 
 [TestClass]
-[SuppressMessage("Style", "IDE0058", Justification = "UnitTest - Not relevant here.")]
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
 public class ApplicationBaseTests : BaseTestUnit
 {
 	private static IHost testHost = default!;
@@ -25,10 +25,10 @@ public class ApplicationBaseTests : BaseTestUnit
 		context.WriteLine($"{nameof(AssemblyInitialize)} ...");
 		testHost = InitializeHost(context);
 
-		ApplicationContext dbContext = GetRequiredService<ApplicationContext>();
+		RepositoryContext dbContext = GetRequiredService<RepositoryContext>();
 
 		string sqlScript = dbContext.Database.GenerateCreateScript();
-		
+
 		dbContext.Database.EnsureCreated();
 
 		dbContext.CalendarDays.AddRange(EntityHelper.GetCalendarDays());
@@ -38,7 +38,7 @@ public class ApplicationBaseTests : BaseTestUnit
 	[AssemblyCleanup]
 	public static void AssemblyCleanup()
 	{
-		ApplicationContext dbContext = GetRequiredService<ApplicationContext>();
+		RepositoryContext dbContext = GetRequiredService<RepositoryContext>();
 		dbContext.Database.EnsureDeleted();
 	}
 

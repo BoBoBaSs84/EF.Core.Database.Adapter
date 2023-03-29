@@ -1,8 +1,5 @@
-﻿using Application.Common;
-using Application.Interfaces.Application;
-using Application.Services;
+﻿using Application.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Application.Installer;
 
@@ -20,24 +17,8 @@ public static class DependencyInjectionHelper
 	public static IServiceCollection ConfigureApplicationServices(this IServiceCollection services)
 	{
 		services.ConfigureAutoMapper();
+		services.ConfigureScopedServices();
 
-		services.TryAddScoped<IAccountService, AccountService>();
-		services.TryAddScoped<IAttendanceService, AttendanceService>();
-		services.TryAddScoped<ICalendarDayService, CalendarDayService>();
-		services.TryAddScoped<IDayTypeService, DayTypeService>();
-		services.TryAddScoped<ICardTypeService, CardTypeService>();
-
-		return services;
-	}
-
-	/// <summary>
-	/// Enriches a service collection with the auto mapper.
-	/// </summary>
-	/// <param name="services">The service collection to enrich.</param>
-	/// <returns>The enriched service collection.</returns>
-	private static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
-	{
-		services.AddAutoMapper(typeof(IApplicationAssemblyMarker));
 		return services;
 	}
 }

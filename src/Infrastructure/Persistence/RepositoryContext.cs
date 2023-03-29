@@ -1,10 +1,12 @@
-﻿using Application.Interfaces.Infrastructure.Persistence;
+﻿using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Infrastructure.Persistence;
 using Domain.Entities.Identity;
 using Infrastructure.Common;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Schema = Domain.Constants.DomainConstants.Sql.Schema;
+using Microsoft.Extensions.Logging;
+using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence;
 
@@ -14,17 +16,29 @@ namespace Infrastructure.Persistence;
 /// <remarks>
 /// Derives from the <see cref="IdentityDbContext{TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken}"/> class.
 /// </remarks>
-public sealed partial class ApplicationContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IApplicationContext
+public sealed partial class RepositoryContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IRepositoryContext
 {
 	private readonly CustomSaveChangesInterceptor _changesInterceptor = default!;
+	private readonly ILoggerWrapper<RepositoryContext> _logger;
+
+	private static readonly Action<ILogger, Exception?> logException =
+	LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="ApplicationContext"/> class.
+	/// Initializes a new instance of the <see cref="RepositoryContext"/> class.
 	/// </summary>
 	/// <param name="dbContextOptions">The database context options.</param>
 	/// <param name="changesInterceptor">The auditable entity save changes interceptor.</param>
-	public ApplicationContext(DbContextOptions<ApplicationContext> dbContextOptions, CustomSaveChangesInterceptor changesInterceptor)
-		: base(dbContextOptions) => _changesInterceptor = changesInterceptor;
+	/// <param name="logger">The logger service.</param>
+	public RepositoryContext(
+		DbContextOptions<RepositoryContext> dbContextOptions,
+		CustomSaveChangesInterceptor changesInterceptor,
+		ILoggerWrapper<RepositoryContext> logger
+		) : base(dbContextOptions)
+	{
+		_changesInterceptor = changesInterceptor;
+		_logger = logger;
+	}
 
 	/// <inheritdoc/>
 	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
@@ -32,13 +46,13 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 	{
 		base.OnModelCreating(builder);
 
-		builder.HasDefaultSchema(Schema.PRIVATE)
+		builder.HasDefaultSchema(SqlSchema.PRIVATE)
 			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
 	}
 
 	/// <inheritdoc/>
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-		optionsBuilder.AddInterceptors(_changesInterceptor);
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		=> optionsBuilder.AddInterceptors(_changesInterceptor);
 
 	/// <inheritdoc/>
 	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -48,15 +62,15 @@ public sealed partial class ApplicationContext : IdentityDbContext<User, Role, i
 		{
 			i = await base.SaveChangesAsync(cancellationToken);
 		}
-		// TODO: What todo then?
+		// TODO: What todo else then?
 		catch (DbUpdateConcurrencyException ex)
 		{
-			Console.WriteLine(ex.Message);
+			_logger.Log(logException, ex);
 		}
-		// TODO: What todo then?
+		// TODO: What todo else then?
 		catch (DbUpdateException ex)
 		{
-			Console.WriteLine(ex.Message);
+			_logger.Log(logException, ex);
 		}
 		return i;
 	}

@@ -64,7 +64,6 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		string[] parameters = new[] { $"{userId}", $"{roleName}" };
 		ErrorOr<Created> response = new();
-
 		try
 		{
 			User user = await _userService.FindByIdAsync($"{userId}");
@@ -78,7 +77,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
 
 			IdentityResult identityResult = await _userService.AddToRoleAsync(user, roleName);
-			
+
 			if (!identityResult.Succeeded)
 			{
 				foreach (IdentityError error in identityResult.Errors)
@@ -90,6 +89,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
+			// TODO: Error
 			_logger.Log(logExceptionWithParams, parameters, ex);
 			return ApiError.CreateFailed("", "");
 		}
@@ -236,7 +236,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
 
 			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, roleName);
-			
+
 			if (!identityResult.Succeeded)
 			{
 				foreach (IdentityError error in identityResult.Errors)
@@ -259,6 +259,9 @@ internal sealed class AuthenticationService : IAuthenticationService
 		try
 		{
 			User user = await _userService.FindByIdAsync($"{userId}");
+
+			if (user is null)
+				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
 			user.FirstName = updateRequest.FirstName;
 			user.MiddleName = updateRequest.MiddleName;

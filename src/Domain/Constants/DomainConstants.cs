@@ -207,6 +207,11 @@ public static class DomainConstants
 	public static class RegexPatterns
 	{
 		/// <summary>
+		/// The email regex pattern.
+		/// </summary>
+		public const string Email = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+		
+		/// <summary>
 		/// The <see cref="IBAN"/> property.
 		/// </summary>
 		/// <remarks>

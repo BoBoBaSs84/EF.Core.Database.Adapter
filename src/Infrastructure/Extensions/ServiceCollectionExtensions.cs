@@ -20,29 +20,21 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
 
-namespace Infrastructure.Installer;
+namespace Infrastructure.Extensions;
 
 /// <summary>
-/// Helper class for infrastructure dependency injection.
+/// The service collection extensions class.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-public static class DependencyInjectionHelper
+internal static class ServiceCollectionExtensions
 {
 	/// <summary>
-	/// Enriches a service collection with the infrastructure services.
+	/// Enriches a service collection with the scoped services.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
-	/// <param name="configuration">The current configuration.</param>
-	/// <param name="environment">The hosting environment.</param>
 	/// <returns>The enriched service collection.</returns>
-	public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+	internal static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
 	{
-		services.AddMicrosoftLogger();
-
-		services.AddApplicationContext(configuration, environment);
-		services.AddIdentityService();
-		services.ConfigureJWT(configuration);
-
 		services.TryAddScoped<CustomSaveChangesInterceptor>();
 		services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 		services.TryAddScoped<IUserService, UserService>();
@@ -59,7 +51,7 @@ public static class DependencyInjectionHelper
 	/// <param name="configuration">The current configuration.</param>
 	/// <param name="environment">The hosting environment.</param>
 	/// <returns>The enriched service collection.</returns>
-	private static IServiceCollection AddApplicationContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+	internal static IServiceCollection AddRepositoryContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
 		services.AddDbContext<RepositoryContext>(options =>
 		{
@@ -91,7 +83,7 @@ public static class DependencyInjectionHelper
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	private static IServiceCollection AddIdentityService(this IServiceCollection services)
+	internal static IServiceCollection AddIdentityService(this IServiceCollection services)
 	{
 		services.AddIdentity<User, Role>(options =>
 		{
@@ -119,7 +111,7 @@ public static class DependencyInjectionHelper
 	/// <param name="services">The service collection to enrich.</param>
 	/// <param name="configuration">The current configuration.</param>
 	/// <returns>The enriched service collection.</returns>
-	private static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+	internal static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
 	{
 		IConfigurationSection jwtSettings = configuration.GetRequiredSection(Jwt.JwtSettings);
 
@@ -146,9 +138,10 @@ public static class DependencyInjectionHelper
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	private static IServiceCollection AddMicrosoftLogger(this IServiceCollection services)
+	internal static IServiceCollection AddMicrosoftLogger(this IServiceCollection services)
 	{
 		services.TryAddSingleton(typeof(ILoggerWrapper<>), typeof(MicrosoftLoggerWrapper<>));
+
 		return services;
 	}
 }

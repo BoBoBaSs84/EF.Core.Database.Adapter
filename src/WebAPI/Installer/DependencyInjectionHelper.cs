@@ -1,7 +1,4 @@
-﻿using Application.Interfaces.Infrastructure.Services;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using WebAPI.Extensions;
-using WebAPI.Services;
+﻿using WebAPI.Extensions;
 
 namespace WebAPI.Installer;
 
@@ -26,17 +23,6 @@ internal static class DependencyInjectionHelper
 			options.ConfigureApiDocumentation();
 		});
 
-		return services;
-	}
-
-	/// <summary>
-	/// Enriches a service collection with the web api services.
-	/// </summary>
-	/// <param name="services">The service collection to enrich.</param>
-	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureWebApiServices(this IServiceCollection services)
-	{
-		services.TryAddSingleton<ICurrentUserService, CurrentUserService>();
 		return services;
 	}
 }

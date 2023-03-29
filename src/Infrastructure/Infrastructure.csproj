@@ -5,6 +5,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Persistence\Configurations\Identity\**" />
+	  <EmbeddedResource Remove="Persistence\Configurations\Identity\**" />
+	  <None Remove="Persistence\Configurations\Identity\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.15" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.15" />
@@ -25,7 +31,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Persistence\Configurations\Identity\" />
 		<Folder Include="Persistence\Migrations\Development\" />
 	</ItemGroup>
 

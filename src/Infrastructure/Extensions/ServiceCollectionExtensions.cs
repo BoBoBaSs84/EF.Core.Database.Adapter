@@ -28,7 +28,7 @@ namespace Infrastructure.Extensions;
 internal static class ServiceCollectionExtensions
 {
 	/// <summary>
-	/// Enriches a service collection with the scoped services.
+	/// Enriches a service collection with the infrastructure scoped services.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
@@ -38,7 +38,19 @@ internal static class ServiceCollectionExtensions
 		services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 		services.TryAddScoped<IUserService, UserService>();
 		services.TryAddScoped<IRoleService, RoleService>();
-		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
+
+		return services;
+	}
+
+	/// <summary>
+	/// Enriches a service collection with the transient singleton services.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	internal static IServiceCollection ConfigureTransientServices(this IServiceCollection services)
+	{
+		services.TryAddTransient<IDateTimeService, DateTimeService>();
+		services.TryAddTransient<IAuthenticationService, AuthenticationService>();
 
 		return services;
 	}

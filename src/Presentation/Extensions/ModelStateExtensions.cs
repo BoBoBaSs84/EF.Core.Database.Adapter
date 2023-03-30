@@ -7,6 +7,12 @@ namespace Presentation.Extensions;
 /// </summary>
 public static class ModelStateExtensions
 {
+	/// <summary>
+	/// Should retrieve the model state errors.
+	/// </summary>
+	/// <param name="modelState"></param>
+	/// <param name="forUi"></param>
+	/// <returns>The erros as concated string.</returns>
 	public static string GetErrors(this ModelStateDictionary modelState, bool forUi = true)
 	{
 		var errorEntries = modelState
@@ -15,17 +21,12 @@ public static class ModelStateExtensions
 			.Where(x => x.Value!.Errors.Count > 0)
 			.ToList();
 
-		List<string> result;
-
-		if (forUi)
-			result = errorEntries
-				.Select(y =>
-					$"{string.Join("\n", y.Value!.Errors.Select(y => y.ErrorMessage))}")
-				.ToList();
-		else
-			result = errorEntries
-				.Select(y =>
-					$"[{y.Key}]=[{y.Value!.RawValue ?? "null"}]\n{string.Join("\n", y.Value.Errors.Select(y => y.ErrorMessage))}")
+		List<string> result = forUi
+			? errorEntries
+				.Select(y => $"{string.Join("\n", y.Value!.Errors.Select(y => y.ErrorMessage))}")
+				.ToList()
+			: errorEntries
+				.Select(y => $"[{y.Key}]=[{y.Value!.RawValue ?? "null"}]\n{string.Join("\n", y.Value.Errors.Select(y => y.ErrorMessage))}")
 				.ToList();
 
 		return string.Join("\n", result);

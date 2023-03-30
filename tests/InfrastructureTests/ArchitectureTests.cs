@@ -1,8 +1,8 @@
-﻿using BaseTests.Helpers;
+﻿using BaseTests.Constants;
+using BaseTests.Helpers;
 using FluentAssertions;
 using Infrastructure.Common;
 using System.Reflection;
-using static BaseTests.Constants.TestConstants;
 
 namespace InfrastructureTests;
 
@@ -13,7 +13,7 @@ public class ArchitectureTests : InfrastructureBaseTests
 {
 	private readonly Assembly _assembly = typeof(IInfrastructureAssemblyMarker).Assembly;
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public void ContextMustBeSealedTest()
 	{
 		IEnumerable<Type> contextTypes = TypeHelper.GetAssemblyTypes(
@@ -33,7 +33,7 @@ public class ArchitectureTests : InfrastructureBaseTests
 		});
 	}
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	[Description("The repositories should not be public and should be sealed.")]
 	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
 	{
@@ -57,7 +57,7 @@ public class ArchitectureTests : InfrastructureBaseTests
 		});
 	}
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	[Description("The services should not be public and should be sealed.")]
 	public void ServicesShouldNotBePublicAndShouldBeSealedTest()
 	{

@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
-using Application.Interfaces.Application;
+using Application.Interfaces.Infrastructure.Services;
 using ApplicationTests.Helpers;
 using Domain.Errors;
 using Domain.Results;

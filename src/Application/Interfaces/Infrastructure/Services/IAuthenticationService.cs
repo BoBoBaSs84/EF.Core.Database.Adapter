@@ -3,7 +3,7 @@ using Application.Contracts.Responses.Identity;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Application;
+namespace Application.Interfaces.Infrastructure.Services;
 
 /// <summary>
 /// The authentication service interface.

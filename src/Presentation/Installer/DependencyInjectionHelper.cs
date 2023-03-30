@@ -16,6 +16,7 @@ public static class DependencyInjectionHelper
 	/// <returns>The enriched service collection.</returns>
 	public static IServiceCollection ConfigurePresentationServices(this IServiceCollection services)
 	{
+		services.ConfigureSingletonServices();
 		services.ConfigureApiVersioning();
 		services.ConfigureApiControllers();
 

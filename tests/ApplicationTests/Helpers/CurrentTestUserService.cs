@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Infrastructure.Services;
+﻿using Application.Interfaces.Presentation.Services;
 
 namespace ApplicationTests.Helpers;
 
@@ -7,6 +7,4 @@ internal sealed class CurrentTestUserService : ICurrentUserService
 	public int UserId => 0;
 
 	public string UserName => "TestUser";
-
-	public string Email => "Test@Unit.com";
 }

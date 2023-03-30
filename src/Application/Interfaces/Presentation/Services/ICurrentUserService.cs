@@ -1,4 +1,4 @@
-﻿namespace Application.Interfaces.Infrastructure.Services;
+﻿namespace Application.Interfaces.Presentation.Services;
 
 /// <summary>
 /// The current user service interface.
@@ -14,9 +14,4 @@ public interface ICurrentUserService
 	/// The current user name.
 	/// </summary>
 	string UserName { get; }
-
-	/// <summary>
-	/// The current user email.
-	/// </summary>
-	string Email { get; }
 }

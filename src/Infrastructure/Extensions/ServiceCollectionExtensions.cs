@@ -1,5 +1,4 @@
-﻿using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure.Logging;
+﻿using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Infrastructure.Services;
 using Domain.Constants;

@@ -17,7 +17,6 @@ internal sealed class Program
 		builder.Services.ConfigureInfrastructureServices(builder.Configuration, builder.Environment);
 		builder.Services.ConfigureApplicationServices();
 		builder.Services.ConfigurePresentationServices();
-		builder.Services.ConfigureWebApiServices();
 
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer();

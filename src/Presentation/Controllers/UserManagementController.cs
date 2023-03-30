@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
-using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Services;
+using Application.Interfaces.Presentation.Services;
 using Domain.Errors;
 using Domain.Results;
 using Microsoft.AspNetCore.Authorization;

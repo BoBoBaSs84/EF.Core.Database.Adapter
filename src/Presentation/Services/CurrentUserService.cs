@@ -1,12 +1,9 @@
-﻿using Application.Interfaces.Infrastructure.Services;
+﻿using Application.Interfaces.Presentation.Services;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace WebAPI.Services;
-
-/// <summary>
-/// The current user service class.
-/// </summary>
-public sealed class CurrentUserService : ICurrentUserService
+namespace Presentation.Services;
+internal sealed class CurrentUserService : ICurrentUserService
 {
 	private readonly IHttpContextAccessor _contextAccessor;
 
@@ -24,8 +21,4 @@ public sealed class CurrentUserService : ICurrentUserService
 	/// <inheritdoc/>
 	public string UserName =>
 		_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Name)!;
-
-	/// <inheritdoc/>
-	public string Email =>
-		_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email)!;
 }

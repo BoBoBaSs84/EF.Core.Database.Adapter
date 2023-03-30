@@ -5,6 +5,7 @@ using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 using Domain.Entities.Common;
 using Domain.Errors;
@@ -16,6 +17,7 @@ namespace Application.Services;
 
 internal sealed class CalendarDayService : ICalendarDayService
 {
+	private readonly IDateTimeService _dateTimeService;
 	private readonly ILoggerWrapper<CalendarDayService> _logger;
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
@@ -29,11 +31,13 @@ internal sealed class CalendarDayService : ICalendarDayService
 	/// <summary>
 	/// Initilizes an instance of <see cref="CalendarDayService"/> class.
 	/// </summary>
+	/// <param name="dateTimeService">The date time service.</param>
 	/// <param name="logger">The logger service.</param>
 	/// <param name="unitOfWork">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public CalendarDayService(ILoggerWrapper<CalendarDayService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public CalendarDayService(IDateTimeService dateTimeService, ILoggerWrapper<CalendarDayService> logger, IUnitOfWork unitOfWork, IMapper mapper)
 	{
+		_dateTimeService = dateTimeService;
 		_logger = logger;
 		_unitOfWork = unitOfWork;
 		_mapper = mapper;
@@ -130,7 +134,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		try
 		{
 			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
-				expression: x => x.Date.Equals(DateTime.Today),
+				expression: x => x.Date.Equals(_dateTimeService.Today),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
 				includeProperties: new[] { nameof(CalendarDay.DayType) }

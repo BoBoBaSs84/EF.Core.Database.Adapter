@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
 using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure.Services;
+using Application.Interfaces.Presentation.Services;
 using Domain.Errors;
 using Domain.Results;
 using Microsoft.AspNetCore.Authorization;

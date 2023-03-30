@@ -1,5 +1,5 @@
 ﻿using Application.Installer;
-using Application.Interfaces.Infrastructure.Services;
+using Application.Interfaces.Presentation.Services;
 using ApplicationTests.Helpers;
 using BaseTests;
 using Infrastructure.Extensions;

@@ -2,7 +2,6 @@
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Base;
 using Application.Errors.Services;
-using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
@@ -25,6 +24,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 {
 	private readonly IConfiguration _configuration;
 	private readonly IConfigurationSection _jwtSettings;
+	private readonly IDateTimeService _dateTimeService;
 	private readonly ILoggerWrapper<AuthenticationService> _logger;
 	private readonly IRoleService _roleService;
 	private readonly IUserService _userService;
@@ -40,12 +40,14 @@ internal sealed class AuthenticationService : IAuthenticationService
 	/// Initilizes an instance of <see cref="AuthenticationService"/> class.
 	/// </summary>
 	/// <param name="configuration">The configuration.</param>
+	/// <param name="dateTimeService">The date time service.</param>
 	/// <param name="logger">The logger service.</param>
 	/// <param name="roleService">The role service.</param>
 	/// <param name="userService">The user service.</param>
 	/// <param name="mapper">The auto mapper.</param>
 	public AuthenticationService(
 		IConfiguration configuration,
+		IDateTimeService dateTimeService,
 		ILoggerWrapper<AuthenticationService> logger,
 		IRoleService roleService,
 		IUserService userService,
@@ -54,6 +56,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		_configuration = configuration;
 		_jwtSettings = _configuration.GetRequiredSection(Jwt.JwtSettings);
+		_dateTimeService = dateTimeService;
 		_logger = logger;
 		_roleService = roleService;
 		_userService = userService;
@@ -292,7 +295,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		byte[] key = Encoding.UTF8.GetBytes(_jwtSettings[Jwt.SecurityKey]!);
 		SymmetricSecurityKey secret = new(key);
-		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha512);
 	}
 
 	private async Task<IEnumerable<Claim>> GetClaims(User user)
@@ -318,7 +321,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				issuer: _jwtSettings[Jwt.ValidIssuer],
 				audience: _jwtSettings[Jwt.ValidAudience],
 				claims: claims,
-				expires: DateTime.Now.AddMinutes(int.Parse(expiryInMinutes, CultureInfo.CurrentCulture)),
+				expires: _dateTimeService.Now.AddMinutes(int.Parse(expiryInMinutes, CultureInfo.CurrentCulture)),
 				signingCredentials: signingCredentials);
 
 		return tokenOptions;

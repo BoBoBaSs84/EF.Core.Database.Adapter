@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
-using Application.Interfaces.Application;
+using Application.Interfaces.Infrastructure.Services;
 using Domain.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

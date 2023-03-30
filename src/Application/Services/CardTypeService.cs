@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 [SuppressMessage("Globalization", "CA1309",
-	Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
+	Justification = "Overload with 'StringComparison' parameter is not supported.")]
 internal sealed class CardTypeService : ICardTypeService
 {
 	private readonly ILoggerWrapper<CardTypeService> _logger;

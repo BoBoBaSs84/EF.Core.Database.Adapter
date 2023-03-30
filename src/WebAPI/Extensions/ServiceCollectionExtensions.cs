@@ -1,12 +1,10 @@
-﻿using WebAPI.Extensions;
-
-namespace WebAPI.Installer;
+﻿namespace WebAPI.Extensions;
 
 /// <summary>
-/// Helper class for web api dependency injection.
+/// The service collection extensions class.
 /// </summary>
-[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-internal static class DependencyInjectionHelper
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, dependency injection.")]
+internal static class ServiceCollectionExtensions
 {
 	/// <summary>
 	/// Enriches a service collection with the swagger services.

@@ -291,7 +291,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		byte[] key = Encoding.UTF8.GetBytes(_jwtSettings[Jwt.SecurityKey]!);
 		SymmetricSecurityKey secret = new(key);
-		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha512);
 	}
 
 	private async Task<IEnumerable<Claim>> GetClaims(User user)

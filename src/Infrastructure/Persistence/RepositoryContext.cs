@@ -40,7 +40,6 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 		_logger = logger;
 
 		ChangeTracker.LazyLoadingEnabled = false;
-		ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 	}
 
 	/// <inheritdoc/>
@@ -60,10 +59,10 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 	/// <inheritdoc/>
 	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 	{
-		int i = 0;
+		int result = default;
 		try
 		{
-			i = await base.SaveChangesAsync(cancellationToken);
+			result = await SaveChangesAsync(true, cancellationToken);
 		}
 		// TODO: What todo else then?
 		catch (DbUpdateConcurrencyException ex)
@@ -75,6 +74,6 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 		{
 			_logger.Log(logException, ex);
 		}
-		return i;
+		return result;
 	}
 }

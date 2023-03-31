@@ -14,7 +14,6 @@ namespace Infrastructure.Services;
 internal sealed class RepositoryService : IRepositoryService
 {
 	private readonly RepositoryContext _context;
-	private bool _disposed;
 
 	private readonly Lazy<IAccountRepository> lazyAccountRepository;
 	private readonly Lazy<ICardRepository> lazyCardRepository;
@@ -72,28 +71,4 @@ internal sealed class RepositoryService : IRepositoryService
 	/// <inheritdoc/>
 	public async Task<int> CommitChangesAsync(CancellationToken cancellationToken = default)
 		=> await _context.SaveChangesAsync(cancellationToken);
-
-	/// <inheritdoc/>
-	public async ValueTask DisposeAsync()
-	{
-		await DisposeAsync(true);
-		GC.SuppressFinalize(this);
-	}
-
-	/// <summary>
-	/// Cleans up any resources being used.
-	/// </summary>
-	/// <param name="disposing">Whether or not we are disposing</param> 
-	/// <returns><see cref="ValueTask"/></returns>
-	public async ValueTask DisposeAsync(bool disposing)
-	{
-		if (!_disposed)
-		{
-			if (disposing)
-				// Dispose managed resources.
-				await _context.DisposeAsync();
-			// Dispose any unmanaged resources here...
-			_disposed = true;
-		}
-	}
 }

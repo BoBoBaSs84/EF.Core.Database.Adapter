@@ -5,7 +5,7 @@ using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 using Domain.Entities.Private;
 using Domain.Errors;
@@ -22,7 +22,7 @@ namespace Application.Services;
 internal sealed class AttendanceService : IAttendanceService
 {
 	private readonly ILoggerWrapper<AttendanceService> _logger;
-	private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
@@ -32,12 +32,12 @@ internal sealed class AttendanceService : IAttendanceService
 	/// Initilizes an instance of <see cref="AttendanceService"/> class.
 	/// </summary>
 	/// <param name="logger">The logger service.</param>
-	/// <param name="unitOfWork">The unit of work.</param>
+	/// <param name="repositoryService">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public AttendanceService(ILoggerWrapper<AttendanceService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public AttendanceService(ILoggerWrapper<AttendanceService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
-		_unitOfWork = unitOfWork;
+		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
@@ -48,8 +48,8 @@ internal sealed class AttendanceService : IAttendanceService
 			Attendance newAttendance = _mapper.Map<Attendance>(createRequest);
 			newAttendance.UserId = userId;
 
-			await _unitOfWork.AttendanceRepository.CreateAsync(newAttendance, cancellationToken);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AttendanceRepository.CreateAsync(newAttendance, cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Created;
 		}
@@ -69,8 +69,8 @@ internal sealed class AttendanceService : IAttendanceService
 			foreach (Attendance attendance in newAttendances)
 				attendance.UserId = userId;
 
-			await _unitOfWork.AttendanceRepository.CreateAsync(newAttendances, cancellationToken);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AttendanceRepository.CreateAsync(newAttendances, cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Created;
 		}
@@ -86,7 +86,7 @@ internal sealed class AttendanceService : IAttendanceService
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayId}" };
 		try
 		{
-			Attendance? dbAttendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
+			Attendance? dbAttendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
@@ -95,8 +95,8 @@ internal sealed class AttendanceService : IAttendanceService
 			if (dbAttendance is null)
 				return AttendanceServiceErrors.DeleteNotFound;
 
-			await _unitOfWork.AttendanceRepository.DeleteAsync(dbAttendance);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AttendanceRepository.DeleteAsync(dbAttendance);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Deleted;
 		}
@@ -112,7 +112,7 @@ internal sealed class AttendanceService : IAttendanceService
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayIds.ToJsonString()}" };
 		try
 		{
-			IEnumerable<Attendance> dbAttendances = await _unitOfWork.AttendanceRepository.GetManyByConditionAsync(
+			IEnumerable<Attendance> dbAttendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => calendarDayIds.Contains(x.CalendarDayId) && x.UserId.Equals(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
@@ -121,8 +121,8 @@ internal sealed class AttendanceService : IAttendanceService
 			if (!dbAttendances.Any())
 				return AttendanceServiceErrors.DeleteManyNotFound;
 
-			await _unitOfWork.AttendanceRepository.DeleteAsync(dbAttendances);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AttendanceRepository.DeleteAsync(dbAttendances);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Deleted;
 		}
@@ -137,7 +137,7 @@ internal sealed class AttendanceService : IAttendanceService
 	{
 		try
 		{
-			IEnumerable<Attendance> attendances = await _unitOfWork.AttendanceRepository.GetManyByConditionAsync(
+			IEnumerable<Attendance> attendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
 				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
@@ -151,7 +151,7 @@ internal sealed class AttendanceService : IAttendanceService
 			if (!attendances.Any())
 				return AttendanceServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = await _unitOfWork.AttendanceRepository.GetCountAsync(
+			int totalCount = await _repositoryService.AttendanceRepository.GetCountAsync(
 				expression: x => x.UserId.Equals(userId),
 				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken);
@@ -171,7 +171,7 @@ internal sealed class AttendanceService : IAttendanceService
 	{
 		try
 		{
-			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
+			Attendance? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
@@ -198,7 +198,7 @@ internal sealed class AttendanceService : IAttendanceService
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayId}" };
 		try
 		{
-			Attendance? attendance = await _unitOfWork.AttendanceRepository.GetByConditionAsync(
+			Attendance? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
@@ -224,7 +224,7 @@ internal sealed class AttendanceService : IAttendanceService
 	{
 		try
 		{
-			Attendance? attendance = await _unitOfWork.AttendanceRepository
+			Attendance? attendance = await _repositoryService.AttendanceRepository
 				.GetByIdAsync(id: updateRequest.Id, cancellationToken: cancellationToken);
 
 			if (attendance is null)
@@ -232,8 +232,8 @@ internal sealed class AttendanceService : IAttendanceService
 
 			UpdateAttendance(attendance, updateRequest);
 
-			await _unitOfWork.AttendanceRepository.UpdateAsync(attendance);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AttendanceRepository.UpdateAsync(attendance);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Updated;
 		}
@@ -248,7 +248,7 @@ internal sealed class AttendanceService : IAttendanceService
 	{
 		try
 		{
-			IEnumerable<Attendance> attendances = await _unitOfWork.AttendanceRepository
+			IEnumerable<Attendance> attendances = await _repositoryService.AttendanceRepository
 				.GetByIdsAsync(ids: updateRequest.Select(x => x.Id), trackChanges: true, cancellationToken: cancellationToken);
 
 			if (!attendances.Any())
@@ -257,8 +257,8 @@ internal sealed class AttendanceService : IAttendanceService
 			foreach (Attendance attendance in attendances)
 				UpdateAttendance(attendance, updateRequest.Where(x => x.Id.Equals(attendance.Id)).First());
 
-			await _unitOfWork.AttendanceRepository.UpdateAsync(attendances);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AttendanceRepository.UpdateAsync(attendances);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Updated;
 		}

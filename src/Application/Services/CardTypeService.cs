@@ -2,7 +2,7 @@
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 using Domain.Entities.Enumerator;
 using Domain.Errors;
@@ -15,7 +15,7 @@ namespace Application.Services;
 internal sealed class CardTypeService : ICardTypeService
 {
 	private readonly ILoggerWrapper<CardTypeService> _logger;
-	private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, Exception?> logException =
@@ -28,12 +28,12 @@ internal sealed class CardTypeService : ICardTypeService
 	/// Initilizes an instance of <see cref="CardTypeService"/> class.
 	/// </summary>
 	/// <param name="logger">The logger service.</param>
-	/// <param name="unitOfWork">The unit of work.</param>
+	/// <param name="repositoryService">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public CardTypeService(ILoggerWrapper<CardTypeService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public CardTypeService(ILoggerWrapper<CardTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
-		_unitOfWork = unitOfWork;
+		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
@@ -41,7 +41,7 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			CardType? cardType = await _unitOfWork.CardTypeRepository
+			CardType? cardType = await _repositoryService.CardTypeRepository
 				.GetByConditionAsync(expression: x => x.Id.Equals(id), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (cardType is null)
@@ -63,7 +63,7 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			CardType? cardType = await _unitOfWork.CardTypeRepository
+			CardType? cardType = await _repositoryService.CardTypeRepository
 				.GetByConditionAsync(expression: x => x.Name.Equals(name), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (cardType is null)
@@ -85,7 +85,7 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			IEnumerable<CardType> cardTypes = await _unitOfWork.CardTypeRepository
+			IEnumerable<CardType> cardTypes = await _repositoryService.CardTypeRepository
 				.GetAllAsync(ignoreQueryFilters: true, trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (!cardTypes.Any())

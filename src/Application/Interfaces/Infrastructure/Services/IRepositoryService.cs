@@ -5,7 +5,7 @@ namespace Application.Interfaces.Infrastructure.Services;
 /// <summary>
 /// The "Unit of Work" interface.
 /// </summary>
-public interface IRepositoryService : IAsyncDisposable
+public interface IRepositoryService
 {
 	/// <summary>
 	/// The <see cref="AccountRepository"/> interface.

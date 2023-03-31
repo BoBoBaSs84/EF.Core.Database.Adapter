@@ -11,7 +11,7 @@ namespace Infrastructure.Services;
 /// <remarks>
 /// Implements the members of the <see cref="IRepositoryService"/> interface.
 /// </remarks>
-public class RepositoryService : IRepositoryService
+internal sealed class RepositoryService : IRepositoryService
 {
 	private readonly RepositoryContext _context;
 	private bool _disposed;
@@ -85,7 +85,7 @@ public class RepositoryService : IRepositoryService
 	/// </summary>
 	/// <param name="disposing">Whether or not we are disposing</param> 
 	/// <returns><see cref="ValueTask"/></returns>
-	protected virtual async ValueTask DisposeAsync(bool disposing)
+	public async ValueTask DisposeAsync(bool disposing)
 	{
 		if (!_disposed)
 		{

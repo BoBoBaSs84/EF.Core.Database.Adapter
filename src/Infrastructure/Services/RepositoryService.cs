@@ -1,16 +1,17 @@
-﻿using Application.Interfaces.Infrastructure.Persistence;
-using Application.Interfaces.Infrastructure.Persistence.Repositories;
+﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
+using Application.Interfaces.Infrastructure.Services;
+using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
 
-namespace Infrastructure.Persistence;
+namespace Infrastructure.Services;
 
 /// <summary>
 /// The unit of work class.
 /// </summary>
 /// <remarks>
-/// Implements the members of the <see cref="IUnitOfWork"/> interface.
+/// Implements the members of the <see cref="IRepositoryService"/> interface.
 /// </remarks>
-public class UnitOfWork : IUnitOfWork
+internal sealed class RepositoryService : IRepositoryService
 {
 	private readonly RepositoryContext _context;
 	private bool _disposed;
@@ -24,10 +25,10 @@ public class UnitOfWork : IUnitOfWork
 	private readonly Lazy<IAttendanceRepository> lazyAttendanceRepository;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="UnitOfWork"/> class.
+	/// Initializes a new instance of the <see cref="RepositoryService"/> class.
 	/// </summary>
 	/// <param name="context">The database context to work with.</param>
-	public UnitOfWork(RepositoryContext context)
+	public RepositoryService(RepositoryContext context)
 	{
 		_context = context ?? throw new ArgumentNullException(nameof(context));
 
@@ -41,29 +42,36 @@ public class UnitOfWork : IUnitOfWork
 	}
 
 	/// <inheritdoc/>
-	public IAccountRepository AccountRepository => lazyAccountRepository.Value;
+	public IAccountRepository AccountRepository
+		=> lazyAccountRepository.Value;
 
 	/// <inheritdoc/>
-	public IAttendanceRepository AttendanceRepository => lazyAttendanceRepository.Value;
+	public IAttendanceRepository AttendanceRepository
+		=> lazyAttendanceRepository.Value;
 
 	/// <inheritdoc/>
-	public ICalendarDayRepository CalendarDayRepository => lazyCalendarRepository.Value;
+	public ICalendarDayRepository CalendarDayRepository
+		=> lazyCalendarRepository.Value;
 
 	/// <inheritdoc/>
-	public ICardRepository CardRepository => lazyCardRepository.Value;
+	public ICardRepository CardRepository
+		=> lazyCardRepository.Value;
 
 	/// <inheritdoc/>
-	public ICardTypeRepository CardTypeRepository => lazyCardTypeRepository.Value;
+	public ICardTypeRepository CardTypeRepository
+		=> lazyCardTypeRepository.Value;
 
 	/// <inheritdoc/>
-	public IDayTypeRepository DayTypeRepository => lazyDayTypeRepository.Value;
+	public IDayTypeRepository DayTypeRepository
+		=> lazyDayTypeRepository.Value;
 
 	/// <inheritdoc/>
-	public ITransactionRepository TransactionRepository => lazyTransactionRepository.Value;
+	public ITransactionRepository TransactionRepository
+		=> lazyTransactionRepository.Value;
 
 	/// <inheritdoc/>
-	public async Task<int> CommitChangesAsync(CancellationToken cancellationToken = default) =>
-		await _context.SaveChangesAsync(cancellationToken);
+	public async Task<int> CommitChangesAsync(CancellationToken cancellationToken = default)
+		=> await _context.SaveChangesAsync(cancellationToken);
 
 	/// <inheritdoc/>
 	public async ValueTask DisposeAsync()
@@ -77,7 +85,7 @@ public class UnitOfWork : IUnitOfWork
 	/// </summary>
 	/// <param name="disposing">Whether or not we are disposing</param> 
 	/// <returns><see cref="ValueTask"/></returns>
-	protected virtual async ValueTask DisposeAsync(bool disposing)
+	public async ValueTask DisposeAsync(bool disposing)
 	{
 		if (!_disposed)
 		{

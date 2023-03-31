@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Infrastructure.Services;
 using Domain.Constants;
 using Domain.Entities.Identity;
@@ -35,7 +34,7 @@ internal static class ServiceCollectionExtensions
 	internal static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
 	{
 		services.TryAddScoped<CustomSaveChangesInterceptor>();
-		services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+		services.TryAddScoped<IRepositoryService, RepositoryService>();
 		services.TryAddScoped<IUserService, UserService>();
 		services.TryAddScoped<IRoleService, RoleService>();
 

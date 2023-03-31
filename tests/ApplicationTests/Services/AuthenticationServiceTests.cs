@@ -23,10 +23,11 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest(TU.PassBad);
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest(TU.PassBad);
 
-		ErrorOr<Created> result = await _authenticationService.CreateUser(createRequest);
+		ErrorOr<Created> result =
+			await _authenticationService.CreateUser(createRequest);
 
 		AH.AssertInScope(() =>
 		{
@@ -40,10 +41,11 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
-		ErrorOr<Created> result = await _authenticationService.CreateUser(createRequest);
+		ErrorOr<Created> result =
+			await _authenticationService.CreateUser(createRequest);
 
 		AH.AssertInScope(() =>
 		{
@@ -58,12 +60,13 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
 
-		ErrorOr<IEnumerable<UserResponse>> result = await _authenticationService.GetAll();
+		ErrorOr<IEnumerable<UserResponse>> result =
+			await _authenticationService.GetAll();
 
 		AH.AssertInScope(() =>
 		{
@@ -78,11 +81,13 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
+
 		_ = await _authenticationService.CreateUser(createRequest);
 
-		ErrorOr<UserResponse> result = await _authenticationService.GetUserByName(createRequest.UserName);
+		ErrorOr<UserResponse> result =
+			await _authenticationService.GetUserByName(createRequest.UserName);
 
 		AH.AssertInScope(() =>
 		{
@@ -97,13 +102,16 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
+
 		_ = await _authenticationService.CreateUser(createRequest);
 
-		ErrorOr<IEnumerable<UserResponse>> user = await _authenticationService.GetAll();
+		ErrorOr<IEnumerable<UserResponse>> user =
+			await _authenticationService.GetAll();
 
-		ErrorOr<UserResponse> result = await _authenticationService.GetUserById(user.Value.First().Id);
+		ErrorOr<UserResponse> result =
+			await _authenticationService.GetUserById(user.Value.First().Id);
 
 		AH.AssertInScope(() =>
 		{
@@ -119,7 +127,8 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 		string userName = "UnitTest";
 
-		ErrorOr<UserResponse> result = await _authenticationService.GetUserByName(userName);
+		ErrorOr<UserResponse> result =
+			await _authenticationService.GetUserByName(userName);
 
 		AH.AssertInScope(() =>
 		{
@@ -135,7 +144,8 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 		int userId = int.MaxValue;
 
-		ErrorOr<UserResponse> result = await _authenticationService.GetUserById(userId);
+		ErrorOr<UserResponse> result =
+			await _authenticationService.GetUserById(userId);
 
 		AH.AssertInScope(() =>
 		{
@@ -150,16 +160,19 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
+
 		_ = await _authenticationService.CreateUser(createRequest);
 
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
 
-		UserUpdateRequest updateRequest = new();
-		updateRequest.GetUserUpdateRequest();
+		UserUpdateRequest updateRequest =
+			new UserUpdateRequest().GetUserUpdateRequest();
 
-		ErrorOr<Updated> result = await _authenticationService.UpdateUser(user.Value.Id, updateRequest);
+		ErrorOr<Updated> result =
+			await _authenticationService.UpdateUser(user.Value.Id, updateRequest);
 
 		AH.AssertInScope(() =>
 		{
@@ -175,10 +188,11 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 		int userId = int.MaxValue;
 
-		UserUpdateRequest updateRequest = new();
-		updateRequest.GetUserUpdateRequest();
+		UserUpdateRequest updateRequest =
+			new UserUpdateRequest().GetUserUpdateRequest();
 
-		ErrorOr<Updated> result = await _authenticationService.UpdateUser(userId, updateRequest);
+		ErrorOr<Updated> result =
+			await _authenticationService.UpdateUser(userId, updateRequest);
 
 		AH.AssertInScope(() =>
 		{
@@ -193,11 +207,13 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
+
 		_ = await _authenticationService.CreateUser(createRequest);
 
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
 
 		UserUpdateRequest updateRequest = new();
 
@@ -214,9 +230,10 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task AddUserToRoleUserNotFoundAsync()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
-
 		int userId = int.MaxValue;
-		ErrorOr<Created> result = await _authenticationService.AddUserToRole(userId, "test");
+
+		ErrorOr<Created> result =
+			await _authenticationService.AddUserToRole(userId, "test");
 
 		AH.AssertInScope(() =>
 		{
@@ -229,15 +246,18 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task AddUserToRoleRoleNotFoundAsync()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string roleName = "TestRole";
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
-		string roleName = "TestRole";
-		ErrorOr<Created> result = await _authenticationService.AddUserToRole(user.Value.Id, roleName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
+
+		ErrorOr<Created> result =
+			await _authenticationService.AddUserToRole(user.Value.Id, roleName);
 
 		AH.AssertInScope(() =>
 		{
@@ -250,15 +270,18 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task AddUserToRoleIdentityError()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string roleName = "User";
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
-		string roleName = "User";
-		ErrorOr<Created> result = await _authenticationService.AddUserToRole(user.Value.Id, roleName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
+
+		ErrorOr<Created> result =
+			await _authenticationService.AddUserToRole(user.Value.Id, roleName);
 
 		AH.AssertInScope(() =>
 		{
@@ -271,15 +294,18 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task AddUserToRoleSuccess()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string roleName = "SuperUser";
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
-		string roleName = "SuperUser";
-		ErrorOr<Created> result = await _authenticationService.AddUserToRole(user.Value.Id, roleName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
+
+		ErrorOr<Created> result =
+			await _authenticationService.AddUserToRole(user.Value.Id, roleName);
 
 		AH.AssertInScope(() =>
 		{
@@ -294,8 +320,8 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
 
@@ -304,7 +330,9 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 			UserName = "UnitTest",
 			Password = createRequest.Password
 		};
-		ErrorOr<AuthenticationResponse> result = await _authenticationService.Authenticate(authRequest);
+
+		ErrorOr<AuthenticationResponse> result =
+			await _authenticationService.Authenticate(authRequest);
 
 		AH.AssertInScope(() =>
 		{
@@ -342,7 +370,9 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
 
-		UserCreateRequest createRequest = new UserCreateRequest().GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
+
 		_ = await _authenticationService.CreateUser(createRequest);
 
 		AuthenticationRequest authRequest = new()
@@ -350,7 +380,9 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 			UserName = createRequest.UserName,
 			Password = createRequest.Password
 		};
-		ErrorOr<AuthenticationResponse> result = await _authenticationService.Authenticate(authRequest);
+
+		ErrorOr<AuthenticationResponse> result =
+			await _authenticationService.Authenticate(authRequest);
 
 		AH.AssertInScope(() =>
 		{
@@ -364,9 +396,10 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task RemoveUserToRoleUserNotFoundAsync()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
-
 		int userId = int.MaxValue;
-		ErrorOr<Deleted> result = await _authenticationService.RemoveUserToRole(userId, "test");
+
+		ErrorOr<Deleted> result =
+			await _authenticationService.RemoveUserToRole(userId, "test");
 
 		AH.AssertInScope(() =>
 		{
@@ -379,15 +412,18 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task RemoveUserToRoleRoleNotFoundAsync()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string roleName = "TestRole";
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
-		string roleName = "TestRole";
-		ErrorOr<Deleted> result = await _authenticationService.RemoveUserToRole(user.Value.Id, roleName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
+
+		ErrorOr<Deleted> result =
+			await _authenticationService.RemoveUserToRole(user.Value.Id, roleName);
 
 		AH.AssertInScope(() =>
 		{
@@ -400,15 +436,18 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task RemoveUserToRoleIdentityError()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string roleName = "SuperUser";
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
-		string roleName = "SuperUser";
-		ErrorOr<Deleted> result = await _authenticationService.RemoveUserToRole(user.Value.Id, roleName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
+
+		ErrorOr<Deleted> result =
+			await _authenticationService.RemoveUserToRole(user.Value.Id, roleName);
 
 		AH.AssertInScope(() =>
 		{
@@ -421,15 +460,18 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task RemoveUserToRoleSuccess()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string roleName = "User";
 
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
+		UserCreateRequest createRequest =
+			new UserCreateRequest().GetUserCreateRequest();
 
 		_ = await _authenticationService.CreateUser(createRequest);
-		ErrorOr<UserResponse> user = await _authenticationService.GetUserByName(createRequest.UserName);
 
-		string roleName = "User";
-		ErrorOr<Deleted> result = await _authenticationService.RemoveUserToRole(user.Value.Id, roleName);
+		ErrorOr<UserResponse> user =
+			await _authenticationService.GetUserByName(createRequest.UserName);
+
+		ErrorOr<Deleted> result =
+			await _authenticationService.RemoveUserToRole(user.Value.Id, roleName);
 
 		AH.AssertInScope(() =>
 		{

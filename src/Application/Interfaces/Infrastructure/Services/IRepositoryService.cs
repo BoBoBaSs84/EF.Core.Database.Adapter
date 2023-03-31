@@ -1,11 +1,11 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
 
-namespace Application.Interfaces.Infrastructure.Persistence;
+namespace Application.Interfaces.Infrastructure.Services;
 
 /// <summary>
 /// The "Unit of Work" interface.
 /// </summary>
-public interface IUnitOfWork : IAsyncDisposable
+public interface IRepositoryService : IAsyncDisposable
 {
 	/// <summary>
 	/// The <see cref="AccountRepository"/> interface.

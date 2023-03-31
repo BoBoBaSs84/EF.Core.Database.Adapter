@@ -2,7 +2,7 @@
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 using Domain.Entities.Enumerator;
 using Domain.Errors;
@@ -15,7 +15,7 @@ namespace Application.Services;
 internal sealed class DayTypeService : IDayTypeService
 {
 	private readonly ILoggerWrapper<DayTypeService> _logger;
-	private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, Exception?> logException =
@@ -28,12 +28,12 @@ internal sealed class DayTypeService : IDayTypeService
 	/// Initilizes an instance of <see cref="DayTypeService"/> class.
 	/// </summary>
 	/// <param name="logger">The logger service.</param>
-	/// <param name="unitOfWork">The unit of work.</param>
+	/// <param name="repositoryService">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public DayTypeService(ILoggerWrapper<DayTypeService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public DayTypeService(ILoggerWrapper<DayTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
-		_unitOfWork = unitOfWork;
+		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
@@ -41,7 +41,7 @@ internal sealed class DayTypeService : IDayTypeService
 	{
 		try
 		{
-			DayType? dayType = await _unitOfWork.DayTypeRepository
+			DayType? dayType = await _repositoryService.DayTypeRepository
 				.GetByConditionAsync(expression: x => x.Id.Equals(id), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (dayType is null)
@@ -62,7 +62,7 @@ internal sealed class DayTypeService : IDayTypeService
 	{
 		try
 		{
-			DayType? dayType = await _unitOfWork.DayTypeRepository
+			DayType? dayType = await _repositoryService.DayTypeRepository
 				.GetByConditionAsync(expression: x => x.Name.Equals(name), trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (dayType is null)
@@ -83,7 +83,7 @@ internal sealed class DayTypeService : IDayTypeService
 	{
 		try
 		{
-			IEnumerable<DayType> dayTypes = await _unitOfWork.DayTypeRepository
+			IEnumerable<DayType> dayTypes = await _repositoryService.DayTypeRepository
 				.GetAllAsync(ignoreQueryFilters: true, trackChanges: trackChanges, cancellationToken: cancellationToken);
 
 			if (!dayTypes.Any())

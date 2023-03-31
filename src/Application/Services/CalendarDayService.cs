@@ -4,7 +4,6 @@ using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 using Domain.Entities.Common;
@@ -19,7 +18,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 {
 	private readonly IDateTimeService _dateTimeService;
 	private readonly ILoggerWrapper<CalendarDayService> _logger;
-	private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, Exception?> logException =
@@ -33,13 +32,13 @@ internal sealed class CalendarDayService : ICalendarDayService
 	/// </summary>
 	/// <param name="dateTimeService">The date time service.</param>
 	/// <param name="logger">The logger service.</param>
-	/// <param name="unitOfWork">The unit of work.</param>
+	/// <param name="repositoryService">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public CalendarDayService(IDateTimeService dateTimeService, ILoggerWrapper<CalendarDayService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+	public CalendarDayService(IDateTimeService dateTimeService, ILoggerWrapper<CalendarDayService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_dateTimeService = dateTimeService;
 		_logger = logger;
-		_unitOfWork = unitOfWork;
+		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
@@ -47,7 +46,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
+			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
 				expression: x => x.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
@@ -72,7 +71,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
+			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(id),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
@@ -97,7 +96,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			IEnumerable<CalendarDay> calendarDays = await _unitOfWork.CalendarDayRepository.GetManyByConditionAsync(
+			IEnumerable<CalendarDay> calendarDays = await _repositoryService.CalendarDayRepository.GetManyByConditionAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year)
 					.FilterByMonth(parameters.Month)
 					.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
@@ -113,7 +112,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 			if (!calendarDays.Any())
 				return CalendarDayServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = await _unitOfWork.CalendarDayRepository.GetCountAsync(
+			int totalCount = await _repositoryService.CalendarDayRepository.GetCountAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken
 				);
@@ -133,7 +132,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _unitOfWork.CalendarDayRepository.GetByConditionAsync(
+			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
 				expression: x => x.Date.Equals(_dateTimeService.Today),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,

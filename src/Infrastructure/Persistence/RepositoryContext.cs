@@ -18,7 +18,7 @@ namespace Infrastructure.Persistence;
 /// </remarks>
 public sealed partial class RepositoryContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IRepositoryContext
 {
-	private readonly CustomSaveChangesInterceptor _changesInterceptor = default!;
+	private readonly CustomSaveChangesInterceptor _changesInterceptor;
 	private readonly ILoggerWrapper<RepositoryContext> _logger;
 
 	private static readonly Action<ILogger, Exception?> logException =
@@ -38,6 +38,9 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 	{
 		_changesInterceptor = changesInterceptor;
 		_logger = logger;
+
+		ChangeTracker.LazyLoadingEnabled = false;
+		ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 	}
 
 	/// <inheritdoc/>

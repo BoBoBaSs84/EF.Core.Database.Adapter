@@ -3,7 +3,6 @@ using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 using Domain.Entities.Enumerator;
@@ -25,7 +24,7 @@ internal sealed class AccountService : IAccountService
 {
 	private readonly ILoggerWrapper<AccountService> _logger;
 	private readonly IUserService _userService;
-	private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
@@ -36,13 +35,13 @@ internal sealed class AccountService : IAccountService
 	/// </summary>
 	/// <param name="logger">The logger service.</param>
 	/// <param name="userService">The user service.</param>
-	/// <param name="unitOfWork">The unit of work.</param>
+	/// <param name="repositoryService">The unit of work.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public AccountService(ILoggerWrapper<AccountService> logger, IUserService userService, IUnitOfWork unitOfWork, IMapper mapper)
+	public AccountService(ILoggerWrapper<AccountService> logger, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
 		_userService = userService;
-		_unitOfWork = unitOfWork;
+		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
@@ -51,7 +50,7 @@ internal sealed class AccountService : IAccountService
 		ErrorOr<Created> response = new();
 		try
 		{
-			Account? dbAccount = await _unitOfWork.AccountRepository.GetByConditionAsync(
+			Account? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.IBAN == createRequest.IBAN,
 				trackChanges: false,
 				cancellationToken: cancellationToken
@@ -63,7 +62,7 @@ internal sealed class AccountService : IAccountService
 			if (createRequest.Cards is not null)
 				foreach (CardCreateRequest card in createRequest.Cards)
 				{
-					Card? dbCard = await _unitOfWork.CardRepository.GetByConditionAsync(
+					Card? dbCard = await _repositoryService.CardRepository.GetByConditionAsync(
 						expression: x => x.PAN == card.PAN,
 						trackChanges: false,
 						cancellationToken: cancellationToken
@@ -86,8 +85,8 @@ internal sealed class AccountService : IAccountService
 			AccountUser newAccountUser = new() { User = dbUser, Account = newAccount };
 			newAccount.AccountUsers.Add(newAccountUser);
 
-			await _unitOfWork.AccountRepository.CreateAsync(newAccount, cancellationToken);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AccountRepository.CreateAsync(newAccount, cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return response;
 		}
@@ -103,7 +102,7 @@ internal sealed class AccountService : IAccountService
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		try
 		{
-			Account? dbAccount = await _unitOfWork.AccountRepository.GetByConditionAsync(
+			Account? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
@@ -112,8 +111,8 @@ internal sealed class AccountService : IAccountService
 			if (dbAccount is null)
 				return AccountServiceErrors.DeleteAccountNotFound(accountId);
 
-			await _unitOfWork.AccountRepository.DeleteAsync(dbAccount);
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AccountRepository.DeleteAsync(dbAccount);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Deleted;
 		}
@@ -137,7 +136,7 @@ internal sealed class AccountService : IAccountService
 		//					 (x, y) => new { Foo = x.Foo, Bar = y });
 		try
 		{
-			IEnumerable<Account> accounts = await _unitOfWork.AccountRepository.GetManyByConditionAsync(
+			IEnumerable<Account> accounts = await _repositoryService.AccountRepository.GetManyByConditionAsync(
 				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
@@ -146,7 +145,7 @@ internal sealed class AccountService : IAccountService
 			if (!accounts.Any())
 				return AccountServiceErrors.GetAllNotFound;
 
-			IEnumerable<Card> cards = await _unitOfWork.CardRepository.GetManyByConditionAsync(
+			IEnumerable<Card> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
@@ -172,7 +171,7 @@ internal sealed class AccountService : IAccountService
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		try
 		{
-			Account? account = await _unitOfWork.AccountRepository.GetByConditionAsync(
+			Account? account = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
@@ -186,7 +185,7 @@ internal sealed class AccountService : IAccountService
 
 			return response;
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			_logger.Log(logExceptionWithParams, parameters, ex);
 			return AccountServiceErrors.GetByIdFailed(accountId);
@@ -198,7 +197,7 @@ internal sealed class AccountService : IAccountService
 		string[] parameters = new string[] { $"{userId}", $"{iban}" };
 		try
 		{
-			Account? account = await _unitOfWork.AccountRepository.GetByConditionAsync(
+			Account? account = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban,
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
@@ -208,7 +207,7 @@ internal sealed class AccountService : IAccountService
 			if (account is null)
 				return AccountServiceErrors.GetByNumberNotFound(iban);
 
-			IEnumerable<Card> cards = await _unitOfWork.CardRepository.GetManyByConditionAsync(
+			IEnumerable<Card> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.AccountId.Equals(account.Id) && x.UserId.Equals(userId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
@@ -232,7 +231,7 @@ internal sealed class AccountService : IAccountService
 		ErrorOr<Updated> response = new();
 		try
 		{
-			Account? dbAccount = await _unitOfWork.AccountRepository.GetByConditionAsync(
+			Account? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(updateRequest.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken,
@@ -245,7 +244,7 @@ internal sealed class AccountService : IAccountService
 			if (updateRequest.Cards is not null)
 				foreach (CardUpdateRequest card in updateRequest.Cards)
 				{
-					Card? dbCard = await _unitOfWork.CardRepository.GetByConditionAsync(
+					Card? dbCard = await _repositoryService.CardRepository.GetByConditionAsync(
 						expression: x => x.Id.Equals(card.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(updateRequest.Id),
 						trackChanges: false,
 						cancellationToken: cancellationToken
@@ -254,7 +253,7 @@ internal sealed class AccountService : IAccountService
 					if (dbCard is null)
 						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(card.Id));
 
-					CardType? dbCardType = await _unitOfWork.CardTypeRepository.GetByConditionAsync(
+					CardType? dbCardType = await _repositoryService.CardTypeRepository.GetByConditionAsync(
 						expression: x => x.Id.Equals(card.CardTypeId),
 						trackChanges: false,
 						cancellationToken: cancellationToken
@@ -270,7 +269,7 @@ internal sealed class AccountService : IAccountService
 			if (dbAccount is not null)
 				UpdateAccount(dbAccount, updateRequest);
 
-			_ = await _unitOfWork.CommitChangesAsync(cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return response;
 		}

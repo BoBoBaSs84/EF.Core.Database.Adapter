@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Tynamix.ObjectFiller;
-using TU = BaseTests.Constants.TestConstants.TestUser;
 using RH = BaseTests.Helpers.RandomHelper;
+using TU = BaseTests.Constants.TestConstants.TestUser;
 
 namespace ApplicationTests.Helpers;
 

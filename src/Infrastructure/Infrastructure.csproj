@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
-
 	<ItemGroup>
 	  <Compile Remove="Persistence\Configurations\Identity\**" />
 	  <EmbeddedResource Remove="Persistence\Configurations\Identity\**" />
@@ -18,10 +14,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Application\Application.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<InternalsVisibleTo Include="$(AssemblyName)Tests" />
 	</ItemGroup>
 
 	<ItemGroup>

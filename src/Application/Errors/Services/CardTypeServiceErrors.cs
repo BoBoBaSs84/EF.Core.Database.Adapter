@@ -11,7 +11,7 @@ namespace Application.Errors.Services;
 /// <remarks>
 /// Contains errors that are relevant for the card type service.
 /// </remarks>
-internal static class CardTypeServiceErrors
+public static class CardTypeServiceErrors
 {
 	private readonly static CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(CardTypeServiceErrors)}";

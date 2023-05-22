@@ -1,9 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<IsPackable>false</IsPackable>
-	</PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
@@ -18,11 +13,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Domain\Domain.csproj" />
 		<ProjectReference Include="..\BaseTests\BaseTests.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-		<Using Include="System.Diagnostics.CodeAnalysis" />
 	</ItemGroup>
 
 </Project>

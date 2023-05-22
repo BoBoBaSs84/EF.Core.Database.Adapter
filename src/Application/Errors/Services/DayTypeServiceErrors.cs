@@ -11,7 +11,7 @@ namespace Application.Errors.Services;
 /// <remarks>
 /// Contains errors that are relevant for the day type service.
 /// </remarks>
-internal static class DayTypeServiceErrors
+public static class DayTypeServiceErrors
 {
 	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(DayTypeServiceErrors)}";

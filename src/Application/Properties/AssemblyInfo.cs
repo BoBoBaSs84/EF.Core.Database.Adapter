@@ -12,14 +12,14 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("https://github.com/BoBoBaSs84")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © 2023 BoBoBaSs84")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("This is just an attempt to have a clean base architecture for database access.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("2023.6.2.1019")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2023.6.2.1019-dev")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("2023.6.2.1030")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2023.6.2.1030")]
 [assembly: System.Reflection.AssemblyProductAttribute("EF.Core.Database.Adapter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Application")]
-[assembly: System.Reflection.AssemblyVersionAttribute("2023.6.2.1019")]
+[assembly: System.Reflection.AssemblyVersionAttribute("2023.6.2.1030")]
 [assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/BoBoBaSs84/EF.Core.Database.Adapter")]
 [assembly: System.Resources.NeutralResourcesLanguageAttribute("en-US")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Application.Tests")]

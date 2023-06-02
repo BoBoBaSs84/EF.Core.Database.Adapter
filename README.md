@@ -1,3 +1,4 @@
+[![BuildTest](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/actions/workflows/dotnet.yml)
 [![CodeQL](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/actions/workflows/codeql.yml)
 [![Issues](https://img.shields.io/github/issues/BoBoBaSs84/EF.Core.Database.Adapter)](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/issues)
 [![Forks](https://img.shields.io/github/forks/BoBoBaSs84/EF.Core.Database.Adapter)](https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/network)

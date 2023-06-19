@@ -35,8 +35,9 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureApiControllers(this IServiceCollection services)
 	{
-		services.AddControllers()
+		services.AddControllers(options => options.RespectBrowserAcceptHeader = true)
 			.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly)
+			.AddXmlSerializerFormatters()
 			.AddJsonOptions(options =>
 			{
 				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;

@@ -2,6 +2,7 @@
 using Application.Interfaces.Infrastructure.Persistence;
 using Domain.Entities.Identity;
 using Infrastructure.Common;
+using Infrastructure.Extensions;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,8 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
+		builder.AuditDatabase();
+
 		base.OnModelCreating(builder);
 
 		builder.HasDefaultSchema(SqlSchema.PRIVATE)

@@ -82,6 +82,7 @@ END;");
 		public DateTime PostTime { get; set; } = default!;
 		[StringLength(128)]
 		public string Login { get; set; } = default!;
+		[StringLength(128)]
 		public string? Application { get; set; } = default!;
 		[StringLength(128)]
 		public string Event { get; set; } = default!;

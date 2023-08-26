@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Extensions;

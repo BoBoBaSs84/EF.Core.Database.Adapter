@@ -1,7 +1,9 @@
-﻿using Application.Contracts.Responses.Base;
-using Domain.Converters.JsonConverters;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+
+using Application.Contracts.Responses.Base;
+
+using Domain.Converters.JsonConverters;
 
 namespace Application.Contracts.Responses;
 

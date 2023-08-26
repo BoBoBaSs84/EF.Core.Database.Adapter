@@ -1,5 +1,6 @@
 ﻿using Domain.Enumerators;
 using Domain.Extensions;
+
 using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Attributes;
@@ -15,9 +16,16 @@ namespace Presentation.Attributes;
 public sealed class AuthorizeRolesAttribute : AuthorizeAttribute
 {
 	/// <summary>
-	/// Initializes an instance of <see cref="AuthorizeRolesAttribute"/>.
+	/// Initializes an instance of the authorize roles attribute class.
 	/// </summary>
 	/// <param name="roles">The roles to authorize.</param>
 	public AuthorizeRolesAttribute(params RoleTypes[] roles)
 		=> Roles = string.Join(", ", roles.Select(x => x.GetName()));
+
+	/// <summary>
+	/// Initializes an instance of the authorize roles attribute class.
+	/// </summary>
+	/// <param name="roles">The roles to authorize.</param>
+	public AuthorizeRolesAttribute(params string[] roles)
+		=> Roles = string.Join(", ", roles);
 }

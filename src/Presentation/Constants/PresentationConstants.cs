@@ -21,7 +21,7 @@ public static class PresentationConstants
 		/// The bearer token name
 		/// </summary>
 		public const string Bearer = "Bearer";
-		
+
 		/// <summary>
 		/// The bearer token format
 		/// </summary>

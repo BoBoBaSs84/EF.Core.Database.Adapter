@@ -1,6 +1,9 @@
 using Application.Installer;
+
 using Infrastructure.Installer;
+
 using Presentation.Installer;
+
 using WebAPI.Extensions;
 
 namespace WebAPI;

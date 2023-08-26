@@ -1,9 +1,13 @@
-﻿using BaseTests.Helpers;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+
+using BaseTests.Helpers;
+
 using Domain.Common;
 using Domain.Extensions;
+
 using FluentAssertions;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+
 using static BaseTests.Constants.TestConstants;
 
 namespace DomainTests.Enumerators;

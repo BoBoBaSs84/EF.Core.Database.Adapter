@@ -1,5 +1,7 @@
-﻿using Fare;
-using System.Text;
+﻿using System.Text;
+
+using Fare;
+
 using static BaseTests.Constants.TestConstants;
 
 namespace BaseTests.Helpers;

@@ -1,8 +1,11 @@
 ﻿using Domain.Entities.Identity;
 using Domain.Extensions;
+
 using Infrastructure.Extensions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using ERT = Domain.Enumerators.RoleTypes;
 using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 

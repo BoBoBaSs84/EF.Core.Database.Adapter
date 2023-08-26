@@ -1,16 +1,21 @@
-﻿using Application.Contracts.Requests.Finance;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
 using Application.Interfaces.Application;
 using Application.Interfaces.Presentation.Services;
+
 using Domain.Errors;
 using Domain.Results;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using Presentation.Attributes;
 using Presentation.Common;
 using Presentation.Controllers.Base;
-using System.ComponentModel.DataAnnotations;
+
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 using Roles = Domain.Enumerators.RoleTypes;
 

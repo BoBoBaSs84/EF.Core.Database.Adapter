@@ -1,8 +1,11 @@
-﻿using Domain.Extensions;
-using FluentAssertions;
-using System.Text;
+﻿using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+
+using Domain.Extensions;
+
+using FluentAssertions;
+
 using static BaseTests.Constants.TestConstants;
 using static BaseTests.Helpers.AssertionHelper;
 using static BaseTests.Helpers.RandomHelper;

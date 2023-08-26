@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Responses.Enumerator;
+
 using Domain.Errors;
 
 namespace Application.Interfaces.Application;

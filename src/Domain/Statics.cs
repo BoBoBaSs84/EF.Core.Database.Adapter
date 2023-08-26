@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 
 namespace Domain;

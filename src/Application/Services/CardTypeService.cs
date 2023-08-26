@@ -3,9 +3,12 @@ using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
+
 using AutoMapper;
+
 using Domain.Entities.Enumerator;
 using Domain.Errors;
+
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;

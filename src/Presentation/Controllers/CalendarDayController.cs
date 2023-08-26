@@ -1,13 +1,17 @@
-﻿using Application.Contracts.Responses;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Application.Contracts.Responses;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
+
 using Domain.Errors;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using Presentation.Common;
 using Presentation.Controllers.Base;
-using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Controllers;
 
@@ -46,7 +50,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	{
 		ErrorOr<IPagedList<CalendarDayResponse>> result =
 			await _calendarDayService.GetPagedByParameters(parameters, false, cancellationToken);
-		
+
 		return Get(result, result.Value?.MetaData);
 	}
 
@@ -66,7 +70,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	{
 		ErrorOr<CalendarDayResponse> result =
 			await _calendarDayService.GetByDate(date, false, cancellationToken);
-		
+
 		return Get(result);
 	}
 
@@ -86,7 +90,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	{
 		ErrorOr<CalendarDayResponse> result =
 			await _calendarDayService.GetById(id, false, cancellationToken);
-		
+
 		return Get(result);
 	}
 

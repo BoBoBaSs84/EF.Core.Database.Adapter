@@ -2,6 +2,7 @@
 using Domain.Entities.Enumerator;
 using Domain.Entities.Finance;
 using Domain.Entities.Private;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;

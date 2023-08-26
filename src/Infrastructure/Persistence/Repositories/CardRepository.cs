@@ -1,6 +1,9 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
+
 using Domain.Entities.Finance;
+
 using Infrastructure.Persistence.Repositories.Base;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;

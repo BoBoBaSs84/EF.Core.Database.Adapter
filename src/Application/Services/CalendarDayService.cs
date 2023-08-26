@@ -5,11 +5,14 @@ using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
+
 using AutoMapper;
+
 using Domain.Entities.Common;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Extensions.QueryExtensions;
+
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;

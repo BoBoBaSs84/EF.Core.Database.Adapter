@@ -1,6 +1,8 @@
-﻿using Domain.Common.EntityBaseTypes;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Domain.Common.EntityBaseTypes;
 using Domain.Extensions;
-using System.ComponentModel.DataAnnotations;
+
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 

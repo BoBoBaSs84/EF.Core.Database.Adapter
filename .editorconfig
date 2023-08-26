@@ -122,7 +122,7 @@ csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
 
 # 'using' directive preferences
-csharp_using_directive_placement = outside_namespace:silent
+csharp_using_directive_placement = outside_namespace:error
 
 #### C# Formatting Rules ####
 
@@ -173,8 +173,9 @@ csharp_preserve_single_line_statements = true
 csharp_style_namespace_declarations = file_scoped:suggestion
 csharp_style_prefer_method_group_conversion = true:suggestion
 csharp_style_prefer_top_level_statements = false:suggestion
-csharp_style_prefer_null_check_over_type_check = true:suggestion
+csharp_style_prefer_primary_constructors = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
 
 #### Naming styles ####
 [*.{cs,vb}]

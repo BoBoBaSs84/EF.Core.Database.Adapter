@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Requests.Identity;
+
 using AutoMapper;
+
 using Domain.Entities.Identity;
 
 namespace Application.Common.MappingProfiles.Requests;

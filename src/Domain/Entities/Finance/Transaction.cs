@@ -1,6 +1,8 @@
-﻿using Domain.Common.EntityBaseTypes;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using Domain.Common.EntityBaseTypes;
+
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 

@@ -1,5 +1,6 @@
-﻿using Domain.Common.EntityBaseTypes.Interfaces;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+using Domain.Common.EntityBaseTypes.Interfaces;
 
 namespace Domain.Common.EntityBaseTypes;
 

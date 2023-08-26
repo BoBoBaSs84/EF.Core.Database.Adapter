@@ -1,6 +1,9 @@
-﻿using Domain.Extensions;
+﻿using System.Globalization;
+
+using Domain.Extensions;
+
 using FluentAssertions;
-using System.Globalization;
+
 using static BaseTests.Constants.TestConstants;
 
 namespace DomainTests.Extensions;

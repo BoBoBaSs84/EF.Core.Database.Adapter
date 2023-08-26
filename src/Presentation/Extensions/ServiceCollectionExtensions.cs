@@ -1,11 +1,15 @@
-﻿using Application.Interfaces.Presentation.Services;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using Application.Interfaces.Presentation.Services;
+
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
 using Presentation.Common;
 using Presentation.Services;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
 using HttpHeaders = Presentation.Constants.PresentationConstants.HttpHeaders;
 
 namespace Presentation.Extensions;

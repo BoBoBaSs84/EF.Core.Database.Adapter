@@ -23,7 +23,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 		Expression<Func<TEntity, bool>>? expression = null,
 		Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFilter = null,
 		bool ignoreQueryFilters = false,
-		CancellationToken cancellationToken = default		
+		CancellationToken cancellationToken = default
 		);
 
 	/// <summary>

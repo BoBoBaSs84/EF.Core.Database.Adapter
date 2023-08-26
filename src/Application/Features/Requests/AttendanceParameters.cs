@@ -1,5 +1,6 @@
-﻿using Application.Features.Requests.Base;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Application.Features.Requests.Base;
 
 namespace Application.Features.Requests;
 

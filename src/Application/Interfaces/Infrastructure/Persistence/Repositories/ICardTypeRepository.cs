@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
+
 using Domain.Entities.Enumerator;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories;

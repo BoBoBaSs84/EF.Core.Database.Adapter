@@ -1,6 +1,8 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
+﻿using System.Linq.Expressions;
+
+using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
+
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Infrastructure.Persistence.Repositories.Base;
 

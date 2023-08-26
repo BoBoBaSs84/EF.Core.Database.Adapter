@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces.Presentation.Services;
+
 using Domain.Common.EntityBaseTypes;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;

@@ -1,5 +1,6 @@
-﻿using Application.Contracts.Responses.Base;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Application.Contracts.Responses.Base;
 
 namespace Application.Contracts.Responses.Identity;
 

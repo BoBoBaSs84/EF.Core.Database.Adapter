@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Responses.Finance;
+
 using AutoMapper;
+
 using Domain.Entities.Finance;
 
 namespace Application.Common.MappingProfiles.Responses;

@@ -1,4 +1,5 @@
 ﻿using Application.Extensions;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Installer;

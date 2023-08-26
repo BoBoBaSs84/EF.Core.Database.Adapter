@@ -1,9 +1,12 @@
 ﻿using Domain.Entities.Enumerator;
 using Domain.Extensions;
+
 using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using EDT = Domain.Enumerators.DayTypes;
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 

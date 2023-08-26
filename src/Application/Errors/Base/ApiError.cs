@@ -1,5 +1,6 @@
-﻿using Domain.Errors;
-using System.Net;
+﻿using System.Net;
+
+using Domain.Errors;
 
 namespace Application.Errors.Base;
 

@@ -1,13 +1,17 @@
 ﻿using Application.Errors.Base;
 using Application.Features.Responses;
+
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 using Presentation.Constants;
 using Presentation.Extensions;
+
 using HttpHeaders = Presentation.Constants.PresentationConstants.HttpHeaders;
 
 namespace Presentation.Controllers.Base;
@@ -25,16 +29,11 @@ public abstract class ApiControllerBase : ControllerBase
 	/// <returns>Problem object result</returns>
 	protected IActionResult Problem(IList<Error> errors)
 	{
-		if (errors?.Any() != true)
-			throw new InvalidOperationException("Should not call Problem(errors) without errors");
-
-		if (errors.All(error => error.Type == ErrorTypes.Validation))
-			return ValidationProblem(errors);
-
-		if (errors.Count > 1)
-			return MultiProblem(errors);
-
-		return SingleProblem(errors[0]);
+		return errors?.Any() != true
+			? throw new InvalidOperationException("Should not call Problem(errors) without errors")
+			: errors.All(error => error.Type == ErrorTypes.Validation)
+			? ValidationProblem(errors)
+			: errors.Count > 1 ? MultiProblem(errors) : SingleProblem(errors[0]);
 	}
 
 	#region HttpMethods

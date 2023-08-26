@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Requests;
+
 using AutoMapper;
+
 using Domain.Entities.Private;
 
 namespace Application.Common.MappingProfiles.Requests;

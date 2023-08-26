@@ -1,6 +1,8 @@
-﻿using Domain.Entities.Identity;
+﻿using System.Security.Claims;
+
+using Domain.Entities.Identity;
+
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace Application.Interfaces.Infrastructure.Services;
 

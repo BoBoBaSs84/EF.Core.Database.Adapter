@@ -1,6 +1,8 @@
-﻿using Application.Interfaces.Presentation.Services;
+﻿using System.Security.Claims;
+
+using Application.Interfaces.Presentation.Services;
+
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Presentation.Services;
 internal sealed class CurrentUserService : ICurrentUserService

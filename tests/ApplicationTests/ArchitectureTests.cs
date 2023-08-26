@@ -1,8 +1,11 @@
-﻿using Application.Common;
+﻿using System.Reflection;
+
+using Application.Common;
+
 using BaseTests.Constants;
 using BaseTests.Helpers;
+
 using FluentAssertions;
-using System.Reflection;
 
 namespace ApplicationTests;
 

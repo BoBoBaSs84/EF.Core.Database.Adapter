@@ -1,4 +1,6 @@
-﻿namespace Domain.Extensions;
+﻿using System.Globalization;
+
+namespace Domain.Extensions;
 
 /// <summary>
 /// The date time extension class.

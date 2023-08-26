@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+	<PropertyGroup>
+		<Title>EF.Core.Database.Adapter.Infrastructure</Title>
+	</PropertyGroup>
+
 	<ItemGroup>
-	  <Compile Remove="Persistence\Configurations\Identity\**" />
-	  <EmbeddedResource Remove="Persistence\Configurations\Identity\**" />
-	  <None Remove="Persistence\Configurations\Identity\**" />
+		<Compile Remove="Persistence\Configurations\Identity\**" />
+		<EmbeddedResource Remove="Persistence\Configurations\Identity\**" />
+		<None Remove="Persistence\Configurations\Identity\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -14,12 +18,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Application\Application.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="System.Diagnostics.CodeAnalysis" />
-		<Using Include="System.Text" />
-		<Using Include="System.Globalization" />
 	</ItemGroup>
 
 	<ItemGroup>

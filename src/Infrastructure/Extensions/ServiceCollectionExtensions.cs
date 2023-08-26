@@ -1,4 +1,6 @@
-﻿using Application.Interfaces.Infrastructure.Logging;
+﻿using System.Text;
+
+using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
 using Domain.Constants;

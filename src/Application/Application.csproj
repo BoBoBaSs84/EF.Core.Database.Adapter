@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+	<PropertyGroup>
+		<Title>EF.Core.Database.Adapter.Application</Title>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
@@ -22,12 +26,6 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>ServiceErrors.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="System.Diagnostics.CodeAnalysis" />
-		<Using Include="System.Text" />
-		<Using Include="System.Globalization" />
 	</ItemGroup>
 
 </Project>

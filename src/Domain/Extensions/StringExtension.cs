@@ -1,4 +1,4 @@
-﻿using static Domain.Statics;
+﻿using System.Globalization;
 
 namespace Domain.Extensions;
 
@@ -13,7 +13,7 @@ public static class StringExtension
 	/// <param name="stringValue">The string to modify.</param>
 	/// <returns>The replaced string.</returns>
 	public static string RemoveWhitespace(this string stringValue) =>
-		WhitespaceRegex.Replace(stringValue, string.Empty);
+		Statics.WhitespaceRegex.Replace(stringValue, string.Empty);
 
 	/// <summary>
 	/// Formats the string with <paramref name="parameters"/> an invariant culture.

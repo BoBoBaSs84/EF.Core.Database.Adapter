@@ -1,12 +1,15 @@
 ﻿using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
+
 using Domain.Constants;
 using Domain.Entities.Identity;
+
 using Infrastructure.Common;
 using Infrastructure.Logging;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Services;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+
 using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
 
 namespace Infrastructure.Extensions;

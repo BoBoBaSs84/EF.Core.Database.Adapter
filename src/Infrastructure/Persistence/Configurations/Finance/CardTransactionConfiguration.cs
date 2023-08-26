@@ -1,8 +1,11 @@
 ﻿using Domain.Entities.Finance;
+
 using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations.Finance;

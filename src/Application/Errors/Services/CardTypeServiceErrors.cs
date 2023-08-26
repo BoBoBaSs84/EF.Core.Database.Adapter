@@ -1,6 +1,8 @@
 ﻿using Application.Errors.Base;
 using Application.Services;
+
 using Domain.Extensions;
+
 using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
@@ -13,7 +15,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CardTypeServiceErrors
 {
-	private readonly static CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
+	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(CardTypeServiceErrors)}";
 
 	/// <summary>

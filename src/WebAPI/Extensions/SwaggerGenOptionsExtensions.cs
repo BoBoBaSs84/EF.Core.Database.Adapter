@@ -1,8 +1,12 @@
 ﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+
 using Presentation.Common;
+
 using Swashbuckle.AspNetCore.SwaggerGen;
+
 using WebAPI.Common;
+
 using Auth = Presentation.Constants.PresentationConstants.Authentication;
 
 namespace WebAPI.Extensions;

@@ -1,20 +1,25 @@
-﻿using Application.Contracts.Requests.Identity;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+
+using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Base;
 using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
+
 using AutoMapper;
+
 using Domain.Entities.Identity;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Results;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+
 using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
 using Roles = Domain.Enumerators.RoleTypes;
 

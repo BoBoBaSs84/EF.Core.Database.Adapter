@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using DbFunction = Domain.Constants.DomainConstants.Sql.DbFunction;
 
 namespace Infrastructure.Persistence;

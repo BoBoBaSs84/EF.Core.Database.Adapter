@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Responses.Enumerator;
+
 using AutoMapper;
+
 using Domain.Entities.Enumerator;
 
 namespace Application.Common.MappingProfiles.Responses;

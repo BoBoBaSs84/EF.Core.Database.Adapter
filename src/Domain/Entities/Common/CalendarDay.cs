@@ -1,5 +1,7 @@
-﻿using Domain.Common.EntityBaseTypes;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+using Domain.Common.EntityBaseTypes;
+
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 
 namespace Domain.Entities.Common;

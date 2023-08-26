@@ -1,12 +1,17 @@
 ﻿using Application.Interfaces.Presentation.Services;
+
 using BaseTests;
+
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
 using Infrastructure.Persistence;
+
 using InfrastructureTests.Helpers;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Env = Domain.Constants.DomainConstants.Environment;
 
 namespace InfrastructureTests;

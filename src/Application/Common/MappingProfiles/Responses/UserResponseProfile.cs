@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Responses.Identity;
+
 using AutoMapper;
+
 using Domain.Entities.Identity;
 
 namespace Application.Common.MappingProfiles.Responses;

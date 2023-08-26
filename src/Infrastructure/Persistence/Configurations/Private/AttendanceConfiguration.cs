@@ -1,6 +1,8 @@
 ﻿using Domain.Entities.Private;
+
 using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

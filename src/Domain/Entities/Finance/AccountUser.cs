@@ -14,7 +14,7 @@ public partial class AccountUser : AuditedCompositeModel
 	/// The <see cref="AccountId"/> property.
 	/// </summary>
 	public int AccountId { get; set; } = default!;
-	
+
 	/// <summary>
 	/// The <see cref="UserId"/> property.
 	/// </summary>

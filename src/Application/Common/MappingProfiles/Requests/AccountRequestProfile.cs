@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Requests.Finance;
+
 using AutoMapper;
+
 using Domain.Entities.Finance;
 
 namespace Application.Common.MappingProfiles.Requests;

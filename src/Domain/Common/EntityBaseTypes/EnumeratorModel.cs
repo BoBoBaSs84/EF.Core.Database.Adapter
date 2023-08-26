@@ -1,6 +1,8 @@
-﻿using Domain.Common.EntityBaseTypes.Interfaces;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using Domain.Common.EntityBaseTypes.Interfaces;
+
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
 namespace Domain.Common.EntityBaseTypes;
@@ -24,7 +26,7 @@ public abstract class EnumeratorModel : IdentityModel, IEnumerator
 	/// This is the primary key of the database table.
 	/// </remarks>
 	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.None)]
-	new public int Id { get; set; } = default!;
+	public new int Id { get; set; } = default!;
 
 	/// <inheritdoc/>
 	[Column(Order = 3), MaxLength(SqlMaxLength.MAX_250)]

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
 namespace Application.Contracts.Requests.Finance;

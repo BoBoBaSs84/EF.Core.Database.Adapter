@@ -6,12 +6,15 @@ using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
+
 using AutoMapper;
+
 using Domain.Entities.Private;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Extensions.QueryExtensions;
 using Domain.Results;
+
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -156,7 +159,7 @@ internal sealed class AttendanceService : IAttendanceService
 				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken);
 
-			IEnumerable <AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
+			IEnumerable<AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
 
 			return new PagedList<AttendanceResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}

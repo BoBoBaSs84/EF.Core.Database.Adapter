@@ -1,9 +1,12 @@
 ﻿using Application.Contracts.Responses.Enumerator;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
+
 using Domain.Errors;
 using Domain.Extensions;
+
 using FluentAssertions;
+
 using AssertionHelper = BaseTests.Helpers.AssertionHelper;
 using DayTypes = Domain.Enumerators.DayTypes;
 using TestConstants = BaseTests.Constants.TestConstants;

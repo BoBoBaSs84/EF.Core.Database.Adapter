@@ -1,8 +1,11 @@
-﻿using BaseTests.Constants;
+﻿using System.Reflection;
+
+using BaseTests.Constants;
 using BaseTests.Helpers;
+
 using FluentAssertions;
+
 using Infrastructure.Common;
-using System.Reflection;
 
 namespace InfrastructureTests;
 

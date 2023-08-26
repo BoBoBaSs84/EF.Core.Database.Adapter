@@ -1,10 +1,12 @@
 ﻿using Application.Contracts.Responses.Enumerator;
-using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
+
 using Domain.Errors;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using Presentation.Common;
 using Presentation.Controllers.Base;
 
@@ -44,7 +46,7 @@ public sealed class CardTypeController : ApiControllerBase
 	{
 		ErrorOr<IEnumerable<CardTypeResponse>> result =
 			await _cardTypeService.GetAll(false, cancellationToken);
-		
+
 		return Get(result);
 	}
 
@@ -64,7 +66,7 @@ public sealed class CardTypeController : ApiControllerBase
 	{
 		ErrorOr<CardTypeResponse> result =
 			await _cardTypeService.GetById(id, false, cancellationToken);
-		
+
 		return Get(result);
 	}
 
@@ -84,7 +86,7 @@ public sealed class CardTypeController : ApiControllerBase
 	{
 		ErrorOr<CardTypeResponse> result =
 			await _cardTypeService.GetByName(name, false, cancellationToken);
-		
+
 		return Get(result);
 	}
 }

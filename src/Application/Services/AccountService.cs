@@ -37,7 +37,7 @@ internal sealed class AccountService : IAccountService
 	/// <param name="userService">The user service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	internal AccountService(ILoggerService<AccountService> logger, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
+	public AccountService(ILoggerService<AccountService> logger, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
 		_userService = userService;
@@ -105,7 +105,8 @@ internal sealed class AccountService : IAccountService
 			Account? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
-				cancellationToken: cancellationToken
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(Account.AccountUsers), nameof(Account.Cards), nameof(Account.AccountTransactions) }
 				);
 
 			if (dbAccount is null)

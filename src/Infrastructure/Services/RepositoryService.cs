@@ -28,7 +28,7 @@ internal sealed class RepositoryService : IRepositoryService
 	/// Initializes a new instance of the <see cref="RepositoryService"/> class.
 	/// </summary>
 	/// <param name="context">The database context to work with.</param>
-	internal RepositoryService(RepositoryContext context)
+	public RepositoryService(RepositoryContext context)
 	{
 		_context = context ?? throw new ArgumentNullException(nameof(context));
 

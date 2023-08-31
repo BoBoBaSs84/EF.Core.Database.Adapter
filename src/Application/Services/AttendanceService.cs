@@ -37,7 +37,7 @@ internal sealed class AttendanceService : IAttendanceService
 	/// <param name="logger">The logger service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	internal AttendanceService(ILoggerService<AttendanceService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public AttendanceService(ILoggerService<AttendanceService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
 		_repositoryService = repositoryService;

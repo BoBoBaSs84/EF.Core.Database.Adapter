@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations.Development
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230831151541_UpdateMigration2")]
+    partial class UpdateMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -817,7 +820,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f1303aef-ce65-4529-ba62-a6bc738ca924",
+                            ConcurrencyStamp = "d21346a4-cf32-46c4-9859-15d85ca4bf56",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -825,7 +828,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "e42c0bff-24dd-45fe-a907-0629c63a8621",
+                            ConcurrencyStamp = "b43a6e2d-57fd-4b40-8883-4ac956c42a14",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
@@ -833,7 +836,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "b08913fa-4bc0-4b51-a229-890e537abec5",
+                            ConcurrencyStamp = "bac10313-bbd4-43e3-8fa6-57f0d7a4b669",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -1294,7 +1297,7 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.ToTable("DatabaseLog", "Private");
 
-                    b.ToSqlQuery("CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE \r\nFOR DDL_DATABASE_LEVEL_EVENTS AS \r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    DECLARE @data XML;\r\n    DECLARE @schema sysname;\r\n    DECLARE @object sysname;\r\n    DECLARE @eventType sysname;\r\n\r\n    SET @data = EVENTDATA();\r\n    SET @eventType = @data.value('(/EVENT_INSTANCE/EventType)[1]', 'sysname');\r\n    SET @schema = @data.value('(/EVENT_INSTANCE/SchemaName)[1]', 'sysname');\r\n    SET @object = @data.value('(/EVENT_INSTANCE/ObjectName)[1]', 'sysname') \r\n\r\n    IF @object IS NOT NULL\r\n        PRINT '  ' + @eventType + ' - ' + @schema + '.' + @object;\r\n    ELSE\r\n        PRINT '  ' + @eventType + ' - ' + @schema;\r\n\r\n    IF @eventType IS NULL\r\n        PRINT CONVERT(nvarchar(max), @data);\r\n\r\n    INSERT [private].[DatabaseLog] ([Event], [Schema], [Object], [TSQL], [XmlEvent])\r\n    SELECT @eventType\r\n			, CONVERT(sysname, @schema)\r\n			, CONVERT(sysname, @object)\r\n			, @data.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'nvarchar(max)')\r\n			, @data;\r\nEND;");
+                    b.ToSqlQuery("CREATE TRIGGER [DatabaseTriggerLog] ON DATABASE \r\nFOR DDL_DATABASE_LEVEL_EVENTS AS \r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    DECLARE @data XML;\r\n    DECLARE @schema sysname;\r\n    DECLARE @object sysname;\r\n    DECLARE @eventType sysname;\r\n\r\n    SET @data = EVENTDATA();\r\n    SET @eventType = @data.value('(/EVENT_INSTANCE/EventType)[1]', 'sysname');\r\n    SET @schema = @data.value('(/EVENT_INSTANCE/SchemaName)[1]', 'sysname');\r\n    SET @object = @data.value('(/EVENT_INSTANCE/ObjectName)[1]', 'sysname') \r\n\r\n    IF @object IS NOT NULL\r\n        PRINT '  ' + @eventType + ' - ' + @schema + '.' + @object;\r\n    ELSE\r\n        PRINT '  ' + @eventType + ' - ' + @schema;\r\n\r\n    IF @eventType IS NULL\r\n        PRINT CONVERT(nvarchar(max), @data);\r\n\r\n    INSERT [private].[DatabaseLog] ([Event], [Schema], [Object], [TSQL], [XmlEvent])\r\n    SELECT @eventType\r\n			, CONVERT(sysname, @schema)\r\n			, CONVERT(sysname, @object)\r\n			, @data.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'nvarchar(max)')\r\n			, @data;\r\nEND;");
                 });
 
             modelBuilder.Entity("Domain.Entities.Common.CalendarDay", b =>
@@ -1319,7 +1322,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Finance.Transaction", "Transaction")
                         .WithMany("AccountTransactions")
                         .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -1384,7 +1387,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasOne("Domain.Entities.Finance.Transaction", "Transaction")
                         .WithMany("CardTransactions")
                         .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Card");

@@ -30,19 +30,19 @@ internal static class FinanceConfiguration
 			builder.HasMany(e => e.AccountUsers)
 				.WithOne(e => e.Account)
 				.HasForeignKey(e => e.AccountId)
-				.OnDelete(DeleteBehavior.Restrict)
+				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
 			builder.HasMany(e => e.AccountTransactions)
 				.WithOne(e => e.Account)
 				.HasForeignKey(e => e.AccountId)
-				.OnDelete(DeleteBehavior.Restrict)
+				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.Account)
 				.HasForeignKey(e => e.AccountId)
-				.OnDelete(DeleteBehavior.Restrict)
+				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
 			base.Configure(builder);
@@ -94,7 +94,7 @@ internal static class FinanceConfiguration
 			builder.HasMany(e => e.CardTransactions)
 				.WithOne(e => e.Card)
 				.HasForeignKey(e => e.CardId)
-				.OnDelete(DeleteBehavior.Restrict)
+				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
 			base.Configure(builder);
@@ -131,13 +131,13 @@ internal static class FinanceConfiguration
 			builder.HasMany(e => e.AccountTransactions)
 				.WithOne(e => e.Transaction)
 				.HasForeignKey(e => e.TransactionId)
-				.OnDelete(DeleteBehavior.Restrict)
+				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
 			builder.HasMany(e => e.CardTransactions)
 				.WithOne(e => e.Transaction)
 				.HasForeignKey(e => e.TransactionId)
-				.OnDelete(DeleteBehavior.Restrict)
+				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
 			base.Configure(builder);

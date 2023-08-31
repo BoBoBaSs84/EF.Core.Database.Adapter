@@ -40,7 +40,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 	/// <param name="logger">The logger service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	internal CalendarDayService(IDateTimeService dateTimeService, ILoggerService<CalendarDayService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public CalendarDayService(IDateTimeService dateTimeService, ILoggerService<CalendarDayService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_dateTimeService = dateTimeService;
 		_logger = logger;

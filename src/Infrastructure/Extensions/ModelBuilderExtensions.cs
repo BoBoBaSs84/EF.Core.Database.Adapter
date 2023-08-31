@@ -39,7 +39,7 @@ internal static class ModelBuilderExtensions
 
 			entity.Property(property => property.PostTime).HasDefaultValueSql("(getdate())");
 
-			entity.ToSqlQuery(@"CREATE TRIGGER [DatabaseTriggerLog] ON DATABASE 
+			entity.ToSqlQuery(@"CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE 
 FOR DDL_DATABASE_LEVEL_EVENTS AS 
 BEGIN
     SET NOCOUNT ON;

@@ -27,9 +27,9 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+[Authorize]
 [Route(Endpoints.Account.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-[Authorize]
 public sealed class AccountController : ApiControllerBase
 {
 	private readonly IAccountService _accountService;
@@ -68,7 +68,7 @@ public sealed class AccountController : ApiControllerBase
 		ErrorOr<Deleted> result =
 			await _accountService.Delete(_currentUserService.UserId, accountId, cancellationToken);
 
-		return Get(result);
+		return Delete(result);
 	}
 
 	/// <summary>
@@ -163,7 +163,7 @@ public sealed class AccountController : ApiControllerBase
 		ErrorOr<Created> result =
 			await _accountService.Create(_currentUserService.UserId, createRequest, cancellationToken);
 
-		return Get(result);
+		return PostWithoutLocation(result);
 	}
 
 	/// <summary>
@@ -187,6 +187,6 @@ public sealed class AccountController : ApiControllerBase
 		ErrorOr<Updated> result =
 			await _accountService.Update(_currentUserService.UserId, updateRequest, cancellationToken);
 
-		return Get(result);
+		return Put(result);
 	}
 }

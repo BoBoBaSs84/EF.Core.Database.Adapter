@@ -35,7 +35,7 @@ internal sealed class CardTypeService : ICardTypeService
 	/// <param name="logger">The logger service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	internal CardTypeService(ILoggerService<CardTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public CardTypeService(ILoggerService<CardTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
 		_repositoryService = repositoryService;

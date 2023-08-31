@@ -65,7 +65,7 @@ public sealed class UserManagementController : ApiControllerBase
 		ErrorOr<Created> result =
 			await _authenticationService.AddUserToRole(userId, roleName);
 
-		return Get(result);
+		return Put(result);
 	}
 
 	/// <summary>
@@ -174,7 +174,7 @@ public sealed class UserManagementController : ApiControllerBase
 		ErrorOr<Deleted> result =
 			await _authenticationService.RemoveUserToRole(userId, roleName);
 
-		return Get(result);
+		return Delete(result);
 	}
 
 	/// <summary>
@@ -198,6 +198,6 @@ public sealed class UserManagementController : ApiControllerBase
 		ErrorOr<Updated> result =
 			await _authenticationService.UpdateUser(_currentUserService.UserId, updateRequest);
 
-		return Get(result);
+		return Put(result);
 	}
 }

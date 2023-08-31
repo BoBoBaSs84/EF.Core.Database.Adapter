@@ -76,11 +76,6 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 		{
 			_logger.Log(logException, ex);
 		}
-		// TODO: What todo else then?
-		catch (DbUpdateException ex)
-		{
-			_logger.Log(logException, ex);
-		}
 		return result;
 	}
 }

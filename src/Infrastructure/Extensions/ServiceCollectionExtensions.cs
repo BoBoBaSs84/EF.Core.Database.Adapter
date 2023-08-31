@@ -150,13 +150,13 @@ internal static class ServiceCollectionExtensions
 	}
 
 	/// <summary>
-	/// Registers the <see cref="MicrosoftLoggerWrapper{T}"></see> as <b>Singleton</b>
+	/// Registers the <see cref="LoggerService{T}"></see> as <b>Singleton</b>
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection AddMicrosoftLogger(this IServiceCollection services)
 	{
-		services.TryAddSingleton(typeof(ILoggerWrapper<>), typeof(MicrosoftLoggerWrapper<>));
+		services.TryAddSingleton(typeof(ILoggerService<>), typeof(LoggerService<>));
 
 		return services;
 	}

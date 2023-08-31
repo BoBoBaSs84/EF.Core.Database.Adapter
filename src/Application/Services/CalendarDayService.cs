@@ -17,27 +17,30 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
+/// <summary>
+/// The calendar day service class.
+/// </summary>
 internal sealed class CalendarDayService : ICalendarDayService
 {
 	private readonly IDateTimeService _dateTimeService;
-	private readonly ILoggerWrapper<CalendarDayService> _logger;
+	private readonly ILoggerService<CalendarDayService> _logger;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
-	private static readonly Action<ILogger, Exception?> logException =
+	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
-	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
-	/// Initilizes an instance of <see cref="CalendarDayService"/> class.
+	/// Initilizes an instance of the calendar day service class.
 	/// </summary>
-	/// <param name="dateTimeService">The date time service.</param>
-	/// <param name="logger">The logger service.</param>
-	/// <param name="repositoryService">The unit of work.</param>
-	/// <param name="mapper">The auto mapper.</param>
-	public CalendarDayService(IDateTimeService dateTimeService, ILoggerWrapper<CalendarDayService> logger, IRepositoryService repositoryService, IMapper mapper)
+	/// <param name="dateTimeService">The date time service to use.</param>
+	/// <param name="logger">The logger service to use.</param>
+	/// <param name="repositoryService">The repository service to use.</param>
+	/// <param name="mapper">The auto mapper to use.</param>
+	internal CalendarDayService(IDateTimeService dateTimeService, ILoggerService<CalendarDayService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_dateTimeService = dateTimeService;
 		_logger = logger;
@@ -45,7 +48,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<CalendarDayResponse>> GetByDate(DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CalendarDayResponse>> Get(DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -65,12 +68,12 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(LogException, ex);
 			return CalendarDayServiceErrors.GetByDateFailed;
 		}
 	}
 
-	public async Task<ErrorOr<CalendarDayResponse>> GetById(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CalendarDayResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -90,12 +93,12 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(LogException, ex);
 			return CalendarDayServiceErrors.GetByIdFailed;
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<CalendarDayResponse>>> GetPagedByParameters(CalendarDayParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IPagedList<CalendarDayResponse>>> Get(CalendarDayParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -126,12 +129,12 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(LogExceptionWithParams, parameters, ex);
 			return CalendarDayServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 
-	public async Task<ErrorOr<CalendarDayResponse>> GetCurrentDate(bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CalendarDayResponse>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -151,7 +154,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(LogException, ex);
 			return CalendarDayServiceErrors.GetCurrentDateFailed;
 		}
 	}

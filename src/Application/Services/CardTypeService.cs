@@ -13,34 +13,36 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-[SuppressMessage("Globalization", "CA1309",
-	Justification = "Overload with 'StringComparison' parameter is not supported.")]
+/// <summary>
+/// The card type service class.
+/// </summary>
+[SuppressMessage("Globalization", "CA1309", Justification = "Overload with 'StringComparison' parameter is not supported.")]
 internal sealed class CardTypeService : ICardTypeService
 {
-	private readonly ILoggerWrapper<CardTypeService> _logger;
+	private readonly ILoggerService<CardTypeService> _logger;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
-	private static readonly Action<ILogger, Exception?> logException =
+	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
-	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
-	/// Initilizes an instance of <see cref="CardTypeService"/> class.
+	/// Initilizes an instance of the card type service class.
 	/// </summary>
-	/// <param name="logger">The logger service.</param>
-	/// <param name="repositoryService">The unit of work.</param>
-	/// <param name="mapper">The auto mapper.</param>
-	public CardTypeService(ILoggerWrapper<CardTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
+	/// <param name="logger">The logger service to use.</param>
+	/// <param name="repositoryService">The repository service to use.</param>
+	/// <param name="mapper">The auto mapper to use.</param>
+	internal CardTypeService(ILoggerService<CardTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<CardTypeResponse>> GetById(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardTypeResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -57,12 +59,12 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, id, ex);
+			_logger.Log(LogExceptionWithParams, id, ex);
 			return CardTypeServiceErrors.GetByIdFailed;
 		}
 	}
 
-	public async Task<ErrorOr<CardTypeResponse>> GetByName(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardTypeResponse>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -79,12 +81,12 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, name, ex);
+			_logger.Log(LogExceptionWithParams, name, ex);
 			return CardTypeServiceErrors.GetByNameFailed;
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<CardTypeResponse>>> GetAll(bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<CardTypeResponse>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -100,7 +102,7 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(LogException, ex);
 			return CardTypeServiceErrors.GetAllFailed;
 		}
 	}

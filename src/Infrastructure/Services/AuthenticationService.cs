@@ -32,7 +32,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	private readonly IConfiguration _configuration;
 	private readonly IConfigurationSection _jwtSettings;
 	private readonly IDateTimeService _dateTimeService;
-	private readonly ILoggerWrapper<AuthenticationService> _logger;
+	private readonly ILoggerService<AuthenticationService> _logger;
 	private readonly IRoleService _roleService;
 	private readonly IUserService _userService;
 	private readonly IMapper _mapper;
@@ -55,7 +55,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	public AuthenticationService(
 		IConfiguration configuration,
 		IDateTimeService dateTimeService,
-		ILoggerWrapper<AuthenticationService> logger,
+		ILoggerService<AuthenticationService> logger,
 		IRoleService roleService,
 		IUserService userService,
 		IMapper mapper

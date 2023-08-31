@@ -59,7 +59,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] AttendanceParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<AttendanceResponse>> result =
-			await _attendanceService.GetPagedByParameters(_currentUserService.UserId, parameters, false, cancellationToken);
+			await _attendanceService.Get(_currentUserService.UserId, parameters, false, cancellationToken);
 
 		return Get(result, result.Value?.MetaData);
 	}
@@ -81,7 +81,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> GetById(int calendarDayId, CancellationToken cancellationToken)
 	{
 		ErrorOr<AttendanceResponse> result =
-			await _attendanceService.GetById(_currentUserService.UserId, calendarDayId, false, cancellationToken);
+			await _attendanceService.Get(_currentUserService.UserId, calendarDayId, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -103,7 +103,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> GetByDate(DateTime date, CancellationToken cancellationToken)
 	{
 		ErrorOr<AttendanceResponse> result =
-			await _attendanceService.GetByDate(_currentUserService.UserId, date, false, cancellationToken);
+			await _attendanceService.Get(_currentUserService.UserId, date, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -147,7 +147,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> Delete([FromBody] IEnumerable<int> calendarDayIds, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
-			await _attendanceService.DeleteMany(_currentUserService.UserId, calendarDayIds, cancellationToken);
+			await _attendanceService.Delete(_currentUserService.UserId, calendarDayIds, cancellationToken);
 
 		return Delete(result);
 	}
@@ -191,7 +191,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> result =
-			await _attendanceService.CreateMany(_currentUserService.UserId, createRequest, cancellationToken);
+			await _attendanceService.Create(_currentUserService.UserId, createRequest, cancellationToken);
 
 		return PostWithoutLocation(result);
 	}
@@ -235,7 +235,7 @@ public sealed class AttendanceController : ApiControllerBase
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> result =
-			await _attendanceService.UpdateMany(updateRequest, cancellationToken);
+			await _attendanceService.Update(updateRequest, cancellationToken);
 
 		return Put(result);
 	}

@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence;
 public sealed partial class RepositoryContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IRepositoryContext
 {
 	private readonly CustomSaveChangesInterceptor _changesInterceptor;
-	private readonly ILoggerWrapper<RepositoryContext> _logger;
+	private readonly ILoggerService<RepositoryContext> _logger;
 
 	private static readonly Action<ILogger, Exception?> logException =
 	LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
@@ -38,7 +38,7 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 	public RepositoryContext(
 		DbContextOptions<RepositoryContext> dbContextOptions,
 		CustomSaveChangesInterceptor changesInterceptor,
-		ILoggerWrapper<RepositoryContext> logger
+		ILoggerService<RepositoryContext> logger
 		) : base(dbContextOptions)
 	{
 		_changesInterceptor = changesInterceptor;

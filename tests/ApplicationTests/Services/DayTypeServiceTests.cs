@@ -25,7 +25,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 		_dayTypeService = GetRequiredService<IDayTypeService>();
 		DayTypes dayType = DayTypes.WEEKDAY;
 
-		ErrorOr<DayTypeResponse> result = await _dayTypeService.GetById((int)dayType);
+		ErrorOr<DayTypeResponse> result = await _dayTypeService.Get((int)dayType);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -42,7 +42,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 		_dayTypeService = GetRequiredService<IDayTypeService>();
 		int cardTypeId = 0;
 
-		ErrorOr<DayTypeResponse> result = await _dayTypeService.GetById(cardTypeId);
+		ErrorOr<DayTypeResponse> result = await _dayTypeService.Get(cardTypeId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -58,7 +58,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 		_dayTypeService = GetRequiredService<IDayTypeService>();
 		DayTypes dayType = DayTypes.WEEKDAY;
 
-		ErrorOr<DayTypeResponse> result = await _dayTypeService.GetByName(dayType.GetName());
+		ErrorOr<DayTypeResponse> result = await _dayTypeService.Get(dayType.GetName());
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -75,7 +75,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 		_dayTypeService = GetRequiredService<IDayTypeService>();
 		string cardTypeName = "UnitTest";
 
-		ErrorOr<DayTypeResponse> result = await _dayTypeService.GetByName(cardTypeName);
+		ErrorOr<DayTypeResponse> result = await _dayTypeService.Get(cardTypeName);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -90,7 +90,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 	{
 		_dayTypeService = GetRequiredService<IDayTypeService>();
 
-		ErrorOr<IEnumerable<DayTypeResponse>> result = await _dayTypeService.GetAll();
+		ErrorOr<IEnumerable<DayTypeResponse>> result = await _dayTypeService.Get();
 
 		AssertionHelper.AssertInScope(() =>
 		{

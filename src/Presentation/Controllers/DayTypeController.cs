@@ -45,7 +45,7 @@ public sealed class DayTypeController : ApiControllerBase
 	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
 		ErrorOr<IEnumerable<DayTypeResponse>> result =
-			await _dayTypeService.GetAll(false, cancellationToken);
+			await _dayTypeService.Get(false, cancellationToken);
 
 		return Get(result);
 	}
@@ -65,7 +65,7 @@ public sealed class DayTypeController : ApiControllerBase
 	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
 		ErrorOr<DayTypeResponse> result =
-			await _dayTypeService.GetById(id, false, cancellationToken);
+			await _dayTypeService.Get(id, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -85,7 +85,7 @@ public sealed class DayTypeController : ApiControllerBase
 	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken)
 	{
 		ErrorOr<DayTypeResponse> result =
-			await _dayTypeService.GetByName(name, false, cancellationToken);
+			await _dayTypeService.Get(name, false, cancellationToken);
 
 		return Get(result);
 	}

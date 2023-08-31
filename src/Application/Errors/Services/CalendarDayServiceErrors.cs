@@ -23,7 +23,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetByDate(DateTime, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(DateTime, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetByDateFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByDateFailed)}",
@@ -31,7 +31,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetByDate(DateTime, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(DateTime, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByDateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
@@ -39,7 +39,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetById(int, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetByIdFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
@@ -47,7 +47,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetById(int, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByIdNotFound(int id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
@@ -55,7 +55,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetCurrentDate(bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetCurrentDateFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetCurrentDateFailed)}",
@@ -63,7 +63,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetCurrentDate(bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetCurrentDateNotFound =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetCurrentDateNotFound)}",
@@ -71,7 +71,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetPagedByParameters(CalendarDayParameters, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(CalendarDayParameters, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
@@ -79,7 +79,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.GetPagedByParameters(CalendarDayParameters, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(CalendarDayParameters, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetPagedByParametersNotFound)}",

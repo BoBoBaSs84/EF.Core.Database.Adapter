@@ -5,21 +5,21 @@ using Microsoft.Extensions.Logging;
 namespace Infrastructure.Logging;
 
 /// <summary>
-/// The microsoft logger wrapper class.
+/// The logger service class.
 /// </summary>
 /// <remarks>
-/// Implements the <see cref="ILoggerWrapper{TLogger}"/> interface.
+/// Implements the <see cref="ILoggerService{TLogger}"/> interface.
 /// </remarks>
 /// <typeparam name="TLogger"></typeparam>
-public sealed class MicrosoftLoggerWrapper<TLogger> : ILoggerWrapper<TLogger> where TLogger : class
+public sealed class LoggerService<TLogger> : ILoggerService<TLogger> where TLogger : class
 {
 	private readonly ILogger<TLogger> _logger;
 
 	/// <summary>
-	/// Initializes an instance of the <see cref="MicrosoftLoggerWrapper{TLogger}"/> class.
+	/// Initializes an instance of the <see cref="LoggerService{TLogger}"/> class.
 	/// </summary>
 	/// <param name="logger">The logger.</param>
-	public MicrosoftLoggerWrapper(ILogger<TLogger> logger)
+	public LoggerService(ILogger<TLogger> logger)
 		=> _logger = logger;
 
 	/// <inheritdoc/>

@@ -33,7 +33,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.CreateMany(int, IEnumerable{AttendanceCreateRequest}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Create(int, IEnumerable{AttendanceCreateRequest}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError CreateManyFailed =
@@ -60,7 +60,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.DeleteMany(int, IEnumerable{int}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Delete(int, IEnumerable{int}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError DeleteManyFailed =
@@ -69,7 +69,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.DeleteMany(int, IEnumerable{int}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Delete(int, IEnumerable{int}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError DeleteManyNotFound =
@@ -78,7 +78,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.GetByDate(int, DateTime, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(int, DateTime, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
@@ -88,7 +88,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.GetByDate(int, DateTime, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(int, DateTime, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
@@ -98,7 +98,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.GetById(int, int, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(int, int, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
@@ -108,7 +108,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.GetByDate(int, DateTime, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(int, DateTime, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
@@ -118,7 +118,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.GetPagedByParameters(int, AttendanceParameters, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(int, AttendanceParameters, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersFailed =
@@ -127,7 +127,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.GetPagedByParameters(int, AttendanceParameters, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(int, AttendanceParameters, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersNotFound =
@@ -154,7 +154,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.UpdateMany(IEnumerable{AttendanceUpdateRequest}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Update(IEnumerable{AttendanceUpdateRequest}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError UpdateManyFailed =
@@ -163,7 +163,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.UpdateMany(IEnumerable{AttendanceUpdateRequest}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Update(IEnumerable{AttendanceUpdateRequest}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError UpdateManyNotFound =

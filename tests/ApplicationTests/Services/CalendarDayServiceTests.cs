@@ -24,7 +24,7 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 	{
 		_calendarDayService = GetRequiredService<ICalendarDayService>();
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.GetByDate(DateTime.Now);
+		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(DateTime.Now);
 
 		AH.AssertInScope(() =>
 		{
@@ -41,7 +41,7 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 		_calendarDayService = GetRequiredService<ICalendarDayService>();
 		DateTime dateTime = DateTime.Now.AddYears(50);
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.GetByDate(dateTime);
+		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(dateTime);
 
 		AH.AssertInScope(() =>
 		{
@@ -58,7 +58,7 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 		_calendarDayService = GetRequiredService<ICalendarDayService>();
 		int calendarDayId = 1;
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.GetById(calendarDayId);
+		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(calendarDayId);
 
 		AH.AssertInScope(() =>
 		{
@@ -75,7 +75,7 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 		_calendarDayService = GetRequiredService<ICalendarDayService>();
 		int calendarDayId = int.MaxValue;
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.GetById(calendarDayId);
+		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(calendarDayId);
 
 		AH.AssertInScope(() =>
 		{
@@ -93,7 +93,7 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 
 		CalendarDayParameters parameters = new() { Year = DateTime.Now.Year, Month = DateTime.Now.Month };
 
-		ErrorOr<IPagedList<CalendarDayResponse>> result = await _calendarDayService.GetPagedByParameters(parameters);
+		ErrorOr<IPagedList<CalendarDayResponse>> result = await _calendarDayService.Get(parameters);
 
 		AH.AssertInScope(() =>
 		{
@@ -112,7 +112,7 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 
 		CalendarDayParameters parameters = new() { Year = DateTime.Now.AddYears(50).Year, Month = DateTime.Now.AddYears(50).Month };
 
-		ErrorOr<IPagedList<CalendarDayResponse>> result = await _calendarDayService.GetPagedByParameters(parameters);
+		ErrorOr<IPagedList<CalendarDayResponse>> result = await _calendarDayService.Get(parameters);
 
 		AH.AssertInScope(() =>
 		{
@@ -128,7 +128,7 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 	{
 		_calendarDayService = GetRequiredService<ICalendarDayService>();
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.GetCurrentDate();
+		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get();
 
 		AH.AssertInScope(() =>
 		{

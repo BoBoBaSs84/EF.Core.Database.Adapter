@@ -49,7 +49,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] CalendarDayParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<CalendarDayResponse>> result =
-			await _calendarDayService.GetPagedByParameters(parameters, false, cancellationToken);
+			await _calendarDayService.Get(parameters, false, cancellationToken);
 
 		return Get(result, result.Value?.MetaData);
 	}
@@ -69,7 +69,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	public async Task<IActionResult> GetByDate([DataType(DataType.Date)] DateTime date, CancellationToken cancellationToken)
 	{
 		ErrorOr<CalendarDayResponse> result =
-			await _calendarDayService.GetByDate(date, false, cancellationToken);
+			await _calendarDayService.Get(date, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -89,7 +89,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
 		ErrorOr<CalendarDayResponse> result =
-			await _calendarDayService.GetById(id, false, cancellationToken);
+			await _calendarDayService.Get(id, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -108,7 +108,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	public async Task<IActionResult> GetCurrent(CancellationToken cancellationToken)
 	{
 		ErrorOr<CalendarDayResponse> result =
-			await _calendarDayService.GetCurrentDate(false, cancellationToken);
+			await _calendarDayService.Get(false, cancellationToken);
 
 		return Get(result);
 	}

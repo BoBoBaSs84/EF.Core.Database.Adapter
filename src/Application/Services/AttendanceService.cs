@@ -24,20 +24,20 @@ namespace Application.Services;
 /// </summary>
 internal sealed class AttendanceService : IAttendanceService
 {
-	private readonly ILoggerWrapper<AttendanceService> _logger;
+	private readonly ILoggerService<AttendanceService> _logger;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
-	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
-	/// Initilizes an instance of <see cref="AttendanceService"/> class.
+	/// Initilizes an instance of the attendance service class.
 	/// </summary>
-	/// <param name="logger">The logger service.</param>
-	/// <param name="repositoryService">The unit of work.</param>
-	/// <param name="mapper">The auto mapper.</param>
-	public AttendanceService(ILoggerWrapper<AttendanceService> logger, IRepositoryService repositoryService, IMapper mapper)
+	/// <param name="logger">The logger service to use.</param>
+	/// <param name="repositoryService">The repository service to use.</param>
+	/// <param name="mapper">The auto mapper to use.</param>
+	internal AttendanceService(ILoggerService<AttendanceService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
 		_repositoryService = repositoryService;
@@ -58,12 +58,12 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, createRequest, ex);
+			_logger.Log(LogExceptionWithParams, createRequest, ex);
 			return AttendanceServiceErrors.CreateFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Created>> CreateMany(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -79,7 +79,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, createRequest, ex);
+			_logger.Log(LogExceptionWithParams, createRequest, ex);
 			return AttendanceServiceErrors.CreateManyFailed;
 		}
 	}
@@ -105,12 +105,12 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.DeleteFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteMany(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> Delete(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayIds.ToJsonString()}" };
 		try
@@ -131,12 +131,12 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.DeleteManyFailed;
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(int userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> Get(int userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -165,12 +165,12 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 
-	public async Task<ErrorOr<AttendanceResponse>> GetByDate(int userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AttendanceResponse>> Get(int userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -191,12 +191,12 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
+			_logger.Log(LogExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
 			return AttendanceServiceErrors.GetByDateFailed(date);
 		}
 	}
 
-	public async Task<ErrorOr<AttendanceResponse>> GetById(int userId, int calendarDayId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AttendanceResponse>> Get(int userId, int calendarDayId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayId}" };
 		try
@@ -218,7 +218,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetByIdFailed(calendarDayId);
 		}
 	}
@@ -242,12 +242,12 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, updateRequest, ex);
+			_logger.Log(LogExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.UpdateFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateMany(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -267,7 +267,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, updateRequest, ex);
+			_logger.Log(LogExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.UpdateManyFailed;
 		}
 	}

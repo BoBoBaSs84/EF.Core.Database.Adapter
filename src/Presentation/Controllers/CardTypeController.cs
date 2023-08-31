@@ -45,7 +45,7 @@ public sealed class CardTypeController : ApiControllerBase
 	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
 		ErrorOr<IEnumerable<CardTypeResponse>> result =
-			await _cardTypeService.GetAll(false, cancellationToken);
+			await _cardTypeService.Get(false, cancellationToken);
 
 		return Get(result);
 	}
@@ -65,7 +65,7 @@ public sealed class CardTypeController : ApiControllerBase
 	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
 		ErrorOr<CardTypeResponse> result =
-			await _cardTypeService.GetById(id, false, cancellationToken);
+			await _cardTypeService.Get(id, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -85,7 +85,7 @@ public sealed class CardTypeController : ApiControllerBase
 	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken)
 	{
 		ErrorOr<CardTypeResponse> result =
-			await _cardTypeService.GetByName(name, false, cancellationToken);
+			await _cardTypeService.Get(name, false, cancellationToken);
 
 		return Get(result);
 	}

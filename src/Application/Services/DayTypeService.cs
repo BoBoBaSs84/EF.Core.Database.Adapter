@@ -13,34 +13,36 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-[SuppressMessage("Globalization", "CA1309",
-	Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
+/// <summary>
+/// The day type service class.
+/// </summary>
+[SuppressMessage("Globalization", "CA1309", Justification = "Translation of the 'string.Equals' overload with a 'StringComparison' parameter is not supported.")]
 internal sealed class DayTypeService : IDayTypeService
 {
-	private readonly ILoggerWrapper<DayTypeService> _logger;
+	private readonly ILoggerService<DayTypeService> _logger;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
-	private static readonly Action<ILogger, Exception?> logException =
+	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
-	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
-	/// Initilizes an instance of <see cref="DayTypeService"/> class.
+	/// Initilizes an instance of the day type service class.
 	/// </summary>
-	/// <param name="logger">The logger service.</param>
-	/// <param name="repositoryService">The unit of work.</param>
-	/// <param name="mapper">The auto mapper.</param>
-	public DayTypeService(ILoggerWrapper<DayTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
+	/// <param name="logger">The logger service to use.</param>
+	/// <param name="repositoryService">The repository service to use.</param>
+	/// <param name="mapper">The auto mapper to use.</param>
+	internal DayTypeService(ILoggerService<DayTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_logger = logger;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<DayTypeResponse>> GetById(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<DayTypeResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -56,12 +58,12 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, id, ex);
+			_logger.Log(LogExceptionWithParams, id, ex);
 			return DayTypeServiceErrors.GetByIdFailed;
 		}
 	}
 
-	public async Task<ErrorOr<DayTypeResponse>> GetByName(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<DayTypeResponse>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -77,12 +79,12 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, name, ex);
+			_logger.Log(LogExceptionWithParams, name, ex);
 			return DayTypeServiceErrors.GetByNameFailed;
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<DayTypeResponse>>> GetAll(bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<DayTypeResponse>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -98,7 +100,7 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(LogException, ex);
 			return DayTypeServiceErrors.GetAllFailed;
 		}
 	}

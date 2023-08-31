@@ -25,7 +25,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 		_cardTypeService = GetRequiredService<ICardTypeService>();
 		CardTypes cardType = CardTypes.CREDIT;
 
-		ErrorOr<CardTypeResponse> result = await _cardTypeService.GetById((int)cardType);
+		ErrorOr<CardTypeResponse> result = await _cardTypeService.Get((int)cardType);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -42,7 +42,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 		_cardTypeService = GetRequiredService<ICardTypeService>();
 		int cardTypeId = 0;
 
-		ErrorOr<CardTypeResponse> result = await _cardTypeService.GetById(cardTypeId);
+		ErrorOr<CardTypeResponse> result = await _cardTypeService.Get(cardTypeId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -58,7 +58,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 		_cardTypeService = GetRequiredService<ICardTypeService>();
 		CardTypes cardType = CardTypes.CREDIT;
 
-		ErrorOr<CardTypeResponse> result = await _cardTypeService.GetByName(cardType.GetName());
+		ErrorOr<CardTypeResponse> result = await _cardTypeService.Get(cardType.GetName());
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -75,7 +75,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 		_cardTypeService = GetRequiredService<ICardTypeService>();
 		string cardTypeName = "UnitTest";
 
-		ErrorOr<CardTypeResponse> result = await _cardTypeService.GetByName(cardTypeName);
+		ErrorOr<CardTypeResponse> result = await _cardTypeService.Get(cardTypeName);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -90,7 +90,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 	{
 		_cardTypeService = GetRequiredService<ICardTypeService>();
 
-		ErrorOr<IEnumerable<CardTypeResponse>> result = await _cardTypeService.GetAll();
+		ErrorOr<IEnumerable<CardTypeResponse>> result = await _cardTypeService.Get();
 
 		AssertionHelper.AssertInScope(() =>
 		{

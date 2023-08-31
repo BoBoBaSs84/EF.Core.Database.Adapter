@@ -22,7 +22,7 @@ public static class DayTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetById(int, bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.Get(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetByIdFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
@@ -30,7 +30,7 @@ public static class DayTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetById(int, bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.Get(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByIdNotFound(int id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
@@ -38,7 +38,7 @@ public static class DayTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetByName(string, bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.Get(string, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetByNameFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByNameFailed)}",
@@ -46,7 +46,7 @@ public static class DayTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetByName(string, bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.Get(string, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByNameNotFound(string name) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByNameNotFound)}",
@@ -54,7 +54,7 @@ public static class DayTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetAll(bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.Get(bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAllFailed)}",
@@ -62,7 +62,7 @@ public static class DayTypeServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="DayTypeService.GetAll(bool, CancellationToken)"/> method.
+	/// <see cref="DayTypeService.Get(bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetAllNotFound)}",

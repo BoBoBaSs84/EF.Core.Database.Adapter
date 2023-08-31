@@ -3,10 +3,10 @@
 namespace Application.Interfaces.Infrastructure.Logging;
 
 /// <summary>
-/// The logger wrapper interface.
+/// The logger service interface.
 /// </summary>
 /// <typeparam name="TLogger"></typeparam>
-public interface ILoggerWrapper<TLogger>
+public interface ILoggerService<TLogger>
 {
 	/// <summary>
 	/// Logs a message with the help of a delegate

@@ -22,21 +22,21 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.GetAll(int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}", RESX.AccountService_GetAll_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.GetAll(int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetAllNotFound}", RESX.AccountService_GetAll_NotFound);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.GetById(int, int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(int, int, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByIdFailed(int accountId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
@@ -44,7 +44,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.GetById(int, int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(int, int, bool, CancellationToken)"/> method.
 	/// </summary>	
 	public static ApiError GetByIdNotFound(int accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
@@ -52,7 +52,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.GetByNumber(int, string, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(int, string, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByNumberFailed(string iban) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
@@ -60,7 +60,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.GetByNumber(int, string, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(int, string, bool, CancellationToken)"/> method.
 	/// </summary>	
 	public static ApiError GetByNumberNotFound(string iban) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",

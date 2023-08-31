@@ -89,7 +89,7 @@ public sealed class AccountController : ApiControllerBase
 	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
 		ErrorOr<IEnumerable<AccountResponse>> result =
-			await _accountService.GetAll(_currentUserService.UserId, false, cancellationToken);
+			await _accountService.Get(_currentUserService.UserId, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -113,7 +113,7 @@ public sealed class AccountController : ApiControllerBase
 	public async Task<IActionResult> GetById(int accountId, CancellationToken cancellationToken)
 	{
 		ErrorOr<AccountResponse> result =
-			await _accountService.GetById(_currentUserService.UserId, accountId, false, cancellationToken);
+			await _accountService.Get(_currentUserService.UserId, accountId, false, cancellationToken);
 
 		return Get(result);
 	}
@@ -137,7 +137,7 @@ public sealed class AccountController : ApiControllerBase
 	public async Task<IActionResult> GetByNumber([RegularExpression(RegexPatterns.IBAN)] string iban, CancellationToken cancellationToken)
 	{
 		ErrorOr<AccountResponse> result =
-			await _accountService.GetByNumber(_currentUserService.UserId, iban, false, cancellationToken);
+			await _accountService.Get(_currentUserService.UserId, iban, false, cancellationToken);
 
 		return Get(result);
 	}

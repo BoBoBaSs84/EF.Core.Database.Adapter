@@ -520,6 +520,105 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An internal error occurred while creating the bank card..
+        /// </summary>
+        public static string CardService_Create_Failed {
+            get {
+                return ResourceManager.GetString("CardService.Create.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An internal error occurred while deleting the bank card..
+        /// </summary>
+        public static string CardService_Delete_Failed {
+            get {
+                return ResourceManager.GetString("CardService.Delete.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank account with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string CardService_GetAccountById_NotFound {
+            get {
+                return ResourceManager.GetString("CardService.GetAccountById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank cards..
+        /// </summary>
+        public static string CardService_GetAll_Failed {
+            get {
+                return ResourceManager.GetString("CardService.GetAll.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank cards could be found to load..
+        /// </summary>
+        public static string CardService_GetAll_NotFound {
+            get {
+                return ResourceManager.GetString("CardService.GetAll.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank card with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string CardService_GetById_Failed {
+            get {
+                return ResourceManager.GetString("CardService.GetById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank card with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string CardService_GetById_NotFound {
+            get {
+                return ResourceManager.GetString("CardService.GetById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank card with the number: &apos;{0}&apos;..
+        /// </summary>
+        public static string CardService_GetByNumber_Failed {
+            get {
+                return ResourceManager.GetString("CardService.GetByNumber.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank card with the number: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string CardService_GetByNumber_NotFound {
+            get {
+                return ResourceManager.GetString("CardService.GetByNumber.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The bank card with the number: &apos;{0}&apos; already exists..
+        /// </summary>
+        public static string CardService_Number_Conflict {
+            get {
+                return ResourceManager.GetString("CardService.Number.Conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An internal error occurred while updating the bank card..
+        /// </summary>
+        public static string CardService_Update_Failed {
+            get {
+                return ResourceManager.GetString("CardService.Update.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the card type entries based on the parameterization..
         /// </summary>
         public static string CardTypeService_GetAll_Failed {

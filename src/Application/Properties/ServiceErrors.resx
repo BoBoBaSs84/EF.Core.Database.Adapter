@@ -270,6 +270,39 @@
   <data name="CalendarDayService.GetPagedByParameters.NotFound" xml:space="preserve">
     <value>No calendar entries could be found based on the parameterization.</value>
   </data>
+  <data name="CardService.Create.Failed" xml:space="preserve">
+    <value>An internal error occurred while creating the bank card.</value>
+  </data>
+  <data name="CardService.Delete.Failed" xml:space="preserve">
+    <value>An internal error occurred while deleting the bank card.</value>
+  </data>
+  <data name="CardService.GetAccountById.NotFound" xml:space="preserve">
+    <value>No bank account with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="CardService.GetAll.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank cards.</value>
+  </data>
+  <data name="CardService.GetAll.NotFound" xml:space="preserve">
+    <value>No bank cards could be found to load.</value>
+  </data>
+  <data name="CardService.GetById.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank card with the identifier: '{0}'.</value>
+  </data>
+  <data name="CardService.GetById.NotFound" xml:space="preserve">
+    <value>No bank card with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="CardService.GetByNumber.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank card with the number: '{0}'.</value>
+  </data>
+  <data name="CardService.GetByNumber.NotFound" xml:space="preserve">
+    <value>No bank card with the number: '{0}' could be found to load.</value>
+  </data>
+  <data name="CardService.Number.Conflict" xml:space="preserve">
+    <value>The bank card with the number: '{0}' already exists.</value>
+  </data>
+  <data name="CardService.Update.Failed" xml:space="preserve">
+    <value>An internal error occurred while updating the bank card.</value>
+  </data>
   <data name="CardTypeService.GetAll.Failed" xml:space="preserve">
     <value>An error occurred while loading the card type entries based on the parameterization.</value>
   </data>

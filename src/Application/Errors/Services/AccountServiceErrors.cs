@@ -2,6 +2,7 @@
 
 using Application.Errors.Base;
 using Application.Services;
+using Application.Contracts.Requests.Finance;
 
 using Domain.Extensions;
 
@@ -18,7 +19,7 @@ namespace Application.Errors.Services;
 public static class AccountServiceErrors
 {
 	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
-	private const string ErrorPrefix = $"{nameof(AttendanceServiceErrors)}";
+	private const string ErrorPrefix = $"{nameof(AccountServiceErrors)}";
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -68,7 +69,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Create(int, Contracts.Requests.Finance.AccountCreateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Create(int, AccountCreateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static ApiError CreateAccountNumberConflict(string iban) =>
@@ -77,7 +78,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Create(int, Contracts.Requests.Finance.AccountCreateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Create(int, AccountCreateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static ApiError CreateCardNumberConflict(string pan) =>
@@ -86,7 +87,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Create(int, Contracts.Requests.Finance.AccountCreateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Create(int, AccountCreateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError CreateAccountFailed =
@@ -109,7 +110,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static ApiError UpdateAccountNotFound(int accountId) =>
@@ -118,7 +119,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static ApiError UpdateCardNotFound(int cardId) =>
@@ -127,7 +128,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static ApiError UpdateCardTypeNotFound(int cardTypeId) =>
@@ -136,7 +137,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, Contracts.Requests.Finance.AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError UpdateAccountFailed =

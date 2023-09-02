@@ -22,169 +22,170 @@ using Roles = Domain.Enumerators.RoleTypes;
 namespace Presentation.Controllers;
 
 /// <summary>
-/// The bank account controller class.
+/// The bank card controller class.
 /// </summary>
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
 [Authorize]
-[Route(Endpoints.Account.BaseUri)]
+[Route(Endpoints.Card.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class AccountController : ApiControllerBase
+public sealed class CardController : ApiControllerBase
 {
-	private readonly IAccountService _accountService;
+	private readonly ICardService _cardService;
 	private readonly ICurrentUserService _currentUserService;
 
 	/// <summary>
-	/// Initializes an instance of the bank account controller class.
+	/// Initializes an instance of the bank card controller class.
 	/// </summary>
-	/// <param name="accountService">The bank account service to use.</param>
+	/// <param name="cardService">The bank card service to use.</param>
 	/// <param name="currentUserService">The current user service to use.</param>
-	public AccountController(IAccountService accountService, ICurrentUserService currentUserService)
+	public CardController(ICardService cardService, ICurrentUserService currentUserService)
 	{
-		_accountService = accountService;
+		_cardService = cardService;
 		_currentUserService = currentUserService;
 	}
 
 	/// <summary>
-	/// Deletes an existing bank account by the given <paramref name="accountId"/>.
+	/// Deletes an existing bank card by the given <paramref name="cardId"/>.
 	/// </summary>
-	/// <param name="accountId">The bank account identifier.</param>
+	/// <param name="cardId">The bank card identifier.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The deleted response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If the bank account to delete was not found.</response>
-	/// <response code="500">If the something internal went wrong.</response>	
-	[HttpDelete(Endpoints.Account.Delete), AuthorizeRoles(Roles.ADMINISTRATOR)]
+	/// <response code="404">If the bank card to delete was not found.</response>
+	/// <response code="500">If the something internal went wrong.</response>
+	[HttpDelete(Endpoints.Card.Delete), AuthorizeRoles(Roles.ADMINISTRATOR)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(int accountId, CancellationToken cancellationToken)
+	public async Task<IActionResult> Delete(int cardId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
-			await _accountService.Delete(_currentUserService.UserId, accountId, cancellationToken);
+			await _cardService.Delete(_currentUserService.UserId, cardId, cancellationToken);
 
 		return Delete(result);
 	}
 
 	/// <summary>
-	/// Gets a collection of bank accounts.
+	/// Gets a collection of bank cards.
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If no bank account records were found.</response>
+	/// <response code="404">If no bank card records were found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
-	[HttpGet(Endpoints.Account.GetAll)]
-	[ProducesResponseType(typeof(IEnumerable<AccountResponse>), StatusCodes.Status200OK)]
+	[HttpGet(Endpoints.Card.GetAll)]
+	[ProducesResponseType(typeof(IEnumerable<CardResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
-		ErrorOr<IEnumerable<AccountResponse>> result =
-			await _accountService.Get(_currentUserService.UserId, false, cancellationToken);
+		ErrorOr<IEnumerable<CardResponse>> result =
+			await _cardService.Get(_currentUserService.UserId, false, cancellationToken);
 
 		return Get(result);
 	}
 
 	/// <summary>
-	/// Should get a account by the <paramref name="accountId"/> .
+	/// Gets an existing bank card by the given <paramref name="cardId"/>.
+	/// </summary>
+	/// <param name="cardId">The bank card identifier.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <response code="200">The successful response.</response>
+	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Not enough privileges to perform an action.</response>
+	/// <response code="404">If no bank card record was found.</response>
+	/// <response code="500">If the something internal went wrong.</response>
+	[HttpGet(Endpoints.Card.GetById)]
+	[ProducesResponseType(typeof(CardResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public async Task<IActionResult> GetById(int cardId, CancellationToken cancellationToken)
+	{
+		ErrorOr<CardResponse> result =
+			await _cardService.Get(_currentUserService.UserId, cardId, false, cancellationToken);
+
+		return Get(result);
+	}
+
+	/// <summary>
+	/// Gets an existing bank card by the given <paramref name="pam"/>.
+	/// </summary>
+	/// <param name="pam">The payment card number.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <response code="200">The successful response.</response>
+	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Not enough privileges to perform an action.</response>
+	/// <response code="404">If no bank card record was found.</response>
+	/// <response code="500">If the something internal went wrong.</response>
+	[HttpGet(Endpoints.Card.GetByNumber)]
+	[ProducesResponseType(typeof(CardResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public async Task<IActionResult> GetByNumber([RegularExpression(RegexPatterns.CC)] string pam, CancellationToken cancellationToken)
+	{
+		ErrorOr<CardResponse> result =
+			await _cardService.Get(_currentUserService.UserId, pam, false, cancellationToken);
+
+		return Get(result);
+	}
+
+	/// <summary>
+	/// Creates a bank card.
 	/// </summary>
 	/// <param name="accountId">The bank account identifier.</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-	/// <response code="200">The successful response.</response>
-	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If no record was found.</response>
-	/// <response code="500">If the something internal went wrong.</response>
-	[HttpGet(Endpoints.Account.GetById)]
-	[ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int accountId, CancellationToken cancellationToken)
-	{
-		ErrorOr<AccountResponse> result =
-			await _accountService.Get(_currentUserService.UserId, accountId, false, cancellationToken);
-
-		return Get(result);
-	}
-
-	/// <summary>
-	/// Should get an account by the international bank account number.
-	/// </summary>
-	/// <param name="iban">The international bank account number.</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-	/// <response code="200">The successful response.</response>
-	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If no record was found.</response>
-	/// <response code="500">If the something internal went wrong.</response>
-	[HttpGet(Endpoints.Account.GetByNumber)]
-	[ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByNumber([RegularExpression(RegexPatterns.IBAN)] string iban, CancellationToken cancellationToken)
-	{
-		ErrorOr<AccountResponse> result =
-			await _accountService.Get(_currentUserService.UserId, iban, false, cancellationToken);
-
-		return Get(result);
-	}
-
-	/// <summary>
-	/// Should create an bank account.
-	/// </summary>
-	/// <param name="createRequest">The bank account create request.</param>
+	/// <param name="request">The bank card create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="201">The created response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="409">Conflicts occured during creation of the resource.</response>
 	/// <response code="500">If the something internal went wrong.</response>
-	[HttpPost(Endpoints.Account.Post)]
+	[HttpPost(Endpoints.Card.Post)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Post(AccountCreateRequest createRequest, CancellationToken cancellationToken)
+	public async Task<IActionResult> Post(int accountId, CardCreateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> result =
-			await _accountService.Create(_currentUserService.UserId, createRequest, cancellationToken);
+			await _cardService.Create(_currentUserService.UserId, accountId, request, cancellationToken);
 
 		return PostWithoutLocation(result);
 	}
 
 	/// <summary>
-	/// Updates an existing bank account.
+	/// Updates an existing bank card.
 	/// </summary>
-	/// <param name="updateRequest">The bank account update request.</param>
+	/// <param name="request">The bank card update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
 	/// <response code="400">The update request is incorrect.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="500">If the something internal went wrong.</response>
-	[HttpPut(Endpoints.Account.Put)]
+	[HttpPut(Endpoints.Card.Put)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Put(AccountUpdateRequest updateRequest, CancellationToken cancellationToken)
+	public async Task<IActionResult> Put(CardUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> result =
-			await _accountService.Update(_currentUserService.UserId, updateRequest, cancellationToken);
+			await _cardService.Update(_currentUserService.UserId, request, cancellationToken);
 
 		return Put(result);
 	}

@@ -16,8 +16,8 @@ namespace Infrastructure.Persistence.Repositories.Base;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, generic repository.")]
 internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-	protected DbContext dbContext;
-	protected DbSet<TEntity> dbSet;
+	protected DbContext _dbContext;
+	protected DbSet<TEntity> _dbSet;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GenericRepository{TEntity}"/> class.
@@ -28,22 +28,22 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	/// <param name="dbContext">The database context to work with.</param>	
 	public GenericRepository(DbContext dbContext)
 	{
-		this.dbContext = dbContext;
-		dbSet = dbContext.Set<TEntity>();
+		_dbContext = dbContext;
+		_dbSet = dbContext.Set<TEntity>();
 	}
 
 	public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default) =>
-		await dbSet.AddAsync(entity, cancellationToken);
+		await _dbSet.AddAsync(entity, cancellationToken);
 
 	public async Task CreateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) =>
-		await dbSet.AddRangeAsync(entities, cancellationToken);
+		await _dbSet.AddRangeAsync(entities, cancellationToken);
 
 	public async Task<IEnumerable<TEntity>> GetAllAsync(
 		bool ignoreQueryFilters = false,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default)
 	{
-		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		IQueryable<TEntity> query = !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
 		if (ignoreQueryFilters)
 			query = query.IgnoreQueryFilters();
@@ -62,7 +62,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		CancellationToken cancellationToken = default,
 		params string[] includeProperties)
 	{
-		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		IQueryable<TEntity> query = !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
 		if (expression is not null)
 			query = query.Where(expression);
@@ -96,7 +96,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		CancellationToken cancellationToken = default,
 		params string[] includeProperties)
 	{
-		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		IQueryable<TEntity> query = !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
 		if (expression is not null)
 			query = query.Where(expression);
@@ -115,25 +115,25 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 
 	public Task DeleteAsync(TEntity entity)
 	{
-		dbSet.Remove(entity);
+		_dbSet.Remove(entity);
 		return Task.CompletedTask;
 	}
 
 	public Task DeleteAsync(IEnumerable<TEntity> entities)
 	{
-		dbSet.RemoveRange(entities);
+		_dbSet.RemoveRange(entities);
 		return Task.CompletedTask;
 	}
 
 	public Task UpdateAsync(TEntity entity)
 	{
-		dbSet.Update(entity);
+		_dbSet.Update(entity);
 		return Task.CompletedTask;
 	}
 
 	public Task UpdateAsync(IEnumerable<TEntity> entities)
 	{
-		dbSet.UpdateRange(entities);
+		_dbSet.UpdateRange(entities);
 		return Task.CompletedTask;
 	}
 
@@ -143,7 +143,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		bool ignoreQueryFilters = false,
 		CancellationToken cancellationToken = default)
 	{
-		IQueryable<TEntity> query = dbSet.AsNoTracking();
+		IQueryable<TEntity> query = _dbSet.AsNoTracking();
 
 		if (expression is not null)
 			query = query.Where(expression);
@@ -159,7 +159,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 
 	public async Task<int> GetTotalCountAsync(bool ignoreQueryFilters = false, CancellationToken cancellationToken = default)
 	{
-		IQueryable<TEntity> query = dbSet.AsNoTracking();
+		IQueryable<TEntity> query = _dbSet.AsNoTracking();
 
 		if (ignoreQueryFilters)
 			query = query.IgnoreQueryFilters();

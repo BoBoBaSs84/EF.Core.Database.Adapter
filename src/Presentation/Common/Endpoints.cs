@@ -12,7 +12,7 @@ internal static class Endpoints
 	internal const string EmptySuffix = "";
 
 	/// <summary>
-	/// The account route.
+	/// The bank account route.
 	/// </summary>
 	internal static class Account
 	{
@@ -34,6 +34,21 @@ internal static class Endpoints
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Authentication);
 
 		internal const string Authenticate = EmptySuffix;
+	}
+
+	/// <summary>
+	/// The bank card route.
+	/// </summary>
+	internal static class Card
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Card);
+
+		internal const string Delete = "{cardId:int}";
+		internal const string GetAll = EmptySuffix;
+		internal const string GetById = "{cardId:int}";
+		internal const string GetByNumber = "{pam}";
+		internal const string Post = "{accountId:int}";
+		internal const string Put = EmptySuffix;
 	}
 
 	/// <summary>

@@ -28,7 +28,7 @@ internal abstract class IdentityRepository<TEntity> : GenericRepository<TEntity>
 
 	public async Task<TEntity?> GetByIdAsync(int id, bool ignoreQueryFilters = false, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		IQueryable<TEntity> query = !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
 		query = query.Where(x => x.Id.Equals(id));
 
@@ -41,7 +41,7 @@ internal abstract class IdentityRepository<TEntity> : GenericRepository<TEntity>
 
 	public async Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<int> ids, bool ignoreQueryFilters = false, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		IQueryable<TEntity> query = !trackChanges ? dbSet.AsNoTracking() : dbSet;
+		IQueryable<TEntity> query = !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
 		query = query.Where(x => ids.Contains(x.Id));
 

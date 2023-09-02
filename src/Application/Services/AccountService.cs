@@ -52,7 +52,6 @@ internal sealed class AccountService : IAccountService
 		{
 			Account? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.IBAN == createRequest.IBAN,
-				trackChanges: false,
 				cancellationToken: cancellationToken
 				);
 
@@ -102,17 +101,17 @@ internal sealed class AccountService : IAccountService
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		try
 		{
-			Account? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
+			Account? account = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken,
 				includeProperties: new[] { nameof(Account.AccountUsers), nameof(Account.Cards), nameof(Account.AccountTransactions) }
 				);
 
-			if (dbAccount is null)
+			if (account is null)
 				return AccountServiceErrors.DeleteAccountNotFound(accountId);
 
-			await _repositoryService.AccountRepository.DeleteAsync(dbAccount);
+			await _repositoryService.AccountRepository.DeleteAsync(account);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Deleted;

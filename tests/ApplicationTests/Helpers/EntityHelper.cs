@@ -1,7 +1,7 @@
-﻿using Domain.Entities.Common;
-using Domain.Entities.Finance;
+﻿using Domain.Models.Common;
+using Domain.Models.Finance;
 using Domain.Entities.Identity;
-using Domain.Entities.Private;
+using Domain.Models.Attendance;
 using Domain.Extensions;
 
 using static BaseTests.Helpers.RandomHelper;
@@ -53,11 +53,11 @@ public static class EntityHelper
 		return userToReturn;
 	}
 
-	public static ICollection<Attendance> GetNewAttendances(User user, int entryAmount = 2)
+	public static ICollection<AttendanceModel> GetNewAttendances(User user, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
-		List<Attendance> attendances = new();
+		List<AttendanceModel> attendances = new();
 		for (int i = 1; i <= entryAmount; i++)
 			attendances.Add(new() { User = user, CalendarDayId = i, DayTypeId = GetInt(3, 13) });
 		return attendances;

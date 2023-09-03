@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Common;
+﻿using Domain.Models.Common;
 
 using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
@@ -6,16 +6,18 @@ using Infrastructure.Persistence.Configurations.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
+
 namespace Infrastructure.Persistence.Configurations.Common;
 
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-internal sealed class CalendarConfiguration : IdentityTypeBaseConfiguration<CalendarDay>
+internal sealed class CalendarConfiguration : IdentityBaseConfiguration<CalendarDay>
 {
 	/// <inheritdoc/>
 	public override void Configure(EntityTypeBuilder<CalendarDay> builder)
 	{
-		builder.ToSytemVersionedTable();
+		builder.ToSytemVersionedTable(SqlSchema.Common, "Calendar");
 
 		builder.HasIndex(e => e.Date)
 			.IsUnique(true);

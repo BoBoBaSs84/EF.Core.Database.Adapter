@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
 
-using Domain.Entities.Finance;
+using Domain.Models.Finance;
 
 using Infrastructure.Persistence.Repositories.Base;
 
@@ -18,10 +18,9 @@ namespace Infrastructure.Persistence.Repositories;
 internal sealed class TransactionRepository : IdentityRepository<Transaction>, ITransactionRepository
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="TransactionRepository"/> class.
+	/// Initializes a new instance of the transaction repository class.
 	/// </summary>
-	/// <param name="dbContext">The database context.</param>
+	/// <inheritdoc/>
 	public TransactionRepository(DbContext dbContext) : base(dbContext)
-	{
-	}
+	{ }
 }

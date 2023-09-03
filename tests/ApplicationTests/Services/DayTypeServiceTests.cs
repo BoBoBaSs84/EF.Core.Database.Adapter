@@ -8,7 +8,7 @@ using Domain.Extensions;
 using FluentAssertions;
 
 using AssertionHelper = BaseTests.Helpers.AssertionHelper;
-using DayTypes = Domain.Enumerators.DayTypes;
+using DayType = Domain.Enumerators.DayType;
 using TestConstants = BaseTests.Constants.TestConstants;
 
 namespace ApplicationTests.Services;
@@ -23,7 +23,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 	public async Task GetByIdSuccessTest()
 	{
 		_dayTypeService = GetRequiredService<IDayTypeService>();
-		DayTypes dayType = DayTypes.WEEKDAY;
+		DayType dayType = DayType.WEEKDAY;
 
 		ErrorOr<DayTypeResponse> result = await _dayTypeService.Get((int)dayType);
 
@@ -56,7 +56,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 	public async Task GetByNameSuccessTest()
 	{
 		_dayTypeService = GetRequiredService<IDayTypeService>();
-		DayTypes dayType = DayTypes.WEEKDAY;
+		DayType dayType = DayType.WEEKDAY;
 
 		ErrorOr<DayTypeResponse> result = await _dayTypeService.Get(dayType.GetName());
 

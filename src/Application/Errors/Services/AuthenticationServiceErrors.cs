@@ -31,7 +31,7 @@ public static class AuthenticationServiceErrors
 	/// </summary>
 	/// <param name="userId">The user identifier.</param>
 	/// <returns><see cref="ApiError"/></returns>
-	public static ApiError GetUserByIdFailed(int userId) =>
+	public static ApiError GetUserByIdFailed(Guid userId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
 			RESX.AuthenticationService_GetUserById_Failed.Format(CurrentCulture, userId));
 
@@ -40,7 +40,7 @@ public static class AuthenticationServiceErrors
 	/// </summary>
 	/// <param name="userId">The user identifier.</param>
 	/// <returns><see cref="ApiError"/></returns>
-	public static ApiError UserByIdNotFound(int userId) =>
+	public static ApiError UserByIdNotFound(Guid userId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByIdNotFound)}",
 			RESX.AuthenticationService_UserById_NotFound.Format(CurrentCulture, userId));
 

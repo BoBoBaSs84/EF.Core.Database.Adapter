@@ -6,9 +6,9 @@ namespace Application.Contracts.Responses.Finance;
 /// The account response class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="ResponseModel"/> class.
+/// Derives from the <see cref="IdentityResponseModel"/> class.
 /// </remarks>
-public sealed class AccountResponse : ResponseModel
+public sealed class AccountResponse : IdentityResponseModel
 {
 	/// <summary>
 	/// The iban number.

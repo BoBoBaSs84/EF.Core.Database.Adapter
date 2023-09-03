@@ -23,37 +23,37 @@ public static class CardServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Get(int, bool, CancellationToken)"/> method.
+	/// <see cref="CardService.Get(Guid, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}", RESX.CardService_Create_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Get(int, bool, CancellationToken)"/> method.
+	/// <see cref="CardService.Get(Guid, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetAllNotFound}", RESX.CardService_GetAll_NotFound);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Get(int, int, bool, CancellationToken)"/> method.
+	/// <see cref="CardService.Get(Guid, Guid, bool, CancellationToken)"/> method.
 	/// </summary>
-	public static ApiError GetByIdFailed(int cardId) =>
+	public static ApiError GetByIdFailed(Guid cardId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
 			RESX.CardService_GetById_Failed.Format(CultureInfo.CurrentCulture, cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Get(int, int, bool, CancellationToken)"/> method.
+	/// <see cref="CardService.Get(Guid, Guid, bool, CancellationToken)"/> method.
 	/// </summary>	
-	public static ApiError GetByIdNotFound(int cardId) =>
+	public static ApiError GetByIdNotFound(Guid cardId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
 			RESX.CardService_GetById_NotFound.Format(CultureInfo.CurrentCulture, cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Get(int, string, bool, CancellationToken)"/> method.
+	/// <see cref="CardService.Get(Guid, string, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByNumberFailed(string pam) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
@@ -61,7 +61,7 @@ public static class CardServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Get(int, string, bool, CancellationToken)"/> method.
+	/// <see cref="CardService.Get(Guid, string, bool, CancellationToken)"/> method.
 	/// </summary>	
 	public static ApiError GetByNumberNotFound(string pam) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",
@@ -69,22 +69,22 @@ public static class CardServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Create(int, int, CardCreateRequest, CancellationToken)"/> method.
+	/// <see cref="CardService.Create(Guid, Guid, CardCreateRequest, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError CreateFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{CreateFailed}", RESX.CardService_Create_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Create(int, int, CardCreateRequest, CancellationToken)"/> method.
+	/// <see cref="CardService.Create(Guid, Guid, CardCreateRequest, CancellationToken)"/> method.
 	/// </summary>
-	public static ApiError CreateAccountIdNotFound(int accountId) =>
+	public static ApiError CreateAccountIdNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{CreateAccountIdNotFound}",
 			RESX.CardService_GetAccountById_NotFound.Format(CultureInfo.CurrentCulture, accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Create(int, int, CardCreateRequest, CancellationToken)"/> method.
+	/// <see cref="CardService.Create(Guid, Guid, CardCreateRequest, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError CreateNumberConflict(string pam)
 		=> ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberConflict}",
@@ -92,14 +92,14 @@ public static class CardServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Delete(int, int, CancellationToken)"/> method.
+	/// <see cref="CardService.Delete(Guid, Guid, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError DeleteFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{DeleteFailed}", RESX.CardService_Delete_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CardService.Delete(int, int, CancellationToken)"/> method.
+	/// <see cref="CardService.Delete(Guid, Guid, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError UpdateFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{UpdateFailed}", RESX.CardService_Update_Failed);

@@ -2,9 +2,9 @@
 
 namespace InfrastructureTests.Helpers;
 
-internal sealed class CurrentTestUserService : ICurrentUserService
+guidernal sealed class CurrentTestUserService : ICurrentUserService
 {
-	public int UserId => 0;
+	public guid UserId => 0;
 
 	public string UserName => "TestUser";
 }

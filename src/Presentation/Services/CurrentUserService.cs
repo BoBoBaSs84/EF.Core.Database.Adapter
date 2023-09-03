@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 using Application.Interfaces.Presentation.Services;
 
@@ -18,8 +17,8 @@ internal sealed class CurrentUserService : ICurrentUserService
 		_contextAccessor = contextAccessor;
 
 	/// <inheritdoc/>
-	public int UserId =>
-		int.Parse(_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!, CultureInfo.CurrentCulture);
+	public Guid UserId =>
+		Guid.Parse(_contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
 	/// <inheritdoc/>
 	public string UserName =>

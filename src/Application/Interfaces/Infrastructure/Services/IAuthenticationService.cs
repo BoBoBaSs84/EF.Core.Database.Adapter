@@ -17,7 +17,7 @@ public interface IAuthenticationService
 	/// <param name="userId">the user identifier.</param>
 	/// <param name="roleName">The role the user should be added to.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> AddUserToRole(int userId, string roleName);
+	Task<ErrorOr<Created>> AddUserToRole(Guid userId, string roleName);
 
 	/// <summary>
 	/// Authenticates an existing application user.
@@ -44,7 +44,7 @@ public interface IAuthenticationService
 	/// </summary>
 	/// <param name="userId">the user identifier.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<UserResponse>> GetUserById(int userId);
+	Task<ErrorOr<UserResponse>> GetUserById(Guid userId);
 
 	/// <summary>
 	/// Should return the application user by the user name.
@@ -59,7 +59,7 @@ public interface IAuthenticationService
 	/// <param name="userId">the user identifier.</param>
 	/// <param name="roleName">The role the user should be removed from.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> RemoveUserToRole(int userId, string roleName);
+	Task<ErrorOr<Deleted>> RemoveUserToRole(Guid userId, string roleName);
 
 	/// <summary>
 	/// Updates an existing application user.
@@ -67,5 +67,5 @@ public interface IAuthenticationService
 	/// <param name="userId">The user identifier of the user to update.</param>
 	/// <param name="updateRequest">The user update reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> UpdateUser(int userId, UserUpdateRequest updateRequest);
+	Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest updateRequest);
 }

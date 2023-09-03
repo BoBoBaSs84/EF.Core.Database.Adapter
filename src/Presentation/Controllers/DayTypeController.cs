@@ -1,7 +1,6 @@
-﻿using Application.Contracts.Responses.Enumerator;
-using Application.Features.Responses;
-using Application.Interfaces.Application;
+﻿using Application.Interfaces.Application;
 
+using Domain.Enumerators;
 using Domain.Errors;
 
 using Microsoft.AspNetCore.Http;
@@ -39,12 +38,12 @@ public sealed class DayTypeController : ApiControllerBase
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.DayType.GetAll)]
-	[ProducesResponseType(typeof(IEnumerable<DayTypeResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(IEnumerable<DayType>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
-		ErrorOr<IEnumerable<DayTypeResponse>> result =
+		ErrorOr<IEnumerable<DayType>> result =
 			await _dayTypeService.Get(false, cancellationToken);
 
 		return Get(result);
@@ -59,12 +58,12 @@ public sealed class DayTypeController : ApiControllerBase
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.DayType.GetById)]
-	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(DayType), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
-		ErrorOr<DayTypeResponse> result =
+		ErrorOr<DayType> result =
 			await _dayTypeService.Get(id, false, cancellationToken);
 
 		return Get(result);
@@ -79,12 +78,12 @@ public sealed class DayTypeController : ApiControllerBase
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.DayType.GetByName)]
-	[ProducesResponseType(typeof(IPagedList<DayTypeResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(DayType), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken)
 	{
-		ErrorOr<DayTypeResponse> result =
+		ErrorOr<DayType> result =
 			await _dayTypeService.Get(name, false, cancellationToken);
 
 		return Get(result);

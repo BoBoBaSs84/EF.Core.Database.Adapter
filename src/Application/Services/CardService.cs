@@ -7,7 +7,7 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Finance;
+using Domain.Models.Finance;
 using Domain.Entities.Identity;
 using Domain.Errors;
 using Domain.Results;
@@ -44,7 +44,7 @@ internal sealed class CardService : ICardService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> Create(int userId, int accountId, CardCreateRequest createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest createRequest, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		ErrorOr<Created> response = new();
@@ -87,7 +87,7 @@ internal sealed class CardService : ICardService
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(int userId, int cardId, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid cardId, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
 		try
@@ -113,7 +113,7 @@ internal sealed class CardService : ICardService
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> Get(int userId, int cardId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardResponse>> Get(Guid userId, Guid cardId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
 		try
@@ -137,7 +137,7 @@ internal sealed class CardService : ICardService
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> Get(int userId, string pan, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardResponse>> Get(Guid userId, string pan, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{pan}" };
 		try
@@ -161,7 +161,7 @@ internal sealed class CardService : ICardService
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<CardResponse>>> Get(int userId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<CardResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -184,7 +184,7 @@ internal sealed class CardService : ICardService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(int userId, CardUpdateRequest updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest updateRequest, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -197,7 +197,7 @@ internal sealed class CardService : ICardService
 			if (card is null)
 				return CardServiceErrors.GetByIdNotFound(updateRequest.Id);
 
-			card.CardTypeId = updateRequest.CardTypeId;
+			card.CardType = updateRequest.CardType;
 			card.ValidUntil = updateRequest.ValidUntil;
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);

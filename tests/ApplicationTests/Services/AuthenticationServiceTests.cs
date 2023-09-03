@@ -146,7 +146,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task GetUserByIdAsyncNotFoundTest()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
-		int userId = int.MaxValue;
+		guid userId = guid.MaxValue;
 
 		ErrorOr<UserResponse> result =
 			await _authenticationService.GetUserById(userId);
@@ -190,7 +190,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task UpdateUserAsyncNotFoundTest()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
-		int userId = int.MaxValue;
+		guid userId = guid.MaxValue;
 
 		UserUpdateRequest updateRequest =
 			new UserUpdateRequest().GetUserUpdateRequest();
@@ -234,7 +234,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task AddUserToRoleUserNotFoundAsync()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
-		int userId = int.MaxValue;
+		guid userId = guid.MaxValue;
 
 		ErrorOr<Created> result =
 			await _authenticationService.AddUserToRole(userId, "test");
@@ -400,7 +400,7 @@ public class AuthenticationServiceTests : ApplicationBaseTests
 	public async Task RemoveUserToRoleUserNotFoundAsync()
 	{
 		_authenticationService = GetRequiredService<IAuthenticationService>();
-		int userId = int.MaxValue;
+		guid userId = guid.MaxValue;
 
 		ErrorOr<Deleted> result =
 			await _authenticationService.RemoveUserToRole(userId, "test");

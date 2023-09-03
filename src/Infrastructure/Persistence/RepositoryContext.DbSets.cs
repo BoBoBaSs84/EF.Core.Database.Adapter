@@ -1,7 +1,6 @@
-﻿using Domain.Entities.Common;
-using Domain.Entities.Enumerator;
-using Domain.Entities.Finance;
-using Domain.Entities.Private;
+﻿using Domain.Models.Attendance;
+using Domain.Models.Common;
+using Domain.Models.Finance;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -15,19 +14,9 @@ public sealed partial class RepositoryContext
 	public DbSet<CalendarDay> CalendarDays { get; set; } = default!;
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CardType"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AttendanceModel"/>.
 	/// </summary>
-	public DbSet<CardType> CardTypes { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="DayType"/>.
-	/// </summary>
-	public DbSet<DayType> DayTypes { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Attendance"/>.
-	/// </summary>
-	public DbSet<Attendance> Attendances { get; set; } = default!;
+	public DbSet<AttendanceModel> Attendances { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Account"/>.

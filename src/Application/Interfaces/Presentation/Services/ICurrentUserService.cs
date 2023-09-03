@@ -8,7 +8,7 @@ public interface ICurrentUserService
 	/// <summary>
 	/// The current user id.
 	/// </summary>
-	int UserId { get; }
+	Guid UserId { get; }
 
 	/// <summary>
 	/// The current user name.

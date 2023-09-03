@@ -17,7 +17,7 @@ using Presentation.Common;
 using Presentation.Controllers.Base;
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
-using Roles = Domain.Enumerators.RoleTypes;
+using Roles = Domain.Enumerators.RoleType;
 
 namespace Presentation.Controllers;
 
@@ -62,7 +62,7 @@ public sealed class AccountController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(int accountId, CancellationToken cancellationToken)
+	public async Task<IActionResult> Delete(Guid accountId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
 			await _accountService.Delete(_currentUserService.UserId, accountId, cancellationToken);
@@ -109,7 +109,7 @@ public sealed class AccountController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int accountId, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetById(Guid accountId, CancellationToken cancellationToken)
 	{
 		ErrorOr<AccountResponse> result =
 			await _accountService.Get(_currentUserService.UserId, accountId, false, cancellationToken);

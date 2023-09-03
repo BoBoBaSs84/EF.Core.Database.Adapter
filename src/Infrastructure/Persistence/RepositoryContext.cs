@@ -2,6 +2,7 @@
 using Application.Interfaces.Infrastructure.Persistence;
 
 using Domain.Entities.Identity;
+using Domain.Models.Identity;
 
 using Infrastructure.Common;
 using Infrastructure.Extensions;
@@ -55,7 +56,7 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, in
 
 		base.OnModelCreating(builder);
 
-		builder.HasDefaultSchema(SqlSchema.PRIVATE)
+		builder.HasDefaultSchema(SqlSchema.Private)
 			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
 	}
 

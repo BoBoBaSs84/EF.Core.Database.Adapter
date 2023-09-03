@@ -8,9 +8,9 @@ namespace Application.Contracts.Responses.Identity;
 /// The user response class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="ResponseModel"/> class.
+/// Derives from the <see cref="IdentityResponseModel"/> class.
 /// </remarks>
-public sealed class UserResponse : ResponseModel
+public sealed class UserResponse : IdentityResponseModel
 {
 	/// <summary>
 	/// The first name of the user.

@@ -10,7 +10,7 @@ public sealed class AuthenticationRequest
 	/// <summary>
 	/// The user name of the user.
 	/// </summary>
-	[Required]
+	[Required, DataType(DataType.Text)]
 	public string UserName { get; set; } = default!;
 
 	/// <summary>

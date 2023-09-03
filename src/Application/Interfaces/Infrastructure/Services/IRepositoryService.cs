@@ -28,16 +28,6 @@ public interface IRepositoryService
 	ICardRepository CardRepository { get; }
 
 	/// <summary>
-	/// The <see cref="CardTypeRepository"/> interface.
-	/// </summary>
-	ICardTypeRepository CardTypeRepository { get; }
-
-	/// <summary>
-	/// The <see cref="DayTypeRepository"/> interface.
-	/// </summary>
-	IDayTypeRepository DayTypeRepository { get; }
-
-	/// <summary>
 	/// The <see cref="TransactionRepository"/> interface.
 	/// </summary>
 	ITransactionRepository TransactionRepository { get; }

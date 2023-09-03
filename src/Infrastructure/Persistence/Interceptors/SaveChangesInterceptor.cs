@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Presentation.Services;
 
-using Domain.Common.EntityBaseTypes;
+using Domain.Models.Base;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -47,11 +47,11 @@ public sealed class CustomSaveChangesInterceptor : SaveChangesInterceptor
 
 		foreach (EntityEntry<AuditedModel> entry in context.ChangeTracker.Entries<AuditedModel>())
 		{
-			if (entry.State == EntityState.Added)
-				entry.Entity.CreatedBy = _currentUserService.UserId;
-
-			if (entry.State == EntityState.Modified)
+			if (entry.State is EntityState.Deleted or EntityState.Modified)
 				entry.Entity.ModifiedBy = _currentUserService.UserId;
+
+			if (entry.State is EntityState.Added)
+				entry.Entity.CreatedBy = _currentUserService.UserId;
 		}
 	}
 }

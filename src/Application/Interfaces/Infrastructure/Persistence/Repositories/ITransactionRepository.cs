@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 
-using Domain.Entities.Finance;
+using Domain.Models.Finance;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 

@@ -1,13 +1,13 @@
-﻿using Application.Contracts.Responses.Enumerator;
-using Application.Errors.Services;
+﻿using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Enumerator;
+using Domain.Enumerators;
 using Domain.Errors;
+using Domain.Extensions;
 
 using Microsoft.Extensions.Logging;
 
@@ -42,17 +42,16 @@ internal sealed class DayTypeService : IDayTypeService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<DayTypeResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<DayType>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			DayType? dayType = await _repositoryService.DayTypeRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(id), trackChanges: trackChanges, cancellationToken: cancellationToken);
+			DayType? dayType = (DayType)id;
 
 			if (dayType is null)
 				return DayTypeServiceErrors.GetByIdNotFound(id);
 
-			DayTypeResponse response = _mapper.Map<DayTypeResponse>(dayType);
+			DayType response = _mapper.Map<DayType>(dayType);
 
 			return response;
 		}
@@ -63,17 +62,16 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 	}
 
-	public async Task<ErrorOr<DayTypeResponse>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<DayType>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			DayType? dayType = await _repositoryService.DayTypeRepository
-				.GetByConditionAsync(expression: x => x.Name.Equals(name), trackChanges: trackChanges, cancellationToken: cancellationToken);
+			DayType? dayType = (DayType)Enum.Parse(typeof(DayType), name);
 
 			if (dayType is null)
 				return DayTypeServiceErrors.GetByNameNotFound(name);
 
-			DayTypeResponse response = _mapper.Map<DayTypeResponse>(dayType);
+			DayType response = _mapper.Map<DayType>(dayType);
 
 			return response;
 		}
@@ -84,17 +82,16 @@ internal sealed class DayTypeService : IDayTypeService
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<DayTypeResponse>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<DayType>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<DayType> dayTypes = await _repositoryService.DayTypeRepository
-				.GetAllAsync(ignoreQueryFilters: true, trackChanges: trackChanges, cancellationToken: cancellationToken);
+			IEnumerable<DayType> dayTypes = DayType.HOLIDAY.GetListFromEnum();
 
 			if (!dayTypes.Any())
 				return DayTypeServiceErrors.GetAllNotFound;
 
-			IEnumerable<DayTypeResponse> response = _mapper.Map<IEnumerable<DayTypeResponse>>(dayTypes);
+			IEnumerable<DayType> response = _mapper.Map<IEnumerable<DayType>>(dayTypes);
 
 			return response.ToList();
 		}

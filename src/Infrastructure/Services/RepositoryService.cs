@@ -10,7 +10,7 @@ namespace Infrastructure.Services;
 /// The unit of work class.
 /// </summary>
 /// <remarks>
-/// Implements the members of the <see cref="IRepositoryService"/> interface.
+/// Implements the members of the <see cref="IRepositoryService"/> guiderface.
 /// </remarks>
 internal sealed class RepositoryService : IRepositoryService
 {
@@ -20,8 +20,6 @@ internal sealed class RepositoryService : IRepositoryService
 	private readonly Lazy<ICardRepository> _lazyCardRepository;
 	private readonly Lazy<ITransactionRepository> _lazyTransactionRepository;
 	private readonly Lazy<ICalendarDayRepository> _lazyCalendarRepository;
-	private readonly Lazy<IDayTypeRepository> _lazyDayTypeRepository;
-	private readonly Lazy<ICardTypeRepository> _lazyCardTypeRepository;
 	private readonly Lazy<IAttendanceRepository> _lazyAttendanceRepository;
 
 	/// <summary>
@@ -36,8 +34,6 @@ internal sealed class RepositoryService : IRepositoryService
 		_lazyCardRepository = new Lazy<ICardRepository>(() => new CardRepository(_context));
 		_lazyTransactionRepository = new Lazy<ITransactionRepository>(() => new TransactionRepository(_context));
 		_lazyCalendarRepository = new Lazy<ICalendarDayRepository>(() => new CalendarDayRepository(_context));
-		_lazyDayTypeRepository = new Lazy<IDayTypeRepository>(() => new DayTypeRepository(_context));
-		_lazyCardTypeRepository = new Lazy<ICardTypeRepository>(() => new CardTypeRepository(_context));
 		_lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(_context));
 	}
 
@@ -56,14 +52,6 @@ internal sealed class RepositoryService : IRepositoryService
 	/// <inheritdoc/>
 	public ICardRepository CardRepository
 		=> _lazyCardRepository.Value;
-
-	/// <inheritdoc/>
-	public ICardTypeRepository CardTypeRepository
-		=> _lazyCardTypeRepository.Value;
-
-	/// <inheritdoc/>
-	public IDayTypeRepository DayTypeRepository
-		=> _lazyDayTypeRepository.Value;
 
 	/// <inheritdoc/>
 	public ITransactionRepository TransactionRepository

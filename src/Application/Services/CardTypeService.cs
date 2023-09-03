@@ -1,13 +1,13 @@
-﻿using Application.Contracts.Responses.Enumerator;
-using Application.Errors.Services;
+﻿using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Enumerator;
+using Domain.Enumerators;
 using Domain.Errors;
+using Domain.Extensions;
 
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +16,6 @@ namespace Application.Services;
 /// <summary>
 /// The card type service class.
 /// </summary>
-[SuppressMessage("Globalization", "CA1309", Justification = "Overload with 'StringComparison' parameter is not supported.")]
 internal sealed class CardTypeService : ICardTypeService
 {
 	private readonly ILoggerService<CardTypeService> _logger;
@@ -42,20 +41,18 @@ internal sealed class CardTypeService : ICardTypeService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<CardTypeResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardType>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			CardType? cardType = await _repositoryService.CardTypeRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(id), trackChanges: trackChanges, cancellationToken: cancellationToken);
+			CardType? cardType = (CardType)id;
 
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByIdNotFound(id);
 
-			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
+			CardType response = _mapper.Map<CardType>(cardType);
 
 			return response;
-
 		}
 		catch (Exception ex)
 		{
@@ -64,17 +61,16 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 	}
 
-	public async Task<ErrorOr<CardTypeResponse>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardType>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			CardType? cardType = await _repositoryService.CardTypeRepository
-				.GetByConditionAsync(expression: x => x.Name.Equals(name), trackChanges: trackChanges, cancellationToken: cancellationToken);
+			CardType? cardType = (CardType)Enum.Parse(typeof(CardType), name);
 
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByNameNotFound(name);
 
-			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
+			CardType response = _mapper.Map<CardType>(cardType);
 
 			return response;
 
@@ -86,17 +82,16 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<CardTypeResponse>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<CardType>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<CardType> cardTypes = await _repositoryService.CardTypeRepository
-				.GetAllAsync(ignoreQueryFilters: true, trackChanges: trackChanges, cancellationToken: cancellationToken);
+			IEnumerable<CardType> cardTypes = CardType.CREDIT.GetListFromEnum();
 
 			if (!cardTypes.Any())
 				return CardTypeServiceErrors.GetAllNotFound;
 
-			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
+			IEnumerable<CardType> response = _mapper.Map<IEnumerable<CardType>>(cardTypes);
 
 			return response.ToList();
 		}

@@ -1,12 +1,13 @@
 ﻿using Domain.Entities.Identity;
 using Domain.Extensions;
+using Domain.Models.Identity;
 
 using Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using ERT = Domain.Enumerators.RoleTypes;
+using ERT = Domain.Enumerators.RoleType;
 using Schema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -19,7 +20,7 @@ internal static class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			builder.ToSytemVersionedTable(Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.Identity, "User");
 
 			builder.HasMany(e => e.Claims)
 				.WithOne(e => e.User)
@@ -70,7 +71,7 @@ internal static class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<Role> builder)
 		{
-			builder.ToSytemVersionedTable(Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.Identity, "Role");
 
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.Role)
@@ -106,34 +107,34 @@ internal static class IdentityConfiguration
 	internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaim>
 	{
 		public void Configure(EntityTypeBuilder<RoleClaim> builder) =>
-			builder.ToSytemVersionedTable(Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.Identity, "RoleClaim");
 	}
 
 	/// <inheritdoc/>
 	internal sealed class UserClaimConfiguration : IEntityTypeConfiguration<UserClaim>
 	{
 		public void Configure(EntityTypeBuilder<UserClaim> builder) =>
-			builder.ToSytemVersionedTable(Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.Identity, "UserClaim");
 	}
 
 	/// <inheritdoc/>
 	internal sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
 	{
 		public void Configure(EntityTypeBuilder<UserLogin> builder) =>
-			builder.ToSytemVersionedTable(Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.Identity, "UserLogin");
 	}
 
 	/// <inheritdoc/>
 	internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 	{
 		public void Configure(EntityTypeBuilder<UserRole> builder) =>
-			builder.ToSytemVersionedTable(Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.Identity, "UserRole");
 	}
 
 	/// <inheritdoc/>
 	internal class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
 	{
 		public void Configure(EntityTypeBuilder<UserToken> builder) =>
-			builder.ToSytemVersionedTable(Schema.IDENTITY);
+			builder.ToSytemVersionedTable(Schema.Identity, "UserToken");
 	}
 }

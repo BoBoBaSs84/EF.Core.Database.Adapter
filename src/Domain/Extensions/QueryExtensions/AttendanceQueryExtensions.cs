@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Private;
+﻿using Domain.Models.Attendance;
 
 namespace Domain.Extensions.QueryExtensions;
 
@@ -13,7 +13,7 @@ public static class AttendanceQueryExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="year">The year to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	public static IQueryable<Attendance> FilterByYear(this IQueryable<Attendance> query, int? year) =>
+	public static IQueryable<AttendanceModel> FilterByYear(this IQueryable<AttendanceModel> query, int? year) =>
 		year.HasValue ? query.Where(x => x.CalendarDay.Year.Equals(year)) : query;
 
 	/// <summary>
@@ -22,7 +22,7 @@ public static class AttendanceQueryExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="month">The month to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	public static IQueryable<Attendance> FilterByMonth(this IQueryable<Attendance> query, int? month) =>
+	public static IQueryable<AttendanceModel> FilterByMonth(this IQueryable<AttendanceModel> query, int? month) =>
 		month.HasValue ? query.Where(x => x.CalendarDay.Month.Equals(month)) : query;
 
 	/// <summary>
@@ -32,7 +32,7 @@ public static class AttendanceQueryExtensions
 	/// <param name="minDate">The minimum date.</param>
 	/// <param name="maxDate">The maximum date.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	public static IQueryable<Attendance> FilterByDateRange(this IQueryable<Attendance> query, DateTime? minDate, DateTime? maxDate)
+	public static IQueryable<AttendanceModel> FilterByDateRange(this IQueryable<AttendanceModel> query, DateTime? minDate, DateTime? maxDate)
 	{
 		query = minDate.HasValue ? query.Where(x => x.CalendarDay.Date >= minDate.ToSqlDate()) : query;
 		query = maxDate.HasValue ? query.Where(x => x.CalendarDay.Date <= maxDate.ToSqlDate()) : query;
@@ -45,6 +45,6 @@ public static class AttendanceQueryExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="endOfMonth">The end of month to be filtered.</param>s
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	public static IQueryable<Attendance> FilterByEndOfMonth(this IQueryable<Attendance> query, DateTime? endOfMonth) =>
+	public static IQueryable<AttendanceModel> FilterByEndOfMonth(this IQueryable<AttendanceModel> query, DateTime? endOfMonth) =>
 		endOfMonth.HasValue ? query.Where(x => x.CalendarDay.EndOfMonth.Equals(endOfMonth.ToSqlDate())) : query;
 }

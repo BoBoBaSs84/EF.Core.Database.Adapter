@@ -23,37 +23,37 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Get(int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(Guid, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}", RESX.AccountService_GetAll_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Get(int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(Guid, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetAllNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetAllNotFound}", RESX.AccountService_GetAll_NotFound);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Get(int, int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(Guid, Guid, bool, CancellationToken)"/> method.
 	/// </summary>
-	public static ApiError GetByIdFailed(int accountId) =>
+	public static ApiError GetByIdFailed(Guid accountId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
 			RESX.AccountService_GetById_Failed.Format(CultureInfo.CurrentCulture, accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Get(int, int, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(Guid, Guid, bool, CancellationToken)"/> method.
 	/// </summary>	
-	public static ApiError GetByIdNotFound(int accountId) =>
+	public static ApiError GetByIdNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
 			RESX.AccountService_AccountId_NotFound.Format(CultureInfo.CurrentCulture, accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Get(int, string, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(Guid, string, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static ApiError GetByNumberFailed(string iban) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
@@ -61,7 +61,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Get(int, string, bool, CancellationToken)"/> method.
+	/// <see cref="AccountService.Get(Guid, string, bool, CancellationToken)"/> method.
 	/// </summary>	
 	public static ApiError GetByNumberNotFound(string iban) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",
@@ -69,7 +69,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Create(int, AccountCreateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Create(Guid, AccountCreateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static ApiError CreateAccountNumberConflict(string iban) =>
@@ -78,7 +78,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Create(int, AccountCreateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Create(Guid, AccountCreateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static ApiError CreateCardNumberConflict(string pan) =>
@@ -87,7 +87,7 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Create(int, AccountCreateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Create(Guid, AccountCreateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError CreateAccountFailed =
@@ -95,49 +95,49 @@ public static class AccountServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Delete(int, int, CancellationToken)"/> method.
+	/// <see cref="AccountService.Delete(Guid, Guid, CancellationToken)"/> method.
 	/// </summary>
-	public static ApiError DeleteAccountNotFound(int accountId) =>
+	public static ApiError DeleteAccountNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteAccountNotFound)}",
 			RESX.AccountService_AccountId_NotFound.Format(CultureInfo.CurrentCulture, accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Delete(int, int, CancellationToken)"/> method.
+	/// <see cref="AccountService.Delete(Guid, Guid, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError DeleteAccountFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{DeleteAccountFailed}", RESX.AccountService_Delete_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(Guid, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
-	public static ApiError UpdateAccountNotFound(int accountId) =>
+	public static ApiError UpdateAccountNotFound(Guid accountId) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateAccountNotFound}",
 			RESX.AccountService_AccountId_NotFound.Format(CultureInfo.CurrentCulture, accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(Guid, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
-	public static ApiError UpdateCardNotFound(int cardId) =>
+	public static ApiError UpdateCardNotFound(Guid cardId) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardNotFound}",
 			RESX.AccountService_CardId_NotFound.Format(CultureInfo.CurrentCulture, cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(Guid, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
-	public static ApiError UpdateCardTypeNotFound(int cardTypeId) =>
+	public static ApiError UpdateCardTypeNotFound(Guid cardTypeId) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardTypeNotFound}",
 			RESX.AccountService_CardTypeId_NotFound.Format(CultureInfo.CurrentCulture, cardTypeId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AccountService.Update(int, AccountUpdateRequest, CancellationToken)"/>
+	/// <see cref="AccountService.Update(Guid, AccountUpdateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError UpdateAccountFailed =

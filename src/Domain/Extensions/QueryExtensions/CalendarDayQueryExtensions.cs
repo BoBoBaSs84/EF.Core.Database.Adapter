@@ -1,5 +1,5 @@
 ﻿
-using Domain.Entities.Common;
+using Domain.Models.Common;
 
 namespace Domain.Extensions.QueryExtensions;
 

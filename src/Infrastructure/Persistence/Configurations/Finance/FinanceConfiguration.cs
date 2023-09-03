@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Finance;
+﻿using Domain.Models.Finance;
 
 using Infrastructure.Extensions;
 using Infrastructure.Persistence.Configurations.Base;
@@ -14,16 +14,16 @@ namespace Infrastructure.Persistence.Configurations.Finance;
 internal static class FinanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AccountConfiguration : IdentityTypeBaseConfiguration<Account>
+	internal sealed class AccountConfiguration : IdentityBaseConfiguration<Account>
 	{
 		public override void Configure(EntityTypeBuilder<Account> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.Finance, "Account");
 
 			builder.Property(e => e.IBAN)
 				.IsUnicode(false);
 
-			builder.HasIndex(e => new { e.IBAN })
+			builder.HasIndex(e => e.IBAN)
 				.IsClustered(false)
 				.IsUnique(true);
 
@@ -50,11 +50,11 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class AccountTransactionConfiguration : CompositeTypeBaseConfiguration<AccountTransaction>
+	internal sealed class AccountTransactionConfiguration : CompositeBaseConfiguration<AccountTransaction>
 	{
 		public override void Configure(EntityTypeBuilder<AccountTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.Finance, "AccountTransaction");
 
 			builder.HasKey(e => new { e.AccountId, e.TransactionId })
 				.IsClustered(false);
@@ -64,11 +64,11 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class AccountUserConfiguration : CompositeTypeBaseConfiguration<AccountUser>
+	internal sealed class AccountUserConfiguration : CompositeBaseConfiguration<AccountUser>
 	{
 		public override void Configure(EntityTypeBuilder<AccountUser> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.Finance, "AccountUser");
 
 			builder.HasKey(e => new { e.AccountId, e.UserId })
 				.IsClustered(false);
@@ -78,16 +78,16 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class CardConfiguration : IdentityTypeBaseConfiguration<Card>
+	internal sealed class CardConfiguration : IdentityBaseConfiguration<Card>
 	{
 		public override void Configure(EntityTypeBuilder<Card> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.Finance, "Card");
 
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);
 
-			builder.HasIndex(e => new { e.PAN })
+			builder.HasIndex(e => e.PAN)
 				.IsClustered(false)
 				.IsUnique(true);
 
@@ -102,11 +102,11 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class CardTransactionConfiguration : CompositeTypeBaseConfiguration<CardTransaction>
+	internal sealed class CardTransactionConfiguration : CompositeBaseConfiguration<CardTransaction>
 	{
 		public override void Configure(EntityTypeBuilder<CardTransaction> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.Finance, "CardTransaction");
 
 			builder.HasKey(e => new { e.CardId, e.TransactionId })
 				.IsClustered(false);
@@ -116,11 +116,11 @@ internal static class FinanceConfiguration
 	}
 
 	/// <inheritdoc/>
-	internal sealed class TransactionConfiguration : IdentityTypeBaseConfiguration<Transaction>
+	internal sealed class TransactionConfiguration : IdentityBaseConfiguration<Transaction>
 	{
 		public override void Configure(EntityTypeBuilder<Transaction> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.FINANCE);
+			builder.ToSytemVersionedTable(SqlSchema.Finance, "Transaction");
 
 			builder.Property(e => e.AccountNumber)
 				.IsUnicode(false);

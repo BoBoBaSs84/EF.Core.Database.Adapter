@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Application.Contracts.Responses;
+using Application.Contracts.Responses.Common;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
@@ -86,7 +86,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	[ProducesResponseType(typeof(CalendarDayResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
 	{
 		ErrorOr<CalendarDayResponse> result =
 			await _calendarDayService.Get(id, false, cancellationToken);

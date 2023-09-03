@@ -1,8 +1,8 @@
-﻿using Application.Contracts.Requests;
+﻿using Application.Contracts.Requests.Attendance;
 
 using AutoMapper;
 
-using Domain.Entities.Private;
+using Domain.Models.Attendance;
 
 namespace Application.Common.MappingProfiles.Requests;
 
@@ -11,7 +11,7 @@ internal sealed class AttendanceRequestProfile : Profile
 {
 	public AttendanceRequestProfile()
 	{
-		CreateMap<AttendanceCreateRequest, Attendance>();
-		CreateMap<AttendanceUpdateRequest, Attendance>();
+		CreateMap<AttendanceCreateRequest, AttendanceModel>();
+		CreateMap<AttendanceUpdateRequest, AttendanceModel>();
 	}
 }

@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Entities.Finance;
+using Domain.Models.Finance;
 
 namespace Application.Common.MappingProfiles.Requests;
 

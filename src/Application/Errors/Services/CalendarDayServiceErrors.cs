@@ -39,7 +39,7 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.Get(int, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(Guid, bool, CancellationToken)"/> method.
 	/// </summary>
 	public static readonly ApiError GetByIdFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
@@ -47,9 +47,9 @@ public static class CalendarDayServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="CalendarDayService.Get(int, bool, CancellationToken)"/> method.
+	/// <see cref="CalendarDayService.Get(Guid, bool, CancellationToken)"/> method.
 	/// </summary>
-	public static ApiError GetByIdNotFound(int id) =>
+	public static ApiError GetByIdNotFound(Guid id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
 			RESX.CardTypeService_GetByName_NotFound.Format(CurrentCulture, id));
 

@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses;
+﻿using Application.Contracts.Responses.Common;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
@@ -8,10 +8,10 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Common;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Extensions.QueryExtensions;
+using Domain.Models.Common;
 
 using Microsoft.Extensions.Logging;
 
@@ -55,8 +55,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
 				expression: x => x.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(CalendarDay.DayType) }
+				cancellationToken: cancellationToken
 				);
 
 			if (calendarDay is null)
@@ -73,15 +72,14 @@ internal sealed class CalendarDayService : ICalendarDayService
 		}
 	}
 
-	public async Task<ErrorOr<CalendarDayResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CalendarDayResponse>> Get(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
 			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(id),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(CalendarDay.DayType) }
+				cancellationToken: cancellationToken
 				);
 
 			if (calendarDay is null)
@@ -111,8 +109,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(CalendarDay.DayType) }
+				cancellationToken: cancellationToken
 				);
 
 			if (!calendarDays.Any())
@@ -141,8 +138,7 @@ internal sealed class CalendarDayService : ICalendarDayService
 			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
 				expression: x => x.Date.Equals(_dateTimeService.Today),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(CalendarDay.DayType) }
+				cancellationToken: cancellationToken
 				);
 
 			if (calendarDay is null)

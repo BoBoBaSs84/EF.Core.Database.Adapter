@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
 
-using Domain.Entities.Common;
+using Domain.Models.Common;
 
 using Infrastructure.Persistence.Repositories.Base;
 
@@ -18,10 +18,9 @@ namespace Infrastructure.Persistence.Repositories;
 internal sealed class CalendarDayRepository : IdentityRepository<CalendarDay>, ICalendarDayRepository
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="CalendarDayRepository"/> class.
+	/// Initializes a new instance of the calendar day repository class.
 	/// </summary>
-	/// <param name="dbContext">The database context.</param>
+	/// <inheritdoc/>
 	public CalendarDayRepository(DbContext dbContext) : base(dbContext)
-	{
-	}
+	{ }
 }

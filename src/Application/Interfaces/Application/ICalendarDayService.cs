@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses;
+﻿using Application.Contracts.Responses.Common;
 using Application.Features.Requests;
 using Application.Features.Responses;
 
@@ -37,7 +37,7 @@ public interface ICalendarDayService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<CalendarDayResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<CalendarDayResponse>> Get(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns the current calendar day.

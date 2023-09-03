@@ -23,7 +23,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
-using Roles = Domain.Enumerators.RoleTypes;
+using Roles = Domain.Enumerators.RoleType;
 
 namespace Infrastructure.Services;
 
@@ -70,7 +70,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> AddUserToRole(int userId, string roleName)
+	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, string roleName)
 	{
 		string[] parameters = new[] { $"{userId}", $"{roleName}" };
 		ErrorOr<Created> response = new();
@@ -188,7 +188,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<UserResponse>> GetUserById(int userId)
+	public async Task<ErrorOr<UserResponse>> GetUserById(Guid userId)
 	{
 		try
 		{
@@ -228,7 +228,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> RemoveUserToRole(int userId, string roleName)
+	public async Task<ErrorOr<Deleted>> RemoveUserToRole(Guid userId, string roleName)
 	{
 		string[] parameters = new[] { $"{userId}", $"{roleName}" };
 		ErrorOr<Deleted> response = new();
@@ -263,7 +263,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateUser(int userId, UserUpdateRequest updateRequest)
+	public async Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest updateRequest)
 	{
 		ErrorOr<Updated> response = new();
 		try

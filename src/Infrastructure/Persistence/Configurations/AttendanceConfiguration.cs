@@ -20,7 +20,7 @@ internal static class AttendanceConfiguration
 		{
 			builder.ToSytemVersionedTable(SqlSchema.Attendance, "Attendance");
 
-			builder.HasIndex(e => new { e.UserId, e.CalendarDayId })
+			builder.HasIndex(e => new { e.UserId, e.CalendarId })
 				.IsClustered(false)
 				.IsUnique();
 

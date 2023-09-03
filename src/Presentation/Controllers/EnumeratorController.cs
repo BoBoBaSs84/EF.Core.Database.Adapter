@@ -25,7 +25,7 @@ public sealed class EnumeratorController : ApiControllerBase
 	private readonly IDayTypeService _dayTypeService;
 
 	/// <summary>
-	/// Initializes an instance of the <see cref="DayTypeController"/> class.
+	/// Initializes an instance of the enumerator controller class.
 	/// </summary>
 	/// <param name="cardTypeService">The card type service to use.</param>
 	/// <param name="dayTypeService">The day type service to use.</param>

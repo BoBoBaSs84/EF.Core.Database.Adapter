@@ -60,7 +60,7 @@ internal sealed class CalendarConfiguration : IdentityBaseConfiguration<Calendar
 
 		builder.HasMany(e => e.Attendances)
 			.WithOne(e => e.CalendarDay)
-			.HasForeignKey(e => e.CalendarDayId)
+			.HasForeignKey(e => e.CalendarId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired();
 

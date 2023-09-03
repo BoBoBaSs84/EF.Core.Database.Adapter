@@ -1,4 +1,5 @@
-﻿using Domain.Enumerators;
+﻿using Application.Contracts.Responses.Enumerators;
+
 using Domain.Errors;
 
 namespace Application.Interfaces.Application;
@@ -14,7 +15,7 @@ public interface ICardTypeService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>A paged list response.</returns>
-	Task<ErrorOr<IEnumerable<CardType>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<IEnumerable<CardTypeResponse>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns the card type by its <paramref name="name"/>.
@@ -23,7 +24,7 @@ public interface ICardTypeService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns></returns>
-	Task<ErrorOr<CardType>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<CardTypeResponse>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns the card type by its <paramref name="id"/>.
@@ -32,5 +33,5 @@ public interface ICardTypeService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns></returns>
-	Task<ErrorOr<CardType>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<CardTypeResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default);
 }

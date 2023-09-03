@@ -8,9 +8,9 @@ namespace Application.Contracts.Responses.Finance;
 /// The card response class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityResponseModel"/> class.
+/// Derives from the <see cref="IdentityResponse"/> class.
 /// </remarks>
-public sealed class CardResponse : IdentityResponseModel
+public sealed class CardResponse : IdentityResponse
 {
 	/// <summary>
 	/// The card type.

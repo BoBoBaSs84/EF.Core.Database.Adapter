@@ -22,7 +22,7 @@ internal static class ServiceCollectionExtensions
 	{
 		services.TryAddScoped<IAccountService, AccountService>();
 		services.TryAddScoped<IAttendanceService, AttendanceService>();
-		services.TryAddScoped<ICalendarDayService, CalendarDayService>();
+		services.TryAddScoped<ICalendarService, CalendarService>();
 		services.TryAddScoped<IDayTypeService, DayTypeService>();
 		services.TryAddScoped<ICardTypeService, CardTypeService>();
 

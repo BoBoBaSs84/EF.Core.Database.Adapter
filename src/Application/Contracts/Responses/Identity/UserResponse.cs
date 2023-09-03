@@ -8,9 +8,9 @@ namespace Application.Contracts.Responses.Identity;
 /// The user response class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityResponseModel"/> class.
+/// Derives from the <see cref="IdentityResponse"/> class.
 /// </remarks>
-public sealed class UserResponse : IdentityResponseModel
+public sealed class UserResponse : IdentityResponse
 {
 	/// <summary>
 	/// The first name of the user.
@@ -22,7 +22,7 @@ public sealed class UserResponse : IdentityResponseModel
 	/// The middle name of the user.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string? MiddleName { get; set; } = default!;
+	public string? MiddleName { get; set; }
 
 	/// <summary>
 	/// The last name of the user.
@@ -34,7 +34,7 @@ public sealed class UserResponse : IdentityResponseModel
 	/// The date of birth of the user.
 	/// </summary>
 	[DataType(DataType.Date)]
-	public DateTime? DateOfBirth { get; set; } = default!;
+	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
 	/// The user name of the user.
@@ -52,10 +52,10 @@ public sealed class UserResponse : IdentityResponseModel
 	/// The phone number of the user.
 	/// </summary>
 	[DataType(DataType.PhoneNumber)]
-	public string? PhoneNumber { get; set; } = default!;
+	public string? PhoneNumber { get; set; }
 
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	public byte[]? Picture { get; set; } = default!;
+	public byte[]? Picture { get; set; }
 }

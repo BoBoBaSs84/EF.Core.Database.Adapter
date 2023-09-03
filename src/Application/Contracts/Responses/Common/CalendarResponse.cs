@@ -10,9 +10,9 @@ namespace Application.Contracts.Responses.Common;
 /// The calendar response class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityResponseModel"/> class.
+/// Derives from the <see cref="IdentityResponse"/> class.
 /// </remarks>
-public sealed class CalendarDayResponse : IdentityResponseModel
+public sealed class CalendarResponse : IdentityResponse
 {
 	/// <summary>
 	/// The <see cref="Date"/> property.

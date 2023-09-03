@@ -13,14 +13,14 @@ namespace Infrastructure.Persistence.Repositories;
 /// </summary>
 /// <remarks>
 /// Derives from the <see cref="IdentityRepository{TEntity}"/> class
-/// and implements the <see cref="ICalendarDayRepository"/> interface.
+/// and implements the <see cref="ICalendarRepository"/> interface.
 /// </remarks>
-internal sealed class CalendarDayRepository : IdentityRepository<CalendarDay>, ICalendarDayRepository
+internal sealed class CalendarRepository : IdentityRepository<CalendarModel>, ICalendarRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the calendar day repository class.
 	/// </summary>
 	/// <inheritdoc/>
-	public CalendarDayRepository(DbContext dbContext) : base(dbContext)
+	public CalendarRepository(DbContext dbContext) : base(dbContext)
 	{ }
 }

@@ -1,7 +1,7 @@
-﻿using Application.Errors.Services;
+﻿using Application.Contracts.Responses.Enumerators;
+using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
@@ -19,7 +19,6 @@ namespace Application.Services;
 internal sealed class CardTypeService : ICardTypeService
 {
 	private readonly ILoggerService<CardTypeService> _logger;
-	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, Exception?> LogException =
@@ -32,16 +31,14 @@ internal sealed class CardTypeService : ICardTypeService
 	/// Initilizes an instance of the card type service class.
 	/// </summary>
 	/// <param name="logger">The logger service to use.</param>
-	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public CardTypeService(ILoggerService<CardTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public CardTypeService(ILoggerService<CardTypeService> logger, IMapper mapper)
 	{
 		_logger = logger;
-		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<CardType>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardTypeResponse>> Get(int id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -50,7 +47,7 @@ internal sealed class CardTypeService : ICardTypeService
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByIdNotFound(id);
 
-			CardType response = _mapper.Map<CardType>(cardType);
+			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
 
 			return response;
 		}
@@ -61,7 +58,7 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 	}
 
-	public async Task<ErrorOr<CardType>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardTypeResponse>> Get(string name, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -70,7 +67,7 @@ internal sealed class CardTypeService : ICardTypeService
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByNameNotFound(name);
 
-			CardType response = _mapper.Map<CardType>(cardType);
+			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
 
 			return response;
 
@@ -82,7 +79,7 @@ internal sealed class CardTypeService : ICardTypeService
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<CardType>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<CardTypeResponse>>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -91,7 +88,7 @@ internal sealed class CardTypeService : ICardTypeService
 			if (!cardTypes.Any())
 				return CardTypeServiceErrors.GetAllNotFound;
 
-			IEnumerable<CardType> response = _mapper.Map<IEnumerable<CardType>>(cardTypes);
+			IEnumerable<CardTypeResponse> response = _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes);
 
 			return response.ToList();
 		}

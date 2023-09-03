@@ -13,5 +13,5 @@ public partial class AttendanceModel
 	/// <summary>
 	/// The <see cref="CalendarDay"/> property.
 	/// </summary>
-	public virtual CalendarDay CalendarDay { get; set; } = default!;
+	public virtual CalendarModel CalendarDay { get; set; } = default!;
 }

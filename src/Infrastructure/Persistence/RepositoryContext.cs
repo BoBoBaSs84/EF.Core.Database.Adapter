@@ -20,14 +20,14 @@ namespace Infrastructure.Persistence;
 /// The application database context class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityDbContext{TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken}"/> class.
+/// Derives from the <see cref="IdentityDbContext"/> class.
 /// </remarks>
 public sealed partial class RepositoryContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IRepositoryContext
 {
 	private readonly CustomSaveChangesInterceptor _changesInterceptor;
 	private readonly ILoggerService<RepositoryContext> _logger;
 
-	private static readonly Action<ILogger, Exception?> logException =
+	private static readonly Action<ILogger, Exception?> LogException =
 	LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	/// <summary>
@@ -75,7 +75,7 @@ public sealed partial class RepositoryContext : IdentityDbContext<User, Role, Gu
 		// TODO: What todo else then?
 		catch (DbUpdateConcurrencyException ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(LogException, ex);
 		}
 		return result;
 	}

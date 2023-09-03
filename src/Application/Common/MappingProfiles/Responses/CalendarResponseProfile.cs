@@ -12,7 +12,7 @@ internal sealed class CalendarResponseProfile : Profile
 {
 	public CalendarResponseProfile()
 	{
-		CreateMap<CalendarDay, CalendarDayResponse>()
+		CreateMap<CalendarModel, CalendarResponse>()
 			.ForMember(dst => dst.DayType, opt => opt.MapFrom(src => GetDayType(src.Date)));
 	}
 

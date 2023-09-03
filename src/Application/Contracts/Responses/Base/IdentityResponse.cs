@@ -3,12 +3,12 @@
 namespace Application.Contracts.Responses.Base;
 
 /// <summary>
-/// The <see langword="abstract"/> identity response model.
+/// The <see langword="abstract"/> identity response class.
 /// </summary>
-public abstract class IdentityResponseModel
+public abstract class IdentityResponse
 {
 	/// <summary>
-	/// The <see cref="Id"/> property.
+	/// The globally unique identifier property.
 	/// </summary>
 	[Column(Order = 1)]
 	public Guid Id { get; set; }

@@ -21,7 +21,7 @@ public partial class User : IdentityUser<Guid>
 	/// The <see cref="MiddleName"/> property.
 	/// </summary>
 	[MaxLength(DC.Sql.MaxLength.MAX_100)]
-	public string? MiddleName { get; set; } = default!;
+	public string? MiddleName { get; set; }
 
 	/// <summary>
 	/// The <see cref="LastName"/> property.
@@ -33,13 +33,13 @@ public partial class User : IdentityUser<Guid>
 	/// The <see cref="DateOfBirth"/> property.
 	/// </summary>
 	[Column(TypeName = DC.Sql.DataType.DATE)]
-	public DateTime? DateOfBirth { get; set; } = default!;
+	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
 	/// The <see cref="Preferences"/> property.
 	/// </summary>
 	[Column(TypeName = DC.Sql.DataType.XML)]
-	public string? Preferences { get; set; } = default!;
+	public string? Preferences { get; set; }
 
 	/// <summary>
 	/// The <see cref="Picture"/> property.

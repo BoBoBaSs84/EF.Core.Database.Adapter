@@ -12,10 +12,10 @@ namespace Infrastructure.Persistence.Configurations.Common;
 
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-internal sealed class CalendarConfiguration : IdentityBaseConfiguration<CalendarDay>
+internal sealed class CalendarConfiguration : IdentityBaseConfiguration<CalendarModel>
 {
 	/// <inheritdoc/>
-	public override void Configure(EntityTypeBuilder<CalendarDay> builder)
+	public override void Configure(EntityTypeBuilder<CalendarModel> builder)
 	{
 		builder.ToSytemVersionedTable(SqlSchema.Common, "Calendar");
 

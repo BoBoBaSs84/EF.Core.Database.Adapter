@@ -12,9 +12,9 @@ namespace Application.Contracts.Responses.Attendance;
 /// The attendance response class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="IdentityResponseModel"/> class.
+/// Derives from the <see cref="IdentityResponse"/> class.
 /// </remarks>
-public sealed class AttendanceResponse : IdentityResponseModel
+public sealed class AttendanceResponse : IdentityResponse
 {
 	/// <summary>
 	/// The <see cref="Date"/> property.

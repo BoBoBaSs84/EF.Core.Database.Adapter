@@ -7,12 +7,12 @@ using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 namespace Domain.Models.Common;
 
 /// <summary>
-/// The calendar entity class.
+/// The calendar model class.
 /// </summary>
 /// <remarks>
 /// Derives from the <see cref="IdentityModel"/> class.
 /// </remarks>
-public partial class CalendarDay : IdentityModel
+public partial class CalendarModel : IdentityModel
 {
 	/// <summary>
 	/// The <see cref="Date"/> property.

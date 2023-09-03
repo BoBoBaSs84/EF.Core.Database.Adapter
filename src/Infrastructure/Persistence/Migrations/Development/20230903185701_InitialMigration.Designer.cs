@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations.Development
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230903115426_InitialMigration")]
+    [Migration("20230903185701_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -81,24 +81,24 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasData(
                         new
                         {
-                            Id = new Guid("edf51e6f-6988-4a9e-8498-91c510dbc439"),
-                            ConcurrencyStamp = "2d84b1bf-32d4-432d-8380-ff9d9486c36a",
+                            Id = new Guid("7bb400f3-9ccf-48bd-9d40-6ba78e71605d"),
+                            ConcurrencyStamp = "23795774-3ff7-4715-acde-84165cceb0c5",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("b0764bbd-9b45-4078-88bc-f92d379de542"),
-                            ConcurrencyStamp = "c5051209-ddf3-4465-a831-1143535054a7",
+                            Id = new Guid("a7114b38-d9a5-45b4-ac78-626ba38c5723"),
+                            ConcurrencyStamp = "f9099ec0-46fe-4898-990b-df4c337b0b76",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("b9f7f126-bed6-461f-b6f0-18edcb178da0"),
-                            ConcurrencyStamp = "84324aba-2440-4eba-a0bb-f970fb9a631f",
+                            Id = new Guid("833699d6-2a6e-4c6c-b7b6-1dca6fa3c991"),
+                            ConcurrencyStamp = "572fdc32-df11-4677-8cbf-b768fe84749d",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -1071,12 +1071,10 @@ namespace Infrastructure.Persistence.Migrations.Development
 
             modelBuilder.Entity("Infrastructure.Extensions.ModelBuilderExtensions+DatabaseLog", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Application")
                         .ValueGeneratedOnAdd()
@@ -1124,7 +1122,7 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     b.ToTable("DatabaseLog", "Private");
 
-                    b.ToSqlQuery("CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE \r\nFOR DDL_DATABASE_LEVEL_EVENTS AS \r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    DECLARE @data XML;\r\n    DECLARE @schema sysname;\r\n    DECLARE @object sysname;\r\n    DECLARE @eventType sysname;\r\n\r\n    SET @data = EVENTDATA();\r\n    SET @eventType = @data.value('(/EVENT_INSTANCE/EventType)[1]', 'sysname');\r\n    SET @schema = @data.value('(/EVENT_INSTANCE/SchemaName)[1]', 'sysname');\r\n    SET @object = @data.value('(/EVENT_INSTANCE/ObjectName)[1]', 'sysname') \r\n\r\n    IF @object IS NOT NULL\r\n        PRINT '  ' + @eventType + ' - ' + @schema + '.' + @object;\r\n    ELSE\r\n        PRINT '  ' + @eventType + ' - ' + @schema;\r\n\r\n    IF @eventType IS NULL\r\n        PRINT CONVERT(nvarchar(max), @data);\r\n\r\n    INSERT [private].[DatabaseLog] ([Event], [Schema], [Object], [TSQL], [XmlEvent])\r\n    SELECT @eventType\r\n			, CONVERT(sysname, @schema)\r\n			, CONVERT(sysname, @object)\r\n			, @data.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'nvarchar(max)')\r\n			, @data;\r\nEND;");
+                    b.ToSqlQuery("CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE \r\nFOR DDL_DATABASE_LEVEL_EVENTS AS \r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    DECLARE @data XML;\r\n    DECLARE @schema sysname;\r\n    DECLARE @object sysname;\r\n    DECLARE @eventType sysname;\r\n\r\n    SET @data = EVENTDATA();\r\n    SET @eventType = @data.value('(/EVENT_INSTANCE/EventType)[1]', 'sysname');\r\n    SET @schema = @data.value('(/EVENT_INSTANCE/SchemaName)[1]', 'sysname');\r\n    SET @object = @data.value('(/EVENT_INSTANCE/ObjectName)[1]', 'sysname') \r\n\r\n    IF @object IS NOT NULL\r\n        PRINT '  ' + @eventType + ' - ' + @schema + '.' + @object;\r\n    ELSE\r\n        PRINT '  ' + @eventType + ' - ' + @schema;\r\n\r\n    IF @eventType IS NULL\r\n        PRINT CONVERT(nvarchar(max), @data);\r\n\r\n    INSERT [private].[DatabaseLog] ([Id], [Event], [Schema], [Object], [TSQL], [XmlEvent])\r\n    SELECT NEWID()\r\n			, @eventType\r\n			, CONVERT(sysname, @schema)\r\n			, CONVERT(sysname, @object)\r\n			, @data.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'nvarchar(max)')\r\n			, @data;\r\nEND;");
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.UserRole", b =>

@@ -18,12 +18,12 @@ using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 /// <summary>
-/// The calendar day service class.
+/// The calendar service class.
 /// </summary>
-internal sealed class CalendarDayService : ICalendarDayService
+internal sealed class CalendarService : ICalendarService
 {
 	private readonly IDateTimeService _dateTimeService;
-	private readonly ILoggerService<CalendarDayService> _logger;
+	private readonly ILoggerService<CalendarService> _logger;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
@@ -34,13 +34,13 @@ internal sealed class CalendarDayService : ICalendarDayService
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	/// <summary>
-	/// Initilizes an instance of the calendar day service class.
+	/// Initilizes an instance of the calendar service class.
 	/// </summary>
 	/// <param name="dateTimeService">The date time service to use.</param>
 	/// <param name="logger">The logger service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public CalendarDayService(IDateTimeService dateTimeService, ILoggerService<CalendarDayService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public CalendarService(IDateTimeService dateTimeService, ILoggerService<CalendarService> logger, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_dateTimeService = dateTimeService;
 		_logger = logger;
@@ -48,59 +48,59 @@ internal sealed class CalendarDayService : ICalendarDayService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<CalendarDayResponse>> Get(DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CalendarResponse>> Get(DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
+			CalendarModel? calendarEntry = await _repositoryService.CalendarRepository.GetByConditionAsync(
 				expression: x => x.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (calendarDay is null)
-				return CalendarDayServiceErrors.GetByDateNotFound(date);
+			if (calendarEntry is null)
+				return CalendarServiceErrors.GetByDateNotFound(date);
 
-			CalendarDayResponse response = _mapper.Map<CalendarDayResponse>(calendarDay);
+			CalendarResponse response = _mapper.Map<CalendarResponse>(calendarEntry);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
 			_logger.Log(LogException, ex);
-			return CalendarDayServiceErrors.GetByDateFailed;
+			return CalendarServiceErrors.GetByDateFailed;
 		}
 	}
 
-	public async Task<ErrorOr<CalendarDayResponse>> Get(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CalendarResponse>> Get(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
+			CalendarModel? calendarModel = await _repositoryService.CalendarRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(id),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (calendarDay is null)
-				return CalendarDayServiceErrors.GetByIdNotFound(id);
+			if (calendarModel is null)
+				return CalendarServiceErrors.GetByIdNotFound(id);
 
-			CalendarDayResponse response = _mapper.Map<CalendarDayResponse>(calendarDay);
+			CalendarResponse response = _mapper.Map<CalendarResponse>(calendarModel);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
 			_logger.Log(LogException, ex);
-			return CalendarDayServiceErrors.GetByIdFailed;
+			return CalendarServiceErrors.GetByIdFailed;
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<CalendarDayResponse>>> Get(CalendarDayParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IPagedList<CalendarResponse>>> Get(CalendarParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<CalendarDay> calendarDays = await _repositoryService.CalendarDayRepository.GetManyByConditionAsync(
+			IEnumerable<CalendarModel> calendarModels = await _repositoryService.CalendarRepository.GetManyByConditionAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year)
 					.FilterByMonth(parameters.Month)
 					.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
@@ -112,46 +112,46 @@ internal sealed class CalendarDayService : ICalendarDayService
 				cancellationToken: cancellationToken
 				);
 
-			if (!calendarDays.Any())
-				return CalendarDayServiceErrors.GetPagedByParametersNotFound;
+			if (!calendarModels.Any())
+				return CalendarServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = await _repositoryService.CalendarDayRepository.GetCountAsync(
+			int totalCount = await _repositoryService.CalendarRepository.GetCountAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken
 				);
 
-			IEnumerable<CalendarDayResponse> result = _mapper.Map<IEnumerable<CalendarDayResponse>>(calendarDays);
+			IEnumerable<CalendarResponse> result = _mapper.Map<IEnumerable<CalendarResponse>>(calendarModels);
 
-			return new PagedList<CalendarDayResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
+			return new PagedList<CalendarResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
 		catch (Exception ex)
 		{
 			_logger.Log(LogExceptionWithParams, parameters, ex);
-			return CalendarDayServiceErrors.GetPagedByParametersFailed;
+			return CalendarServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 
-	public async Task<ErrorOr<CalendarDayResponse>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CalendarResponse>> Get(bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			CalendarDay? calendarDay = await _repositoryService.CalendarDayRepository.GetByConditionAsync(
+			CalendarModel? calendarModel = await _repositoryService.CalendarRepository.GetByConditionAsync(
 				expression: x => x.Date.Equals(_dateTimeService.Today),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (calendarDay is null)
-				return CalendarDayServiceErrors.GetCurrentDateNotFound;
+			if (calendarModel is null)
+				return CalendarServiceErrors.GetCurrentDateNotFound;
 
-			CalendarDayResponse response = _mapper.Map<CalendarDayResponse>(calendarDay);
+			CalendarResponse response = _mapper.Map<CalendarResponse>(calendarModel);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
 			_logger.Log(LogException, ex);
-			return CalendarDayServiceErrors.GetCurrentDateFailed;
+			return CalendarServiceErrors.GetCurrentDateFailed;
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Domain.Models.Common;
 
-public partial class CalendarDay
+public partial class CalendarModel
 {
 	/// <summary>
 	/// The <see cref="Attendances"/> property.

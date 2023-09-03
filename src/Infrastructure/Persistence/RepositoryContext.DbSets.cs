@@ -9,9 +9,9 @@ namespace Infrastructure.Persistence;
 public sealed partial class RepositoryContext
 {
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarDay"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarModel"/>.
 	/// </summary>
-	public DbSet<CalendarDay> CalendarDays { get; set; } = default!;
+	public DbSet<CalendarModel> CalendarDays { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AttendanceModel"/>.

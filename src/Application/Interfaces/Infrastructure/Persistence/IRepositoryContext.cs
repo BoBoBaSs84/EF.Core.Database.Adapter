@@ -22,9 +22,9 @@ public interface IRepositoryContext
 	DbSet<AttendanceModel> Attendances { get; }
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarDay"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarModel"/>.
 	/// </summary>
-	DbSet<CalendarDay> CalendarDays { get; }
+	DbSet<CalendarModel> CalendarDays { get; }
 
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Card"/>.

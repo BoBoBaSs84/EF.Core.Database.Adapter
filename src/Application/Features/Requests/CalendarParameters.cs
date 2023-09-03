@@ -10,7 +10,7 @@ namespace Application.Features.Requests;
 /// <remarks>
 /// Derives from the <see cref="RequestParameters"/> class.
 /// </remarks>
-public sealed class CalendarDayParameters : RequestParameters
+public sealed class CalendarParameters : RequestParameters
 {
 	/// <summary>
 	/// Filter option by the year.

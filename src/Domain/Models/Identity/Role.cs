@@ -7,7 +7,7 @@ using DC = Domain.Constants.DomainConstants;
 namespace Domain.Entities.Identity;
 
 /// <inheritdoc/>
-public partial class Role : IdentityRole<int>
+public partial class Role : IdentityRole<Guid>
 {
 	/// <summary>
 	/// The <see cref="Description"/> property.

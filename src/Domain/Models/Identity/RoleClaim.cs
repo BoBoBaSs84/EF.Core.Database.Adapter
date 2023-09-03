@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Domain.Models.Identity;
 
 /// <inheritdoc/>
-public class RoleClaim : IdentityRoleClaim<int>
+public class RoleClaim : IdentityRoleClaim<Guid>
 {
 	/// <summary>
 	/// The <see cref="Role"/> property.

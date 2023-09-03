@@ -17,12 +17,15 @@ namespace Domain.Models.Base;
 /// </remarks>
 public abstract class CompositeModel : IConcurrencyModel, IAuditedModel
 {
+	/// <inheritdoc/>
 	[Timestamp, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-	public byte[] Timestamp { get; private set; }
+	public byte[] Timestamp { get; private set; } = default!;
 
+	/// <inheritdoc/>
 	[Column(Order = 2)]
 	public Guid CreatedBy { get; set; }
 
+	/// <inheritdoc/>
 	[Column(Order = 3)]
 	public Guid? ModifiedBy { get; set; }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Domain.Models.Identity;
 
 /// <inheritdoc/>
-public class UserLogin : IdentityUserLogin<int>
+public class UserLogin : IdentityUserLogin<Guid>
 {
 	/// <summary>
 	/// The <see cref="User"/> property.

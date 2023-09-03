@@ -20,9 +20,6 @@ internal abstract class IdentityBaseConfiguration<TEntity> : IEntityTypeConfigur
 	/// <inheritdoc/>
 	public virtual void Configure(EntityTypeBuilder<TEntity> builder)
 	{
-		builder.Property(e => e.Id)
-			.HasDefaultValue("NEWID()");
-
 		builder.HasKey(e => e.Id)
 			.IsClustered(false);
 

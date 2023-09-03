@@ -18,12 +18,12 @@ public partial class AttendanceModel : AuditedModel
 	/// <summary>
 	/// The <see cref="UserId"/> property.
 	/// </summary>
-	public Guid UserId { get; set; } = default!;
+	public Guid UserId { get; set; }
 
 	/// <summary>
 	/// The <see cref="CalendarDayId"/> property.
 	/// </summary>
-	public Guid CalendarDayId { get; set; } = default!;
+	public Guid CalendarDayId { get; set; }
 
 	/// <summary>
 	/// The day type property.

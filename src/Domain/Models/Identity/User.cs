@@ -9,7 +9,7 @@ using DC = Domain.Constants.DomainConstants;
 namespace Domain.Entities.Identity;
 
 /// <inheritdoc/>
-public partial class User : IdentityUser<int>
+public partial class User : IdentityUser<Guid>
 {
 	/// <summary>
 	/// The <see cref="FirstName"/> property.

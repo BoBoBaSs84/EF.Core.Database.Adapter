@@ -52,6 +52,11 @@ internal static class IdentityConfiguration
 				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 
+			builder.HasOne(e => e.AttendanceSettings)
+				.WithOne(e => e.User)
+				.OnDelete(DeleteBehavior.Cascade)
+				.IsRequired();
+
 			builder.HasMany(e => e.Cards)
 				.WithOne(e => e.User)
 				.HasForeignKey(eca => eca.UserId)
@@ -94,7 +99,7 @@ internal static class IdentityConfiguration
 			foreach (ERT roleType in roleTypes)
 				listToReturn.Add(new Role()
 				{
-					Id = (int)roleType,
+					Id = Guid.NewGuid(),
 					Name = roleType.GetName(),
 					NormalizedName = roleType.ToString(),
 					Description = roleType.GetDescription()

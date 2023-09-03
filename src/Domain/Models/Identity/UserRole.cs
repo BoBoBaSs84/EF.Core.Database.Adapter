@@ -3,6 +3,6 @@
 namespace Domain.Entities.Identity;
 
 /// <inheritdoc/>
-public partial class UserRole : IdentityUserRole<int>
+public partial class UserRole : IdentityUserRole<Guid>
 {
 }

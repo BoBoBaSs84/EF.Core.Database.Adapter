@@ -17,7 +17,7 @@ using Presentation.Common;
 using Presentation.Controllers.Base;
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
-using Roles = Domain.Enumerators.RoleTypes;
+using Roles = Domain.Enumerators.RoleType;
 
 namespace Presentation.Controllers;
 
@@ -62,7 +62,7 @@ public sealed class CardController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(int cardId, CancellationToken cancellationToken)
+	public async Task<IActionResult> Delete(Guid cardId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
 			await _cardService.Delete(_currentUserService.UserId, cardId, cancellationToken);
@@ -109,7 +109,7 @@ public sealed class CardController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int cardId, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetById(Guid cardId, CancellationToken cancellationToken)
 	{
 		ErrorOr<CardResponse> result =
 			await _cardService.Get(_currentUserService.UserId, cardId, false, cancellationToken);
@@ -158,7 +158,7 @@ public sealed class CardController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Post(int accountId, CardCreateRequest request, CancellationToken cancellationToken)
+	public async Task<IActionResult> Post(Guid accountId, CardCreateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> result =
 			await _cardService.Create(_currentUserService.UserId, accountId, request, cancellationToken);

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-using Application.Contracts.Requests;
+using Application.Contracts.Requests.Attendance;
 using Application.Errors.Base;
 using Application.Features.Requests;
 using Application.Services;
@@ -24,7 +24,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Create(int, AttendanceCreateRequest, CancellationToken)"/>
+	/// <see cref="AttendanceService.Create(Guid, AttendanceCreateRequest, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError CreateFailed =
@@ -33,7 +33,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Create(int, IEnumerable{AttendanceCreateRequest}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Create(Guid, IEnumerable{AttendanceCreateRequest}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError CreateManyFailed =
@@ -42,7 +42,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Delete(int, int, CancellationToken)"/>
+	/// <see cref="AttendanceService.Delete(Guid, Guid, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError DeleteFailed =
@@ -51,7 +51,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Delete(int, int, CancellationToken)"/>
+	/// <see cref="AttendanceService.Delete(Guid, Guid, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError DeleteNotFound =
@@ -60,7 +60,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Delete(int, IEnumerable{int}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Delete(Guid, IEnumerable{Guid}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError DeleteManyFailed =
@@ -69,7 +69,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Delete(int, IEnumerable{int}, CancellationToken)"/>
+	/// <see cref="AttendanceService.Delete(Guid, IEnumerable{Guid}, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError DeleteManyNotFound =
@@ -78,7 +78,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Get(int, DateTime, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(Guid, DateTime, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
@@ -88,7 +88,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Get(int, DateTime, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(Guid, DateTime, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
@@ -98,27 +98,27 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Get(int, int, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(Guid, Guid, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
-	public static ApiError GetByIdFailed(int calendarDayId) =>
+	public static ApiError GetByIdFailed(Guid calendarDayId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
 			RESX.AttendanceService_GetById_Failed.Format(CurrentCulture, calendarDayId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Get(int, DateTime, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(Guid, DateTime, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
-	public static ApiError GetByIdNotFound(int calendarDayId) =>
+	public static ApiError GetByIdNotFound(Guid calendarDayId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
 			RESX.AttendanceService_GetById_NotFound.Format(CurrentCulture, calendarDayId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Get(int, AttendanceParameters, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(Guid, AttendanceParameters, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersFailed =
@@ -127,7 +127,7 @@ public static class AttendanceServiceErrors
 
 	/// <summary>
 	/// Error that indicates an exception during the
-	/// <see cref="AttendanceService.Get(int, AttendanceParameters, bool, CancellationToken)"/>
+	/// <see cref="AttendanceService.Get(Guid, AttendanceParameters, bool, CancellationToken)"/>
 	/// method.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersNotFound =

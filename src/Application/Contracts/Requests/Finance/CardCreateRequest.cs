@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Domain.Enumerators;
+
 using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 
@@ -11,10 +13,10 @@ namespace Application.Contracts.Requests.Finance;
 public sealed class CardCreateRequest
 {
 	/// <summary>
-	/// The card type identifier.
+	/// The type of the card.
 	/// </summary>
-	[Required, Range(1, int.MaxValue)]
-	public int CardTypeId { get; set; } = default!;
+	[Required]
+	public CardType CardType { get; set; }
 
 	/// <summary>
 	/// The payment card number.

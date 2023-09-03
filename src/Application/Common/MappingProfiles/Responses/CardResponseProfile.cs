@@ -2,15 +2,15 @@
 
 using AutoMapper;
 
-using Domain.Entities.Finance;
+using Domain.Models.Finance;
 
 namespace Application.Common.MappingProfiles.Responses;
 
+[SuppressMessage("Style", "IDE0058", Justification = "AutoMapper")]
 internal sealed class CardResponseProfile : Profile
 {
 	public CardResponseProfile()
 	{
-		_ = CreateMap<Card, CardResponse>()
-			.ForMember(dest => dest.CardType, opt => opt.MapFrom(src => src.CardType.Name));
+		CreateMap<Card, CardResponse>();
 	}
 }

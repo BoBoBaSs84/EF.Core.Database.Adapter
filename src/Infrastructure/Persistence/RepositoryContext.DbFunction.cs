@@ -16,7 +16,7 @@ public sealed partial class RepositoryContext
 
 	/// <summary>
 	/// Returns the string provided as a first argument, after some characters specified in the second argument
-	/// are translated into a destination set of characters, specified in the third argument.
+	/// are translated guido a destination set of characters, specified in the third argument.
 	/// </summary>
 	/// <param name="inputString">The string expression to be searched.</param>
 	/// <param name="characters">A string expression containing characters that should be replaced.</param>

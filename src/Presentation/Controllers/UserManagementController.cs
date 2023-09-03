@@ -14,7 +14,7 @@ using Presentation.Attributes;
 using Presentation.Common;
 using Presentation.Controllers.Base;
 
-using Roles = Domain.Enumerators.RoleTypes;
+using Roles = Domain.Enumerators.RoleType;
 
 namespace Presentation.Controllers;
 
@@ -60,7 +60,7 @@ public sealed class UserManagementController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	[HttpPost(Endpoints.UserManagement.AddUserToRole)]
-	public async Task<IActionResult> AddUserToRole(int userId, string roleName)
+	public async Task<IActionResult> AddUserToRole(Guid userId, string roleName)
 	{
 		ErrorOr<Created> result =
 			await _authenticationService.AddUserToRole(userId, roleName);
@@ -169,7 +169,7 @@ public sealed class UserManagementController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	[HttpDelete(Endpoints.UserManagement.RemoveUserToRole)]
-	public async Task<IActionResult> RemoveUserToRole(int userId, string roleName)
+	public async Task<IActionResult> RemoveUserToRole(Guid userId, string roleName)
 	{
 		ErrorOr<Deleted> result =
 			await _authenticationService.RemoveUserToRole(userId, roleName);

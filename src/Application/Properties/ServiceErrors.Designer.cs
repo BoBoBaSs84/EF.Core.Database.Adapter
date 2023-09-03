@@ -115,7 +115,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while creating the account..
+        ///   Looks up a localized string similar to An guidernal error occurred while creating the account..
         /// </summary>
         public static string AccountService_Create_Failed {
             get {
@@ -124,7 +124,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while deleting the account..
+        ///   Looks up a localized string similar to An guidernal error occurred while deleting the account..
         /// </summary>
         public static string AccountService_Delete_Failed {
             get {
@@ -169,7 +169,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while updating the account..
+        ///   Looks up a localized string similar to An guidernal error occurred while updating the account..
         /// </summary>
         public static string AccountService_Update_Failed {
             get {
@@ -520,7 +520,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while creating the bank card..
+        ///   Looks up a localized string similar to An guidernal error occurred while creating the bank card..
         /// </summary>
         public static string CardService_Create_Failed {
             get {
@@ -529,7 +529,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while deleting the bank card..
+        ///   Looks up a localized string similar to An guidernal error occurred while deleting the bank card..
         /// </summary>
         public static string CardService_Delete_Failed {
             get {
@@ -610,7 +610,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while updating the bank card..
+        ///   Looks up a localized string similar to An guidernal error occurred while updating the bank card..
         /// </summary>
         public static string CardService_Update_Failed {
             get {

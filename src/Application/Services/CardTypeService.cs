@@ -1,13 +1,13 @@
-﻿using Application.Contracts.Responses.Enumerator;
+﻿using Application.Contracts.Responses.Enumerators;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Enumerator;
+using Domain.Enumerators;
 using Domain.Errors;
+using Domain.Extensions;
 
 using Microsoft.Extensions.Logging;
 
@@ -16,11 +16,9 @@ namespace Application.Services;
 /// <summary>
 /// The card type service class.
 /// </summary>
-[SuppressMessage("Globalization", "CA1309", Justification = "Overload with 'StringComparison' parameter is not supported.")]
 internal sealed class CardTypeService : ICardTypeService
 {
 	private readonly ILoggerService<CardTypeService> _logger;
-	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, Exception?> LogException =
@@ -33,12 +31,10 @@ internal sealed class CardTypeService : ICardTypeService
 	/// Initilizes an instance of the card type service class.
 	/// </summary>
 	/// <param name="logger">The logger service to use.</param>
-	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public CardTypeService(ILoggerService<CardTypeService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public CardTypeService(ILoggerService<CardTypeService> logger, IMapper mapper)
 	{
 		_logger = logger;
-		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
@@ -46,8 +42,7 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			CardType? cardType = await _repositoryService.CardTypeRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(id), trackChanges: trackChanges, cancellationToken: cancellationToken);
+			CardType? cardType = (CardType)id;
 
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByIdNotFound(id);
@@ -55,7 +50,6 @@ internal sealed class CardTypeService : ICardTypeService
 			CardTypeResponse response = _mapper.Map<CardTypeResponse>(cardType);
 
 			return response;
-
 		}
 		catch (Exception ex)
 		{
@@ -68,8 +62,7 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			CardType? cardType = await _repositoryService.CardTypeRepository
-				.GetByConditionAsync(expression: x => x.Name.Equals(name), trackChanges: trackChanges, cancellationToken: cancellationToken);
+			CardType? cardType = (CardType)Enum.Parse(typeof(CardType), name);
 
 			if (cardType is null)
 				return CardTypeServiceErrors.GetByNameNotFound(name);
@@ -90,8 +83,7 @@ internal sealed class CardTypeService : ICardTypeService
 	{
 		try
 		{
-			IEnumerable<CardType> cardTypes = await _repositoryService.CardTypeRepository
-				.GetAllAsync(ignoreQueryFilters: true, trackChanges: trackChanges, cancellationToken: cancellationToken);
+			IEnumerable<CardType> cardTypes = CardType.CREDIT.GetListFromEnum();
 
 			if (!cardTypes.Any())
 				return CardTypeServiceErrors.GetAllNotFound;

@@ -55,9 +55,9 @@ public static class PresentationConstants
 		public const string QueryStringKey = "QueryString";
 
 		/// <summary>
-		/// Key for the endpoint name (Controller) of the request
+		/// Key for the endpoguid name (Controller) of the request
 		/// </summary>
-		public const string EndpointNameKey = "EndpointName";
+		public const string EndpoguidNameKey = "EndpoguidName";
 	}
 
 	/// <summary>

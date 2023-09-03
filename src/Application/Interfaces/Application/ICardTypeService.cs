@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses.Enumerator;
+﻿using Application.Contracts.Responses.Enumerators;
 
 using Domain.Errors;
 

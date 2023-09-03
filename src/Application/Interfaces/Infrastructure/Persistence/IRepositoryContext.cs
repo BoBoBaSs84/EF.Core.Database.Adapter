@@ -1,7 +1,6 @@
-﻿using Domain.Entities.Common;
-using Domain.Entities.Enumerator;
-using Domain.Entities.Finance;
-using Domain.Entities.Private;
+﻿using Domain.Models.Attendance;
+using Domain.Models.Common;
+using Domain.Models.Finance;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -18,29 +17,19 @@ public interface IRepositoryContext
 	DbSet<Account> Accounts { get; }
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Attendance"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AttendanceModel"/>.
 	/// </summary>
-	DbSet<Attendance> Attendances { get; }
+	DbSet<AttendanceModel> Attendances { get; }
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarDay"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarModel"/>.
 	/// </summary>
-	DbSet<CalendarDay> CalendarDays { get; }
+	DbSet<CalendarModel> CalendarDays { get; }
 
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Card"/>.
 	/// </summary>
 	DbSet<Card> Cards { get; }
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CardType"/>.
-	/// </summary>
-	DbSet<CardType> CardTypes { get; }
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="DayType"/>.
-	/// </summary>
-	DbSet<DayType> DayTypes { get; }
 
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Transaction"/>.

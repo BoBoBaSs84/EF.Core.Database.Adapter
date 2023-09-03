@@ -1,13 +1,13 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 
-using Domain.Common.EntityBaseTypes;
+using Domain.Models.Base;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories.Base;
 
 /// <summary>
-/// The identity repository class.
+/// The <see langword="abstract"/> identity repository class.
 /// </summary>
 /// <remarks>
 /// Derives from the <see cref="GenericRepository{TEntity}"/> class and implements the interfaces:
@@ -19,14 +19,13 @@ namespace Infrastructure.Persistence.Repositories.Base;
 internal abstract class IdentityRepository<TEntity> : GenericRepository<TEntity>, IIdentityRepository<TEntity> where TEntity : IdentityModel
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="IdentityRepository{TEntity}"/> class.
+	/// Initializes a new instance of the identity repository class.
 	/// </summary>
 	/// <inheritdoc/>
 	protected IdentityRepository(DbContext dbContext) : base(dbContext)
-	{
-	}
+	{ }
 
-	public async Task<TEntity?> GetByIdAsync(int id, bool ignoreQueryFilters = false, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<TEntity?> GetByIdAsync(Guid id, bool ignoreQueryFilters = false, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		IQueryable<TEntity> query = !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
@@ -38,8 +37,7 @@ internal abstract class IdentityRepository<TEntity> : GenericRepository<TEntity>
 		return await query.SingleOrDefaultAsync(cancellationToken);
 	}
 
-
-	public async Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<int> ids, bool ignoreQueryFilters = false, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<Guid> ids, bool ignoreQueryFilters = false, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		IQueryable<TEntity> query = !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 

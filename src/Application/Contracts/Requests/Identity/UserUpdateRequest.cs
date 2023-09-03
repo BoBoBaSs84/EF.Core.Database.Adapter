@@ -10,19 +10,19 @@ public sealed class UserUpdateRequest
 	/// <summary>
 	/// The first name of the user.
 	/// </summary>
-	[Required, MaxLength(100)]
+	[Required, MaxLength(100), DataType(DataType.Text)]
 	public string FirstName { get; set; } = default!;
 
 	/// <summary>
 	/// The middle name of the user.
 	/// </summary>
-	[MaxLength(100)]
+	[MaxLength(100), DataType(DataType.Text)]
 	public string? MiddleName { get; set; } = default!;
 
 	/// <summary>
 	/// The last name of the user.
 	/// </summary>
-	[Required, MaxLength(100)]
+	[Required, MaxLength(100), DataType(DataType.Text)]
 	public string LastName { get; set; } = default!;
 
 	/// <summary>

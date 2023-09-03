@@ -12,8 +12,8 @@ public sealed class AccountUpdateRequest
 	/// <summary>
 	/// The identifier of the account.
 	/// </summary>
-	[Required, Range(1, int.MaxValue)]
-	public int Id { get; set; } = default!;
+	[Required]
+	public Guid Id { get; set; } = default!;
 
 	/// <summary>
 	/// The account provider.

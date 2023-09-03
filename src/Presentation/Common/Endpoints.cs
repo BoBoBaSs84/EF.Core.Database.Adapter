@@ -52,11 +52,11 @@ internal static class Endpoints
 	}
 
 	/// <summary>
-	/// The calendar day route.
+	/// The calendar route.
 	/// </summary>
-	internal static class CalendarDay
+	internal static class Calendar
 	{
-		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(CalendarDay);
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Calendar);
 
 		internal const string GetByDate = "{date}";
 		internal const string GetById = "{id:int}";
@@ -65,27 +65,27 @@ internal static class Endpoints
 	}
 
 	/// <summary>
-	/// The day type route.
+	/// The enumerator route.
 	/// </summary>
-	internal static class DayType
+	internal static class Enumerator
 	{
-		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(DayType);
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Enumerator);
 
-		internal const string GetById = "{id:int}";
-		internal const string GetByName = "{name}";
-		internal const string GetAll = EmptySuffix;
-	}
+		/// <summary>
+		/// The day type route.
+		/// </summary>
+		internal static class DayType
+		{
+			internal const string GetAll = nameof(DayType);
+		}
 
-	/// <summary>
-	/// The card type route.
-	/// </summary>
-	internal static class CardType
-	{
-		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(CardType);
-
-		internal const string GetById = "{id:int}";
-		internal const string GetByName = "{name}";
-		internal const string GetAll = EmptySuffix;
+		/// <summary>
+		/// The card type route.
+		/// </summary>
+		internal static class CardType
+		{
+			internal const string GetAll = nameof(CardType);
+		}
 	}
 
 	/// <summary>

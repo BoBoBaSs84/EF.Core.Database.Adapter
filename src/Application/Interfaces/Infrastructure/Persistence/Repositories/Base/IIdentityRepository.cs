@@ -1,4 +1,4 @@
-﻿using Domain.Common.EntityBaseTypes;
+﻿using Domain.Models.Base;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 
@@ -23,7 +23,7 @@ public interface IIdentityRepository<TEntity> : IGenericRepository<TEntity> wher
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>An entity.</returns>
 	Task<TEntity?> GetByIdAsync(
-		int id,
+		Guid id,
 		bool ignoreQueryFilters = false,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default
@@ -38,7 +38,7 @@ public interface IIdentityRepository<TEntity> : IGenericRepository<TEntity> wher
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A collection of entities.</returns>
 	Task<IEnumerable<TEntity>> GetByIdsAsync(
-		IEnumerable<int> ids,
+		IEnumerable<Guid> ids,
 		bool ignoreQueryFilters = false,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default

@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
 
-using Domain.Entities.Private;
+using Domain.Models.Attendance;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 
@@ -13,6 +13,6 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 /// <item>The <see cref="IIdentityRepository{TIdentityEntity}"/> interface</item>
 /// </list>
 /// </remarks>
-public interface IAttendanceRepository : IIdentityRepository<Attendance>
+public interface IAttendanceRepository : IIdentityRepository<AttendanceModel>
 {
 }

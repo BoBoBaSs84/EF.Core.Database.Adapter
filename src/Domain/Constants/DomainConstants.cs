@@ -62,29 +62,29 @@ public static class DomainConstants
 		public static class Schema
 		{
 			/// <summary>
-			/// The <see cref="COMMON"/> constant.
+			/// The <see cref="Attendance"/> constant.
 			/// </summary>
-			public const string COMMON = "Common";
+			public const string Attendance = "Attendance";
 			/// <summary>
-			/// The <see cref="ENUMERATOR"/> constant.
+			/// The <see cref="Common"/> constant.
 			/// </summary>
-			public const string ENUMERATOR = "Enumerator";
+			public const string Common = "Common";
 			/// <summary>
-			/// The <see cref="HISTORY"/> constant.
+			/// The <see cref="History"/> constant.
 			/// </summary>
-			public const string HISTORY = "History";
+			public const string History = "History";
 			/// <summary>
-			/// The <see cref="IDENTITY"/> constant.
+			/// The <see cref="Identity"/> constant.
 			/// </summary>
-			public const string IDENTITY = "Identity";
+			public const string Identity = "Identity";
 			/// <summary>
-			/// The <see cref="PRIVATE"/> constant.
+			/// The <see cref="Private"/> constant.
 			/// </summary>
-			public const string PRIVATE = "Private";
+			public const string Private = "Private";
 			/// <summary>
-			/// The <see cref="PRIVATE"/> constant.
+			/// The <see cref="Finance"/> constant.
 			/// </summary>
-			public const string FINANCE = "Finance";
+			public const string Finance = "Finance";
 
 		}
 		/// <summary>

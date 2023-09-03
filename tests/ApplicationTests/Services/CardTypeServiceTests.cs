@@ -8,7 +8,7 @@ using Domain.Extensions;
 using FluentAssertions;
 
 using AssertionHelper = BaseTests.Helpers.AssertionHelper;
-using CardTypes = Domain.Enumerators.CardTypes;
+using CardType = Domain.Enumerators.CardType;
 using TestConstants = BaseTests.Constants.TestConstants;
 
 namespace ApplicationTests.Services;
@@ -23,7 +23,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 	public async Task GetByIdSuccessTest()
 	{
 		_cardTypeService = GetRequiredService<ICardTypeService>();
-		CardTypes cardType = CardTypes.CREDIT;
+		CardType cardType = CardType.CREDIT;
 
 		ErrorOr<CardTypeResponse> result = await _cardTypeService.Get((int)cardType);
 
@@ -56,7 +56,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 	public async Task GetByNameSuccessTest()
 	{
 		_cardTypeService = GetRequiredService<ICardTypeService>();
-		CardTypes cardType = CardTypes.CREDIT;
+		CardType cardType = CardType.CREDIT;
 
 		ErrorOr<CardTypeResponse> result = await _cardTypeService.Get(cardType.GetName());
 

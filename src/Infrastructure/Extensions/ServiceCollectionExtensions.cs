@@ -74,7 +74,7 @@ internal static class ServiceCollectionExtensions
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
 				{
-					builder.MigrationsHistoryTable("Migration", DomainConstants.Sql.Schema.PRIVATE);
+					builder.MigrationsHistoryTable("Migration", DomainConstants.Sql.Schema.Private);
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 

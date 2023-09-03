@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Domain.Enumerators;
+
 namespace Application.Contracts.Requests.Finance;
 
 /// <summary>
@@ -10,14 +12,14 @@ public sealed class CardUpdateRequest
 	/// <summary>
 	/// The identifier of the card.
 	/// </summary>
-	[Required, Range(1, int.MaxValue)]
-	public int Id { get; set; } = default!;
+	[Required]
+	public Guid Id { get; set; }
 
 	/// <summary>
-	/// The card type identifier.
+	/// The type of the card.
 	/// </summary>
-	[Required, Range(1, int.MaxValue)]
-	public int CardTypeId { get; set; } = default!;
+	[Required]
+	public CardType CardType { get; set; }
 
 	/// <summary>
 	/// The valid until property.

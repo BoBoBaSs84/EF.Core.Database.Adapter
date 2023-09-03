@@ -55,7 +55,7 @@
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized guido a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -136,10 +136,10 @@
     <value>No card type with the identifier: '{0}' could be found to load.</value>
   </data>
   <data name="AccountService.Create.Failed" xml:space="preserve">
-    <value>An internal error occurred while creating the account.</value>
+    <value>An guidernal error occurred while creating the account.</value>
   </data>
   <data name="AccountService.Delete.Failed" xml:space="preserve">
-    <value>An internal error occurred while deleting the account.</value>
+    <value>An guidernal error occurred while deleting the account.</value>
   </data>
   <data name="AccountService.GetAll.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank accounts.</value>
@@ -154,7 +154,7 @@
     <value>An error occurred while loading the bank account with the number: '{0}'.</value>
   </data>
   <data name="AccountService.Update.Failed" xml:space="preserve">
-    <value>An internal error occurred while updating the account.</value>
+    <value>An guidernal error occurred while updating the account.</value>
   </data>
   <data name="AttendanceService.Create.Failed" xml:space="preserve">
     <value>An error occurred while creating the attendance/absence.</value>
@@ -271,10 +271,10 @@
     <value>No calendar entries could be found based on the parameterization.</value>
   </data>
   <data name="CardService.Create.Failed" xml:space="preserve">
-    <value>An internal error occurred while creating the bank card.</value>
+    <value>An guidernal error occurred while creating the bank card.</value>
   </data>
   <data name="CardService.Delete.Failed" xml:space="preserve">
-    <value>An internal error occurred while deleting the bank card.</value>
+    <value>An guidernal error occurred while deleting the bank card.</value>
   </data>
   <data name="CardService.GetAccountById.NotFound" xml:space="preserve">
     <value>No bank account with the identifier: '{0}' could be found to load.</value>
@@ -301,7 +301,7 @@
     <value>The bank card with the number: '{0}' already exists.</value>
   </data>
   <data name="CardService.Update.Failed" xml:space="preserve">
-    <value>An internal error occurred while updating the bank card.</value>
+    <value>An guidernal error occurred while updating the bank card.</value>
   </data>
   <data name="CardTypeService.GetAll.Failed" xml:space="preserve">
     <value>An error occurred while loading the card type entries based on the parameterization.</value>

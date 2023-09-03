@@ -1,5 +1,5 @@
-﻿using Application.Contracts.Requests;
-using Application.Contracts.Responses;
+﻿using Application.Contracts.Requests.Attendance;
+using Application.Contracts.Responses.Attendance;
 using Application.Features.Requests;
 using Application.Features.Responses;
 
@@ -21,7 +21,7 @@ public interface IAttendanceService
 	/// <param name="createRequest">The attendance create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(int userId, AttendanceCreateRequest createRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest createRequest, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Creates multiple attendances for the given <paramref name="userId"/>.
@@ -31,7 +31,7 @@ public interface IAttendanceService
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	/// <returns></returns>
-	Task<ErrorOr<Created>> Create(int userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Deletes an attendance for the given <paramref name="userId"/> by the calendar day identifier.
@@ -40,7 +40,7 @@ public interface IAttendanceService
 	/// <param name="calendarDayId">The calendar day identifier to delete.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(int userId, int calendarDayId, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Deleted>> Delete(Guid userId, Guid calendarDayId, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Deletes multiple attendances for the given <paramref name="userId"/> by the calendar day identifiers.
@@ -49,7 +49,7 @@ public interface IAttendanceService
 	/// <param name="calendarDayIds">The calendar day identifiers to delete.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(int userId, IEnumerable<int> calendarDayIds, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Deleted>> Delete(Guid userId, IEnumerable<Guid> calendarDayIds, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns multiple attendances as a paged list for the given <paramref name="userId"/> filtered by the <paramref name="parameters"/>.
@@ -59,7 +59,7 @@ public interface IAttendanceService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IPagedList<AttendanceResponse>>> Get(int userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<IPagedList<AttendanceResponse>>> Get(Guid userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns the attendance for the given <paramref name="userId"/> by the calendar day date.
@@ -69,7 +69,7 @@ public interface IAttendanceService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<AttendanceResponse>> Get(int userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<AttendanceResponse>> Get(Guid userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns the attendance for the given <paramref name="userId"/> by calendar day identifier.
@@ -79,7 +79,7 @@ public interface IAttendanceService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<AttendanceResponse>> Get(int userId, int calendarDayId, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<AttendanceResponse>> Get(Guid userId, Guid calendarDayId, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Updates the existing attendance.

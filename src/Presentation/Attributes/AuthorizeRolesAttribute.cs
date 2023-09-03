@@ -11,7 +11,7 @@ namespace Presentation.Attributes;
 /// <remarks>
 /// Derives from the <see cref="AuthorizeAttribute"/> class.
 /// <br></br>
-/// Serves as wrapper attribute class to enable role authorization via <see cref="RoleTypes"/> enumerators.
+/// Serves as wrapper attribute class to enable role authorization via <see cref="RoleType"/> enumerators.
 /// </remarks>
 public sealed class AuthorizeRolesAttribute : AuthorizeAttribute
 {
@@ -19,7 +19,7 @@ public sealed class AuthorizeRolesAttribute : AuthorizeAttribute
 	/// Initializes an instance of the authorize roles attribute class.
 	/// </summary>
 	/// <param name="roles">The roles to authorize.</param>
-	public AuthorizeRolesAttribute(params RoleTypes[] roles)
+	public AuthorizeRolesAttribute(params RoleType[] roles)
 		=> Roles = string.Join(", ", roles.Select(x => x.GetName()));
 
 	/// <summary>

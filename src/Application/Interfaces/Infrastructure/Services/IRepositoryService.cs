@@ -3,7 +3,7 @@
 namespace Application.Interfaces.Infrastructure.Services;
 
 /// <summary>
-/// The "Unit of Work" interface.
+/// The repository service interface.
 /// </summary>
 public interface IRepositoryService
 {
@@ -18,24 +18,14 @@ public interface IRepositoryService
 	IAttendanceRepository AttendanceRepository { get; }
 
 	/// <summary>
-	/// The <see cref="CalendarDayRepository"/> interface.
+	/// The <see cref="CalendarRepository"/> interface.
 	/// </summary>
-	ICalendarDayRepository CalendarDayRepository { get; }
+	ICalendarRepository CalendarRepository { get; }
 
 	/// <summary>
 	/// The <see cref="CardRepository"/> interface.
 	/// </summary>
 	ICardRepository CardRepository { get; }
-
-	/// <summary>
-	/// The <see cref="CardTypeRepository"/> interface.
-	/// </summary>
-	ICardTypeRepository CardTypeRepository { get; }
-
-	/// <summary>
-	/// The <see cref="DayTypeRepository"/> interface.
-	/// </summary>
-	IDayTypeRepository DayTypeRepository { get; }
 
 	/// <summary>
 	/// The <see cref="TransactionRepository"/> interface.

@@ -7,7 +7,7 @@ using Domain.Results;
 namespace Application.Interfaces.Application;
 
 /// <summary>
-/// The card service interface.
+/// The card service Guiderface.
 /// </summary>
 public interface ICardService
 {
@@ -19,7 +19,7 @@ public interface ICardService
 	/// <param name="createRequest">The card create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(int userId, int accountId, CardCreateRequest createRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest createRequest, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Deletes a card by the <paramref name="cardId"/> for the given <paramref name="userId"/>.
@@ -28,7 +28,7 @@ public interface ICardService
 	/// <param name="cardId">The card identifier.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(int userId, int cardId, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Deleted>> Delete(Guid userId, Guid cardId, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns a card by the <paramref name="cardId"/> for the given <paramref name="userId"/>.
@@ -38,7 +38,7 @@ public interface ICardService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<CardResponse>> Get(int userId, int cardId, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<CardResponse>> Get(Guid userId, Guid cardId, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns a card by the <paramref name="pan"/> (payment card number) for the given <paramref name="userId"/>.
@@ -48,7 +48,7 @@ public interface ICardService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<CardResponse>> Get(int userId, string pan, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<CardResponse>> Get(Guid userId, string pan, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns a collection of cards for the given <paramref name="userId"/>.
@@ -57,7 +57,7 @@ public interface ICardService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IEnumerable<CardResponse>>> Get(int userId, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<IEnumerable<CardResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Updates an existing card for the given <paramref name="userId"/>.
@@ -66,5 +66,5 @@ public interface ICardService
 	/// <param name="updateRequest">The card update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(int userId, CardUpdateRequest updateRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest updateRequest, CancellationToken cancellationToken = default);
 }

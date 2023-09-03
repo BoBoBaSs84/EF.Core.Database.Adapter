@@ -31,7 +31,7 @@ public abstract class ApiControllerBase : ControllerBase
 	{
 		return errors?.Any() != true
 			? throw new InvalidOperationException("Should not call Problem(errors) without errors")
-			: errors.All(error => error.Type == ErrorTypes.Validation)
+			: errors.All(error => error.Type == ErrorType.Validation)
 			? ValidationProblem(errors)
 			: errors.Count > 1 ? MultiProblem(errors) : SingleProblem(errors[0]);
 	}
@@ -167,10 +167,10 @@ public abstract class ApiControllerBase : ControllerBase
 
 		int statusCode = error.Type switch
 		{
-			ErrorTypes.NotFound => StatusCodes.Status404NotFound,
-			ErrorTypes.Conflict => StatusCodes.Status409Conflict,
-			ErrorTypes.Validation => StatusCodes.Status400BadRequest,
-			ErrorTypes.NoContent => StatusCodes.Status204NoContent,
+			ErrorType.NotFound => StatusCodes.Status404NotFound,
+			ErrorType.Conflict => StatusCodes.Status409Conflict,
+			ErrorType.Validation => StatusCodes.Status400BadRequest,
+			ErrorType.NoContent => StatusCodes.Status204NoContent,
 			_ => StatusCodes.Status500InternalServerError
 		};
 

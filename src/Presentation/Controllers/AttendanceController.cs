@@ -1,5 +1,5 @@
-﻿using Application.Contracts.Requests;
-using Application.Contracts.Responses;
+﻿using Application.Contracts.Requests.Attendance;
+using Application.Contracts.Responses.Attendance;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
@@ -78,7 +78,7 @@ public sealed class AttendanceController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(int calendarDayId, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetById(Guid calendarDayId, CancellationToken cancellationToken)
 	{
 		ErrorOr<AttendanceResponse> result =
 			await _attendanceService.Get(_currentUserService.UserId, calendarDayId, false, cancellationToken);
@@ -122,7 +122,7 @@ public sealed class AttendanceController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(int calendarDayId, CancellationToken cancellationToken)
+	public async Task<IActionResult> Delete(Guid calendarDayId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
 			await _attendanceService.Delete(_currentUserService.UserId, calendarDayId, cancellationToken);
@@ -144,7 +144,7 @@ public sealed class AttendanceController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete([FromBody] IEnumerable<int> calendarDayIds, CancellationToken cancellationToken)
+	public async Task<IActionResult> Delete([FromBody] IEnumerable<Guid> calendarDayIds, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
 			await _attendanceService.Delete(_currentUserService.UserId, calendarDayIds, cancellationToken);

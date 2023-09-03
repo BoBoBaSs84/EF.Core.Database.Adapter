@@ -28,16 +28,19 @@ internal static class ModelBuilderExtensions
 	{
 		builder.Entity<DatabaseLog>(entity =>
 		{
-			entity.ToTable(nameof(DatabaseLog), SqlSchema.PRIVATE);
+			entity.ToTable(nameof(DatabaseLog), SqlSchema.Private);
 
-			entity.HasKey(key => key.Id)
+			entity.HasKey(e => e.Id)
 			.IsClustered(false);
 
-			entity.Property(property => property.Application).HasDefaultValueSql("(program_name())");
+			entity.Property(e => e.Application)
+			.HasDefaultValueSql("(program_name())");
 
-			entity.Property(property => property.Login).HasDefaultValueSql("(original_login())");
+			entity.Property(e => e.Login)
+			.HasDefaultValueSql("(original_login())");
 
-			entity.Property(property => property.PostTime).HasDefaultValueSql("(getdate())");
+			entity.Property(e => e.PostTime)
+			.HasDefaultValueSql("(getdate())");
 
 			entity.ToSqlQuery(@"CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE 
 FOR DDL_DATABASE_LEVEL_EVENTS AS 
@@ -62,8 +65,9 @@ BEGIN
     IF @eventType IS NULL
         PRINT CONVERT(nvarchar(max), @data);
 
-    INSERT [private].[DatabaseLog] ([Event], [Schema], [Object], [TSQL], [XmlEvent])
-    SELECT @eventType
+    INSERT [private].[DatabaseLog] ([Id], [Event], [Schema], [Object], [TSQL], [XmlEvent])
+    SELECT NEWID()
+			, @eventType
 			, CONVERT(sysname, @schema)
 			, CONVERT(sysname, @object)
 			, @data.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'nvarchar(max)')
@@ -77,7 +81,8 @@ END;");
 	private class DatabaseLog
 	{
 		[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int Id { get; set; } = default!;
+		public Guid Id { get; set; }
+
 		[Column(TypeName = SqlDataType.DATETIME)]
 		public DateTime PostTime { get; set; } = default!;
 		[StringLength(128)]

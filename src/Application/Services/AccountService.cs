@@ -7,8 +7,7 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Enumerator;
-using Domain.Entities.Finance;
+using Domain.Models.Finance;
 using Domain.Entities.Identity;
 using Domain.Errors;
 using Domain.Results;
@@ -45,7 +44,7 @@ internal sealed class AccountService : IAccountService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> Create(int userId, AccountCreateRequest createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest createRequest, CancellationToken cancellationToken = default)
 	{
 		ErrorOr<Created> response = new();
 		try
@@ -96,7 +95,7 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(int userId, int accountId, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		try
@@ -123,7 +122,7 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<AccountResponse>>> Get(int userId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<AccountResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		// TODO: figure out how this would work...
 		//var qry = Foo.GroupJoin(
@@ -166,7 +165,7 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> Get(int userId, int accountId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, Guid accountId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		try
@@ -192,7 +191,7 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> Get(int userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{iban}" };
 		try
@@ -226,7 +225,7 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(int userId, AccountUpdateRequest updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest updateRequest, CancellationToken cancellationToken = default)
 	{
 		ErrorOr<Updated> response = new();
 		try
@@ -252,15 +251,6 @@ internal sealed class AccountService : IAccountService
 
 					if (dbCard is null)
 						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(card.Id));
-
-					CardType? dbCardType = await _repositoryService.CardTypeRepository.GetByConditionAsync(
-						expression: x => x.Id.Equals(card.CardTypeId),
-						trackChanges: false,
-						cancellationToken: cancellationToken
-						);
-
-					if (dbCardType is null)
-						response.Errors.Add(AccountServiceErrors.UpdateCardTypeNotFound(card.CardTypeId));
 				}
 
 			if (response.IsError)
@@ -287,7 +277,7 @@ internal sealed class AccountService : IAccountService
 		if (account.Cards.Any() && updateRequest.Cards is not null && updateRequest.Cards.Any())
 			foreach (Card card in account.Cards)
 			{
-				card.CardTypeId = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.CardTypeId).First();
+				card.CardType = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.CardType).First();
 				card.ValidUntil = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.ValidUntil).First();
 			}
 	}

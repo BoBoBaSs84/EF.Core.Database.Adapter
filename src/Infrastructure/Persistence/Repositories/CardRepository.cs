@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
 
-using Domain.Entities.Finance;
+using Domain.Models.Finance;
 
 using Infrastructure.Persistence.Repositories.Base;
 
@@ -18,10 +18,9 @@ namespace Infrastructure.Persistence.Repositories;
 internal sealed class CardRepository : IdentityRepository<Card>, ICardRepository
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="CardRepository"/> class.
+	/// Initializes a new instance of the card repository class.
 	/// </summary>
-	/// <param name="dbContext">The database context.</param>
+	/// <inheritdoc/>
 	public CardRepository(DbContext dbContext) : base(dbContext)
-	{
-	}
+	{	}
 }

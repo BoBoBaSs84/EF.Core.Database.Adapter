@@ -5,6 +5,7 @@ using Application.Contracts.Responses.Finance;
 using Application.Interfaces.Application;
 using Application.Interfaces.Presentation.Services;
 
+using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Results;
 
@@ -17,7 +18,6 @@ using Presentation.Common;
 using Presentation.Controllers.Base;
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
-using Roles = Domain.Enumerators.RoleType;
 
 namespace Presentation.Controllers;
 
@@ -47,16 +47,16 @@ public sealed class CardController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Deletes an existing bank card by the given <paramref name="cardId"/>.
+	/// Deletes an existing bank card for the application user by the bank card identifier.
 	/// </summary>
-	/// <param name="cardId">The bank card identifier.</param>
+	/// <param name="cardId">The identifier of the bank card.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The deleted response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the bank card to delete was not found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
-	[HttpDelete(Endpoints.Card.Delete), AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[HttpDelete(Endpoints.Card.Delete), AuthorizeRoles(RoleType.ADMINISTRATOR)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -71,13 +71,13 @@ public sealed class CardController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Gets a collection of bank cards.
+	/// Returns a collection of bank cards for for the application user.
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If no bank card records were found.</response>
+	/// <response code="404">If no records were found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpGet(Endpoints.Card.GetAll)]
 	[ProducesResponseType(typeof(IEnumerable<CardResponse>), StatusCodes.Status200OK)]
@@ -94,14 +94,14 @@ public sealed class CardController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Gets an existing bank card by the given <paramref name="cardId"/>.
+	/// Returns a bank card for the application user by the bank card identifier.
 	/// </summary>
-	/// <param name="cardId">The bank card identifier.</param>
+	/// <param name="cardId">The identifier of the bank card.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If no bank card record was found.</response>
+	/// <response code="404">If no record was found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpGet(Endpoints.Card.GetById)]
 	[ProducesResponseType(typeof(CardResponse), StatusCodes.Status200OK)]
@@ -118,14 +118,14 @@ public sealed class CardController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Gets an existing bank card by the given <paramref name="pam"/>.
+	/// Returns a bank card for the application user by the payment card number.
 	/// </summary>
-	/// <param name="pam">The payment card number.</param>
+	/// <param name="pan">The payment card number of the bank card.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If no bank card record was found.</response>
+	/// <response code="404">If no record was found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpGet(Endpoints.Card.GetByNumber)]
 	[ProducesResponseType(typeof(CardResponse), StatusCodes.Status200OK)]
@@ -133,18 +133,18 @@ public sealed class CardController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByNumber([RegularExpression(RegexPatterns.CC)] string pam, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetByNumber([RegularExpression(RegexPatterns.CC)] string pan, CancellationToken cancellationToken)
 	{
 		ErrorOr<CardResponse> result =
-			await _cardService.Get(_currentUserService.UserId, pam, false, cancellationToken);
+			await _cardService.Get(_currentUserService.UserId, pan, false, cancellationToken);
 
 		return Get(result);
 	}
 
 	/// <summary>
-	/// Creates a bank card.
+	/// Creates a bank card for the application user and bank account.
 	/// </summary>
-	/// <param name="accountId">The bank account identifier.</param>
+	/// <param name="accountId">The identifier of the bank account.</param>
 	/// <param name="request">The bank card create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="201">The created response.</response>
@@ -167,7 +167,7 @@ public sealed class CardController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Updates an existing bank card.
+	/// Updates an existing bank card for the application user.
 	/// </summary>
 	/// <param name="request">The bank card update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>

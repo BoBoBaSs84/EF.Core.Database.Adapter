@@ -55,7 +55,7 @@
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized guido a byte array 
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -233,9 +233,6 @@
   </data>
   <data name="AuthenticationService.RoleById.NotFound" xml:space="preserve">
     <value>The role with the identifier: '{0}' could not be found.</value>
-  </data>
-  <data name="AuthenticationService.RoleByName.NotFound" xml:space="preserve">
-    <value>The role with the name: '{0}' could not be found.</value>
   </data>
   <data name="AuthenticationService.UpdateUser.Failed" xml:space="preserve">
     <value>An error occurred while trying to update the user.</value>

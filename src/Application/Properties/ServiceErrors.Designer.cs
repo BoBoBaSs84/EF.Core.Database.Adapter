@@ -412,15 +412,6 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The role with the name: &apos;{0}&apos; could not be found..
-        /// </summary>
-        public static string AuthenticationService_RoleByName_NotFound {
-            get {
-                return ResourceManager.GetString("AuthenticationService.RoleByName.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to update the user..
         /// </summary>
         public static string AuthenticationService_UpdateUser_Failed {

@@ -7,9 +7,9 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Models.Finance;
 using Domain.Entities.Identity;
 using Domain.Errors;
+using Domain.Models.Finance;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -44,19 +44,19 @@ internal sealed class CardService : ICardService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		ErrorOr<Created> response = new();
 		try
 		{
 			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.PAN == createRequest.PAN,
+				expression: x => x.PAN == request.PAN,
 				cancellationToken: cancellationToken
 				);
 
 			if (card is not null)
-				response.Errors.Add(CardServiceErrors.CreateNumberConflict(createRequest.PAN));
+				response.Errors.Add(CardServiceErrors.CreateNumberConflict(request.PAN));
 
 			AccountModel? account = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId),
@@ -70,7 +70,7 @@ internal sealed class CardService : ICardService
 				return response;
 
 			UserModel user = await _userService.FindByIdAsync($"{userId}");
-			CardModel newCard = _mapper.Map<CardModel>(createRequest);
+			CardModel newCard = _mapper.Map<CardModel>(request);
 
 			newCard.User = user;
 			newCard.Account = account!;
@@ -184,21 +184,21 @@ internal sealed class CardService : ICardService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
 			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.Id.Equals(updateRequest.Id),
+				expression: x => x.UserId.Equals(userId) && x.Id.Equals(request.Id),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
 
 			if (card is null)
-				return CardServiceErrors.GetByIdNotFound(updateRequest.Id);
+				return CardServiceErrors.GetByIdNotFound(request.Id);
 
-			card.CardType = updateRequest.CardType;
-			card.ValidUntil = updateRequest.ValidUntil;
+			card.CardType = request.CardType;
+			card.ValidUntil = request.ValidUntil;
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 

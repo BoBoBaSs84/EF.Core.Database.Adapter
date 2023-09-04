@@ -46,7 +46,7 @@ internal static class Endpoints
 		internal const string Delete = "{cardId:guid}";
 		internal const string GetAll = EmptySuffix;
 		internal const string GetById = "{cardId:guid}";
-		internal const string GetByNumber = "{pam}";
+		internal const string GetByNumber = "{pan}";
 		internal const string Post = "{accountId:guid}";
 		internal const string Put = EmptySuffix;
 	}

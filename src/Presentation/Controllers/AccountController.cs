@@ -5,6 +5,7 @@ using Application.Contracts.Responses.Finance;
 using Application.Interfaces.Application;
 using Application.Interfaces.Presentation.Services;
 
+using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Results;
 
@@ -17,7 +18,6 @@ using Presentation.Common;
 using Presentation.Controllers.Base;
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
-using Roles = Domain.Enumerators.RoleType;
 
 namespace Presentation.Controllers;
 
@@ -47,16 +47,16 @@ public sealed class AccountController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Deletes an existing bank account by the given <paramref name="accountId"/>.
+	/// Deletes an existing bank account for the application user by the bank account identifier.
 	/// </summary>
-	/// <param name="accountId">The bank account identifier.</param>
+	/// <param name="accountId">The identifier of the bank account.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The deleted response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the bank account to delete was not found.</response>
 	/// <response code="500">If the something internal went wrong.</response>	
-	[HttpDelete(Endpoints.Account.Delete), AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[HttpDelete(Endpoints.Account.Delete), AuthorizeRoles(RoleType.ADMINISTRATOR)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -71,7 +71,7 @@ public sealed class AccountController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Gets a collection of bank accounts.
+	/// Returns a collection of bank accounts for for the application user.
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
@@ -94,9 +94,9 @@ public sealed class AccountController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should get a account by the <paramref name="accountId"/> .
+	/// Returns a bank account for the application user by the bank account identifier.
 	/// </summary>
-	/// <param name="accountId">The bank account identifier.</param>
+	/// <param name="accountId">The identifier of the bank account.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -118,7 +118,7 @@ public sealed class AccountController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should get an account by the international bank account number.
+	/// Returns a bank account for the application user by the international bank account number.
 	/// </summary>
 	/// <param name="iban">The international bank account number.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
@@ -142,9 +142,9 @@ public sealed class AccountController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should create an bank account.
+	/// Creates a new bank account for the application user.
 	/// </summary>
-	/// <param name="createRequest">The bank account create request.</param>
+	/// <param name="request">The bank account create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="201">The created response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -157,18 +157,18 @@ public sealed class AccountController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Post(AccountCreateRequest createRequest, CancellationToken cancellationToken)
+	public async Task<IActionResult> Post(AccountCreateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> result =
-			await _accountService.Create(_currentUserService.UserId, createRequest, cancellationToken);
+			await _accountService.Create(_currentUserService.UserId, request, cancellationToken);
 
 		return PostWithoutLocation(result);
 	}
 
 	/// <summary>
-	/// Updates an existing bank account.
+	/// Updates an existing bank account for the application user.
 	/// </summary>
-	/// <param name="updateRequest">The bank account update request.</param>
+	/// <param name="request">The bank account update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
 	/// <response code="400">The update request is incorrect.</response>
@@ -181,10 +181,10 @@ public sealed class AccountController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Put(AccountUpdateRequest updateRequest, CancellationToken cancellationToken)
+	public async Task<IActionResult> Put(AccountUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> result =
-			await _accountService.Update(_currentUserService.UserId, updateRequest, cancellationToken);
+			await _accountService.Update(_currentUserService.UserId, request, cancellationToken);
 
 		return Put(result);
 	}

@@ -1,4 +1,6 @@
-﻿using Application.Errors.Services;
+﻿using Application.Contracts.Requests.Attendance;
+using Application.Contracts.Responses.Attendance;
+using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
@@ -7,15 +9,13 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Models.Attendance;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Extensions.QueryExtensions;
+using Domain.Models.Attendance;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
-using Application.Contracts.Responses.Attendance;
-using Application.Contracts.Requests.Attendance;
 
 namespace Application.Services;
 
@@ -142,13 +142,16 @@ internal sealed class AttendanceService : IAttendanceService
 		{
 			IEnumerable<AttendanceModel> attendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
-				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year)
+				.FilterByMonth(parameters.Month)
+				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+				.FilterByEndOfMonth(parameters.EndOfMonth),
 				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { $"{nameof(AttendanceModel.CalendarDay)}", $"{nameof(AttendanceModel.DayType)}" }
+				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
 				);
 
 			if (!attendances.Any())
@@ -156,7 +159,10 @@ internal sealed class AttendanceService : IAttendanceService
 
 			int totalCount = await _repositoryService.AttendanceRepository.GetCountAsync(
 				expression: x => x.UserId.Equals(userId),
-				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year)
+				.FilterByMonth(parameters.Month)
+				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+				.FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken);
 
 			IEnumerable<AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
@@ -178,7 +184,7 @@ internal sealed class AttendanceService : IAttendanceService
 				expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { $"{nameof(AttendanceModel.CalendarDay)}", $"{nameof(AttendanceModel.DayType)}" }
+				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
 				);
 
 			if (attendance is null)
@@ -205,7 +211,7 @@ internal sealed class AttendanceService : IAttendanceService
 				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarDayId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { $"{nameof(AttendanceModel.CalendarDay)}", $"{nameof(AttendanceModel.DayType)}" }
+				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
 				);
 
 			if (attendance is null)

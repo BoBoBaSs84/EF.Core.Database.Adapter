@@ -15,7 +15,7 @@ namespace Infrastructure.Persistence.Repositories;
 /// Derives from the <see cref="IdentityRepository{TEntity}"/> class
 /// and implements the <see cref="IAccountRepository"/> interface.
 /// </remarks>
-internal sealed class AccountRepository : IdentityRepository<Account>, IAccountRepository
+internal sealed class AccountRepository : IdentityRepository<AccountModel>, IAccountRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the account repository class.

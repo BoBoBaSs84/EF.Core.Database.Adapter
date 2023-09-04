@@ -11,6 +11,6 @@ internal sealed class UserResponseProfile : Profile
 {
 	public UserResponseProfile()
 	{
-		CreateMap<User, UserResponse>();
+		CreateMap<UserModel, UserResponse>();
 	}
 }

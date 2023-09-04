@@ -1,8 +1,9 @@
-﻿using Domain.Models.Common;
-using Domain.Models.Finance;
-using Domain.Entities.Identity;
-using Domain.Models.Attendance;
+﻿using Domain.Entities.Identity;
+using Domain.Enumerators;
 using Domain.Extensions;
+using Domain.Models.Attendance;
+using Domain.Models.Common;
+using Domain.Models.Finance;
 
 using static BaseTests.Helpers.RandomHelper;
 using static Domain.Constants.DomainConstants;
@@ -12,16 +13,15 @@ namespace InfrastructureTests.Helpers;
 
 public static class EntityHelper
 {
-	public static ICollection<CalendarDay> GetCalendarDays()
+	public static ICollection<CalendarModel> GetCalendarDays()
 	{
-		ICollection<CalendarDay> calendarDays = new List<CalendarDay>();
+		ICollection<CalendarModel> calendarDays = new List<CalendarModel>();
 		DateTime startDate = new(DateTime.Now.Year, 1, 1), endDate = new(DateTime.Now.Year, 12, 31);
 		while (!Equals(startDate, endDate))
 		{
-			CalendarDay calendarDay = new()
+			CalendarModel calendarDay = new()
 			{
 				Date = startDate,
-				DayTypeId = startDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday ? 2 : 1
 			};
 			calendarDays.Add(calendarDay);
 			startDate = startDate.AddDays(1);
@@ -29,14 +29,14 @@ public static class EntityHelper
 		return calendarDays;
 	}
 
-	public static User GetNewUser(bool attendanceSeed = false, bool accountSeed = false)
+	public static UserModel GetNewUser(bool attendanceSeed = false, bool accountSeed = false)
 	{
 		string firstName = GetString(),
 			lastName = GetString(),
 			email = $"{firstName}.{lastName}@UnitTest.org",
 			userName = $"{firstName}.{lastName}";
 
-		User userToReturn = new()
+		UserModel userToReturn = new()
 		{
 			FirstName = firstName,
 			LastName = lastName,
@@ -53,24 +53,24 @@ public static class EntityHelper
 		return userToReturn;
 	}
 
-	public static ICollection<AttendanceModel> GetNewAttendances(User user, int entryAmount = 2)
+	public static ICollection<AttendanceModel> GetNewAttendances(UserModel user, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
 		List<AttendanceModel> attendances = new();
 		for (int i = 1; i <= entryAmount; i++)
-			attendances.Add(new() { User = user, CalendarDayId = i, DayTypeId = GetInt(3, 13) });
+			attendances.Add(new() { User = user, CalendarId = Guid.NewGuid(), DayType = (DayType)GetInt(3, 13) });
 		return attendances;
 	}
 
-	public static ICollection<AccountUser> GetNewAccountUsers(User user, int entryAmount = 2)
+	public static ICollection<AccountUserModel> GetNewAccountUsers(UserModel user, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
-		List<AccountUser> accountUsers = new();
+		List<AccountUserModel> accountUsers = new();
 		for (int i = 1; i <= entryAmount; i++)
 		{
-			Account newAccount = GetNewAccount();
+			AccountModel newAccount = GetNewAccount();
 			newAccount.AccountTransactions = GetNewAccountTransactions(newAccount);
 			newAccount.Cards = GetNewCards(user, newAccount);
 			accountUsers.Add(new() { User = user, Account = newAccount });
@@ -78,9 +78,9 @@ public static class EntityHelper
 		return accountUsers;
 	}
 
-	public static Account GetNewAccount(string? iban = null, ICollection<AccountTransaction>? accountTransactions = null)
+	public static AccountModel GetNewAccount(string? iban = null, ICollection<AccountTransactionModel>? accountTransactions = null)
 	{
-		Account accountToReturn = new()
+		AccountModel accountToReturn = new()
 		{
 			IBAN = iban ?? GetString(RegexPatterns.IBAN),
 			Provider = GetString(128),
@@ -89,22 +89,22 @@ public static class EntityHelper
 		return accountToReturn;
 	}
 
-	public static ICollection<AccountTransaction> GetNewAccountTransactions(Account account, int entryAmount = 2)
+	public static ICollection<AccountTransactionModel> GetNewAccountTransactions(AccountModel account, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
-		List<AccountTransaction> accountTransactions = new();
+		List<AccountTransactionModel> accountTransactions = new();
 		for (int i = 1; i <= entryAmount; i++)
 			accountTransactions.Add(new() { Account = account, Transaction = GetNewTransaction() });
 		return accountTransactions;
 	}
 
-	public static Card GetNewCard(User user, Account account, string? cardNumber = null, ICollection<CardTransaction>? cardTransactions = null)
+	public static CardModel GetNewCard(UserModel user, AccountModel account, string? cardNumber = null, ICollection<CardTransactionModel>? cardTransactions = null)
 	{
-		Card cardToReturn = new()
+		CardModel cardToReturn = new()
 		{
 			Account = account,
-			CardTypeId = 1,
+			CardType = CardType.CREDIT,
 			CardTransactions = cardTransactions ?? default!,
 			PAN = cardNumber ?? GetString(RegexPatterns.CC),
 			User = user
@@ -112,33 +112,33 @@ public static class EntityHelper
 		return cardToReturn;
 	}
 
-	public static ICollection<Card> GetNewCards(User user, Account account, int entryAmount = 2)
+	public static ICollection<CardModel> GetNewCards(UserModel user, AccountModel account, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
-		List<Card> cardsToReturn = new();
+		List<CardModel> cardsToReturn = new();
 		for (int i = 1; i <= entryAmount; i++)
 		{
-			Card newCard = GetNewCard(user, account);
+			CardModel newCard = GetNewCard(user, account);
 			newCard.CardTransactions = GetNewCardTransactions(newCard);
 			cardsToReturn.Add(newCard);
 		}
 		return cardsToReturn;
 	}
 
-	public static ICollection<CardTransaction> GetNewCardTransactions(Card card, int entryAmount = 2)
+	public static ICollection<CardTransactionModel> GetNewCardTransactions(CardModel card, int entryAmount = 2)
 	{
 		if (entryAmount < 1)
 			throw new ArgumentOutOfRangeException(nameof(entryAmount));
-		List<CardTransaction> cardTransactions = new();
+		List<CardTransactionModel> cardTransactions = new();
 		for (int i = 1; i <= entryAmount; i++)
 			cardTransactions.Add(new() { Card = card, Transaction = GetNewTransaction() });
 		return cardTransactions;
 	}
 
-	public static Transaction GetNewTransaction()
+	public static TransactionModel GetNewTransaction()
 	{
-		Transaction transactionToReturn = new()
+		TransactionModel transactionToReturn = new()
 		{
 			BookingDate = GetDateTime(),
 			ValueDate = GetDateTime(),

@@ -8,7 +8,7 @@ public partial class AttendanceModel
 	/// <summary>
 	/// The <see cref="User"/> property.
 	/// </summary>
-	public virtual User User { get; set; } = default!;
+	public virtual UserModel User { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="CalendarDay"/> property.

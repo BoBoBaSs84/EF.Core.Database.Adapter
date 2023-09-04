@@ -15,7 +15,7 @@ namespace Infrastructure.Persistence.Repositories;
 /// Derives from the <see cref="IdentityRepository{TEntity}"/> class
 /// and implements the <see cref="ITransactionRepository"/> interface.
 /// </remarks>
-internal sealed class TransactionRepository : IdentityRepository<Transaction>, ITransactionRepository
+internal sealed class TransactionRepository : IdentityRepository<TransactionModel>, ITransactionRepository
 {
 	/// <summary>
 	/// Initializes a new instance of the transaction repository class.

@@ -11,7 +11,7 @@ public static class RandomHelper
 {
 	private static Random Random { get; } = new();
 
-	public static byte[] GetBytes(guid length = 8)
+	public static byte[] GetBytes(int length = 8)
 	{
 		byte[] bytes = new byte[length];
 		Random.NextBytes(bytes);
@@ -21,15 +21,15 @@ public static class RandomHelper
 	public static DateTime GetDateTime()
 	{
 		DateTime startDate = new(1753, 1, 1);
-		guid range = (DateTime.Today - startDate).Days;
+		int range = (DateTime.Today - startDate).Days;
 		return startDate.AddDays(Random.Next(range));
 	}
 
-	public static DateTime GetDateTime(guid year)
+	public static DateTime GetDateTime(int year)
 	{
 		DateTime startDate = new(year, 1, 1);
 		DateTime endDate = startDate.AddYears(1).AddDays(-1);
-		guid range = (endDate - startDate).Days;
+		int range = (endDate - startDate).Days;
 		return startDate.AddDays(Random.Next(range));
 	}
 
@@ -44,11 +44,11 @@ public static class RandomHelper
 
 	public static float GetFloat() => Random.NextSingle();
 
-	public static guid GetInt() => Random.Next();
+	public static int GetInt() => Random.Next();
 
-	public static guid GetInt(guid max) => Random.Next(max);
+	public static int GetInt(int max) => Random.Next(max);
 
-	public static guid GetInt(guid min, guid max) => Random.Next(min, max);
+	public static int GetInt(int min, int max) => Random.Next(min, max);
 
 	public static long GetLong() => Random.NextInt64();
 
@@ -58,9 +58,9 @@ public static class RandomHelper
 
 	public static string GetString() => RandomString();
 
-	public static string GetString(guid maxChars) => RandomString(maxChars);
+	public static string GetString(int maxChars) => RandomString(maxChars);
 
-	public static string GetString(guid maxChars, string pattern) => RandomString(maxChars, pattern);
+	public static string GetString(int maxChars, string pattern) => RandomString(maxChars, pattern);
 
 	public static string GetString(string regexPattern)
 	{
@@ -68,10 +68,10 @@ public static class RandomHelper
 		return xeger.Generate();
 	}
 
-	private static string RandomString(guid length = 10, string pattern = CharsOnly)
+	private static string RandomString(int length = 10, string pattern = CharsOnly)
 	{
 		StringBuilder stringBuilder = new();
-		for (guid i = 0; i < length; i++)
+		for (int i = 0; i < length; i++)
 			stringBuilder.Append(pattern[Random.Next(pattern.Length)]);
 		return stringBuilder.ToString();
 	}

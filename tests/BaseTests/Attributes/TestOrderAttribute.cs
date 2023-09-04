@@ -12,10 +12,9 @@ namespace BaseTests.Attributes;
 public sealed class TestOrderAttribute : TestPropertyAttribute
 {
 	/// <summary>
-	/// Initilizes an instance of <see cref="TestOrderAttribute"/> class.
+	/// Initilizes an instance of the test order attribute class.
 	/// </summary>
 	/// <param name="order">The order number.</param>
-	public TestOrderAttribute([Range(1, guid.MaxValue)] guid order) : base("ExecutionOrder", $"{order}")
-	{
-	}
+	public TestOrderAttribute([Range(1, int.MaxValue)] int order) : base("ExecutionOrder", $"{order}")
+	{ }
 }

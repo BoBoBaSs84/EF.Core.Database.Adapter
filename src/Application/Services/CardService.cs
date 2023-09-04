@@ -50,7 +50,7 @@ internal sealed class CardService : ICardService
 		ErrorOr<Created> response = new();
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.PAN == createRequest.PAN,
 				cancellationToken: cancellationToken
 				);
@@ -58,7 +58,7 @@ internal sealed class CardService : ICardService
 			if (card is not null)
 				response.Errors.Add(CardServiceErrors.CreateNumberConflict(createRequest.PAN));
 
-			Account? account = await _repositoryService.AccountRepository.GetByConditionAsync(
+			AccountModel? account = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId),
 				cancellationToken: cancellationToken
 				);
@@ -69,8 +69,8 @@ internal sealed class CardService : ICardService
 			if (response.IsError)
 				return response;
 
-			User user = await _userService.FindByIdAsync($"{userId}");
-			Card newCard = _mapper.Map<Card>(createRequest);
+			UserModel user = await _userService.FindByIdAsync($"{userId}");
+			CardModel newCard = _mapper.Map<CardModel>(createRequest);
 
 			newCard.User = user;
 			newCard.Account = account!;
@@ -92,7 +92,7 @@ internal sealed class CardService : ICardService
 		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
@@ -118,7 +118,7 @@ internal sealed class CardService : ICardService
 		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
 				cancellationToken: cancellationToken
 				);
@@ -142,7 +142,7 @@ internal sealed class CardService : ICardService
 		string[] parameters = new string[] { $"{userId}", $"{pan}" };
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.PAN == pan,
 				cancellationToken: cancellationToken
 				);
@@ -165,7 +165,7 @@ internal sealed class CardService : ICardService
 	{
 		try
 		{
-			IEnumerable<Card> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
+			IEnumerable<CardModel> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
 				cancellationToken: cancellationToken
 				);
@@ -188,7 +188,7 @@ internal sealed class CardService : ICardService
 	{
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(updateRequest.Id),
 				trackChanges: true,
 				cancellationToken: cancellationToken

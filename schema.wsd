@@ -217,7 +217,7 @@ table(Private.Attendance) {
 [CreatedBy] guid null
 [ModifiedBy] guid null
 [UserId] guid null <<fk>>
-[CalendarDayId] guid null <<fk>>
+[CalendarId] guid null <<fk>>
 [DayTypeId] guid null <<fk>>
 [StartTime] time null
 [EndTime] time null

@@ -90,7 +90,7 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? dbAttendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
+				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarDayId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
@@ -116,7 +116,7 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			IEnumerable<AttendanceModel> dbAttendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
-				expression: x => calendarDayIds.Contains(x.CalendarDayId) && x.UserId.Equals(userId),
+				expression: x => calendarDayIds.Contains(x.CalendarId) && x.UserId.Equals(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
@@ -202,7 +202,7 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
+				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarDayId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
 				includeProperties: new[] { $"{nameof(AttendanceModel.CalendarDay)}", $"{nameof(AttendanceModel.DayType)}" }

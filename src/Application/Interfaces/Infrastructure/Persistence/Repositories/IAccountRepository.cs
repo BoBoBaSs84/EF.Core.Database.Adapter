@@ -13,6 +13,6 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 /// <item>The <see cref="IIdentityRepository{TIdentityEntity}"/> interface</item>
 /// </list>
 /// </remarks>
-public interface IAccountRepository : IIdentityRepository<Account>
+public interface IAccountRepository : IIdentityRepository<AccountModel>
 {
 }

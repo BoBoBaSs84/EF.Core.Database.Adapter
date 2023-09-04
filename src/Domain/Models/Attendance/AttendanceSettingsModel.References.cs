@@ -7,5 +7,5 @@ public partial class AttendanceSettingsModel
 	/// <summary>
 	/// The navigational user property.
 	/// </summary>
-	public virtual User User { get; set; } = default!;
+	public virtual UserModel User { get; set; } = default!;
 }

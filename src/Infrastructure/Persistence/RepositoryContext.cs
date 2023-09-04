@@ -22,7 +22,7 @@ namespace Infrastructure.Persistence;
 /// <remarks>
 /// Derives from the <see cref="IdentityDbContext"/> class.
 /// </remarks>
-public sealed partial class RepositoryContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IRepositoryContext
+public sealed partial class RepositoryContext : IdentityDbContext<UserModel, RoleModel, Guid, UserClaimModel, UserRoleModel, UserLoginModel, RoleClaimModel, UserTokenModel>, IRepositoryContext
 {
 	private readonly CustomSaveChangesInterceptor _changesInterceptor;
 	private readonly ILoggerService<RepositoryContext> _logger;

@@ -17,14 +17,14 @@ namespace ApplicationTests.Services;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
 public class CalendarDayServiceTests : ApplicationBaseTests
 {
-	private ICalendarDayService _calendarDayService = default!;
+	private ICalendarService _calendarDayService = default!;
 
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByDateSuccessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarDayService>();
+		_calendarDayService = GetRequiredService<ICalendarService>();
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(DateTime.Now);
+		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(DateTime.Now);
 
 		AH.AssertInScope(() =>
 		{
@@ -38,27 +38,27 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByDateNotFoundTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarDayService>();
+		_calendarDayService = GetRequiredService<ICalendarService>();
 		DateTime dateTime = DateTime.Now.AddYears(50);
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(dateTime);
+		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(dateTime);
 
 		AH.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
 			result.Value.Should().BeNull();
-			result.Errors.First().Should().Be(CalendarDayServiceErrors.GetByDateNotFound(dateTime));
+			result.Errors.First().Should().Be(CalendarServiceErrors.GetByDateNotFound(dateTime));
 		});
 	}
 
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByIdSuccessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarDayService>();
-		int calendarDayId = 1;
+		_calendarDayService = GetRequiredService<ICalendarService>();
+		Guid calendarDayId = Guid.NewGuid();
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(calendarDayId);
+		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(calendarDayId);
 
 		AH.AssertInScope(() =>
 		{
@@ -72,28 +72,28 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByIdNotFoundTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarDayService>();
-		int calendarDayId = int.MaxValue;
+		_calendarDayService = GetRequiredService<ICalendarService>();
+		Guid calendarDayId = Guid.NewGuid();
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get(calendarDayId);
+		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(calendarDayId);
 
 		AH.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
 			result.Value.Should().BeNull();
-			result.Errors.First().Should().Be(CalendarDayServiceErrors.GetByIdNotFound(calendarDayId));
+			result.Errors.First().Should().Be(CalendarServiceErrors.GetByIdNotFound(calendarDayId));
 		});
 	}
 
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetPagedByParametersSucessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarDayService>();
+		_calendarDayService = GetRequiredService<ICalendarService>();
 
-		CalendarDayParameters parameters = new() { Year = DateTime.Now.Year, Month = DateTime.Now.Month };
+		CalendarParameters parameters = new() { Year = DateTime.Now.Year, Month = DateTime.Now.Month };
 
-		ErrorOr<IPagedList<CalendarDayResponse>> result = await _calendarDayService.Get(parameters);
+		ErrorOr<IPagedList<CalendarResponse>> result = await _calendarDayService.Get(parameters);
 
 		AH.AssertInScope(() =>
 		{
@@ -108,27 +108,27 @@ public class CalendarDayServiceTests : ApplicationBaseTests
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetPagedByParametersNotFoundTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarDayService>();
+		_calendarDayService = GetRequiredService<ICalendarService>();
 
-		CalendarDayParameters parameters = new() { Year = DateTime.Now.AddYears(50).Year, Month = DateTime.Now.AddYears(50).Month };
+		CalendarParameters parameters = new() { Year = DateTime.Now.AddYears(50).Year, Month = DateTime.Now.AddYears(50).Month };
 
-		ErrorOr<IPagedList<CalendarDayResponse>> result = await _calendarDayService.Get(parameters);
+		ErrorOr<IPagedList<CalendarResponse>> result = await _calendarDayService.Get(parameters);
 
 		AH.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
 			result.Value.Should().BeNullOrEmpty();
-			result.Errors.First().Should().Be(CalendarDayServiceErrors.GetPagedByParametersNotFound);
+			result.Errors.First().Should().Be(CalendarServiceErrors.GetPagedByParametersNotFound);
 		});
 	}
 
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetCurrentDateSuccessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarDayService>();
+		_calendarDayService = GetRequiredService<ICalendarService>();
 
-		ErrorOr<CalendarDayResponse> result = await _calendarDayService.Get();
+		ErrorOr<CalendarResponse> result = await _calendarDayService.Get();
 
 		AH.AssertInScope(() =>
 		{

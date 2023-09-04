@@ -23,7 +23,7 @@ internal sealed class RepositoryService : IRepositoryService
 	private readonly Lazy<IAttendanceRepository> _lazyAttendanceRepository;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="RepositoryService"/> class.
+	/// Initializes a new instance of the repository service class.
 	/// </summary>
 	/// <param name="context">The database context to work with.</param>
 	public RepositoryService(RepositoryContext context)

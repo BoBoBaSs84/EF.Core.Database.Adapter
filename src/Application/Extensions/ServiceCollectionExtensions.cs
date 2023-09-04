@@ -24,6 +24,7 @@ internal static class ServiceCollectionExtensions
 		services.TryAddScoped<IAttendanceService, AttendanceService>();
 		services.TryAddScoped<ICalendarService, CalendarService>();
 		services.TryAddScoped<ICardService, CardService>();
+		services.TryAddScoped<ITransactionService, TransactionService>();
 
 		return services;
 	}
@@ -48,7 +49,7 @@ internal static class ServiceCollectionExtensions
 	internal static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
 	{
 		services.AddAutoMapper(typeof(IApplicationAssemblyMarker));
-		
+
 		return services;
 	}
 }

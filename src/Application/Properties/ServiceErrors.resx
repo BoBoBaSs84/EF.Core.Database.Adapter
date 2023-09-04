@@ -309,4 +309,22 @@
   <data name="EnumeratorService.GetDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the day type enumerators.</value>
   </data>
+  <data name="TransactionServiceErrors.GetByAccountId.Failed" xml:space="preserve">
+    <value>An error occurred while loading the transaction for the bank account with the identifier: '{0}'.</value>
+  </data>
+  <data name="TransactionServiceErrors.GetByAccountId.NotFound" xml:space="preserve">
+    <value>No transactions for the bank account with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="TransactionServiceErrors.GetByCardId.Failed" xml:space="preserve">
+    <value>An error occurred while loading the transaction for the bank card with the identifier: '{0}'.</value>
+  </data>
+  <data name="TransactionServiceErrors.GetByCardId.NotFound" xml:space="preserve">
+    <value>No transactions for the bank card with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="TransactionServiceErrors.GetById.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank transaction with the identifier: '{0}'.</value>
+  </data>
+  <data name="TransactionServiceErrors.GetById.NotFound" xml:space="preserve">
+    <value>No bank transaction with the identifier: '{0}' could be found to load.</value>
+  </data>
 </root>

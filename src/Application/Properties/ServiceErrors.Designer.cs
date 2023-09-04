@@ -635,5 +635,59 @@ namespace Application.Properties {
                 return ResourceManager.GetString("EnumeratorService.GetDayTypes.Failed", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the transaction for the bank account with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_GetByAccountId_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetByAccountId.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No transactions for the bank account with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TransactionServiceErrors_GetByAccountId_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetByAccountId.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the transaction for the bank card with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_GetByCardId_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetByCardId.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No transactions for the bank card with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TransactionServiceErrors_GetByCardId_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetByCardId.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank transaction with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_GetById_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank transaction with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TransactionServiceErrors_GetById_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetById.NotFound", resourceCulture);
+            }
+        }
     }
 }

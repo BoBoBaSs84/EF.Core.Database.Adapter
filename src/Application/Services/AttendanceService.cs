@@ -11,7 +11,6 @@ using AutoMapper;
 
 using Domain.Errors;
 using Domain.Extensions;
-using Domain.Extensions.QueryExtensions;
 using Domain.Models.Attendance;
 using Domain.Results;
 
@@ -24,7 +23,7 @@ namespace Application.Services;
 /// </summary>
 internal sealed class AttendanceService : IAttendanceService
 {
-	private readonly ILoggerService<AttendanceService> _logger;
+	private readonly ILoggerService<AttendanceService> _loggerService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
@@ -34,12 +33,12 @@ internal sealed class AttendanceService : IAttendanceService
 	/// <summary>
 	/// Initilizes an instance of the attendance service class.
 	/// </summary>
-	/// <param name="logger">The logger service to use.</param>
+	/// <param name="loggerService">The logger service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public AttendanceService(ILoggerService<AttendanceService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public AttendanceService(ILoggerService<AttendanceService> loggerService, IRepositoryService repositoryService, IMapper mapper)
 	{
-		_logger = logger;
+		_loggerService = loggerService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
@@ -58,7 +57,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
 			return AttendanceServiceErrors.CreateFailed;
 		}
 	}
@@ -79,7 +78,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
 			return AttendanceServiceErrors.CreateManyFailed;
 		}
 	}
@@ -105,7 +104,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.DeleteFailed;
 		}
 	}
@@ -131,7 +130,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.DeleteManyFailed;
 		}
 	}
@@ -146,12 +145,12 @@ internal sealed class AttendanceService : IAttendanceService
 				.FilterByMonth(parameters.Month)
 				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
 				.FilterByEndOfMonth(parameters.EndOfMonth),
-				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
+				orderBy: x => x.OrderBy(x => x.Calendar.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (!attendances.Any())
@@ -171,7 +170,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetPagedByParametersFailed;
 		}
 	}
@@ -181,10 +180,10 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(date.ToSqlDate()),
+				expression: x => x.UserId.Equals(userId) && x.Calendar.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (attendance is null)
@@ -197,7 +196,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
+			_loggerService.Log(LogExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
 			return AttendanceServiceErrors.GetByDateFailed(date);
 		}
 	}
@@ -211,7 +210,7 @@ internal sealed class AttendanceService : IAttendanceService
 				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarDayId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (attendance is null)
@@ -224,7 +223,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetByIdFailed(calendarDayId);
 		}
 	}
@@ -248,7 +247,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.UpdateFailed;
 		}
 	}
@@ -273,7 +272,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.UpdateManyFailed;
 		}
 	}

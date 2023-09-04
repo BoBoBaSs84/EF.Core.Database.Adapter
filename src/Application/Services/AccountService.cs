@@ -21,7 +21,7 @@ namespace Application.Services;
 /// </summary>
 internal sealed class AccountService : IAccountService
 {
-	private readonly ILoggerService<AccountService> _logger;
+	private readonly ILoggerService<AccountService> _loggerService;
 	private readonly IUserService _userService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
@@ -32,13 +32,13 @@ internal sealed class AccountService : IAccountService
 	/// <summary>
 	/// Initilizes an instance of the account service class.
 	/// </summary>
-	/// <param name="logger">The logger service to use.</param>
+	/// <param name="loggerService">The logger service to use.</param>
 	/// <param name="userService">The user service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public AccountService(ILoggerService<AccountService> logger, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
+	public AccountService(ILoggerService<AccountService> loggerService, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
 	{
-		_logger = logger;
+		_loggerService = loggerService;
 		_userService = userService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
@@ -90,7 +90,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
 			return AccountServiceErrors.CreateAccountFailed;
 		}
 	}
@@ -117,7 +117,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AccountServiceErrors.DeleteAccountFailed;
 		}
 	}
@@ -160,7 +160,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, userId, ex);
+			_loggerService.Log(LogExceptionWithParams, userId, ex);
 			return AccountServiceErrors.GetAllFailed;
 		}
 	}
@@ -186,7 +186,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AccountServiceErrors.GetByIdFailed(accountId);
 		}
 	}
@@ -220,7 +220,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AccountServiceErrors.GetByNumberFailed(iban);
 		}
 	}
@@ -265,7 +265,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
 			return AccountServiceErrors.UpdateAccountFailed;
 		}
 	}

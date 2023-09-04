@@ -61,7 +61,7 @@ internal static partial class CommonConfiguration
 				.HasComputedColumnSql("(datepart(year,[Date]))", true);
 
 			builder.HasMany(e => e.Attendances)
-				.WithOne(e => e.CalendarDay)
+				.WithOne(e => e.Calendar)
 				.HasForeignKey(e => e.CalendarId)
 				.OnDelete(DeleteBehavior.Restrict)
 				.IsRequired();

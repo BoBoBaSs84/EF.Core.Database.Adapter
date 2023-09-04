@@ -51,7 +51,7 @@ public static class CalendarServiceErrors
 	/// </summary>
 	public static ApiError GetByIdNotFound(Guid id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.CardTypeService_GetByName_NotFound.Format(CurrentCulture, id));
+			RESX.CalendarDayService_GetById_NotFound.Format(CurrentCulture, id));
 
 	/// <summary>
 	/// Error that indicates an exception during the

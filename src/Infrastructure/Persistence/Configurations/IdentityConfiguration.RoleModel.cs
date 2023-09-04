@@ -36,7 +36,7 @@ internal static partial class IdentityConfiguration
 
 		private static ICollection<RoleModel> GetRoleTypes()
 		{
-			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetListFromEnum();
+			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.ToList();
 			ICollection<RoleModel> listToReturn = new List<RoleModel>();
 
 			foreach (RoleType roleType in roleTypes)

@@ -303,40 +303,10 @@
   <data name="CardService.Update.Failed" xml:space="preserve">
     <value>An guidernal error occurred while updating the bank card.</value>
   </data>
-  <data name="CardTypeService.GetAll.Failed" xml:space="preserve">
-    <value>An error occurred while loading the card type entries based on the parameterization.</value>
+  <data name="EnumeratorService.GetCardTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the card type enumerators.</value>
   </data>
-  <data name="CardTypeService.GetAll.NotFound" xml:space="preserve">
-    <value>No card type entries could be found based on the parameterization.</value>
-  </data>
-  <data name="CardTypeService.GetById.Failed" xml:space="preserve">
-    <value>An error occurred while loading the card type by identifier.</value>
-  </data>
-  <data name="CardTypeService.GetById.NotFound" xml:space="preserve">
-    <value>No card type entry with identifier: '{0}' could be found.</value>
-  </data>
-  <data name="CardTypeService.GetByName.Failed" xml:space="preserve">
-    <value>An error occurred while loading the card type day by name.</value>
-  </data>
-  <data name="CardTypeService.GetByName.NotFound" xml:space="preserve">
-    <value>No card type entry with the name: '{0}' could be found.</value>
-  </data>
-  <data name="DayTypeService.GetAll.Failed" xml:space="preserve">
-    <value>An error occurred while loading the day type entries based on the parameterization.</value>
-  </data>
-  <data name="DayTypeService.GetAll.NotFound" xml:space="preserve">
-    <value>No day type entries could be found based on the parameterization.</value>
-  </data>
-  <data name="DayTypeService.GetById.Failed" xml:space="preserve">
-    <value>An error occurred while loading the day type by identifier.</value>
-  </data>
-  <data name="DayTypeService.GetById.NotFound" xml:space="preserve">
-    <value>No day type entry with identifier: '{0}' could be found.</value>
-  </data>
-  <data name="DayTypeService.GetByName.Failed" xml:space="preserve">
-    <value>An error occurred while loading the day type day by name.</value>
-  </data>
-  <data name="DayTypeService.GetByName.NotFound" xml:space="preserve">
-    <value>No day type entry with the name: '{0}' could be found.</value>
+  <data name="EnumeratorService.GetDayTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the day type enumerators.</value>
   </data>
 </root>

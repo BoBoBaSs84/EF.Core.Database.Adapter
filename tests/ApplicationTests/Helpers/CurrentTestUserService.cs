@@ -2,9 +2,9 @@
 
 namespace ApplicationTests.Helpers;
 
-guidernal sealed class CurrentTestUserService : ICurrentUserService
+internal sealed class CurrentTestUserService : ICurrentUserService
 {
-	public guid UserId => 0;
+	public Guid UserId => Guid.NewGuid();
 
 	public string UserName => "TestUser";
 }

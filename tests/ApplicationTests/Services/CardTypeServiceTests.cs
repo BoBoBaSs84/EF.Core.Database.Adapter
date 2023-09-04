@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses.Enumerator;
+﻿using Application.Contracts.Responses.Enumerators;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 
@@ -65,7 +65,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().NotBeNull();
-			result.Value.Id.Should().Be((int)cardType);
+			result.Value.Value.Should().Be(cardType);
 		});
 	}
 
@@ -90,7 +90,7 @@ public class CardTypeServiceTests : ApplicationBaseTests
 	{
 		_cardTypeService = GetRequiredService<ICardTypeService>();
 
-		ErrorOr<IEnumerable<CardTypeResponse>> result = await _cardTypeService.Get();
+		ErrorOr<IEnumerable<Application.Contracts.Responses.Enumerators.CardTypeResponse>> result = await _cardTypeService.Get();
 
 		AssertionHelper.AssertInScope(() =>
 		{

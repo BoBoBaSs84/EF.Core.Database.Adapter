@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses.Enumerator;
+﻿using Application.Contracts.Responses.Enumerators;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 
@@ -65,7 +65,7 @@ public class DayTypeServiceTests : ApplicationBaseTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().NotBeNull();
-			result.Value.Id.Should().Be((int)dayType);
+			result.Value.Value.Should().Be(dayType);
 		});
 	}
 

@@ -16,28 +16,28 @@ using Presentation.Controllers.Base;
 namespace Presentation.Controllers;
 
 /// <summary>
-/// The <see cref="CalendarDayController"/> class.
+/// The calendar controller class.
 /// </summary>
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
 [Route(Endpoints.Calendar.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class CalendarDayController : ApiControllerBase
+public sealed class CalendarController : ApiControllerBase
 {
 	private readonly ICalendarService _calendarDayService;
 
 	/// <summary>
-	/// Initializes an instance of <see cref="CalendarDayController"/> class.
+	/// Initializes an instance of the calendar controller class.
 	/// </summary>
 	/// <param name="calendarDayService">The calendar day service.</param>
-	public CalendarDayController(ICalendarService calendarDayService) =>
+	public CalendarController(ICalendarService calendarDayService) =>
 		_calendarDayService = calendarDayService;
 
 	/// <summary>
-	/// Should return the calendar day entities as a paged list, filtered by the parameters.
+	/// Returns calendar entries as a paged list, filtered by the parameters.
 	/// </summary>
-	/// <param name="parameters">The calendar day query parameters.</param>
+	/// <param name="parameters">The calendar query parameters.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
@@ -55,9 +55,9 @@ public sealed class CalendarDayController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should return the calendar day by its date.
+	/// Returns the calendar entry by its date.
 	/// </summary>
-	/// <param name="date">The date of the calendar day.</param>
+	/// <param name="date">The date of the calendar entry.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
@@ -75,9 +75,9 @@ public sealed class CalendarDayController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should return the calendar day by its identifier.
+	/// Returns the calendar entry by its identifier.
 	/// </summary>
-	/// <param name="id">The identifier of the calendar day.</param>
+	/// <param name="id">The identifier of the calendar entry.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
@@ -95,7 +95,7 @@ public sealed class CalendarDayController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should return the current calendar day.
+	/// Returns the current calendar entry.
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>

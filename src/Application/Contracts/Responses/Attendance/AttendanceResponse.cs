@@ -17,7 +17,7 @@ namespace Application.Contracts.Responses.Attendance;
 public sealed class AttendanceResponse : IdentityResponse
 {
 	/// <summary>
-	/// The <see cref="Date"/> property.
+	/// The date property.
 	/// </summary>
 	[DataType(DataType.Date)]
 	public DateTime Date { get; set; } = default!;
@@ -25,23 +25,23 @@ public sealed class AttendanceResponse : IdentityResponse
 	/// <summary>
 	/// The day type property.
 	/// </summary>
-	public DayType DayType { get; set; } = default!;
+	public DayType DayType { get; set; }
 
 	/// <summary>
-	/// The <see cref="StartTime"/> property.
+	/// The start time property.
 	/// </summary>
 	[JsonConverter(typeof(TimeSpanJsonConverter))]
-	public TimeSpan? StartTime { get; set; } = default!;
+	public TimeSpan? StartTime { get; set; }
 
 	/// <summary>
-	/// The <see cref="EndTime"/> property.
+	/// The end time property.
 	/// </summary>
 	[JsonConverter(typeof(TimeSpanJsonConverter))]
-	public TimeSpan? EndTime { get; set; } = default!;
+	public TimeSpan? EndTime { get; set; }
 
 	/// <summary>
-	/// The <see cref="BreakTime"/> property.
+	/// The break time property.
 	/// </summary>
 	[JsonConverter(typeof(TimeSpanJsonConverter))]
-	public TimeSpan? BreakTime { get; set; } = default!;
+	public TimeSpan? BreakTime { get; set; }
 }

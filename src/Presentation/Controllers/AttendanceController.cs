@@ -18,7 +18,7 @@ using Presentation.Controllers.Base;
 namespace Presentation.Controllers;
 
 /// <summary>
-/// The <see cref="AttendanceController"/> class.
+/// The attendance controller class.
 /// </summary>
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
@@ -32,10 +32,10 @@ public sealed class AttendanceController : ApiControllerBase
 	private readonly ICurrentUserService _currentUserService;
 
 	/// <summary>
-	/// Initializes an instance of <see cref="AttendanceController"/> class.
+	/// Initializes an instance of the attendance controller class.
 	/// </summary>
-	/// <param name="attendanceService">The attendance service.</param>
-	/// <param name="currentUserService">The current user service.</param>
+	/// <param name="attendanceService">The attendance service to use.</param>
+	/// <param name="currentUserService">The current user service to use.</param>
 	public AttendanceController(IAttendanceService attendanceService, ICurrentUserService currentUserService)
 	{
 		_attendanceService = attendanceService;
@@ -43,9 +43,9 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should return the attendance entities as a paged list, filtered by the parameters.
+	/// Returns the attendance entries as a paged list, filtered by the parameters.
 	/// </summary>
-	/// <param name="parameters">The calendar day query parameters.</param>
+	/// <param name="parameters">The attendance query parameters.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -65,9 +65,9 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should return the attendance entity by the calendar day identifier.
+	/// Returns the attendance entry by the calendar entry identifier.
 	/// </summary>
-	/// <param name="calendarDayId">The calendar day identifier.</param>
+	/// <param name="calendarId">The calendar identifier.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -78,18 +78,18 @@ public sealed class AttendanceController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(Guid calendarDayId, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetById(Guid calendarId, CancellationToken cancellationToken)
 	{
 		ErrorOr<AttendanceResponse> result =
-			await _attendanceService.Get(_currentUserService.UserId, calendarDayId, false, cancellationToken);
+			await _attendanceService.Get(_currentUserService.UserId, calendarId, false, cancellationToken);
 
 		return Get(result);
 	}
 
 	/// <summary>
-	/// Should return the attendance entity by the calendar day date.
+	/// Returns the attendance entry by the calendar entry date.
 	/// </summary>
-	/// <param name="date">The calendar day date.</param>
+	/// <param name="date">The calendar entry date.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -109,9 +109,9 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should delete a attendance by the calendat day identifier.
+	/// Deletes an existing attendance entry by the calendar entry identifier.
 	/// </summary>
-	/// <param name="calendarDayId">The calendar day identifier.</param>
+	/// <param name="calendarId">The calendar entry identifier.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendance was deleted.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -122,18 +122,18 @@ public sealed class AttendanceController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(Guid calendarDayId, CancellationToken cancellationToken)
+	public async Task<IActionResult> Delete(Guid calendarId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
-			await _attendanceService.Delete(_currentUserService.UserId, calendarDayId, cancellationToken);
+			await _attendanceService.Delete(_currentUserService.UserId, calendarId, cancellationToken);
 
 		return Delete(result);
 	}
 
 	/// <summary>
-	/// Should delete multiple attendances by the calendar day identifiers.
+	/// Deletes multiple attendance entries by the calendar entry identifiers.
 	/// </summary>
-	/// <param name="calendarDayIds">The calendar day identifiers to delete.</param>
+	/// <param name="calendarIds">The calendar entry identifiers to delete.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendances were deleted.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -144,16 +144,16 @@ public sealed class AttendanceController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete([FromBody] IEnumerable<Guid> calendarDayIds, CancellationToken cancellationToken)
+	public async Task<IActionResult> Delete([FromBody] IEnumerable<Guid> calendarIds, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> result =
-			await _attendanceService.Delete(_currentUserService.UserId, calendarDayIds, cancellationToken);
+			await _attendanceService.Delete(_currentUserService.UserId, calendarIds, cancellationToken);
 
 		return Delete(result);
 	}
 
 	/// <summary>
-	/// Should create a attendance.
+	/// Creates a new attendance entry
 	/// </summary>
 	/// <param name="createRequest">The attendance create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
@@ -175,7 +175,7 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should create multiple attendances.
+	/// Creates multiple new attendance entries.
 	/// </summary>
 	/// <param name="createRequest">The attendances create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
@@ -197,7 +197,7 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should update a attendance.
+	/// Updates a existing attendance entry.
 	/// </summary>
 	/// <param name="updateRequest">The attendance update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
@@ -219,9 +219,9 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should update multiple attendances.
+	/// Updates multiple existing attendance entries.
 	/// </summary>
-	/// <param name="updateRequest">The attendance update request.</param>
+	/// <param name="updateRequest">The attendances update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendances were updated.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>

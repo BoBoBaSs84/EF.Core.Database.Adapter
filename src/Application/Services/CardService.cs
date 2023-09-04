@@ -21,7 +21,7 @@ namespace Application.Services;
 /// </summary>
 internal sealed class CardService : ICardService
 {
-	private readonly ILoggerService<CardService> _logger;
+	private readonly ILoggerService<CardService> _loggerService;
 	private readonly IUserService _userService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
@@ -32,13 +32,13 @@ internal sealed class CardService : ICardService
 	/// <summary>
 	/// Initilizes an instance of the account service class.
 	/// </summary>
-	/// <param name="logger">The logger service to use.</param>
+	/// <param name="loggerService">The logger service to use.</param>
 	/// <param name="userService">The user service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public CardService(ILoggerService<CardService> logger, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
+	public CardService(ILoggerService<CardService> loggerService, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
 	{
-		_logger = logger;
+		_loggerService = loggerService;
 		_userService = userService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
@@ -82,7 +82,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.CreateFailed;
 		}
 	}
@@ -108,7 +108,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.DeleteFailed;
 		}
 	}
@@ -132,7 +132,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.GetByIdFailed(cardId);
 		}
 	}
@@ -156,7 +156,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.GetByNumberFailed(pan);
 		}
 	}
@@ -179,7 +179,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, userId, ex);
+			_loggerService.Log(LogExceptionWithParams, userId, ex);
 			return CardServiceErrors.GetAllFailed;
 		}
 	}
@@ -206,7 +206,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, userId, ex);
+			_loggerService.Log(LogExceptionWithParams, userId, ex);
 			return CardServiceErrors.UpdateFailed;
 		}
 	}

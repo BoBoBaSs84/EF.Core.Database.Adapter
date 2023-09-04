@@ -635,5 +635,23 @@ namespace Application.Properties {
                 return ResourceManager.GetString("EnumeratorService.GetDayTypes.Failed", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank transaction with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_GetById_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank transaction with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TransactionServiceErrors_GetById_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.GetById.NotFound", resourceCulture);
+            }
+        }
     }
 }

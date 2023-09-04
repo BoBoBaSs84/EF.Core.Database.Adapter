@@ -23,7 +23,7 @@ namespace Application.Services;
 internal sealed class CalendarService : ICalendarService
 {
 	private readonly IDateTimeService _dateTimeService;
-	private readonly ILoggerService<CalendarService> _logger;
+	private readonly ILoggerService<CalendarService> _loggerService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
@@ -37,13 +37,13 @@ internal sealed class CalendarService : ICalendarService
 	/// Initilizes an instance of the calendar service class.
 	/// </summary>
 	/// <param name="dateTimeService">The date time service to use.</param>
-	/// <param name="logger">The logger service to use.</param>
+	/// <param name="loggerService">The logger service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public CalendarService(IDateTimeService dateTimeService, ILoggerService<CalendarService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public CalendarService(IDateTimeService dateTimeService, ILoggerService<CalendarService> loggerService, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_dateTimeService = dateTimeService;
-		_logger = logger;
+		_loggerService = loggerService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
@@ -67,7 +67,7 @@ internal sealed class CalendarService : ICalendarService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogException, ex);
+			_loggerService.Log(LogException, ex);
 			return CalendarServiceErrors.GetByDateFailed;
 		}
 	}
@@ -91,7 +91,7 @@ internal sealed class CalendarService : ICalendarService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogException, ex);
+			_loggerService.Log(LogException, ex);
 			return CalendarServiceErrors.GetByIdFailed;
 		}
 	}
@@ -126,7 +126,7 @@ internal sealed class CalendarService : ICalendarService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CalendarServiceErrors.GetPagedByParametersFailed;
 		}
 	}
@@ -150,7 +150,7 @@ internal sealed class CalendarService : ICalendarService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogException, ex);
+			_loggerService.Log(LogException, ex);
 			return CalendarServiceErrors.GetCurrentDateFailed;
 		}
 	}

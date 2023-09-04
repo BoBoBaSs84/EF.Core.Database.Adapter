@@ -403,6 +403,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The role with the identifier: &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string AuthenticationService_RoleById_NotFound {
+            get {
+                return ResourceManager.GetString("AuthenticationService.RoleById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The role with the name: &apos;{0}&apos; could not be found..
         /// </summary>
         public static string AuthenticationService_RoleByName_NotFound {

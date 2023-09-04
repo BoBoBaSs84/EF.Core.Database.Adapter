@@ -231,6 +231,9 @@
   <data name="AuthenticationService.RemoveUserToRole.Failed" xml:space="preserve">
     <value>An error occurred while removing the user to the user role.</value>
   </data>
+  <data name="AuthenticationService.RoleById.NotFound" xml:space="preserve">
+    <value>The role with the identifier: '{0}' could not be found.</value>
+  </data>
   <data name="AuthenticationService.RoleByName.NotFound" xml:space="preserve">
     <value>The role with the name: '{0}' could not be found.</value>
   </data>

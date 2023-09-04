@@ -70,9 +70,9 @@ internal sealed class AuthenticationService : IAuthenticationService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, string roleName)
+	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId)
 	{
-		string[] parameters = new[] { $"{userId}", $"{roleName}" };
+		string[] parameters = new[] { $"{userId}", $"{roleId}" };		
 		ErrorOr<Created> response = new();
 		try
 		{
@@ -81,12 +81,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel role = await _roleService.FindByNameAsync(roleName);
+			RoleModel role = await _roleService.FindByIdAsync($"{roleId}");
 
 			if (role is null)
-				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
+				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.AddToRoleAsync(user, roleName);
+			IdentityResult identityResult = await _userService.AddToRoleAsync(user, role.Name);
 
 			if (!identityResult.Succeeded)
 			{
@@ -99,9 +99,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			// TODO: Error
 			_logger.Log(logExceptionWithParams, parameters, ex);
-			return ApiError.CreateFailed("", "");
+			return AuthenticationServiceErrors.AddUserToRoleFailed;
 		}
 	}
 
@@ -228,9 +227,9 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> RemoveUserToRole(Guid userId, string roleName)
+	public async Task<ErrorOr<Deleted>> RemoveUserFromRole(Guid userId, Guid roleId)
 	{
-		string[] parameters = new[] { $"{userId}", $"{roleName}" };
+		string[] parameters = new[] { $"{userId}", $"{roleId}" };
 		ErrorOr<Deleted> response = new();
 
 		try
@@ -240,12 +239,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel role = await _roleService.FindByNameAsync(roleName);
+			RoleModel role = await _roleService.FindByIdAsync($"{roleId}");
 
 			if (role is null)
-				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
+				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, roleName);
+			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, role.Name);
 
 			if (!identityResult.Succeeded)
 			{

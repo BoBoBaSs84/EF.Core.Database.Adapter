@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using Application.Interfaces.Infrastructure.Services;
+
+using System.Globalization;
 
 using Application.Errors.Base;
 
@@ -63,13 +65,14 @@ public static class AuthenticationServiceErrors
 			RESX.AuthenticationService_UserByName_NotFound.Format(CurrentCulture, userName));
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the
+	/// <see cref="IAuthenticationService.AddUserToRole(Guid, Guid)"/> method.
 	/// </summary>
-	/// <param name="roleName">The user name.</param>
+	/// <param name="roleId">The role identifier.</param>
 	/// <returns><see cref="ApiError"/></returns>
-	public static ApiError RoleByNameNotFound(string roleName) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(RoleByNameNotFound)}",
-			RESX.AuthenticationService_RoleByName_NotFound.Format(CurrentCulture, roleName));
+	public static ApiError RoleByIdNotFound(Guid roleId) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(RoleByIdNotFound)}",
+			RESX.AuthenticationService_RoleById_NotFound.Format(CurrentCulture, roleId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.

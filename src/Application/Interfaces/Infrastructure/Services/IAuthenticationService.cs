@@ -12,12 +12,13 @@ namespace Application.Interfaces.Infrastructure.Services;
 public interface IAuthenticationService
 {
 	/// <summary>
-	/// Should add a user to a certain role.
+	/// Adds the user with the <paramref name="userId"/> to the role
+	/// with the <paramref name="roleId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
-	/// <param name="roleName">The role the user should be added to.</param>
+	/// <param name="userId">The identifier of the user.</param>
+	/// <param name="roleId">The identifier of the role.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> AddUserToRole(Guid userId, string roleName);
+	Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId);
 
 	/// <summary>
 	/// Authenticates an existing application user.
@@ -54,12 +55,13 @@ public interface IAuthenticationService
 	Task<ErrorOr<UserResponse>> GetUserByName(string userName);
 
 	/// <summary>
-	/// Should remove a user from a certain role.
+	/// Removes the user with the <paramref name="userId"/> to the role
+	/// with the <paramref name="roleId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
-	/// <param name="roleName">The role the user should be removed from.</param>
+	/// <param name="userId">The identifier of the user.</param>
+	/// <param name="roleId">The identifier of the role.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> RemoveUserToRole(Guid userId, string roleName);
+	Task<ErrorOr<Deleted>> RemoveUserFromRole(Guid userId, Guid roleId);
 
 	/// <summary>
 	/// Updates an existing application user.

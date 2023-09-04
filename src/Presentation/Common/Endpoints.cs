@@ -110,12 +110,12 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(UserManagement);
 
-		internal const string AddUserToRole = "User/{userId:guid}/Roles/{roleName}";
+		internal const string AddUserToRole = "Users/{userId:guid}/Roles/{roleId:guid}";
 		internal const string Create = EmptySuffix;
 		internal const string GetAll = EmptySuffix;
 		internal const string GetByName = "{userName}";
 		internal const string GetCurrent = "Current";
-		internal const string RemoveUserToRole = "User/{userId:guid}/Roles/{roleName}";
+		internal const string RemoveUserToRole = "Users/{userId:guid}/Roles/{roleId:guid}";
 		internal const string UpdateCurrent = "Current";
 	}
 }

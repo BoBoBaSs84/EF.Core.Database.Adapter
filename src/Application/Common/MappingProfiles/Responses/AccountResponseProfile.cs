@@ -11,6 +11,6 @@ internal sealed class AccountResponseProfile : Profile
 {
 	public AccountResponseProfile()
 	{
-		CreateMap<Account, AccountResponse>();
+		CreateMap<AccountModel, AccountResponse>();
 	}
 }

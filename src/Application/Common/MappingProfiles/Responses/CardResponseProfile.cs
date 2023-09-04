@@ -11,6 +11,6 @@ internal sealed class CardResponseProfile : Profile
 {
 	public CardResponseProfile()
 	{
-		CreateMap<Card, CardResponse>();
+		CreateMap<CardModel, CardResponse>();
 	}
 }

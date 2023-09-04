@@ -13,6 +13,7 @@ using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 
 using Domain.Entities.Identity;
+using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Results;
@@ -23,7 +24,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
-using Roles = Domain.Enumerators.RoleType;
 
 namespace Infrastructure.Services;
 
@@ -76,12 +76,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 		ErrorOr<Created> response = new();
 		try
 		{
-			User user = await _userService.FindByIdAsync($"{userId}");
+			UserModel user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			Role role = await _roleService.FindByNameAsync(roleName);
+			RoleModel role = await _roleService.FindByNameAsync(roleName);
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
@@ -109,7 +109,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			User? user = await _userService.FindByNameAsync(authRequest.UserName);
+			UserModel? user = await _userService.FindByNameAsync(authRequest.UserName);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName);
@@ -142,7 +142,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		ErrorOr<Created> response = new();
 		try
 		{
-			User user = _mapper.Map<User>(createRequest);
+			UserModel user = _mapper.Map<UserModel>(createRequest);
 
 			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
 
@@ -153,7 +153,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return response;
 			}
 
-			result = await _userService.AddToRolesAsync(user, new[] { Roles.USER.GetName() });
+			result = await _userService.AddToRolesAsync(user, new[] { RoleType.USER.GetName() });
 
 			if (!result.Succeeded)
 			{
@@ -175,7 +175,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			IList<User> users = await _userService.GetUsersInRoleAsync(Roles.USER.GetName());
+			IList<UserModel> users = await _userService.GetUsersInRoleAsync(RoleType.USER.GetName());
 
 			IEnumerable<UserResponse> response = _mapper.Map<IEnumerable<UserResponse>>(users);
 
@@ -192,7 +192,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			User user = await _userService.FindByIdAsync($"{userId}");
+			UserModel user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
@@ -212,7 +212,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			User user = await _userService.FindByNameAsync(userName);
+			UserModel user = await _userService.FindByNameAsync(userName);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByNameNotFound(userName);
@@ -235,12 +235,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 		try
 		{
-			User user = await _userService.FindByIdAsync($"{userId}");
+			UserModel user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			Role role = await _roleService.FindByNameAsync(roleName);
+			RoleModel role = await _roleService.FindByNameAsync(roleName);
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByNameNotFound(roleName);
@@ -268,7 +268,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		ErrorOr<Updated> response = new();
 		try
 		{
-			User user = await _userService.FindByIdAsync($"{userId}");
+			UserModel user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
@@ -305,7 +305,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha512);
 	}
 
-	private async Task<IEnumerable<Claim>> GetClaims(User user)
+	private async Task<IEnumerable<Claim>> GetClaims(UserModel user)
 	{
 		IList<Claim> claims = new List<Claim>()
 		{

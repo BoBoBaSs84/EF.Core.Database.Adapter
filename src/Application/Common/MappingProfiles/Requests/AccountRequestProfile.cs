@@ -11,7 +11,7 @@ internal sealed class AccountRequestProfile : Profile
 {
 	public AccountRequestProfile()
 	{
-		CreateMap<AccountCreateRequest, Account>();
-		CreateMap<AccountUpdateRequest, Account>();
+		CreateMap<AccountCreateRequest, AccountModel>();
+		CreateMap<AccountUpdateRequest, AccountModel>();
 	}
 }

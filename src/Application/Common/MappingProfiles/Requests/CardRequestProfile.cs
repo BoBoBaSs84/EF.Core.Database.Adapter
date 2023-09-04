@@ -11,7 +11,7 @@ internal sealed class CardRequestProfile : Profile
 {
 	public CardRequestProfile()
 	{
-		CreateMap<CardCreateRequest, Card>();
-		CreateMap<CardUpdateRequest, Card>();
+		CreateMap<CardCreateRequest, CardModel>();
+		CreateMap<CardUpdateRequest, CardModel>();
 	}
 }

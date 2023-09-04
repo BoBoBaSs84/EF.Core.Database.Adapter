@@ -80,7 +80,7 @@ public class EnumeratorExtensionsTests : DomainBaseTest
 	public void GetEnumListSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
-		List<TestEnum> enumList = testEnum.GetListFromEnum();
+		List<TestEnum> enumList = testEnum.ToList();
 		enumList.Should().NotBeNullOrEmpty();
 		enumList.Should().HaveCount(5);
 	}

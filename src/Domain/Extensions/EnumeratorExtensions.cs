@@ -54,13 +54,13 @@ public static class EnumeratorExtensions
 	}
 
 	/// <summary>
-	/// The <see cref="GetListFromEnum{T}(T)"/> method should return a list of all enumerators of the given type of enum.
+	/// The <see cref="ToList{T}(T)"/> method returns a list of all enumerators of the given type of enum.
 	/// </summary>
 	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>A list of all enums of the provided type.</returns>
-	public static List<TEnum> GetListFromEnum<TEnum>(this TEnum enumValue) where TEnum : Enum =>
-		Enum.GetValues(enumValue.GetType()).Cast<TEnum>().ToList();
+	public static List<TEnum> ToList<TEnum>(this TEnum enumValue) where TEnum : Enum
+		=> Enum.GetValues(enumValue.GetType()).Cast<TEnum>().ToList();
 
 	/// <summary>
 	/// Should return the field metadata of an enumerator.
@@ -68,8 +68,8 @@ public static class EnumeratorExtensions
 	/// <typeparam name="TEnum">The enmuerator itself.</typeparam>
 	/// <param name="enumValue">The value of the enumerator.</param>
 	/// <returns>The field metadata.</returns>
-	public static FieldInfo GetFieldInfo<TEnum>(this TEnum enumValue) where TEnum : Enum =>
-		enumValue.GetType().GetField(enumValue.ToString())!;
+	public static FieldInfo GetFieldInfo<TEnum>(this TEnum enumValue) where TEnum : Enum
+		=> enumValue.GetType().GetField(enumValue.ToString())!;
 
 	/// <summary>
 	/// Should get the display attribute of an enumerator.

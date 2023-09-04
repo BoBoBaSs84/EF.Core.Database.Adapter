@@ -10,7 +10,6 @@ using AutoMapper;
 
 using Domain.Errors;
 using Domain.Extensions;
-using Domain.Extensions.QueryExtensions;
 using Domain.Models.Common;
 
 using Microsoft.Extensions.Logging;

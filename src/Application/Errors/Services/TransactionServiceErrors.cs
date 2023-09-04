@@ -21,20 +21,50 @@ public static class TransactionServiceErrors
 	private const string ErrorPrefix = $"{nameof(TransactionServiceErrors)}";
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetById(Guid, bool, CancellationToken)"/> method.
+	/// Error that indicates an exception during the <see cref="ITransactionService.GetById"/> method.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
-	// TODO:
 	public static ApiError GetByIdFailed(Guid id) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
 			RESX.TransactionServiceErrors_GetById_Failed.Format(CultureInfo.CurrentCulture, id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetById(Guid, bool, CancellationToken)"/> method.
+	/// Error that indicates an exception during the <see cref="ITransactionService.GetById"/> method.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
-	// TODO:
 	public static ApiError GetByIdNotFound(Guid id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
 			RESX.TransactionServiceErrors_GetById_NotFound.Format(CultureInfo.CurrentCulture, id));
+
+	/// <summary>
+	/// Error that indicates an exception during the <see cref="ITransactionService.GetByCardId"/> method.
+	/// </summary>
+	/// <param name="id">The identifier of the bank card.</param>
+	public static ApiError GetByCardIdFailed(Guid id) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetByCardIdFailed}",
+			RESX.TransactionServiceErrors_GetByCardId_Failed.Format(CultureInfo.CurrentCulture, id));
+
+	/// <summary>
+	/// Error that indicates an exception during the <see cref="ITransactionService.GetByCardId"/> method.
+	/// </summary>
+	/// <param name="id">The identifier of the bank card.</param>
+	public static ApiError GetByCardIdNotFound(Guid id) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByCardIdNotFound}",
+			RESX.TransactionServiceErrors_GetByCardId_NotFound.Format(CultureInfo.CurrentCulture, id));
+
+	/// <summary>
+	/// Error that indicates an exception during the <see cref="ITransactionService.GetByAccountId"/> method.
+	/// </summary>
+	/// <param name="id">The identifier of the bank account.</param>
+	public static ApiError GetByAccountIdFailed(Guid id) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetByAccountIdFailed}",
+			RESX.TransactionServiceErrors_GetByAccountId_Failed.Format(CultureInfo.CurrentCulture, id));
+
+	/// <summary>
+	/// Error that indicates an exception during the <see cref="ITransactionService.GetByAccountId"/> method.
+	/// </summary>
+	/// <param name="id">The identifier of the bank account.</param>
+	public static ApiError GetByAccountIdNotFound(Guid id) =>
+		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByAccountIdNotFound}",
+			RESX.TransactionServiceErrors_GetByAccountId_NotFound.Format(CultureInfo.CurrentCulture, id));
 }

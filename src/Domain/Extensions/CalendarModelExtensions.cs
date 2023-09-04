@@ -1,15 +1,14 @@
-﻿
-using Domain.Models.Common;
+﻿using Domain.Models.Common;
 
-namespace Domain.Extensions.QueryExtensions;
+namespace Domain.Extensions;
 
 /// <summary>
-/// The calendar day query extensions class.
+/// The calendar model extensions class.
 /// </summary>
-public static class CalendarDayQueryExtensions
+public static class CalendarModelExtensions
 {
 	/// <summary>
-	/// Should filter the calendar day entities by the year.
+	/// Filters the calendar entries by year.
 	/// </summary>
 	/// <param name="query">The query to filter.</param>
 	/// <param name="year">The year to be filtered.</param>
@@ -18,7 +17,7 @@ public static class CalendarDayQueryExtensions
 		year.HasValue ? query.Where(x => x.Year.Equals(year)) : query;
 
 	/// <summary>
-	/// Should filter the calendar day entities by the month.
+	/// Filters the calendar entries by month.
 	/// </summary>
 	/// <param name="query">The query to filter.</param>
 	/// <param name="month">The month to be filtered.</param>
@@ -27,7 +26,7 @@ public static class CalendarDayQueryExtensions
 		month.HasValue ? query.Where(x => x.Month.Equals(month)) : query;
 
 	/// <summary>
-	/// Should filter the calendar day entities by a date range.
+	/// Filters the calendar entries by date range.
 	/// </summary>
 	/// <param name="query">The query to filter.</param>
 	/// <param name="minDate">The minimum date.</param>
@@ -41,10 +40,10 @@ public static class CalendarDayQueryExtensions
 	}
 
 	/// <summary>
-	/// Should filter the attendance entities by the end of month.
+	/// Filters the calendar entries by the end of month.
 	/// </summary>
 	/// <param name="query">The query to filter.</param>
-	/// <param name="endOfMonth">The end of month to be filtered.</param>s
+	/// <param name="endOfMonth">The end of month to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
 	public static IQueryable<CalendarModel> FilterByEndOfMonth(this IQueryable<CalendarModel> query, DateTime? endOfMonth) =>
 		endOfMonth.HasValue ? query.Where(x => x.EndOfMonth.Equals(endOfMonth.ToSqlDate())) : query;

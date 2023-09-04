@@ -22,6 +22,7 @@ internal static class Endpoints
 		internal const string GetAll = EmptySuffix;
 		internal const string GetById = "{accountId:guid}";
 		internal const string GetByNumber = "{iban}";
+		internal const string GetTransactions = "{accountId:guid}/Transactions";
 		internal const string Post = EmptySuffix;
 		internal const string Put = EmptySuffix;
 	}
@@ -47,6 +48,7 @@ internal static class Endpoints
 		internal const string GetAll = EmptySuffix;
 		internal const string GetById = "{cardId:guid}";
 		internal const string GetByNumber = "{pan}";
+		internal const string GetTransactions = "{cardId:guid}/Transactions";
 		internal const string Post = "{accountId:guid}";
 		internal const string Put = EmptySuffix;
 	}

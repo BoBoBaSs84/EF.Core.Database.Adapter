@@ -11,7 +11,6 @@ using AutoMapper;
 
 using Domain.Errors;
 using Domain.Extensions;
-using Domain.Extensions.QueryExtensions;
 using Domain.Models.Attendance;
 using Domain.Results;
 
@@ -146,12 +145,12 @@ internal sealed class AttendanceService : IAttendanceService
 				.FilterByMonth(parameters.Month)
 				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
 				.FilterByEndOfMonth(parameters.EndOfMonth),
-				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
+				orderBy: x => x.OrderBy(x => x.Calendar.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (!attendances.Any())
@@ -181,10 +180,10 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(date.ToSqlDate()),
+				expression: x => x.UserId.Equals(userId) && x.Calendar.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (attendance is null)
@@ -211,7 +210,7 @@ internal sealed class AttendanceService : IAttendanceService
 				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarDayId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.CalendarDay) }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (attendance is null)

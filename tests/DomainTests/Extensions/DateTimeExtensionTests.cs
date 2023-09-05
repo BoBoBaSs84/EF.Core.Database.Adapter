@@ -9,7 +9,7 @@ namespace DomainTests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class DateTimeExtensionTests : DomainBaseTest
+public class DateTimeExtensionTests : DomainTestBase
 {
 	[TestMethod, Owner(Bobo)]
 	public void ToSqlDateSuccessTest()

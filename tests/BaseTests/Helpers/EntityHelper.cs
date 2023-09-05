@@ -9,7 +9,7 @@ using static BaseTests.Helpers.RandomHelper;
 using static Domain.Constants.DomainConstants;
 using static Domain.Constants.DomainConstants.Sql;
 
-namespace InfrastructureTests.Helpers;
+namespace BaseTests.Helpers;
 
 public static class EntityHelper
 {

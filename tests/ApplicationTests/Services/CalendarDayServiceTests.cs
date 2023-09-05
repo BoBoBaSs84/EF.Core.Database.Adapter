@@ -15,7 +15,7 @@ namespace ApplicationTests.Services;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
-public class CalendarDayServiceTests : ApplicationBaseTests
+public class CalendarDayServiceTests : ApplicationTestBase
 {
 	private ICalendarService _calendarDayService = default!;
 

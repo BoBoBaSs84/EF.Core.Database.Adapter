@@ -12,7 +12,7 @@ namespace InfrastructureTests;
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 [SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
-public class ArchitectureTests : InfrastructureBaseTests
+public class ArchitectureTests : InfrastructureTestBase
 {
 	private readonly Assembly _assembly = typeof(IInfrastructureAssemblyMarker).Assembly;
 
@@ -30,7 +30,6 @@ public class ArchitectureTests : InfrastructureBaseTests
 			contextTypes.Should().NotBeNullOrEmpty();
 			foreach (Type type in contextTypes)
 			{
-				TestContext.WriteLine($"Testing: {type.Name}");
 				type.IsSealed.Should().BeTrue();
 			}
 		});
@@ -52,7 +51,6 @@ public class ArchitectureTests : InfrastructureBaseTests
 			typeList.Should().NotBeNullOrEmpty();
 			foreach (Type type in typeList)
 			{
-				TestContext.WriteLine($"Testing: {type.Name}");
 				type.IsSealed.Should().BeTrue();
 				type.IsPublic.Should().BeFalse();
 				type.IsVisible.Should().BeFalse();
@@ -76,7 +74,6 @@ public class ArchitectureTests : InfrastructureBaseTests
 			typeList.Should().NotBeNullOrEmpty();
 			foreach (Type type in typeList)
 			{
-				TestContext.WriteLine($"Testing: {type.Name}");
 				type.IsSealed.Should().BeTrue();
 				type.IsPublic.Should().BeFalse();
 				type.IsVisible.Should().BeFalse();

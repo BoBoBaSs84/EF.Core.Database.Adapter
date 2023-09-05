@@ -309,6 +309,9 @@
   <data name="EnumeratorService.GetDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the day type enumerators.</value>
   </data>
+  <data name="EnumeratorService.GetRoleTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the role type enumerators.</value>
+  </data>
   <data name="TransactionServiceErrors.GetByAccountId.Failed" xml:space="preserve">
     <value>An error occurred while loading the transaction for the bank account with the identifier: '{0}'.</value>
   </data>

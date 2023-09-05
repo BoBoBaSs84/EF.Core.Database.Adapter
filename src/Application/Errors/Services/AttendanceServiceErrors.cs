@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-using Application.Contracts.Requests.Attendance;
+﻿using Application.Contracts.Requests.Attendance;
 using Application.Errors.Base;
 using Application.Features.Requests;
 using Application.Services;
@@ -19,7 +17,6 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class AttendanceServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(AttendanceServiceErrors)}";
 
 	/// <summary>
@@ -84,7 +81,7 @@ public static class AttendanceServiceErrors
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateFailed(DateTime date) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByDateFailed}",
-			RESX.AttendanceService_GetByDate_Failed.Format(CurrentCulture, date));
+			RESX.AttendanceService_GetByDate_Failed.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -94,7 +91,7 @@ public static class AttendanceServiceErrors
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByDateNotFound}",
-			RESX.AttendanceService_GetByDate_NotFound.Format(CurrentCulture, date));
+			RESX.AttendanceService_GetByDate_NotFound.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -104,7 +101,7 @@ public static class AttendanceServiceErrors
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
 	public static ApiError GetByIdFailed(Guid calendarDayId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
-			RESX.AttendanceService_GetById_Failed.Format(CurrentCulture, calendarDayId));
+			RESX.AttendanceService_GetById_Failed.FormatInvariant(calendarDayId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -114,7 +111,7 @@ public static class AttendanceServiceErrors
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
 	public static ApiError GetByIdNotFound(Guid calendarDayId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.AttendanceService_GetById_NotFound.Format(CurrentCulture, calendarDayId));
+			RESX.AttendanceService_GetById_NotFound.FormatInvariant(calendarDayId));
 
 	/// <summary>
 	/// Error that indicates an exception during the

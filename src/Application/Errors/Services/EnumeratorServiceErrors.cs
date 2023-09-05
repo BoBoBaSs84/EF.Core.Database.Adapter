@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-using Application.Errors.Base;
+﻿using Application.Errors.Base;
 using Application.Services;
 
 using RESX = Application.Properties.ServiceErrors;
@@ -15,7 +13,6 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class EnumeratorServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(EnumeratorServiceErrors)}";
 
 	/// <summary>
@@ -29,4 +26,10 @@ public static class EnumeratorServiceErrors
 	/// </summary>
 	public static readonly ApiError GetDayTypesFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetDayTypesFailed}", RESX.EnumeratorService_GetDayTypes_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the <see cref="EnumeratorService.GetRoleTypes"/> method.
+	/// </summary>
+	public static readonly ApiError GetRoleTypesFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetRoleTypesFailed}", RESX.EnumeratorService_GetRoleTypes_Failed);
 }

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-using Application.Errors.Base;
+﻿using Application.Errors.Base;
 using Application.Features.Requests;
 using Application.Services;
 
@@ -18,7 +16,6 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CalendarServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(CalendarServiceErrors)}";
 
 	/// <summary>
@@ -35,7 +32,7 @@ public static class CalendarServiceErrors
 	/// </summary>
 	public static ApiError GetByDateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
-			RESX.CalendarDayService_GetByDate_NotFound.Format(CurrentCulture, date));
+			RESX.CalendarDayService_GetByDate_NotFound.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -51,7 +48,7 @@ public static class CalendarServiceErrors
 	/// </summary>
 	public static ApiError GetByIdNotFound(Guid id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.CalendarDayService_GetById_NotFound.Format(CurrentCulture, id));
+			RESX.CalendarDayService_GetById_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the

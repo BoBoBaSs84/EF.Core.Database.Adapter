@@ -16,6 +16,6 @@ internal static partial class IdentityConfiguration
 	internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaimModel>
 	{
 		public void Configure(EntityTypeBuilder<RoleClaimModel> builder) =>
-			builder.ToSytemVersionedTable(SqlSchema.Identity, "RoleClaim");
+			builder.ToVersionedTable(SqlSchema.Identity, "RoleClaim");
 	}
 }

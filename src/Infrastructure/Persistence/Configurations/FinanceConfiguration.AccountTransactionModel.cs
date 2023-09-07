@@ -18,7 +18,7 @@ internal static partial class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<AccountTransactionModel> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.Finance, "AccountTransaction");
+			builder.ToVersionedTable(SqlSchema.Finance, "AccountTransaction");
 
 			builder.HasKey(e => new { e.AccountId, e.TransactionId })
 				.IsClustered(false);

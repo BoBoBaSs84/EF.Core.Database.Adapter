@@ -19,7 +19,7 @@ internal static partial class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<RoleModel> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.Identity, "Role");
+			builder.ToVersionedTable(SqlSchema.Identity, "Role");
 
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.Role)

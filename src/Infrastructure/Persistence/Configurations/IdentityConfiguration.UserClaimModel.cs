@@ -16,6 +16,6 @@ internal static partial class IdentityConfiguration
 	internal sealed class UserClaimConfiguration : IEntityTypeConfiguration<UserClaimModel>
 	{
 		public void Configure(EntityTypeBuilder<UserClaimModel> builder) =>
-			builder.ToSytemVersionedTable(SqlSchema.Identity, "UserClaim");
+			builder.ToVersionedTable(SqlSchema.Identity, "UserClaim");
 	}
 }

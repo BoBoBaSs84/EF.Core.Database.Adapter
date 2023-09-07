@@ -78,9 +78,9 @@ public static class DomainConstants
 			/// </summary>
 			public const string Identity = "Identity";
 			/// <summary>
-			/// The <see cref="Private"/> constant.
+			/// The <see cref="Migration"/> constant.
 			/// </summary>
-			public const string Private = "Private";
+			public const string Migration = "Migration";
 			/// <summary>
 			/// The <see cref="Finance"/> constant.
 			/// </summary>

@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
+using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Extensions;
 
@@ -74,7 +75,7 @@ internal static class ServiceCollectionExtensions
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
 				{
-					builder.MigrationsHistoryTable("Migration", DomainConstants.Sql.Schema.Private);
+					builder.MigrationsHistoryTable("Migration", SqlSchema.Migration);
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 

@@ -28,7 +28,7 @@ internal static class ModelBuilderExtensions
 	{
 		builder.Entity<DatabaseLog>(entity =>
 		{
-			entity.ToTable(nameof(DatabaseLog), SqlSchema.Private);
+			entity.ToTable(nameof(DatabaseLog), SqlSchema.Migration);
 
 			entity.HasKey(e => e.Id)
 			.IsClustered(false);

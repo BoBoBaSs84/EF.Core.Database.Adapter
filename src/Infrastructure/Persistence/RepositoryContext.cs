@@ -56,8 +56,7 @@ public sealed partial class RepositoryContext : IdentityDbContext<UserModel, Rol
 
 		base.OnModelCreating(builder);
 
-		builder.HasDefaultSchema(SqlSchema.Private)
-			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
+		builder.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
 	}
 
 	/// <inheritdoc/>

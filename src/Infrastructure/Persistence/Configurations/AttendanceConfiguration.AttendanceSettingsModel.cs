@@ -18,7 +18,7 @@ internal static partial class AttendanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<AttendanceSettingsModel> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.Attendance, "Settings");
+			builder.ToVersionedTable(SqlSchema.Attendance, "Settings");
 
 			builder.HasIndex(e => e.UserId)
 				.IsClustered(false)

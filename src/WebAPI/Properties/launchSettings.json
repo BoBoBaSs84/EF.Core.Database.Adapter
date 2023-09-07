@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "WebAPI": {
+    "WebAPI.Development": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -10,13 +10,15 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7235"
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
+    "WebAPI.Testing": {
+      "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Testing"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7235"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",

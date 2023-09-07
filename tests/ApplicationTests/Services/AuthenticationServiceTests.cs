@@ -18,7 +18,7 @@ namespace ApplicationTests.Services;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
-public class AuthenticationServiceTests : ApplicationBaseTests
+public class AuthenticationServiceTests : ApplicationTestBase
 {
 	private IAuthenticationService _authenticationService = default!;
 

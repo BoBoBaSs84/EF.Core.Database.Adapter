@@ -16,6 +16,6 @@ internal static partial class IdentityConfiguration
 	internal class UserTokenConfiguration : IEntityTypeConfiguration<UserTokenModel>
 	{
 		public void Configure(EntityTypeBuilder<UserTokenModel> builder) =>
-			builder.ToSytemVersionedTable(SqlSchema.Identity, "UserToken");
+			builder.ToVersionedTable(SqlSchema.Identity, "UserToken");
 	}
 }

@@ -17,7 +17,7 @@ using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 namespace Infrastructure.Persistence;
 
 /// <summary>
-/// The application database context class.
+/// The application repository context class.
 /// </summary>
 /// <remarks>
 /// Derives from the <see cref="IdentityDbContext"/> class.
@@ -31,7 +31,7 @@ public sealed partial class RepositoryContext : IdentityDbContext<UserModel, Rol
 	LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="RepositoryContext"/> class.
+	/// Initializes a new instance of the application repository context class.
 	/// </summary>
 	/// <param name="dbContextOptions">The database context options.</param>
 	/// <param name="changesInterceptor">The auditable entity save changes interceptor.</param>
@@ -52,12 +52,9 @@ public sealed partial class RepositoryContext : IdentityDbContext<UserModel, Rol
 	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
-		builder.AuditDatabase();
-
 		base.OnModelCreating(builder);
 
-		builder.HasDefaultSchema(SqlSchema.Private)
-			.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
+		builder.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
 	}
 
 	/// <inheritdoc/>

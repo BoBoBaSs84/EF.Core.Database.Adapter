@@ -18,8 +18,7 @@ internal static class EntityTypeBuilderExtensions
 	/// <param name="tableName">The name of the database table.</param>
 	/// <param name="versionSchema">The database schema of the versioning table.</param>
 	/// <returns>The enriched <paramref name="entityTypeBuilder"/> class.</returns>
-	public static EntityTypeBuilder ToSytemVersionedTable(this EntityTypeBuilder entityTypeBuilder,
-		string? tableSchema = SqlSchema.Private, string? tableName = null, string? versionSchema = SqlSchema.History)
+	public static EntityTypeBuilder ToVersionedTable(this EntityTypeBuilder entityTypeBuilder, string? tableSchema = null, string? tableName = null, string? versionSchema = SqlSchema.History)
 	{
 		tableName ??= entityTypeBuilder.Metadata.ClrType.Name;
 

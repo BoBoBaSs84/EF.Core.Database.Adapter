@@ -16,6 +16,6 @@ internal static partial class IdentityConfiguration
 	internal sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLoginModel>
 	{
 		public void Configure(EntityTypeBuilder<UserLoginModel> builder) =>
-			builder.ToSytemVersionedTable(SqlSchema.Identity, "UserLogin");
+			builder.ToVersionedTable(SqlSchema.Identity, "UserLogin");
 	}
 }

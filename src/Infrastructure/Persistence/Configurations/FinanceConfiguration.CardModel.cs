@@ -18,7 +18,7 @@ internal static partial class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<CardModel> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.Finance, "Card");
+			builder.ToVersionedTable(SqlSchema.Finance, "Card");
 
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);

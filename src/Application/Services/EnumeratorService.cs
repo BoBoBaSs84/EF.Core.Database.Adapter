@@ -64,4 +64,20 @@ internal sealed class EnumeratorService : IEnumeratorService
 			return EnumeratorServiceErrors.GetDayTypesFailed;
 		}
 	}
+
+	public ErrorOr<IEnumerable<RoleTypeResponse>> GetRoleTypes()
+	{
+		try
+		{
+
+			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.ToList();
+
+			return _mapper.Map<IEnumerable<RoleTypeResponse>>(roleTypes).ToList();
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogException, ex);
+			return EnumeratorServiceErrors.GetRoleTypesFailed;
+		}
+	}
 }

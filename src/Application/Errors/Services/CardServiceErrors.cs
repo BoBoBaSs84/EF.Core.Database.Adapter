@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-using Application.Contracts.Requests.Finance;
+﻿using Application.Contracts.Requests.Finance;
 using Application.Errors.Base;
 using Application.Services;
 
@@ -18,7 +16,6 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CardServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(CardServiceErrors)}";
 
 	/// <summary>
@@ -41,7 +38,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError GetByIdFailed(Guid cardId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
-			RESX.CardService_GetById_Failed.Format(CultureInfo.CurrentCulture, cardId));
+			RESX.CardService_GetById_Failed.FormatInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -49,7 +46,7 @@ public static class CardServiceErrors
 	/// </summary>	
 	public static ApiError GetByIdNotFound(Guid cardId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.CardService_GetById_NotFound.Format(CultureInfo.CurrentCulture, cardId));
+			RESX.CardService_GetById_NotFound.FormatInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -57,7 +54,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError GetByNumberFailed(string pam) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
-			RESX.CardService_GetByNumber_Failed.Format(CultureInfo.CurrentCulture, pam));
+			RESX.CardService_GetByNumber_Failed.FormatInvariant(pam));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -65,7 +62,7 @@ public static class CardServiceErrors
 	/// </summary>	
 	public static ApiError GetByNumberNotFound(string pam) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",
-			RESX.CardService_GetByNumber_NotFound.Format(CultureInfo.CurrentCulture, pam));
+			RESX.CardService_GetByNumber_NotFound.FormatInvariant(pam));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -80,7 +77,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError CreateAccountIdNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{CreateAccountIdNotFound}",
-			RESX.CardService_GetAccountById_NotFound.Format(CultureInfo.CurrentCulture, accountId));
+			RESX.CardService_GetAccountById_NotFound.FormatInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -88,7 +85,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError CreateNumberConflict(string pam)
 		=> ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberConflict}",
-			RESX.CardService_Number_Conflict.Format(CurrentCulture, pam));
+			RESX.CardService_Number_Conflict.FormatInvariant(pam));
 
 	/// <summary>
 	/// Error that indicates an exception during the

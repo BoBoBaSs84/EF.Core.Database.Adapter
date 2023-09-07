@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces.Infrastructure.Services;
 
-using System.Globalization;
-
 using Application.Errors.Base;
 
 using Domain.Extensions;
@@ -18,7 +16,6 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class AuthenticationServiceErrors
 {
-	private static readonly CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 	private const string ErrorPrefix = $"{nameof(AuthenticationServiceErrors)}";
 
 	/// <summary>
@@ -35,7 +32,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError GetUserByIdFailed(Guid userId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
-			RESX.AuthenticationService_GetUserById_Failed.Format(CurrentCulture, userId));
+			RESX.AuthenticationService_GetUserById_Failed.FormatInvariant(userId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -44,7 +41,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserByIdNotFound(Guid userId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByIdNotFound)}",
-			RESX.AuthenticationService_UserById_NotFound.Format(CurrentCulture, userId));
+			RESX.AuthenticationService_UserById_NotFound.FormatInvariant(userId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -53,7 +50,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError GetUserByNameFailed(string userName) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByNameFailed)}",
-			RESX.AuthenticationService_GetUserByName_Failed.Format(CurrentCulture, userName));
+			RESX.AuthenticationService_GetUserByName_Failed.FormatInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -62,7 +59,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserByNameNotFound(string userName) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByNameNotFound)}",
-			RESX.AuthenticationService_UserByName_NotFound.Format(CurrentCulture, userName));
+			RESX.AuthenticationService_UserByName_NotFound.FormatInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -72,7 +69,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError RoleByIdNotFound(Guid roleId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(RoleByIdNotFound)}",
-			RESX.AuthenticationService_RoleById_NotFound.Format(CurrentCulture, roleId));
+			RESX.AuthenticationService_RoleById_NotFound.FormatInvariant(roleId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -81,7 +78,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserUnauthorized(string userName) =>
 		ApiError.CreateUnauthorized($"{ErrorPrefix}.{nameof(UserUnauthorized)}",
-			RESX.AuthenticationService_User_Unauthorized.Format(CurrentCulture, userName));
+			RESX.AuthenticationService_User_Unauthorized.FormatInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the user creation.

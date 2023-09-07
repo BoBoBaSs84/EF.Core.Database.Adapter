@@ -12,59 +12,59 @@ namespace Application.Interfaces.Application;
 public interface ICardService
 {
 	/// <summary>
-	/// Creates a card for the given <paramref name="userId"/> and <paramref name="accountId"/>.
+	/// Creates a bank card for the application user and bank account.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
-	/// <param name="accountId">The account identifier.</param>
-	/// <param name="createRequest">The card create request.</param>
+	/// <param name="userId">The identifier of the application user.</param>
+	/// <param name="accountId">The identifier of the bank account.</param>
+	/// <param name="request">The bank card create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest createRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Deletes a card by the <paramref name="cardId"/> for the given <paramref name="userId"/>.
+	/// Deletes an existing bank card for the application user by the bank card identifier.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
-	/// <param name="cardId">The card identifier.</param>
+	/// <param name="userId">The identifier of the application user.</param>
+	/// <param name="cardId">The identifier of the bank card.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<Deleted>> Delete(Guid userId, Guid cardId, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Returns a card by the <paramref name="cardId"/> for the given <paramref name="userId"/>.
+	/// Returns a bank card for the application user by the bank card identifier.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
-	/// <param name="cardId">The card identifier.</param>
+	/// <param name="userId">The identifier of the application user.</param>
+	/// <param name="cardId">The identifier of the bank card.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<CardResponse>> Get(Guid userId, Guid cardId, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Returns a card by the <paramref name="pan"/> (payment card number) for the given <paramref name="userId"/>.
+	/// Returns a bank card for the application user by the payment card number.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
-	/// <param name="pan"></param>
+	/// <param name="userId">The identifier of the application user.</param>
+	/// <param name="pan">The payment card number of the bank card.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<CardResponse>> Get(Guid userId, string pan, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Returns a collection of cards for the given <paramref name="userId"/>.
+	/// Returns a collection of bank cards for for the application user.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
+	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<IEnumerable<CardResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Updates an existing card for the given <paramref name="userId"/>.
+	/// Updates an existing bank card for the application user.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
-	/// <param name="updateRequest">The card update request.</param>
+	/// <param name="userId">The identifier of the application user.</param>
+	/// <param name="request">The bank card update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest updateRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest request, CancellationToken cancellationToken = default);
 }

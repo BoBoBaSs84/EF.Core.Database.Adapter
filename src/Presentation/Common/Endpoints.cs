@@ -18,10 +18,11 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Account);
 
-		internal const string Delete = "{accountId:int}";
+		internal const string Delete = "{accountId:guid}";
 		internal const string GetAll = EmptySuffix;
-		internal const string GetById = "{accountId:int}";
+		internal const string GetById = "{accountId:guid}";
 		internal const string GetByNumber = "{iban}";
+		internal const string GetTransactions = "{accountId:guid}/Transactions";
 		internal const string Post = EmptySuffix;
 		internal const string Put = EmptySuffix;
 	}
@@ -43,11 +44,12 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Card);
 
-		internal const string Delete = "{cardId:int}";
+		internal const string Delete = "{cardId:guid}";
 		internal const string GetAll = EmptySuffix;
-		internal const string GetById = "{cardId:int}";
-		internal const string GetByNumber = "{pam}";
-		internal const string Post = "{accountId:int}";
+		internal const string GetById = "{cardId:guid}";
+		internal const string GetByNumber = "{pan}";
+		internal const string GetTransactions = "{cardId:guid}/Transactions";
+		internal const string Post = "{accountId:guid}";
 		internal const string Put = EmptySuffix;
 	}
 
@@ -59,7 +61,7 @@ internal static class Endpoints
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Calendar);
 
 		internal const string GetByDate = "{date}";
-		internal const string GetById = "{id:int}";
+		internal const string GetById = "{id:guid}";
 		internal const string GetPagedByParameters = EmptySuffix;
 		internal const string GetCurrent = "Current";
 	}
@@ -95,10 +97,10 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Attendance);
 
-		internal const string Delete = "{calendarDayId:int}";
+		internal const string Delete = "{calendarId:guid}";
 		internal const string DeleteMultiple = "Multiple";
 		internal const string GetByDate = "{date}";
-		internal const string GetById = "{calendarDayId:int}";
+		internal const string GetById = "{calendarId:guid}";
 		internal const string GetPagedByParameters = EmptySuffix;
 		internal const string Post = EmptySuffix;
 		internal const string PostMultiple = $"Multiple";
@@ -110,12 +112,12 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(UserManagement);
 
-		internal const string AddUserToRole = "User/{userId:int}/Roles/{roleName}";
+		internal const string AddUserToRole = "Users/{userId:guid}/Roles/{roleId:guid}";
 		internal const string Create = EmptySuffix;
 		internal const string GetAll = EmptySuffix;
 		internal const string GetByName = "{userName}";
 		internal const string GetCurrent = "Current";
-		internal const string RemoveUserToRole = "User/{userId:int}/Roles/{roleName}";
+		internal const string RemoveUserToRole = "Users/{userId:guid}/Roles/{roleId:guid}";
 		internal const string UpdateCurrent = "Current";
 	}
 }

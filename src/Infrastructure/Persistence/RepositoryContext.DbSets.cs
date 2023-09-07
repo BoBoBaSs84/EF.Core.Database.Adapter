@@ -19,17 +19,17 @@ public sealed partial class RepositoryContext
 	public DbSet<AttendanceModel> Attendances { get; set; } = default!;
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Account"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AccountModel"/>.
 	/// </summary>
-	public DbSet<Account> Accounts { get; set; } = default!;
+	public DbSet<AccountModel> Accounts { get; set; } = default!;
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Card"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CardModel"/>.
 	/// </summary>
-	public DbSet<Card> Cards { get; set; } = default!;
+	public DbSet<CardModel> Cards { get; set; } = default!;
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Transaction"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="TransactionModel"/>.
 	/// </summary>
-	public DbSet<Transaction> Transactions { get; set; } = default!;
+	public DbSet<TransactionModel> Transactions { get; set; } = default!;
 }

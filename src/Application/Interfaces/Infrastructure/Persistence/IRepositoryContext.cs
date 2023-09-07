@@ -12,9 +12,9 @@ namespace Application.Interfaces.Infrastructure.Persistence;
 public interface IRepositoryContext
 {
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Account"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AccountModel"/>.
 	/// </summary>
-	DbSet<Account> Accounts { get; }
+	DbSet<AccountModel> Accounts { get; }
 
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AttendanceModel"/>.
@@ -27,14 +27,14 @@ public interface IRepositoryContext
 	DbSet<CalendarModel> CalendarDays { get; }
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Card"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CardModel"/>.
 	/// </summary>
-	DbSet<Card> Cards { get; }
+	DbSet<CardModel> Cards { get; }
 
 	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Transaction"/>.
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="TransactionModel"/>.
 	/// </summary>
-	DbSet<Transaction> Transactions { get; }
+	DbSet<TransactionModel> Transactions { get; }
 
 	/// <summary>
 	/// Saves the changes asynchronous.

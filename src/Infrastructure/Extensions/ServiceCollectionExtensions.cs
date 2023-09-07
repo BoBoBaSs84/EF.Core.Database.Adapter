@@ -101,7 +101,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection AddIdentityService(this IServiceCollection services)
 	{
-		services.AddIdentity<User, Role>(options =>
+		services.AddIdentity<UserModel, RoleModel>(options =>
 		{
 			options.SignIn.RequireConfirmedAccount = true;
 			options.SignIn.RequireConfirmedEmail = true;

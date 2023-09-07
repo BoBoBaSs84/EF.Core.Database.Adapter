@@ -19,8 +19,23 @@ public abstract class EnumeratorResponse<T> where T : Enum
 		Description = enumValue.GetDescription();
 	}
 
+	/// <summary>
+	/// The enumerator value.
+	/// </summary>
 	public T Value { get; }
+
+	/// <summary>
+	/// The enumerator name.
+	/// </summary>
 	public string Name { get; }
+
+	/// <summary>
+	/// The enumerator short name.
+	/// </summary>
 	public string ShortName { get; }
+
+	/// <summary>
+	/// The enumerator description.
+	/// </summary>
 	public string Description { get; }
 }

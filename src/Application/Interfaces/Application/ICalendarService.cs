@@ -24,16 +24,16 @@ public interface ICalendarService
 	/// <summary>
 	/// Returns the calendar entry by its <paramref name="date"/>.
 	/// </summary>
-	/// <param name="date">The date of the calendar day.</param>
+	/// <param name="date">The date of the calendar entry.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<CalendarResponse>> Get(DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Returns the calendar entry by its <paramref name="id"/>.
+	/// Returns the calendar entry by its identifier.
 	/// </summary>
-	/// <param name="id">The identifier of the calendar day.</param>
+	/// <param name="id">The identifier of the calendar entry.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>

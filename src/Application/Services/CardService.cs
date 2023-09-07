@@ -7,9 +7,9 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Models.Finance;
 using Domain.Entities.Identity;
 using Domain.Errors;
+using Domain.Models.Finance;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -21,7 +21,7 @@ namespace Application.Services;
 /// </summary>
 internal sealed class CardService : ICardService
 {
-	private readonly ILoggerService<CardService> _logger;
+	private readonly ILoggerService<CardService> _loggerService;
 	private readonly IUserService _userService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
@@ -32,33 +32,33 @@ internal sealed class CardService : ICardService
 	/// <summary>
 	/// Initilizes an instance of the account service class.
 	/// </summary>
-	/// <param name="logger">The logger service to use.</param>
+	/// <param name="loggerService">The logger service to use.</param>
 	/// <param name="userService">The user service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public CardService(ILoggerService<CardService> logger, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
+	public CardService(ILoggerService<CardService> loggerService, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
 	{
-		_logger = logger;
+		_loggerService = loggerService;
 		_userService = userService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		ErrorOr<Created> response = new();
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.PAN == createRequest.PAN,
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
+				expression: x => x.PAN == request.PAN,
 				cancellationToken: cancellationToken
 				);
 
 			if (card is not null)
-				response.Errors.Add(CardServiceErrors.CreateNumberConflict(createRequest.PAN));
+				response.Errors.Add(CardServiceErrors.CreateNumberConflict(request.PAN));
 
-			Account? account = await _repositoryService.AccountRepository.GetByConditionAsync(
+			AccountModel? account = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId),
 				cancellationToken: cancellationToken
 				);
@@ -69,8 +69,8 @@ internal sealed class CardService : ICardService
 			if (response.IsError)
 				return response;
 
-			User user = await _userService.FindByIdAsync($"{userId}");
-			Card newCard = _mapper.Map<Card>(createRequest);
+			UserModel user = await _userService.FindByIdAsync($"{userId}");
+			CardModel newCard = _mapper.Map<CardModel>(request);
 
 			newCard.User = user;
 			newCard.Account = account!;
@@ -82,7 +82,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.CreateFailed;
 		}
 	}
@@ -92,7 +92,7 @@ internal sealed class CardService : ICardService
 		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
@@ -108,7 +108,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.DeleteFailed;
 		}
 	}
@@ -118,7 +118,7 @@ internal sealed class CardService : ICardService
 		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
 				cancellationToken: cancellationToken
 				);
@@ -132,7 +132,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.GetByIdFailed(cardId);
 		}
 	}
@@ -142,7 +142,7 @@ internal sealed class CardService : ICardService
 		string[] parameters = new string[] { $"{userId}", $"{pan}" };
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.PAN == pan,
 				cancellationToken: cancellationToken
 				);
@@ -156,7 +156,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.GetByNumberFailed(pan);
 		}
 	}
@@ -165,7 +165,7 @@ internal sealed class CardService : ICardService
 	{
 		try
 		{
-			IEnumerable<Card> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
+			IEnumerable<CardModel> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
 				cancellationToken: cancellationToken
 				);
@@ -179,26 +179,26 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, userId, ex);
+			_loggerService.Log(LogExceptionWithParams, userId, ex);
 			return CardServiceErrors.GetAllFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			Card? card = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.Id.Equals(updateRequest.Id),
+			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
+				expression: x => x.UserId.Equals(userId) && x.Id.Equals(request.Id),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
 
 			if (card is null)
-				return CardServiceErrors.GetByIdNotFound(updateRequest.Id);
+				return CardServiceErrors.GetByIdNotFound(request.Id);
 
-			card.CardType = updateRequest.CardType;
-			card.ValidUntil = updateRequest.ValidUntil;
+			card.CardType = request.CardType;
+			card.ValidUntil = request.ValidUntil;
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -206,7 +206,7 @@ internal sealed class CardService : ICardService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, userId, ex);
+			_loggerService.Log(LogExceptionWithParams, userId, ex);
 			return CardServiceErrors.UpdateFailed;
 		}
 	}

@@ -403,11 +403,11 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The role with the name: &apos;{0}&apos; could not be found..
+        ///   Looks up a localized string similar to The role with the identifier: &apos;{0}&apos; could not be found..
         /// </summary>
-        public static string AuthenticationService_RoleByName_NotFound {
+        public static string AuthenticationService_RoleById_NotFound {
             get {
-                return ResourceManager.GetString("AuthenticationService.RoleByName.NotFound", resourceCulture);
+                return ResourceManager.GetString("AuthenticationService.RoleById.NotFound", resourceCulture);
             }
         }
         
@@ -619,110 +619,74 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the card type entries based on the parameterization..
+        ///   Looks up a localized string similar to An error occurred while loading the card type enumerators..
         /// </summary>
-        public static string CardTypeService_GetAll_Failed {
+        public static string EnumeratorService_GetCardTypes_Failed {
             get {
-                return ResourceManager.GetString("CardTypeService.GetAll.Failed", resourceCulture);
+                return ResourceManager.GetString("EnumeratorService.GetCardTypes.Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No card type entries could be found based on the parameterization..
+        ///   Looks up a localized string similar to An error occurred while loading the day type enumerators..
         /// </summary>
-        public static string CardTypeService_GetAll_NotFound {
+        public static string EnumeratorService_GetDayTypes_Failed {
             get {
-                return ResourceManager.GetString("CardTypeService.GetAll.NotFound", resourceCulture);
+                return ResourceManager.GetString("EnumeratorService.GetDayTypes.Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the card type by identifier..
+        ///   Looks up a localized string similar to An error occurred while loading the transaction for the bank account with the identifier: &apos;{0}&apos;..
         /// </summary>
-        public static string CardTypeService_GetById_Failed {
+        public static string TransactionServiceErrors_GetByAccountId_Failed {
             get {
-                return ResourceManager.GetString("CardTypeService.GetById.Failed", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.GetByAccountId.Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No card type entry with identifier: &apos;{0}&apos; could be found..
+        ///   Looks up a localized string similar to No transactions for the bank account with the identifier: &apos;{0}&apos; could be found to load..
         /// </summary>
-        public static string CardTypeService_GetById_NotFound {
+        public static string TransactionServiceErrors_GetByAccountId_NotFound {
             get {
-                return ResourceManager.GetString("CardTypeService.GetById.NotFound", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.GetByAccountId.NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the card type day by name..
+        ///   Looks up a localized string similar to An error occurred while loading the transaction for the bank card with the identifier: &apos;{0}&apos;..
         /// </summary>
-        public static string CardTypeService_GetByName_Failed {
+        public static string TransactionServiceErrors_GetByCardId_Failed {
             get {
-                return ResourceManager.GetString("CardTypeService.GetByName.Failed", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.GetByCardId.Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No card type entry with the name: &apos;{0}&apos; could be found..
+        ///   Looks up a localized string similar to No transactions for the bank card with the identifier: &apos;{0}&apos; could be found to load..
         /// </summary>
-        public static string CardTypeService_GetByName_NotFound {
+        public static string TransactionServiceErrors_GetByCardId_NotFound {
             get {
-                return ResourceManager.GetString("CardTypeService.GetByName.NotFound", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.GetByCardId.NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the day type entries based on the parameterization..
+        ///   Looks up a localized string similar to An error occurred while loading the bank transaction with the identifier: &apos;{0}&apos;..
         /// </summary>
-        public static string DayTypeService_GetAll_Failed {
+        public static string TransactionServiceErrors_GetById_Failed {
             get {
-                return ResourceManager.GetString("DayTypeService.GetAll.Failed", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.GetById.Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No day type entries could be found based on the parameterization..
+        ///   Looks up a localized string similar to No bank transaction with the identifier: &apos;{0}&apos; could be found to load..
         /// </summary>
-        public static string DayTypeService_GetAll_NotFound {
+        public static string TransactionServiceErrors_GetById_NotFound {
             get {
-                return ResourceManager.GetString("DayTypeService.GetAll.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the day type by identifier..
-        /// </summary>
-        public static string DayTypeService_GetById_Failed {
-            get {
-                return ResourceManager.GetString("DayTypeService.GetById.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No day type entry with identifier: &apos;{0}&apos; could be found..
-        /// </summary>
-        public static string DayTypeService_GetById_NotFound {
-            get {
-                return ResourceManager.GetString("DayTypeService.GetById.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the day type day by name..
-        /// </summary>
-        public static string DayTypeService_GetByName_Failed {
-            get {
-                return ResourceManager.GetString("DayTypeService.GetByName.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No day type entry with the name: &apos;{0}&apos; could be found..
-        /// </summary>
-        public static string DayTypeService_GetByName_NotFound {
-            get {
-                return ResourceManager.GetString("DayTypeService.GetByName.NotFound", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.GetById.NotFound", resourceCulture);
             }
         }
     }

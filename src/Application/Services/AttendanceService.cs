@@ -1,4 +1,6 @@
-﻿using Application.Errors.Services;
+﻿using Application.Contracts.Requests.Attendance;
+using Application.Contracts.Responses.Attendance;
+using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
@@ -7,15 +9,12 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Models.Attendance;
 using Domain.Errors;
 using Domain.Extensions;
-using Domain.Extensions.QueryExtensions;
+using Domain.Models.Attendance;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
-using Application.Contracts.Responses.Attendance;
-using Application.Contracts.Requests.Attendance;
 
 namespace Application.Services;
 
@@ -24,7 +23,7 @@ namespace Application.Services;
 /// </summary>
 internal sealed class AttendanceService : IAttendanceService
 {
-	private readonly ILoggerService<AttendanceService> _logger;
+	private readonly ILoggerService<AttendanceService> _loggerService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
@@ -34,12 +33,12 @@ internal sealed class AttendanceService : IAttendanceService
 	/// <summary>
 	/// Initilizes an instance of the attendance service class.
 	/// </summary>
-	/// <param name="logger">The logger service to use.</param>
+	/// <param name="loggerService">The logger service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public AttendanceService(ILoggerService<AttendanceService> logger, IRepositoryService repositoryService, IMapper mapper)
+	public AttendanceService(ILoggerService<AttendanceService> loggerService, IRepositoryService repositoryService, IMapper mapper)
 	{
-		_logger = logger;
+		_loggerService = loggerService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
@@ -58,7 +57,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
 			return AttendanceServiceErrors.CreateFailed;
 		}
 	}
@@ -79,7 +78,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
 			return AttendanceServiceErrors.CreateManyFailed;
 		}
 	}
@@ -90,7 +89,7 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? dbAttendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
+				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarDayId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
@@ -105,7 +104,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.DeleteFailed;
 		}
 	}
@@ -116,7 +115,7 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			IEnumerable<AttendanceModel> dbAttendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
-				expression: x => calendarDayIds.Contains(x.CalendarDayId) && x.UserId.Equals(userId),
+				expression: x => calendarDayIds.Contains(x.CalendarId) && x.UserId.Equals(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
@@ -131,7 +130,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.DeleteManyFailed;
 		}
 	}
@@ -142,13 +141,16 @@ internal sealed class AttendanceService : IAttendanceService
 		{
 			IEnumerable<AttendanceModel> attendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
-				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
-				orderBy: x => x.OrderBy(x => x.CalendarDay.Date),
+				queryFilter: x => x.FilterByYear(parameters.Year)
+				.FilterByMonth(parameters.Month)
+				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+				.FilterByEndOfMonth(parameters.EndOfMonth),
+				orderBy: x => x.OrderBy(x => x.Calendar.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { $"{nameof(AttendanceModel.CalendarDay)}", $"{nameof(AttendanceModel.DayType)}" }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (!attendances.Any())
@@ -156,7 +158,10 @@ internal sealed class AttendanceService : IAttendanceService
 
 			int totalCount = await _repositoryService.AttendanceRepository.GetCountAsync(
 				expression: x => x.UserId.Equals(userId),
-				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year)
+				.FilterByMonth(parameters.Month)
+				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+				.FilterByEndOfMonth(parameters.EndOfMonth),
 				cancellationToken: cancellationToken);
 
 			IEnumerable<AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
@@ -165,7 +170,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetPagedByParametersFailed;
 		}
 	}
@@ -175,10 +180,10 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarDay.Date.Equals(date.ToSqlDate()),
+				expression: x => x.UserId.Equals(userId) && x.Calendar.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { $"{nameof(AttendanceModel.CalendarDay)}", $"{nameof(AttendanceModel.DayType)}" }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (attendance is null)
@@ -191,7 +196,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
+			_loggerService.Log(LogExceptionWithParams, new string[] { $"{userId}", $"{date}" }, ex);
 			return AttendanceServiceErrors.GetByDateFailed(date);
 		}
 	}
@@ -202,10 +207,10 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarDayId.Equals(calendarDayId),
+				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarDayId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { $"{nameof(AttendanceModel.CalendarDay)}", $"{nameof(AttendanceModel.DayType)}" }
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
 				);
 
 			if (attendance is null)
@@ -218,7 +223,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetByIdFailed(calendarDayId);
 		}
 	}
@@ -242,7 +247,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.UpdateFailed;
 		}
 	}
@@ -267,7 +272,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
 			return AttendanceServiceErrors.UpdateManyFailed;
 		}
 	}

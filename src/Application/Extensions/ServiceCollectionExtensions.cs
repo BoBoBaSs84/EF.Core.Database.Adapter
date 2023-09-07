@@ -23,8 +23,20 @@ internal static class ServiceCollectionExtensions
 		services.TryAddScoped<IAccountService, AccountService>();
 		services.TryAddScoped<IAttendanceService, AttendanceService>();
 		services.TryAddScoped<ICalendarService, CalendarService>();
-		services.TryAddScoped<IDayTypeService, DayTypeService>();
-		services.TryAddScoped<ICardTypeService, CardTypeService>();
+		services.TryAddScoped<ICardService, CardService>();
+		services.TryAddScoped<ITransactionService, TransactionService>();
+
+		return services;
+	}
+
+	/// <summary>
+	/// Enriches a service collection with the singleton services.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	internal static IServiceCollection ConfigureSingletonServices(this IServiceCollection services)
+	{
+		services.TryAddSingleton<IEnumeratorService, EnumeratorService>();
 
 		return services;
 	}
@@ -37,6 +49,7 @@ internal static class ServiceCollectionExtensions
 	internal static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
 	{
 		services.AddAutoMapper(typeof(IApplicationAssemblyMarker));
+
 		return services;
 	}
 }

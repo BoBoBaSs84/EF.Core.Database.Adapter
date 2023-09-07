@@ -43,10 +43,10 @@ public sealed class UserManagementController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should add a user to a certain role.
+	/// Adds the user with the <paramref name="userId"/> to the role with the <paramref name="roleId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
-	/// <param name="roleName">The role the user should be added to.</param>
+	/// <param name="userId">The identifier of the user.</param>
+	/// <param name="roleId">The identifier of the role.</param>
 	/// <response code="200">If the user was added to the role.</response>
 	/// <response code="400">If something is wrong with the request.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -54,22 +54,22 @@ public sealed class UserManagementController : ApiControllerBase
 	/// <response code="404">If the user or the role was not found.</response>
 	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[HttpPost(Endpoints.UserManagement.AddUserToRole)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	[HttpPost(Endpoints.UserManagement.AddUserToRole)]
-	public async Task<IActionResult> AddUserToRole(Guid userId, string roleName)
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]	
+	public async Task<IActionResult> AddUserToRole(Guid userId, Guid roleId)
 	{
 		ErrorOr<Created> result =
-			await _authenticationService.AddUserToRole(userId, roleName);
+			await _authenticationService.AddUserToRole(userId, roleId);
 
 		return Put(result);
 	}
 
 	/// <summary>
-	/// Should create a new application user.
+	/// Creeates a new application user.
 	/// </summary>
 	/// <param name="createRequest">The user create request.</param>
 	/// <response code="201">If the new user was created.</response>
@@ -88,7 +88,7 @@ public sealed class UserManagementController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should retrieve all apllication users.
+	/// Returns all apllication users.
 	/// </summary>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -110,7 +110,7 @@ public sealed class UserManagementController : ApiControllerBase
 
 
 	/// <summary>
-	/// Should return the application user by its user name.
+	/// Returns the application user by its user name.
 	/// </summary>
 	/// <param name="userName">The user name of the user.</param>
 	/// <response code="200">The successful response.</response>
@@ -133,7 +133,7 @@ public sealed class UserManagementController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should return the current application user.
+	/// Returns the current application user.
 	/// </summary>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -152,10 +152,10 @@ public sealed class UserManagementController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Should remove a user from a certain role.
+	/// Removes the user with the <paramref name="userId"/> to the role with the <paramref name="roleId"/>.
 	/// </summary>
-	/// <param name="userId">the user identifier.</param>
-	/// <param name="roleName">The role the user should be added to.</param>
+	/// <param name="userId">The identifier of the user.</param>
+	/// <param name="roleId">The identifier of the role.</param>
 	/// <response code="200">If the user was added to the role.</response>
 	/// <response code="400">If something is wrong with the request.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -169,16 +169,16 @@ public sealed class UserManagementController : ApiControllerBase
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	[HttpDelete(Endpoints.UserManagement.RemoveUserToRole)]
-	public async Task<IActionResult> RemoveUserToRole(Guid userId, string roleName)
+	public async Task<IActionResult> RemoveUserFromRole(Guid userId, Guid roleId)
 	{
 		ErrorOr<Deleted> result =
-			await _authenticationService.RemoveUserToRole(userId, roleName);
+			await _authenticationService.RemoveUserFromRole(userId, roleId);
 
 		return Delete(result);
 	}
 
 	/// <summary>
-	/// Should update the current application user.
+	/// Updates the current application user.
 	/// </summary>
 	/// <param name="updateRequest">The user update request.</param>
 	/// <response code="200">If the user was updated.</response>

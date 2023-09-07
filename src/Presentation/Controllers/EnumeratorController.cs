@@ -21,24 +21,18 @@ namespace Presentation.Controllers;
 [ApiVersion(Versioning.CurrentVersion)]
 public sealed class EnumeratorController : ApiControllerBase
 {
-	private readonly ICardTypeService _cardTypeService;
-	private readonly IDayTypeService _dayTypeService;
+	private readonly IEnumeratorService _enumeratorService;
 
 	/// <summary>
-	/// Initializes an instance of the <see cref="DayTypeController"/> class.
+	/// Initializes an instance of the enumerator controller class.
 	/// </summary>
-	/// <param name="cardTypeService">The card type service to use.</param>
-	/// <param name="dayTypeService">The day type service to use.</param>
-	public EnumeratorController(ICardTypeService cardTypeService, IDayTypeService dayTypeService)
-	{
-		_cardTypeService = cardTypeService;
-		_dayTypeService = dayTypeService;
-	}
+	/// <param name="enumeratorService">The enumerator service to use.</param>
+	public EnumeratorController(IEnumeratorService enumeratorService)
+		=> _enumeratorService = enumeratorService;
 
 	/// <summary>
 	/// Returns all card type enumerators.
 	/// </summary>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
@@ -46,18 +40,15 @@ public sealed class EnumeratorController : ApiControllerBase
 	[ProducesResponseType(typeof(IEnumerable<CardTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetAllCardTypes(CancellationToken cancellationToken)
+	public IActionResult GetCardTypes()
 	{
-		ErrorOr<IEnumerable<CardTypeResponse>> result =
-			await _cardTypeService.Get(false, cancellationToken);
-
+		ErrorOr<IEnumerable<CardTypeResponse>> result = _enumeratorService.GetCardTypes();
 		return Get(result);
 	}
 
 	/// <summary>
 	/// Returns all day type enumerators.
 	/// </summary>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
@@ -65,11 +56,9 @@ public sealed class EnumeratorController : ApiControllerBase
 	[ProducesResponseType(typeof(IEnumerable<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetAllDayTypes(CancellationToken cancellationToken)
+	public IActionResult GetDayTypes()
 	{
-		ErrorOr<IEnumerable<DayTypeResponse>> result =
-			await _dayTypeService.Get(false, cancellationToken);
-
+		ErrorOr<IEnumerable<DayTypeResponse>> result = _enumeratorService.GetDayTypes();
 		return Get(result);
 	}
 }

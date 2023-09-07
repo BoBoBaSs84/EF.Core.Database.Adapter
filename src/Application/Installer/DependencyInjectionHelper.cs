@@ -19,6 +19,7 @@ public static class DependencyInjectionHelper
 	{
 		services.ConfigureAutoMapper();
 		services.ConfigureScopedServices();
+		services.ConfigureSingletonServices();
 
 		return services;
 	}

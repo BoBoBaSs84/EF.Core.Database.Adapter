@@ -5,7 +5,7 @@ using Application.Contracts.Responses.Base;
 namespace Application.Contracts.Responses.Finance;
 
 /// <summary>
-/// The card response class.
+/// The bank card response class.
 /// </summary>
 /// <remarks>
 /// Derives from the <see cref="IdentityResponse"/> class.

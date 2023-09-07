@@ -15,19 +15,19 @@ namespace Application.Interfaces.Infrastructure.Services;
 public interface IRoleService
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-	Task<IdentityResult> AddClaimAsync(Role role, Claim claim);
-	Task<IdentityResult> CreateAsync(Role role);
-	Task<IdentityResult> DeleteAsync(Role role);
-	Task<Role> FindByIdAsync(string roleId);
-	Task<Role> FindByNameAsync(string roleName);
-	Task<IList<Claim>> GetClaimsAsync(Role role);
-	Task<string> GetRoleIdAsync(Role role);
-	Task<string> GetRoleNameAsync(Role role);
+	Task<IdentityResult> AddClaimAsync(RoleModel role, Claim claim);
+	Task<IdentityResult> CreateAsync(RoleModel role);
+	Task<IdentityResult> DeleteAsync(RoleModel role);
+	Task<RoleModel> FindByIdAsync(string roleId);
+	Task<RoleModel> FindByNameAsync(string roleName);
+	Task<IList<Claim>> GetClaimsAsync(RoleModel role);
+	Task<string> GetRoleIdAsync(RoleModel role);
+	Task<string> GetRoleNameAsync(RoleModel role);
 	string NormalizeKey(string key);
-	Task<IdentityResult> RemoveClaimAsync(Role role, Claim claim);
+	Task<IdentityResult> RemoveClaimAsync(RoleModel role, Claim claim);
 	Task<bool> RoleExistsAsync(string roleName);
-	Task<IdentityResult> SetRoleNameAsync(Role role, string name);
-	Task<IdentityResult> UpdateAsync(Role role);
-	Task UpdateNormalizedRoleNameAsync(Role role);
+	Task<IdentityResult> SetRoleNameAsync(RoleModel role, string name);
+	Task<IdentityResult> UpdateAsync(RoleModel role);
+	Task UpdateNormalizedRoleNameAsync(RoleModel role);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

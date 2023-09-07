@@ -78,24 +78,24 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7bb400f3-9ccf-48bd-9d40-6ba78e71605d"),
-                            ConcurrencyStamp = "23795774-3ff7-4715-acde-84165cceb0c5",
+                            Id = new Guid("207fdc70-a5f0-454e-9312-5ae73991000a"),
+                            ConcurrencyStamp = "2d7e9692-d588-485b-8104-0f8dba3a5d64",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("a7114b38-d9a5-45b4-ac78-626ba38c5723"),
-                            ConcurrencyStamp = "f9099ec0-46fe-4898-990b-df4c337b0b76",
+                            Id = new Guid("760d142d-30b6-44e1-bd31-afb76ef20565"),
+                            ConcurrencyStamp = "42380bb0-f5dc-4d0b-8285-0ea9915e6ad1",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("833699d6-2a6e-4c6c-b7b6-1dca6fa3c991"),
-                            ConcurrencyStamp = "572fdc32-df11-4677-8cbf-b768fe84749d",
+                            Id = new Guid("c368cd92-dca4-4104-aaaa-c9d926553b42"),
+                            ConcurrencyStamp = "fe91b749-661a-4acf-8317-48a83db3226b",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -258,7 +258,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Property<TimeSpan?>("BreakTime")
                         .HasColumnType("time(0)");
 
-                    b.Property<Guid>("CalendarDayId")
+                    b.Property<Guid>("CalendarId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CreatedBy")
@@ -302,12 +302,12 @@ namespace Infrastructure.Persistence.Migrations.Development
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("CalendarDayId");
+                    b.HasIndex("CalendarId");
 
-                    b.HasIndex("UserId", "CalendarDayId")
+                    b.HasIndex("UserId", "CalendarId")
                         .IsUnique();
 
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "CalendarDayId"), false);
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "CalendarId"), false);
 
                     b.ToTable("Attendance", "Attendance");
 
@@ -387,7 +387,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Common.CalendarDay", b =>
+            modelBuilder.Entity("Domain.Models.Common.CalendarModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1143,9 +1143,9 @@ namespace Infrastructure.Persistence.Migrations.Development
 
             modelBuilder.Entity("Domain.Models.Attendance.AttendanceModel", b =>
                 {
-                    b.HasOne("Domain.Models.Common.CalendarDay", "CalendarDay")
+                    b.HasOne("Domain.Models.Common.CalendarModel", "CalendarDay")
                         .WithMany("Attendances")
-                        .HasForeignKey("CalendarDayId")
+                        .HasForeignKey("CalendarId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1318,7 +1318,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Domain.Models.Common.CalendarDay", b =>
+            modelBuilder.Entity("Domain.Models.Common.CalendarModel", b =>
                 {
                     b.Navigation("Attendances");
                 });

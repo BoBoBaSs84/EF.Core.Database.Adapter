@@ -11,21 +11,16 @@ namespace Infrastructure.Services;
 /// The role service class.
 /// </summary>
 /// <remarks>
-/// Derives from the <see cref="RoleManager{TRole}"/> class.
+/// Derives from the <see cref="RoleManager{TRole}"/> class
+/// and implements the members of the <see cref="IRoleService"/>.
 /// </remarks>
-internal sealed class RoleService : RoleManager<Role>, IRoleService
+internal sealed class RoleService : RoleManager<RoleModel>, IRoleService
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="RoleService"/> class.
+	/// Initializes a new instance of the role service class.
 	/// </summary>
 	/// <inheritdoc/>
-	public RoleService(
-		IRoleStore<Role> store,
-		IEnumerable<IRoleValidator<Role>> roleValidators,
-		ILookupNormalizer keyNormalizer,
-		IdentityErrorDescriber errors,
-		ILogger<RoleManager<Role>> logger)
-		: base(store, roleValidators, keyNormalizer, errors, logger)
-	{
-	}
+	public RoleService(IRoleStore<RoleModel> store, IEnumerable<IRoleValidator<RoleModel>> roleValidators, ILookupNormalizer keyNormalizer,
+		IdentityErrorDescriber errors, ILogger<RoleManager<RoleModel>> logger) : base(store, roleValidators, keyNormalizer, errors, logger)
+	{ }
 }

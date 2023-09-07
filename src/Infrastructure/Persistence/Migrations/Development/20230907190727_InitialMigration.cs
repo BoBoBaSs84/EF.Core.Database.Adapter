@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Infrastructure.Extensions;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -14,6 +16,8 @@ namespace Infrastructure.Persistence.Migrations.Development
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
+			migrationBuilder.CreateDatabaseLog();
+
 			migrationBuilder.EnsureSchema(
 					name: "Finance");
 
@@ -24,128 +28,72 @@ namespace Infrastructure.Persistence.Migrations.Development
 					name: "Common");
 
 			migrationBuilder.EnsureSchema(
-					name: "Private");
-
-			migrationBuilder.EnsureSchema(
 					name: "Identity");
 
 			migrationBuilder.CreateTable(
-					name: "DatabaseLog",
-					schema: "Private",
+					name: "Account",
+					schema: "Finance",
 					columns: table => new
 					{
-						Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-						PostTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
-						Login = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false, defaultValueSql: "(original_login())"),
-						Application = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true, defaultValueSql: "(program_name())"),
-						Event = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-						Schema = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-						Object = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-						TSQL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-						XmlEvent = table.Column<string>(type: "xml", nullable: false)
+						Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+						Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+						CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+						ModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+						IBAN = table.Column<string>(type: "varchar(25)", unicode: false, maxLength: 25, nullable: false)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+						Provider = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+						PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+						PeriodStart = table.Column<DateTime>(type: "datetime2", nullable: false)
+									.Annotation("SqlServer:IsTemporal", true)
+									.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart")
 					},
 					constraints: table =>
 					{
-						table.PrimaryKey("PK_DatabaseLog", x => x.Id)
+						table.PrimaryKey("PK_Account", x => x.Id)
 											.Annotation("SqlServer:Clustered", false);
-					});
-
-			migrationBuilder.Sql(@"CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE 
-FOR DDL_DATABASE_LEVEL_EVENTS AS 
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @data XML;
-    DECLARE @schema sysname;
-    DECLARE @object sysname;
-    DECLARE @eventType sysname;
-
-    SET @data = EVENTDATA();
-    SET @eventType = @data.value('(/EVENT_INSTANCE/EventType)[1]', 'sysname');
-    SET @schema = @data.value('(/EVENT_INSTANCE/SchemaName)[1]', 'sysname');
-    SET @object = @data.value('(/EVENT_INSTANCE/ObjectName)[1]', 'sysname') 
-
-    IF @object IS NOT NULL
-        PRINT '  ' + @eventType + ' - ' + @schema + '.' + @object;
-    ELSE
-        PRINT '  ' + @eventType + ' - ' + @schema;
-
-    IF @eventType IS NULL
-        PRINT CONVERT(nvarchar(max), @data);
-
-    INSERT [private].[DatabaseLog] ([Id], [Event], [Schema], [Object], [TSQL], [XmlEvent])
-    SELECT NEWID()
-			, @eventType
-			, CONVERT(sysname, @schema)
-			, CONVERT(sysname, @object)
-			, @data.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'nvarchar(max)')
-			, @data;
-END;");
-
-			migrationBuilder.CreateTable(
-								name: "Account",
-								schema: "Finance",
-								columns: table => new
-								{
-									Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-									Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-									CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-									ModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-									IBAN = table.Column<string>(type: "varchar(25)", unicode: false, maxLength: 25, nullable: false)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-									Provider = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-									PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-									PeriodStart = table.Column<DateTime>(type: "datetime2", nullable: false)
-												.Annotation("SqlServer:IsTemporal", true)
-												.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-												.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-												.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-												.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart")
-								},
-								constraints: table =>
-								{
-									table.PrimaryKey("PK_Account", x => x.Id)
-											.Annotation("SqlServer:Clustered", false);
-								})
-								.Annotation("SqlServer:IsTemporal", true)
-								.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-								.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-								.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-								.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
+					})
+					.Annotation("SqlServer:IsTemporal", true)
+					.Annotation("SqlServer:TemporalHistoryTableName", "Account")
+					.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
+					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
 
 			migrationBuilder.CreateTable(
 					name: "Calendar",
@@ -826,7 +774,7 @@ END;");
 									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
 									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						CalendarDayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+						CalendarId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
 									.Annotation("SqlServer:IsTemporal", true)
 									.Annotation("SqlServer:TemporalHistoryTableName", "Attendance")
 									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
@@ -874,8 +822,8 @@ END;");
 						table.PrimaryKey("PK_Attendance", x => x.Id)
 											.Annotation("SqlServer:Clustered", false);
 						table.ForeignKey(
-											name: "FK_Attendance_Calendar_CalendarDayId",
-											column: x => x.CalendarDayId,
+											name: "FK_Attendance_Calendar_CalendarId",
+											column: x => x.CalendarId,
 											principalSchema: "Common",
 											principalTable: "Calendar",
 											principalColumn: "Id",
@@ -1380,9 +1328,9 @@ END;");
 					columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
 					values: new object[,]
 					{
-										{ new Guid("7bb400f3-9ccf-48bd-9d40-6ba78e71605d"), "23795774-3ff7-4715-acde-84165cceb0c5", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-										{ new Guid("833699d6-2a6e-4c6c-b7b6-1dca6fa3c991"), "572fdc32-df11-4677-8cbf-b768fe84749d", "The user with extended user rights.", "Super user", "SUPERUSER" },
-										{ new Guid("a7114b38-d9a5-45b4-ac78-626ba38c5723"), "f9099ec0-46fe-4898-990b-df4c337b0b76", "This is a normal user with normal user rights.", "User", "USER" }
+										{ new Guid("7ca31c7f-cba0-4550-8283-5c8784fdcbf7"), "e074de14-fd0c-4304-b294-612af2de9746", "This is a normal user with normal user rights.", "User", "USER" },
+										{ new Guid("8d76b082-4893-4225-9d25-66570ec77d8f"), "b02ff284-88a8-4893-8262-aa6cdfdf71cd", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+										{ new Guid("df3f4807-9910-4279-ad20-bd5614b00fbe"), "15fcb8a2-d607-42f6-8211-02b9526b72e9", "The user with extended user rights.", "Super user", "SUPERUSER" }
 					});
 
 			migrationBuilder.CreateIndex(
@@ -1406,16 +1354,16 @@ END;");
 					column: "UserId");
 
 			migrationBuilder.CreateIndex(
-					name: "IX_Attendance_CalendarDayId",
+					name: "IX_Attendance_CalendarId",
 					schema: "Attendance",
 					table: "Attendance",
-					column: "CalendarDayId");
+					column: "CalendarId");
 
 			migrationBuilder.CreateIndex(
-					name: "IX_Attendance_UserId_CalendarDayId",
+					name: "IX_Attendance_UserId_CalendarId",
 					schema: "Attendance",
 					table: "Attendance",
-					columns: new[] { "UserId", "CalendarDayId" },
+					columns: new[] { "UserId", "CalendarId" },
 					unique: true)
 					.Annotation("SqlServer:Clustered", false);
 
@@ -1557,10 +1505,6 @@ END;");
 					.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
 					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.DropTable(
-					name: "DatabaseLog",
-					schema: "Private");
 
 			migrationBuilder.DropTable(
 					name: "RoleClaim",

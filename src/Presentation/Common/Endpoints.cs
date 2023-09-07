@@ -88,6 +88,14 @@ internal static class Endpoints
 		{
 			internal const string GetAll = nameof(CardType);
 		}
+
+		/// <summary>
+		/// The role type route.
+		/// </summary>
+		internal static class RoleType
+		{
+			internal const string GetAll = nameof(RoleType);
+		}
 	}
 
 	/// <summary>

@@ -12,21 +12,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations.Development
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230903211626_UpdateMigration")]
-    partial class UpdateMigration
+    [Migration("20230907190727_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Private")
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
+            modelBuilder.Entity("Domain.Entities.Identity.RoleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,31 +80,31 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasData(
                         new
                         {
-                            Id = new Guid("207fdc70-a5f0-454e-9312-5ae73991000a"),
-                            ConcurrencyStamp = "2d7e9692-d588-485b-8104-0f8dba3a5d64",
+                            Id = new Guid("8d76b082-4893-4225-9d25-66570ec77d8f"),
+                            ConcurrencyStamp = "b02ff284-88a8-4893-8262-aa6cdfdf71cd",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("760d142d-30b6-44e1-bd31-afb76ef20565"),
-                            ConcurrencyStamp = "42380bb0-f5dc-4d0b-8285-0ea9915e6ad1",
+                            Id = new Guid("7ca31c7f-cba0-4550-8283-5c8784fdcbf7"),
+                            ConcurrencyStamp = "e074de14-fd0c-4304-b294-612af2de9746",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("c368cd92-dca4-4104-aaaa-c9d926553b42"),
-                            ConcurrencyStamp = "fe91b749-661a-4acf-8317-48a83db3226b",
+                            Id = new Guid("df3f4807-9910-4279-ad20-bd5614b00fbe"),
+                            ConcurrencyStamp = "15fcb8a2-d607-42f6-8211-02b9526b72e9",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.User", b =>
+            modelBuilder.Entity("Domain.Entities.Identity.UserModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -215,7 +214,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.UserRole", b =>
+            modelBuilder.Entity("Domain.Entities.Identity.UserRoleModel", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -494,7 +493,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.Account", b =>
+            modelBuilder.Entity("Domain.Models.Finance.AccountModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -560,7 +559,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.AccountTransaction", b =>
+            modelBuilder.Entity("Domain.Models.Finance.AccountTransactionModel", b =>
                 {
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
@@ -613,7 +612,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.AccountUser", b =>
+            modelBuilder.Entity("Domain.Models.Finance.AccountUserModel", b =>
                 {
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
@@ -666,7 +665,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.Card", b =>
+            modelBuilder.Entity("Domain.Models.Finance.CardModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -743,7 +742,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.CardTransaction", b =>
+            modelBuilder.Entity("Domain.Models.Finance.CardTransactionModel", b =>
                 {
                     b.Property<Guid>("CardId")
                         .HasColumnType("uniqueidentifier");
@@ -796,7 +795,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.Transaction", b =>
+            modelBuilder.Entity("Domain.Models.Finance.TransactionModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -897,7 +896,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.RoleClaim", b =>
+            modelBuilder.Entity("Domain.Models.Identity.RoleClaimModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -942,7 +941,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.UserClaim", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserClaimModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -987,7 +986,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.UserLogin", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserLoginModel", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -1029,7 +1028,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.UserToken", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserTokenModel", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -1069,71 +1068,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                             }));
                 });
 
-            modelBuilder.Entity("Infrastructure.Extensions.ModelBuilderExtensions+DatabaseLog", b =>
+            modelBuilder.Entity("Domain.Entities.Identity.UserRoleModel", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("Application")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasDefaultValueSql("(program_name())");
-
-                    b.Property<string>("Event")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasDefaultValueSql("(original_login())");
-
-                    b.Property<string>("Object")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("PostTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
-
-                    b.Property<string>("Schema")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Tsql")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("TSQL");
-
-                    b.Property<string>("XmlEvent")
-                        .IsRequired()
-                        .HasColumnType("xml");
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.ToTable("DatabaseLog", "Private");
-
-                    b.ToSqlQuery("CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE \r\nFOR DDL_DATABASE_LEVEL_EVENTS AS \r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    DECLARE @data XML;\r\n    DECLARE @schema sysname;\r\n    DECLARE @object sysname;\r\n    DECLARE @eventType sysname;\r\n\r\n    SET @data = EVENTDATA();\r\n    SET @eventType = @data.value('(/EVENT_INSTANCE/EventType)[1]', 'sysname');\r\n    SET @schema = @data.value('(/EVENT_INSTANCE/SchemaName)[1]', 'sysname');\r\n    SET @object = @data.value('(/EVENT_INSTANCE/ObjectName)[1]', 'sysname') \r\n\r\n    IF @object IS NOT NULL\r\n        PRINT '  ' + @eventType + ' - ' + @schema + '.' + @object;\r\n    ELSE\r\n        PRINT '  ' + @eventType + ' - ' + @schema;\r\n\r\n    IF @eventType IS NULL\r\n        PRINT CONVERT(nvarchar(max), @data);\r\n\r\n    INSERT [private].[DatabaseLog] ([Id], [Event], [Schema], [Object], [TSQL], [XmlEvent])\r\n    SELECT NEWID()\r\n			, @eventType\r\n			, CONVERT(sysname, @schema)\r\n			, CONVERT(sysname, @object)\r\n			, @data.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'nvarchar(max)')\r\n			, @data;\r\nEND;");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Identity.UserRole", b =>
-                {
-                    b.HasOne("Domain.Entities.Identity.Role", "Role")
+                    b.HasOne("Domain.Entities.Identity.RoleModel", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1146,26 +1089,26 @@ namespace Infrastructure.Persistence.Migrations.Development
 
             modelBuilder.Entity("Domain.Models.Attendance.AttendanceModel", b =>
                 {
-                    b.HasOne("Domain.Models.Common.CalendarModel", "CalendarDay")
+                    b.HasOne("Domain.Models.Common.CalendarModel", "Calendar")
                         .WithMany("Attendances")
                         .HasForeignKey("CalendarId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithMany("Attendances")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CalendarDay");
+                    b.Navigation("Calendar");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Models.Attendance.AttendanceSettingsModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithOne("AttendanceSettings")
                         .HasForeignKey("Domain.Models.Attendance.AttendanceSettingsModel", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1174,15 +1117,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.AccountTransaction", b =>
+            modelBuilder.Entity("Domain.Models.Finance.AccountTransactionModel", b =>
                 {
-                    b.HasOne("Domain.Models.Finance.Account", "Account")
+                    b.HasOne("Domain.Models.Finance.AccountModel", "Account")
                         .WithMany("AccountTransactions")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.Finance.Transaction", "Transaction")
+                    b.HasOne("Domain.Models.Finance.TransactionModel", "Transaction")
                         .WithMany("AccountTransactions")
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1193,15 +1136,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("Transaction");
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.AccountUser", b =>
+            modelBuilder.Entity("Domain.Models.Finance.AccountUserModel", b =>
                 {
-                    b.HasOne("Domain.Models.Finance.Account", "Account")
+                    b.HasOne("Domain.Models.Finance.AccountModel", "Account")
                         .WithMany("AccountUsers")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithMany("AccountUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1212,15 +1155,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.Card", b =>
+            modelBuilder.Entity("Domain.Models.Finance.CardModel", b =>
                 {
-                    b.HasOne("Domain.Models.Finance.Account", "Account")
+                    b.HasOne("Domain.Models.Finance.AccountModel", "Account")
                         .WithMany("Cards")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithMany("Cards")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1231,15 +1174,15 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.CardTransaction", b =>
+            modelBuilder.Entity("Domain.Models.Finance.CardTransactionModel", b =>
                 {
-                    b.HasOne("Domain.Models.Finance.Card", "Card")
+                    b.HasOne("Domain.Models.Finance.CardModel", "Card")
                         .WithMany("CardTransactions")
                         .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.Finance.Transaction", "Transaction")
+                    b.HasOne("Domain.Models.Finance.TransactionModel", "Transaction")
                         .WithMany("CardTransactions")
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1250,9 +1193,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("Transaction");
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.RoleClaim", b =>
+            modelBuilder.Entity("Domain.Models.Identity.RoleClaimModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.Role", "Role")
+                    b.HasOne("Domain.Entities.Identity.RoleModel", "Role")
                         .WithMany("RoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1261,9 +1204,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.UserClaim", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserClaimModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1272,9 +1215,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.UserLogin", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserLoginModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1283,9 +1226,9 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Identity.UserToken", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserTokenModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.User", "User")
+                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1294,14 +1237,14 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
+            modelBuilder.Entity("Domain.Entities.Identity.RoleModel", b =>
                 {
                     b.Navigation("RoleClaims");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.User", b =>
+            modelBuilder.Entity("Domain.Entities.Identity.UserModel", b =>
                 {
                     b.Navigation("AccountUsers");
 
@@ -1326,7 +1269,7 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("Attendances");
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.Account", b =>
+            modelBuilder.Entity("Domain.Models.Finance.AccountModel", b =>
                 {
                     b.Navigation("AccountTransactions");
 
@@ -1335,12 +1278,12 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Navigation("Cards");
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.Card", b =>
+            modelBuilder.Entity("Domain.Models.Finance.CardModel", b =>
                 {
                     b.Navigation("CardTransactions");
                 });
 
-            modelBuilder.Entity("Domain.Models.Finance.Transaction", b =>
+            modelBuilder.Entity("Domain.Models.Finance.TransactionModel", b =>
                 {
                     b.Navigation("AccountTransactions");
 

@@ -20,4 +20,10 @@ public interface IEnumeratorService
 	/// </summary>
 	/// <returns>A list of day type responses.</returns>
 	ErrorOr<IEnumerable<DayTypeResponse>> GetDayTypes();
+
+	/// <summary>
+	/// Returns all role type enumerators.
+	/// </summary>
+	/// <returns>A list of role type responses.</returns>
+	ErrorOr<IEnumerable<RoleTypeResponse>> GetRoleTypes();
 }

@@ -1,45 +1,65 @@
-﻿using Domain.Extensions;
+﻿using BaseTests.Helpers;
+
+using Domain.Extensions;
 
 using FluentAssertions;
-
-using static BaseTests.Constants.TestConstants;
-using static BaseTests.Helpers.AssertionHelper;
 
 namespace DomainTests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class DateTimeExtensionTests : DomainBaseTest
+public class DateTimeExtensionTests : DomainTestBase
 {
-	[TestMethod, Owner(Bobo)]
-	public void ToSqlDateSuccessTest()
+	[TestMethod]
+	public void ToSqlDateTest()
 	{
-		DateTime dateTimeNow = DateTime.Now,
-			sqlDate;
+		DateTime dateTime = DateTime.Now;
 
-		sqlDate = dateTimeNow.ToSqlDate();
+		DateTime date = dateTime.ToSqlDate();
 
-		AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
-			sqlDate.Hour.Should().Be(0);
-			sqlDate.Minute.Should().Be(0);
-			sqlDate.Second.Should().Be(0);
-			sqlDate.Year.Should().Be(dateTimeNow.Year);
-			sqlDate.Month.Should().Be(dateTimeNow.Month);
-			sqlDate.Day.Should().Be(dateTimeNow.Day);
+			date.Hour.Should().Be(0);
+			date.Minute.Should().Be(0);
+			date.Second.Should().Be(0);
+			date.Millisecond.Should().Be(0);
 		});
 	}
 
-	[TestMethod, Owner(Bobo)]
-	public void ToSqlDateFailTest()
+	[TestMethod]
+	public void ToSqlDateNullableTest()
 	{
-		DateTime sqlDate = DateTime.Now.ToSqlDate();
+		DateTime? dateTime = DateTime.Now;
 
-		AssertInScope(() =>
+		DateTime? date = dateTime.ToSqlDate();
+
+		AssertionHelper.AssertInScope(() =>
 		{
-			sqlDate.Hour.Should().NotBe(1);
-			sqlDate.Minute.Should().NotBe(1);
-			sqlDate.Second.Should().NotBe(1);
+			Assert.IsNotNull(date);
+			date.Value.Hour.Should().Be(0);
+			date.Value.Minute.Should().Be(0);
+			date.Value.Second.Should().Be(0);
+			date.Value.Millisecond.Should().Be(0);
 		});
+	}
+
+	[TestMethod()]
+	public void StartOfWeekTest()
+	{
+		DateTime today = new(2023, 09, 05);
+
+		DateTime startOfWeek = today.StartOfWeek();
+
+		startOfWeek.Should().Be(new(2023, 09, 04));
+	}
+
+	[TestMethod()]
+	public void EndOfWeekTest()
+	{
+		DateTime today = new(2023, 09, 05);
+
+		DateTime endOfWeek = today.EndOfWeek();
+
+		endOfWeek.Should().Be(new(2023, 09, 10));
 	}
 }

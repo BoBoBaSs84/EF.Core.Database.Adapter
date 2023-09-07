@@ -10,7 +10,7 @@ namespace DomainTests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class StringExtensionTests : DomainBaseTest
+public class StringExtensionTests : DomainTestBase
 {
 	[TestMethod, Owner(Bobo)]
 	public void RemoveWhitespaceSuccessTest()

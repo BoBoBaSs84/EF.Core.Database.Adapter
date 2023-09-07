@@ -10,7 +10,7 @@ namespace DomainTests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public class EnumeratorExtensionsTests : DomainBaseTest
+public class EnumeratorExtensionsTests : DomainTestBase
 {
 	[TestMethod, Owner(Bobo)]
 	public void GetEnumDescriptionSuccessTest()

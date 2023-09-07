@@ -637,6 +637,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the role type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetRoleTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetRoleTypes.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the transaction for the bank account with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string TransactionServiceErrors_GetByAccountId_Failed {

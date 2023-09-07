@@ -12,7 +12,7 @@ namespace ApplicationTests;
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 [SuppressMessage("Globalization", "CA1310", Justification = "UnitTest")]
-public class ArchitectureTests : ApplicationBaseTests
+public class ArchitectureTests : ApplicationTestBase
 {
 	private readonly Assembly _assembly = typeof(IApplicationAssemblyMarker).Assembly;
 
@@ -32,7 +32,6 @@ public class ArchitectureTests : ApplicationBaseTests
 			typeList.Should().NotBeNullOrEmpty();
 			foreach (Type type in typeList)
 			{
-				TestContext.WriteLine($"Testing: {type.Name}");
 				type.IsSealed.Should().BeTrue();
 				type.IsPublic.Should().BeFalse();
 				type.IsVisible.Should().BeFalse();

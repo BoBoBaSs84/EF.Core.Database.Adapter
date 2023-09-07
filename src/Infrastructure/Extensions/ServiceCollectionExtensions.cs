@@ -9,12 +9,14 @@ using Domain.Entities.Identity;
 using Infrastructure.Common;
 using Infrastructure.Logging;
 using Infrastructure.Persistence;
+using Infrastructure.Persistence.Generators;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Services;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -72,6 +74,7 @@ internal static class ServiceCollectionExtensions
 	{
 		services.AddDbContext<RepositoryContext>(options =>
 		{
+			options.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
 				{

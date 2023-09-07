@@ -14,7 +14,7 @@ namespace DomainTests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
-public sealed class EnumeratorTests : DomainBaseTest
+public sealed class EnumeratorTests : DomainTestBase
 {
 	[TestMethod, Owner(Bobo)]
 	public void AllEnumeratorsHaveDescriptionNameShortNameAndResourceTest()
@@ -22,12 +22,9 @@ public sealed class EnumeratorTests : DomainBaseTest
 		IEnumerable<Type> types = GetEnumTypes();
 		foreach (Type type in types)
 		{
-			TestContext.WriteLine($"Testing enum: {type.Name}");
 			IEnumerable<Enum> enums = GetEnums(type);
 			foreach (Enum e in enums)
 			{
-				TestContext.WriteLine($"Value: {e}");
-
 				AssertionHelper.AssertInScope(() =>
 				{
 					AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();

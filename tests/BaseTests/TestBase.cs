@@ -1,14 +1,17 @@
 ﻿using Application.Installer;
 using Application.Interfaces.Presentation.Services;
 
+using BaseTests.Helpers;
 using BaseTests.Services;
 
 using Domain.Constants;
+using Domain.Entities.Identity;
 
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
 using Infrastructure.Persistence;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -18,6 +21,9 @@ namespace BaseTests;
 public abstract class TestBase
 {
 	private static IHost s_host = default!;
+	private static RepositoryContext s_context = default!;
+
+	public static readonly ICollection<UserModel> Users = new List<UserModel>();
 
 	[AssemblyInitialize]
 	public static void AssemblyInitialize(TestContext context)
@@ -26,16 +32,19 @@ public abstract class TestBase
 			return;
 
 		s_host = InitializeHost();
-		RepositoryContext dbContext = GetRequiredService<RepositoryContext>();
-		dbContext.Database.EnsureCreated();
+		
+		s_context = GetRequiredService<RepositoryContext>();
+
+		File.WriteAllText("SqlScript.sql", s_context.Database.GenerateCreateScript());
+
+		s_context.Database.EnsureCreated();
+
+		DataSeed();
 	}
 
 	[AssemblyCleanup]
 	public static void AssemblyCleanup()
-	{
-		RepositoryContext dbContext = GetRequiredService<RepositoryContext>();
-		dbContext.Database.EnsureDeleted();
-	}
+		=> s_context.Database.EnsureDeleted();
 
 	/// <summary>
 	/// Returns the requested service if it was registered within the service collection.
@@ -60,5 +69,11 @@ public abstract class TestBase
 			});
 
 		return hostBuilder.Start();
+	}
+
+	private static void DataSeed()
+	{
+		DataSeedHelper.SeedCalendar();
+		DataSeedHelper.SeedUsers();		
 	}
 }

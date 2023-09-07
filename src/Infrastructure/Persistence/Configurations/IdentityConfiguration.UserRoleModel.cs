@@ -16,6 +16,6 @@ internal static partial class IdentityConfiguration
 	internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRoleModel>
 	{
 		public void Configure(EntityTypeBuilder<UserRoleModel> builder) =>
-			builder.ToSytemVersionedTable(SqlSchema.Identity, "UserRole");
+			builder.ToVersionedTable(SqlSchema.Identity, "UserRole");
 	}
 }

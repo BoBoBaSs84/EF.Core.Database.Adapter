@@ -18,7 +18,7 @@ internal static partial class FinanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<TransactionModel> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.Finance, "Transaction");
+			builder.ToVersionedTable(SqlSchema.Finance, "Transaction");
 
 			builder.Property(e => e.AccountNumber)
 				.IsUnicode(false);

@@ -35,7 +35,11 @@ public abstract class TestBase
 		
 		s_context = GetRequiredService<RepositoryContext>();
 
-		File.WriteAllText("SqlScript.sql", s_context.Database.GenerateCreateScript());
+		string sqlScript = s_context.Database.GenerateCreateScript();
+
+		var migrations = s_context.Database.GetMigrations();
+
+		File.WriteAllText("SqlScript.sql", sqlScript);
 
 		s_context.Database.EnsureCreated();
 

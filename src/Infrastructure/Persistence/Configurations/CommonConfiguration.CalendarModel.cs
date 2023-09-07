@@ -19,7 +19,7 @@ internal static partial class CommonConfiguration
 		/// <inheritdoc/>
 		public override void Configure(EntityTypeBuilder<CalendarModel> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.Common, "Calendar");
+			builder.ToVersionedTable(SqlSchema.Common, "Calendar");
 
 			builder.HasIndex(e => e.Date)
 				.IsUnique(true);

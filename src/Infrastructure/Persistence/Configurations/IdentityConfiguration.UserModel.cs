@@ -17,7 +17,7 @@ internal static partial class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<UserModel> builder)
 		{
-			builder.ToSytemVersionedTable(SqlSchema.Identity, "User");
+			builder.ToVersionedTable(SqlSchema.Identity, "User");
 
 			builder.HasMany(e => e.Claims)
 				.WithOne(e => e.User)

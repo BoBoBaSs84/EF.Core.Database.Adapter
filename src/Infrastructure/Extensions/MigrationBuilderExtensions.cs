@@ -11,7 +11,7 @@ namespace Infrastructure.Extensions;
 internal static class MigrationBuilderExtensions
 {
 	/// <summary>
-	/// 
+	/// Applies the create database logging operation to migration builder.
 	/// </summary>
 	/// <param name="migrationBuilder">The migration builder to use.</param>
 	/// <param name="schemaName">The name of the table schema.</param>

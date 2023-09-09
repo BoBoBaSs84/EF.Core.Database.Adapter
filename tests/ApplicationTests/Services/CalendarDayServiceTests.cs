@@ -17,13 +17,14 @@ namespace ApplicationTests.Services;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
 public class CalendarDayServiceTests : ApplicationTestBase
 {
-	private ICalendarService _calendarDayService = default!;
+	private readonly ICalendarService _calendarDayService;
+
+	public CalendarDayServiceTests()
+		=> _calendarDayService = GetRequiredService<ICalendarService>();
 
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByDateSuccessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarService>();
-
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(DateTime.Now);
 
 		AH.AssertInScope(() =>
@@ -38,7 +39,6 @@ public class CalendarDayServiceTests : ApplicationTestBase
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByDateNotFoundTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarService>();
 		DateTime dateTime = DateTime.Now.AddYears(50);
 
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(dateTime);
@@ -55,7 +55,6 @@ public class CalendarDayServiceTests : ApplicationTestBase
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByIdSuccessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarService>();
 		Guid calendarDayId = Guid.NewGuid();
 
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(calendarDayId);
@@ -72,7 +71,6 @@ public class CalendarDayServiceTests : ApplicationTestBase
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetByIdNotFoundTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarService>();
 		Guid calendarDayId = Guid.NewGuid();
 
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(calendarDayId);
@@ -89,8 +87,6 @@ public class CalendarDayServiceTests : ApplicationTestBase
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetPagedByParametersSucessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarService>();
-
 		CalendarParameters parameters = new() { Year = DateTime.Now.Year, Month = DateTime.Now.Month };
 
 		ErrorOr<IPagedList<CalendarResponse>> result = await _calendarDayService.Get(parameters);
@@ -108,8 +104,6 @@ public class CalendarDayServiceTests : ApplicationTestBase
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetPagedByParametersNotFoundTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarService>();
-
 		CalendarParameters parameters = new() { Year = DateTime.Now.AddYears(50).Year, Month = DateTime.Now.AddYears(50).Month };
 
 		ErrorOr<IPagedList<CalendarResponse>> result = await _calendarDayService.Get(parameters);
@@ -126,8 +120,6 @@ public class CalendarDayServiceTests : ApplicationTestBase
 	[TestMethod, Owner(TC.Bobo)]
 	public async Task GetCurrentDateSuccessTest()
 	{
-		_calendarDayService = GetRequiredService<ICalendarService>();
-
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get();
 
 		AH.AssertInScope(() =>

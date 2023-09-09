@@ -11,7 +11,6 @@ using Infrastructure.Extensions;
 using Infrastructure.Installer;
 using Infrastructure.Persistence;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -32,16 +31,10 @@ public abstract class TestBase
 			return;
 
 		s_host = InitializeHost();
-		
+
 		s_context = GetRequiredService<RepositoryContext>();
 
-		string sqlScript = s_context.Database.GenerateCreateScript();
-
-		var migrations = s_context.Database.GetMigrations();
-
-		File.WriteAllText("SqlScript.sql", sqlScript);
-
-		s_context.Database.EnsureCreated();
+		_ = s_context.Database.EnsureCreated();
 
 		DataSeed();
 	}
@@ -67,9 +60,9 @@ public abstract class TestBase
 			.UseEnvironment(env)
 			.ConfigureServices((hostContext, services) =>
 			{
-				services.ConfigureInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
-				services.ConfigureApplicationServices();
-				services.AddSingleton<ICurrentUserService, CurrentTestUserService>();
+				_ = services.ConfigureInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
+				_ = services.ConfigureApplicationServices();
+				_ = services.AddSingleton<ICurrentUserService, CurrentTestUserService>();
 			});
 
 		return hostBuilder.Start();
@@ -78,6 +71,6 @@ public abstract class TestBase
 	private static void DataSeed()
 	{
 		DataSeedHelper.SeedCalendar();
-		DataSeedHelper.SeedUsers();		
+		DataSeedHelper.SeedUsers();
 	}
 }

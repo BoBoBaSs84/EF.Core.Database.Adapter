@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
+
+using Domain.Enumerators;
 
 namespace Application.Contracts.Responses.Finance;
 
@@ -15,7 +18,8 @@ public sealed class CardResponse : IdentityResponse
 	/// <summary>
 	/// The card type.
 	/// </summary>
-	public string CardType { get; set; } = default!;
+	[JsonConverter(typeof(JsonStringEnumConverter))]
+	public CardType CardType { get; set; }
 
 	/// <summary>
 	/// The payment card number.

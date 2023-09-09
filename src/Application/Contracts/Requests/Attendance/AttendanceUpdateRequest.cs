@@ -12,10 +12,10 @@ namespace Application.Contracts.Requests.Attendance;
 public sealed class AttendanceUpdateRequest
 {
 	/// <summary>
-	/// The identifier of the attendance.
+	/// The date property.
 	/// </summary>
-	[Required]
-	public Guid Id { get; set; }
+	[Required, DataType(DataType.Date)]
+	public DateTime Date { get; set; }
 
 	/// <summary>
 	/// The data type property.

@@ -18,20 +18,20 @@ public interface IAttendanceService
 	/// Creates an attendance for for the application user.
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="createRequest">The attendance create request.</param>
+	/// <param name="request">The attendance create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest createRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest request, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Creates multiple attendances for the for the application user.
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="createRequest">The attendances create request.</param>
+	/// <param name="request">The attendances create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	/// <returns></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> request, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Deletes an attendance for the application user and the calendar entry identifier.
@@ -84,16 +84,16 @@ public interface IAttendanceService
 	/// <summary>
 	/// Updates the existing attendance.
 	/// </summary>
-	/// <param name="updateRequest">The attendance update request.</param>
+	/// <param name="request">The attendance update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest updateRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest request, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Updates multiple existing attendances.
 	/// </summary>
-	/// <param name="updateRequest">The attendance update request.</param>
+	/// <param name="request">The attendance update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> request, CancellationToken cancellationToken = default);
 }

@@ -18,6 +18,11 @@ public interface IRepositoryService
 	IAttendanceRepository AttendanceRepository { get; }
 
 	/// <summary>
+	/// The <see cref="AttendanceSettingsRepository"/> interface.
+	/// </summary>
+	IAttendanceSettingsRepository AttendanceSettingsRepository { get; }
+
+	/// <summary>
 	/// The <see cref="CalendarRepository"/> interface.
 	/// </summary>
 	ICalendarRepository CalendarRepository { get; }

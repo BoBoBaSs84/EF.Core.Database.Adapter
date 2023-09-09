@@ -15,7 +15,7 @@ public sealed class CalendarParameters : RequestParameters
 	/// <summary>
 	/// Filter option by the year.
 	/// </summary>
-	[Range(1900, 2100)]
+	[Range(1900, 9999)]
 	public int? Year { get; set; }
 
 	/// <summary>

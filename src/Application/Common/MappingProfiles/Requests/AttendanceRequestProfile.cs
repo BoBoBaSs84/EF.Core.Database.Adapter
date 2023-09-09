@@ -13,5 +13,6 @@ internal sealed class AttendanceRequestProfile : Profile
 	{
 		CreateMap<AttendanceCreateRequest, AttendanceModel>();
 		CreateMap<AttendanceUpdateRequest, AttendanceModel>();
+		CreateMap<AttendanceSettingsRequest, AttendanceSettingsModel>();
 	}
 }

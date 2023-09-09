@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Domain.Enumerators;
 using Domain.Models.Base;
 
 namespace Domain.Models.Attendance;
@@ -24,10 +19,10 @@ public partial class AttendanceSettingsModel : AuditedModel
 	/// <summary>
 	/// The work days per week property.
 	/// </summary>
-	public int WorkDays { get; set; }
+	public WorkDayTypes WorkDays { get; set; }
 
 	/// <summary>
 	/// The work hours per week property.
 	/// </summary>
-	public float WorkHours { get; set; } 
+	public float WorkHours { get; set; }
 }

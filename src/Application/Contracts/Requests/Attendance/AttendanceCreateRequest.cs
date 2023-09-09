@@ -12,10 +12,10 @@ namespace Application.Contracts.Requests.Attendance;
 public sealed class AttendanceCreateRequest
 {
 	/// <summary>
-	/// The <see cref="CalendarId"/> property.
+	/// The date property.
 	/// </summary>
-	[Required]
-	public Guid CalendarId { get; set; }
+	[Required, DataType(DataType.Date)]
+	public DateTime Date { get; set; }
 
 	/// <summary>
 	/// The day yype property.

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
 
@@ -23,6 +24,7 @@ public sealed class CalendarResponse : IdentityResponse
 	/// <summary>
 	/// The day type property.
 	/// </summary>
+	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public DayType DayType { get; set; }
 
 	/// <summary>

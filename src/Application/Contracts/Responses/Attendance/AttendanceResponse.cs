@@ -20,11 +20,12 @@ public sealed class AttendanceResponse : IdentityResponse
 	/// The date property.
 	/// </summary>
 	[DataType(DataType.Date)]
-	public DateTime Date { get; set; } = default!;
+	public DateTime Date { get; set; }
 
 	/// <summary>
 	/// The day type property.
 	/// </summary>
+	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public DayType DayType { get; set; }
 
 	/// <summary>

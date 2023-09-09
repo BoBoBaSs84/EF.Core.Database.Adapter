@@ -69,8 +69,7 @@ internal sealed class EnumeratorService : IEnumeratorService
 	{
 		try
 		{
-
-			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.ToList();
+			IEnumerable<RoleType> roleTypes = RoleType.ADMINISTRATOR.ToList();
 
 			return _mapper.Map<IEnumerable<RoleTypeResponse>>(roleTypes).ToList();
 		}

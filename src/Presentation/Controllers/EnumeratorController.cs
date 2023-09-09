@@ -38,7 +38,7 @@ public sealed class EnumeratorController : ApiControllerBase
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
-	[HttpGet(Endpoints.Enumerator.CardType.GetAll)]
+	[HttpGet(Endpoints.Enumerator.CardType.Get)]
 	[ProducesResponseType(typeof(IEnumerable<CardTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -54,7 +54,7 @@ public sealed class EnumeratorController : ApiControllerBase
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
-	[HttpGet(Endpoints.Enumerator.DayType.GetAll)]
+	[HttpGet(Endpoints.Enumerator.DayType.Get)]
 	[ProducesResponseType(typeof(IEnumerable<DayTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -72,7 +72,7 @@ public sealed class EnumeratorController : ApiControllerBase
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
-	[HttpGet(Endpoints.Enumerator.RoleType.GetAll), AuthorizeRoles(RoleType.ADMINISTRATOR)]
+	[HttpGet(Endpoints.Enumerator.RoleType.Get), AuthorizeRoles(RoleType.ADMINISTRATOR)]
 	[ProducesResponseType(typeof(IEnumerable<RoleTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -81,6 +81,22 @@ public sealed class EnumeratorController : ApiControllerBase
 	public IActionResult GetRoleTypes()
 	{
 		ErrorOr<IEnumerable<RoleTypeResponse>> result = _enumeratorService.GetRoleTypes();
+		return Get(result);
+	}
+
+	/// <summary>
+	/// Returns all work day type enumerators.
+	/// </summary>
+	/// <response code="200">If the result is returned.</response>
+	/// <response code="404">If the result is empty.</response>
+	/// <response code="500">If something went wrong.</response>
+	[HttpGet(Endpoints.Enumerator.WorkDayType.Get)]
+	[ProducesResponseType(typeof(IEnumerable<WorkDayTypeResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public IActionResult GetWorkDayTypes()
+	{
+		ErrorOr<IEnumerable<WorkDayTypeResponse>> result = _enumeratorService.GetWorkDayTypes();
 		return Get(result);
 	}
 }

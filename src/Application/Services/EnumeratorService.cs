@@ -79,4 +79,19 @@ internal sealed class EnumeratorService : IEnumeratorService
 			return EnumeratorServiceErrors.GetRoleTypesFailed;
 		}
 	}
+
+	public ErrorOr<IEnumerable<WorkDayTypeResponse>> GetWorkDayTypes()
+	{
+		try
+		{
+			IEnumerable<WorkDayTypes> workDayTypes = WorkDayTypes.Sunday.ToList();
+
+			return _mapper.Map<IEnumerable<WorkDayTypeResponse>>(workDayTypes).ToList();
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogException, ex);
+			return EnumeratorServiceErrors.GetWorkDayTypesFailed;
+		}
+	}
 }

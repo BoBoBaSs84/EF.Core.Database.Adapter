@@ -32,4 +32,10 @@ public static class EnumeratorServiceErrors
 	/// </summary>
 	public static readonly ApiError GetRoleTypesFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetRoleTypesFailed}", RESX.EnumeratorService_GetRoleTypes_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the <see cref="EnumeratorService.GetWorkDayTypes"/> method.
+	/// </summary>
+	public static readonly ApiError GetWorkDayTypesFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetWorkDayTypesFailed}", RESX.EnumeratorService_WorkDayTypes_Failed);
 }

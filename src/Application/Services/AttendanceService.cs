@@ -12,6 +12,7 @@ using AutoMapper;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Models.Attendance;
+using Domain.Models.Common;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -43,12 +44,22 @@ internal sealed class AttendanceService : IAttendanceService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			AttendanceModel newAttendance = _mapper.Map<AttendanceModel>(createRequest);
+			CalendarModel? calendarModel = await _repositoryService.CalendarRepository.GetByConditionAsync(
+				expression: x => x.Date.Equals(request.Date),
+				cancellationToken: cancellationToken
+				);
+
+			// Todo
+			if (calendarModel is null)
+				return AttendanceServiceErrors.CreateFailed;
+
+			AttendanceModel newAttendance = _mapper.Map<AttendanceModel>(request);
 			newAttendance.UserId = userId;
+			newAttendance.CalendarId = calendarModel.Id;
 
 			await _repositoryService.AttendanceRepository.CreateAsync(newAttendance, cancellationToken);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
@@ -57,19 +68,32 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, request, ex);
 			return AttendanceServiceErrors.CreateFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> newAttendances = _mapper.Map<IEnumerable<AttendanceModel>>(createRequest);
+			IEnumerable<CalendarModel> calendarEntries = await _repositoryService.CalendarRepository.GetManyByConditionAsync(
+				expression: x => request.Select(x => x.Date).Contains(x.Date),
+				cancellationToken: cancellationToken
+				);
 
-			foreach (AttendanceModel attendance in newAttendances)
-				attendance.UserId = userId;
+			// Todo
+			if (request.Count() != calendarEntries.Count())
+				return AttendanceServiceErrors.CreateFailed;
+
+			List<AttendanceModel> newAttendances = new();
+
+			foreach (CalendarModel calendarEntry in calendarEntries)
+			{
+				AttendanceCreateRequest createRequest = request.Where(x => x.Date.Equals(calendarEntry.Date)).First();
+				AttendanceModel attendance = _mapper.Map<AttendanceModel>(createRequest);
+				newAttendances.Add(attendance);
+			}
 
 			await _repositoryService.AttendanceRepository.CreateAsync(newAttendances, cancellationToken);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
@@ -78,7 +102,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, request, ex);
 			return AttendanceServiceErrors.CreateManyFailed;
 		}
 	}
@@ -114,16 +138,16 @@ internal sealed class AttendanceService : IAttendanceService
 		string[] parameters = new string[] { $"{userId}", $"{calendarDayIds.ToJsonString()}" };
 		try
 		{
-			IEnumerable<AttendanceModel> dbAttendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
+			IEnumerable<AttendanceModel> attendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
 				expression: x => calendarDayIds.Contains(x.CalendarId) && x.UserId.Equals(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
 
-			if (!dbAttendances.Any())
+			if (!attendances.Any())
 				return AttendanceServiceErrors.DeleteManyNotFound;
 
-			await _repositoryService.AttendanceRepository.DeleteAsync(dbAttendances);
+			await _repositoryService.AttendanceRepository.DeleteAsync(attendances);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Deleted;
@@ -228,17 +252,20 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			AttendanceModel? attendance = await _repositoryService.AttendanceRepository
-				.GetByIdAsync(id: updateRequest.Id, cancellationToken: cancellationToken);
+			AttendanceModel? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
+				expression: x => x.Calendar.Date.Equals(request.Date),
+				trackChanges: true,
+				cancellationToken: cancellationToken
+				);
 
 			if (attendance is null)
 				return AttendanceServiceErrors.UpdateNotFound;
 
-			UpdateAttendance(attendance, updateRequest);
+			UpdateAttendance(attendance, request);
 
 			await _repositoryService.AttendanceRepository.UpdateAsync(attendance);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
@@ -247,23 +274,27 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, request, ex);
 			return AttendanceServiceErrors.UpdateFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> attendances = await _repositoryService.AttendanceRepository
-				.GetByIdsAsync(ids: updateRequest.Select(x => x.Id), trackChanges: true, cancellationToken: cancellationToken);
+			IEnumerable<AttendanceModel> attendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
+				expression: x => request.Select(x => x.Date).Contains(x.Calendar.Date),
+				trackChanges: true,
+				cancellationToken: cancellationToken,
+				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
+				);
 
 			if (!attendances.Any())
 				return AttendanceServiceErrors.UpdateManyNotFound;
 
 			foreach (AttendanceModel attendance in attendances)
-				UpdateAttendance(attendance, updateRequest.Where(x => x.Id.Equals(attendance.Id)).First());
+				UpdateAttendance(attendance, request.Where(x => x.Date.Equals(attendance.Calendar.Date)).First());
 
 			await _repositoryService.AttendanceRepository.UpdateAsync(attendances);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
@@ -272,7 +303,7 @@ internal sealed class AttendanceService : IAttendanceService
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, request, ex);
 			return AttendanceServiceErrors.UpdateManyFailed;
 		}
 	}

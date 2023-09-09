@@ -78,7 +78,7 @@ internal static class Endpoints
 		/// </summary>
 		internal static class DayType
 		{
-			internal const string GetAll = nameof(DayType);
+			internal const string Get = nameof(DayType);
 		}
 
 		/// <summary>
@@ -86,7 +86,7 @@ internal static class Endpoints
 		/// </summary>
 		internal static class CardType
 		{
-			internal const string GetAll = nameof(CardType);
+			internal const string Get = nameof(CardType);
 		}
 
 		/// <summary>
@@ -94,7 +94,15 @@ internal static class Endpoints
 		/// </summary>
 		internal static class RoleType
 		{
-			internal const string GetAll = nameof(RoleType);
+			internal const string Get = nameof(RoleType);
+		}
+
+		/// <summary>
+		/// The work day type route.
+		/// </summary>
+		internal static class WorkDayType
+		{
+			internal const string Get = nameof(WorkDayType);
 		}
 	}
 
@@ -114,6 +122,18 @@ internal static class Endpoints
 		internal const string PostMultiple = $"Multiple";
 		internal const string Put = EmptySuffix;
 		internal const string PutMultiple = "Multiple";
+
+		/// <summary>
+		/// The settings route.
+		/// </summary>
+		internal static class Settings
+		{
+			internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Attendance) + "/" + nameof(Settings);
+
+			internal const string Get = EmptySuffix;
+			internal const string Post = EmptySuffix;
+			internal const string Put = EmptySuffix;
+		}
 	}
 
 	internal static class UserManagement

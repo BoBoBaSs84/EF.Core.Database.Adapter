@@ -21,6 +21,12 @@ internal static partial class ResponseProfiles
 
 			CreateMap<CardType, CardTypeResponse>()
 				.ConstructUsing(x => new(x));
+
+			CreateMap<RoleType, RoleTypeResponse>()
+				.ConstructUsing(x => new(x));
+
+			CreateMap<WorkDayTypes, WorkDayTypeResponse>()
+				.ConstructUsing(x => new(x));
 		}
 	}
 }

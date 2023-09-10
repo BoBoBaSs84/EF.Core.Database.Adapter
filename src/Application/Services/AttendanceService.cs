@@ -167,7 +167,8 @@ internal sealed class AttendanceService : IAttendanceService
 				expression: x => x.UserId.Equals(userId),
 				queryFilter: x => x.FilterByYear(parameters.Year)
 				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+				.FilterByType(parameters.AttendanceType),
 				orderBy: x => x.OrderBy(x => x.Calendar.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -183,7 +184,8 @@ internal sealed class AttendanceService : IAttendanceService
 				expression: x => x.UserId.Equals(userId),
 				queryFilter: x => x.FilterByYear(parameters.Year)
 				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate),
+				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+				.FilterByType(parameters.AttendanceType),
 				cancellationToken: cancellationToken);
 
 			IEnumerable<AttendanceResponse> result = _mapper.Map<IEnumerable<AttendanceResponse>>(attendances);

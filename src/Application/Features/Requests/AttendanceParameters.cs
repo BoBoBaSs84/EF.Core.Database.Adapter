@@ -2,6 +2,8 @@
 
 using Application.Features.Requests.Base;
 
+using Domain.Enumerators;
+
 namespace Application.Features.Requests;
 
 /// <summary>
@@ -35,4 +37,9 @@ public sealed class AttendanceParameters : RequestParameters
 	/// </summary>
 	[DataType(DataType.Date)]
 	public DateTime? MaxDate { get; set; }
+
+	/// <summary>
+	/// Filter option by the attendance type.
+	/// </summary>
+	public AttendanceType? AttendanceType { get; set; }
 }

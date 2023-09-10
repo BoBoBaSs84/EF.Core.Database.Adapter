@@ -1,4 +1,5 @@
-﻿using Domain.Models.Attendance;
+﻿using Domain.Enumerators;
+using Domain.Models.Attendance;
 
 namespace Domain.Extensions;
 
@@ -35,4 +36,13 @@ public static partial class ModelExtensions
 		query = maxDate.HasValue ? query.Where(x => x.Calendar.Date <= maxDate.ToSqlDate()) : query;
 		return query;
 	}
+
+	/// <summary>
+	/// Filter the attendance entries by the attendance type.
+	/// </summary>
+	/// <param name="query">The query to filter.</param>
+	/// <param name="type">The attendance type to be filtered.</param>
+	/// <returns><see cref="IQueryable{T}"/></returns>
+	public static IQueryable<AttendanceModel> FilterByType(this IQueryable<AttendanceModel> query, AttendanceType? type)
+		=> type.HasValue ? query.Where(x => x.AttendanceType.Equals(type)) : query;
 }

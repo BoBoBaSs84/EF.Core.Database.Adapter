@@ -3,7 +3,6 @@
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
-using Domain.Constants;
 using Domain.Entities.Identity;
 
 using Infrastructure.Common;
@@ -82,16 +81,16 @@ internal static class ServiceCollectionExtensions
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 
-			if (environment.IsDevelopment())
-				options.LogTo(Console.WriteLine, LogLevel.Debug);
-
-			if (environment.IsEnvironment(DomainConstants.Environment.Testing))
-				options.LogTo(Console.WriteLine, LogLevel.Error);
-
-			if (!environment.IsProduction())
+			if (environment.IsDevelopment() || environment.IsTesting())
 			{
 				options.EnableSensitiveDataLogging(true);
 				options.EnableDetailedErrors(true);
+
+				if (environment.IsTesting())
+					options.LogTo(Console.WriteLine, LogLevel.Error);
+
+				if (environment.IsDevelopment())
+					options.LogTo(Console.WriteLine, LogLevel.Debug);
 			}
 		});
 

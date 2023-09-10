@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 namespace BaseTests;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public abstract class TestBase
 {
 	private static IHost s_host = default!;
@@ -34,7 +35,7 @@ public abstract class TestBase
 
 		s_context = GetRequiredService<RepositoryContext>();
 
-		_ = s_context.Database.EnsureCreated();
+		s_context.Database.EnsureCreated();
 
 		DataSeed();
 	}
@@ -60,9 +61,9 @@ public abstract class TestBase
 			.UseEnvironment(env)
 			.ConfigureServices((hostContext, services) =>
 			{
-				_ = services.ConfigureInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
-				_ = services.ConfigureApplicationServices();
-				_ = services.AddSingleton<ICurrentUserService, CurrentTestUserService>();
+				services.ConfigureInfrastructureServices(hostContext.Configuration, hostContext.HostingEnvironment);
+				services.ConfigureApplicationServices();
+				services.AddSingleton<ICurrentUserService, CurrentTestUserService>();
 			});
 
 		return hostBuilder.Start();

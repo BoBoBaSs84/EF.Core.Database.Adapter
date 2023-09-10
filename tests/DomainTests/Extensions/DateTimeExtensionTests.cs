@@ -43,23 +43,43 @@ public class DateTimeExtensionTests : DomainTestBase
 		});
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void StartOfWeekTest()
 	{
-		DateTime today = new(2023, 09, 05);
+		DateTime today = new(2023, 9, 5);
 
 		DateTime startOfWeek = today.StartOfWeek();
 
-		startOfWeek.Should().Be(new(2023, 09, 04));
+		startOfWeek.Should().Be(new(2023, 9, 4));
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void EndOfWeekTest()
 	{
-		DateTime today = new(2023, 09, 05);
+		DateTime today = new(2023, 9, 5);
 
 		DateTime endOfWeek = today.EndOfWeek();
 
-		endOfWeek.Should().Be(new(2023, 09, 10));
+		endOfWeek.Should().Be(new(2023, 9, 10));
+	}
+
+	[TestMethod]
+	public void StartOfMonthTest()
+	{
+		DateTime today = new(2023, 9, 5);
+
+		DateTime startOfMonth = today.StartOfMonth();
+
+		startOfMonth.Should().Be(new(2023, 9, 1));
+	}
+
+	[TestMethod]
+	public void EndOfMonthTest()
+	{
+		DateTime today = new(2023, 9, 5);
+
+		DateTime endOfMonth = today.EndOfMonth();
+
+		endOfMonth.Should().Be(new(2023, 9, 30));
 	}
 }

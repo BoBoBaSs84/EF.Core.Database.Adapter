@@ -102,8 +102,7 @@ internal sealed class CalendarService : ICalendarService
 			IEnumerable<CalendarModel> calendarModels = await _repositoryService.CalendarRepository.GetManyByConditionAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year)
 					.FilterByMonth(parameters.Month)
-					.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
-					.FilterByEndOfMonth(parameters.EndOfMonth),
+					.FilterByDateRange(parameters.MinDate, parameters.MaxDate),
 				orderBy: x => x.OrderBy(x => x.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -115,7 +114,9 @@ internal sealed class CalendarService : ICalendarService
 				return CalendarServiceErrors.GetPagedByParametersNotFound;
 
 			int totalCount = await _repositoryService.CalendarRepository.GetCountAsync(
-				queryFilter: x => x.FilterByYear(parameters.Year).FilterByMonth(parameters.Month).FilterByDateRange(parameters.MinDate, parameters.MaxDate).FilterByEndOfMonth(parameters.EndOfMonth),
+				queryFilter: x => x.FilterByYear(parameters.Year)
+				.FilterByMonth(parameters.Month)
+				.FilterByDateRange(parameters.MinDate, parameters.MaxDate),
 				cancellationToken: cancellationToken
 				);
 

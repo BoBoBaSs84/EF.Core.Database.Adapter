@@ -2,10 +2,7 @@
 
 namespace Domain.Extensions;
 
-/// <summary>
-/// The calendar model extensions class.
-/// </summary>
-public static class CalendarModelExtensions
+public static partial class ModelExtensions
 {
 	/// <summary>
 	/// Filters the calendar entries by year.
@@ -14,7 +11,7 @@ public static class CalendarModelExtensions
 	/// <param name="year">The year to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
 	public static IQueryable<CalendarModel> FilterByYear(this IQueryable<CalendarModel> query, int? year) =>
-		year.HasValue ? query.Where(x => x.Year.Equals(year)) : query;
+		year.HasValue ? query.Where(x => x.Date.Year.Equals(year)) : query;
 
 	/// <summary>
 	/// Filters the calendar entries by month.
@@ -23,7 +20,7 @@ public static class CalendarModelExtensions
 	/// <param name="month">The month to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
 	public static IQueryable<CalendarModel> FilterByMonth(this IQueryable<CalendarModel> query, int? month) =>
-		month.HasValue ? query.Where(x => x.Month.Equals(month)) : query;
+		month.HasValue ? query.Where(x => x.Date.Month.Equals(month)) : query;
 
 	/// <summary>
 	/// Filters the calendar entries by date range.
@@ -38,13 +35,4 @@ public static class CalendarModelExtensions
 		query = maxDate.HasValue ? query.Where(x => x.Date <= maxDate.ToSqlDate()) : query;
 		return query;
 	}
-
-	/// <summary>
-	/// Filters the calendar entries by the end of month.
-	/// </summary>
-	/// <param name="query">The query to filter.</param>
-	/// <param name="endOfMonth">The end of month to be filtered.</param>
-	/// <returns><see cref="IQueryable{T}"/></returns>
-	public static IQueryable<CalendarModel> FilterByEndOfMonth(this IQueryable<CalendarModel> query, DateTime? endOfMonth) =>
-		endOfMonth.HasValue ? query.Where(x => x.EndOfMonth.Equals(endOfMonth.ToSqlDate())) : query;
 }

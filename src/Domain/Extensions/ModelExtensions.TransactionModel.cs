@@ -1,11 +1,7 @@
 ﻿using Domain.Models.Finance;
 
 namespace Domain.Extensions;
-
-/// <summary>
-/// The transaction model extensions class.
-/// </summary>
-public static class TransactionModelExtensions
+public static partial class ModelExtensions
 {
 	/// <summary>
 	/// Filters the transaction entries by the booking date.

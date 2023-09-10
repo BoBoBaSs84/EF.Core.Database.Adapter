@@ -35,10 +35,4 @@ public sealed class AttendanceParameters : RequestParameters
 	/// </summary>
 	[DataType(DataType.Date)]
 	public DateTime? MaxDate { get; set; }
-
-	/// <summary>
-	/// Filter option by the end of month.
-	/// </summary>
-	[DataType(DataType.Date)]
-	public DateTime? EndOfMonth { get; set; }
 }

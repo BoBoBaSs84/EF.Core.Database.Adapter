@@ -369,4 +369,67 @@
   <data name="RoleType.User.ShortName" xml:space="preserve">
     <value>USR</value>
   </data>
+  <data name="WorkDayTypes.Friday.Description" xml:space="preserve">
+    <value>Friday is the day of the week between Thursday and Saturday. In countries that adopt the traditional "Sunday-first" convention, it is the sixth day of the week.</value>
+  </data>
+  <data name="WorkDayTypes.Friday.Name" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="WorkDayTypes.Friday.ShortName" xml:space="preserve">
+    <value>FRI</value>
+  </data>
+  <data name="WorkDayTypes.Monday.Description" xml:space="preserve">
+    <value>Monday is the day of the week that takes place between Sunday and Tuesday.[1] According to the International Organization for Standardization's ISO 8601 standard, it is the first day of the week.</value>
+  </data>
+  <data name="WorkDayTypes.Monday.Name" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="WorkDayTypes.Monday.ShortName" xml:space="preserve">
+    <value>MON</value>
+  </data>
+  <data name="WorkDayTypes.Saturday.Description" xml:space="preserve">
+    <value>Saturday is the day of the week between Friday and Sunday.</value>
+  </data>
+  <data name="WorkDayTypes.Saturday.Name" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="WorkDayTypes.Saturday.ShortName" xml:space="preserve">
+    <value>SAT</value>
+  </data>
+  <data name="WorkDayTypes.Sunday.Description" xml:space="preserve">
+    <value>Sunday is the day of the week between Saturday and Monday. In most Western countries, Sunday is a day of rest and a part of the weekend.</value>
+  </data>
+  <data name="WorkDayTypes.Sunday.Name" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="WorkDayTypes.Sunday.ShortName" xml:space="preserve">
+    <value>SUN</value>
+  </data>
+  <data name="WorkDayTypes.Thursday.Description" xml:space="preserve">
+    <value>Thursday is the day of the week between Wednesday and Friday. According to the ISO 8601 international standard, it is the fourth day of the week.</value>
+  </data>
+  <data name="WorkDayTypes.Thursday.Name" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="WorkDayTypes.Thursday.ShortName" xml:space="preserve">
+    <value>THU</value>
+  </data>
+  <data name="WorkDayTypes.Tuesday.Description" xml:space="preserve">
+    <value>Tuesday is the day of the week between Monday and Wednesday. According to international standard ISO 8601, it is the second day of the week.</value>
+  </data>
+  <data name="WorkDayTypes.Tuesday.Name" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="WorkDayTypes.Tuesday.ShortName" xml:space="preserve">
+    <value>TUE</value>
+  </data>
+  <data name="WorkDayTypes.Wednesday.Description" xml:space="preserve">
+    <value>Wednesday is the day of the week between Tuesday and Thursday. According to international standard ISO 8601, it is the third day of the week.</value>
+  </data>
+  <data name="WorkDayTypes.Wednesday.Name" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="WorkDayTypes.Wednesday.ShortName" xml:space="preserve">
+    <value>WED</value>
+  </data>
 </root>

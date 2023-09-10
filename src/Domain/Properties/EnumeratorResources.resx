@@ -135,130 +135,130 @@
   <data name="CardType.Debit.ShortName" xml:space="preserve">
     <value>DC</value>
   </data>
-  <data name="DayType.Absence.Description" xml:space="preserve">
+  <data name="AttendanceType.Absence.Description" xml:space="preserve">
     <value>Is an authorised prolonged absence from work, for any reason authorised by the workplace.</value>
   </data>
-  <data name="DayType.Absence.Name" xml:space="preserve">
+  <data name="AttendanceType.Absence.Name" xml:space="preserve">
     <value>Absence</value>
   </data>
-  <data name="DayType.Absence.ShortName" xml:space="preserve">
+  <data name="AttendanceType.Absence.ShortName" xml:space="preserve">
     <value>AB</value>
   </data>
-  <data name="DayType.BuisnessTrip.Description" xml:space="preserve">
+  <data name="AttendanceType.BuisnessTrip.Description" xml:space="preserve">
     <value>Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes.</value>
   </data>
-  <data name="DayType.BuisnessTrip.Name" xml:space="preserve">
+  <data name="AttendanceType.BuisnessTrip.Name" xml:space="preserve">
     <value>Buisness trip</value>
   </data>
-  <data name="DayType.BuisnessTrip.ShortName" xml:space="preserve">
+  <data name="AttendanceType.BuisnessTrip.ShortName" xml:space="preserve">
     <value>BT</value>
   </data>
-  <data name="DayType.Holiday.Description" xml:space="preserve">
+  <data name="AttendanceType.Holiday.Description" xml:space="preserve">
     <value>A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced.</value>
   </data>
-  <data name="DayType.Holiday.Name" xml:space="preserve">
+  <data name="AttendanceType.Holiday.Name" xml:space="preserve">
     <value>Holiday</value>
   </data>
-  <data name="DayType.Holiday.ShortName" xml:space="preserve">
+  <data name="AttendanceType.Holiday.ShortName" xml:space="preserve">
     <value>HD</value>
   </data>
-  <data name="DayType.MobileWorking.Description" xml:space="preserve">
+  <data name="AttendanceType.MobileWorking.Description" xml:space="preserve">
     <value>The place of work is usually in the employee's own home, and in the case of mobile work also in third locations.</value>
   </data>
-  <data name="DayType.MobileWorking.Name" xml:space="preserve">
+  <data name="AttendanceType.MobileWorking.Name" xml:space="preserve">
     <value>Mobile working</value>
   </data>
-  <data name="DayType.MobileWorking.ShortName" xml:space="preserve">
+  <data name="AttendanceType.MobileWorking.ShortName" xml:space="preserve">
     <value>MW</value>
   </data>
-  <data name="DayType.PlannedVacation.Description" xml:space="preserve">
+  <data name="AttendanceType.PlannedVacation.Description" xml:space="preserve">
     <value>Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home.</value>
   </data>
-  <data name="DayType.PlannedVacation.Name" xml:space="preserve">
+  <data name="AttendanceType.PlannedVacation.Name" xml:space="preserve">
     <value>Planned vacation</value>
   </data>
-  <data name="DayType.PlannedVacation.ShortName" xml:space="preserve">
+  <data name="AttendanceType.PlannedVacation.ShortName" xml:space="preserve">
     <value>PV</value>
   </data>
-  <data name="DayType.ShortTimeWork.Description" xml:space="preserve">
+  <data name="AttendanceType.ShortTimeWork.Description" xml:space="preserve">
     <value>Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work.</value>
   </data>
-  <data name="DayType.ShortTimeWork.Name" xml:space="preserve">
+  <data name="AttendanceType.ShortTimeWork.Name" xml:space="preserve">
     <value>Short time work</value>
   </data>
-  <data name="DayType.ShortTimeWork.ShortName" xml:space="preserve">
+  <data name="AttendanceType.ShortTimeWork.ShortName" xml:space="preserve">
     <value>ST</value>
   </data>
-  <data name="DayType.Sickness.Description" xml:space="preserve">
+  <data name="AttendanceType.Sickness.Description" xml:space="preserve">
     <value>The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness.</value>
   </data>
-  <data name="DayType.Sickness.Name" xml:space="preserve">
+  <data name="AttendanceType.Sickness.Name" xml:space="preserve">
     <value>Sickness</value>
   </data>
-  <data name="DayType.Sickness.ShortName" xml:space="preserve">
+  <data name="AttendanceType.Sickness.ShortName" xml:space="preserve">
     <value>SN</value>
   </data>
-  <data name="DayType.Suspension.Description" xml:space="preserve">
+  <data name="AttendanceType.Suspension.Description" xml:space="preserve">
     <value>In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties.</value>
   </data>
-  <data name="DayType.Suspension.Name" xml:space="preserve">
+  <data name="AttendanceType.Suspension.Name" xml:space="preserve">
     <value>Suspension</value>
   </data>
-  <data name="DayType.Suspension.ShortName" xml:space="preserve">
+  <data name="AttendanceType.Suspension.ShortName" xml:space="preserve">
     <value>SP</value>
   </data>
-  <data name="DayType.Vacation.Description" xml:space="preserve">
+  <data name="AttendanceType.Vacation.Description" xml:space="preserve">
     <value>Is either a leave of absence from a regular job or an instance of leisure travel away from home.</value>
   </data>
-  <data name="DayType.Vacation.Name" xml:space="preserve">
+  <data name="AttendanceType.Vacation.Name" xml:space="preserve">
     <value>Vacation</value>
   </data>
-  <data name="DayType.Vacation.ShortName" xml:space="preserve">
+  <data name="AttendanceType.Vacation.ShortName" xml:space="preserve">
     <value>VC</value>
   </data>
-  <data name="DayType.VacationBlock.Description" xml:space="preserve">
+  <data name="AttendanceType.VacationBlock.Description" xml:space="preserve">
     <value>With the vacation block, employers prohibit their employees from taking vacation during a certain period of time.</value>
   </data>
-  <data name="DayType.VacationBlock.Name" xml:space="preserve">
+  <data name="AttendanceType.VacationBlock.Name" xml:space="preserve">
     <value>Vacation block</value>
   </data>
-  <data name="DayType.VacationBlock.ShortName" xml:space="preserve">
+  <data name="AttendanceType.VacationBlock.ShortName" xml:space="preserve">
     <value>VB</value>
   </data>
-  <data name="DayType.Weekday.Description" xml:space="preserve">
+  <data name="AttendanceType.Weekday.Description" xml:space="preserve">
     <value>A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.</value>
   </data>
-  <data name="DayType.Weekday.Name" xml:space="preserve">
+  <data name="AttendanceType.Weekday.Name" xml:space="preserve">
     <value>Weekday</value>
   </data>
-  <data name="DayType.Weekday.ShortName" xml:space="preserve">
+  <data name="AttendanceType.Weekday.ShortName" xml:space="preserve">
     <value>WD</value>
   </data>
-  <data name="DayType.WeekendDay.Description" xml:space="preserve">
+  <data name="AttendanceType.WeekendDay.Description" xml:space="preserve">
     <value>Generally refers to the period between the end of a usual work week and the beginning of the new work week.</value>
   </data>
-  <data name="DayType.WeekendDay.Name" xml:space="preserve">
+  <data name="AttendanceType.WeekendDay.Name" xml:space="preserve">
     <value>Weekend day</value>
   </data>
-  <data name="DayType.WeekendDay.ShortName" xml:space="preserve">
+  <data name="AttendanceType.WeekendDay.ShortName" xml:space="preserve">
     <value>WE</value>
   </data>
-  <data name="DayType.WeekendWorkday.Description" xml:space="preserve">
+  <data name="AttendanceType.WeekendWorkday.Description" xml:space="preserve">
     <value>Weekend work means working on days that are usually non-working days.</value>
   </data>
-  <data name="DayType.WeekendWorkday.Name" xml:space="preserve">
+  <data name="AttendanceType.WeekendWorkday.Name" xml:space="preserve">
     <value>Weekend workday</value>
   </data>
-  <data name="DayType.WeekendWorkday.ShortName" xml:space="preserve">
+  <data name="AttendanceType.WeekendWorkday.ShortName" xml:space="preserve">
     <value>WW</value>
   </data>
-  <data name="DayType.Workday.Description" xml:space="preserve">
+  <data name="AttendanceType.Workday.Description" xml:space="preserve">
     <value>Day on which professional work is performed or is to be performed.</value>
   </data>
-  <data name="DayType.Workday.Name" xml:space="preserve">
+  <data name="AttendanceType.Workday.Name" xml:space="preserve">
     <value>Workday</value>
   </data>
-  <data name="DayType.Workday.ShortName" xml:space="preserve">
+  <data name="AttendanceType.Workday.ShortName" xml:space="preserve">
     <value>WK</value>
   </data>
   <data name="ErrorTypes.Composite.Description" xml:space="preserve">

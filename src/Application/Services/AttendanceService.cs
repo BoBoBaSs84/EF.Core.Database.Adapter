@@ -315,7 +315,7 @@ internal sealed class AttendanceService : IAttendanceService
 	/// <param name="updateRequest">The request to update with.</param>
 	private static void UpdateAttendance(AttendanceModel attendance, AttendanceUpdateRequest updateRequest)
 	{
-		attendance.DayType = updateRequest.DayType;
+		attendance.AttendanceType = updateRequest.AttendanceType;
 		attendance.StartTime = updateRequest.StartTime;
 		attendance.EndTime = updateRequest.EndTime;
 		attendance.BreakTime = updateRequest.BreakTime;

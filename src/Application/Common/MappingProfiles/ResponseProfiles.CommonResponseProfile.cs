@@ -17,11 +17,7 @@ internal static partial class ResponseProfiles
 	{
 		public CommonResponseProfile()
 		{
-			CreateMap<CalendarModel, CalendarResponse>()
-				.ForMember(dst => dst.DayType, opt => opt.MapFrom(src => GetDayType(src.Date)));
+			CreateMap<CalendarModel, CalendarResponse>();
 		}
-
-		private static DayType GetDayType(DateTime dateTime)
-			=> dateTime.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday ? DayType.WEEKENDDAY : DayType.WEEKDAY;
 	}
 }

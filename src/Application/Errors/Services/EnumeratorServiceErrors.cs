@@ -22,10 +22,10 @@ public static class EnumeratorServiceErrors
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetCardTypesFailed}", RESX.EnumeratorService_GetCardTypes_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="EnumeratorService.GetDayTypes"/> method.
+	/// Error that indicates an exception during the <see cref="EnumeratorService.GetAttendanceTypes"/> method.
 	/// </summary>
-	public static readonly ApiError GetDayTypesFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetDayTypesFailed}", RESX.EnumeratorService_GetDayTypes_Failed);
+	public static readonly ApiError GetAttendanceTypesFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetAttendanceTypesFailed}", RESX.EnumeratorService_GetDayTypes_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the <see cref="EnumeratorService.GetRoleTypes"/> method.

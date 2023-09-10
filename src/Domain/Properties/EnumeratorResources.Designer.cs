@@ -61,6 +61,384 @@ namespace Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is an authorised prolonged absence from work, for any reason authorised by the workplace..
+        /// </summary>
+        public static string AttendanceType_Absence_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Absence.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Absence.
+        /// </summary>
+        public static string AttendanceType_Absence_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Absence.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AB.
+        /// </summary>
+        public static string AttendanceType_Absence_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Absence.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes..
+        /// </summary>
+        public static string AttendanceType_BuisnessTrip_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.BuisnessTrip.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buisness trip.
+        /// </summary>
+        public static string AttendanceType_BuisnessTrip_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.BuisnessTrip.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BT.
+        /// </summary>
+        public static string AttendanceType_BuisnessTrip_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.BuisnessTrip.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced..
+        /// </summary>
+        public static string AttendanceType_Holiday_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Holiday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Holiday.
+        /// </summary>
+        public static string AttendanceType_Holiday_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Holiday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HD.
+        /// </summary>
+        public static string AttendanceType_Holiday_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Holiday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The place of work is usually in the employee&apos;s own home, and in the case of mobile work also in third locations..
+        /// </summary>
+        public static string AttendanceType_MobileWorking_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.MobileWorking.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mobile working.
+        /// </summary>
+        public static string AttendanceType_MobileWorking_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.MobileWorking.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MW.
+        /// </summary>
+        public static string AttendanceType_MobileWorking_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.MobileWorking.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home..
+        /// </summary>
+        public static string AttendanceType_PlannedVacation_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.PlannedVacation.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Planned vacation.
+        /// </summary>
+        public static string AttendanceType_PlannedVacation_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.PlannedVacation.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PV.
+        /// </summary>
+        public static string AttendanceType_PlannedVacation_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.PlannedVacation.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work..
+        /// </summary>
+        public static string AttendanceType_ShortTimeWork_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.ShortTimeWork.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short time work.
+        /// </summary>
+        public static string AttendanceType_ShortTimeWork_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.ShortTimeWork.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ST.
+        /// </summary>
+        public static string AttendanceType_ShortTimeWork_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.ShortTimeWork.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness..
+        /// </summary>
+        public static string AttendanceType_Sickness_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Sickness.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sickness.
+        /// </summary>
+        public static string AttendanceType_Sickness_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Sickness.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SN.
+        /// </summary>
+        public static string AttendanceType_Sickness_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Sickness.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties..
+        /// </summary>
+        public static string AttendanceType_Suspension_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Suspension.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspension.
+        /// </summary>
+        public static string AttendanceType_Suspension_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Suspension.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SP.
+        /// </summary>
+        public static string AttendanceType_Suspension_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Suspension.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is either a leave of absence from a regular job or an instance of leisure travel away from home..
+        /// </summary>
+        public static string AttendanceType_Vacation_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Vacation.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vacation.
+        /// </summary>
+        public static string AttendanceType_Vacation_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Vacation.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VC.
+        /// </summary>
+        public static string AttendanceType_Vacation_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Vacation.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With the vacation block, employers prohibit their employees from taking vacation during a certain period of time..
+        /// </summary>
+        public static string AttendanceType_VacationBlock_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.VacationBlock.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vacation block.
+        /// </summary>
+        public static string AttendanceType_VacationBlock_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.VacationBlock.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VB.
+        /// </summary>
+        public static string AttendanceType_VacationBlock_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.VacationBlock.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday..
+        /// </summary>
+        public static string AttendanceType_Weekday_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Weekday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekday.
+        /// </summary>
+        public static string AttendanceType_Weekday_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Weekday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WD.
+        /// </summary>
+        public static string AttendanceType_Weekday_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Weekday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generally refers to the period between the end of a usual work week and the beginning of the new work week..
+        /// </summary>
+        public static string AttendanceType_WeekendDay_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.WeekendDay.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekend day.
+        /// </summary>
+        public static string AttendanceType_WeekendDay_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.WeekendDay.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WE.
+        /// </summary>
+        public static string AttendanceType_WeekendDay_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.WeekendDay.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekend work means working on days that are usually non-working days..
+        /// </summary>
+        public static string AttendanceType_WeekendWorkday_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.WeekendWorkday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekend workday.
+        /// </summary>
+        public static string AttendanceType_WeekendWorkday_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.WeekendWorkday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WW.
+        /// </summary>
+        public static string AttendanceType_WeekendWorkday_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.WeekendWorkday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day on which professional work is performed or is to be performed..
+        /// </summary>
+        public static string AttendanceType_Workday_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Workday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workday.
+        /// </summary>
+        public static string AttendanceType_Workday_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Workday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WK.
+        /// </summary>
+        public static string AttendanceType_Workday_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Workday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder&apos;s accrued debt..
         /// </summary>
         public static string CardType_Credit_Description {
@@ -111,384 +489,6 @@ namespace Domain.Properties {
         public static string CardType_Debit_ShortName {
             get {
                 return ResourceManager.GetString("CardType.Debit.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is an authorised prolonged absence from work, for any reason authorised by the workplace..
-        /// </summary>
-        public static string DayType_Absence_Description {
-            get {
-                return ResourceManager.GetString("DayType.Absence.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Absence.
-        /// </summary>
-        public static string DayType_Absence_Name {
-            get {
-                return ResourceManager.GetString("DayType.Absence.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to AB.
-        /// </summary>
-        public static string DayType_Absence_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.Absence.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Business travel is travel undertaken for work or business purposes, as opposed to other types of travel, such as for leisure purposes..
-        /// </summary>
-        public static string DayType_BuisnessTrip_Description {
-            get {
-                return ResourceManager.GetString("DayType.BuisnessTrip.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Buisness trip.
-        /// </summary>
-        public static string DayType_BuisnessTrip_Name {
-            get {
-                return ResourceManager.GetString("DayType.BuisnessTrip.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to BT.
-        /// </summary>
-        public static string DayType_BuisnessTrip_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.BuisnessTrip.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A holiday is a day set aside by custom or by law on which normal activities, especially business or work including school, are suspended or reduced..
-        /// </summary>
-        public static string DayType_Holiday_Description {
-            get {
-                return ResourceManager.GetString("DayType.Holiday.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Holiday.
-        /// </summary>
-        public static string DayType_Holiday_Name {
-            get {
-                return ResourceManager.GetString("DayType.Holiday.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to HD.
-        /// </summary>
-        public static string DayType_Holiday_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.Holiday.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The place of work is usually in the employee&apos;s own home, and in the case of mobile work also in third locations..
-        /// </summary>
-        public static string DayType_MobileWorking_Description {
-            get {
-                return ResourceManager.GetString("DayType.MobileWorking.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Mobile working.
-        /// </summary>
-        public static string DayType_MobileWorking_Name {
-            get {
-                return ResourceManager.GetString("DayType.MobileWorking.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MW.
-        /// </summary>
-        public static string DayType_MobileWorking_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.MobileWorking.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is either the plan to leave of absence from a regular job or an instance of leisure travel away from home..
-        /// </summary>
-        public static string DayType_PlannedVacation_Description {
-            get {
-                return ResourceManager.GetString("DayType.PlannedVacation.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Planned vacation.
-        /// </summary>
-        public static string DayType_PlannedVacation_Name {
-            get {
-                return ResourceManager.GetString("DayType.PlannedVacation.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PV.
-        /// </summary>
-        public static string DayType_PlannedVacation_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.PlannedVacation.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Short-time work in the employment relationship means the temporary reduction of regular working hours in a company due to a significant loss of work..
-        /// </summary>
-        public static string DayType_ShortTimeWork_Description {
-            get {
-                return ResourceManager.GetString("DayType.ShortTimeWork.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Short time work.
-        /// </summary>
-        public static string DayType_ShortTimeWork_Name {
-            get {
-                return ResourceManager.GetString("DayType.ShortTimeWork.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ST.
-        /// </summary>
-        public static string DayType_ShortTimeWork_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.ShortTimeWork.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The employee can no longer perform his or her most recently performed work tasks due to illness or can only do so at the risk of aggravating the illness..
-        /// </summary>
-        public static string DayType_Sickness_Description {
-            get {
-                return ResourceManager.GetString("DayType.Sickness.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sickness.
-        /// </summary>
-        public static string DayType_Sickness_Name {
-            get {
-                return ResourceManager.GetString("DayType.Sickness.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SN.
-        /// </summary>
-        public static string DayType_Sickness_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.Sickness.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to In the case of a suspension, the employee is permanently or temporarily released from his or her contractual work duties..
-        /// </summary>
-        public static string DayType_Suspension_Description {
-            get {
-                return ResourceManager.GetString("DayType.Suspension.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Suspension.
-        /// </summary>
-        public static string DayType_Suspension_Name {
-            get {
-                return ResourceManager.GetString("DayType.Suspension.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SP.
-        /// </summary>
-        public static string DayType_Suspension_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.Suspension.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is either a leave of absence from a regular job or an instance of leisure travel away from home..
-        /// </summary>
-        public static string DayType_Vacation_Description {
-            get {
-                return ResourceManager.GetString("DayType.Vacation.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vacation.
-        /// </summary>
-        public static string DayType_Vacation_Name {
-            get {
-                return ResourceManager.GetString("DayType.Vacation.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VC.
-        /// </summary>
-        public static string DayType_Vacation_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.Vacation.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to With the vacation block, employers prohibit their employees from taking vacation during a certain period of time..
-        /// </summary>
-        public static string DayType_VacationBlock_Description {
-            get {
-                return ResourceManager.GetString("DayType.VacationBlock.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vacation block.
-        /// </summary>
-        public static string DayType_VacationBlock_Name {
-            get {
-                return ResourceManager.GetString("DayType.VacationBlock.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VB.
-        /// </summary>
-        public static string DayType_VacationBlock_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.VacationBlock.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday..
-        /// </summary>
-        public static string DayType_Weekday_Description {
-            get {
-                return ResourceManager.GetString("DayType.Weekday.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weekday.
-        /// </summary>
-        public static string DayType_Weekday_Name {
-            get {
-                return ResourceManager.GetString("DayType.Weekday.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to WD.
-        /// </summary>
-        public static string DayType_Weekday_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.Weekday.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Generally refers to the period between the end of a usual work week and the beginning of the new work week..
-        /// </summary>
-        public static string DayType_WeekendDay_Description {
-            get {
-                return ResourceManager.GetString("DayType.WeekendDay.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weekend day.
-        /// </summary>
-        public static string DayType_WeekendDay_Name {
-            get {
-                return ResourceManager.GetString("DayType.WeekendDay.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to WE.
-        /// </summary>
-        public static string DayType_WeekendDay_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.WeekendDay.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weekend work means working on days that are usually non-working days..
-        /// </summary>
-        public static string DayType_WeekendWorkday_Description {
-            get {
-                return ResourceManager.GetString("DayType.WeekendWorkday.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weekend workday.
-        /// </summary>
-        public static string DayType_WeekendWorkday_Name {
-            get {
-                return ResourceManager.GetString("DayType.WeekendWorkday.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to WW.
-        /// </summary>
-        public static string DayType_WeekendWorkday_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.WeekendWorkday.ShortName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Day on which professional work is performed or is to be performed..
-        /// </summary>
-        public static string DayType_Workday_Description {
-            get {
-                return ResourceManager.GetString("DayType.Workday.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Workday.
-        /// </summary>
-        public static string DayType_Workday_Name {
-            get {
-                return ResourceManager.GetString("DayType.Workday.Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to WK.
-        /// </summary>
-        public static string DayType_Workday_ShortName {
-            get {
-                return ResourceManager.GetString("DayType.Workday.ShortName", resourceCulture);
             }
         }
         

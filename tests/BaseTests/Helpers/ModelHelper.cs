@@ -30,7 +30,7 @@ public static class ModelHelper
 			while (attendances.Exists(x=>x.CalendarId.Equals(calendarId)))
 				calendarId = calendar[GetInt(0, calendar.Count)].Id;
 
-			attendances.Add(new() { User = user, CalendarId = calendarId, DayType = (DayType)GetInt(4, 13) });
+			attendances.Add(new() { User = user, CalendarId = calendarId, AttendanceType = (AttendanceType)GetInt(4, 13) });
 		}
 
 		return attendances;

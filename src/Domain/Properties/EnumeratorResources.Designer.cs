@@ -815,5 +815,194 @@ namespace Domain.Properties {
                 return ResourceManager.GetString("RoleType.User.ShortName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friday is the day of the week between Thursday and Saturday. In countries that adopt the traditional &quot;Sunday-first&quot; convention, it is the sixth day of the week..
+        /// </summary>
+        public static string WorkDayTypes_Friday_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Friday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friday.
+        /// </summary>
+        public static string WorkDayTypes_Friday_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Friday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FRI.
+        /// </summary>
+        public static string WorkDayTypes_Friday_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Friday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monday is the day of the week that takes place between Sunday and Tuesday.[1] According to the International Organization for Standardization&apos;s ISO 8601 standard, it is the first day of the week..
+        /// </summary>
+        public static string WorkDayTypes_Monday_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Monday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monday.
+        /// </summary>
+        public static string WorkDayTypes_Monday_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Monday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MON.
+        /// </summary>
+        public static string WorkDayTypes_Monday_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Monday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saturday is the day of the week between Friday and Sunday..
+        /// </summary>
+        public static string WorkDayTypes_Saturday_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Saturday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        public static string WorkDayTypes_Saturday_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Saturday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SAT.
+        /// </summary>
+        public static string WorkDayTypes_Saturday_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Saturday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sunday is the day of the week between Saturday and Monday. In most Western countries, Sunday is a day of rest and a part of the weekend..
+        /// </summary>
+        public static string WorkDayTypes_Sunday_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Sunday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sunday.
+        /// </summary>
+        public static string WorkDayTypes_Sunday_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Sunday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SUN.
+        /// </summary>
+        public static string WorkDayTypes_Sunday_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Sunday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thursday is the day of the week between Wednesday and Friday. According to the ISO 8601 international standard, it is the fourth day of the week..
+        /// </summary>
+        public static string WorkDayTypes_Thursday_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Thursday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thursday.
+        /// </summary>
+        public static string WorkDayTypes_Thursday_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Thursday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to THU.
+        /// </summary>
+        public static string WorkDayTypes_Thursday_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Thursday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tuesday is the day of the week between Monday and Wednesday. According to international standard ISO 8601, it is the second day of the week..
+        /// </summary>
+        public static string WorkDayTypes_Tuesday_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Tuesday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tuesday.
+        /// </summary>
+        public static string WorkDayTypes_Tuesday_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Tuesday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TUE.
+        /// </summary>
+        public static string WorkDayTypes_Tuesday_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Tuesday.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wednesday is the day of the week between Tuesday and Thursday. According to international standard ISO 8601, it is the third day of the week..
+        /// </summary>
+        public static string WorkDayTypes_Wednesday_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Wednesday.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wednesday.
+        /// </summary>
+        public static string WorkDayTypes_Wednesday_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Wednesday.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WED.
+        /// </summary>
+        public static string WorkDayTypes_Wednesday_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.Wednesday.ShortName", resourceCulture);
+            }
+        }
     }
 }

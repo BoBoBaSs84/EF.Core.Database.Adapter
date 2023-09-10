@@ -50,18 +50,18 @@ internal sealed class EnumeratorService : IEnumeratorService
 		}
 	}
 
-	public ErrorOr<IEnumerable<DayTypeResponse>> GetDayTypes()
+	public ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes()
 	{
 		try
 		{
-			IEnumerable<DayType> cardTypes = DayType.HOLIDAY.ToList();
+			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.HOLIDAY.ToList();
 
-			return _mapper.Map<IEnumerable<DayTypeResponse>>(cardTypes).ToList();
+			return _mapper.Map<IEnumerable<AttendanceTypeResponse>>(attendanceTypes).ToList();
 		}
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogException, ex);
-			return EnumeratorServiceErrors.GetDayTypesFailed;
+			return EnumeratorServiceErrors.GetAttendanceTypesFailed;
 		}
 	}
 

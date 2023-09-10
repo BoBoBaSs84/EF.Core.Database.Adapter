@@ -22,12 +22,6 @@ public sealed class CalendarResponse : IdentityResponse
 	public DateTime Date { get; set; } = default!;
 
 	/// <summary>
-	/// The day type property.
-	/// </summary>
-	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public DayType DayType { get; set; }
-
-	/// <summary>
 	/// The <see cref="Year"/> property.
 	/// </summary>
 	public int Year { get; set; } = default!;

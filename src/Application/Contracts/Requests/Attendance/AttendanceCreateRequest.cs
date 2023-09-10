@@ -18,25 +18,25 @@ public sealed class AttendanceCreateRequest
 	public DateTime Date { get; set; }
 
 	/// <summary>
-	/// The day yype property.
+	/// The attendance type property.
 	/// </summary>
 	[Required]
-	public DayType DayType { get; set; }
+	public AttendanceType AttendanceType { get; set; }
 
 	/// <summary>
-	/// The <see cref="StartTime"/> property.
+	/// The start time property.
 	/// </summary>
 	[JsonConverter(typeof(TimeSpanJsonConverter))]
 	public TimeSpan? StartTime { get; set; }
 
 	/// <summary>
-	/// The <see cref="EndTime"/> property.
+	/// The end time property.
 	/// </summary>
 	[JsonConverter(typeof(TimeSpanJsonConverter))]
 	public TimeSpan? EndTime { get; set; }
 
 	/// <summary>
-	/// The <see cref="BreakTime"/> property.
+	/// The break time property.
 	/// </summary>
 	[JsonConverter(typeof(TimeSpanJsonConverter))]
 	public TimeSpan? BreakTime { get; set; }

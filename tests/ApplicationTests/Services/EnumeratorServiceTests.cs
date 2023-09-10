@@ -35,7 +35,7 @@ public sealed class EnumeratorServiceTests : ApplicationTestBase
 	[TestMethod]
 	public void GetDayTypesSuccessTest()
 	{
-		ErrorOr<IEnumerable<DayTypeResponse>> dayTypes = _enumeratorService.GetDayTypes();
+		ErrorOr<IEnumerable<AttendanceTypeResponse>> dayTypes = _enumeratorService.GetAttendanceTypes();
 
 		AssertionHelper.AssertInScope(() =>
 		{

@@ -16,7 +16,7 @@ internal static partial class ResponseProfiles
 	{
 		public EnumeratorResponseProfile()
 		{
-			CreateMap<DayType, DayTypeResponse>()
+			CreateMap<AttendanceType, AttendanceTypeResponse>()
 				.ConstructUsing(x => new(x));
 
 			CreateMap<CardType, CardTypeResponse>()

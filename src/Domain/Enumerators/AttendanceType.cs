@@ -5,12 +5,12 @@ using RESX = Domain.Properties.EnumeratorResources;
 namespace Domain.Enumerators;
 
 /// <summary>
-/// The day type enumerator.
+/// The attendance type enumerator.
 /// </summary>
-public enum DayType
+public enum AttendanceType
 {
 	/// <summary>
-	/// The <see cref="HOLIDAY"/> day type.
+	/// The holiday attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_Holiday_Name),
@@ -18,7 +18,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_Holiday_Description))]
 	HOLIDAY = 1,
 	/// <summary>
-	/// The <see cref="WEEKDAY"/> day type.
+	/// The week day attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_Weekday_Name),
@@ -26,7 +26,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_Weekday_Description))]
 	WEEKDAY,
 	/// <summary>
-	/// The <see cref="WEEKENDDAY"/> day type.
+	/// The week end day attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_WeekendDay_Name),
@@ -34,7 +34,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_WeekendDay_Description))]
 	WEEKENDDAY,
 	/// <summary>
-	/// The <see cref="WORKDAY"/> day type.
+	/// The work day attendance type.
 	/// </summary>	
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_Workday_Name),
@@ -42,15 +42,16 @@ public enum DayType
 		Description = nameof(RESX.DayType_Workday_Description))]
 	WORKDAY,
 	/// <summary>
-	/// The <see cref="WEEKENDWORKDAY"/> day type.
-	/// </summary>
+	/// The week end work day attendance type.
+	/// </summary>	
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_WeekendWorkday_Name),
 		ShortName = nameof(RESX.DayType_WeekendWorkday_ShortName),
 		Description = nameof(RESX.DayType_WeekendWorkday_Description))]
+	[Obsolete("Do not use this one any more, will be removed in the future.")]
 	WEEKENDWORKDAY,
 	/// <summary>
-	/// The <see cref="ABSENCE"/> day type.
+	/// The absence attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_Absence_Name),
@@ -58,7 +59,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_Absence_Description))]
 	ABSENCE,
 	/// <summary>
-	/// The <see cref="BUISNESSTRIP"/> day type.
+	/// The buisness trip attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_BuisnessTrip_Name),
@@ -66,7 +67,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_BuisnessTrip_Description))]
 	BUISNESSTRIP,
 	/// <summary>
-	/// The <see cref="SUSPENSION"/> day type.
+	/// The suspension attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_Suspension_Name),
@@ -74,7 +75,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_Suspension_Description))]
 	SUSPENSION,
 	/// <summary>
-	/// The <see cref="MOBILEWORKING"/> day type.
+	/// The mobile working attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_MobileWorking_Name),
@@ -82,7 +83,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_MobileWorking_Description))]
 	MOBILEWORKING,
 	/// <summary>
-	/// The <see cref="PLANNEDVACATION"/> day type.
+	/// The planned vacation attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_PlannedVacation_Name),
@@ -90,7 +91,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_PlannedVacation_Description))]
 	PLANNEDVACATION,
 	/// <summary>
-	/// The <see cref="SHORTTIMEWORK"/> day type.
+	/// The short time work attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_ShortTimeWork_Name),
@@ -98,7 +99,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_ShortTimeWork_Description))]
 	SHORTTIMEWORK,
 	/// <summary>
-	/// The <see cref="SICKNESS"/> day type.
+	/// The sickness attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_Sickness_Name),
@@ -106,7 +107,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_Sickness_Description))]
 	SICKNESS,
 	/// <summary>
-	/// The <see cref="VACATION"/> day type.
+	/// The vacation attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_Vacation_Name),
@@ -114,7 +115,7 @@ public enum DayType
 		Description = nameof(RESX.DayType_Vacation_Description))]
 	VACATION,
 	/// <summary>
-	/// The <see cref="VACATIONBLOCK"/> day type.
+	/// The vacation block attendance type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.DayType_VacationBlock_Name),

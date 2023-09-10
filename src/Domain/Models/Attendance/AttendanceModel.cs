@@ -26,9 +26,9 @@ public partial class AttendanceModel : AuditedModel
 	public Guid CalendarId { get; set; }
 
 	/// <summary>
-	/// The day type property.
+	/// The attendance type property.
 	/// </summary>
-	public DayType DayType { get; set; }
+	public AttendanceType AttendanceType { get; set; }
 
 	/// <summary>
 	/// The <see cref="StartTime"/> property.

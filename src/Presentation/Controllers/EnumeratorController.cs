@@ -49,18 +49,18 @@ public sealed class EnumeratorController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Returns all day type enumerators.
+	/// Returns all attendance type enumerators.
 	/// </summary>
 	/// <response code="200">If the result is returned.</response>
 	/// <response code="404">If the result is empty.</response>
 	/// <response code="500">If something went wrong.</response>
-	[HttpGet(Endpoints.Enumerator.DayType.Get)]
-	[ProducesResponseType(typeof(IEnumerable<DayTypeResponse>), StatusCodes.Status200OK)]
+	[HttpGet(Endpoints.Enumerator.AttendanceType.Get)]
+	[ProducesResponseType(typeof(IEnumerable<AttendanceTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetDayTypes()
 	{
-		ErrorOr<IEnumerable<DayTypeResponse>> result = _enumeratorService.GetDayTypes();
+		ErrorOr<IEnumerable<AttendanceTypeResponse>> result = _enumeratorService.GetAttendanceTypes();
 		return Get(result);
 	}
 

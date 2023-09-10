@@ -23,10 +23,10 @@ public sealed class AttendanceResponse : IdentityResponse
 	public DateTime Date { get; set; }
 
 	/// <summary>
-	/// The day type property.
+	/// The attendance type property.
 	/// </summary>
 	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public DayType DayType { get; set; }
+	public AttendanceType AttendanceType { get; set; }
 
 	/// <summary>
 	/// The start time property.

@@ -16,10 +16,10 @@ public interface IEnumeratorService
 	ErrorOr<IEnumerable<CardTypeResponse>> GetCardTypes();
 
 	/// <summary>
-	/// Returns all day type enumerators.
+	/// Returns all attendance type enumerators.
 	/// </summary>
-	/// <returns>A list of day type responses.</returns>
-	ErrorOr<IEnumerable<DayTypeResponse>> GetDayTypes();
+	/// <returns>A list of attendance type responses.</returns>
+	ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes();
 
 	/// <summary>
 	/// Returns all role type enumerators.

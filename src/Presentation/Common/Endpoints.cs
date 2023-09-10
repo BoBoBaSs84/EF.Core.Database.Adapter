@@ -74,11 +74,11 @@ internal static class Endpoints
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Enumerator);
 
 		/// <summary>
-		/// The day type route.
+		/// The attendance type route.
 		/// </summary>
-		internal static class DayType
+		internal static class AttendanceType
 		{
-			internal const string Get = nameof(DayType);
+			internal const string Get = nameof(AttendanceType);
 		}
 
 		/// <summary>

@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
-using Domain.Enumerators;
 
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Domain.Converters.JsonConverters;
+using Domain.Enumerators;
 
 namespace Application.Contracts.Responses.Attendance;
 
@@ -18,7 +18,7 @@ public sealed class AttendanceSettingsResponse : IdentityResponse
 	/// <summary>
 	/// The work days per week.
 	/// </summary>
-	[JsonConverter(typeof(JsonStringEnumConverter))]
+	[JsonConverter(typeof(FlagsToArrayJsonConverter))]
 	public WorkDayTypes WorkDays { get; set; }
 
 	/// <summary>

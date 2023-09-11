@@ -59,7 +59,7 @@ public class XmlExtensionTests
 	{
 		FancyXmlTestClass fancy = new();
 
-		fancy = fancy.FromXmlString(XmlTextString);
+		fancy = fancy.FromXmlString(XmlTextString, _readerSettings);
 
 		AssertInScope(() =>
 		{
@@ -74,7 +74,7 @@ public class XmlExtensionTests
 	{
 		FancyXmlTestClass fancy = new();
 
-		fancy = fancy.FromXmlString(XmlTextString);
+		fancy = fancy.FromXmlString(XmlTextString, _readerSettings);
 
 		AssertInScope(() =>
 		{

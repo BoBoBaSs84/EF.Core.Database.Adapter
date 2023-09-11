@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
 
-using Domain.Enumerators;
+using Domain.Converters;
 
 namespace Application.Contracts.Responses.Common;
 
@@ -16,59 +16,39 @@ namespace Application.Contracts.Responses.Common;
 public sealed class CalendarResponse : IdentityResponse
 {
 	/// <summary>
-	/// The <see cref="Date"/> property.
+	/// The date property.
 	/// </summary>
-	[DataType(DataType.Date)]
-	public DateTime Date { get; set; } = default!;
+	[JsonConverter(typeof(DateJsonConverter))]
+	public DateTime Date { get; set; }
 
 	/// <summary>
-	/// The <see cref="Year"/> property.
+	/// The year property.
 	/// </summary>
-	public int Year { get; set; } = default!;
+	public int Year { get; set; }
 
 	/// <summary>
-	/// The <see cref="Month"/> property.
+	/// The month property.
 	/// </summary>
-	public int Month { get; set; } = default!;
+	public int Month { get; set; }
 
 	/// <summary>
-	/// The <see cref="Day"/> property.
+	/// The iso week property.
 	/// </summary>
-	public int Day { get; set; } = default!;
+	public int IsoWeek { get; set; }
 
 	/// <summary>
-	/// The <see cref="Week"/> property.
+	/// The day of week property.
 	/// </summary>
-	public int Week { get; set; } = default!;
+	public int DayOfWeek { get; set; }
 
 	/// <summary>
-	/// The <see cref="IsoWeek"/> property.
+	/// The day of year property.
 	/// </summary>
-	public int IsoWeek { get; set; } = default!;
+	public int DayOfYear { get; set; }
 
 	/// <summary>
-	/// The <see cref="DayOfYear"/> property.
+	/// The end of month property.
 	/// </summary>
-	public int DayOfYear { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="WeekDay"/> property.
-	/// </summary>
-	public int WeekDay { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="EndOfMonth"/> property.
-	/// </summary>
-	[DataType(DataType.Date)]
-	public DateTime EndOfMonth { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="WeekDayName"/> property.
-	/// </summary>
-	public string WeekDayName { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="MonthName"/> property.
-	/// </summary>
-	public string MonthName { get; set; } = default!;
+	[JsonConverter(typeof(DateJsonConverter))]
+	public DateTime EndOfMonth { get; set; }
 }

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Domain.Converters.JsonConverters;
+namespace Domain.Converters;
 
 /// <summary>
 /// The flags to array json converter class.

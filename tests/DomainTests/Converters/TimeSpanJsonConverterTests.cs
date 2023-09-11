@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-using Domain.Converters.JsonConverters;
+using Domain.Converters;
 using Domain.Extensions;
 
 using FluentAssertions;
 
-namespace DomainTests.Converters.JsonConverters;
+namespace DomainTests.Converters;
 
 [TestClass]
 public class TimeSpanJsonConverterTests : DomainTestBase
@@ -60,7 +60,7 @@ public class TimeSpanJsonConverterTests : DomainTestBase
 		public TestClass(TimeSpan? time)
 			=> Time = time;
 
-		[JsonConverter(typeof(TimeSpanJsonConverter))]
+		[JsonConverter(typeof(NullableTimeJsonConverter))]
 		public TimeSpan? Time { get; set; }
 	}
 }

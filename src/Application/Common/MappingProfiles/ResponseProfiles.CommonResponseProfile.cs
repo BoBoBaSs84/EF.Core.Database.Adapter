@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Enumerators;
+using Domain.Extensions;
 using Domain.Models.Common;
 
 namespace Application.Common.MappingProfiles.Responses;
@@ -17,7 +17,13 @@ internal static partial class ResponseProfiles
 	{
 		public CommonResponseProfile()
 		{
-			CreateMap<CalendarModel, CalendarResponse>();
+			CreateMap<CalendarModel, CalendarResponse>()
+				.ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Date.Year))
+				.ForMember(dest => dest.Month, opt => opt.MapFrom(src => src.Date.Month))
+				.ForMember(dest => dest.IsoWeek, opt => opt.MapFrom(src => src.Date.GetIsoWeek()))
+				.ForMember(dest => dest.DayOfWeek, opt => opt.MapFrom(src => src.Date.DayOfWeek))
+				.ForMember(dest => dest.DayOfYear, opt => opt.MapFrom(src => src.Date.DayOfYear))
+				.ForMember(dest => dest.EndOfMonth, opt => opt.MapFrom(src => src.Date.EndOfMonth()));
 		}
 	}
 }

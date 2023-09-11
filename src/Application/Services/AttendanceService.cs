@@ -257,7 +257,7 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			AttendanceModel? attendance = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.Calendar.Date.Equals(request.Date),
+				expression: x => x.Id.Equals(request.Id),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
@@ -284,17 +284,16 @@ internal sealed class AttendanceService : IAttendanceService
 		try
 		{
 			IEnumerable<AttendanceModel> attendances = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
-				expression: x => request.Select(x => x.Date).Contains(x.Calendar.Date),
+				expression: x => request.Select(x => x.Id).Contains(x.Id),
 				trackChanges: true,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
+				cancellationToken: cancellationToken
 				);
 
 			if (!attendances.Any())
 				return AttendanceServiceErrors.UpdateManyNotFound;
 
 			foreach (AttendanceModel attendance in attendances)
-				UpdateAttendance(attendance, request.Where(x => x.Date.Equals(attendance.Calendar.Date)).First());
+				UpdateAttendance(attendance, request.Where(x => x.Id.Equals(attendance.Id)).First());
 
 			await _repositoryService.AttendanceRepository.UpdateAsync(attendances);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);

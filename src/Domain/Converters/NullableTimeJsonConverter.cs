@@ -2,15 +2,16 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Domain.Converters.JsonConverters;
+namespace Domain.Converters;
 
 /// <summary>
 /// The <see cref="TimeSpan"/> json converter class.
 /// </summary>
 /// <remarks>
 /// Derives from the <see cref="JsonConverter{T}"/> class.
+/// This is for the nullable <see cref="TimeSpan"/> type.
 /// </remarks>
-public sealed class TimeSpanJsonConverter : JsonConverter<TimeSpan?>
+public sealed class NullableTimeJsonConverter : JsonConverter<TimeSpan?>
 {
 	/// <inheritdoc/>
 	public override TimeSpan? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -25,6 +26,6 @@ public sealed class TimeSpanJsonConverter : JsonConverter<TimeSpan?>
 		if (value is null)
 			return;
 
-		writer.WriteStringValue(value.ToString());
+		writer.WriteStringValue(value.Value.ToString("c"));
 	}
 }

@@ -10,25 +10,28 @@ namespace Domain.Helpers;
 /// </remarks>
 internal sealed class StringWriterWithEncoding : StringWriter
 {
-	private readonly Encoding _encoding;
+	private readonly Encoding? _encoding;
 
 	/// <summary>
 	/// Overrides the default encoding type (UTF-16).
 	/// </summary>
 	/// <inheritdoc/>
 	public override Encoding Encoding
-		=> _encoding;
+		=> _encoding ?? base.Encoding;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="StringWriterWithEncoding"/> class.
+	/// Initializes a new instance of the string writer with encoding class.
 	/// </summary>
-	public StringWriterWithEncoding()
-		=> _encoding = Encoding.Unicode;
+	/// <remarks>
+	/// The <see cref="StringWriter.Encoding"/> is used.
+	/// </remarks>
+	internal StringWriterWithEncoding() : base()
+	{ }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="StringWriterWithEncoding"/> class.
+	/// Initializes a new instance of the string writer with encoding class.
 	/// </summary>
-	/// <param name="encoding">The character encoding type</param>
-	public StringWriterWithEncoding(Encoding encoding)
+	/// <param name="encoding">The character encoding type to use.</param>
+	internal StringWriterWithEncoding(Encoding encoding) : base()
 		=> _encoding = encoding;
 }

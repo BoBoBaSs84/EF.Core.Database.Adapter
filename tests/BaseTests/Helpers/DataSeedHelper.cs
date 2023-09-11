@@ -1,8 +1,6 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Interfaces.Infrastructure.Services;
 
-using ApplicationTests.Helpers;
-
 using AutoMapper;
 
 using Domain.Entities.Identity;

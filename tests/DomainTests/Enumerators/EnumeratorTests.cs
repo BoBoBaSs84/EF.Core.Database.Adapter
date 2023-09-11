@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 
 using BaseTests.Helpers;
 
@@ -39,14 +38,11 @@ public sealed class EnumeratorTests : DomainTestBase
 	}
 
 	private static IEnumerable<Type> GetEnumTypes()
-	{
-		Assembly assembly = typeof(IDomainAssemblyMarker).Assembly;
-		return TypeHelper.GetAssemblyTypes(
-			assembly: assembly,
+		=> TypeHelper.GetAssemblyTypes(
+			assembly: typeof(IDomainAssemblyMarker).Assembly,
 			expression: x => x.IsEnum.Equals(true) && x.BaseType is not null && x.BaseType.Equals(typeof(Enum))
 			);
-	}
 
-	private static IEnumerable<Enum> GetEnums(Type type) =>
-		Enum.GetValues(type).Cast<Enum>().ToList();
+	private static IEnumerable<Enum> GetEnums(Type type)
+		=> Enum.GetValues(type).Cast<Enum>().ToList();
 }

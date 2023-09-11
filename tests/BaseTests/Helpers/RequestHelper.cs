@@ -5,7 +5,7 @@ using Tynamix.ObjectFiller;
 using RH = BaseTests.Helpers.RandomHelper;
 using TU = BaseTests.Constants.TestConstants.TestUser;
 
-namespace ApplicationTests.Helpers;
+namespace BaseTests.Helpers;
 
 /// <summary>
 /// The request helper class.
@@ -26,7 +26,7 @@ public static class RequestHelper
 			.OnProperty(p => p.FirstName).Use(new RealNames(NameStyle.FirstName))
 			.OnProperty(p => p.LastName).Use(new RealNames(NameStyle.LastName))
 			.OnProperty(p => p.DateOfBirth).Use(RH.GetDateTime())
-			.OnProperty(p => p.Email).Use(new EmailAddresses())			
+			.OnProperty(p => p.Email).Use(new EmailAddresses())
 			.OnProperty(p => p.Password).Use(password);
 
 		return filler.Fill(request);

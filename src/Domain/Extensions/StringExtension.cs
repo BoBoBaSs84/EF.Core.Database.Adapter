@@ -2,6 +2,8 @@
 using System.Security.Cryptography;
 using System.Text;
 
+using Domain.Statics;
+
 namespace Domain.Extensions;
 
 /// <summary>
@@ -15,7 +17,7 @@ public static class StringExtension
 	/// <param name="stringValue">The string to modify.</param>
 	/// <returns>The replaced string.</returns>
 	public static string RemoveWhitespace(this string stringValue)
-		=> Statics.WhitespaceRegex.Replace(stringValue, string.Empty);
+		=> RegexStatics.Whitespace.Replace(stringValue, string.Empty);
 
 	/// <summary>
 	/// Formats the string with <paramref name="parameters"/> an invariant culture.

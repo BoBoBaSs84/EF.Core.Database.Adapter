@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
+
+using Domain.Converters;
 
 namespace Application.Contracts.Responses.Identity;
 
@@ -33,7 +36,7 @@ public sealed class UserResponse : IdentityResponse
 	/// <summary>
 	/// The date of birth of the user.
 	/// </summary>
-	[DataType(DataType.Date)]
+	[JsonConverter(typeof(DateJsonConverter))]
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>

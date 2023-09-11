@@ -13,16 +13,16 @@ public sealed class AccountUpdateRequest
 	/// The identifier of the account.
 	/// </summary>
 	[Required]
-	public Guid Id { get; set; } = default!;
+	public Guid Id { get; set; }
 
 	/// <summary>
 	/// The account provider.
 	/// </summary>
 	[Required, MaxLength(MaxLength.MAX_500)]
-	public string Provider { get; set; } = default!;
+	public string Provider { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The cards belonging to this account.
 	/// </summary>
-	public IEnumerable<CardUpdateRequest>? Cards { get; set; }
+	public CardUpdateRequest[]? Cards { get; set; }
 }

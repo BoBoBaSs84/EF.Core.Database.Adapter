@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
+using Domain.Converters;
 using Domain.Enumerators;
 
 using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
@@ -22,11 +24,12 @@ public sealed class CardCreateRequest
 	/// The payment card number.
 	/// </summary>
 	[Required, MaxLength(MaxLength.MAX_25), RegularExpression(RegexPatterns.CC)]
-	public string PAN { get; set; } = default!;
+	public string PAN { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The valid until property.
 	/// </summary>
-	[Required, DataType(DataType.Date)]
-	public DateTime ValidUntil { get; set; } = default!;
+	[Required]
+	[JsonConverter(typeof(DateJsonConverter))]
+	public DateTime ValidUntil { get; set; }
 }

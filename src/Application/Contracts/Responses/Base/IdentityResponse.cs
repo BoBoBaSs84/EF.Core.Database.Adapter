@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Contracts.Responses.Base;
 
@@ -10,6 +11,6 @@ public abstract class IdentityResponse
 	/// <summary>
 	/// The globally unique identifier property.
 	/// </summary>
-	[Column(Order = 1)]
+	[DataType(DataType.Text)]
 	public Guid Id { get; set; }
 }

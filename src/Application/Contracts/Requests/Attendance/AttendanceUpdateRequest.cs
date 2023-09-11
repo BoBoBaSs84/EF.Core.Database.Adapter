@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Domain.Converters.JsonConverters;
+using Domain.Converters;
 using Domain.Enumerators;
 
 namespace Application.Contracts.Requests.Attendance;
@@ -12,10 +12,10 @@ namespace Application.Contracts.Requests.Attendance;
 public sealed class AttendanceUpdateRequest
 {
 	/// <summary>
-	/// The date property.
+	/// The globally unique identifier property.
 	/// </summary>
-	[Required, DataType(DataType.Date)]
-	public DateTime Date { get; set; }
+	[DataType(DataType.Text)]
+	public Guid Id { get; set; }
 
 	/// <summary>
 	/// The attendance type property.
@@ -26,18 +26,18 @@ public sealed class AttendanceUpdateRequest
 	/// <summary>
 	/// The start time property.
 	/// </summary>
-	[JsonConverter(typeof(TimeSpanJsonConverter))]
+	[JsonConverter(typeof(NullableTimeJsonConverter))]
 	public TimeSpan? StartTime { get; set; }
 
 	/// <summary>
 	/// The end time property.
 	/// </summary>
-	[JsonConverter(typeof(TimeSpanJsonConverter))]
+	[JsonConverter(typeof(NullableTimeJsonConverter))]
 	public TimeSpan? EndTime { get; set; }
 
 	/// <summary>
 	/// The break time property.
 	/// </summary>
-	[JsonConverter(typeof(TimeSpanJsonConverter))]
+	[JsonConverter(typeof(NullableTimeJsonConverter))]
 	public TimeSpan? BreakTime { get; set; }
 }

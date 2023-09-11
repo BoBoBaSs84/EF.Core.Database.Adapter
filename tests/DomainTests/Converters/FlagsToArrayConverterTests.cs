@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-using Domain.Converters.JsonConverters;
+using Domain.Converters;
 using Domain.Extensions;
 
 using FluentAssertions;
 
-namespace DomainTests.Converters.JsonConverters;
+namespace DomainTests.Converters;
 
 [TestClass]
 public class FlagsToArrayConverterTests

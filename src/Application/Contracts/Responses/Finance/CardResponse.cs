@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
 
@@ -18,7 +17,6 @@ public sealed class CardResponse : IdentityResponse
 	/// <summary>
 	/// The card type.
 	/// </summary>
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public CardType CardType { get; set; }
 
 	/// <summary>

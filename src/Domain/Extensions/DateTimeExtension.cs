@@ -8,6 +8,14 @@ namespace Domain.Extensions;
 public static class DateTimeExtension
 {
 	/// <summary>
+	/// Returns the ISO 8601 week from the provided date. 
+	/// </summary>
+	/// <param name="dateTime">The date time value to work with.</param>
+	/// <returns>The iso week.</returns>
+	public static int GetIsoWeek(this DateTime dateTime)
+		=> ISOWeek.GetWeekOfYear(dateTime);
+
+	/// <summary>
 	/// Should cut of the time in date time.
 	/// </summary>
 	/// <param name="dateTime">The date time to modify.</param>

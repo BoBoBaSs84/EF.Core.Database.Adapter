@@ -1,6 +1,6 @@
 ﻿namespace DomainTests;
 
 [TestClass]
-public class ArchitectureTests
+public class ArchitectureTests : DomainTestBase
 {
 }

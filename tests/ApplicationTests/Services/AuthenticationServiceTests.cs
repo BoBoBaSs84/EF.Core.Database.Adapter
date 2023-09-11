@@ -3,7 +3,7 @@ using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Services;
 
-using ApplicationTests.Helpers;
+using BaseTests.Helpers;
 
 using Domain.Errors;
 using Domain.Results;

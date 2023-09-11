@@ -1,4 +1,6 @@
-﻿using Application.Contracts.Responses.Base;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Application.Contracts.Responses.Base;
 
 namespace Application.Contracts.Responses.Finance;
 
@@ -11,17 +13,19 @@ namespace Application.Contracts.Responses.Finance;
 public sealed class AccountResponse : IdentityResponse
 {
 	/// <summary>
-	/// The iban number.
+	/// The international bank account number.
 	/// </summary>
-	public string IBAN { get; set; } = default!;
+	[DataType(DataType.Text)]
+	public string IBAN { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The account provider.
 	/// </summary>
-	public string Provider { get; set; } = default!;
+	[DataType(DataType.Text)]
+	public string Provider { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The cards belonging to this account.
 	/// </summary>
-	public IEnumerable<CardResponse>? Cards { get; set; }
+	public CardResponse[]? Cards { get; set; }
 }

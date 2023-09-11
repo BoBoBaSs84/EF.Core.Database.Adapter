@@ -24,6 +24,7 @@ public sealed class CardResponse : IdentityResponse
 	/// <summary>
 	/// The payment card number.
 	/// </summary>
+	[DataType(DataType.CreditCard)]
 	public string PAN { get; set; } = default!;
 
 	/// <summary>

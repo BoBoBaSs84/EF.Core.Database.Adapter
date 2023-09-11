@@ -12,7 +12,7 @@ public static partial class ModelExtensions
 	/// <param name="year">The year to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
 	public static IQueryable<AttendanceModel> FilterByYear(this IQueryable<AttendanceModel> query, int? year) =>
-		year.HasValue ? query.Where(x => x.Calendar.Year.Equals(year)) : query;
+		year.HasValue ? query.Where(x => x.Calendar.Date.Year.Equals(year)) : query;
 
 	/// <summary>
 	/// Filter the attendance entries by month.
@@ -21,7 +21,7 @@ public static partial class ModelExtensions
 	/// <param name="month">The month to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
 	public static IQueryable<AttendanceModel> FilterByMonth(this IQueryable<AttendanceModel> query, int? month) =>
-		month.HasValue ? query.Where(x => x.Calendar.Month.Equals(month)) : query;
+		month.HasValue ? query.Where(x => x.Calendar.Date.Month.Equals(month)) : query;
 
 	/// <summary>
 	/// Filters the attendance entries by date range.

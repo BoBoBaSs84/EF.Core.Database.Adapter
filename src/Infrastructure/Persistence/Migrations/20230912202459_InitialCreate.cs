@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Infrastructure.Persistence.Migrations.Development
+namespace Infrastructure.Persistence.Migrations
 {
 	/// <inheritdoc />
-	public partial class InitialMigration : Migration
+	public partial class InitialCreate : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
@@ -113,66 +113,6 @@ namespace Infrastructure.Persistence.Migrations.Development
 									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
 						Date = table.Column<DateTime>(type: "date", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Year = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(year,[Date]))", stored: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Month = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(month,[Date]))", stored: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Day = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(day,[Date]))", stored: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Week = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(week,[Date]))", stored: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						IsoWeek = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(iso_week,[Date]))", stored: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						DayOfYear = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(dayofyear,[Date]))", stored: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						WeekDay = table.Column<int>(type: "int", nullable: false, computedColumnSql: "(datepart(weekday,[Date]))", stored: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						EndOfMonth = table.Column<DateTime>(type: "datetime2", nullable: false, computedColumnSql: "(eomonth([Date]))", stored: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						WeekDayName = table.Column<string>(type: "nvarchar(max)", nullable: false, computedColumnSql: "(datename(weekday,[Date]))", stored: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						MonthName = table.Column<string>(type: "nvarchar(max)", nullable: false, computedColumnSql: "(datename(month,[Date]))", stored: false)
 									.Annotation("SqlServer:IsTemporal", true)
 									.Annotation("SqlServer:TemporalHistoryTableName", "Calendar")
 									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
@@ -780,7 +720,7 @@ namespace Infrastructure.Persistence.Migrations.Development
 									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
 									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						DayType = table.Column<int>(type: "int", nullable: false)
+						AttendanceType = table.Column<int>(type: "int", nullable: false)
 									.Annotation("SqlServer:IsTemporal", true)
 									.Annotation("SqlServer:TemporalHistoryTableName", "Attendance")
 									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
@@ -1328,9 +1268,9 @@ namespace Infrastructure.Persistence.Migrations.Development
 					columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
 					values: new object[,]
 					{
-										{ new Guid("7ca31c7f-cba0-4550-8283-5c8784fdcbf7"), "e074de14-fd0c-4304-b294-612af2de9746", "This is a normal user with normal user rights.", "User", "USER" },
-										{ new Guid("8d76b082-4893-4225-9d25-66570ec77d8f"), "b02ff284-88a8-4893-8262-aa6cdfdf71cd", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-										{ new Guid("df3f4807-9910-4279-ad20-bd5614b00fbe"), "15fcb8a2-d607-42f6-8211-02b9526b72e9", "The user with extended user rights.", "Super user", "SUPERUSER" }
+										{ new Guid("3e0fc8ea-66e6-46d3-9067-beea2dc74e71"), "eac9d58c-4fcb-47cc-af07-09bf87ecec30", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+										{ new Guid("d7b4425f-cf67-4362-93ff-86472c3330ff"), "b5aacc45-e071-4dc8-a010-df0725312382", "This is a normal user with normal user rights.", "User", "USER" },
+										{ new Guid("d93ca0c6-c42d-4166-a452-9e6989d0b877"), "336d2343-3765-4f2f-95c3-13e1a91c44e8", "The user with extended user rights.", "Super user", "SUPERUSER" }
 					});
 
 			migrationBuilder.CreateIndex(
@@ -1373,18 +1313,6 @@ namespace Infrastructure.Persistence.Migrations.Development
 					table: "Calendar",
 					column: "Date",
 					unique: true);
-
-			migrationBuilder.CreateIndex(
-					name: "IX_Calendar_Month",
-					schema: "Common",
-					table: "Calendar",
-					column: "Month");
-
-			migrationBuilder.CreateIndex(
-					name: "IX_Calendar_Year",
-					schema: "Common",
-					table: "Calendar",
-					column: "Year");
 
 			migrationBuilder.CreateIndex(
 					name: "IX_Card_AccountId",

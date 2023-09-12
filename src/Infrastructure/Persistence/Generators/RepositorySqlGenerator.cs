@@ -19,8 +19,7 @@ internal sealed class RepositorySqlGenerator : SqlServerMigrationsSqlGenerator
 	/// </summary>
 	/// <inheritdoc/>
 	public RepositorySqlGenerator(MigrationsSqlGeneratorDependencies dependencies, ICommandBatchPreparer commandBatchPreparer) : base(dependencies, commandBatchPreparer)
-	{
-	}
+	{	}
 
 	protected override void Generate(MigrationOperation operation, IModel? model, MigrationCommandListBuilder builder)
 	{
@@ -45,8 +44,9 @@ internal sealed class RepositorySqlGenerator : SqlServerMigrationsSqlGenerator
 		builder.Append(sqlHelper.DelimitIdentifier(operation.SchemaName));
 		builder.Append(";')");
 		builder.Append(sqlHelper.StatementTerminator);
+		builder.AppendLine();
 		builder.EndCommand();
-
+		builder.AppendLine();
 		builder.Append("IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'");
 		builder.Append(sqlHelper.DelimitIdentifier(operation.SchemaName));
 		builder.Append(".");
@@ -56,8 +56,9 @@ internal sealed class RepositorySqlGenerator : SqlServerMigrationsSqlGenerator
 		builder.Append(".");
 		builder.Append(sqlHelper.DelimitIdentifier(operation.TableName));
 		builder.Append(sqlHelper.StatementTerminator);
+		builder.AppendLine();
 		builder.EndCommand();
-
+		builder.AppendLine();
 		builder.Append("CREATE TABLE ");
 		builder.Append(sqlHelper.DelimitIdentifier(operation.SchemaName));
 		builder.Append(".");
@@ -87,8 +88,9 @@ internal sealed class RepositorySqlGenerator : SqlServerMigrationsSqlGenerator
 		builder.AppendLine("[XmlEvent] [xml] NOT NULL");
 		builder.Append(")");
 		builder.Append(sqlHelper.StatementTerminator);
+		builder.AppendLine();
 		builder.EndCommand();
-
+		builder.AppendLine();
 		builder.AppendLines(@"CREATE OR ALTER TRIGGER [DatabaseTriggerLog] ON DATABASE 
 FOR DDL_DATABASE_LEVEL_EVENTS AS 
 BEGIN
@@ -117,6 +119,8 @@ BEGIN
 		, @data;
 END");
 		builder.Append(sqlHelper.StatementTerminator);
+		builder.AppendLine();
 		builder.EndCommand();
+		builder.AppendLine();
 	}
 }

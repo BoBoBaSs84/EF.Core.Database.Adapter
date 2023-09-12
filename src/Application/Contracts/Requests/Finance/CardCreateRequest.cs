@@ -30,6 +30,7 @@ public sealed class CardCreateRequest
 	/// The valid until property.
 	/// </summary>
 	[Required]
+	[DataType(DataType.Date)]
 	[JsonConverter(typeof(DateJsonConverter))]
 	public DateTime ValidUntil { get; set; }
 }

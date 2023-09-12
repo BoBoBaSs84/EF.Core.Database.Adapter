@@ -27,6 +27,7 @@ public sealed class CardUpdateRequest
 	/// The valid until property.
 	/// </summary>
 	[Required]
+	[DataType(DataType.Date)]
 	[JsonConverter(typeof(DateJsonConverter))]
 	public DateTime ValidUntil { get; set; } = default!;
 }

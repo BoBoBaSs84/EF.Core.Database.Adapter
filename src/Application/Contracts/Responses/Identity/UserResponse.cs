@@ -19,7 +19,7 @@ public sealed class UserResponse : IdentityResponse
 	/// The first name of the user.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string FirstName { get; set; } = default!;
+	public string FirstName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The middle name of the user.
@@ -31,7 +31,7 @@ public sealed class UserResponse : IdentityResponse
 	/// The last name of the user.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string LastName { get; set; } = default!;
+	public string LastName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The date of birth of the user.
@@ -43,13 +43,13 @@ public sealed class UserResponse : IdentityResponse
 	/// The user name of the user.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string UserName { get; set; } = default!;
+	public string UserName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The email of the user.
 	/// </summary>
 	[DataType(DataType.EmailAddress)]
-	public string Email { get; set; } = default!;
+	public string Email { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The phone number of the user.

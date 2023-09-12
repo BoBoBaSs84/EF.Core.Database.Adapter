@@ -15,6 +15,7 @@ public sealed class AttendanceCreateRequest
 	/// The date property.
 	/// </summary>
 	[Required]
+	[DataType(DataType.Date)]
 	[JsonConverter(typeof(DateJsonConverter))]
 	public DateTime Date { get; set; }
 
@@ -27,18 +28,21 @@ public sealed class AttendanceCreateRequest
 	/// <summary>
 	/// The start time property.
 	/// </summary>
+	[DataType(DataType.Time)]
 	[JsonConverter(typeof(NullableTimeJsonConverter))]
 	public TimeSpan? StartTime { get; set; }
 
 	/// <summary>
 	/// The end time property.
 	/// </summary>
+	[DataType(DataType.Time)]
 	[JsonConverter(typeof(NullableTimeJsonConverter))]
 	public TimeSpan? EndTime { get; set; }
 
 	/// <summary>
 	/// The break time property.
 	/// </summary>
+	[DataType(DataType.Time)]
 	[JsonConverter(typeof(NullableTimeJsonConverter))]
 	public TimeSpan? BreakTime { get; set; }
 }

@@ -1,45 +1,33 @@
 {
-  "profiles": {
-    "WebAPI.Development": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7235"
-    },
-    "WebAPI.Testing": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Testing"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7235"
-    },
-    "WSL": {
-      "commandName": "WSL2",
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:7235/swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "https://localhost:7235"
-      },
-      "distributionName": ""
-    },
-    "WebAPI.Production": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7235"
-    }
-  },
-  "$schema": "https://json.schemastore.org/launchsettings.json"
+	"$schema": "https://json.schemastore.org/launchsettings.json",
+	"profiles": {
+		"WebAPI.Development": {
+			"commandName": "Project",
+			"launchBrowser": true,
+			"launchUrl": "swagger",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			},
+			"dotnetRunMessages": true,
+			"applicationUrl": "https://localhost:7235"
+		},
+		"WebAPI.Testing": {
+			"commandName": "Project",
+			"launchBrowser": true,
+			"launchUrl": "swagger",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Testing"
+			},
+			"dotnetRunMessages": true,
+			"applicationUrl": "https://localhost:7235"
+		},
+		"WebAPI.Production": {
+			"commandName": "Project",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Production"
+			},
+			"dotnetRunMessages": true,
+			"applicationUrl": "https://localhost:7235"
+		}
+	}
 }

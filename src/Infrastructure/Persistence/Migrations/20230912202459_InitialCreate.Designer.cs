@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Persistence.Migrations.Development
+namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230910073421_UpdateMigrationAttendanceType")]
-    partial class UpdateMigrationAttendanceType
+    [Migration("20230912202459_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,24 +80,24 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2ecea815-c488-4297-84be-3ab880913840"),
-                            ConcurrencyStamp = "ec90b0c9-e65f-49dc-b70f-9f9c651059ce",
+                            Id = new Guid("3e0fc8ea-66e6-46d3-9067-beea2dc74e71"),
+                            ConcurrencyStamp = "eac9d58c-4fcb-47cc-af07-09bf87ecec30",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("c610f8d5-9eb4-43f6-9cd4-316c919ca2a6"),
-                            ConcurrencyStamp = "b3d3b9e0-a80f-4512-a7b9-ff06bd7581a8",
+                            Id = new Guid("d7b4425f-cf67-4362-93ff-86472c3330ff"),
+                            ConcurrencyStamp = "b5aacc45-e071-4dc8-a010-df0725312382",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("f54b6255-7233-4bf7-9d39-5b71d0d9a03a"),
-                            ConcurrencyStamp = "9b5aec8e-ec9f-479f-9d54-04f73b86e988",
+                            Id = new Guid("d93ca0c6-c42d-4166-a452-9e6989d0b877"),
+                            ConcurrencyStamp = "336d2343-3765-4f2f-95c3-13e1a91c44e8",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -399,37 +399,6 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
-                    b.Property<int>("Day")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(day,[Date]))", true);
-
-                    b.Property<int>("DayOfYear")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(dayofyear,[Date]))", true);
-
-                    b.Property<DateTime>("EndOfMonth")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("(eomonth([Date]))", true);
-
-                    b.Property<int>("IsoWeek")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(iso_week,[Date]))", true);
-
-                    b.Property<int>("Month")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(month,[Date]))", true);
-
-                    b.Property<string>("MonthName")
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql("(datename(month,[Date]))", false);
-
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
@@ -447,37 +416,12 @@ namespace Infrastructure.Persistence.Migrations.Development
                         .HasColumnType("rowversion")
                         .HasColumnOrder(2);
 
-                    b.Property<int>("Week")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(week,[Date]))", false);
-
-                    b.Property<int>("WeekDay")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(weekday,[Date]))", false);
-
-                    b.Property<string>("WeekDayName")
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql("(datename(weekday,[Date]))", false);
-
-                    b.Property<int>("Year")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("(datepart(year,[Date]))", true);
-
                     b.HasKey("Id");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.HasIndex("Date")
                         .IsUnique();
-
-                    b.HasIndex("Month");
-
-                    b.HasIndex("Year");
 
                     b.ToTable("Calendar", "Common");
 

@@ -4,19 +4,16 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Persistence.Migrations.Development
+namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230911162814_UpdateMigrationCalendarModel")]
-    partial class UpdateMigrationCalendarModel
+    partial class RepositoryContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,24 +77,24 @@ namespace Infrastructure.Persistence.Migrations.Development
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2219ff4e-857e-4ab6-93be-d17ace8ee248"),
-                            ConcurrencyStamp = "581e4e88-d8ee-468a-bc5e-56c832c7fac0",
+                            Id = new Guid("3e0fc8ea-66e6-46d3-9067-beea2dc74e71"),
+                            ConcurrencyStamp = "eac9d58c-4fcb-47cc-af07-09bf87ecec30",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("d6bc161e-c868-4a50-91d9-ecda9b0deb0b"),
-                            ConcurrencyStamp = "dfbcba0c-27b2-412b-aaad-eb7b8ee6c5f8",
+                            Id = new Guid("d7b4425f-cf67-4362-93ff-86472c3330ff"),
+                            ConcurrencyStamp = "b5aacc45-e071-4dc8-a010-df0725312382",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("90f6223a-ffcd-4df1-b9ca-91f98dc22eca"),
-                            ConcurrencyStamp = "d1ef94d0-5ede-42dd-8253-b151015ac523",
+                            Id = new Guid("d93ca0c6-c42d-4166-a452-9e6989d0b877"),
+                            ConcurrencyStamp = "336d2343-3765-4f2f-95c3-13e1a91c44e8",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"

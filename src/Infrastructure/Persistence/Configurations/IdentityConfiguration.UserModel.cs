@@ -1,10 +1,12 @@
 ﻿using Domain.Entities.Identity;
 
 using Infrastructure.Extensions;
+using Infrastructure.Persistence.Converters;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -18,6 +20,10 @@ internal static partial class IdentityConfiguration
 		public void Configure(EntityTypeBuilder<UserModel> builder)
 		{
 			builder.ToVersionedTable(SqlSchema.Identity, "User");
+
+			builder.Property(e => e.Preferences)
+				.HasConversion<PreferencesConverter>()
+				.HasColumnType(SqlDataType.XML);
 
 			builder.HasMany(e => e.Claims)
 				.WithOne(e => e.User)
@@ -46,11 +52,6 @@ internal static partial class IdentityConfiguration
 			builder.HasMany(e => e.Attendances)
 				.WithOne(e => e.User)
 				.HasForeignKey(uat => uat.UserId)
-				.OnDelete(DeleteBehavior.Cascade)
-				.IsRequired();
-
-			builder.HasOne(e => e.AttendanceSettings)
-				.WithOne(e => e.User)
 				.OnDelete(DeleteBehavior.Cascade)
 				.IsRequired();
 

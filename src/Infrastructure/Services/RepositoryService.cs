@@ -21,7 +21,6 @@ internal sealed class RepositoryService : IRepositoryService
 	private readonly Lazy<ITransactionRepository> _lazyTransactionRepository;
 	private readonly Lazy<ICalendarRepository> _lazyCalendarRepository;
 	private readonly Lazy<IAttendanceRepository> _lazyAttendanceRepository;
-	private readonly Lazy<IAttendanceSettingsRepository> _lazyAttendanceSettingsRepository;
 
 	/// <summary>
 	/// Initializes a new instance of the repository service class.
@@ -36,7 +35,6 @@ internal sealed class RepositoryService : IRepositoryService
 		_lazyTransactionRepository = new Lazy<ITransactionRepository>(() => new TransactionRepository(_context));
 		_lazyCalendarRepository = new Lazy<ICalendarRepository>(() => new CalendarRepository(_context));
 		_lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(_context));
-		_lazyAttendanceSettingsRepository = new Lazy<IAttendanceSettingsRepository>(() => new AttendanceSettingsRepository(_context));
 	}
 
 	public IAccountRepository AccountRepository
@@ -53,9 +51,6 @@ internal sealed class RepositoryService : IRepositoryService
 
 	public IAttendanceRepository AttendanceRepository
 		=> _lazyAttendanceRepository.Value;
-
-	public IAttendanceSettingsRepository AttendanceSettingsRepository
-		=> _lazyAttendanceSettingsRepository.Value;
 
 	public async Task<int> CommitChangesAsync(CancellationToken cancellationToken = default)
 		=> await _context.SaveChangesAsync(cancellationToken);

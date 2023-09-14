@@ -8,32 +8,27 @@ namespace Application.Interfaces.Infrastructure.Services;
 public interface IRepositoryService
 {
 	/// <summary>
-	/// The <see cref="AccountRepository"/> interface.
+	/// The account repository interface.
 	/// </summary>
 	IAccountRepository AccountRepository { get; }
 
 	/// <summary>
-	/// The <see cref="AttendanceRepository"/> interface.
+	/// The attendance repository interface.
 	/// </summary>
 	IAttendanceRepository AttendanceRepository { get; }
 
 	/// <summary>
-	/// The <see cref="AttendanceSettingsRepository"/> interface.
-	/// </summary>
-	IAttendanceSettingsRepository AttendanceSettingsRepository { get; }
-
-	/// <summary>
-	/// The <see cref="CalendarRepository"/> interface.
+	/// The calendar repository interface.
 	/// </summary>
 	ICalendarRepository CalendarRepository { get; }
 
 	/// <summary>
-	/// The <see cref="CardRepository"/> interface.
+	/// The card repository interface.
 	/// </summary>
 	ICardRepository CardRepository { get; }
 
 	/// <summary>
-	/// The <see cref="TransactionRepository"/> interface.
+	/// The transaction repository interface.
 	/// </summary>
 	ITransactionRepository TransactionRepository { get; }
 

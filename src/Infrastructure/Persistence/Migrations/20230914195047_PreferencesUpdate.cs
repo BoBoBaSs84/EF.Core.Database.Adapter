@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Persistence.Migrations
 {
 	/// <inheritdoc />
-	public partial class InitialCreate : Migration
+	public partial class PreferencesUpdate : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
@@ -880,84 +880,6 @@ namespace Infrastructure.Persistence.Migrations
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
 
 			migrationBuilder.CreateTable(
-					name: "Settings",
-					schema: "Attendance",
-					columns: table => new
-					{
-						Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						ModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						WorkDays = table.Column<int>(type: "int", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						WorkHours = table.Column<float>(type: "real", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodStart = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart")
-					},
-					constraints: table =>
-					{
-						table.PrimaryKey("PK_Settings", x => x.Id)
-											.Annotation("SqlServer:Clustered", false);
-						table.ForeignKey(
-											name: "FK_Settings_User_UserId",
-											column: x => x.UserId,
-											principalSchema: "Identity",
-											principalTable: "User",
-											principalColumn: "Id",
-											onDelete: ReferentialAction.Cascade);
-					})
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.CreateTable(
 					name: "UserClaim",
 					schema: "Identity",
 					columns: table => new
@@ -1268,9 +1190,9 @@ namespace Infrastructure.Persistence.Migrations
 					columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
 					values: new object[,]
 					{
-										{ new Guid("3e0fc8ea-66e6-46d3-9067-beea2dc74e71"), "eac9d58c-4fcb-47cc-af07-09bf87ecec30", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
-										{ new Guid("d7b4425f-cf67-4362-93ff-86472c3330ff"), "b5aacc45-e071-4dc8-a010-df0725312382", "This is a normal user with normal user rights.", "User", "USER" },
-										{ new Guid("d93ca0c6-c42d-4166-a452-9e6989d0b877"), "336d2343-3765-4f2f-95c3-13e1a91c44e8", "The user with extended user rights.", "Super user", "SUPERUSER" }
+										{ new Guid("19d6a624-529b-440c-84cb-e02635c03413"), "14d37d25-20c3-410c-903a-e7d4ac5a8f05", "This is the ultimate god role ... so to say.", "Administrator", "ADMINISTRATOR" },
+										{ new Guid("24aafab6-9179-4e34-920e-70d3e352a479"), "4b51e445-aa0e-4203-ae1c-c708d029a453", "The user with extended user rights.", "Super user", "SUPERUSER" },
+										{ new Guid("8fa8f063-865a-47de-a3b0-23148d27ece7"), "2ac4ef7d-f8de-4d32-8419-414e636cb047", "This is a normal user with normal user rights.", "User", "USER" }
 					});
 
 			migrationBuilder.CreateIndex(
@@ -1355,14 +1277,6 @@ namespace Infrastructure.Persistence.Migrations
 					column: "RoleId");
 
 			migrationBuilder.CreateIndex(
-					name: "IX_Settings_UserId",
-					schema: "Attendance",
-					table: "Settings",
-					column: "UserId",
-					unique: true)
-					.Annotation("SqlServer:Clustered", false);
-
-			migrationBuilder.CreateIndex(
 					name: "EmailIndex",
 					schema: "Identity",
 					table: "User",
@@ -1439,15 +1353,6 @@ namespace Infrastructure.Persistence.Migrations
 					schema: "Identity")
 					.Annotation("SqlServer:IsTemporal", true)
 					.Annotation("SqlServer:TemporalHistoryTableName", "RoleClaim")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.DropTable(
-					name: "Settings",
-					schema: "Attendance")
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "Settings")
 					.Annotation("SqlServer:TemporalHistoryTableSchema", "History")
 					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");

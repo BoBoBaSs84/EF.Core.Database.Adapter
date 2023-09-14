@@ -77,24 +77,24 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3e0fc8ea-66e6-46d3-9067-beea2dc74e71"),
-                            ConcurrencyStamp = "eac9d58c-4fcb-47cc-af07-09bf87ecec30",
+                            Id = new Guid("19d6a624-529b-440c-84cb-e02635c03413"),
+                            ConcurrencyStamp = "14d37d25-20c3-410c-903a-e7d4ac5a8f05",
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("d7b4425f-cf67-4362-93ff-86472c3330ff"),
-                            ConcurrencyStamp = "b5aacc45-e071-4dc8-a010-df0725312382",
+                            Id = new Guid("8fa8f063-865a-47de-a3b0-23148d27ece7"),
+                            ConcurrencyStamp = "2ac4ef7d-f8de-4d32-8419-414e636cb047",
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("d93ca0c6-c42d-4166-a452-9e6989d0b877"),
-                            ConcurrencyStamp = "336d2343-3765-4f2f-95c3-13e1a91c44e8",
+                            Id = new Guid("24aafab6-9179-4e34-920e-70d3e352a479"),
+                            ConcurrencyStamp = "4b51e445-aa0e-4203-ae1c-c708d029a453",
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -313,70 +313,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
                                 ttb.UseHistoryTable("Attendance", "History");
-                                ttb
-                                    .HasPeriodStart("PeriodStart")
-                                    .HasColumnName("PeriodStart");
-                                ttb
-                                    .HasPeriodEnd("PeriodEnd")
-                                    .HasColumnName("PeriodEnd");
-                            }));
-                });
-
-            modelBuilder.Entity("Domain.Models.Attendance.AttendanceSettingsModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
-
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("PeriodEnd")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PeriodEnd");
-
-                    b.Property<DateTime>("PeriodStart")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PeriodStart");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
-                        .HasColumnOrder(2);
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("WorkDays")
-                        .HasColumnType("int");
-
-                    b.Property<float>("WorkHours")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId"), false);
-
-                    b.ToTable("Settings", "Attendance");
-
-                    b.ToTable(tb => tb.IsTemporal(ttb =>
-                            {
-                                ttb.UseHistoryTable("Settings", "History");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -1047,17 +983,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Attendance.AttendanceSettingsModel", b =>
-                {
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
-                        .WithOne("AttendanceSettings")
-                        .HasForeignKey("Domain.Models.Attendance.AttendanceSettingsModel", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Domain.Models.Finance.AccountTransactionModel", b =>
                 {
                     b.HasOne("Domain.Models.Finance.AccountModel", "Account")
@@ -1188,9 +1113,6 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Identity.UserModel", b =>
                 {
                     b.Navigation("AccountUsers");
-
-                    b.Navigation("AttendanceSettings")
-                        .IsRequired();
 
                     b.Navigation("Attendances");
 

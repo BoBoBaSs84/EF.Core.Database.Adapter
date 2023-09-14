@@ -178,51 +178,6 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A conflict occurred when creating the attendance settings..
-        /// </summary>
-        public static string AccountSettingsService_Create_Conflict {
-            get {
-                return ResourceManager.GetString("AccountSettingsService.Create.Conflict", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while creating the attendance settings..
-        /// </summary>
-        public static string AccountSettingsService_Create_Failed {
-            get {
-                return ResourceManager.GetString("AccountSettingsService.Create.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the attendance settings..
-        /// </summary>
-        public static string AccountSettingsService_Get_Failed {
-            get {
-                return ResourceManager.GetString("AccountSettingsService.Get.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No attendance settings could be found to load..
-        /// </summary>
-        public static string AccountSettingsService_Get_NotFound {
-            get {
-                return ResourceManager.GetString("AccountSettingsService.Get.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while updating the attendance settings..
-        /// </summary>
-        public static string AccountSettingsService_Update_Failed {
-            get {
-                return ResourceManager.GetString("AccountSettingsService.Update.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An entry with the date &apos;{0}&apos; has already been created..
         /// </summary>
         public static string AttendanceService_Create_Conflict {

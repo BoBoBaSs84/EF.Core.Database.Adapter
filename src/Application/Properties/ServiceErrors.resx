@@ -156,21 +156,6 @@
   <data name="AccountService.Update.Failed" xml:space="preserve">
     <value>An guidernal error occurred while updating the account.</value>
   </data>
-  <data name="AccountSettingsService.Create.Conflict" xml:space="preserve">
-    <value>A conflict occurred when creating the attendance settings.</value>
-  </data>
-  <data name="AccountSettingsService.Create.Failed" xml:space="preserve">
-    <value>An error occurred while creating the attendance settings.</value>
-  </data>
-  <data name="AccountSettingsService.Get.Failed" xml:space="preserve">
-    <value>An error occurred while loading the attendance settings.</value>
-  </data>
-  <data name="AccountSettingsService.Get.NotFound" xml:space="preserve">
-    <value>No attendance settings could be found to load.</value>
-  </data>
-  <data name="AccountSettingsService.Update.Failed" xml:space="preserve">
-    <value>An error occurred while updating the attendance settings.</value>
-  </data>
   <data name="AttendanceService.Create.Conflict" xml:space="preserve">
     <value>An entry with the date '{0}' has already been created.</value>
   </data>

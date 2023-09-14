@@ -32,11 +32,6 @@ public partial class UserModel
 	public virtual ICollection<AttendanceModel> Attendances { get; set; } = new HashSet<AttendanceModel>();
 
 	/// <summary>
-	/// The <see cref="AttendanceSettings"/> property.
-	/// </summary>
-	public virtual AttendanceSettingsModel AttendanceSettings { get; set; } = default!;
-
-	/// <summary>
 	/// The <see cref="AccountUsers"/> property.
 	/// </summary>
 	public virtual ICollection<AccountUserModel> AccountUsers { get; set; } = new HashSet<AccountUserModel>();

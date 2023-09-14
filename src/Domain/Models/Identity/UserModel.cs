@@ -2,6 +2,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
+using Domain.Extensions;
+using Domain.Models.Common;
+
 using Microsoft.AspNetCore.Identity;
 
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
@@ -37,27 +40,12 @@ public partial class UserModel : IdentityUser<Guid>
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
-	/// The <see cref="Preferences"/> property.
+	/// The preferences property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.XML)]
-	public string? Preferences { get; set; }
+	public PreferencesModel? Preferences { get; set; }
 
 	/// <summary>
 	/// The <see cref="Picture"/> property.
 	/// </summary>
 	public byte[]? Picture { get; set; }
-
-	/// <summary>
-	/// The <see cref="XmlPreferencesWrapper"/> property.
-	/// </summary>
-	[NotMapped]
-	public XElement XmlPreferencesWrapper
-	{
-		get => Preferences is not null ? XElement.Parse(Preferences) : default!;
-		set
-		{
-			if (value.ToString() != Preferences)
-				Preferences = value.ToString();
-		}
-	}
 }

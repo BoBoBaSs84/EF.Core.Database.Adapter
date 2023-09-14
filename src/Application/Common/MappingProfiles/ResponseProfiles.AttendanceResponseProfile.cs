@@ -18,8 +18,6 @@ internal static partial class ResponseProfiles
 		{
 			CreateMap<AttendanceModel, AttendanceResponse>()
 				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Calendar.Date));
-
-			CreateMap<AttendanceSettingsModel, AttendanceSettingsResponse>();
 		}
 	}
 }

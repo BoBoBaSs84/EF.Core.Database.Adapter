@@ -20,16 +20,16 @@ public static class StringExtension
 		=> RegexStatics.Whitespace.Replace(stringValue, string.Empty);
 
 	/// <summary>
-	/// Formats the string with <paramref name="parameters"/> an invariant culture.
+	/// Formats the string with <paramref name="parameters"/> to an invariant culture.
 	/// </summary>
 	/// <param name="stringValue">The string with placeholders.</param>
 	/// <param name="parameters">The parameters to set for the placeholders.</param>
 	/// <returns>Formated string.</returns>
-	public static string FormatInvariant(this string stringValue, params object[] parameters)
+	public static string ToInvariant(this string stringValue, params object[] parameters)
 		=> string.Format(CultureInfo.InvariantCulture, stringValue, parameters);
 
 	/// <summary>
-	/// Formats the string with <paramref name="parameters"/> an current culture.
+	/// Formats the string with <paramref name="parameters"/> to an provided culture.
 	/// </summary>
 	/// <param name="stringValue">The string with placeholders.</param>
 	/// <param name="formatProvider">The format provider to use.</param>

@@ -223,11 +223,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An entry with the date &apos;{0}&apos; has already been created..
+        /// </summary>
+        public static string AttendanceService_Create_Conflict {
+            get {
+                return ResourceManager.GetString("AttendanceService.Create.Conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while creating the attendance/absence..
         /// </summary>
         public static string AttendanceService_Create_Failed {
             get {
                 return ResourceManager.GetString("AttendanceService.Create.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No calendar entry with the date &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string AttendanceService_Create_NotFound {
+            get {
+                return ResourceManager.GetString("AttendanceService.Create.NotFound", resourceCulture);
             }
         }
         

@@ -38,7 +38,7 @@ public class StringExtensionTests : DomainTestBase
 		DateTime dateTime = DateTime.Now;
 		string testString = @"Today is: {0}";
 
-		string resultString = testString.FormatInvariant(dateTime);
+		string resultString = testString.ToInvariant(dateTime);
 
 		resultString.Should().Contain(dateTime.ToString(CultureInfo.InvariantCulture));
 	}
@@ -49,7 +49,7 @@ public class StringExtensionTests : DomainTestBase
 		DateTime dateTime = DateTime.Now;
 		string testString = @"Today is: {0}";
 
-		string resultString = testString.FormatInvariant(dateTime);
+		string resultString = testString.ToInvariant(dateTime);
 
 		resultString.Should().NotContain(dateTime.ToString(CultureInfo.GetCultureInfo("de-DE")));
 	}

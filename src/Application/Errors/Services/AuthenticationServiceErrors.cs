@@ -32,7 +32,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError GetUserByIdFailed(Guid userId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
-			RESX.AuthenticationService_GetUserById_Failed.FormatInvariant(userId));
+			RESX.AuthenticationService_GetUserById_Failed.ToInvariant(userId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -41,7 +41,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserByIdNotFound(Guid userId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByIdNotFound)}",
-			RESX.AuthenticationService_UserById_NotFound.FormatInvariant(userId));
+			RESX.AuthenticationService_UserById_NotFound.ToInvariant(userId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -50,7 +50,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError GetUserByNameFailed(string userName) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByNameFailed)}",
-			RESX.AuthenticationService_GetUserByName_Failed.FormatInvariant(userName));
+			RESX.AuthenticationService_GetUserByName_Failed.ToInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -59,7 +59,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserByNameNotFound(string userName) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByNameNotFound)}",
-			RESX.AuthenticationService_UserByName_NotFound.FormatInvariant(userName));
+			RESX.AuthenticationService_UserByName_NotFound.ToInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -69,7 +69,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError RoleByIdNotFound(Guid roleId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(RoleByIdNotFound)}",
-			RESX.AuthenticationService_RoleById_NotFound.FormatInvariant(roleId));
+			RESX.AuthenticationService_RoleById_NotFound.ToInvariant(roleId));
 
 	/// <summary>
 	/// Error that indicates an exception during the user authentication.
@@ -78,7 +78,7 @@ public static class AuthenticationServiceErrors
 	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserUnauthorized(string userName) =>
 		ApiError.CreateUnauthorized($"{ErrorPrefix}.{nameof(UserUnauthorized)}",
-			RESX.AuthenticationService_User_Unauthorized.FormatInvariant(userName));
+			RESX.AuthenticationService_User_Unauthorized.ToInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the user creation.

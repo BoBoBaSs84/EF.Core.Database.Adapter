@@ -38,7 +38,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError GetByIdFailed(Guid cardId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
-			RESX.CardService_GetById_Failed.FormatInvariant(cardId));
+			RESX.CardService_GetById_Failed.ToInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -46,7 +46,7 @@ public static class CardServiceErrors
 	/// </summary>	
 	public static ApiError GetByIdNotFound(Guid cardId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.CardService_GetById_NotFound.FormatInvariant(cardId));
+			RESX.CardService_GetById_NotFound.ToInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -54,7 +54,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError GetByNumberFailed(string pam) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
-			RESX.CardService_GetByNumber_Failed.FormatInvariant(pam));
+			RESX.CardService_GetByNumber_Failed.ToInvariant(pam));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -62,7 +62,7 @@ public static class CardServiceErrors
 	/// </summary>	
 	public static ApiError GetByNumberNotFound(string pam) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",
-			RESX.CardService_GetByNumber_NotFound.FormatInvariant(pam));
+			RESX.CardService_GetByNumber_NotFound.ToInvariant(pam));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -77,7 +77,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError CreateAccountIdNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{CreateAccountIdNotFound}",
-			RESX.CardService_GetAccountById_NotFound.FormatInvariant(accountId));
+			RESX.CardService_GetAccountById_NotFound.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -85,7 +85,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError CreateNumberConflict(string pam)
 		=> ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberConflict}",
-			RESX.CardService_Number_Conflict.FormatInvariant(pam));
+			RESX.CardService_Number_Conflict.ToInvariant(pam));
 
 	/// <summary>
 	/// Error that indicates an exception during the

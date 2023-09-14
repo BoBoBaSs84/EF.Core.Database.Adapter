@@ -53,9 +53,16 @@ internal sealed class AttendanceService : IAttendanceService
 				cancellationToken: cancellationToken
 				);
 
-			// Todo
 			if (calendarModel is null)
-				return AttendanceServiceErrors.CreateFailed;
+				return AttendanceServiceErrors.CreateNotFound(request.Date);
+
+			AttendanceModel? attendanceModel = await _repositoryService.AttendanceRepository.GetByConditionAsync(
+				expression: x=>x.Calendar.Date.Equals(request.Date),
+				cancellationToken: cancellationToken
+				);
+
+			if (attendanceModel is not null)
+				return AttendanceServiceErrors.CreateConflict(request.Date);
 
 			AttendanceModel newAttendance = _mapper.Map<AttendanceModel>(request);
 			newAttendance.UserId = userId;
@@ -92,6 +99,7 @@ internal sealed class AttendanceService : IAttendanceService
 			{
 				AttendanceCreateRequest createRequest = request.Where(x => x.Date.Equals(calendarEntry.Date)).First();
 				AttendanceModel attendance = _mapper.Map<AttendanceModel>(createRequest);
+				attendance.CalendarId = calendarEntry.Id;
 				newAttendances.Add(attendance);
 			}
 

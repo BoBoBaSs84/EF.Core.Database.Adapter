@@ -38,7 +38,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError GetByIdFailed(Guid accountId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
-			RESX.AccountService_GetById_Failed.FormatInvariant(accountId));
+			RESX.AccountService_GetById_Failed.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -46,7 +46,7 @@ public static class AccountServiceErrors
 	/// </summary>	
 	public static ApiError GetByIdNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.AccountService_AccountId_NotFound.FormatInvariant(accountId));
+			RESX.AccountService_AccountId_NotFound.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -54,7 +54,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError GetByNumberFailed(string iban) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
-			RESX.AccountService_GetByNumber_Failed.FormatInvariant(iban));
+			RESX.AccountService_GetByNumber_Failed.ToInvariant(iban));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -62,7 +62,7 @@ public static class AccountServiceErrors
 	/// </summary>	
 	public static ApiError GetByNumberNotFound(string iban) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",
-			RESX.AccountService_AccountNumber_NotFound.FormatInvariant(iban));
+			RESX.AccountService_AccountNumber_NotFound.ToInvariant(iban));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -71,7 +71,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError CreateAccountNumberConflict(string iban) =>
 		ApiError.CreateConflict($"{ErrorPrefix}.{CreateAccountNumberConflict}",
-			RESX.AccountService_AccountNumber_Conflict.FormatInvariant(iban));
+			RESX.AccountService_AccountNumber_Conflict.ToInvariant(iban));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -80,7 +80,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError CreateCardNumberConflict(string pan) =>
 		ApiError.CreateConflict($"{ErrorPrefix}.{CreateCardNumberConflict}",
-			RESX.AccountService_CardNumber_Conflict.FormatInvariant(pan));
+			RESX.AccountService_CardNumber_Conflict.ToInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -96,7 +96,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError DeleteAccountNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteAccountNotFound)}",
-			RESX.AccountService_AccountId_NotFound.FormatInvariant(accountId));
+			RESX.AccountService_AccountId_NotFound.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -112,7 +112,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError UpdateAccountNotFound(Guid accountId) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateAccountNotFound}",
-			RESX.AccountService_AccountId_NotFound.FormatInvariant(accountId));
+			RESX.AccountService_AccountId_NotFound.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -121,7 +121,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError UpdateCardNotFound(Guid cardId) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardNotFound}",
-			RESX.AccountService_CardId_NotFound.FormatInvariant(cardId));
+			RESX.AccountService_CardId_NotFound.ToInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -130,7 +130,7 @@ public static class AccountServiceErrors
 	/// </summary>
 	public static ApiError UpdateCardTypeNotFound(Guid cardTypeId) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardTypeNotFound}",
-			RESX.AccountService_CardTypeId_NotFound.FormatInvariant(cardTypeId));
+			RESX.AccountService_CardTypeId_NotFound.ToInvariant(cardTypeId));
 
 	/// <summary>
 	/// Error that indicates an exception during the

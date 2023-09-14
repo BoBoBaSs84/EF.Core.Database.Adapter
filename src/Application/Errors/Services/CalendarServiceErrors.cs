@@ -32,7 +32,7 @@ public static class CalendarServiceErrors
 	/// </summary>
 	public static ApiError GetByDateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
-			RESX.CalendarDayService_GetByDate_NotFound.FormatInvariant(date));
+			RESX.CalendarDayService_GetByDate_NotFound.ToInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the
@@ -48,7 +48,7 @@ public static class CalendarServiceErrors
 	/// </summary>
 	public static ApiError GetByIdNotFound(Guid id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.CalendarDayService_GetById_NotFound.FormatInvariant(id));
+			RESX.CalendarDayService_GetById_NotFound.ToInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the

@@ -16,20 +16,20 @@ public static class DateTimeExtension
 		=> ISOWeek.GetWeekOfYear(dateTime);
 
 	/// <summary>
-	/// Should cut of the time in date time.
+	/// Removes the time in date time.
 	/// </summary>
 	/// <param name="dateTime">The date time to modify.</param>
 	/// <returns><see cref="DateTime"/></returns>
 	public static DateTime ToSqlDate(this DateTime dateTime)
-		=> DateTime.Parse(dateTime.ToShortDateString(), CultureInfo.InvariantCulture);
+		=> new(dateTime.Year, dateTime.Month, dateTime.Day);
 
 	/// <summary>
-	/// Should cut of the time in date time.
+	/// Removes the time in date time.
 	/// </summary>
 	/// <param name="dateTime">The date time to modify.</param>
 	/// <returns><see cref="DateTime"/></returns>
 	public static DateTime? ToSqlDate(this DateTime? dateTime)
-		=> !dateTime.HasValue ? null : DateTime.Parse(dateTime.Value.ToShortDateString(), CultureInfo.InvariantCulture);
+		=> !dateTime.HasValue ? null : new(dateTime.Value.Year, dateTime.Value.Month, dateTime.Value.Day);
 
 	/// <summary>
 	/// Calculates the first day of the week using the specified date and

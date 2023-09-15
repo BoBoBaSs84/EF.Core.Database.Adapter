@@ -5,7 +5,7 @@ using AutoMapper;
 using Domain.Extensions;
 using Domain.Models.Common;
 
-namespace Application.Common.MappingProfiles.Responses;
+namespace Application.Common.MappingProfiles;	
 
 [SuppressMessage("Style", "IDE0058", Justification = "AutoMapper")]
 internal static partial class ResponseProfiles

@@ -271,6 +271,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
+<<<<<<< Updated upstream
 
 			user.FirstName = updateRequest.FirstName;
 			user.MiddleName = updateRequest.MiddleName;
@@ -279,6 +280,16 @@ internal sealed class AuthenticationService : IAuthenticationService
 			user.Email = updateRequest.Email;
 			user.PhoneNumber = updateRequest.PhoneNumber;
 			user.Picture = updateRequest.Picture;
+=======
+			
+			user.FirstName = request.FirstName;
+			user.MiddleName = request.MiddleName;
+			user.LastName = request.LastName;
+			user.Email = request.Email;
+			user.PhoneNumber = request.PhoneNumber;
+			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);
+			user.Preferences = request.Preferences;
+>>>>>>> Stashed changes
 
 			IdentityResult result = await _userService.UpdateAsync(user);
 

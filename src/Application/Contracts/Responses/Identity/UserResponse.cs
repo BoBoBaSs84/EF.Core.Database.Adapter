@@ -60,5 +60,5 @@ public sealed class UserResponse : IdentityResponse
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	public byte[]? Picture { get; set; }
+	public string? Picture { get; set; }
 }

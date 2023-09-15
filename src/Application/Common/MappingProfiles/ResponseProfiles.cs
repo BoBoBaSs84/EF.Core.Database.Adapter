@@ -1,7 +1,7 @@
-﻿namespace Application.Common.MappingProfiles.Responses;
+﻿namespace Application.Common.MappingProfiles;
 
 /// <summary>
-/// The <see langword="static"/> response profile class.
+/// The <see langword="static"/> response profiles class.
 /// </summary>
 internal static partial class ResponseProfiles
 { }

@@ -25,7 +25,6 @@ public static class RequestHelper
 		filler.Setup()
 			.OnProperty(p => p.FirstName).Use(new RealNames(NameStyle.FirstName))
 			.OnProperty(p => p.LastName).Use(new RealNames(NameStyle.LastName))
-			.OnProperty(p => p.DateOfBirth).Use(RH.GetDateTime())
 			.OnProperty(p => p.Email).Use(new EmailAddresses())
 			.OnProperty(p => p.Password).Use(password);
 
@@ -43,8 +42,10 @@ public static class RequestHelper
 		filler.Setup()
 			.OnProperty(p => p.FirstName).Use(new RealNames(NameStyle.FirstName))
 			.OnProperty(p => p.LastName).Use(new RealNames(NameStyle.LastName))
+			.OnProperty(p => p.MiddleName).Use(new RealNames(NameStyle.FirstName))
 			.OnProperty(p => p.DateOfBirth).Use(RH.GetDateTime())
-			.OnProperty(p => p.Email).Use(new EmailAddresses());
+			.OnProperty(p => p.Email).Use(new EmailAddresses())
+			.OnProperty(p => p.PhoneNumber).Use("{N:3}-{N:3}-{N:4}");
 
 		return filler.Fill(request);
 	}

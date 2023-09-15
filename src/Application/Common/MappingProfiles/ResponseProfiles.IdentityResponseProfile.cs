@@ -4,7 +4,7 @@ using AutoMapper;
 
 using Domain.Entities.Identity;
 
-namespace Application.Common.MappingProfiles.Responses;
+namespace Application.Common.MappingProfiles;
 
 [SuppressMessage("Style", "IDE0058", Justification = "AutoMapper")]
 internal static partial class ResponseProfiles
@@ -16,7 +16,8 @@ internal static partial class ResponseProfiles
 	{
 		public IdentityResponseProfile()
 		{
-			CreateMap<UserModel, UserResponse>();
+			CreateMap<UserModel, UserResponse>()
+				.ForMember(dest => dest.Picture, opt => opt.MapFrom(src => Convert.ToBase64String(src.Picture ?? Array.Empty<byte>())));
 		}
 	}
 }

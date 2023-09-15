@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Domain.Models.Common;
+
 namespace Application.Contracts.Requests.Identity;
 
 /// <summary>
@@ -46,5 +48,10 @@ public sealed class UserUpdateRequest
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	public byte[]? Picture { get; set; }
+	public string? Picture { get; set; }
+
+	/// <summary>
+	/// The application preferences of the user.
+	/// </summary>
+	public PreferencesModel? Preferences { get; set; }
 }

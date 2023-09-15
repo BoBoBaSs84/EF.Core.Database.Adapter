@@ -23,9 +23,9 @@ public interface IAuthenticationService
 	/// <summary>
 	/// Authenticates an existing application user.
 	/// </summary>
-	/// <param name="authRequest">The authentication reqeust.</param>
+	/// <param name="request">The authentication reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest authRequest);
+	Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest request);
 
 	/// <summary>
 	/// Should retrieve all apllication users.
@@ -36,9 +36,9 @@ public interface IAuthenticationService
 	/// <summary>
 	/// Creates a new application user.
 	/// </summary>
-	/// <param name="createRequest">The user create reqeust.</param>
+	/// <param name="request">The user create reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> CreateUser(UserCreateRequest createRequest);
+	Task<ErrorOr<Created>> CreateUser(UserCreateRequest request);
 
 	/// <summary>
 	/// Should return the application user by the identifier.
@@ -67,7 +67,7 @@ public interface IAuthenticationService
 	/// Updates an existing application user.
 	/// </summary>
 	/// <param name="userId">The user identifier of the user to update.</param>
-	/// <param name="updateRequest">The user update reqeust.</param>
+	/// <param name="request">The user update reqeust.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest updateRequest);
+	Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest request);
 }

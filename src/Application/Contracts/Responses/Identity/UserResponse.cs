@@ -61,14 +61,10 @@ public sealed class UserResponse : IdentityResponse
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-<<<<<<< Updated upstream
-	public byte[]? Picture { get; set; }
-=======
 	public string? Picture { get; set; }
 
 	/// <summary>
 	/// The application preferences of the user.
 	/// </summary>
 	public PreferencesModel? Preferences { get; set; }
->>>>>>> Stashed changes
 }

@@ -5,7 +5,6 @@ using System.Text;
 
 using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
-using Application.Errors.Base;
 using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
@@ -72,7 +71,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId)
 	{
-		string[] parameters = new[] { $"{userId}", $"{roleId}" };		
+		string[] parameters = new[] { $"{userId}", $"{roleId}" };
 		ErrorOr<Created> response = new();
 		try
 		{
@@ -104,17 +103,17 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest authRequest)
+	public async Task<ErrorOr<AuthenticationResponse>> Authenticate(AuthenticationRequest request)
 	{
 		try
 		{
-			UserModel? user = await _userService.FindByNameAsync(authRequest.UserName);
+			UserModel? user = await _userService.FindByNameAsync(request.UserName);
 
 			if (user is null)
-				return AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName);
+				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
-			if (!await _userService.CheckPasswordAsync(user, authRequest.Password))
-				return AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName);
+			if (!await _userService.CheckPasswordAsync(user, request.Password))
+				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
 			SigningCredentials signingCredentials = GetSigningCredentials();
 			IEnumerable<Claim> claims = await GetClaims(user);
@@ -131,19 +130,19 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, authRequest, ex);
+			_logger.Log(logExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.AuthenticateUserFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Created>> CreateUser(UserCreateRequest createRequest)
+	public async Task<ErrorOr<Created>> CreateUser(UserCreateRequest request)
 	{
 		ErrorOr<Created> response = new();
 		try
 		{
-			UserModel user = _mapper.Map<UserModel>(createRequest);
+			UserModel user = _mapper.Map<UserModel>(request);
 
-			IdentityResult result = await _userService.CreateAsync(user, createRequest.Password);
+			IdentityResult result = await _userService.CreateAsync(user, request.Password);
 
 			if (!result.Succeeded)
 			{
@@ -165,7 +164,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, createRequest, ex);
+			_logger.Log(logExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.CreateUserFailed;
 		}
 	}
@@ -262,7 +261,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest updateRequest)
+	public async Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest request)
 	{
 		ErrorOr<Updated> response = new();
 		try
@@ -271,17 +270,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
-<<<<<<< Updated upstream
 
-			user.FirstName = updateRequest.FirstName;
-			user.MiddleName = updateRequest.MiddleName;
-			user.LastName = updateRequest.LastName;
-			user.DateOfBirth = updateRequest.DateOfBirth;
-			user.Email = updateRequest.Email;
-			user.PhoneNumber = updateRequest.PhoneNumber;
-			user.Picture = updateRequest.Picture;
-=======
-			
+<<<<<<< Updated upstream
 			user.FirstName = request.FirstName;
 			user.MiddleName = request.MiddleName;
 			user.LastName = request.LastName;
@@ -289,7 +279,6 @@ internal sealed class AuthenticationService : IAuthenticationService
 			user.PhoneNumber = request.PhoneNumber;
 			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);
 			user.Preferences = request.Preferences;
->>>>>>> Stashed changes
 
 			IdentityResult result = await _userService.UpdateAsync(user);
 
@@ -303,7 +292,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, updateRequest, ex);
+			_logger.Log(logExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.UpdateUserFailed;
 		}
 	}

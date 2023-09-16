@@ -8,7 +8,7 @@ using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 
 using Domain.Models.Finance;
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 using Domain.Errors;
 using Domain.Results;
 

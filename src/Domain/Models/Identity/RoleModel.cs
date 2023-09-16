@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
-namespace Domain.Entities.Identity;
+namespace Domain.Models.Identity;
 
 /// <inheritdoc/>
 public partial class RoleModel : IdentityRole<Guid>

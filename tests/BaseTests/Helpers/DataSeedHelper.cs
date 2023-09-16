@@ -3,7 +3,7 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 using Domain.Enumerators;
 using Domain.Models.Common;
 

@@ -11,7 +11,7 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
@@ -277,7 +277,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			user.Email = request.Email;
 			user.PhoneNumber = request.PhoneNumber;
 			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);
-			user.Preferences = request.Preferences;
+			user.Preferences = _mapper.Map<PreferencesModel>(request.Preferences);
 
 			IdentityResult result = await _userService.UpdateAsync(user);
 

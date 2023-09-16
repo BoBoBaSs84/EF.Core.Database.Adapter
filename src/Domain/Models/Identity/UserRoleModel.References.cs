@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities.Identity;
+﻿namespace Domain.Models.Identity;
 
 public partial class UserRoleModel
 {

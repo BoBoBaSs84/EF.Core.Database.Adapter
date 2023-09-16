@@ -2,7 +2,6 @@
 
 using AutoMapper;
 
-using Domain.Entities.Identity;
 using Domain.Models.Identity;
 
 namespace Application.Common.MappingProfiles;

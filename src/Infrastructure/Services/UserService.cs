@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Services;
 
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

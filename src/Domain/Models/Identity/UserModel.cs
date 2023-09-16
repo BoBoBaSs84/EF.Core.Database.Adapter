@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
 using Domain.Extensions;
-using Domain.Models.Common;
+using Domain.Models.Identity;
 
 using Microsoft.AspNetCore.Identity;
 
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
-namespace Domain.Entities.Identity;
+namespace Domain.Models.Identity;
 
 /// <inheritdoc/>
 public partial class UserModel : IdentityUser<Guid>

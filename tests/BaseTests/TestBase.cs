@@ -5,7 +5,7 @@ using BaseTests.Helpers;
 using BaseTests.Services;
 
 using Domain.Constants;
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 
 using Infrastructure.Extensions;
 using Infrastructure.Installer;

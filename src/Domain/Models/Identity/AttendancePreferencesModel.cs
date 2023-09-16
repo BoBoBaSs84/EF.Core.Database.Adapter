@@ -2,7 +2,7 @@
 
 using Domain.Enumerators;
 
-namespace Domain.Models.Common;
+namespace Domain.Models.Identity;
 
 /// <summary>
 /// The attendance preferences model class.

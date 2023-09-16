@@ -1,5 +1,5 @@
 ﻿using Domain.Models.Common;
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 
 namespace Domain.Models.Attendance;
 

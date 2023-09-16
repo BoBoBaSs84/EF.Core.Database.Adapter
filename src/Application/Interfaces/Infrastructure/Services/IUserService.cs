@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 
 using Microsoft.AspNetCore.Identity;
 

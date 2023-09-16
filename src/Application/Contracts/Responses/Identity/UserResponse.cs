@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 using Application.Contracts.Responses.Base;
 
 using Domain.Converters;
-using Domain.Models.Common;
 
 namespace Application.Contracts.Responses.Identity;
 
@@ -66,5 +65,5 @@ public sealed class UserResponse : IdentityResponse
 	/// <summary>
 	/// The application preferences of the user.
 	/// </summary>
-	public PreferencesModel? Preferences { get; set; }
+	public PreferencesResponse? Preferences { get; set; }
 }

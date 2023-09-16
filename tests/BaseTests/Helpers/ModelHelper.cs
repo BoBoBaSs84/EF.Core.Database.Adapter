@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 using Domain.Enumerators;
 using Domain.Extensions;
 using Domain.Models.Attendance;

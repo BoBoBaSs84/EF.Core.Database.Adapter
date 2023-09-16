@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Entities.Identity;
+using Domain.Models.Identity;
 
 namespace Application.Common.MappingProfiles;
 
@@ -19,6 +19,9 @@ internal static partial class RequestProfiles
 			CreateMap<UserCreateRequest, UserModel>();
 			CreateMap<UserUpdateRequest, UserModel>()
 				.ForMember(dest => dest.Picture, opt => opt.MapFrom(src => Convert.FromBase64String(src.Picture ?? string.Empty)));
+
+			CreateMap<PreferencesRequest, PreferencesModel>();
+			CreateMap<AttendancePreferencesRequest, AttendancePreferencesModel>();
 		}
 	}
 }

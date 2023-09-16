@@ -1,18 +1,14 @@
 ﻿using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Persistence;
 
-using Domain.Entities.Identity;
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
-using Infrastructure.Extensions;
 using Infrastructure.Persistence.Interceptors;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence;
 

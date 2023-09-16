@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Identity;
+﻿using Domain.Models.Identity;
 using Domain.Enumerators;
 using Domain.Extensions;
 

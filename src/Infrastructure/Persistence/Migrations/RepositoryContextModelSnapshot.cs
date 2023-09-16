@@ -22,7 +22,7 @@ namespace Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.Identity.RoleModel", b =>
+            modelBuilder.Entity("Domain.Models.Identity.RoleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace Infrastructure.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.UserModel", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -211,7 +211,7 @@ namespace Infrastructure.Persistence.Migrations
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.UserRoleModel", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserRoleModel", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -945,15 +945,15 @@ namespace Infrastructure.Persistence.Migrations
                             }));
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.UserRoleModel", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserRoleModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.RoleModel", "Role")
+                    b.HasOne("Domain.Models.Identity.RoleModel", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -972,7 +972,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("Attendances")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1010,7 +1010,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("AccountUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1029,7 +1029,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("Cards")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1061,7 +1061,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Identity.RoleClaimModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.RoleModel", "Role")
+                    b.HasOne("Domain.Models.Identity.RoleModel", "Role")
                         .WithMany("RoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1072,7 +1072,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Identity.UserClaimModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1083,7 +1083,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Identity.UserLoginModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1094,7 +1094,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Identity.UserTokenModel", b =>
                 {
-                    b.HasOne("Domain.Entities.Identity.UserModel", "User")
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1103,14 +1103,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.RoleModel", b =>
+            modelBuilder.Entity("Domain.Models.Identity.RoleModel", b =>
                 {
                     b.Navigation("RoleClaims");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Identity.UserModel", b =>
+            modelBuilder.Entity("Domain.Models.Identity.UserModel", b =>
                 {
                     b.Navigation("AccountUsers");
 

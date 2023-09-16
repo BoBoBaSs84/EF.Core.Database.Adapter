@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Models.Common;
+using Domain.Models.Identity;
 
 namespace Application.Contracts.Requests.Identity;
 

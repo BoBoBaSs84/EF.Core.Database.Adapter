@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
 using Domain.Extensions;
-using Domain.Models.Common;
+using Domain.Models.Identity;
 
 using Microsoft.AspNetCore.Identity;
 

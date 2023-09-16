@@ -271,7 +271,6 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-<<<<<<< Updated upstream
 			user.FirstName = request.FirstName;
 			user.MiddleName = request.MiddleName;
 			user.LastName = request.LastName;

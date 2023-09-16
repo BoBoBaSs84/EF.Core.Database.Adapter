@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Domain.Models.Common;
+namespace Domain.Models.Identity;
 
 /// <summary>
 /// The preferences model class.
@@ -12,7 +12,7 @@ public sealed class PreferencesModel
 	/// Initilizes an instance of the preferences model class.
 	/// </summary>
 	public PreferencesModel()
-		=> AttendancePreferences = new();
+	{ }
 
 	/// <summary>
 	/// Initilizes an instance of the preferences model class.
@@ -25,5 +25,5 @@ public sealed class PreferencesModel
 	/// The attendance preferences property.
 	/// </summary>
 	[XmlElement("AttendancePreferences")]
-	public AttendancePreferencesModel AttendancePreferences { get; set; }
+	public AttendancePreferencesModel? AttendancePreferences { get; set; }
 }

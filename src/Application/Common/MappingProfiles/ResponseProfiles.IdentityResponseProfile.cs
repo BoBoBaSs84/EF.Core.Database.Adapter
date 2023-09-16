@@ -3,6 +3,7 @@
 using AutoMapper;
 
 using Domain.Entities.Identity;
+using Domain.Models.Identity;
 
 namespace Application.Common.MappingProfiles;
 
@@ -18,6 +19,9 @@ internal static partial class ResponseProfiles
 		{
 			CreateMap<UserModel, UserResponse>()
 				.ForMember(dest => dest.Picture, opt => opt.MapFrom(src => Convert.ToBase64String(src.Picture ?? Array.Empty<byte>())));
+
+			CreateMap<PreferencesModel, PreferencesResponse>();
+			CreateMap<AttendancePreferencesModel, AttendancePreferencesResponse>();
 		}
 	}
 }

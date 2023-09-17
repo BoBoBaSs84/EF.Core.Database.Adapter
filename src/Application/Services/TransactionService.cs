@@ -120,7 +120,7 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<TransactionResponse>> GetById(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<TransactionResponse>> Get(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{

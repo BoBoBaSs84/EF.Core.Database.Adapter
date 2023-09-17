@@ -46,7 +46,7 @@ public interface ITransactionService
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<TransactionResponse>> GetById(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<TransactionResponse>> Get(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns multiple transaction entries as a paged list for a bank account filtered by the transaction query parameters.

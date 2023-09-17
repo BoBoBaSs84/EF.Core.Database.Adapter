@@ -136,6 +136,18 @@ internal static class Endpoints
 		}
 	}
 
+	/// <summary>
+	/// The transaction route.
+	/// </summary>
+	internal static class Transaction
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Transaction);
+
+		internal const string Delete = "{id:guid}";
+		internal const string Get = "{id:guid}";
+		internal const string Put = "{id:guid}";
+	}
+
 	internal static class UserManagement
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(UserManagement);

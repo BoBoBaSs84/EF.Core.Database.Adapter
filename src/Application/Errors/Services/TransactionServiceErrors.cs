@@ -42,7 +42,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_Delete_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetById"/> method.
+	/// Error that indicates an exception during the <see cref="ITransactionService.Get"/> method.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
 	public static ApiError GetByIdFailed(Guid id) =>
@@ -50,7 +50,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_GetById_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetById"/> method.
+	/// Error that indicates an exception during the <see cref="ITransactionService.Get"/> method.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
 	public static ApiError GetByIdNotFound(Guid id) =>

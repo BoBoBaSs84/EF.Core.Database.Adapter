@@ -1,8 +1,10 @@
-﻿using Application.Contracts.Responses.Finance;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Contracts.Responses.Finance;
 using Application.Features.Requests;
 using Application.Features.Responses;
 
 using Domain.Errors;
+using Domain.Results;
 
 namespace Application.Interfaces.Application;
 
@@ -11,6 +13,32 @@ namespace Application.Interfaces.Application;
 /// </summary>
 public interface ITransactionService
 {
+	/// <summary>
+	/// Creates a new transaction for the bank account.
+	/// </summary>
+	/// <param name="id">The identifier of the bank account.</param>
+	/// <param name="request">The transaction create request.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Created>> CreateForAccount(Guid id, TransactionCreateRequest request, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Creates a new transaction for the bank card.
+	/// </summary>
+	/// <param name="id">The identifier of the bank card.</param>
+	/// <param name="request">The transaction create request.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Created>> CreateForCard(Guid id, TransactionCreateRequest request, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Deletes an existing bank transaction.
+	/// </summary>
+	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Deleted>> Delete(Guid id, CancellationToken cancellationToken = default);
+
 	/// <summary>
 	/// Returns a bank transaction by its identifier.
 	/// </summary>
@@ -21,22 +49,31 @@ public interface ITransactionService
 	Task<ErrorOr<TransactionResponse>> GetById(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Returns multiple transaction entries as a paged list for a bank card filtered by the transaction query parameters.
-	/// </summary>
-	/// <param name="cardId">The identifier of the bank card.</param>
-	/// <param name="parameters">The transaction query parameters.</param>
-	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IPagedList<TransactionResponse>>> GetByCardId(Guid cardId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
-
-	/// <summary>
 	/// Returns multiple transaction entries as a paged list for a bank account filtered by the transaction query parameters.
 	/// </summary>
-	/// <param name="accountId">The identifier of the bank account.</param>
+	/// <param name="id">The identifier of the bank account.</param>
 	/// <param name="parameters">The transaction query parameters.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IPagedList<TransactionResponse>>> GetByAccountId(Guid accountId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<IPagedList<TransactionResponse>>> GetForAccount(Guid id, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Returns multiple transaction entries as a paged list for a bank card filtered by the transaction query parameters.
+	/// </summary>
+	/// <param name="id">The identifier of the bank card.</param>
+	/// <param name="parameters">The transaction query parameters.</param>
+	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<IPagedList<TransactionResponse>>> GetForCard(Guid id, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Updates an existing bank transaction.
+	/// </summary>
+	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="request">The transaction update request.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Updated>> Update(Guid id, TransactionUpdateRequest request, CancellationToken cancellationToken = default);
 }

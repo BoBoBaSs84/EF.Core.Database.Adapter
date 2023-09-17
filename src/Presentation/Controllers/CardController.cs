@@ -158,7 +158,7 @@ public sealed class CardController : ApiControllerBase
 	public async Task<IActionResult> GetTransactions(Guid cardId, [FromQuery] TransactionParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<TransactionResponse>> response =
-			await _transactionService.GetByAccountId(cardId, parameters, false, cancellationToken);
+			await _transactionService.GetForCard(cardId, parameters, false, cancellationToken);
 
 		return Get(response, response.Value?.MetaData);
 	}

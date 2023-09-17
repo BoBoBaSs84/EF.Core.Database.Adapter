@@ -21,6 +21,9 @@ internal static partial class RequestProfiles
 
 			CreateMap<CardCreateRequest, CardModel>();
 			CreateMap<CardUpdateRequest, CardModel>();
+
+			CreateMap<TransactionCreateRequest, TransactionModel>();
+			CreateMap<TransactionUpdateRequest, TransactionModel>();
 		}
 	}
 }

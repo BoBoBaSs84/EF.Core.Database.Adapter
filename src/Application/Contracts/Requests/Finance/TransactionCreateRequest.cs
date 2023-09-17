@@ -1,19 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Contracts.Responses.Base;
-
 using Domain.Converters;
 
-namespace Application.Contracts.Responses.Finance;
+namespace Application.Contracts.Requests.Finance;
 
 /// <summary>
-/// The bank transaction response class.
+/// The transaction create request class.
 /// </summary>
-/// <remarks>
-/// Derives from the <see cref="IdentityResponse"/> class.
-/// </remarks>
-public sealed class TransactionResponse : IdentityResponse
+public sealed class TransactionCreateRequest
 {
 	/// <summary>
 	/// The booking date of the bank transaction.

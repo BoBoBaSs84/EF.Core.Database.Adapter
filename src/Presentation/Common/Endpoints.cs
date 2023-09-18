@@ -30,11 +30,11 @@ internal static class Endpoints
 		/// </summary>
 		internal static class Transaction
 		{
-			internal const string Delete = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string Delete = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{transactionId:guid}";
 			internal const string GetAll = "{accountId:guid}" + "/" + nameof(Transaction);
-			internal const string Get = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string Get = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{transactionId:guid}";
 			internal const string Post = "{accountId:guid}" + "/" + nameof(Transaction);
-			internal const string Put = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string Put = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{transactionId:guid}";
 		}
 	}
 
@@ -67,11 +67,11 @@ internal static class Endpoints
 		/// </summary>
 		internal static class Transaction
 		{
-			internal const string Delete = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string Delete = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{transactionId:guid}";
 			internal const string GetAll = "{cardId:guid}" + "/" + nameof(Transaction);
-			internal const string Get = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string Get = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{transactionId:guid}";
 			internal const string Post = "{cardId:guid}" + "/" + nameof(Transaction);
-			internal const string Put = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string Put = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{transactionId:guid}";
 		}
 	}
 

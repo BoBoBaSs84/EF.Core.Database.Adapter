@@ -7,7 +7,6 @@ using Domain.Errors;
 using Domain.Results;
 
 using Microsoft.AspNetCore.Http;
-
 using Microsoft.AspNetCore.Mvc;
 
 using Presentation.Common;
@@ -20,7 +19,7 @@ public sealed partial class AccountController
 	/// Deletes an existing transaction for a bank account.
 	/// </summary>
 	/// <param name="accountId">The identifier of the bank account.</param>
-	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The deleted response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -31,10 +30,10 @@ public sealed partial class AccountController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> DeleteTransaction(Guid accountId, Guid id, CancellationToken cancellationToken)
+	public async Task<IActionResult> DeleteTransaction(Guid accountId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> response =
-			await _transactionService.Delete(id, cancellationToken);
+			await _transactionService.DeleteForAccount(accountId, transactionId, cancellationToken);
 		return Delete(response);
 	}
 
@@ -42,7 +41,7 @@ public sealed partial class AccountController
 	/// Returns an existing transaction for a bank account.
 	/// </summary>
 	/// <param name="accountId">The identifier of the bank account.</param>
-	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -53,10 +52,10 @@ public sealed partial class AccountController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetTransaction(Guid accountId, Guid id, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetTransaction(Guid accountId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<TransactionResponse> response =
-			await _transactionService.Get(id, false, cancellationToken);
+			await _transactionService.GetForAccount(accountId, transactionId, false, cancellationToken);
 		return Get(response);
 	}
 
@@ -108,7 +107,7 @@ public sealed partial class AccountController
 	/// Updates an existing transaction for a bank account.
 	/// </summary>
 	/// <param name="accountId">The identifier of the bank account.</param>
-	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="request">The transaction update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
@@ -120,10 +119,10 @@ public sealed partial class AccountController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Put(Guid accountId, Guid id, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
+	public async Task<IActionResult> Put(Guid accountId, Guid transactionId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> response =
-			await _transactionService.Update(id, request, cancellationToken);
+			await _transactionService.UpdateForAccount(accountId, transactionId, request, cancellationToken);
 		return Put(response);
 	}
 }

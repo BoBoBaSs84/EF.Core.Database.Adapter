@@ -1,5 +1,4 @@
 ﻿using Application.Errors.Base;
-using Application.Interfaces.Application;
 
 using Domain.Extensions;
 
@@ -18,7 +17,7 @@ public static class TransactionServiceErrors
 	private const string ErrorPrefix = $"{nameof(TransactionServiceErrors)}";
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.CreateForAccount"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank account.</param>
 	public static ApiError CreateForAccountFailed(Guid id) =>
@@ -26,7 +25,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_CreateForAccount_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.CreateForCard"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank card.</param>
 	public static ApiError CreateForCardFailed(Guid id) =>
@@ -34,7 +33,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_CreateForCard_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.Delete"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
 	public static ApiError DeleteFailed(Guid id) =>
@@ -42,7 +41,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_Delete_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.Get"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
 	public static ApiError GetByIdFailed(Guid id) =>
@@ -50,7 +49,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_GetById_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.Get"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
 	public static ApiError GetByIdNotFound(Guid id) =>
@@ -58,7 +57,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_GetById_NotFound.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetForCard"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank card.</param>
 	public static ApiError GetByCardIdFailed(Guid id) =>
@@ -66,7 +65,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_GetByCardId_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetForCard"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank card.</param>
 	public static ApiError GetByCardIdNotFound(Guid id) =>
@@ -74,7 +73,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_GetByCardId_NotFound.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetForAccount"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank account.</param>
 	public static ApiError GetByAccountIdFailed(Guid id) =>
@@ -82,7 +81,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_GetByAccountId_Failed.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.GetForAccount"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank account.</param>
 	public static ApiError GetByAccountIdNotFound(Guid id) =>
@@ -90,7 +89,7 @@ public static class TransactionServiceErrors
 			RESX.TransactionServiceErrors_GetByAccountId_NotFound.ToInvariant(id));
 
 	/// <summary>
-	/// Error that indicates an exception during the <see cref="ITransactionService.Update"/> method.
+	/// Error that indicates an exception during the transaction service.
 	/// </summary>
 	/// <param name="id">The identifier of the bank transaction.</param>
 	public static ApiError UpdateFailed(Guid id) =>

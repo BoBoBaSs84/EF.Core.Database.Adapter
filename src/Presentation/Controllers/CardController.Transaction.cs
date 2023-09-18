@@ -12,13 +12,14 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.Common;
 
 namespace Presentation.Controllers;
+
 public sealed partial class CardController
 {
 	/// <summary>
 	/// Deletes an existing transaction for a bank card.
 	/// </summary>
 	/// <param name="cardId">The identifier of the bank card.</param>
-	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The deleted response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -29,10 +30,10 @@ public sealed partial class CardController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> DeleteTransaction(Guid cardId, Guid id, CancellationToken cancellationToken)
+	public async Task<IActionResult> DeleteTransaction(Guid cardId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> response =
-			await _transactionService.Delete(id, cancellationToken);
+			await _transactionService.DeleteForCard(cardId, transactionId, cancellationToken);
 		return Delete(response);
 	}
 
@@ -40,7 +41,7 @@ public sealed partial class CardController
 	/// Returns an existing transaction for a bank card.
 	/// </summary>
 	/// <param name="cardId">The identifier of the bank card.</param>
-	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
@@ -51,10 +52,10 @@ public sealed partial class CardController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetTransaction(Guid cardId, Guid id, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetTransaction(Guid cardId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<TransactionResponse> response =
-			await _transactionService.Get(id, false, cancellationToken);
+			await _transactionService.GetForCard(cardId, transactionId, false, cancellationToken);
 		return Get(response);
 	}
 
@@ -98,7 +99,7 @@ public sealed partial class CardController
 	public async Task<IActionResult> PostTransaction(Guid cardId, [FromBody] TransactionCreateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> response =
-			await _transactionService.CreateForAccount(cardId, request, cancellationToken);
+			await _transactionService.CreateForCard(cardId, request, cancellationToken);
 		return PostWithoutLocation(response);
 	}
 
@@ -106,7 +107,7 @@ public sealed partial class CardController
 	/// Updates an existing transaction for a bank card.
 	/// </summary>
 	/// <param name="cardId">The identifier of the bank card.</param>
-	/// <param name="id">The identifier of the transaction.</param>
+	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="request">The transaction update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
@@ -118,10 +119,10 @@ public sealed partial class CardController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Put(Guid cardId, Guid id, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
+	public async Task<IActionResult> Put(Guid cardId, Guid transactionId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> response =
-			await _transactionService.Update(id, request, cancellationToken);
+			await _transactionService.UpdateForCard(cardId, transactionId, request, cancellationToken);
 		return Put(response);
 	}
 }

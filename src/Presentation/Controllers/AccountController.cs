@@ -32,7 +32,7 @@ namespace Presentation.Controllers;
 [Authorize]
 [Route(Endpoints.Account.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class AccountController : ApiControllerBase
+public sealed partial class AccountController : ApiControllerBase
 {
 	private readonly IAccountService _accountService;
 	private readonly ICurrentUserService _currentUserService;
@@ -71,7 +71,6 @@ public sealed class AccountController : ApiControllerBase
 	{
 		ErrorOr<Deleted> response =
 			await _accountService.Delete(_currentUserService.UserId, accountId, cancellationToken);
-
 		return Delete(response);
 	}
 
@@ -92,7 +91,6 @@ public sealed class AccountController : ApiControllerBase
 	{
 		ErrorOr<IEnumerable<AccountResponse>> response =
 			await _accountService.Get(_currentUserService.UserId, false, cancellationToken);
-
 		return Get(response);
 	}
 
@@ -114,7 +112,6 @@ public sealed class AccountController : ApiControllerBase
 	{
 		ErrorOr<AccountResponse> response =
 			await _accountService.Get(_currentUserService.UserId, accountId, false, cancellationToken);
-
 		return Get(response);
 	}
 
@@ -136,31 +133,7 @@ public sealed class AccountController : ApiControllerBase
 	{
 		ErrorOr<AccountResponse> response =
 			await _accountService.Get(_currentUserService.UserId, iban, false, cancellationToken);
-
 		return Get(response);
-	}
-
-	/// <summary>
-	/// Returns the transaction entries for a bank account as a paged list, filtered by the parameters.
-	/// </summary>
-	/// <param name="accountId">The identifier of the bank account.</param>
-	/// <param name="parameters">The attendance query parameters.</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-	/// <response code="200">The successful response.</response>
-	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="404">If no record was found.</response>
-	/// <response code="500">If the something internal went wrong.</response>
-	[HttpGet(Endpoints.Account.GetTransactions)]
-	[ProducesResponseType(typeof(IPagedList<TransactionResponse>), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetTransactions(Guid accountId, [FromQuery] TransactionParameters parameters, CancellationToken cancellationToken)
-	{
-		ErrorOr<IPagedList<TransactionResponse>> response =
-			await _transactionService.GetForAccount(accountId, parameters, false, cancellationToken);
-
-		return Get(response, response.Value?.MetaData);
 	}
 
 	/// <summary>
@@ -181,7 +154,6 @@ public sealed class AccountController : ApiControllerBase
 	{
 		ErrorOr<Created> response =
 			await _accountService.Create(_currentUserService.UserId, request, cancellationToken);
-
 		return PostWithoutLocation(response);
 	}
 
@@ -203,7 +175,6 @@ public sealed class AccountController : ApiControllerBase
 	{
 		ErrorOr<Updated> response =
 			await _accountService.Update(_currentUserService.UserId, request, cancellationToken);
-
 		return Put(response);
 	}
 }

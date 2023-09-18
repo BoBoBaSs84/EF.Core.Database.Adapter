@@ -1,6 +1,4 @@
-﻿using Application.Interfaces.Infrastructure.Services;
-
-using Application.Errors.Base;
+﻿using Application.Errors.Base;
 
 using Domain.Extensions;
 
@@ -9,7 +7,7 @@ using RESX = Application.Properties.ServiceErrors;
 namespace Application.Errors.Services;
 
 /// <summary>
-/// The static <see cref="AuthenticationServiceErrors"/> class.
+/// The static authentication service errors class.
 /// </summary>
 /// <remarks>
 /// Contains errors that are relevant for the authentication service.
@@ -19,90 +17,83 @@ public static class AuthenticationServiceErrors
 	private const string ErrorPrefix = $"{nameof(AuthenticationServiceErrors)}";
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	public static readonly ApiError AuthenticateUserFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(AuthenticateUserFailed)}",
 			RESX.AuthenticationService_Authenticate_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	/// <param name="userId">The user identifier.</param>
-	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError GetUserByIdFailed(Guid userId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
 			RESX.AuthenticationService_GetUserById_Failed.ToInvariant(userId));
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	/// <param name="userId">The user identifier.</param>
-	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserByIdNotFound(Guid userId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByIdNotFound)}",
 			RESX.AuthenticationService_UserById_NotFound.ToInvariant(userId));
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	/// <param name="userName">The user name.</param>
-	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError GetUserByNameFailed(string userName) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByNameFailed)}",
 			RESX.AuthenticationService_GetUserByName_Failed.ToInvariant(userName));
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	/// <param name="userName">The user name.</param>
-	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserByNameNotFound(string userName) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByNameNotFound)}",
 			RESX.AuthenticationService_UserByName_NotFound.ToInvariant(userName));
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAuthenticationService.AddUserToRole(Guid, Guid)"/> method.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	/// <param name="roleId">The role identifier.</param>
-	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError RoleByIdNotFound(Guid roleId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(RoleByIdNotFound)}",
 			RESX.AuthenticationService_RoleById_NotFound.ToInvariant(roleId));
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	/// <param name="userName">The user name.</param>
-	/// <returns><see cref="ApiError"/></returns>
 	public static ApiError UserUnauthorized(string userName) =>
 		ApiError.CreateUnauthorized($"{ErrorPrefix}.{nameof(UserUnauthorized)}",
 			RESX.AuthenticationService_User_Unauthorized.ToInvariant(userName));
 
 	/// <summary>
-	/// Error that indicates an exception during the user creation.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	public static readonly ApiError CreateUserFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateUserFailed)}",
 			RESX.AuthenticationService_CreateUser_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the user creation.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	public static readonly ApiError CreateUserRolesFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateUserRolesFailed)}",
 			RESX.AuthenticationService_CreateUserRoles_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the user update.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	public static readonly ApiError UpdateUserFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateUserFailed)}",
 			RESX.AuthenticationService_UpdateUser_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the identity opertations.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	/// <param name="code">The identity error code.</param>
 	/// <param name="description">The identity error description.</param>
@@ -111,21 +102,21 @@ public static class AuthenticationServiceErrors
 			$"{code} - {description}");
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	public static readonly ApiError GetAllFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAllFailed)}",
 			RESX.AuthenticationService_GetAll_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	public static readonly ApiError AddUserToRoleFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(AddUserToRoleFailed)}",
 			RESX.AuthenticationService_AddUserToRole_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the user authentication.
+	/// Error that indicates an exception during the authentication service.
 	/// </summary>
 	public static readonly ApiError RemoveUserToRoleFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(RemoveUserToRoleFailed)}",

@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Responses.Finance;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
@@ -11,6 +12,7 @@ using AutoMapper;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Models.Finance;
+using Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -28,6 +30,9 @@ internal sealed class TransactionService : ITransactionService
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
+	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
+		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
+
 	/// <summary>
 	/// Initilizes an instance of the transaction service class.
 	/// </summary>
@@ -41,29 +46,203 @@ internal sealed class TransactionService : ITransactionService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<TransactionResponse>> GetById(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> CreateForAccount(Guid accountId, TransactionCreateRequest request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			TransactionModel? result = await _repositoryService.TransactionRepository
-				.GetByIdAsync(id, true, false, cancellationToken)
-				.ConfigureAwait(false);
+			AccountModel? account =
+				await _repositoryService.AccountRepository.GetByIdAsync(accountId, true, true, cancellationToken);
 
-			if (result is null)
-				return TransactionServiceErrors.GetByIdNotFound(id);
+			if (account is null)
+				return AccountServiceErrors.GetByIdNotFound(accountId);
 
-			TransactionResponse response = _mapper.Map<TransactionResponse>(result);
+			TransactionModel transaction = _mapper.Map<TransactionModel>(request);
+
+			AccountTransactionModel accountTransaction = new() { Account = account, Transaction = transaction };
+
+			account.AccountTransactions.Add(accountTransaction);
+
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+
+			return Result.Created;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogException, ex);
+			return TransactionServiceErrors.CreateForAccountFailed(accountId);
+		}
+	}
+
+	public async Task<ErrorOr<Created>> CreateForCard(Guid cardId, TransactionCreateRequest request, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			CardModel? card =
+				await _repositoryService.CardRepository.GetByIdAsync(cardId, true, true, cancellationToken);
+
+			if (card is null)
+				return CardServiceErrors.GetByIdNotFound(cardId);
+
+			TransactionModel transaction = _mapper.Map<TransactionModel>(request);
+
+			CardTransactionModel cardTransaction = new() { Card = card, Transaction = transaction };
+
+			card.CardTransactions.Add(cardTransaction);
+
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+
+			return Result.Created;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogException, ex);
+			return TransactionServiceErrors.CreateForCardFailed(cardId);
+		}
+	}
+
+	public async Task<ErrorOr<Deleted>> DeleteForAccount(Guid accountId, Guid transactionId, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
+		try
+		{
+			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+					expression: x => x.Id.Equals(transactionId) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+					cancellationToken: cancellationToken
+					);
+
+			if (transaction is null)
+				return TransactionServiceErrors.GetByIdNotFound(transactionId);
+
+			await _repositoryService.TransactionRepository.DeleteAsync(transaction);
+
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			return TransactionServiceErrors.DeleteFailed(transactionId);
+		}
+	}
+
+	public async Task<ErrorOr<Deleted>> DeleteForCard(Guid cardId, Guid transactionId, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
+		try
+		{
+			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(transactionId) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
+				cancellationToken: cancellationToken
+				);
+
+			if (transaction is null)
+				return TransactionServiceErrors.GetByIdNotFound(transactionId);
+
+			await _repositoryService.TransactionRepository.DeleteAsync(transaction);
+
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			return TransactionServiceErrors.DeleteFailed(transactionId);
+		}
+	}
+
+	public async Task<ErrorOr<TransactionResponse>> GetForAccount(Guid accountId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
+		try
+		{
+			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(transactionId) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (transaction is null)
+				return TransactionServiceErrors.GetByIdNotFound(transactionId);
+
+			TransactionResponse response = _mapper.Map<TransactionResponse>(transaction);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogException, ex);
-			return TransactionServiceErrors.GetByIdFailed(id);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			return TransactionServiceErrors.GetByIdFailed(transactionId);
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetByCardId(Guid cardId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<TransactionResponse>> GetForCard(Guid cardId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
+		try
+		{
+			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(transactionId) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (transaction is null)
+				return TransactionServiceErrors.GetByIdNotFound(transactionId);
+
+			TransactionResponse response = _mapper.Map<TransactionResponse>(transaction);
+
+			return response;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			return TransactionServiceErrors.GetByIdFailed(transactionId);
+		}
+	}
+
+	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetForAccount(Guid accountId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			IEnumerable<TransactionModel> entries = await _repositoryService.TransactionRepository.GetManyByConditionAsync(
+				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
+				.FilterByValueDate(parameters.ValueDate)
+				.FilterByBeneficiary(parameters.Beneficiary)
+				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
+				orderBy: x => x.OrderBy(x => x.BookingDate),
+				take: parameters.PageSize,
+				skip: (parameters.PageNumber - 1) * parameters.PageSize,
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (!entries.Any())
+				return TransactionServiceErrors.GetByAccountIdNotFound(accountId);
+
+			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(
+				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
+				.FilterByValueDate(parameters.ValueDate)
+				.FilterByBeneficiary(parameters.Beneficiary)
+				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
+				cancellationToken: cancellationToken
+				);
+
+			IEnumerable<TransactionResponse> result = _mapper.Map<IEnumerable<TransactionResponse>>(entries);
+
+			return new PagedList<TransactionResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogException, ex);
+			return TransactionServiceErrors.GetByAccountIdFailed(accountId);
+		}
+	}
+
+	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetForCard(Guid cardId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -103,43 +282,57 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetByAccountId(Guid accountId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> UpdateForAccount(Guid accountId, Guid transactionId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
 	{
+		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
 		try
 		{
-			IEnumerable<TransactionModel> entries = await _repositoryService.TransactionRepository.GetManyByConditionAsync(
-				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
-				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
-				.FilterByValueDate(parameters.ValueDate)
-				.FilterByBeneficiary(parameters.Beneficiary)
-				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
-				orderBy: x => x.OrderBy(x => x.BookingDate),
-				take: parameters.PageSize,
-				skip: (parameters.PageNumber - 1) * parameters.PageSize,
-				trackChanges: trackChanges,
+			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(transactionId) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
 
-			if (!entries.Any())
-				return TransactionServiceErrors.GetByAccountIdNotFound(accountId);
+			if (transaction is null)
+				return TransactionServiceErrors.GetByIdNotFound(transactionId);
 
-			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(
-				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
-				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
-				.FilterByValueDate(parameters.ValueDate)
-				.FilterByBeneficiary(parameters.Beneficiary)
-				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
-				cancellationToken: cancellationToken
-				);
+			transaction = _mapper.Map<TransactionModel>(request);
 
-			IEnumerable<TransactionResponse> result = _mapper.Map<IEnumerable<TransactionResponse>>(entries);
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
-			return new PagedList<TransactionResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
+			return Result.Updated;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogException, ex);
-			return TransactionServiceErrors.GetByAccountIdFailed(accountId);
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			return TransactionServiceErrors.UpdateFailed(transactionId);
+		}
+	}
+
+	public async Task<ErrorOr<Updated>> UpdateForCard(Guid cardId, Guid transactionId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
+	{
+		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
+		try
+		{
+			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(transactionId) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
+				trackChanges: true,
+				cancellationToken: cancellationToken
+				);
+
+			if (transaction is null)
+				return TransactionServiceErrors.GetByIdNotFound(transactionId);
+
+			transaction = _mapper.Map<TransactionModel>(request);
+
+			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+
+			return Result.Updated;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			return TransactionServiceErrors.UpdateFailed(transactionId);
 		}
 	}
 }

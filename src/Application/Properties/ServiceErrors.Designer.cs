@@ -673,6 +673,33 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while creating the transaction for the account with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_CreateForAccount_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.CreateForAccount.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while creating the transaction for the card with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_CreateForCard_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.CreateForCard.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while deleting the transaction with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_Delete_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.Delete.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the transaction for the bank account with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string TransactionServiceErrors_GetByAccountId_Failed {
@@ -723,6 +750,15 @@ namespace Application.Properties {
         public static string TransactionServiceErrors_GetById_NotFound {
             get {
                 return ResourceManager.GetString("TransactionServiceErrors.GetById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while updating the transaction with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TransactionServiceErrors_Update_Failed {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.Update.Failed", resourceCulture);
             }
         }
     }

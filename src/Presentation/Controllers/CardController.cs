@@ -2,8 +2,6 @@
 
 using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
-using Application.Features.Requests;
-using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Presentation.Services;
 
@@ -32,7 +30,7 @@ namespace Presentation.Controllers;
 [Authorize]
 [Route(Endpoints.Card.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class CardController : ApiControllerBase
+public sealed partial class CardController : ApiControllerBase
 {
 	private readonly ICardService _cardService;
 	private readonly ICurrentUserService _currentUserService;
@@ -138,29 +136,6 @@ public sealed class CardController : ApiControllerBase
 			await _cardService.Get(_currentUserService.UserId, pan, false, cancellationToken);
 
 		return Get(response);
-	}
-
-	/// <summary>
-	/// Returns the transaction entries for a bank card as a paged list, filtered by the parameters.
-	/// </summary>
-	/// <param name="cardId">The identifier of the bank card.</param>
-	/// <param name="parameters">The attendance query parameters.</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-	/// <response code="200">The successful response.</response>
-	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="404">If no record was found.</response>
-	/// <response code="500">If the something internal went wrong.</response>
-	[HttpGet(Endpoints.Card.GetTransactions)]
-	[ProducesResponseType(typeof(IPagedList<TransactionResponse>), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetTransactions(Guid cardId, [FromQuery] TransactionParameters parameters, CancellationToken cancellationToken)
-	{
-		ErrorOr<IPagedList<TransactionResponse>> response =
-			await _transactionService.GetByAccountId(cardId, parameters, false, cancellationToken);
-
-		return Get(response, response.Value?.MetaData);
 	}
 
 	/// <summary>

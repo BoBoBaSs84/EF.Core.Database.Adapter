@@ -44,7 +44,7 @@ public partial class TransactionModel : AuditedModel
 	/// The <see cref="Purpose"/> property.
 	/// </summary>
 	[MaxLength(SqlMaxLength.MAX_4000)]
-	public string Purpose { get; set; } = default!;
+	public string? Purpose { get; set; }
 
 	/// <summary>
 	/// The <see cref="AccountNumber"/> property.
@@ -68,17 +68,17 @@ public partial class TransactionModel : AuditedModel
 	/// The <see cref="CreditorId"/> property.
 	/// </summary>
 	[MaxLength(SqlMaxLength.MAX_25)]
-	public string CreditorId { get; set; } = default!;
+	public string? CreditorId { get; set; }
 
 	/// <summary>
 	/// The <see cref="MandateReference"/> property.
 	/// </summary>
 	[MaxLength(SqlMaxLength.MAX_50)]
-	public string MandateReference { get; set; } = default!;
+	public string? MandateReference { get; set; }
 
 	/// <summary>
 	/// The <see cref="CustomerReference"/> property.
 	/// </summary>
 	[MaxLength(SqlMaxLength.MAX_50)]
-	public string CustomerReference { get; set; } = default!;
+	public string? CustomerReference { get; set; }
 }

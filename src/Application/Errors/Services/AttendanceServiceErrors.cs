@@ -1,16 +1,13 @@
-﻿using Application.Contracts.Requests.Attendance;
-using Application.Errors.Base;
-using Application.Features.Requests;
+﻿using Application.Errors.Base;
 
 using Domain.Extensions;
 
-using IAS = Application.Interfaces.Application.IAttendanceService;
 using RESX = Application.Properties.ServiceErrors;
 
 namespace Application.Errors.Services;
 
 /// <summary>
-/// The static <see cref="AttendanceServiceErrors"/> class.
+/// The static attendance service errors class.
 /// </summary>
 /// <remarks>
 /// Contains errors that are relevant for the attendance service.
@@ -20,18 +17,14 @@ public static class AttendanceServiceErrors
 	private const string ErrorPrefix = $"{nameof(AttendanceServiceErrors)}";
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Create(Guid, AttendanceCreateRequest, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError CreateFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateFailed)}",
 			RESX.AttendanceService_Create_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Create(Guid, AttendanceCreateRequest, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	/// <param name="date">The date that inflicts the conflict.</param>
 	public static ApiError CreateConflict(DateTime date) =>
@@ -39,9 +32,7 @@ public static class AttendanceServiceErrors
 			RESX.AttendanceService_Create_Conflict.ToInvariant(date.ToShortDateString()));
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Create(Guid, AttendanceCreateRequest, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	/// <param name="date">The date that was not found.</param>
 	public static ApiError CreateNotFound(DateTime date) =>
@@ -49,54 +40,42 @@ public static class AttendanceServiceErrors
 			RESX.AttendanceService_Create_NotFound.ToInvariant(date.ToShortDateString()));
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Create(Guid, IEnumerable{AttendanceCreateRequest}, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError CreateManyFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateManyFailed)}",
 			RESX.AttendanceService_CreateMany_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Delete(Guid, Guid, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError DeleteFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteFailed)}",
 			RESX.AttendanceService_Delete_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Delete(Guid, Guid, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError DeleteNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteNotFound)}",
 			RESX.AttendanceService_Delete_NotFound);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Delete(Guid, IEnumerable{Guid}, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError DeleteManyFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteManyFailed)}",
 			RESX.AttendanceService_DeleteMany_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Delete(Guid, IEnumerable{Guid}, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError DeleteManyNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteManyNotFound)}",
 			RESX.AttendanceService_DeleteMany_NotFound);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Get(Guid, DateTime, bool, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateFailed(DateTime date) =>
@@ -104,9 +83,7 @@ public static class AttendanceServiceErrors
 			RESX.AttendanceService_GetByDate_Failed.ToInvariant(date));
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Get(Guid, DateTime, bool, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateNotFound(DateTime date) =>
@@ -114,9 +91,7 @@ public static class AttendanceServiceErrors
 			RESX.AttendanceService_GetByDate_NotFound.ToInvariant(date));
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Get(Guid, Guid, bool, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
 	public static ApiError GetByIdFailed(Guid calendarDayId) =>
@@ -124,64 +99,50 @@ public static class AttendanceServiceErrors
 			RESX.AttendanceService_GetById_Failed.ToInvariant(calendarDayId));
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Get(Guid, DateTime, bool, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
-	public static ApiError GetByIdNotFound(Guid calendarDayId) =>
+	/// <param name="calendarId">The calendar identifier parameter.</param>
+	public static ApiError GetByIdNotFound(Guid calendarId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.AttendanceService_GetById_NotFound.ToInvariant(calendarDayId));
+			RESX.AttendanceService_GetById_NotFound.ToInvariant(calendarId));
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Get(Guid, AttendanceParameters, bool, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
 			RESX.AttendanceService_GetPagedByParameters_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Get(Guid, AttendanceParameters, bool, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError GetPagedByParametersNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetPagedByParametersNotFound)}",
 			RESX.AttendanceService_GetPagedByParameters_NotFound);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Update(AttendanceUpdateRequest, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError UpdateFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateFailed)}",
 			RESX.AttendanceService_Update_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Update(AttendanceUpdateRequest, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError UpdateNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UpdateNotFound)}",
 			RESX.AttendanceService_Update_NotFound);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Update(IEnumerable{AttendanceUpdateRequest}, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError UpdateManyFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateManyFailed)}",
 			RESX.AttendanceService_UpdateMany_Failed);
 
 	/// <summary>
-	/// Error that indicates an exception during the
-	/// <see cref="IAS.Update(IEnumerable{AttendanceUpdateRequest}, CancellationToken)"/>
-	/// method.
+	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	public static readonly ApiError UpdateManyNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UpdateManyNotFound)}",

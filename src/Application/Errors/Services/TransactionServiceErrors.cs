@@ -19,80 +19,80 @@ public static class TransactionServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank account.</param>
-	public static ApiError CreateForAccountFailed(Guid id) =>
+	/// <param name="accountId">The identifier of the bank account.</param>
+	public static ApiError CreateForAccountFailed(Guid accountId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{CreateForAccountFailed}",
-			RESX.TransactionServiceErrors_CreateForAccount_Failed.ToInvariant(id));
+			RESX.TransactionServiceErrors_CreateForAccount_Failed.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank card.</param>
-	public static ApiError CreateForCardFailed(Guid id) =>
+	/// <param name="cardId">The identifier of the bank card.</param>
+	public static ApiError CreateForCardFailed(Guid cardId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{CreateForCardFailed}",
-			RESX.TransactionServiceErrors_CreateForCard_Failed.ToInvariant(id));
+			RESX.TransactionServiceErrors_CreateForCard_Failed.ToInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank transaction.</param>
-	public static ApiError DeleteFailed(Guid id) =>
+	/// <param name="transactionId">The identifier of the transaction.</param>
+	public static ApiError DeleteFailed(Guid transactionId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{DeleteFailed}",
-			RESX.TransactionServiceErrors_Delete_Failed.ToInvariant(id));
+			RESX.TransactionServiceErrors_Delete_Failed.ToInvariant(transactionId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank transaction.</param>
-	public static ApiError GetByIdFailed(Guid id) =>
+	/// <param name="transactionId">The identifier of the transaction.</param>
+	public static ApiError GetByIdFailed(Guid transactionId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
-			RESX.TransactionServiceErrors_GetById_Failed.ToInvariant(id));
+			RESX.TransactionServiceErrors_GetById_Failed.ToInvariant(transactionId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank transaction.</param>
-	public static ApiError GetByIdNotFound(Guid id) =>
+	/// <param name="transactionId">The identifier of the transaction.</param>
+	public static ApiError GetByIdNotFound(Guid transactionId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.TransactionServiceErrors_GetById_NotFound.ToInvariant(id));
+			RESX.TransactionServiceErrors_GetById_NotFound.ToInvariant(transactionId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank card.</param>
-	public static ApiError GetByCardIdFailed(Guid id) =>
+	/// <param name="cardId">The identifier of the bank card.</param>
+	public static ApiError GetByCardIdFailed(Guid cardId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByCardIdFailed}",
-			RESX.TransactionServiceErrors_GetByCardId_Failed.ToInvariant(id));
+			RESX.TransactionServiceErrors_GetByCardId_Failed.ToInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank card.</param>
-	public static ApiError GetByCardIdNotFound(Guid id) =>
+	/// <param name="cardId">The identifier of the bank card.</param>
+	public static ApiError GetByCardIdNotFound(Guid cardId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByCardIdNotFound}",
-			RESX.TransactionServiceErrors_GetByCardId_NotFound.ToInvariant(id));
+			RESX.TransactionServiceErrors_GetByCardId_NotFound.ToInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank account.</param>
-	public static ApiError GetByAccountIdFailed(Guid id) =>
+	/// <param name="accountId">The identifier of the bank account.</param>
+	public static ApiError GetByAccountIdFailed(Guid accountId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByAccountIdFailed}",
-			RESX.TransactionServiceErrors_GetByAccountId_Failed.ToInvariant(id));
+			RESX.TransactionServiceErrors_GetByAccountId_Failed.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank account.</param>
-	public static ApiError GetByAccountIdNotFound(Guid id) =>
+	/// <param name="accountId">The identifier of the bank account.</param>
+	public static ApiError GetByAccountIdNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByAccountIdNotFound}",
-			RESX.TransactionServiceErrors_GetByAccountId_NotFound.ToInvariant(id));
+			RESX.TransactionServiceErrors_GetByAccountId_NotFound.ToInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="id">The identifier of the bank transaction.</param>
-	public static ApiError UpdateFailed(Guid id) =>
+	/// <param name="transactionId">The identifier of the transaction.</param>
+	public static ApiError UpdateFailed(Guid transactionId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{UpdateFailed}",
-			RESX.TransactionServiceErrors_Update_Failed.ToInvariant(id));
+			RESX.TransactionServiceErrors_Update_Failed.ToInvariant(transactionId));
 }

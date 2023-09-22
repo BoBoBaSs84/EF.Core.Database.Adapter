@@ -21,10 +21,12 @@ public sealed class AttendancePreferencesModel
 	/// </summary>
 	/// <param name="workDays">The work days per week to set.</param>
 	/// <param name="workHours">The work hours per week to set.</param>
-	public AttendancePreferencesModel(WorkDayTypes workDays, float workHours)
+	/// <param name="vacationDays">The vacation days per year to set.</param>
+	public AttendancePreferencesModel(WorkDayTypes workDays, float workHours, int vacationDays)
 	{
 		WorkDays = workDays;
 		WorkHours = workHours;
+		VacationDays = vacationDays;
 	}
 
 	/// <summary>
@@ -38,4 +40,10 @@ public sealed class AttendancePreferencesModel
 	/// </summary>
 	[XmlElement("WorkHours")]
 	public float WorkHours { get; set; }
+
+	/// <summary>
+	/// The vacation days per year.
+	/// </summary>
+	[XmlElement("VacationDays")]
+	public int VacationDays { get; set; }
 }

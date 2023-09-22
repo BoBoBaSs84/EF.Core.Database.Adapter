@@ -27,4 +27,9 @@ public sealed class AttendancePreferencesResponse
 	/// The work hours per week property.
 	/// </summary>
 	public float WorkHours { get; set; }
+
+	/// <summary>
+	/// The vacation days per year.
+	/// </summary>
+	public int VacationDays { get; set; }
 }

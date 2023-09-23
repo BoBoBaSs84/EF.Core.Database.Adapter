@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
+using Domain.Enumerators;
+
 namespace Domain.Extensions;
 
 /// <summary>
@@ -85,4 +87,24 @@ public static class EnumeratorExtensions
 		FieldInfo? fieldInfo = enumValue.GetFieldInfo();
 		return fieldInfo is not null ? fieldInfo.GetCustomAttribute<DisplayAttribute>() : default;
 	}
+
+	/// <summary>
+	/// Returns if the attendance type is working hours relevant.
+	/// </summary>
+	/// <param name="type">The attendance type enumerator to work with.</param>
+	/// <returns>
+	/// <see langword="true"/> if the attendance type is working hours relevant, otherwise <see langword="false"/>
+	/// </returns>
+	public static bool IsWorkingHoursRelevant(this AttendanceType type)
+		=> type switch
+		{
+			AttendanceType.WORKDAY => true,
+			AttendanceType.ABSENCE => true,
+			AttendanceType.BUISNESSTRIP => true,
+			AttendanceType.MOBILEWORKING => true,
+			AttendanceType.SHORTTIMEWORK => true,
+			AttendanceType.VACATIONBLOCK => true,
+			AttendanceType.PLANNEDVACATION => true,
+			_ => false,
+		};
 }

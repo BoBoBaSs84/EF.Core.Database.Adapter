@@ -36,10 +36,10 @@ internal sealed class AuthenticationService : IAuthenticationService
 	private readonly IUserService _userService;
 	private readonly IMapper _mapper;
 
-	private static readonly Action<ILogger, object, Exception?> logExceptionWithParams =
+	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	private static readonly Action<ILogger, Exception?> logException =
+	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	/// <summary>
@@ -98,7 +98,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(LogExceptionWithParams, parameters, ex);
 			return AuthenticationServiceErrors.AddUserToRoleFailed;
 		}
 	}
@@ -130,7 +130,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, request, ex);
+			_logger.Log(LogExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.AuthenticateUserFailed;
 		}
 	}
@@ -164,7 +164,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, request, ex);
+			_logger.Log(LogExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.CreateUserFailed;
 		}
 	}
@@ -181,7 +181,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logException, ex);
+			_logger.Log(LogException, ex);
 			return AuthenticationServiceErrors.GetAllFailed;
 		}
 	}
@@ -201,7 +201,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, userId, ex);
+			_logger.Log(LogExceptionWithParams, userId, ex);
 			return AuthenticationServiceErrors.GetUserByIdFailed(userId);
 		}
 	}
@@ -221,7 +221,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, userName, ex);
+			_logger.Log(LogExceptionWithParams, userName, ex);
 			return AuthenticationServiceErrors.GetUserByNameFailed(userName);
 		}
 	}
@@ -256,7 +256,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, parameters, ex);
+			_logger.Log(LogExceptionWithParams, parameters, ex);
 			return AuthenticationServiceErrors.RemoveUserToRoleFailed;
 		}
 	}
@@ -291,7 +291,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(logExceptionWithParams, request, ex);
+			_logger.Log(LogExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.UpdateUserFailed;
 		}
 	}

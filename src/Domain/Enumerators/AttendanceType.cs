@@ -24,6 +24,7 @@ public enum AttendanceType
 		Name = nameof(RESX.AttendanceType_Weekday_Name),
 		ShortName = nameof(RESX.AttendanceType_Weekday_ShortName),
 		Description = nameof(RESX.AttendanceType_Weekday_Description))]
+	[Obsolete("Do not use this one any more, will be removed in the future.")]
 	WEEKDAY,
 	/// <summary>
 	/// The week end day attendance type.
@@ -32,6 +33,7 @@ public enum AttendanceType
 		Name = nameof(RESX.AttendanceType_WeekendDay_Name),
 		ShortName = nameof(RESX.AttendanceType_WeekendDay_ShortName),
 		Description = nameof(RESX.AttendanceType_WeekendDay_Description))]
+	[Obsolete("Do not use this one any more, will be removed in the future.")]
 	WEEKENDDAY,
 	/// <summary>
 	/// The work day attendance type.

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Domain.Enumerators;
 using Domain.Extensions;
 
 using FluentAssertions;
@@ -85,6 +86,24 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		enumList.Should().HaveCount(5);
 	}
 
+	[TestMethod]
+	[DynamicData(nameof(GetWorkingHoursRelevantAttendances))]
+	public void IsWorkingHoursRelevantTrueTest(AttendanceType type)
+	{
+		bool relevant = type.IsWorkingHoursRelevant();
+
+		Assert.IsTrue(relevant);
+	}
+
+	[TestMethod]
+	[DynamicData(nameof(GetWorkingHoursNotRelevantAttendances))]
+	public void IsWorkingHoursRelevantFalseTest(AttendanceType type)
+	{
+		bool relevant = type.IsWorkingHoursRelevant();
+
+		Assert.IsFalse(relevant);
+	}
+
 	private enum TestEnum
 	{
 		NODISPLAYATTRIBUTE = 0,
@@ -97,4 +116,25 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		[Display(Description = "description", Name = "name", ShortName = "shortname")]
 		ALLGOOD
 	}
+
+	private static IEnumerable<object[]> GetWorkingHoursRelevantAttendances
+		=> new[]
+		{
+			new object[]{ AttendanceType.WORKDAY },
+			new object[]{ AttendanceType.ABSENCE },
+			new object[]{ AttendanceType.BUISNESSTRIP },
+			new object[]{ AttendanceType.MOBILEWORKING },
+			new object[]{ AttendanceType.SHORTTIMEWORK },
+			new object[]{ AttendanceType.VACATIONBLOCK },
+			new object[]{ AttendanceType.PLANNEDVACATION },
+		};
+
+	private static IEnumerable<object[]> GetWorkingHoursNotRelevantAttendances
+		=> new[]
+		{
+			new object[]{ AttendanceType.HOLIDAY },
+			new object[]{ AttendanceType.SUSPENSION },
+			new object[]{ AttendanceType.SICKNESS },
+			new object[]{ AttendanceType.VACATION },
+		};
 }

@@ -45,4 +45,27 @@ public static partial class ModelExtensions
 	/// <returns><see cref="IQueryable{T}"/></returns>
 	public static IQueryable<AttendanceModel> FilterByType(this IQueryable<AttendanceModel> query, AttendanceType? type)
 		=> type.HasValue ? query.Where(x => x.AttendanceType.Equals(type)) : query;
+
+	/// <summary>
+	/// Returns the resulting working hours based on the model information.
+	/// </summary>
+	/// <param name="model">The attendance model to work with.</param>
+	/// <returns>The resulting working hours.</returns>
+	public static float GetResultingWorkingHours(this AttendanceModel model)
+	{
+		if (model.AttendanceType.IsWorkingHoursRelevant().Equals(false))
+			return default;
+
+		if (model.StartTime is null || model.EndTime is null)
+			return default;
+
+		float breakTimeInSeconds = default;
+		float endTimeInSeconds = (float)model.EndTime.Value.TotalSeconds;
+		float startTimeInSeconds = (float)model.StartTime.Value.TotalSeconds;
+
+		if (model.BreakTime is not null)
+			breakTimeInSeconds = (float)model.BreakTime.Value.TotalSeconds;
+
+		return (endTimeInSeconds - startTimeInSeconds - breakTimeInSeconds) / 60 / 60;
+	}
 }

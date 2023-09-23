@@ -52,7 +52,7 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <response code="404">If the server cannot find the requested resource.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.Attendance.GetPagedByParameters)]
-	[ProducesResponseType(typeof(IPagedList<AttendanceResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(IPagedList<AttendanceResponse>), StatusCodes.Status200OK)]	
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -158,12 +158,14 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="createRequest">The attendance create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="201">If the attendance was created.</response>
+	/// <response code="400">if the provided request contains errors.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="404">If the server cannot find the requested resource.</response>
 	/// <response code="409">Conflict with the current state of the target resource.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPost(Endpoints.Attendance.Post)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
@@ -182,12 +184,14 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="createRequest">The attendances create request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="201">If the attendances were created.</response>
+	/// <response code="400">if the provided request contains errors.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="404">If the server cannot find the requested resource.</response>
 	/// <response code="409">Conflict with the current state of the target resource.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPost(Endpoints.Attendance.PostMultiple)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
@@ -206,11 +210,13 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="updateRequest">The attendance update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendance was updated.</response>
+	/// <response code="400">if the provided request contains errors.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="404">If the server cannot find the requested resource.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPut(Endpoints.Attendance.Put)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -228,11 +234,13 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <param name="updateRequest">The attendances update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the attendances were updated.</response>
+	/// <response code="400">if the provided request contains errors.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="404">If the server cannot find the requested resource.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpPut(Endpoints.Attendance.PutMultiple)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

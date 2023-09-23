@@ -26,6 +26,13 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
+	public static readonly ApiError CreateBadRequest =
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateBadRequest)}",
+			RESX.AttendanceService_Create_BadRequest);
+
+	/// <summary>
+	/// Error that indicates an exception during the attendance service.
+	/// </summary>
 	/// <param name="date">The date that inflicts the conflict.</param>
 	public static ApiError CreateConflict(DateTime date) =>
 		ApiError.CreateConflict($"{ErrorPrefix}.{nameof(CreateConflict)}",
@@ -79,7 +86,7 @@ public static class AttendanceServiceErrors
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateFailed(DateTime date) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByDateFailed}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByDateFailed)}",
 			RESX.AttendanceService_GetByDate_Failed.ToInvariant(date));
 
 	/// <summary>
@@ -87,7 +94,7 @@ public static class AttendanceServiceErrors
 	/// </summary>
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateNotFound(DateTime date) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByDateNotFound}",
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
 			RESX.AttendanceService_GetByDate_NotFound.ToInvariant(date));
 
 	/// <summary>
@@ -95,7 +102,7 @@ public static class AttendanceServiceErrors
 	/// </summary>
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
 	public static ApiError GetByIdFailed(Guid calendarDayId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
 			RESX.AttendanceService_GetById_Failed.ToInvariant(calendarDayId));
 
 	/// <summary>
@@ -103,7 +110,7 @@ public static class AttendanceServiceErrors
 	/// </summary>
 	/// <param name="calendarId">The calendar identifier parameter.</param>
 	public static ApiError GetByIdNotFound(Guid calendarId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
+		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
 			RESX.AttendanceService_GetById_NotFound.ToInvariant(calendarId));
 
 	/// <summary>
@@ -119,6 +126,13 @@ public static class AttendanceServiceErrors
 	public static readonly ApiError GetPagedByParametersNotFound =
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetPagedByParametersNotFound)}",
 			RESX.AttendanceService_GetPagedByParameters_NotFound);
+
+	/// <summary>
+	/// Error that indicates an exception during the attendance service.
+	/// </summary>
+	public static readonly ApiError UpdateBadRequest =
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateBadRequest)}",
+			RESX.AttendanceService_Update_BadRequest);
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

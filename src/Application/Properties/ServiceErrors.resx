@@ -156,6 +156,9 @@
   <data name="AccountService.Update.Failed" xml:space="preserve">
     <value>An guidernal error occurred while updating the account.</value>
   </data>
+  <data name="AttendanceService.Create.BadRequest" xml:space="preserve">
+    <value>There are errors in the create request, please check and correct.</value>
+  </data>
   <data name="AttendanceService.Create.Conflict" xml:space="preserve">
     <value>An entry with the date '{0}' has already been created.</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="AttendanceService.GetPagedByParameters.NotFound" xml:space="preserve">
     <value>No attendance entries could be found based on the parameterization.</value>
+  </data>
+  <data name="AttendanceService.Update.BadRequest" xml:space="preserve">
+    <value>There are errors in the update request, please check and correct.</value>
   </data>
   <data name="AttendanceService.Update.Failed" xml:space="preserve">
     <value>An error occurred while updating the attendance/absence.</value>

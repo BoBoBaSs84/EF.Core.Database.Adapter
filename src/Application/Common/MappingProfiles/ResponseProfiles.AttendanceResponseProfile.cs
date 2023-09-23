@@ -2,6 +2,7 @@
 
 using AutoMapper;
 
+using Domain.Extensions;
 using Domain.Models.Attendance;
 
 namespace Application.Common.MappingProfiles;
@@ -17,7 +18,8 @@ internal static partial class ResponseProfiles
 		public AttendanceResponseProfile()
 		{
 			CreateMap<AttendanceModel, AttendanceResponse>()
-				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Calendar.Date));
+				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Calendar.Date))
+				.ForMember(dest => dest.WorkingHours, opt => opt.MapFrom(src => src.GetResultingWorkingHours()));
 		}
 	}
 }

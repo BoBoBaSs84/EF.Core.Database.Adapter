@@ -43,4 +43,9 @@ public sealed class AttendanceResponse : IdentityResponse
 	/// </summary>
 	[JsonConverter(typeof(NullableTimeJsonConverter))]
 	public TimeSpan? BreakTime { get; set; }
+
+	/// <summary>
+	/// The resulting working hours property.
+	/// </summary>
+	public float WorkingHours { get; set; }
 }

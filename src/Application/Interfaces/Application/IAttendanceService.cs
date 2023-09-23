@@ -27,11 +27,11 @@ public interface IAttendanceService
 	/// Creates multiple attendances for the for the application user.
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="request">The attendances create request.</param>
+	/// <param name="requests">The attendance create requests.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	/// <returns></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> request, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Deletes an attendance for the application user and the calendar entry identifier.
@@ -92,8 +92,8 @@ public interface IAttendanceService
 	/// <summary>
 	/// Updates multiple existing attendances.
 	/// </summary>
-	/// <param name="request">The attendance update request.</param>
+	/// <param name="requests">The attendance update requests.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> request, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken cancellationToken = default);
 }

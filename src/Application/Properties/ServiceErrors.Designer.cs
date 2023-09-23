@@ -178,6 +178,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are errors in the create request, please check and correct..
+        /// </summary>
+        public static string AttendanceService_Create_BadRequest {
+            get {
+                return ResourceManager.GetString("AttendanceService.Create.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An entry with the date &apos;{0}&apos; has already been created..
         /// </summary>
         public static string AttendanceService_Create_Conflict {
@@ -300,6 +309,15 @@ namespace Application.Properties {
         public static string AttendanceService_GetPagedByParameters_NotFound {
             get {
                 return ResourceManager.GetString("AttendanceService.GetPagedByParameters.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are errors in the update request, please check and correct..
+        /// </summary>
+        public static string AttendanceService_Update_BadRequest {
+            get {
+                return ResourceManager.GetString("AttendanceService.Update.BadRequest", resourceCulture);
             }
         }
         

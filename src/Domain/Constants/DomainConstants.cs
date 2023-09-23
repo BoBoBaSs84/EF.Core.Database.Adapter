@@ -109,6 +109,7 @@ public static class DomainConstants
 			/// <summary>The <see cref="MONEY"/> constant.</summary>
 			public const string MONEY = "money";
 		}
+
 		/// <summary>
 		/// The sql max length class.
 		/// </summary>
@@ -139,19 +140,44 @@ public static class DomainConstants
 	public static class Xml
 	{
 		/// <summary>
+		/// The xml elements class.
+		/// </summary>
+		public static class Elements
+		{
+			/// <summary>
+			/// The attendance element.
+			/// </summary>
+			public const string Attendance = "Attendance";
+
+			/// <summary>
+			/// The preferences element.
+			/// </summary>
+			public const string Preferences = "Preferences";
+
+			/// <summary>
+			/// The work days element.
+			/// </summary>
+			public const string WorkDays = "WorkDays";
+
+			/// <summary>
+			/// The work hours element.
+			/// </summary>
+			public const string WorkHours = "WorkHours";
+
+			/// <summary>
+			/// The vacation days element.
+			/// </summary>
+			public const string VacationDays = "VacationDays";
+		}
+
+		/// <summary>
 		/// The method should return all the available xml namespaces.
 		/// </summary>
 		/// <returns>Serializable xml namespaces.</returns>
 		public static XmlSerializerNamespaces GetNamespaces()
 		{
 			XmlSerializerNamespaces namespaces = new();
-			namespaces.Add("ac", NameSpaces.ACTIVATABLE_NAMESPACE);
-			namespaces.Add("ad", NameSpaces.AUDITED_NAMESPACE);
-			namespaces.Add("at", NameSpaces.ATTENDANCE_NAMESPACE);
-			namespaces.Add("cd", NameSpaces.CALENDARDAY_NAMESPACE);
-			namespaces.Add("en", NameSpaces.ENUMERATOR_NAMSPACE);
-			namespaces.Add("fi", NameSpaces.FINANCE_NAMSPACE);
-			namespaces.Add("id", NameSpaces.IDENTITY_NAMESPACE);
+			namespaces.Add(string.Empty, NameSpaces.Preferences);
 			return namespaces;
 		}
 
@@ -160,21 +186,12 @@ public static class DomainConstants
 		/// </summary>
 		public static class NameSpaces
 		{
-			/// <summary>The <see cref="ACTIVATABLE_NAMESPACE"/> constant.</summary>
-			public const string ACTIVATABLE_NAMESPACE = "http://DA.Models.org/Activatable";
-			/// <summary>The <see cref="ACTIVATABLE_NAMESPACE"/> constant.</summary>
-			public const string AUDITED_NAMESPACE = "http://DA.Models.org/Audited";
-			/// <summary>The <see cref="ATTENDANCE_NAMESPACE"/> constant.</summary>
-			public const string ATTENDANCE_NAMESPACE = "http://DA.Models.org/Attendance";
-			/// <summary>The <see cref="CALENDARDAY_NAMESPACE"/> constant.</summary>
-			public const string CALENDARDAY_NAMESPACE = "http://DA.Models.org/CalendarDay";
-			/// <summary>The <see cref="ENUMERATOR_NAMSPACE"/> constant.</summary>
-			public const string ENUMERATOR_NAMSPACE = "http://DA.Models.org/Enumerator";
-			/// <summary>The <see cref="FINANCE_NAMSPACE"/> constant.</summary>
-			public const string FINANCE_NAMSPACE = "http://DA.Models.org/Finance";
-			/// <summary>The <see cref="IDENTITY_NAMESPACE"/> constant.</summary>
-			public const string IDENTITY_NAMESPACE = "http://DA.Models.org/Identity";
+			/// <summary>
+			/// The preferences xml namespace.
+			/// </summary>
+			public const string Preferences = "https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/XmlSchema/Preferences";
 		}
+
 		/// <summary>
 		/// The xml data type class.
 		/// </summary>
@@ -190,6 +207,8 @@ public static class DomainConstants
 			public const string DATETIME = "dateTime";
 			/// <summary>The <see cref="DATE"/> constant.</summary>
 			public const string DATE = "date";
+			/// <summary>The <see cref="FLOAT"/> constant.</summary>
+			public const string FLOAT = "float";
 			/// <summary>The <see cref="TIME"/> constant.</summary>
 			public const string TIME = "time";
 			/// <summary>The <see cref="STRING"/> constant.</summary>

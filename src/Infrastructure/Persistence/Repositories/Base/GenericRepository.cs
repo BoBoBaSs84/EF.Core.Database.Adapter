@@ -32,11 +32,11 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 		_dbSet = dbContext.Set<TEntity>();
 	}
 
-	public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default) =>
-		await _dbSet.AddAsync(entity, cancellationToken);
+	public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
+		=> await _dbSet.AddAsync(entity, cancellationToken);
 
-	public async Task CreateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) =>
-		await _dbSet.AddRangeAsync(entities, cancellationToken);
+	public async Task CreateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+		=> await _dbSet.AddRangeAsync(entities, cancellationToken);
 
 	public async Task<IEnumerable<TEntity>> GetAllAsync(
 		bool ignoreQueryFilters = false,

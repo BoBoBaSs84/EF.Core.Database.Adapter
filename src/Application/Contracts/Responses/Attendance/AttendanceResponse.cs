@@ -24,7 +24,7 @@ public sealed class AttendanceResponse : IdentityResponse
 	/// <summary>
 	/// The attendance type property.
 	/// </summary>
-	public AttendanceType AttendanceType { get; set; }
+	public AttendanceType? AttendanceType { get; set; }
 
 	/// <summary>
 	/// The start time property.
@@ -47,5 +47,5 @@ public sealed class AttendanceResponse : IdentityResponse
 	/// <summary>
 	/// The resulting working hours property.
 	/// </summary>
-	public float WorkingHours { get; set; }
+	public float? WorkingHours { get; set; }
 }

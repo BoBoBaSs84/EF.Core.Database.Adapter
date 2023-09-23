@@ -43,7 +43,7 @@ public sealed class AttendanceController : ApiControllerBase
 	}
 
 	/// <summary>
-	/// Returns the attendance entries as a paged list, filtered by the parameters.
+	/// Returns multiple attendances as a paged list for the application user filtered by the <paramref name="parameters"/>.
 	/// </summary>
 	/// <param name="parameters">The attendance query parameters.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
@@ -60,6 +60,28 @@ public sealed class AttendanceController : ApiControllerBase
 	{
 		ErrorOr<IPagedList<AttendanceResponse>> result =
 			await _attendanceService.Get(_currentUserService.UserId, parameters, false, cancellationToken);
+
+		return Get(result, result.Value?.MetaData);
+	}
+
+	/// <summary>
+	/// Returns a attendance report as a paged list for the application user filtered by the <paramref name="parameters"/>.
+	/// </summary>
+	/// <param name="parameters">The calendar query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <response code="200">If the result is returned.</response>
+	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="404">If the server cannot find the requested resource.</response>
+	/// <response code="500">If something went wrong.</response>
+	[HttpGet(Endpoints.Attendance.GetPagedReportByParameters)]
+	[ProducesResponseType(typeof(IPagedList<AttendanceResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public async Task<IActionResult> GetPagedReportByParameters([FromQuery] CalendarParameters parameters, CancellationToken cancellationToken)
+	{
+		ErrorOr<IPagedList<AttendanceResponse>> result =
+			await _attendanceService.Get(_currentUserService.UserId, parameters, cancellationToken);
 
 		return Get(result, result.Value?.MetaData);
 	}

@@ -62,6 +62,18 @@ public interface IAttendanceService
 	Task<ErrorOr<IPagedList<AttendanceResponse>>> Get(Guid userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default);
 
 	/// <summary>
+	/// Returns a attendance report as a paged list for the application user filtered by the <paramref name="parameters"/>.
+	/// </summary>
+	/// <remarks>
+	/// Attendances and absences are output in a calendar-like form.
+	/// </remarks>
+	/// <param name="userId">The identifier of the application user.</param>
+	/// <param name="parameters">The query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<IPagedList<AttendanceResponse>>> Get(Guid userId, CalendarParameters parameters, CancellationToken cancellationToken = default);
+
+	/// <summary>
 	/// Returns the attendance for the application user and the calendar entry date.
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>

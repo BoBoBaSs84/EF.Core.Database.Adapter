@@ -69,4 +69,12 @@ public static class RequestHelper
 
 		return request;
 	}
+
+	public static CardCreateRequest GetCardCreateRequest(this CardCreateRequest request)
+	{
+		Filler<CardCreateRequest> filler = new();
+		filler.Setup()
+			.OnProperty(p => p.PAN).Use(RandomHelper.GetString(RegexPatterns.PAN));
+		return filler.Fill(request);
+	}
 }

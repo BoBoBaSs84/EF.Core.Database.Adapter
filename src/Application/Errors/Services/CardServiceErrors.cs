@@ -88,6 +88,14 @@ public static class CardServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
+	/// <param name="pan">The payment card number of the bank card.</param>
+	public static ApiError CreateNumberInvalid(string pan) =>
+		ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberInvalid}",
+			RESX.CardService_Number_Invalid.ToInvariant(pan));
+
+	/// <summary>
+	/// Error that indicates an exception during the card service.
+	/// </summary>
 	public static readonly ApiError DeleteFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{DeleteFailed}",
 			RESX.CardService_Delete_Failed);

@@ -7,12 +7,12 @@ using BaseTests.Helpers;
 
 using Domain.Errors;
 using Domain.Results;
+using Domain.Models.Identity;
 
 using FluentAssertions;
 
-using AH = BaseTests.Helpers.AssertionHelper;
-using TC = BaseTests.Constants.TestConstants;
 using TU = BaseTests.Constants.TestConstants.TestUser;
+using BaseTests.Constants;
 
 namespace ApplicationTests.Services;
 
@@ -20,38 +20,37 @@ namespace ApplicationTests.Services;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
 public class AuthenticationServiceTests : ApplicationTestBase
 {
-	private IAuthenticationService _authenticationService = default!;
+	private readonly IAuthenticationService _authenticationService;
 
-	[TestMethod, Owner(TC.Bobo)]
+	public AuthenticationServiceTests()
+		=> _authenticationService = GetService<IAuthenticationService>();
+
+	[TestMethod]
 	public async Task CreateUserAsyncIdentityErrorTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
 		UserCreateRequest createRequest =
 			new UserCreateRequest().GetUserCreateRequest(TU.PassBad);
 
 		ErrorOr<Created> result =
 			await _authenticationService.CreateUser(createRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task CreateUserAsyncSuccessTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
 		UserCreateRequest createRequest =
 			new UserCreateRequest().GetUserCreateRequest();
 
 		ErrorOr<Created> result =
 			await _authenticationService.CreateUser(createRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -59,20 +58,13 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task GetAllAsyncSuccessTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
-
 		ErrorOr<IEnumerable<UserResponse>> result =
 			await _authenticationService.GetAll();
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -80,20 +72,16 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task GetUserByNameAsyncSuccessTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
 		ErrorOr<UserResponse> result =
-			await _authenticationService.GetUserByName(createRequest.UserName);
+			await _authenticationService.GetUserByName(userName);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -101,23 +89,19 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task GetUserByIdAsyncSuccessTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
-
-		ErrorOr<IEnumerable<UserResponse>> user =
-			await _authenticationService.GetAll();
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
 		ErrorOr<UserResponse> result =
-			await _authenticationService.GetUserById(user.Value.First().Id);
+			await _authenticationService.GetUserByName(userName);
 
-		AH.AssertInScope(() =>
+		result =
+			await _authenticationService.GetUserById(result.Value.Id);
+
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -125,16 +109,15 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task GetUserByNameAsyncNotFoundTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
 		string userName = "UnitTest";
 
 		ErrorOr<UserResponse> result =
 			await _authenticationService.GetUserByName(userName);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
@@ -142,16 +125,15 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task GetUserByIdAsyncNotFoundTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
 		Guid userId = Guid.NewGuid();
 
 		ErrorOr<UserResponse> result =
 			await _authenticationService.GetUserById(userId);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
@@ -159,18 +141,14 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task UpdateUserAsyncSuccessTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
 		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
+			await _authenticationService.GetUserByName(userName);
 
 		UserUpdateRequest updateRequest =
 			new UserUpdateRequest().GetUserUpdateRequest();
@@ -178,7 +156,7 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		ErrorOr<Updated> result =
 			await _authenticationService.UpdateUser(user.Value.Id, updateRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -186,10 +164,9 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task UpdateUserAsyncNotFoundTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
 		Guid userId = Guid.NewGuid();
 
 		UserUpdateRequest updateRequest =
@@ -198,7 +175,7 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		ErrorOr<Updated> result =
 			await _authenticationService.UpdateUser(userId, updateRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
@@ -206,112 +183,78 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task UpdateUserAsyncIdentityErrorTest()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
 		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
+			await _authenticationService.GetUserByName(userName);
 
 		UserUpdateRequest updateRequest = new();
 
 		ErrorOr<Updated> result = await _authenticationService.UpdateUser(user.Value.Id, updateRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task AddUserToRoleUserNotFoundAsync()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
+		Guid userId = Guid.NewGuid(),
+			roleId = Guid.NewGuid();
 
 		ErrorOr<Created> result =
 			await _authenticationService.AddUserToRole(userId, roleId);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.UserByIdNotFound(userId));
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task AddUserToRoleRoleNotFoundAsync()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
+
 		Guid roleId = Guid.NewGuid();
 
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
-
 		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
+			await _authenticationService.GetUserByName(userName);
 
 		ErrorOr<Created> result =
 			await _authenticationService.AddUserToRole(user.Value.Id, roleId);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.RoleByIdNotFound(roleId));
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
-	public async Task AddUserToRoleIdentityError()
-	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-		Guid roleId = Guid.NewGuid();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
-
-		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
-
-		ErrorOr<Created> result =
-			await _authenticationService.AddUserToRole(user.Value.Id, roleId);
-
-		AH.AssertInScope(() =>
-		{
-			result.IsError.Should().BeTrue();
-			result.Errors.Should().NotBeEmpty();
-		});
-	}
-
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task AddUserToRoleSuccess()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-		Guid roleId = Guid.NewGuid();
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
+		Guid roleId = Roles[0].Id;
 
 		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
+			await _authenticationService.GetUserByName(userName);
 
 		ErrorOr<Created> result =
 			await _authenticationService.AddUserToRole(user.Value.Id, roleId);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -319,76 +262,61 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task AuthenticateUserNotFound()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
-
 		AuthenticationRequest authRequest = new()
 		{
 			UserName = "UnitTest",
-			Password = createRequest.Password
+			Password = "UnitTest"
 		};
 
 		ErrorOr<AuthenticationResponse> result =
 			await _authenticationService.Authenticate(authRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName));
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task AuthenticateUnauthorized()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest = new();
-		createRequest.GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
 		AuthenticationRequest authRequest = new()
 		{
-			UserName = createRequest.UserName,
+			UserName = userName,
 			Password = "UnitTest"
 		};
 		ErrorOr<AuthenticationResponse> result = await _authenticationService.Authenticate(authRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.UserUnauthorized(authRequest.UserName));
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod]
 	public async Task AuthenticateSuccess()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
 		AuthenticationRequest authRequest = new()
 		{
-			UserName = createRequest.UserName,
-			Password = createRequest.Password
+			UserName = userName,
+			Password = TU.PassGood
 		};
 
 		ErrorOr<AuthenticationResponse> result =
 			await _authenticationService.Authenticate(authRequest);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -396,88 +324,60 @@ public class AuthenticationServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
-	public async Task RemoveUserToRoleUserNotFoundAsync()
+	[TestMethod]
+	public async Task RemoveUserFromRoleUserNotFoundAsync()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
+		Guid userId = Guid.NewGuid(),
+			roleId = Guid.NewGuid();
 
 		ErrorOr<Deleted> result =
 			await _authenticationService.RemoveUserFromRole(userId, roleId);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.UserByIdNotFound(userId));
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
-	public async Task RemoveUserToRoleRoleNotFoundAsync()
+	[TestMethod]
+	public async Task RemoveUserFromRoleRoleNotFoundAsync()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
+
 		Guid roleId = Guid.NewGuid();
 
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
-
 		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
+			await _authenticationService.GetUserByName(userName);
 
 		ErrorOr<Deleted> result =
 			await _authenticationService.RemoveUserFromRole(user.Value.Id, roleId);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.RoleByIdNotFound(roleId));
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
-	public async Task RemoveUserToRoleIdentityError()
+	[TestMethod]
+	public async Task RemoveUserFromRoleSuccess()
 	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-		Guid roleId = Guid.NewGuid();
+		string userName =
+			Users[RandomHelper.GetInt(0, Users.Count)].UserName;
 
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
+		Guid roleId = Roles[0].Id;
 
 		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
+			await _authenticationService.GetUserByName(userName);
+
+		_ = await _authenticationService.AddUserToRole(user.Value.Id, roleId);
 
 		ErrorOr<Deleted> result =
 			await _authenticationService.RemoveUserFromRole(user.Value.Id, roleId);
 
-		AH.AssertInScope(() =>
-		{
-			result.IsError.Should().BeTrue();
-			result.Errors.Should().NotBeEmpty();
-		});
-	}
-
-	[TestMethod, Owner(TC.Bobo)]
-	public async Task RemoveUserToRoleSuccess()
-	{
-		_authenticationService = GetRequiredService<IAuthenticationService>();
-		Guid roleId = Guid.NewGuid();
-
-		UserCreateRequest createRequest =
-			new UserCreateRequest().GetUserCreateRequest();
-
-		_ = await _authenticationService.CreateUser(createRequest);
-
-		ErrorOr<UserResponse> user =
-			await _authenticationService.GetUserByName(createRequest.UserName);
-
-		ErrorOr<Deleted> result =
-			await _authenticationService.RemoveUserFromRole(user.Value.Id, roleId);
-
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();

@@ -2,8 +2,14 @@
 
 namespace BaseTests.Services;
 
-internal sealed class CurrentTestUserService : ICurrentUserService
+public sealed class CurrentTestUserService : ICurrentUserService
 {
-	public Guid UserId { get; set; }
-	public string UserName { get; set; }
+	public CurrentTestUserService()
+	{
+		UserId = Guid.NewGuid();
+		UserName = "UnitTestUser";
+	}
+
+	public Guid UserId { get; }
+	public string UserName { get; }
 }

@@ -7,9 +7,9 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using Domain.Errors;
 using Domain.Models.Finance;
 using Domain.Models.Identity;
-using Domain.Errors;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -49,38 +49,39 @@ internal sealed class AccountService : IAccountService
 		ErrorOr<Created> response = new();
 		try
 		{
-			AccountModel? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
+			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.IBAN == createRequest.IBAN,
 				cancellationToken: cancellationToken
 				);
 
-			if (dbAccount is not null)
-				response.Errors.Add(AccountServiceErrors.CreateAccountNumberConflict(dbAccount.IBAN));
+			if (accountEntry is not null)
+				response.Errors.Add(AccountServiceErrors.CreateAccountNumberConflict(accountEntry.IBAN));
 
 			if (createRequest.Cards is not null)
 				foreach (CardCreateRequest card in createRequest.Cards)
 				{
-					CardModel? dbCard = await _repositoryService.CardRepository.GetByConditionAsync(
+					CardModel? cardModel = await _repositoryService.CardRepository.GetByConditionAsync(
 						expression: x => x.PAN == card.PAN,
-						trackChanges: false,
 						cancellationToken: cancellationToken
 						);
 
-					if (dbCard is not null)
-						response.Errors.Add(AccountServiceErrors.CreateCardNumberConflict(dbCard.PAN));
+					if (cardModel is not null)
+						response.Errors.Add(AccountServiceErrors.CreateCardNumberConflict(cardModel.PAN));
 				}
 
 			if (response.IsError)
 				return response;
 
-			UserModel dbUser = await _userService.FindByIdAsync($"{userId}");
+			UserModel userModel = await _userService.FindByIdAsync($"{userId}");
 			AccountModel newAccount = _mapper.Map<AccountModel>(createRequest);
 
-			if (newAccount.Cards is not null)
+			if (newAccount.Cards.Count > 0)
+			{
 				foreach (CardModel card in newAccount.Cards)
-					card.User = dbUser;
+					card.User = userModel;
+			}
 
-			AccountUserModel newAccountUser = new() { User = dbUser, Account = newAccount };
+			AccountUserModel newAccountUser = new() { User = userModel, Account = newAccount };
 			newAccount.AccountUsers.Add(newAccountUser);
 
 			await _repositoryService.AccountRepository.CreateAsync(newAccount, cancellationToken);
@@ -100,17 +101,16 @@ internal sealed class AccountService : IAccountService
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		try
 		{
-			AccountModel? account = await _repositoryService.AccountRepository.GetByConditionAsync(
+			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AccountModel.AccountUsers), nameof(AccountModel.Cards), nameof(AccountModel.AccountTransactions) }
+				cancellationToken: cancellationToken
 				);
 
-			if (account is null)
+			if (accountEntry is null)
 				return AccountServiceErrors.DeleteAccountNotFound(accountId);
 
-			await _repositoryService.AccountRepository.DeleteAsync(account);
+			await _repositoryService.AccountRepository.DeleteAsync(accountEntry);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
 			return Result.Deleted;
@@ -124,37 +124,28 @@ internal sealed class AccountService : IAccountService
 
 	public async Task<ErrorOr<IEnumerable<AccountResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		// TODO: figure out how this would work...
-		//var qry = Foo.GroupJoin(
-		//					Bar,
-		//					foo => foo.Foo_Id,
-		//					bar => bar.Foo_Id,
-		//					(x, y) => new { Foo = x, Bars = y })
-		//			 .SelectMany(
-		//					 x => x.Bars.DefaultIfEmpty(),
-		//					 (x, y) => new { Foo = x.Foo, Bar = y });
 		try
 		{
-			IEnumerable<AccountModel> accounts = await _repositoryService.AccountRepository.GetManyByConditionAsync(
+			IEnumerable<AccountModel> accountEntries = await _repositoryService.AccountRepository.GetManyByConditionAsync(
 				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (!accounts.Any())
+			if (accountEntries.Any().Equals(false))
 				return AccountServiceErrors.GetAllNotFound;
 
-			IEnumerable<CardModel> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
-				expression: x => x.UserId.Equals(userId),
+			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
+				expression: x => x.UserId.Equals(userId) && accountEntries.Select(x => x.Id).Contains(x.AccountId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(CardModel.CardType) }
+				cancellationToken: cancellationToken
 				);
 
-			foreach (AccountModel account in accounts)
-				account.Cards = cards.Where(x => x.AccountId.Equals(account.Id)).ToList();
+			if (cardEntries.Any().Equals(true))
+				foreach (AccountModel account in accountEntries)
+					account.Cards = cardEntries.Where(x => x.AccountId.Equals(account.Id)).ToList();
 
-			IEnumerable<AccountResponse> result = _mapper.Map<IEnumerable<AccountResponse>>(accounts);
+			IEnumerable<AccountResponse> result = _mapper.Map<IEnumerable<AccountResponse>>(accountEntries);
 
 			return result.ToList();
 		}
@@ -170,17 +161,25 @@ internal sealed class AccountService : IAccountService
 		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
 		try
 		{
-			AccountModel? account = await _repositoryService.AccountRepository.GetByConditionAsync(
+			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AccountModel.Cards) }
+				cancellationToken: cancellationToken
 				);
 
-			if (account is null)
+			if (accountEntry is null)
 				return AccountServiceErrors.GetByIdNotFound(accountId);
 
-			AccountResponse response = _mapper.Map<AccountResponse>(account);
+			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
+				expression: x => x.UserId.Equals(userId) && x.AccountId.Equals(accountId),
+				trackChanges: trackChanges,
+				cancellationToken: cancellationToken
+				);
+
+			if (cardEntries.Any().Equals(true))
+				accountEntry.Cards = cardEntries.ToList();
+
+			AccountResponse response = _mapper.Map<AccountResponse>(accountEntry);
 
 			return response;
 		}
@@ -196,25 +195,26 @@ internal sealed class AccountService : IAccountService
 		string[] parameters = new string[] { $"{userId}", $"{iban}" };
 		try
 		{
-			AccountModel? account = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban,
+			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
+				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban && x.Cards.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
 				includeProperties: new[] { nameof(AccountModel.Cards) }
 				);
 
-			if (account is null)
+			if (accountEntry is null)
 				return AccountServiceErrors.GetByNumberNotFound(iban);
 
-			IEnumerable<CardModel> cards = await _repositoryService.CardRepository.GetManyByConditionAsync(
-				expression: x => x.AccountId.Equals(account.Id) && x.UserId.Equals(userId),
+			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
+				expression: x => x.UserId.Equals(userId) && x.AccountId.Equals(accountEntry.Id),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			account.Cards = cards.ToList();
+			if (cardEntries.Any().Equals(true))
+				accountEntry.Cards = cardEntries.ToList();
 
-			AccountResponse response = _mapper.Map<AccountResponse>(account);
+			AccountResponse response = _mapper.Map<AccountResponse>(accountEntry);
 
 			return response;
 		}
@@ -230,34 +230,34 @@ internal sealed class AccountService : IAccountService
 		ErrorOr<Updated> response = new();
 		try
 		{
-			AccountModel? dbAccount = await _repositoryService.AccountRepository.GetByConditionAsync(
+			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(updateRequest.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken,
 				includeProperties: new[] { nameof(AccountModel.Cards) }
 				);
 
-			if (dbAccount is null)
+			if (accountEntry is null)
 				response.Errors.Add(AccountServiceErrors.UpdateAccountNotFound(updateRequest.Id));
 
 			if (updateRequest.Cards is not null)
 				foreach (CardUpdateRequest card in updateRequest.Cards)
 				{
-					CardModel? dbCard = await _repositoryService.CardRepository.GetByConditionAsync(
+					CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 						expression: x => x.Id.Equals(card.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(updateRequest.Id),
 						trackChanges: false,
 						cancellationToken: cancellationToken
 						);
 
-					if (dbCard is null)
+					if (cardEntry is null)
 						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(card.Id));
 				}
 
 			if (response.IsError)
 				return response;
 
-			if (dbAccount is not null)
-				UpdateAccount(dbAccount, updateRequest);
+			if (accountEntry is not null)
+				UpdateAccount(accountEntry, updateRequest);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 

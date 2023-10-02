@@ -198,7 +198,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	public async Task GetAccountsByAccountIdSuccess()
+	public async Task GetAccountByIdSuccess()
 	{
 		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
 		Guid userId = user.Id;
@@ -218,7 +218,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	public async Task GetAccountsByAccountIdNotFound()
+	public async Task GetAccountByIdNotFound()
 	{
 		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
 		Guid userId = user.Id;
@@ -236,7 +236,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	public async Task GetAccountsByIbanSuccess()
+	public async Task GetAccountByNumberSuccess()
 	{
 		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
 		Guid userId = user.Id;
@@ -257,7 +257,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	public async Task GetAccountsByIbanNotFound()
+	public async Task GetAccountByNumberNotFound()
 	{
 		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
 		Guid userId = user.Id;

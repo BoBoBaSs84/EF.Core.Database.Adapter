@@ -11,10 +11,10 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Models.Identity;
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
+using Domain.Models.Identity;
 using Domain.Results;
 
 using Microsoft.AspNetCore.Identity;
@@ -51,14 +51,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 	/// <param name="roleService">The role service.</param>
 	/// <param name="userService">The user service.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public AuthenticationService(
-		IConfiguration configuration,
-		IDateTimeService dateTimeService,
-		ILoggerService<AuthenticationService> logger,
-		IRoleService roleService,
-		IUserService userService,
-		IMapper mapper
-		)
+	public AuthenticationService(IConfiguration configuration, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger,
+		IRoleService roleService, IUserService userService, IMapper mapper)
 	{
 		_configuration = configuration;
 		_jwtSettings = _configuration.GetRequiredSection(Jwt.JwtSettings);
@@ -173,9 +167,11 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			IList<UserModel> users = await _userService.GetUsersInRoleAsync(RoleType.USER.GetName());
+			IList<UserModel> users =
+				await _userService.GetUsersInRoleAsync(RoleType.USER.GetName());
 
-			IEnumerable<UserResponse> response = _mapper.Map<IEnumerable<UserResponse>>(users);
+			IEnumerable<UserResponse> response =
+				_mapper.Map<IEnumerable<UserResponse>>(users);
 
 			return response.ToList();
 		}
@@ -190,12 +186,14 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			UserModel user = await _userService.FindByIdAsync($"{userId}");
+			UserModel user =
+				await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			UserResponse response = _mapper.Map<UserResponse>(user);
+			UserResponse response =
+				_mapper.Map<UserResponse>(user);
 
 			return response;
 		}
@@ -210,12 +208,14 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			UserModel user = await _userService.FindByNameAsync(userName);
+			UserModel user =
+				await _userService.FindByNameAsync(userName);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByNameNotFound(userName);
 
-			UserResponse response = _mapper.Map<UserResponse>(user);
+			UserResponse response =
+				_mapper.Map<UserResponse>(user);
 
 			return response;
 		}
@@ -245,7 +245,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, role.Name);
 
-			if (!identityResult.Succeeded)
+			if (identityResult.Succeeded.Equals(false))
 			{
 				foreach (IdentityError error in identityResult.Errors)
 					response.Errors.Add(AuthenticationServiceErrors.IdentityError($"{error.Code}", $"{error.Description}"));

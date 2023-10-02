@@ -3,22 +3,22 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Models.Identity;
+using BaseTests.Helpers;
+
 using Domain.Enumerators;
 using Domain.Models.Common;
+using Domain.Models.Identity;
 
-using Tynamix.ObjectFiller;
-
-namespace BaseTests.Helpers;
+namespace ApplicationTests;
 
 /// <summary>
 /// The data seed helper class.
 /// </summary>
-internal static class DataSeedHelper
+public static class DataSeedHelper
 {
 	public static void SeedCalendar()
 	{
-		IRepositoryService repositoryService = TestBase.GetRequiredService<IRepositoryService>();
+		IRepositoryService repositoryService = ApplicationTestBase.GetService<IRepositoryService>();
 
 		DateTime startDate = new(DateTime.Now.Year, 1, 1),
 			endDate = new(DateTime.Now.Year, 12, 31);
@@ -35,16 +35,21 @@ internal static class DataSeedHelper
 
 	public static void SeedUsers()
 	{
-		IMapper mapper = TestBase.GetRequiredService<IMapper>();
-		IUserService userService = TestBase.GetRequiredService<IUserService>();
-		IRepositoryService repositoryService = TestBase.GetRequiredService<IRepositoryService>();
+		IMapper mapper = ApplicationTestBase.GetService<IMapper>();
+		IUserService userService = ApplicationTestBase.GetService<IUserService>();
+		IRoleService roleService = ApplicationTestBase.GetService<IRoleService>();
+		IRepositoryService repositoryService = ApplicationTestBase.GetService<IRepositoryService>();
 		IEnumerable<CalendarModel> calendar = repositoryService.CalendarRepository.GetAllAsync(true, false).Result;
+
+		RoleModel testRole = new() { Id = Guid.NewGuid(), Name = "TestRole", Description = "Role for unit tests" };
+		roleService.CreateAsync(testRole).Wait();
+		ApplicationTestBase.Roles.Add(testRole);
 
 		for (int i = 0; i < 10; i++)
 		{
 			UserCreateRequest request = new UserCreateRequest().GetUserCreateRequest();
 			UserModel newUser = mapper.Map<UserModel>(request);
-			TestBase.Users.Add(new() { UserName = request.UserName });
+			ApplicationTestBase.Users.Add(new() { UserName = request.UserName });
 
 			newUser.AccountUsers = ModelHelper.GetNewAccountUsers(newUser);
 			newUser.Attendances = ModelHelper.GetNewAttendances(newUser, calendar.ToList());

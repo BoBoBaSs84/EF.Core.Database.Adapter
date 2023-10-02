@@ -45,7 +45,8 @@ public static class RequestHelper
 			.OnProperty(p => p.MiddleName).Use(new RealNames(NameStyle.FirstName))
 			.OnProperty(p => p.DateOfBirth).Use(RH.GetDateTime())
 			.OnProperty(p => p.Email).Use(new EmailAddresses())
-			.OnProperty(p => p.PhoneNumber).Use("{N:3}-{N:3}-{N:4}");
+			.OnProperty(p => p.Picture).IgnoreIt()
+			.OnProperty(p => p.PhoneNumber).IgnoreIt();
 
 		return filler.Fill(request);
 	}

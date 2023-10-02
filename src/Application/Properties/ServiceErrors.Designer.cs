@@ -187,7 +187,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An guidernal error occurred while updating the account..
+        ///   Looks up a localized string similar to An internal error occurred while updating the account..
         /// </summary>
         public static string AccountService_Update_Failed {
             get {

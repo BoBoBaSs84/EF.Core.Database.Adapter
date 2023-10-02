@@ -258,7 +258,7 @@ internal sealed class AccountService : IAccountService
 				{
 					CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 						expression: x => x.Id.Equals(cardRequest.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(request.Id),
-						trackChanges: false,
+						trackChanges: true,
 						cancellationToken: cancellationToken
 						);
 
@@ -283,12 +283,19 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
-	private static void UpdateAccount(AccountModel account, AccountUpdateRequest updateRequest)
+	private static void UpdateAccount(AccountModel account, AccountUpdateRequest request)
 	{
-		account.Provider = updateRequest.Provider;
+		account.Provider = request.Provider;
 
-		if (account.Cards.Any() && updateRequest.Cards is not null && updateRequest.Cards.Any())
-			foreach (CardModel card in account.Cards)
-				card.ValidUntil = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.ValidUntil).First();
+		if (request.Cards is not null && request.Cards.Any())
+		{
+			foreach(var cardRequest in request.Cards)
+			{
+				var card = account.Cards.Where(x=>x.Id.Equals(cardRequest.Id)).FirstOrDefault();
+				
+				if (card is not null)
+					card.ValidUntil = cardRequest.ValidUntil;
+			}
+		}
 	}
 }

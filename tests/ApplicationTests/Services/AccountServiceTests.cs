@@ -7,6 +7,7 @@ using BaseTests.Helpers;
 
 using Domain.Enumerators;
 using Domain.Errors;
+using Domain.Models.Finance;
 using Domain.Models.Identity;
 using Domain.Results;
 
@@ -270,6 +271,89 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			response.IsError.Should().BeTrue();
 			response.Errors.Should().HaveCount(1);
 			response.FirstError.Should().Be(AccountServiceErrors.GetByNumberNotFound(iban));
+		});
+	}
+
+	[TestMethod]
+	public async Task UpdateAccountSuccess()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		Guid accountId = user.AccountUsers
+			.Select(x => x.AccountId)
+			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		IList<CardModel> cards = user.Cards
+			.Where(x => x.AccountId.Equals(accountId) && x.UserId.Equals(userId))
+			.ToList();
+		Guid cardId = cards.Select(x => x.Id).ToList()[RandomHelper.GetInt(0, cards.Count)];
+
+		AccountUpdateRequest request = new()
+		{
+			Id = accountId,
+			Provider = "UnitTest",
+			Cards = new[] { new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today } }
+		};
+
+		ErrorOr<Updated> response =
+			await _accountService.Update(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeFalse();
+			response.Errors.Should().BeEmpty();
+			response.Value.Should().Be(Result.Updated);
+		});
+	}
+
+	[TestMethod]
+	public async Task UpdateAccountNotFound()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		Guid accountId = default;
+
+		AccountUpdateRequest request = new()
+		{
+			Id = accountId,
+			Provider = "UnitTest"
+		};
+
+		ErrorOr<Updated> response =
+			await _accountService.Update(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeTrue();
+			response.Errors.Should().HaveCount(1);
+			response.FirstError.Should().Be(AccountServiceErrors.UpdateAccountNotFound(accountId));
+		});
+	}
+
+	[TestMethod]
+	public async Task UpdateAccountCardNotFound()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		Guid accountId = user.AccountUsers
+			.Select(x => x.AccountId)
+			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		Guid cardId = default;
+
+		AccountUpdateRequest request = new()
+		{
+			Id = accountId,
+			Provider = "UnitTest",
+			Cards = new[] { new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today } }
+		};
+
+		ErrorOr<Updated> response =
+			await _accountService.Update(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeTrue();
+			response.Errors.Should().HaveCount(1);
+			response.FirstError.Should().Be(AccountServiceErrors.UpdateCardNotFound(cardId));
 		});
 	}
 }

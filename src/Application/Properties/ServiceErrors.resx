@@ -160,7 +160,7 @@
     <value>An error occurred while loading the bank account with the number: '{0}'.</value>
   </data>
   <data name="AccountService.Update.Failed" xml:space="preserve">
-    <value>An guidernal error occurred while updating the account.</value>
+    <value>An internal error occurred while updating the account.</value>
   </data>
   <data name="AttendanceService.Create.BadRequest" xml:space="preserve">
     <value>There are errors in the create request, please check and correct.</value>

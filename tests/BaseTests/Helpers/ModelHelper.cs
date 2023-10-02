@@ -79,7 +79,7 @@ public static class ModelHelper
 			Account = account,
 			CardType = (CardType)GetInt(1, 2),
 			CardTransactions = cardTransactions ?? default!,
-			PAN = cardNumber ?? GetString(RegexPatterns.CC),
+			PAN = cardNumber ?? GetString(RegexPatterns.PAN),
 			User = user
 		};
 		return cardToReturn;

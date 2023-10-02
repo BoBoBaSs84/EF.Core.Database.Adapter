@@ -7,9 +7,9 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Models.Identity;
 using Domain.Errors;
 using Domain.Models.Finance;
+using Domain.Models.Identity;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -50,20 +50,20 @@ internal sealed class CardService : ICardService
 		ErrorOr<Created> response = new();
 		try
 		{
-			CardModel? card = await _repositoryService.CardRepository.GetByConditionAsync(
+			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.PAN == request.PAN,
 				cancellationToken: cancellationToken
 				);
 
-			if (card is not null)
+			if (cardEntry is not null)
 				response.Errors.Add(CardServiceErrors.CreateNumberConflict(request.PAN));
 
-			AccountModel? account = await _repositoryService.AccountRepository.GetByConditionAsync(
+			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId),
 				cancellationToken: cancellationToken
 				);
 
-			if (account is null)
+			if (accountEntry is null)
 				response.Errors.Add(CardServiceErrors.CreateAccountIdNotFound(accountId));
 
 			if (response.IsError)
@@ -73,7 +73,7 @@ internal sealed class CardService : ICardService
 			CardModel newCard = _mapper.Map<CardModel>(request);
 
 			newCard.User = user;
-			newCard.Account = account!;
+			newCard.Account = accountEntry!;
 
 			await _repositoryService.CardRepository.CreateAsync(newCard, cancellationToken);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
@@ -197,7 +197,6 @@ internal sealed class CardService : ICardService
 			if (card is null)
 				return CardServiceErrors.GetByIdNotFound(request.Id);
 
-			card.CardType = request.CardType;
 			card.ValidUntil = request.ValidUntil;
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);

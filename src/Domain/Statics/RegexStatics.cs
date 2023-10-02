@@ -12,7 +12,7 @@ public static class RegexStatics
 	/// <summary>
 	/// The <see cref="CreditCard"/> property.
 	/// </summary>
-	public static Regex CreditCard { get; } = new(RegexPatterns.CC);
+	public static Regex CreditCard { get; } = new(RegexPatterns.PAN);
 
 	/// <summary>
 	/// The <see cref="Email"/> property.

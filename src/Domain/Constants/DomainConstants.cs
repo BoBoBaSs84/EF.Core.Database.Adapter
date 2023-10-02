@@ -239,12 +239,13 @@ public static class DomainConstants
 		public const string IBAN = @"^[A-Z]{2}(?:[ ]?[0-9]){18,20}$";
 
 		/// <summary>
-		/// The <see cref="CC"/> property.
+		/// The <see cref="PAN"/> property.
 		/// </summary>
 		/// <remarks>
 		/// Credit card number is the card unique identifier found on payment cards.
+		/// Matches Visa, MasterCard, American Express, Diners Club, Discover and JCB cards.
 		/// </remarks>
-		public const string CC = @"(^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\d{3})\d{11}$)";
+		public const string PAN = @"^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$";
 
 		/// <summary>
 		/// The whitespace regex pattern.

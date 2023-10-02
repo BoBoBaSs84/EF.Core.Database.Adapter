@@ -130,7 +130,7 @@ public sealed partial class CardController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByNumber([RegularExpression(RegexPatterns.CC)] string pan, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetByNumber([RegularExpression(RegexPatterns.PAN)] string pan, CancellationToken cancellationToken)
 	{
 		ErrorOr<CardResponse> response =
 			await _cardService.Get(_currentUserService.UserId, pan, false, cancellationToken);

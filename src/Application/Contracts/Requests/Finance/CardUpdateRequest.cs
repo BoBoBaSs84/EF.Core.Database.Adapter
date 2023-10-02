@@ -2,7 +2,6 @@
 using System.Text.Json.Serialization;
 
 using Domain.Converters;
-using Domain.Enumerators;
 
 namespace Application.Contracts.Requests.Finance;
 
@@ -16,12 +15,6 @@ public sealed class CardUpdateRequest
 	/// </summary>
 	[Required]
 	public Guid Id { get; set; }
-
-	/// <summary>
-	/// The type of the card.
-	/// </summary>
-	[Required]
-	public CardType CardType { get; set; }
 
 	/// <summary>
 	/// The valid until property.

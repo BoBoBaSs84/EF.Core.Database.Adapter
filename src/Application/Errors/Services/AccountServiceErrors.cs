@@ -61,9 +61,23 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
+	public static ApiError CreateAccountNumberInvalid(string iban) =>
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{CreateAccountNumberInvalid}",
+			RESX.AccountService_AccountNumber_Invalid.ToInvariant(iban));
+
+	/// <summary>
+	/// Error that indicates an exception during the account service.
+	/// </summary>
 	public static ApiError CreateAccountNumberConflict(string iban) =>
 		ApiError.CreateConflict($"{ErrorPrefix}.{CreateAccountNumberConflict}",
 			RESX.AccountService_AccountNumber_Conflict.ToInvariant(iban));
+
+	/// <summary>
+	/// Error that indicates an exception during the account service.
+	/// </summary>
+	public static ApiError CreateCardNumberInvalid(string pan) =>
+		ApiError.CreateConflict($"{ErrorPrefix}.{CreateCardNumberInvalid}",
+			RESX.AccountService_CardNumber_Invalid.ToInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.

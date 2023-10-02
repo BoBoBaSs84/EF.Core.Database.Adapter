@@ -23,7 +23,7 @@ public sealed class CardCreateRequest
 	/// <summary>
 	/// The payment card number.
 	/// </summary>
-	[Required, MaxLength(MaxLength.MAX_25), RegularExpression(RegexPatterns.CC)]
+	[Required, MaxLength(MaxLength.MAX_25), RegularExpression(RegexPatterns.PAN)]
 	public string PAN { get; set; } = string.Empty;
 
 	/// <summary>

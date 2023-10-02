@@ -1,9 +1,11 @@
-﻿using Application.Contracts.Responses.Finance;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 
 using BaseTests.Helpers;
 
+using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Models.Identity;
 using Domain.Results;
@@ -20,6 +22,108 @@ public sealed class AccountServiceTests : ApplicationTestBase
 
 	public AccountServiceTests()
 		=> _accountService = GetService<IAccountService>();
+
+	[TestMethod]
+	public async Task CreateAccountSuccess()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
+
+		ErrorOr<Created> response =
+			await _accountService.Create(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeFalse();
+			response.Errors.Should().BeEmpty();
+			response.Value.Should().Be(Result.Created);
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateAccountNumberInvalid()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		AccountCreateRequest request = new() { IBAN = "UnitTest", Provider = "UnitTest" };
+
+		ErrorOr<Created> response =
+			await _accountService.Create(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeTrue();
+			response.Errors.Should().HaveCount(1);
+			response.FirstError.Should().Be(AccountServiceErrors.CreateAccountNumberInvalid(request.IBAN));
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateAccountNumberConflict()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		string iban = user.AccountUsers
+			.Select(x => x.Account)
+			.Select(x => x.IBAN)
+			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		AccountCreateRequest request = new() { IBAN = iban, Provider = "UnitTest" };
+
+		ErrorOr<Created> response =
+			await _accountService.Create(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeTrue();
+			response.Errors.Should().HaveCount(1);
+			response.FirstError.Should().Be(AccountServiceErrors.CreateAccountNumberConflict(iban));
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateAccountCardNumberInvalid()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		string invalidPan = "UnitTest";
+		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
+		CardCreateRequest cardCreateRequest = new() { PAN = invalidPan, CardType = CardType.DEBIT };
+		request.Cards = new[] { cardCreateRequest };
+
+		ErrorOr<Created> response =
+			await _accountService.Create(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeTrue();
+			response.Errors.Should().HaveCount(1);
+			response.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberInvalid(invalidPan));
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateAccountCardNumberConflict()
+	{
+		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		Guid userId = user.Id;
+		string conflictPan = user.Cards
+			.Select(x => x.PAN)
+			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
+		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
+		CardCreateRequest cardCreateRequest = new() { PAN = conflictPan, CardType = CardType.DEBIT };
+		request.Cards = new[] { cardCreateRequest };
+
+		ErrorOr<Created> response =
+			await _accountService.Create(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			response.IsError.Should().BeTrue();
+			response.Errors.Should().HaveCount(1);
+			response.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberConflict(conflictPan));
+		});
+	}
 
 	[TestMethod]
 	public async Task DeleteAccountSuccess()

@@ -11,6 +11,7 @@ using Domain.Errors;
 using Domain.Models.Finance;
 using Domain.Models.Identity;
 using Domain.Results;
+using Domain.Statics;
 
 using Microsoft.Extensions.Logging;
 
@@ -44,24 +45,36 @@ internal sealed class AccountService : IAccountService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest createRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest request, CancellationToken cancellationToken = default)
 	{
 		ErrorOr<Created> response = new();
 		try
 		{
+			if (RegexStatics.Iban.IsMatch(request.IBAN).Equals(false))
+			{
+				response.Errors.Add(AccountServiceErrors.CreateAccountNumberInvalid(request.IBAN));
+				return response;
+			}
+
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.IBAN == createRequest.IBAN,
+				expression: x => x.IBAN == request.IBAN,
 				cancellationToken: cancellationToken
 				);
 
 			if (accountEntry is not null)
 				response.Errors.Add(AccountServiceErrors.CreateAccountNumberConflict(accountEntry.IBAN));
 
-			if (createRequest.Cards is not null)
-				foreach (CardCreateRequest card in createRequest.Cards)
+			if (request.Cards is not null)
+				foreach (CardCreateRequest cardRequest in request.Cards)
 				{
+					if (RegexStatics.CreditCard.IsMatch(cardRequest.PAN).Equals(false))
+					{
+						response.Errors.Add(AccountServiceErrors.CreateCardNumberInvalid(cardRequest.PAN));
+						continue;
+					}
+
 					CardModel? cardModel = await _repositoryService.CardRepository.GetByConditionAsync(
-						expression: x => x.PAN == card.PAN,
+						expression: x => x.PAN == cardRequest.PAN,
 						cancellationToken: cancellationToken
 						);
 
@@ -73,7 +86,7 @@ internal sealed class AccountService : IAccountService
 				return response;
 
 			UserModel userModel = await _userService.FindByIdAsync($"{userId}");
-			AccountModel newAccount = _mapper.Map<AccountModel>(createRequest);
+			AccountModel newAccount = _mapper.Map<AccountModel>(request);
 
 			if (newAccount.Cards.Count > 0)
 			{
@@ -91,7 +104,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, createRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, request, ex);
 			return AccountServiceErrors.CreateAccountFailed;
 		}
 	}
@@ -225,39 +238,39 @@ internal sealed class AccountService : IAccountService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest updateRequest, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken cancellationToken = default)
 	{
 		ErrorOr<Updated> response = new();
 		try
 		{
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(updateRequest.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
+				expression: x => x.Id.Equals(request.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken,
 				includeProperties: new[] { nameof(AccountModel.Cards) }
 				);
 
 			if (accountEntry is null)
-				response.Errors.Add(AccountServiceErrors.UpdateAccountNotFound(updateRequest.Id));
+				response.Errors.Add(AccountServiceErrors.UpdateAccountNotFound(request.Id));
 
-			if (updateRequest.Cards is not null)
-				foreach (CardUpdateRequest card in updateRequest.Cards)
+			if (request.Cards is not null)
+				foreach (CardUpdateRequest cardRequest in request.Cards)
 				{
 					CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
-						expression: x => x.Id.Equals(card.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(updateRequest.Id),
+						expression: x => x.Id.Equals(cardRequest.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(request.Id),
 						trackChanges: false,
 						cancellationToken: cancellationToken
 						);
 
 					if (cardEntry is null)
-						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(card.Id));
+						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(cardRequest.Id));
 				}
 
 			if (response.IsError)
 				return response;
 
 			if (accountEntry is not null)
-				UpdateAccount(accountEntry, updateRequest);
+				UpdateAccount(accountEntry, request);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -265,7 +278,7 @@ internal sealed class AccountService : IAccountService
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, updateRequest, ex);
+			_loggerService.Log(LogExceptionWithParams, request, ex);
 			return AccountServiceErrors.UpdateAccountFailed;
 		}
 	}
@@ -276,9 +289,6 @@ internal sealed class AccountService : IAccountService
 
 		if (account.Cards.Any() && updateRequest.Cards is not null && updateRequest.Cards.Any())
 			foreach (CardModel card in account.Cards)
-			{
-				card.CardType = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.CardType).First();
 				card.ValidUntil = updateRequest.Cards.Where(x => x.Id.Equals(card.Id)).Select(x => x.ValidUntil).First();
-			}
 	}
 }

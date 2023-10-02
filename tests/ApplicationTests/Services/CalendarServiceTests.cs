@@ -4,30 +4,30 @@ using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 
+using BaseTests.Constants;
+using BaseTests.Helpers;
+
 using Domain.Errors;
 
 using FluentAssertions;
-
-using AH = BaseTests.Helpers.AssertionHelper;
-using TC = BaseTests.Constants.TestConstants;
 
 namespace ApplicationTests.Services;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
-public class CalendarDayServiceTests : ApplicationTestBase
+public class CalendarServiceTests : ApplicationTestBase
 {
 	private readonly ICalendarService _calendarDayService;
 
-	public CalendarDayServiceTests()
-		=> _calendarDayService = GetRequiredService<ICalendarService>();
+	public CalendarServiceTests()
+		=> _calendarDayService = GetService<ICalendarService>();
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetByDateSuccessTest()
 	{
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(DateTime.Now);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -36,14 +36,14 @@ public class CalendarDayServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetByDateNotFoundTest()
 	{
 		DateTime dateTime = DateTime.Now.AddYears(50);
 
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(dateTime);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
@@ -52,14 +52,16 @@ public class CalendarDayServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetByIdSuccessTest()
 	{
-		Guid calendarDayId = Guid.NewGuid();
+		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(DateTime.Now);
 
-		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(calendarDayId);
+		Guid calendarDayId = result.Value.Id;
 
-		AH.AssertInScope(() =>
+		result = await _calendarDayService.Get(calendarDayId);
+
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -68,14 +70,14 @@ public class CalendarDayServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetByIdNotFoundTest()
 	{
 		Guid calendarDayId = Guid.NewGuid();
 
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(calendarDayId);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
@@ -84,14 +86,14 @@ public class CalendarDayServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetPagedByParametersSucessTest()
 	{
 		CalendarParameters parameters = new() { Year = DateTime.Now.Year, Month = DateTime.Now.Month };
 
 		ErrorOr<IPagedList<CalendarResponse>> result = await _calendarDayService.Get(parameters);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
@@ -101,14 +103,14 @@ public class CalendarDayServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetPagedByParametersNotFoundTest()
 	{
 		CalendarParameters parameters = new() { Year = DateTime.Now.AddYears(50).Year, Month = DateTime.Now.AddYears(50).Month };
 
 		ErrorOr<IPagedList<CalendarResponse>> result = await _calendarDayService.Get(parameters);
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().NotBeEmpty();
@@ -117,12 +119,12 @@ public class CalendarDayServiceTests : ApplicationTestBase
 		});
 	}
 
-	[TestMethod, Owner(TC.Bobo)]
+	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetCurrentDateSuccessTest()
 	{
 		ErrorOr<CalendarResponse> result = await _calendarDayService.Get();
 
-		AH.AssertInScope(() =>
+		AssertionHelper.AssertInScope(() =>
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();

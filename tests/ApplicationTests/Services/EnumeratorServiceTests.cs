@@ -16,7 +16,7 @@ public sealed class EnumeratorServiceTests : ApplicationTestBase
 	private readonly IEnumeratorService _enumeratorService;
 
 	public EnumeratorServiceTests()
-		=> _enumeratorService = GetRequiredService<IEnumeratorService>();
+		=> _enumeratorService = GetService<IEnumeratorService>();
 
 	[TestMethod]
 	public void GetCardTypesSuccessTest()

@@ -79,6 +79,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The account number: &apos;{0}&apos; is invalid..
+        /// </summary>
+        public static string AccountService_AccountNumber_Invalid {
+            get {
+                return ResourceManager.GetString("AccountService.AccountNumber.Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No bank account with the number: &apos;{0}&apos; could be found to load..
         /// </summary>
         public static string AccountService_AccountNumber_NotFound {
@@ -102,6 +111,15 @@ namespace Application.Properties {
         public static string AccountService_CardNumber_Conflict {
             get {
                 return ResourceManager.GetString("AccountService.CardNumber.Conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The card number: &apos;{0}&apos; is invalid..
+        /// </summary>
+        public static string AccountService_CardNumber_Invalid {
+            get {
+                return ResourceManager.GetString("AccountService.CardNumber.Invalid", resourceCulture);
             }
         }
         
@@ -169,7 +187,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An guidernal error occurred while updating the account..
+        ///   Looks up a localized string similar to An internal error occurred while updating the account..
         /// </summary>
         public static string AccountService_Update_Failed {
             get {

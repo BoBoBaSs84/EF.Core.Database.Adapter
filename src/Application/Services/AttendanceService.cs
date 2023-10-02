@@ -242,7 +242,8 @@ internal sealed class AttendanceService : IAttendanceService
 				cancellationToken: cancellationToken
 				);
 
-			IEnumerable<AttendanceResponse> result = calendarEntries.GroupJoin(attendanceEntries, c => c.Id, a => a.CalendarId, (c, a) => GetResponse(c, a.FirstOrDefault()));
+			IEnumerable<AttendanceResponse> result =
+				calendarEntries.GroupJoin(attendanceEntries, c => c.Id, a => a.CalendarId, (c, a) => GetResponse(c, a.FirstOrDefault()));
 
 			int totalCount = await _repositoryService.CalendarRepository.GetCountAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year)

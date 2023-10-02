@@ -49,13 +49,14 @@ public static class DataSeedHelper
 		{
 			UserCreateRequest request = new UserCreateRequest().GetUserCreateRequest();
 			UserModel newUser = mapper.Map<UserModel>(request);
-			ApplicationTestBase.Users.Add(new() { UserName = request.UserName });
 
 			newUser.AccountUsers = ModelHelper.GetNewAccountUsers(newUser);
 			newUser.Attendances = ModelHelper.GetNewAttendances(newUser, calendar.ToList());
 
 			userService.CreateAsync(newUser, request.Password).Wait();
 			userService.AddToRolesAsync(newUser, new[] { RoleType.USER.ToString() }).Wait();
+
+			ApplicationTestBase.Users.Add(newUser);
 		}
 	}
 }

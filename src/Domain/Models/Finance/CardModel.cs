@@ -42,7 +42,7 @@ public partial class CardModel : AuditedModel
 	/// <remarks>
 	/// The payment card number or <b>p</b>rimary <b>a</b>ccount <b>n</b>umber.
 	/// </remarks>
-	[MaxLength(SqlMaxLength.MAX_25), RegularExpression(RegexPatterns.CC)]
+	[MaxLength(SqlMaxLength.MAX_25), RegularExpression(RegexPatterns.PAN)]
 	public string PAN
 	{
 		get => _pan;

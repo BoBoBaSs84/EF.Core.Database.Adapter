@@ -1,9 +1,11 @@
-﻿using Application.Contracts.Requests.Identity;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Contracts.Requests.Identity;
 
 using Tynamix.ObjectFiller;
 
-using RH = BaseTests.Helpers.RandomHelper;
-using TU = BaseTests.Constants.TestConstants.TestUser;
+using static Domain.Constants.DomainConstants;
+
+using TestUser = BaseTests.Constants.TestConstants.TestUser;
 
 namespace BaseTests.Helpers;
 
@@ -19,7 +21,7 @@ public static class RequestHelper
 	/// <param name="request">The request to enrich.</param>
 	/// <param name="password">The password for the request.</param>
 	/// <returns>The enriched request.</returns>
-	public static UserCreateRequest GetUserCreateRequest(this UserCreateRequest request, string password = TU.PassGood)
+	public static UserCreateRequest GetUserCreateRequest(this UserCreateRequest request, string password = TestUser.PassGood)
 	{
 		Filler<UserCreateRequest> filler = new();
 		filler.Setup()
@@ -43,11 +45,28 @@ public static class RequestHelper
 			.OnProperty(p => p.FirstName).Use(new RealNames(NameStyle.FirstName))
 			.OnProperty(p => p.LastName).Use(new RealNames(NameStyle.LastName))
 			.OnProperty(p => p.MiddleName).Use(new RealNames(NameStyle.FirstName))
-			.OnProperty(p => p.DateOfBirth).Use(RH.GetDateTime())
+			.OnProperty(p => p.DateOfBirth).Use(RandomHelper.GetDateTime())
 			.OnProperty(p => p.Email).Use(new EmailAddresses())
 			.OnProperty(p => p.Picture).IgnoreIt()
 			.OnProperty(p => p.PhoneNumber).IgnoreIt();
 
 		return filler.Fill(request);
+	}
+
+	public static AccountCreateRequest GetAccountCreateRequest(this AccountCreateRequest request)
+	{
+		Filler<AccountCreateRequest> filler = new();
+		filler.Setup()
+			.OnProperty(p => p.IBAN).Use(RandomHelper.GetString(RegexPatterns.IBAN));
+
+		request = filler.Fill(request);
+
+		if (request.Cards is null)
+			return request;
+
+		foreach (var card in request.Cards)
+			card.PAN = RandomHelper.GetString(RegexPatterns.PAN);
+
+		return request;
 	}
 }

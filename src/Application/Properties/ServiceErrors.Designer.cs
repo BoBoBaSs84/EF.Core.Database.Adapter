@@ -664,6 +664,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The bank card number: &apos;{0}&apos; is invalid..
+        /// </summary>
+        public static string CardService_Number_Invalid {
+            get {
+                return ResourceManager.GetString("CardService.Number.Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An internal error occurred while updating the bank card..
         /// </summary>
         public static string CardService_Update_Failed {

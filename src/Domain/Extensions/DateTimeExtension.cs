@@ -12,7 +12,7 @@ public static class DateTimeExtension
 	/// </summary>
 	/// <param name="dateTime">The date time value to work with.</param>
 	/// <returns>The iso week.</returns>
-	public static int GetIsoWeek(this DateTime dateTime)
+	public static int WeekOfYear(this DateTime dateTime)
 		=> ISOWeek.GetWeekOfYear(dateTime);
 
 	/// <summary>

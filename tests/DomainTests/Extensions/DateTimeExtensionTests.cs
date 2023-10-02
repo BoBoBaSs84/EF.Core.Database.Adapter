@@ -82,4 +82,14 @@ public class DateTimeExtensionTests : DomainTestBase
 
 		endOfMonth.Should().Be(new(2023, 9, 30));
 	}
+
+	[TestMethod]
+	public void WeekOfYearTest()
+	{
+		DateTime today = new(2023, 9, 5);
+
+		int weekOfYear = today.WeekOfYear();
+
+		weekOfYear.Should().Be(36);
+	}
 }

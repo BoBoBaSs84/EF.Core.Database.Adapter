@@ -33,7 +33,7 @@ public sealed partial class CardController
 	public async Task<IActionResult> DeleteTransaction(Guid cardId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> response =
-			await _transactionService.DeleteForCard(cardId, transactionId, cancellationToken);
+			await _transactionService.DeleteByCardId(cardId, transactionId, cancellationToken);
 		return Delete(response);
 	}
 

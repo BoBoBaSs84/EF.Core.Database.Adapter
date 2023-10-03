@@ -33,7 +33,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> DeleteTransaction(Guid accountId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> response =
-			await _transactionService.DeleteForAccount(accountId, transactionId, cancellationToken);
+			await _transactionService.DeleteByAccountId(accountId, transactionId, cancellationToken);
 		return Delete(response);
 	}
 

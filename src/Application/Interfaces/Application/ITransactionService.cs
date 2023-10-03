@@ -38,7 +38,7 @@ public interface ITransactionService
 	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> DeleteForAccount(Guid accountId, Guid transactionId, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Deleted>> DeleteByAccountId(Guid accountId, Guid transactionId, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Deletes an existing transaction for the bank card.
@@ -47,7 +47,7 @@ public interface ITransactionService
 	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> DeleteForCard(Guid cardId, Guid transactionId, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Deleted>> DeleteByCardId(Guid cardId, Guid transactionId, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Returns an existing transaction for the bank account.

@@ -100,13 +100,14 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteForAccount(Guid accountId, Guid transactionId, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> DeleteByAccountId(Guid accountId, Guid transactionId, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
 					expression: x => x.Id.Equals(transactionId) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+					trackChanges: true,
 					cancellationToken: cancellationToken
 					);
 
@@ -126,13 +127,14 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteForCard(Guid cardId, Guid transactionId, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> DeleteByCardId(Guid cardId, Guid transactionId, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(transactionId) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
+				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
 

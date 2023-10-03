@@ -20,8 +20,8 @@ public static class DataSeedHelper
 	{
 		IRepositoryService repositoryService = ApplicationTestBase.GetService<IRepositoryService>();
 
-		DateTime startDate = new(DateTime.Now.Year, 1, 1),
-			endDate = new(DateTime.Now.Year, 12, 31);
+		DateTime startDate = new(DateTime.Now.Year - 1, 1, 1),
+			endDate = new(DateTime.Now.Year + 1, 12, 31);
 
 		while (!startDate.Equals(endDate))
 		{
@@ -45,13 +45,13 @@ public static class DataSeedHelper
 		roleService.CreateAsync(testRole).Wait();
 		ApplicationTestBase.Roles.Add(testRole);
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 15; i++)
 		{
 			UserCreateRequest request = new UserCreateRequest().GetUserCreateRequest();
 			UserModel newUser = mapper.Map<UserModel>(request);
 
-			newUser.AccountUsers = ModelHelper.GetNewAccountUsers(newUser);
-			newUser.Attendances = ModelHelper.GetNewAttendances(newUser, calendar.ToList());
+			newUser.AccountUsers = ModelHelper.GetNewAccountUsers(newUser, 3, 15, 3, 15);
+			newUser.Attendances = ModelHelper.GetNewAttendances(newUser, calendar.ToList(), 25);
 
 			userService.CreateAsync(newUser, request.Password).Wait();
 			userService.AddToRolesAsync(newUser, new[] { RoleType.USER.ToString() }).Wait();

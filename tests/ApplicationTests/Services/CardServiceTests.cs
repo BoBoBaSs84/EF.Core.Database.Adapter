@@ -33,14 +33,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
 		CardCreateRequest request = new CardCreateRequest().GetCardCreateRequest();
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _cardService.Create(userId, accountId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().Be(Result.Created);
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Created);
 		});
 	}
 
@@ -52,14 +52,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		Guid accountId = default;
 		CardCreateRequest request = new CardCreateRequest().GetCardCreateRequest();
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _cardService.Create(userId, accountId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.CreateAccountIdNotFound(accountId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.CreateAccountIdNotFound(accountId));
 		});
 	}
 
@@ -77,14 +77,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		CardCreateRequest request =
 			new() { PAN = conflictPan, CardType = CardType.CREDIT, ValidUntil = DateTime.Today };
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _cardService.Create(userId, accountId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.CreateNumberConflict(conflictPan));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.CreateNumberConflict(conflictPan));
 		});
 	}
 
@@ -100,14 +100,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		CardCreateRequest request =
 			new() { PAN = invalidPan, CardType = CardType.CREDIT, ValidUntil = DateTime.Today };
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _cardService.Create(userId, accountId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.CreateNumberInvalid(invalidPan));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.CreateNumberInvalid(invalidPan));
 		});
 	}
 
@@ -120,14 +120,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 			.Select(x => x.Id)
 			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
 
-		ErrorOr<Deleted> response =
+		ErrorOr<Deleted> result =
 			await _cardService.Delete(userId, cardId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().Be(Result.Deleted);
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Deleted);
 		});
 	}
 
@@ -138,14 +138,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		Guid cardId = default;
 
-		ErrorOr<Deleted> response =
+		ErrorOr<Deleted> result =
 			await _cardService.Delete(userId, cardId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
 		});
 	}
 
@@ -155,14 +155,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
 		Guid userId = user.Id;
 
-		ErrorOr<IEnumerable<CardResponse>> response =
+		ErrorOr<IEnumerable<CardResponse>> result =
 			await _cardService.Get(userId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNull();
 		});
 	}
 
@@ -171,14 +171,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 	{
 		Guid userId = default;
 
-		ErrorOr<IEnumerable<CardResponse>> response =
+		ErrorOr<IEnumerable<CardResponse>> result =
 			await _cardService.Get(userId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.GetAllNotFound);
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.GetAllNotFound);
 		});
 	}
 
@@ -191,14 +191,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 			.Select(x => x.Id)
 			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
 
-		ErrorOr<CardResponse> response =
+		ErrorOr<CardResponse> result =
 			await _cardService.Get(userId, cardId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNull();
 		});
 	}
 
@@ -209,14 +209,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		Guid cardId = default;
 
-		ErrorOr<CardResponse> response =
+		ErrorOr<CardResponse> result =
 			await _cardService.Get(userId, cardId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
 		});
 	}
 
@@ -229,14 +229,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 			.Select(x => x.PAN)
 			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
 
-		ErrorOr<CardResponse> response =
+		ErrorOr<CardResponse> result =
 			await _cardService.Get(userId, cardPan);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNull();
 		});
 	}
 
@@ -247,14 +247,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		string cardPan = "TestPan";
 
-		ErrorOr<CardResponse> response =
+		ErrorOr<CardResponse> result =
 			await _cardService.Get(userId, cardPan);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.GetByNumberNotFound(cardPan));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.GetByNumberNotFound(cardPan));
 		});
 	}
 
@@ -269,14 +269,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 
 		CardUpdateRequest request = new() { Id = cardId, ValidUntil = DateTime.Today };
 
-		ErrorOr<Updated> response =
+		ErrorOr<Updated> result =
 			await _cardService.Update(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().Be(Result.Updated);
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Updated);
 		});
 	}
 
@@ -289,14 +289,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 
 		CardUpdateRequest request = new() { Id = cardId, ValidUntil = DateTime.Today };
 
-		ErrorOr<Updated> response =
+		ErrorOr<Updated> result =
 			await _cardService.Update(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
 		});
 	}
 }

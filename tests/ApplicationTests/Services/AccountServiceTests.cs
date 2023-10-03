@@ -31,14 +31,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _accountService.Create(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().Be(Result.Created);
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Created);
 		});
 	}
 
@@ -49,14 +49,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		AccountCreateRequest request = new() { IBAN = "UnitTest", Provider = "UnitTest" };
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _accountService.Create(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.CreateAccountNumberInvalid(request.IBAN));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.CreateAccountNumberInvalid(request.IBAN));
 		});
 	}
 
@@ -71,14 +71,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
 		AccountCreateRequest request = new() { IBAN = iban, Provider = "UnitTest" };
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _accountService.Create(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.CreateAccountNumberConflict(iban));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.CreateAccountNumberConflict(iban));
 		});
 	}
 
@@ -92,14 +92,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		CardCreateRequest cardCreateRequest = new() { PAN = invalidPan, CardType = CardType.DEBIT };
 		request.Cards = new[] { cardCreateRequest };
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _accountService.Create(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberInvalid(invalidPan));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberInvalid(invalidPan));
 		});
 	}
 
@@ -115,14 +115,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		CardCreateRequest cardCreateRequest = new() { PAN = conflictPan, CardType = CardType.DEBIT };
 		request.Cards = new[] { cardCreateRequest };
 
-		ErrorOr<Created> response =
+		ErrorOr<Created> result =
 			await _accountService.Create(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberConflict(conflictPan));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberConflict(conflictPan));
 		});
 	}
 
@@ -135,14 +135,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			.Select(x => x.AccountId)
 			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
 
-		ErrorOr<Deleted> response =
+		ErrorOr<Deleted> result =
 			await _accountService.Delete(userId, accountId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().Be(Result.Deleted);
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Deleted);
 		});
 	}
 
@@ -153,14 +153,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		Guid accountId = default;
 
-		ErrorOr<Deleted> response =
+		ErrorOr<Deleted> result =
 			await _accountService.Delete(userId, accountId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.DeleteAccountNotFound(accountId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.DeleteAccountNotFound(accountId));
 		});
 	}
 
@@ -170,14 +170,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
 		Guid userId = user.Id;
 
-		ErrorOr<IEnumerable<AccountResponse>> response =
+		ErrorOr<IEnumerable<AccountResponse>> result =
 			await _accountService.Get(userId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().NotBeNullOrEmpty();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNullOrEmpty();
 		});
 	}
 
@@ -186,14 +186,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	{
 		Guid userId = default;
 
-		ErrorOr<IEnumerable<AccountResponse>> response =
+		ErrorOr<IEnumerable<AccountResponse>> result =
 			await _accountService.Get(userId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.GetAllNotFound);
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.GetAllNotFound);
 		});
 	}
 
@@ -206,14 +206,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			.Select(x => x.AccountId)
 			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
 
-		ErrorOr<AccountResponse> response =
+		ErrorOr<AccountResponse> result =
 			await _accountService.Get(userId, accountId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNull();
 		});
 	}
 
@@ -224,14 +224,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		Guid accountId = default;
 
-		ErrorOr<AccountResponse> response =
+		ErrorOr<AccountResponse> result =
 			await _accountService.Get(userId, accountId);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.GetByIdNotFound(accountId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.GetByIdNotFound(accountId));
 		});
 	}
 
@@ -245,14 +245,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			.Select(x => x.IBAN)
 			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
 
-		ErrorOr<AccountResponse> response =
+		ErrorOr<AccountResponse> result =
 			await _accountService.Get(userId, iban);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNull();
 		});
 	}
 
@@ -263,14 +263,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		Guid userId = user.Id;
 		string iban = string.Empty;
 
-		ErrorOr<AccountResponse> response =
+		ErrorOr<AccountResponse> result =
 			await _accountService.Get(userId, iban);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.GetByNumberNotFound(iban));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.GetByNumberNotFound(iban));
 		});
 	}
 
@@ -294,14 +294,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			Cards = new[] { new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today } }
 		};
 
-		ErrorOr<Updated> response =
+		ErrorOr<Updated> result =
 			await _accountService.Update(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeFalse();
-			response.Errors.Should().BeEmpty();
-			response.Value.Should().Be(Result.Updated);
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Updated);
 		});
 	}
 
@@ -318,14 +318,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			Provider = "UnitTest"
 		};
 
-		ErrorOr<Updated> response =
+		ErrorOr<Updated> result =
 			await _accountService.Update(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.UpdateAccountNotFound(accountId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.UpdateAccountNotFound(accountId));
 		});
 	}
 
@@ -346,14 +346,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			Cards = new[] { new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today } }
 		};
 
-		ErrorOr<Updated> response =
+		ErrorOr<Updated> result =
 			await _accountService.Update(userId, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			response.IsError.Should().BeTrue();
-			response.Errors.Should().HaveCount(1);
-			response.FirstError.Should().Be(AccountServiceErrors.UpdateCardNotFound(cardId));
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.UpdateCardNotFound(cardId));
 		});
 	}
 }

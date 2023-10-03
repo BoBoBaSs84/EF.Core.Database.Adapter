@@ -20,8 +20,8 @@ public static class DataSeedHelper
 	{
 		IRepositoryService repositoryService = ApplicationTestBase.GetService<IRepositoryService>();
 
-		DateTime startDate = new(DateTime.Now.Year - 1, 1, 1),
-			endDate = new(DateTime.Now.Year + 1, 12, 31);
+		DateTime startDate = new(DateTime.Now.Year, 1, 1),
+			endDate = new(DateTime.Now.Year, 12, 31);
 
 		while (!startDate.Equals(endDate))
 		{
@@ -33,30 +33,29 @@ public static class DataSeedHelper
 		repositoryService.CommitChangesAsync().Wait();
 	}
 
-	public static void SeedUsers()
+	public static void SeedTestRole()
+	{
+		IRoleService roleService = ApplicationTestBase.GetService<IRoleService>();
+		RoleModel testRole = new() { Id = Guid.NewGuid(), Name = "TestRole", Description = "Role for unit tests" };
+		roleService.CreateAsync(testRole).Wait();
+	}
+
+	public static UserModel SeedUser()
 	{
 		IMapper mapper = ApplicationTestBase.GetService<IMapper>();
 		IUserService userService = ApplicationTestBase.GetService<IUserService>();
-		IRoleService roleService = ApplicationTestBase.GetService<IRoleService>();
 		IRepositoryService repositoryService = ApplicationTestBase.GetService<IRepositoryService>();
-		IEnumerable<CalendarModel> calendar = repositoryService.CalendarRepository.GetAllAsync(true, false).Result;
+		IEnumerable<CalendarModel> calendar = repositoryService.CalendarRepository.GetAllAsync().Result;
 
-		RoleModel testRole = new() { Id = Guid.NewGuid(), Name = "TestRole", Description = "Role for unit tests" };
-		roleService.CreateAsync(testRole).Wait();
-		ApplicationTestBase.Roles.Add(testRole);
+		UserCreateRequest request = new UserCreateRequest().GetUserCreateRequest();
+		UserModel newUser = mapper.Map<UserModel>(request);
 
-		for (int i = 0; i < 15; i++)
-		{
-			UserCreateRequest request = new UserCreateRequest().GetUserCreateRequest();
-			UserModel newUser = mapper.Map<UserModel>(request);
+		newUser.AccountUsers = ModelHelper.GetNewAccountUsers(newUser, 2, 5, 2, 5);
+		newUser.Attendances = ModelHelper.GetNewAttendances(newUser, calendar.ToList(), 5);
 
-			newUser.AccountUsers = ModelHelper.GetNewAccountUsers(newUser, 3, 15, 3, 15);
-			newUser.Attendances = ModelHelper.GetNewAttendances(newUser, calendar.ToList(), 25);
+		userService.CreateAsync(newUser, request.Password).Wait();
+		userService.AddToRolesAsync(newUser, new[] { RoleType.USER.ToString() }).Wait();
 
-			userService.CreateAsync(newUser, request.Password).Wait();
-			userService.AddToRolesAsync(newUser, new[] { RoleType.USER.ToString() }).Wait();
-
-			ApplicationTestBase.Users.Add(newUser);
-		}
+		return newUser;
 	}
 }

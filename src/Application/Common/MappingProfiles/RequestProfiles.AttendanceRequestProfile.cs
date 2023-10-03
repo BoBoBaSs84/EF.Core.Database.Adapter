@@ -17,8 +17,7 @@ internal static partial class RequestProfiles
 		public AttendanceRequestProfile()
 		{
 			CreateMap<AttendanceCreateRequest, AttendanceModel>();
-			CreateMap<AttendanceUpdateRequest, AttendanceModel>()
-				.ReverseMap();
+			CreateMap<AttendanceUpdateRequest, AttendanceModel>();
 		}
 	}
 }

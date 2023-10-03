@@ -21,9 +21,14 @@ namespace ApplicationTests.Services;
 public sealed class TransactionServiceTests : ApplicationTestBase
 {
 	private readonly ITransactionService _transactionService;
+	private static UserModel s_user = default!;
 
 	public TransactionServiceTests()
 		=> _transactionService = GetService<ITransactionService>();
+
+	[ClassInitialize]
+	public static void ClassInitialize(TestContext context)
+		=> s_user = DataSeedHelper.SeedUser();
 
 	[TestMethod]
 	public async Task CreateByAccountIdNotFound()
@@ -365,11 +370,10 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 
 	private static (Guid AccountId, Guid TransactionId) GetAccountTransaction()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid accountId = user.AccountUsers
+		Guid accountId = s_user.AccountUsers
 			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
-		ICollection<AccountTransactionModel> transactions = user.AccountUsers
+			.ToList()[RandomHelper.GetInt(0, s_user.AccountUsers.Count)];
+		ICollection<AccountTransactionModel> transactions = s_user.AccountUsers
 			.Select(x => x.Account)
 			.Where(x => x.Id.Equals(accountId)).First().AccountTransactions;
 		Guid transactionId = transactions
@@ -381,11 +385,10 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 
 	private static (Guid CardId, Guid TransactionId) GetCardTransaction()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid cardId = user.Cards
+		Guid cardId = s_user.Cards
 			.Select(x => x.Id)
-			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
-		ICollection<CardTransactionModel> transactions = user.Cards
+			.ToList()[RandomHelper.GetInt(0, s_user.Cards.Count)];
+		ICollection<CardTransactionModel> transactions = s_user.Cards
 			.Where(x => x.Id.Equals(cardId))
 			.First().CardTransactions;
 		Guid transactionId = transactions

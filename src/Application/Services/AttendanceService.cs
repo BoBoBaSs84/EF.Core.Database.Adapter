@@ -1,4 +1,6 @@
-﻿using Application.Contracts.Requests.Attendance;
+﻿using System.Collections.Generic;
+
+using Application.Contracts.Requests.Attendance;
 using Application.Contracts.Responses.Attendance;
 using Application.Errors.Services;
 using Application.Extensions;
@@ -98,23 +100,41 @@ internal sealed class AttendanceService : IAttendanceService
 			if (response.IsError)
 				return response;
 
-			IEnumerable<CalendarModel> calendarEntries = await _repositoryService.CalendarRepository.GetManyByConditionAsync(
-				expression: x => requests.Select(x => x.Date).Contains(x.Date),
-				cancellationToken: cancellationToken
-				);
+			IEnumerable<CalendarModel> calendarEntries =
+				await _repositoryService.CalendarRepository.GetManyByConditionAsync(
+					expression: x => requests.Select(x => x.Date).Contains(x.Date),
+					cancellationToken: cancellationToken
+					);
 
-			// Todo
-			if (requests.Count() != calendarEntries.Count())
-				return AttendanceServiceErrors.CreateFailed;
+			foreach (var request in requests.Where(x => calendarEntries.Select(x => x.Date).Contains(x.Date).Equals(false)))
+				response.Errors.Add(CalendarServiceErrors.GetByDateNotFound(request.Date));
+
+			if (response.IsError)
+				return response;
+
+			IEnumerable<AttendanceModel> attendanceEntries =
+				await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
+					expression: x => x.UserId.Equals(userId) && requests.Select(x => x.Date).Contains(x.Calendar.Date),
+					cancellationToken: cancellationToken,
+					includeProperties: new[] { nameof(AttendanceModel.Calendar) }
+					);
+
+			if (attendanceEntries.Any())
+				foreach (var attendanceEntry in attendanceEntries)
+					response.Errors.Add(AttendanceServiceErrors.CreateConflict(attendanceEntry.Calendar.Date));
+
+			if (response.IsError)
+				return response;
 
 			List<AttendanceModel> newAttendances = new();
 
 			foreach (CalendarModel calendarEntry in calendarEntries)
 			{
 				AttendanceCreateRequest createRequest = requests.Where(x => x.Date.Equals(calendarEntry.Date)).First();
-				AttendanceModel attendance = _mapper.Map<AttendanceModel>(createRequest);
-				attendance.CalendarId = calendarEntry.Id;
-				newAttendances.Add(attendance);
+				AttendanceModel newAttendance = _mapper.Map<AttendanceModel>(createRequest);
+				newAttendance.CalendarId = calendarEntry.Id;
+				newAttendance.UserId = userId;
+				newAttendances.Add(newAttendance);
 			}
 
 			await _repositoryService.AttendanceRepository.CreateAsync(newAttendances, cancellationToken);

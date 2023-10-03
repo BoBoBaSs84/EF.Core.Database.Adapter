@@ -3,8 +3,6 @@ using Application.Contracts.Responses.Attendance;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 
-using AutoMapper;
-
 using BaseTests.Helpers;
 
 using Domain.Enumerators;
@@ -22,13 +20,14 @@ namespace ApplicationTests.Services;
 public sealed class AttendanceServiceTests : ApplicationTestBase
 {
 	private readonly IAttendanceService _attendanceService;
-	private readonly IMapper _mapper;
+	private static UserModel s_user = default!;
 
 	public AttendanceServiceTests()
-	{
-		_attendanceService = GetService<IAttendanceService>();
-		_mapper = GetService<IMapper>();
-	}
+		=> _attendanceService = GetService<IAttendanceService>();
+
+	[ClassInitialize]
+	public static void ClassInitialize(TestContext context)
+		=> s_user = DataSeedHelper.SeedUser();
 
 	[TestMethod]
 	public async Task CreateBadRequest()
@@ -92,6 +91,85 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 
 		ErrorOr<Created> result =
 			await _attendanceService.Create(userId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Created);
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateMultipleBadRequest()
+	{
+		(Guid userId, _, _, _) = GetUserAttendance();
+		AttendanceCreateRequest request = GetCreateRequest();
+		request.AttendanceType = AttendanceType.HOLIDAY;
+
+		AttendanceCreateRequest[] requests = { request };
+
+		ErrorOr<Created> result =
+			await _attendanceService.Create(userId, requests);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AttendanceServiceErrors.CreateBadRequest(request.Date));
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateMultipleNotFound()
+	{
+		(Guid userId, _, _, _) = GetUserAttendance();
+		AttendanceCreateRequest request = GetCreateRequest();
+		request.Date = DateTime.MinValue;
+
+		AttendanceCreateRequest[] requests = { request };
+
+		ErrorOr<Created> result =
+			await _attendanceService.Create(userId, requests);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CalendarServiceErrors.GetByDateNotFound(request.Date));
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateMultipleConflict()
+	{
+		(Guid userId, _, _, DateTime date) = GetUserAttendance();
+		AttendanceCreateRequest request = GetCreateRequest();
+		request.Date = date;
+
+		AttendanceCreateRequest[] requests = { request };
+
+		ErrorOr<Created> result =
+			await _attendanceService.Create(userId, requests);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AttendanceServiceErrors.CreateConflict(request.Date));
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateMultipleSuccess()
+	{
+		(Guid userId, _, _, _) = GetUserAttendance();
+		AttendanceCreateRequest request = GetCreateRequest();
+
+		AttendanceCreateRequest[] requests = { request };
+
+		ErrorOr<Created> result =
+			await _attendanceService.Create(userId, requests);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -355,30 +433,29 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 
 	private static (Guid UserId, Guid CalendarId, Guid AttendanceId, DateTime Date) GetUserAttendance()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-
-		AttendanceModel attendance = user.Attendances
-			.ToList()[RandomHelper.GetInt(0, user.Attendances.Count)];
-
-		return (user.Id, attendance.CalendarId, attendance.Id, attendance.Calendar.Date);
+		AttendanceModel attendance = s_user.Attendances
+			.ToList()[RandomHelper.GetInt(0, s_user.Attendances.Count)];
+		return (s_user.Id, attendance.CalendarId, attendance.Id, attendance.Calendar.Date);
 	}
 
-	private AttendanceUpdateRequest GetUpdateRequest()
+	private static AttendanceUpdateRequest GetUpdateRequest()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
+		AttendanceModel attendance = s_user.Attendances
+			.ToList()[RandomHelper.GetInt(0, s_user.Attendances.Count)];
 
-		AttendanceModel attendance = user.Attendances
-			.ToList()[RandomHelper.GetInt(0, user.Attendances.Count)];
+		AttendanceUpdateRequest request = new()
+		{
+			Id = attendance.Id,
+			AttendanceType = AttendanceType.WORKDAY,
+			StartTime = new(6, 0, 0),
+			EndTime = new(14, 0, 0),
+			BreakTime = new(0, 30, 0)
+		};
 
-		attendance.AttendanceType = AttendanceType.MOBILEWORKING;
-		attendance.StartTime = new(6, 0, 0);
-		attendance.EndTime = new(14, 0, 0);
-		attendance.BreakTime = new(0, 30, 0);
-
-		return _mapper.Map<AttendanceUpdateRequest>(attendance);
+		return request;
 	}
 
-	private AttendanceCreateRequest GetCreateRequest()
+	private static AttendanceCreateRequest GetCreateRequest()
 	{
 		AttendanceCreateRequest request = new()
 		{

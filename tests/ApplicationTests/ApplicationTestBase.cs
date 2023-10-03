@@ -21,7 +21,7 @@ public class ApplicationTestBase
 {
 	private static IServiceProvider? s_serviceProvider;
 	private static RepositoryContext? s_repositoryContext;
-
+		
 	public static IList<UserModel> Users { get; private set; } = new List<UserModel>();
 	public static IList<RoleModel> Roles { get; private set; } = new List<RoleModel>();
 
@@ -73,6 +73,6 @@ public class ApplicationTestBase
 	private static void DataSeed()
 	{
 		DataSeedHelper.SeedCalendar();
-		DataSeedHelper.SeedUsers();
+		DataSeedHelper.SeedTestRole();
 	}
 }

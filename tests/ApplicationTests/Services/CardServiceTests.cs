@@ -7,6 +7,7 @@ using BaseTests.Helpers;
 
 using Domain.Enumerators;
 using Domain.Errors;
+using Domain.Models.Finance;
 using Domain.Models.Identity;
 using Domain.Results;
 
@@ -19,18 +20,19 @@ namespace ApplicationTests.Services;
 public sealed class CardServiceTests : ApplicationTestBase
 {
 	private readonly ICardService _cardService;
+	private static UserModel s_user = default!;
 
 	public CardServiceTests()
 		=> _cardService = GetService<ICardService>();
 
+	[ClassInitialize]
+	public static void ClassInitialize(TestContext context)
+		=> s_user = DataSeedHelper.SeedUser();
+
 	[TestMethod]
 	public async Task CreateCardSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid accountId = user.AccountUsers
-			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		(Guid userId, Guid accountId, _, _) = GetUserAccountCard();
 		CardCreateRequest request = new CardCreateRequest().GetCardCreateRequest();
 
 		ErrorOr<Created> result =
@@ -47,8 +49,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task CreateCardAccountNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _) = GetUserAccountCard();
 		Guid accountId = default;
 		CardCreateRequest request = new CardCreateRequest().GetCardCreateRequest();
 
@@ -66,16 +67,13 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task CreateCardNumberConflict()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid accountId = user.AccountUsers
-			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
-		string conflictPan = user.Cards
-			.Select(x => x.PAN)
-			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
-		CardCreateRequest request =
-			new() { PAN = conflictPan, CardType = CardType.CREDIT, ValidUntil = DateTime.Today };
+		(Guid userId, Guid accountId, _, string pan) = GetUserAccountCard();
+		CardCreateRequest request = new()
+		{
+			PAN = pan,
+			CardType = CardType.CREDIT,
+			ValidUntil = DateTime.Today
+		};
 
 		ErrorOr<Created> result =
 			await _cardService.Create(userId, accountId, request);
@@ -84,21 +82,21 @@ public sealed class CardServiceTests : ApplicationTestBase
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().HaveCount(1);
-			result.FirstError.Should().Be(CardServiceErrors.CreateNumberConflict(conflictPan));
+			result.FirstError.Should().Be(CardServiceErrors.CreateNumberConflict(pan));
 		});
 	}
 
 	[TestMethod]
 	public async Task CreateCardNumberInvalid()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid accountId = user.AccountUsers
-			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
-		string invalidPan = "UnitTest";
-		CardCreateRequest request =
-			new() { PAN = invalidPan, CardType = CardType.CREDIT, ValidUntil = DateTime.Today };
+		(Guid userId, Guid accountId, _, _) = GetUserAccountCard();
+		string pan = "UnitTest";
+		CardCreateRequest request = new()
+		{
+			PAN = pan,
+			CardType = CardType.CREDIT,
+			ValidUntil = DateTime.Today
+		};
 
 		ErrorOr<Created> result =
 			await _cardService.Create(userId, accountId, request);
@@ -107,18 +105,14 @@ public sealed class CardServiceTests : ApplicationTestBase
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().HaveCount(1);
-			result.FirstError.Should().Be(CardServiceErrors.CreateNumberInvalid(invalidPan));
+			result.FirstError.Should().Be(CardServiceErrors.CreateNumberInvalid(pan));
 		});
 	}
 
 	[TestMethod]
 	public async Task DeleteCardSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid cardId = user.Cards
-			.Select(x => x.Id)
-			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
+		(Guid userId, _, Guid cardId, _) = GetUserAccountCard();
 
 		ErrorOr<Deleted> result =
 			await _cardService.Delete(userId, cardId);
@@ -134,8 +128,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task DeleteCardNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _) = GetUserAccountCard();
 		Guid cardId = default;
 
 		ErrorOr<Deleted> result =
@@ -152,8 +145,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetAllCardsSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _) = GetUserAccountCard();
 
 		ErrorOr<IEnumerable<CardResponse>> result =
 			await _cardService.Get(userId);
@@ -185,11 +177,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetCardByIdSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid cardId = user.Cards
-			.Select(x => x.Id)
-			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
+		(Guid userId, _, Guid cardId, _) = GetUserAccountCard();
 
 		ErrorOr<CardResponse> result =
 			await _cardService.Get(userId, cardId);
@@ -205,8 +193,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetCardByIdNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _) = GetUserAccountCard();
 		Guid cardId = default;
 
 		ErrorOr<CardResponse> result =
@@ -223,14 +210,10 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetCardByNumberSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		string cardPan = user.Cards
-			.Select(x => x.PAN)
-			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
+		(Guid userId, _, _, string pan) = GetUserAccountCard();
 
 		ErrorOr<CardResponse> result =
-			await _cardService.Get(userId, cardPan);
+			await _cardService.Get(userId, pan);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -243,8 +226,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetCardByNumberNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _) = GetUserAccountCard();
 		string cardPan = "TestPan";
 
 		ErrorOr<CardResponse> result =
@@ -261,11 +243,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task UpdateSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid cardId = user.Cards
-			.Select(x => x.Id)
-			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
+		(Guid userId, _, Guid cardId, _) = GetUserAccountCard();
 
 		CardUpdateRequest request = new() { Id = cardId, ValidUntil = DateTime.Today };
 
@@ -283,8 +261,7 @@ public sealed class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task UpdateNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _) = GetUserAccountCard();
 		Guid cardId = default;
 
 		CardUpdateRequest request = new() { Id = cardId, ValidUntil = DateTime.Today };
@@ -298,5 +275,16 @@ public sealed class CardServiceTests : ApplicationTestBase
 			result.Errors.Should().HaveCount(1);
 			result.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
 		});
+	}
+
+	private static (Guid UserId, Guid AccountId, Guid CardId, string PAN) GetUserAccountCard()
+	{
+		AccountModel account = s_user.AccountUsers
+			.Select(x => x.Account)
+			.ToList()[RandomHelper.GetInt(0, s_user.AccountUsers.Count)];
+		CardModel card = account.Cards
+			.ToList()[RandomHelper.GetInt(0, account.Cards.Count)];
+
+		return (s_user.Id, account.Id, card.Id, card.PAN);
 	}
 }

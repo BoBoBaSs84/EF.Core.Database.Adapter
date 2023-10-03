@@ -55,7 +55,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> GetTransaction(Guid accountId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<TransactionResponse> response =
-			await _transactionService.GetForAccount(accountId, transactionId, false, cancellationToken);
+			await _transactionService.GetByAccountId(accountId, transactionId, false, cancellationToken);
 		return Get(response);
 	}
 
@@ -77,7 +77,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> GetAllTransactions(Guid accountId, [FromQuery] TransactionParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<TransactionResponse>> response =
-			await _transactionService.GetForAccount(accountId, parameters, false, cancellationToken);
+			await _transactionService.GetByAccountId(accountId, parameters, false, cancellationToken);
 		return Get(response, response.Value?.MetaData);
 	}
 
@@ -99,7 +99,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> PostTransaction(Guid accountId, [FromBody] TransactionCreateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> response =
-			await _transactionService.CreateForAccount(accountId, request, cancellationToken);
+			await _transactionService.CreateByAccountId(accountId, request, cancellationToken);
 		return PostWithoutLocation(response);
 	}
 
@@ -122,7 +122,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> Put(Guid accountId, Guid transactionId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> response =
-			await _transactionService.UpdateForAccount(accountId, transactionId, request, cancellationToken);
+			await _transactionService.UpdateByAccountId(accountId, transactionId, request, cancellationToken);
 		return Put(response);
 	}
 }

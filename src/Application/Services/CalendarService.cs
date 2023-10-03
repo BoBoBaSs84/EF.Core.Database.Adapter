@@ -75,16 +75,16 @@ internal sealed class CalendarService : ICalendarService
 	{
 		try
 		{
-			CalendarModel? calendarModel = await _repositoryService.CalendarRepository.GetByConditionAsync(
+			CalendarModel? calendarEntry = await _repositoryService.CalendarRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(id),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (calendarModel is null)
+			if (calendarEntry is null)
 				return CalendarServiceErrors.GetByIdNotFound(id);
 
-			CalendarResponse response = _mapper.Map<CalendarResponse>(calendarModel);
+			CalendarResponse response = _mapper.Map<CalendarResponse>(calendarEntry);
 
 			return response;
 		}
@@ -99,7 +99,7 @@ internal sealed class CalendarService : ICalendarService
 	{
 		try
 		{
-			IEnumerable<CalendarModel> calendarModels = await _repositoryService.CalendarRepository.GetManyByConditionAsync(
+			IEnumerable<CalendarModel> calendarEntries = await _repositoryService.CalendarRepository.GetManyByConditionAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year)
 					.FilterByMonth(parameters.Month)
 					.FilterByDateRange(parameters.MinDate, parameters.MaxDate),
@@ -110,7 +110,7 @@ internal sealed class CalendarService : ICalendarService
 				cancellationToken: cancellationToken
 				);
 
-			if (!calendarModels.Any())
+			if (!calendarEntries.Any())
 				return CalendarServiceErrors.GetPagedByParametersNotFound;
 
 			int totalCount = await _repositoryService.CalendarRepository.GetCountAsync(
@@ -120,7 +120,7 @@ internal sealed class CalendarService : ICalendarService
 				cancellationToken: cancellationToken
 				);
 
-			IEnumerable<CalendarResponse> result = _mapper.Map<IEnumerable<CalendarResponse>>(calendarModels);
+			IEnumerable<CalendarResponse> result = _mapper.Map<IEnumerable<CalendarResponse>>(calendarEntries);
 
 			return new PagedList<CalendarResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -135,16 +135,16 @@ internal sealed class CalendarService : ICalendarService
 	{
 		try
 		{
-			CalendarModel? calendarModel = await _repositoryService.CalendarRepository.GetByConditionAsync(
+			CalendarModel? calendarEntry = await _repositoryService.CalendarRepository.GetByConditionAsync(
 				expression: x => x.Date.Equals(_dateTimeService.Today),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (calendarModel is null)
+			if (calendarEntry is null)
 				return CalendarServiceErrors.GetCurrentDateNotFound;
 
-			CalendarResponse response = _mapper.Map<CalendarResponse>(calendarModel);
+			CalendarResponse response = _mapper.Map<CalendarResponse>(calendarEntry);
 
 			return response;
 		}

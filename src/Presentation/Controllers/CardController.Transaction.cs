@@ -55,7 +55,7 @@ public sealed partial class CardController
 	public async Task<IActionResult> GetTransaction(Guid cardId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<TransactionResponse> response =
-			await _transactionService.GetForCard(cardId, transactionId, false, cancellationToken);
+			await _transactionService.GetByCardId(cardId, transactionId, false, cancellationToken);
 		return Get(response);
 	}
 
@@ -77,7 +77,7 @@ public sealed partial class CardController
 	public async Task<IActionResult> GetAllTransactions(Guid cardId, [FromQuery] TransactionParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<TransactionResponse>> response =
-			await _transactionService.GetForCard(cardId, parameters, false, cancellationToken);
+			await _transactionService.GetByCardId(cardId, parameters, false, cancellationToken);
 		return Get(response, response.Value?.MetaData);
 	}
 
@@ -99,7 +99,7 @@ public sealed partial class CardController
 	public async Task<IActionResult> PostTransaction(Guid cardId, [FromBody] TransactionCreateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> response =
-			await _transactionService.CreateForCard(cardId, request, cancellationToken);
+			await _transactionService.CreateByCardId(cardId, request, cancellationToken);
 		return PostWithoutLocation(response);
 	}
 
@@ -122,7 +122,7 @@ public sealed partial class CardController
 	public async Task<IActionResult> Put(Guid cardId, Guid transactionId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> response =
-			await _transactionService.UpdateForCard(cardId, transactionId, request, cancellationToken);
+			await _transactionService.UpdateByCardId(cardId, transactionId, request, cancellationToken);
 		return Put(response);
 	}
 }

@@ -46,21 +46,21 @@ internal sealed class TransactionService : ITransactionService
 		_mapper = mapper;
 	}
 
-	public async Task<ErrorOr<Created>> CreateForAccount(Guid accountId, TransactionCreateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> CreateByAccountId(Guid accountId, TransactionCreateRequest request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			AccountModel? account =
+			AccountModel? accountEntry =
 				await _repositoryService.AccountRepository.GetByIdAsync(accountId, true, true, cancellationToken);
 
-			if (account is null)
+			if (accountEntry is null)
 				return AccountServiceErrors.GetByIdNotFound(accountId);
 
-			TransactionModel transaction = _mapper.Map<TransactionModel>(request);
+			TransactionModel newTransaction = _mapper.Map<TransactionModel>(request);
 
-			AccountTransactionModel accountTransaction = new() { Account = account, Transaction = transaction };
+			AccountTransactionModel accountTransaction = new() { Account = accountEntry, Transaction = newTransaction };
 
-			account.AccountTransactions.Add(accountTransaction);
+			accountEntry.AccountTransactions.Add(accountTransaction);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -73,21 +73,21 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<Created>> CreateForCard(Guid cardId, TransactionCreateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> CreateByCardId(Guid cardId, TransactionCreateRequest request, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			CardModel? card =
+			CardModel? cardEntry =
 				await _repositoryService.CardRepository.GetByIdAsync(cardId, true, true, cancellationToken);
 
-			if (card is null)
+			if (cardEntry is null)
 				return CardServiceErrors.GetByIdNotFound(cardId);
 
-			TransactionModel transaction = _mapper.Map<TransactionModel>(request);
+			TransactionModel newTransaction = _mapper.Map<TransactionModel>(request);
 
-			CardTransactionModel cardTransaction = new() { Card = card, Transaction = transaction };
+			CardTransactionModel cardTransaction = new() { Card = cardEntry, Transaction = newTransaction };
 
-			card.CardTransactions.Add(cardTransaction);
+			cardEntry.CardTransactions.Add(cardTransaction);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -105,15 +105,15 @@ internal sealed class TransactionService : ITransactionService
 		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
 		try
 		{
-			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
 					expression: x => x.Id.Equals(transactionId) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
 					cancellationToken: cancellationToken
 					);
 
-			if (transaction is null)
+			if (transactionEntry is null)
 				return TransactionServiceErrors.GetByIdNotFound(transactionId);
 
-			await _repositoryService.TransactionRepository.DeleteAsync(transaction);
+			await _repositoryService.TransactionRepository.DeleteAsync(transactionEntry);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -131,15 +131,15 @@ internal sealed class TransactionService : ITransactionService
 		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
 		try
 		{
-			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(transactionId) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
 				cancellationToken: cancellationToken
 				);
 
-			if (transaction is null)
+			if (transactionEntry is null)
 				return TransactionServiceErrors.GetByIdNotFound(transactionId);
 
-			await _repositoryService.TransactionRepository.DeleteAsync(transaction);
+			await _repositoryService.TransactionRepository.DeleteAsync(transactionEntry);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -152,21 +152,21 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<TransactionResponse>> GetForAccount(Guid accountId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<TransactionResponse>> GetByAccountId(Guid accountId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
 		try
 		{
-			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(transactionId) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (transaction is null)
+			if (transactionEntry is null)
 				return TransactionServiceErrors.GetByIdNotFound(transactionId);
 
-			TransactionResponse response = _mapper.Map<TransactionResponse>(transaction);
+			TransactionResponse response = _mapper.Map<TransactionResponse>(transactionEntry);
 
 			return response;
 		}
@@ -177,21 +177,21 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<TransactionResponse>> GetForCard(Guid cardId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<TransactionResponse>> GetByCardId(Guid cardId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
 		try
 		{
-			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
+			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(transactionId) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken
 				);
 
-			if (transaction is null)
+			if (transactionEntry is null)
 				return TransactionServiceErrors.GetByIdNotFound(transactionId);
 
-			TransactionResponse response = _mapper.Map<TransactionResponse>(transaction);
+			TransactionResponse response = _mapper.Map<TransactionResponse>(transactionEntry);
 
 			return response;
 		}
@@ -202,11 +202,11 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetForAccount(Guid accountId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetByAccountId(Guid accountId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<TransactionModel> entries = await _repositoryService.TransactionRepository.GetManyByConditionAsync(
+			IEnumerable<TransactionModel> transactionEntries = await _repositoryService.TransactionRepository.GetManyByConditionAsync(
 				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
 				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
 				.FilterByValueDate(parameters.ValueDate)
@@ -219,7 +219,7 @@ internal sealed class TransactionService : ITransactionService
 				cancellationToken: cancellationToken
 				);
 
-			if (!entries.Any())
+			if (!transactionEntries.Any())
 				return TransactionServiceErrors.GetByAccountIdNotFound(accountId);
 
 			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(
@@ -231,7 +231,7 @@ internal sealed class TransactionService : ITransactionService
 				cancellationToken: cancellationToken
 				);
 
-			IEnumerable<TransactionResponse> result = _mapper.Map<IEnumerable<TransactionResponse>>(entries);
+			IEnumerable<TransactionResponse> result = _mapper.Map<IEnumerable<TransactionResponse>>(transactionEntries);
 
 			return new PagedList<TransactionResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -242,11 +242,11 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetForCard(Guid cardId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetByCardId(Guid cardId, TransactionParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			IEnumerable<TransactionModel> entries = await _repositoryService.TransactionRepository.GetManyByConditionAsync(
+			IEnumerable<TransactionModel> transactionEntries = await _repositoryService.TransactionRepository.GetManyByConditionAsync(
 				expression: x => x.CardTransactions.Select(x => x.CardId).Contains(cardId),
 				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
 				.FilterByValueDate(parameters.ValueDate)
@@ -259,7 +259,7 @@ internal sealed class TransactionService : ITransactionService
 				cancellationToken: cancellationToken
 				);
 
-			if (!entries.Any())
+			if (!transactionEntries.Any())
 				return TransactionServiceErrors.GetByCardIdNotFound(cardId);
 
 			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(
@@ -271,7 +271,7 @@ internal sealed class TransactionService : ITransactionService
 				cancellationToken: cancellationToken
 				);
 
-			IEnumerable<TransactionResponse> result = _mapper.Map<IEnumerable<TransactionResponse>>(entries);
+			IEnumerable<TransactionResponse> result = _mapper.Map<IEnumerable<TransactionResponse>>(transactionEntries);
 
 			return new PagedList<TransactionResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -282,21 +282,21 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateForAccount(Guid accountId, Guid transactionId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> UpdateByAccountId(Guid accountId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
+		string[] parameters = new[] { $"{accountId}", $"{request.Id}" };
 		try
 		{
-			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(transactionId) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(request.Id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
 
-			if (transaction is null)
-				return TransactionServiceErrors.GetByIdNotFound(transactionId);
+			if (transactionEntry is null)
+				return TransactionServiceErrors.GetByIdNotFound(request.Id);
 
-			transaction = _mapper.Map<TransactionModel>(request);
+			transactionEntry = _mapper.Map<TransactionModel>(request);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -305,25 +305,25 @@ internal sealed class TransactionService : ITransactionService
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return TransactionServiceErrors.UpdateFailed(transactionId);
+			return TransactionServiceErrors.UpdateFailed(request.Id);
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateForCard(Guid cardId, Guid transactionId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> UpdateByCardId(Guid cardId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
+		string[] parameters = new[] { $"{cardId}", $"{request.Id}" };
 		try
 		{
-			TransactionModel? transaction = await _repositoryService.TransactionRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(transactionId) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
+			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
+				expression: x => x.Id.Equals(request.Id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
 				trackChanges: true,
 				cancellationToken: cancellationToken
 				);
 
-			if (transaction is null)
-				return TransactionServiceErrors.GetByIdNotFound(transactionId);
+			if (transactionEntry is null)
+				return TransactionServiceErrors.GetByIdNotFound(request.Id);
 
-			transaction = _mapper.Map<TransactionModel>(request);
+			transactionEntry = _mapper.Map<TransactionModel>(request);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -332,7 +332,7 @@ internal sealed class TransactionService : ITransactionService
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return TransactionServiceErrors.UpdateFailed(transactionId);
+			return TransactionServiceErrors.UpdateFailed(request.Id);
 		}
 	}
 }

@@ -221,7 +221,7 @@ internal sealed class TransactionService : ITransactionService
 				cancellationToken: cancellationToken
 				);
 
-			if (!transactionEntries.Any())
+			if (transactionEntries.Any().Equals(false))
 				return TransactionServiceErrors.GetByAccountIdNotFound(accountId);
 
 			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(
@@ -261,7 +261,7 @@ internal sealed class TransactionService : ITransactionService
 				cancellationToken: cancellationToken
 				);
 
-			if (!transactionEntries.Any())
+			if (transactionEntries.Any().Equals(false))
 				return TransactionServiceErrors.GetByCardIdNotFound(cardId);
 
 			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(

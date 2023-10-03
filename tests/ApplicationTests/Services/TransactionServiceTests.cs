@@ -1,6 +1,8 @@
 ﻿using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
+using Application.Features.Requests;
+using Application.Features.Responses;
 using Application.Interfaces.Application;
 
 using BaseTests.Helpers;
@@ -24,15 +26,71 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 		=> _transactionService = GetService<ITransactionService>();
 
 	[TestMethod]
-	public void CreateByAccountIdSuccess()
+	public async Task CreateByAccountIdNotFound()
 	{
-		throw new NotImplementedException();
+		Guid accountId = default;
+		TransactionCreateRequest request = new();
+
+		ErrorOr<Created> result =
+			await _transactionService.CreateByAccountId(accountId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(AccountServiceErrors.GetByIdNotFound(accountId));
+		});
 	}
 
 	[TestMethod]
-	public void CreateByCardIdSuccess()
+	public async Task CreateByAccountIdSuccess()
 	{
-		throw new NotImplementedException();
+		(Guid accountId, _) = GetAccountTransaction();
+		TransactionCreateRequest request = new();
+
+		ErrorOr<Created> result =
+			await _transactionService.CreateByAccountId(accountId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Created);
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateByCardIdNotFound()
+	{
+		Guid cardId = default;
+		TransactionCreateRequest request = new();
+
+		ErrorOr<Created> result =
+			await _transactionService.CreateByCardId(cardId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(CardServiceErrors.GetByIdNotFound(cardId));
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateByCardIdSuccess()
+	{
+		(Guid cardId, _) = GetCardTransaction();
+		TransactionCreateRequest request = new();
+
+		ErrorOr<Created> result =
+			await _transactionService.CreateByCardId(cardId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Created);
+		});
 	}
 
 	[TestMethod]
@@ -64,7 +122,7 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Should().NotBeNull();
+			result.Value.Should().Be(Result.Deleted);
 		});
 	}
 
@@ -97,7 +155,7 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 		{
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Should().NotBeNull();
+			result.Value.Should().Be(Result.Deleted);
 		});
 	}
 
@@ -135,6 +193,40 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
+	public async Task GetPagedByAccountIdNotFound()
+	{
+		(Guid accountId, _) = GetAccountTransaction();
+		TransactionParameters parameters = new() { Beneficiary = "UnitTest" };
+
+		ErrorOr<IPagedList<TransactionResponse>> result =
+			await _transactionService.GetByAccountId(accountId, parameters);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(TransactionServiceErrors.GetByAccountIdNotFound(accountId));
+		});
+	}
+
+	[TestMethod]
+	public async Task GetPagedByAccountIdSuccess()
+	{
+		(Guid accountId, _) = GetAccountTransaction();
+		TransactionParameters parameters = new();
+
+		ErrorOr<IPagedList<TransactionResponse>> result =
+			await _transactionService.GetByAccountId(accountId, parameters);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNullOrEmpty();
+		});
+	}
+
+	[TestMethod]
 	public async Task GetByCardIdNotFound()
 	{
 		(Guid cardId, Guid transactionId) = GetCardTransaction();
@@ -164,6 +256,40 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().NotBeNull();
+		});
+	}
+
+	[TestMethod]
+	public async Task GetPagedByCardIdNotFound()
+	{
+		(Guid cardId, _) = GetCardTransaction();
+		TransactionParameters parameters = new() { Beneficiary = "UnitTest" };
+
+		ErrorOr<IPagedList<TransactionResponse>> result =
+			await _transactionService.GetByCardId(cardId, parameters);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(TransactionServiceErrors.GetByCardIdNotFound(cardId));
+		});
+	}
+
+	[TestMethod]
+	public async Task GetPagedByCardIdSuccess()
+	{
+		(Guid cardId, _) = GetCardTransaction();
+		TransactionParameters parameters = new();
+
+		ErrorOr<IPagedList<TransactionResponse>> result =
+			await _transactionService.GetByCardId(cardId, parameters);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNullOrEmpty();
 		});
 	}
 

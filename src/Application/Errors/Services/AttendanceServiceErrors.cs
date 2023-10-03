@@ -26,9 +26,9 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError CreateBadRequest =
+	public static ApiError CreateBadRequest(DateTime date) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateBadRequest)}",
-			RESX.AttendanceService_Create_BadRequest);
+			RESX.AttendanceService_Create_BadRequest.ToInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -130,9 +130,9 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError UpdateBadRequest =
+	public static ApiError UpdateBadRequest(Guid id) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateBadRequest)}",
-			RESX.AttendanceService_Update_BadRequest);
+			RESX.AttendanceService_Update_BadRequest.ToInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

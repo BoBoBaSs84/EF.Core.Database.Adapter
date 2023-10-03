@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-
-using Domain.Models.Identity;
-using Domain.Enumerators;
+﻿using Domain.Enumerators;
 using Domain.Extensions;
 using Domain.Models.Attendance;
 using Domain.Models.Common;
 using Domain.Models.Finance;
-
-using Tynamix.ObjectFiller;
+using Domain.Models.Identity;
 
 using static BaseTests.Helpers.RandomHelper;
 using static Domain.Constants.DomainConstants;
@@ -25,9 +21,9 @@ public static class ModelHelper
 		List<AttendanceModel> attendances = new();
 		for (int i = 1; i <= entries; i++)
 		{
-			var calendarId = calendar[GetInt(0, calendar.Count)].Id;
+			Guid calendarId = calendar[GetInt(0, calendar.Count)].Id;
 
-			while (attendances.Exists(x=>x.CalendarId.Equals(calendarId)))
+			while (attendances.Exists(x => x.CalendarId.Equals(calendarId)))
 				calendarId = calendar[GetInt(0, calendar.Count)].Id;
 
 			attendances.Add(new() { User = user, CalendarId = calendarId, AttendanceType = (AttendanceType)GetInt(4, 13) });

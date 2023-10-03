@@ -33,7 +33,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> DeleteTransaction(Guid accountId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<Deleted> response =
-			await _transactionService.DeleteForAccount(accountId, transactionId, cancellationToken);
+			await _transactionService.DeleteByAccountId(accountId, transactionId, cancellationToken);
 		return Delete(response);
 	}
 
@@ -55,7 +55,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> GetTransaction(Guid accountId, Guid transactionId, CancellationToken cancellationToken)
 	{
 		ErrorOr<TransactionResponse> response =
-			await _transactionService.GetForAccount(accountId, transactionId, false, cancellationToken);
+			await _transactionService.GetByAccountId(accountId, transactionId, false, cancellationToken);
 		return Get(response);
 	}
 
@@ -77,7 +77,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> GetAllTransactions(Guid accountId, [FromQuery] TransactionParameters parameters, CancellationToken cancellationToken)
 	{
 		ErrorOr<IPagedList<TransactionResponse>> response =
-			await _transactionService.GetForAccount(accountId, parameters, false, cancellationToken);
+			await _transactionService.GetByAccountId(accountId, parameters, false, cancellationToken);
 		return Get(response, response.Value?.MetaData);
 	}
 
@@ -99,7 +99,7 @@ public sealed partial class AccountController
 	public async Task<IActionResult> PostTransaction(Guid accountId, [FromBody] TransactionCreateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Created> response =
-			await _transactionService.CreateForAccount(accountId, request, cancellationToken);
+			await _transactionService.CreateByAccountId(accountId, request, cancellationToken);
 		return PostWithoutLocation(response);
 	}
 
@@ -107,7 +107,6 @@ public sealed partial class AccountController
 	/// Updates an existing transaction for a bank account.
 	/// </summary>
 	/// <param name="accountId">The identifier of the bank account.</param>
-	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="request">The transaction update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
@@ -119,10 +118,10 @@ public sealed partial class AccountController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Put(Guid accountId, Guid transactionId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
+	public async Task<IActionResult> Put(Guid accountId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> response =
-			await _transactionService.UpdateForAccount(accountId, transactionId, request, cancellationToken);
+			await _transactionService.UpdateByAccountId(accountId, request, cancellationToken);
 		return Put(response);
 	}
 }

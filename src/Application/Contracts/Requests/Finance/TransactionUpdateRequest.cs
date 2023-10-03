@@ -11,6 +11,12 @@ namespace Application.Contracts.Requests.Finance;
 public sealed class TransactionUpdateRequest
 {
 	/// <summary>
+	/// The identifier of the card.
+	/// </summary>
+	[Required]
+	public Guid Id { get; set; }
+
+	/// <summary>
 	/// The booking date of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Date)]

@@ -107,7 +107,6 @@ public sealed partial class AccountController
 	/// Updates an existing transaction for a bank account.
 	/// </summary>
 	/// <param name="accountId">The identifier of the bank account.</param>
-	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="request">The transaction update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
@@ -119,10 +118,10 @@ public sealed partial class AccountController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Put(Guid accountId, Guid transactionId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
+	public async Task<IActionResult> Put(Guid accountId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> response =
-			await _transactionService.UpdateByAccountId(accountId, transactionId, request, cancellationToken);
+			await _transactionService.UpdateByAccountId(accountId, request, cancellationToken);
 		return Put(response);
 	}
 }

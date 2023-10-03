@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Responses.Finance;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
 using Application.Interfaces.Application;
 
@@ -167,15 +168,73 @@ public sealed class TransactionServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	public void UpdateByAccountIdTest()
+	public async Task UpdateByAccountIdNotFound()
 	{
-		throw new NotImplementedException();
+		(Guid accountId, _) = GetAccountTransaction();
+		Guid transactionId = default;
+		TransactionUpdateRequest request = new() { Id = transactionId };
+
+		ErrorOr<Updated> result =
+			await _transactionService.UpdateByAccountId(accountId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(TransactionServiceErrors.GetByIdNotFound(transactionId));
+		});
 	}
 
 	[TestMethod]
-	public void UpdateByCardIdTest()
+	public async Task UpdateByAccountIdSuccess()
 	{
-		throw new NotImplementedException();
+		(Guid accountId, Guid transactionId) = GetAccountTransaction();
+		TransactionUpdateRequest request = new() { Id = transactionId };
+
+		ErrorOr<Updated> result =
+			await _transactionService.UpdateByAccountId(accountId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Updated);
+		});
+	}
+
+	[TestMethod]
+	public async Task UpdateByCardIdNotFound()
+	{
+		(Guid cardId, _) = GetCardTransaction();
+		Guid transactionId = default;
+		TransactionUpdateRequest request = new() { Id = transactionId };
+
+		ErrorOr<Updated> result =
+			await _transactionService.UpdateByCardId(cardId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeTrue();
+			result.Errors.Should().HaveCount(1);
+			result.FirstError.Should().Be(TransactionServiceErrors.GetByIdNotFound(transactionId));
+		});
+	}
+
+	[TestMethod]
+	public async Task UpdateByCardIdSuccess()
+	{
+		(Guid cardId, Guid transactionId) = GetCardTransaction();
+		TransactionUpdateRequest request = new() { Id = transactionId };
+
+		ErrorOr<Updated> result =
+			await _transactionService.UpdateByCardId(cardId, request);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Updated);
+		});
 	}
 
 	private static (Guid AccountId, Guid TransactionId) GetAccountTransaction()

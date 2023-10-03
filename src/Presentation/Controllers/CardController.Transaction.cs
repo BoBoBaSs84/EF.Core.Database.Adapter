@@ -107,7 +107,6 @@ public sealed partial class CardController
 	/// Updates an existing transaction for a bank card.
 	/// </summary>
 	/// <param name="cardId">The identifier of the bank card.</param>
-	/// <param name="transactionId">The identifier of the transaction.</param>
 	/// <param name="request">The transaction update request.</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
@@ -119,10 +118,10 @@ public sealed partial class CardController
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Put(Guid cardId, Guid transactionId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
+	public async Task<IActionResult> Put(Guid cardId, [FromBody] TransactionUpdateRequest request, CancellationToken cancellationToken)
 	{
 		ErrorOr<Updated> response =
-			await _transactionService.UpdateByCardId(cardId, transactionId, request, cancellationToken);
+			await _transactionService.UpdateByCardId(cardId, request, cancellationToken);
 		return Put(response);
 	}
 }

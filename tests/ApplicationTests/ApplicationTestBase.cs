@@ -4,7 +4,7 @@ using Application.Interfaces.Presentation.Services;
 using BaseTests.Services;
 
 using Domain.Constants;
-using Domain.Models.Identity;
+using Domain.Models.Common;
 
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
@@ -21,10 +21,8 @@ public class ApplicationTestBase
 {
 	private static IServiceProvider? s_serviceProvider;
 	private static RepositoryContext? s_repositoryContext;
-		
-	public static IList<UserModel> Users { get; private set; } = new List<UserModel>();
-	public static IList<RoleModel> Roles { get; private set; } = new List<RoleModel>();
 
+	public static IEnumerable<CalendarModel> Calendar { get; set; } = new List<CalendarModel>();
 
 	[AssemblyInitialize]
 	public static void AssemblyInitialize(TestContext context)
@@ -71,8 +69,5 @@ public class ApplicationTestBase
 	}
 
 	private static void DataSeed()
-	{
-		DataSeedHelper.SeedCalendar();
-		DataSeedHelper.SeedTestRole();
-	}
+		=> Calendar = DataSeedHelper.SeedCalendar();
 }

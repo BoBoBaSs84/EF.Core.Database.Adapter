@@ -16,7 +16,7 @@ namespace ApplicationTests;
 /// </summary>
 public static class DataSeedHelper
 {
-	public static void SeedCalendar()
+	public static IEnumerable<CalendarModel> SeedCalendar()
 	{
 		IRepositoryService repositoryService = ApplicationTestBase.GetService<IRepositoryService>();
 
@@ -31,13 +31,16 @@ public static class DataSeedHelper
 		}
 
 		repositoryService.CommitChangesAsync().Wait();
+
+		return repositoryService.CalendarRepository.GetAllAsync().Result;
 	}
 
-	public static void SeedTestRole()
+	public static RoleModel SeedTestRole()
 	{
 		IRoleService roleService = ApplicationTestBase.GetService<IRoleService>();
 		RoleModel testRole = new() { Id = Guid.NewGuid(), Name = "TestRole", Description = "Role for unit tests" };
 		roleService.CreateAsync(testRole).Wait();
+		return testRole;
 	}
 
 	public static UserModel SeedUser()

@@ -457,9 +457,18 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 
 	private static AttendanceCreateRequest GetCreateRequest()
 	{
+		IList<DateTime> datesUsed = s_user.Attendances
+			.Select(x => x.Calendar.Date)
+			.ToList();
+
+		IList<DateTime> datesUnused = Calendar
+			.Select(x => x.Date)
+			.Where(x => datesUsed.Contains(x.Date).Equals(false))
+			.ToList();
+
 		AttendanceCreateRequest request = new()
 		{
-			Date = DateTime.Today,
+			Date = datesUnused[RandomHelper.GetInt(0, datesUnused.Count)],
 			AttendanceType = AttendanceType.WORKDAY,
 			StartTime = new(8, 0, 0),
 			EndTime = new(15, 0, 0),

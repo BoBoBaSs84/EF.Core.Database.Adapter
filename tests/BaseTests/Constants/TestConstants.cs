@@ -15,8 +15,8 @@ public static class TestConstants
 	public static class TestUser
 	{
 		public const string UserName = "TestUser";
-		public const string PassGood = "!*TestPassword21";
-		public const string PassBad = "Test";
+		public const string GoodPassword = "!*TestPassword21";
+		public const string BadPassword = "Test";
 		public const string Email = "TestUser@example.com";
 		public const string FirstName = "Test";
 		public const string LastName = "Unit";

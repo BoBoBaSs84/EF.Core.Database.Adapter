@@ -145,14 +145,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return response;
 			}
 
-			result = await _userService.AddToRolesAsync(user, new[] { RoleType.USER.GetName() });
-
-			if (!result.Succeeded)
-			{
-				foreach (IdentityError error in result.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
-				return response;
-			}
+			_ = await _userService.AddToRoleAsync(user, RoleType.USER.ToString());
 
 			return response;
 		}
@@ -168,7 +161,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		try
 		{
 			IList<UserModel> users =
-				await _userService.GetUsersInRoleAsync(RoleType.USER.GetName());
+				await _userService.GetUsersInRoleAsync(RoleType.USER.ToString());
 
 			IEnumerable<UserResponse> response =
 				_mapper.Map<IEnumerable<UserResponse>>(users);

@@ -239,10 +239,11 @@ internal sealed class AccountService : IAccountService
 	}
 
 	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken cancellationToken = default)
-	{
-		ErrorOr<Updated> response = new();
+	{		
 		try
 		{
+			ErrorOr<Updated> response = new();
+
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(request.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,

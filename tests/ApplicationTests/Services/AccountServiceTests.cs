@@ -20,15 +20,19 @@ namespace ApplicationTests.Services;
 public sealed class AccountServiceTests : ApplicationTestBase
 {
 	private readonly IAccountService _accountService;
+	private static UserModel s_user = default!;
 
 	public AccountServiceTests()
 		=> _accountService = GetService<IAccountService>();
 
+	[ClassInitialize]
+	public static void ClassInitialize(TestContext context)
+		=> s_user = DataSeedHelper.SeedUser();
+
 	[TestMethod]
 	public async Task CreateAccountSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
 		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
 
 		ErrorOr<Created> result =
@@ -45,8 +49,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task CreateAccountNumberInvalid()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
 		AccountCreateRequest request = new() { IBAN = "UnitTest", Provider = "UnitTest" };
 
 		ErrorOr<Created> result =
@@ -63,12 +66,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task CreateAccountNumberConflict()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		string iban = user.AccountUsers
-			.Select(x => x.Account)
-			.Select(x => x.IBAN)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		(Guid userId, _, string iban, _, _) = GetUserAccountCard();
 		AccountCreateRequest request = new() { IBAN = iban, Provider = "UnitTest" };
 
 		ErrorOr<Created> result =
@@ -85,11 +83,10 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task CreateAccountCardNumberInvalid()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		string invalidPan = "UnitTest";
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
+		string pan = "UnitTest";
 		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
-		CardCreateRequest cardCreateRequest = new() { PAN = invalidPan, CardType = CardType.DEBIT };
+		CardCreateRequest cardCreateRequest = new() { PAN = pan, CardType = CardType.DEBIT };
 		request.Cards = new[] { cardCreateRequest };
 
 		ErrorOr<Created> result =
@@ -99,20 +96,16 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().HaveCount(1);
-			result.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberInvalid(invalidPan));
+			result.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberInvalid(pan));
 		});
 	}
 
 	[TestMethod]
 	public async Task CreateAccountCardNumberConflict()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		string conflictPan = user.Cards
-			.Select(x => x.PAN)
-			.ToList()[RandomHelper.GetInt(0, user.Cards.Count)];
+		(Guid userId, _, _, _, string pan) = GetUserAccountCard();
 		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
-		CardCreateRequest cardCreateRequest = new() { PAN = conflictPan, CardType = CardType.DEBIT };
+		CardCreateRequest cardCreateRequest = new() { PAN = pan, CardType = CardType.DEBIT };
 		request.Cards = new[] { cardCreateRequest };
 
 		ErrorOr<Created> result =
@@ -122,18 +115,14 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		{
 			result.IsError.Should().BeTrue();
 			result.Errors.Should().HaveCount(1);
-			result.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberConflict(conflictPan));
+			result.FirstError.Should().Be(AccountServiceErrors.CreateCardNumberConflict(pan));
 		});
 	}
 
 	[TestMethod]
 	public async Task DeleteAccountSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid accountId = user.AccountUsers
-			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		(Guid userId, Guid accountId, _, _, _) = GetUserAccountCard();
 
 		ErrorOr<Deleted> result =
 			await _accountService.Delete(userId, accountId);
@@ -149,8 +138,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task DeleteAccountNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
 		Guid accountId = default;
 
 		ErrorOr<Deleted> result =
@@ -167,8 +155,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetAccountsSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
 
 		ErrorOr<IEnumerable<AccountResponse>> result =
 			await _accountService.Get(userId);
@@ -200,11 +187,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetAccountByIdSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid accountId = user.AccountUsers
-			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		(Guid userId, Guid accountId, _, _, _) = GetUserAccountCard();
 
 		ErrorOr<AccountResponse> result =
 			await _accountService.Get(userId, accountId);
@@ -220,8 +203,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetAccountByIdNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
 		Guid accountId = default;
 
 		ErrorOr<AccountResponse> result =
@@ -238,12 +220,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetAccountByNumberSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		string iban = user.AccountUsers
-			.Select(x => x.Account)
-			.Select(x => x.IBAN)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		(Guid userId, _, string iban, _, _) = GetUserAccountCard();
 
 		ErrorOr<AccountResponse> result =
 			await _accountService.Get(userId, iban);
@@ -259,8 +236,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetAccountByNumberNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
 		string iban = string.Empty;
 
 		ErrorOr<AccountResponse> result =
@@ -277,15 +253,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task UpdateAccountSuccess()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid accountId = user.AccountUsers
-			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
-		IList<CardModel> cards = user.Cards
-			.Where(x => x.AccountId.Equals(accountId) && x.UserId.Equals(userId))
-			.ToList();
-		Guid cardId = cards.Select(x => x.Id).ToList()[RandomHelper.GetInt(0, cards.Count)];
+		(Guid userId, Guid accountId, _, Guid cardId, _) = GetUserAccountCard();
 
 		AccountUpdateRequest request = new()
 		{
@@ -308,8 +276,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task UpdateAccountNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
+		(Guid userId, _, _, _, _) = GetUserAccountCard();
 		Guid accountId = default;
 
 		AccountUpdateRequest request = new()
@@ -332,11 +299,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task UpdateAccountCardNotFound()
 	{
-		UserModel user = Users[RandomHelper.GetInt(0, Users.Count)];
-		Guid userId = user.Id;
-		Guid accountId = user.AccountUsers
-			.Select(x => x.AccountId)
-			.ToList()[RandomHelper.GetInt(0, user.AccountUsers.Count)];
+		(Guid userId, Guid accountId, _, _, _) = GetUserAccountCard();
 		Guid cardId = default;
 
 		AccountUpdateRequest request = new()
@@ -355,5 +318,16 @@ public sealed class AccountServiceTests : ApplicationTestBase
 			result.Errors.Should().HaveCount(1);
 			result.FirstError.Should().Be(AccountServiceErrors.UpdateCardNotFound(cardId));
 		});
+	}
+
+	private static (Guid UserId, Guid AccountId, string IBAN, Guid CardId, string PAN) GetUserAccountCard()
+	{
+		AccountModel account = s_user.AccountUsers
+			.Select(x => x.Account)
+			.ToList()[RandomHelper.GetInt(0, s_user.AccountUsers.Count)];
+		CardModel card = account.Cards
+			.ToList()[RandomHelper.GetInt(0, account.Cards.Count)];
+
+		return (s_user.Id, account.Id, account.IBAN, card.Id, card.PAN);
 	}
 }

@@ -21,7 +21,7 @@ public static class RequestHelper
 	/// <param name="request">The request to enrich.</param>
 	/// <param name="password">The password for the request.</param>
 	/// <returns>The enriched request.</returns>
-	public static UserCreateRequest GetUserCreateRequest(this UserCreateRequest request, string password = TestUser.PassGood)
+	public static UserCreateRequest GetUserCreateRequest(this UserCreateRequest request, string password = TestUser.GoodPassword)
 	{
 		Filler<UserCreateRequest> filler = new();
 		filler.Setup()

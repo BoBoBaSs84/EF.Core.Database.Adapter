@@ -196,7 +196,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are errors in the create request, please check and correct..
+        ///   Looks up a localized string similar to There are errors in the create request ({0}), please check and correct..
         /// </summary>
         public static string AttendanceService_Create_BadRequest {
             get {
@@ -331,7 +331,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are errors in the update request, please check and correct..
+        ///   Looks up a localized string similar to There are errors in the update request ({0}), please check and correct..
         /// </summary>
         public static string AttendanceService_Update_BadRequest {
             get {

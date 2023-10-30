@@ -5,6 +5,8 @@ using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
 
+using Asp.Versioning;
+
 using Domain.Errors;
 
 using Microsoft.AspNetCore.Http;

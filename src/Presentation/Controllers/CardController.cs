@@ -5,6 +5,8 @@ using Application.Contracts.Responses.Finance;
 using Application.Interfaces.Application;
 using Application.Interfaces.Presentation.Services;
 
+using Asp.Versioning;
+
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Results;

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
 
 namespace Presentation.Common;
 
@@ -8,7 +8,7 @@ namespace Presentation.Common;
 public static class Versioning
 {
 	/// <summary>
-	/// Current api veriosn as <see cref="Microsoft.AspNetCore.Mvc.ApiVersion"/> object.
+	/// Current api veriosn as <see cref="Asp.Versioning.ApiVersion"/> object.
 	/// </summary>
 	public static readonly ApiVersion ApiVersion = GetCurrentApiVersion();
 

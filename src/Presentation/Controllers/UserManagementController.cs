@@ -3,6 +3,8 @@ using Application.Contracts.Responses.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Interfaces.Presentation.Services;
 
+using Asp.Versioning;
+
 using Domain.Errors;
 using Domain.Results;
 
@@ -59,7 +61,7 @@ public sealed class UserManagementController : ApiControllerBase
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]	
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> AddUserToRole(Guid userId, Guid roleId)
 	{
 		ErrorOr<Created> result =

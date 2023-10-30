@@ -3,7 +3,8 @@ using System.Text.Json.Serialization;
 
 using Application.Interfaces.Presentation.Services;
 
-using Microsoft.AspNetCore.Mvc.Versioning;
+using Asp.Versioning;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

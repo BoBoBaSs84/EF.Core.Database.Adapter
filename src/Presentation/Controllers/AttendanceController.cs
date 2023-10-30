@@ -5,6 +5,8 @@ using Application.Features.Responses;
 using Application.Interfaces.Application;
 using Application.Interfaces.Presentation.Services;
 
+using Asp.Versioning;
+
 using Domain.Errors;
 using Domain.Results;
 
@@ -52,7 +54,7 @@ public sealed class AttendanceController : ApiControllerBase
 	/// <response code="404">If the server cannot find the requested resource.</response>
 	/// <response code="500">If something went wrong.</response>
 	[HttpGet(Endpoints.Attendance.GetPagedByParameters)]
-	[ProducesResponseType(typeof(IPagedList<AttendanceResponse>), StatusCodes.Status200OK)]	
+	[ProducesResponseType(typeof(IPagedList<AttendanceResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

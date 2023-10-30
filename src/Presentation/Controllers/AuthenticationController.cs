@@ -2,6 +2,8 @@
 using Application.Contracts.Responses.Identity;
 using Application.Interfaces.Infrastructure.Services;
 
+using Asp.Versioning;
+
 using Domain.Errors;
 
 using Microsoft.AspNetCore.Http;

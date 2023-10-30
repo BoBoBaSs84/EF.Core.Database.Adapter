@@ -1,6 +1,8 @@
 ﻿using Application.Contracts.Responses.Enumerators;
 using Application.Interfaces.Application;
 
+using Asp.Versioning;
+
 using Domain.Enumerators;
 using Domain.Errors;
 

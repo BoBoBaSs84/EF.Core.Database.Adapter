@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 using BaseTests.Helpers;
 
+using BB84.Extensions;
+
 using Domain.Common;
-using Domain.Extensions;
 
 using FluentAssertions;
 
@@ -21,17 +23,17 @@ public sealed class EnumeratorTests : DomainTestBase
 		IEnumerable<Type> types = GetEnumTypes();
 		foreach (Type type in types)
 		{
-			IEnumerable<Enum> enums = GetEnums(type);
-			foreach (Enum e in enums)
+			FieldInfo[] fields = type.GetFields();
+			foreach (FieldInfo field in fields.Where(x => x.IsLiteral.IsTrue() && x.IsPublic.IsTrue()))
 			{
 				AssertionHelper.AssertInScope(() =>
 				{
-					AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetTypeCode().GetFieldInfo()).Should().BeTrue();
-					e.GetTypeCode().GetDisplayAttribute().Should().NotBeNull();
-					e.GetTypeCode().GetDisplayAttribute()!.ResourceType.Should().NotBeNull();
-					e.GetTypeCode().GetDescription().Should().NotBeNullOrWhiteSpace();
-					e.GetTypeCode().GetShortName().Should().NotBeNullOrWhiteSpace();
-					e.GetTypeCode().GetName().Should().NotBeNullOrWhiteSpace();
+					AttributeHelper.FieldHasAttribute<DisplayAttribute>(field).Should().BeTrue();
+					DisplayAttribute attr = field.GetCustomAttribute<DisplayAttribute>()!;
+					attr.ResourceType.Should().NotBeNull();
+					attr.Description.Should().NotBeNullOrEmpty();
+					attr.ShortName.Should().NotBeNullOrEmpty();
+					attr.Name.Should().NotBeNullOrEmpty();
 				});
 			}
 		}
@@ -42,7 +44,4 @@ public sealed class EnumeratorTests : DomainTestBase
 			assembly: typeof(IDomainAssemblyMarker).Assembly,
 			expression: x => x.IsEnum.Equals(true) && x.BaseType is not null && x.BaseType.Equals(typeof(Enum))
 			);
-
-	private static IEnumerable<Enum> GetEnums(Type type)
-		=> Enum.GetValues(type).Cast<Enum>().ToList();
 }

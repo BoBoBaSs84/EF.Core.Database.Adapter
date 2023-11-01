@@ -1,6 +1,6 @@
 ﻿using Application.Errors.Base;
 
-using Domain.Extensions;
+using BB84.Extensions;
 
 using RESX = Application.Properties.ServiceErrors;
 
@@ -36,7 +36,7 @@ public static class CardServiceErrors
 	/// <param name="cardId">The identifier of the bank card.</param>
 	public static ApiError GetByIdFailed(Guid cardId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
-			RESX.CardService_GetById_Failed.ToInvariant(cardId));
+			RESX.CardService_GetById_Failed.FormatInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
@@ -44,7 +44,7 @@ public static class CardServiceErrors
 	/// <param name="cardId">The identifier of the bank card.</param>
 	public static ApiError GetByIdNotFound(Guid cardId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.CardService_GetById_NotFound.ToInvariant(cardId));
+			RESX.CardService_GetById_NotFound.FormatInvariant(cardId));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
@@ -52,7 +52,7 @@ public static class CardServiceErrors
 	/// <param name="pan">The payment card number of the bank card.</param>
 	public static ApiError GetByNumberFailed(string pan) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
-			RESX.CardService_GetByNumber_Failed.ToInvariant(pan));
+			RESX.CardService_GetByNumber_Failed.FormatInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
@@ -60,7 +60,7 @@ public static class CardServiceErrors
 	/// <param name="pan">The payment card number of the bank card.</param>
 	public static ApiError GetByNumberNotFound(string pan) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",
-			RESX.CardService_GetByNumber_NotFound.ToInvariant(pan));
+			RESX.CardService_GetByNumber_NotFound.FormatInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
@@ -75,7 +75,7 @@ public static class CardServiceErrors
 	/// <param name="accountId">The identifier of the bank account.</param>
 	public static ApiError CreateAccountIdNotFound(Guid accountId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{CreateAccountIdNotFound}",
-			RESX.CardService_GetAccountById_NotFound.ToInvariant(accountId));
+			RESX.CardService_GetAccountById_NotFound.FormatInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
@@ -83,7 +83,7 @@ public static class CardServiceErrors
 	/// <param name="pan">The payment card number of the bank card.</param>
 	public static ApiError CreateNumberConflict(string pan) =>
 		ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberConflict}",
-			RESX.CardService_Number_Conflict.ToInvariant(pan));
+			RESX.CardService_Number_Conflict.FormatInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
@@ -91,7 +91,7 @@ public static class CardServiceErrors
 	/// <param name="pan">The payment card number of the bank card.</param>
 	public static ApiError CreateNumberInvalid(string pan) =>
 		ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberInvalid}",
-			RESX.CardService_Number_Invalid.ToInvariant(pan));
+			RESX.CardService_Number_Invalid.FormatInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.

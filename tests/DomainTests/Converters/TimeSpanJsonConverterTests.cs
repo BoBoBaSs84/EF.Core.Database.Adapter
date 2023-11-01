@@ -1,7 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
+using BB84.Extensions.Serialization;
+
 using Domain.Converters;
-using Domain.Extensions;
 
 using FluentAssertions;
 
@@ -17,9 +18,9 @@ public class TimeSpanJsonConverterTests : DomainTestBase
 	{
 		string jsonString = @"{""time"":""06:00:00""}";
 
-		TestClass testClass = new TestClass().FromJsonString(jsonString);
+		TestClass testClass = jsonString.FromJson<TestClass>();
 
-		testClass.Time.Should().Be(_time);
+		_ = testClass.Time.Should().Be(_time);
 	}
 
 	[TestMethod]
@@ -27,9 +28,9 @@ public class TimeSpanJsonConverterTests : DomainTestBase
 	{
 		string jsonString = "{}";
 
-		TestClass testClass = new TestClass().FromJsonString(jsonString);
+		TestClass testClass = jsonString.FromJson<TestClass>();
 
-		testClass.Time.Should().BeNull();
+		_ = testClass.Time.Should().BeNull();
 	}
 
 	[TestMethod]
@@ -37,9 +38,9 @@ public class TimeSpanJsonConverterTests : DomainTestBase
 	{
 		TestClass testClass = new(_time);
 
-		string jsonString = testClass.ToJsonString();
+		string jsonString = testClass.ToJson();
 
-		jsonString.Should().Be(@"{""time"":""06:00:00""}");
+		_ = jsonString.Should().Be(@"{""time"":""06:00:00""}");
 	}
 
 	[TestMethod]
@@ -47,9 +48,9 @@ public class TimeSpanJsonConverterTests : DomainTestBase
 	{
 		TestClass testClass = new(null);
 
-		string jsonString = testClass.ToJsonString();
+		string jsonString = testClass.ToJson();
 
-		jsonString.Should().Be("{}");
+		_ = jsonString.Should().Be("{}");
 	}
 
 	private class TestClass

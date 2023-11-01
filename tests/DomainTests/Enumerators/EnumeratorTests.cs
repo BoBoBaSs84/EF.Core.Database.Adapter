@@ -26,12 +26,12 @@ public sealed class EnumeratorTests : DomainTestBase
 			{
 				AssertionHelper.AssertInScope(() =>
 				{
-					AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetFieldInfo()).Should().BeTrue();
-					e.GetDisplayAttribute().Should().NotBeNull();
-					e.GetDisplayAttribute()!.ResourceType.Should().NotBeNull();
-					e.GetDescription().Should().NotBeNullOrWhiteSpace();
-					e.GetShortName().Should().NotBeNullOrWhiteSpace();
-					e.GetName().Should().NotBeNullOrWhiteSpace();
+					AttributeHelper.FieldHasAttribute<DisplayAttribute>(e.GetTypeCode().GetFieldInfo()).Should().BeTrue();
+					e.GetTypeCode().GetDisplayAttribute().Should().NotBeNull();
+					e.GetTypeCode().GetDisplayAttribute()!.ResourceType.Should().NotBeNull();
+					e.GetTypeCode().GetDescription().Should().NotBeNullOrWhiteSpace();
+					e.GetTypeCode().GetShortName().Should().NotBeNullOrWhiteSpace();
+					e.GetTypeCode().GetName().Should().NotBeNullOrWhiteSpace();
 				});
 			}
 		}

@@ -7,7 +7,7 @@ namespace Application.Contracts.Responses.Base;
 /// <summary>
 /// The <see langword="abstract"/> enumerator response class.
 /// </summary>
-public abstract class EnumeratorResponse<T> where T : Enum
+public abstract class EnumeratorResponse<T> where T : struct, IComparable, IFormattable, IConvertible
 {
 	private readonly Type _type;
 	/// <summary>

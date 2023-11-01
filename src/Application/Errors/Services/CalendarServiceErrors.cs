@@ -1,6 +1,6 @@
 ﻿using Application.Errors.Base;
 
-using Domain.Extensions;
+using BB84.Extensions;
 
 using RESX = Application.Properties.ServiceErrors;
 
@@ -29,7 +29,7 @@ public static class CalendarServiceErrors
 	/// <param name="date">The date of the calendar entry.</param>
 	public static ApiError GetByDateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
-			RESX.CalendarDayService_GetByDate_NotFound.ToInvariant(date));
+			RESX.CalendarDayService_GetByDate_NotFound.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the calendar service.
@@ -44,7 +44,7 @@ public static class CalendarServiceErrors
 	/// <param name="id">The identifier of the calendar entry.</param>
 	public static ApiError GetByIdNotFound(Guid id) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.CalendarDayService_GetById_NotFound.ToInvariant(id));
+			RESX.CalendarDayService_GetById_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the calendar service.

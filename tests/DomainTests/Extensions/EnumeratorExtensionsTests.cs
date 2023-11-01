@@ -77,15 +77,6 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		displayAttribute.Should().BeNull();
 	}
 
-	[TestMethod, Owner(Bobo)]
-	public void GetEnumListSuccessTest()
-	{
-		TestEnum testEnum = TestEnum.ALLGOOD;
-		List<TestEnum> enumList = testEnum.ToList();
-		enumList.Should().NotBeNullOrEmpty();
-		enumList.Should().HaveCount(5);
-	}
-
 	[TestMethod]
 	[DynamicData(nameof(GetWorkingHoursRelevantAttendances))]
 	public void IsWorkingHoursRelevantTrueTest(AttendanceType type)

@@ -1,6 +1,6 @@
 ﻿using Application.Errors.Base;
 
-using Domain.Extensions;
+using BB84.Extensions;
 
 using RESX = Application.Properties.ServiceErrors;
 
@@ -28,7 +28,7 @@ public static class AttendanceServiceErrors
 	/// </summary>
 	public static ApiError CreateBadRequest(DateTime date) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateBadRequest)}",
-			RESX.AttendanceService_Create_BadRequest.ToInvariant(date));
+			RESX.AttendanceService_Create_BadRequest.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -36,7 +36,7 @@ public static class AttendanceServiceErrors
 	/// <param name="date">The date that inflicts the conflict.</param>
 	public static ApiError CreateConflict(DateTime date) =>
 		ApiError.CreateConflict($"{ErrorPrefix}.{nameof(CreateConflict)}",
-			RESX.AttendanceService_Create_Conflict.ToInvariant(date.ToShortDateString()));
+			RESX.AttendanceService_Create_Conflict.FormatInvariant(date.ToShortDateString()));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -44,7 +44,7 @@ public static class AttendanceServiceErrors
 	/// <param name="date">The date that was not found.</param>
 	public static ApiError CreateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(CreateNotFound)}",
-			RESX.AttendanceService_Create_NotFound.ToInvariant(date.ToShortDateString()));
+			RESX.AttendanceService_Create_NotFound.FormatInvariant(date.ToShortDateString()));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -87,7 +87,7 @@ public static class AttendanceServiceErrors
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateFailed(DateTime date) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByDateFailed)}",
-			RESX.AttendanceService_GetByDate_Failed.ToInvariant(date));
+			RESX.AttendanceService_GetByDate_Failed.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -95,7 +95,7 @@ public static class AttendanceServiceErrors
 	/// <param name="date">The date parameter.</param>
 	public static ApiError GetByDateNotFound(DateTime date) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
-			RESX.AttendanceService_GetByDate_NotFound.ToInvariant(date));
+			RESX.AttendanceService_GetByDate_NotFound.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -103,7 +103,7 @@ public static class AttendanceServiceErrors
 	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
 	public static ApiError GetByIdFailed(Guid calendarDayId) =>
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
-			RESX.AttendanceService_GetById_Failed.ToInvariant(calendarDayId));
+			RESX.AttendanceService_GetById_Failed.FormatInvariant(calendarDayId));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -111,7 +111,7 @@ public static class AttendanceServiceErrors
 	/// <param name="calendarId">The calendar identifier parameter.</param>
 	public static ApiError GetByIdNotFound(Guid calendarId) =>
 		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.AttendanceService_GetById_NotFound.ToInvariant(calendarId));
+			RESX.AttendanceService_GetById_NotFound.FormatInvariant(calendarId));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -132,7 +132,7 @@ public static class AttendanceServiceErrors
 	/// </summary>
 	public static ApiError UpdateBadRequest(Guid id) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateBadRequest)}",
-			RESX.AttendanceService_Update_BadRequest.ToInvariant(id));
+			RESX.AttendanceService_Update_BadRequest.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

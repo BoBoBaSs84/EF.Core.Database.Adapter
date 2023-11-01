@@ -1,9 +1,10 @@
 ﻿using Application.Errors.Base;
 using Application.Features.Responses;
 
+using BB84.Extensions.Serialization;
+
 using Domain.Enumerators;
 using Domain.Errors;
-using Domain.Extensions;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -74,7 +75,7 @@ public abstract class ApiControllerBase : ControllerBase
 	protected IActionResult Get<T>(ErrorOr<T> result, MetaData? metaData)
 	{
 		if (!result.IsError && metaData is not null)
-			Response.Headers.Add(HttpHeaders.Pagination, metaData.ToJsonString());
+			Response.Headers.Add(HttpHeaders.Pagination, metaData.ToJson());
 
 		return Get(result);
 	}

@@ -2,10 +2,12 @@
 
 using AutoMapper;
 
+using BB84.Extensions;
+
 using Domain.Extensions;
 using Domain.Models.Common;
 
-namespace Application.Common.MappingProfiles;	
+namespace Application.Common.MappingProfiles;
 
 [SuppressMessage("Style", "IDE0058", Justification = "AutoMapper")]
 internal static partial class ResponseProfiles

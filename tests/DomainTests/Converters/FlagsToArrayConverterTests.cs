@@ -1,13 +1,15 @@
 ﻿using System.Text.Json.Serialization;
 
+using BB84.Extensions.Serialization;
+
 using Domain.Converters;
-using Domain.Extensions;
 
 using FluentAssertions;
 
 namespace DomainTests.Converters;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class FlagsToArrayConverterTests
 {
 	[TestMethod]
@@ -15,7 +17,7 @@ public class FlagsToArrayConverterTests
 	{
 		string jsonString = "{}";
 
-		TestClass testClass = new TestClass().FromJsonString(jsonString);
+		TestClass testClass = jsonString.FromJson<TestClass>();
 
 		testClass.Flag.Should().HaveFlag(TestFlag.None);
 	}
@@ -25,7 +27,7 @@ public class FlagsToArrayConverterTests
 	{
 		string jsonString = @"{""flag"":[""Complex""]}";
 
-		TestClass testClass = new TestClass().FromJsonString(jsonString);
+		TestClass testClass = jsonString.FromJson<TestClass>();
 
 		testClass.Flag.Should().HaveFlag(TestFlag.Complex);
 	}
@@ -35,7 +37,7 @@ public class FlagsToArrayConverterTests
 	{
 		string jsonString = @"{""flag"":[""Simple"",""Medium""]}";
 
-		TestClass testClass = new TestClass().FromJsonString(jsonString);
+		TestClass testClass = jsonString.FromJson<TestClass>();
 
 		testClass.Flag.Should().HaveFlag(TestFlag.Simple | TestFlag.Medium);
 	}
@@ -45,7 +47,7 @@ public class FlagsToArrayConverterTests
 	{
 		TestClass testClass = new();
 
-		string jsonString = testClass.ToJsonString();
+		string jsonString = testClass.ToJson();
 
 		jsonString.Should().Be(@"{""flag"":[""None""]}");
 	}
@@ -55,7 +57,7 @@ public class FlagsToArrayConverterTests
 	{
 		TestClass testClass = new(TestFlag.Simple);
 
-		string jsonString = testClass.ToJsonString();
+		string jsonString = testClass.ToJson();
 
 		jsonString.Should().Be(@"{""flag"":[""Simple""]}");
 	}
@@ -65,7 +67,7 @@ public class FlagsToArrayConverterTests
 	{
 		TestClass testClass = new(TestFlag.Simple | TestFlag.Medium);
 
-		string jsonString = testClass.ToJsonString();
+		string jsonString = testClass.ToJson();
 
 		jsonString.Should().Be(@"{""flag"":[""Simple"",""Medium""]}");
 	}

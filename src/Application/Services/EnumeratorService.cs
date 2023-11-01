@@ -5,9 +5,10 @@ using Application.Interfaces.Infrastructure.Logging;
 
 using AutoMapper;
 
+using BB84.Extensions;
+
 using Domain.Enumerators;
 using Domain.Errors;
-using Domain.Extensions;
 
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +40,7 @@ internal sealed class EnumeratorService : IEnumeratorService
 	{
 		try
 		{
-			IEnumerable<CardType> cardTypes = CardType.CREDIT.ToList();
+			IEnumerable<CardType> cardTypes = CardType.CREDIT.GetValues();
 
 			return _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes).ToList();
 		}
@@ -54,7 +55,7 @@ internal sealed class EnumeratorService : IEnumeratorService
 	{
 		try
 		{
-			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.HOLIDAY.ToList();
+			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.HOLIDAY.GetValues();
 
 			return _mapper.Map<IEnumerable<AttendanceTypeResponse>>(attendanceTypes).ToList();
 		}
@@ -69,7 +70,7 @@ internal sealed class EnumeratorService : IEnumeratorService
 	{
 		try
 		{
-			IEnumerable<RoleType> roleTypes = RoleType.ADMINISTRATOR.ToList();
+			IEnumerable<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetValues();
 
 			return _mapper.Map<IEnumerable<RoleTypeResponse>>(roleTypes).ToList();
 		}
@@ -84,7 +85,7 @@ internal sealed class EnumeratorService : IEnumeratorService
 	{
 		try
 		{
-			IEnumerable<WorkDayTypes> workDayTypes = WorkDayTypes.Sunday.ToList();
+			IEnumerable<WorkDayTypes> workDayTypes = WorkDayTypes.Sunday.GetValues();
 
 			return _mapper.Map<IEnumerable<WorkDayTypeResponse>>(workDayTypes).ToList();
 		}

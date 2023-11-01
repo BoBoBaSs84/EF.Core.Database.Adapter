@@ -4,7 +4,7 @@ header
 
 <font color=red>Warning:</font>
 proof of concept.
-[Application-Development] on [BOBO-DEV\LOCALDB#7F7B41FA]
+[Application-Production] on [BOBO-DEV]
 
 endheader
 center footer Generated for demonstration
@@ -22,51 +22,33 @@ center footer Generated for demonstration
 !define pc(x) class x << (P,lemonshiffon) >> 
 !define x(x) class x << (P,linen) >> 
 
-hide methods 
-hide stereotypes 
-left to right direction
-skinparam roundcorner 5
+hide methods
+hide stereotypes
+skinparam roundcorner 10
 skinparam linetype ortho
 skinparam classarrowcolor gray
 
-table(Private.Migration) {
-[MigrationId] nvarchar[150] null <<pk>>
-[ProductVersion] nvarchar[32] null
-}
-
 table(Finance.Account) {
-[Id] guid null <<pk>>
+[Id] uniqueidentifier null <<pk>>
 [Timestamp] timestamp not null
-[CreatedBy] guid null
-[ModifiedBy] guid null
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
 [IBAN] varchar[25] null
 [Provider] nvarchar[500] null
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
 }
 
-table(Enumerator.CardType) {
-[Id] guid null <<pk>>
+table(Common.Calendar) {
+[Id] uniqueidentifier null <<pk>>
 [Timestamp] timestamp not null
+[Date] date null
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
-[Name] nvarchar[250] null
-[Description] nvarchar[1000] null
-[IsActive] bit null
-}
-
-table(Enumerator.DayType) {
-[Id] guid null <<pk>>
-[Timestamp] timestamp not null
-[PeriodEnd] datetime2 null
-[PeriodStart] datetime2 null
-[Name] nvarchar[250] null
-[Description] nvarchar[1000] null
-[IsActive] bit null
 }
 
 table(Identity.Role) {
-[Id] guid null <<pk>>
+[Id] uniqueidentifier null <<pk>>
 [Description] nvarchar[500] null
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
@@ -76,10 +58,10 @@ table(Identity.Role) {
 }
 
 table(Finance.Transaction) {
-[Id] guid null <<pk>>
+[Id] uniqueidentifier null <<pk>>
 [Timestamp] timestamp not null
-[CreatedBy] guid null
-[ModifiedBy] guid null
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
 [BookingDate] date null
 [ValueDate] date null
 [PostingText] nvarchar[100] null
@@ -96,7 +78,7 @@ table(Finance.Transaction) {
 }
 
 table(Identity.User) {
-[Id] guid null <<pk>>
+[Id] uniqueidentifier null <<pk>>
 [FirstName] nvarchar[100] null
 [MiddleName] nvarchar[100] null
 [LastName] nvarchar[100] null
@@ -118,70 +100,84 @@ table(Identity.User) {
 [TwoFactorEnabled] bit null
 [LockoutEnd] datetimeoffset null
 [LockoutEnabled] bit null
-[AccessFailedCount] guid null
-}
-
-table(Private.CalendarDay) {
-[Id] guid null <<pk>>
-[Timestamp] timestamp not null
-[Date] date null
-[Year] guid null
-[Month] guid null
-[Day] guid null
-[Week] guid null
-[IsoWeek] guid null
-[DayOfYear] guid null
-[WeekDay] guid null
-[EndOfMonth] date null
-[WeekDayName] nvarchar[30] null
-[MonthName] nvarchar[30] null
-[DayTypeId] guid null <<fk>>
-[PeriodEnd] datetime2 null
-[PeriodStart] datetime2 null
+[AccessFailedCount] int null
 }
 
 table(Identity.RoleClaim) {
-[Id] guid null <<pk>>
+[Id] int null <<pk>>
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
-[RoleId] guid null <<fk>>
+[RoleId] uniqueidentifier null <<fk>>
 [ClaimType] nvarchar[max] null
 [ClaimValue] nvarchar[max] null
 }
 
 table(Finance.AccountTransaction) {
-[AccountId] guid null <<pk>> <<fk>>
-[TransactionId] guid null <<pk>> <<fk>>
+[Timestamp] timestamp not null
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
+[AccountId] uniqueidentifier null <<pk>> <<fk>>
+[TransactionId] uniqueidentifier null <<pk>> <<fk>>
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
 }
 
 table(Finance.AccountUser) {
-[AccountId] guid null <<pk>> <<fk>>
-[UserId] guid null <<pk>> <<fk>>
+[Timestamp] timestamp not null
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
+[AccountId] uniqueidentifier null <<pk>> <<fk>>
+[UserId] uniqueidentifier null <<pk>> <<fk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+}
+
+table(Attendance.Attendance) {
+[Id] uniqueidentifier null <<pk>>
+[Timestamp] timestamp not null
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
+[UserId] uniqueidentifier null <<fk>>
+[CalendarId] uniqueidentifier null <<fk>>
+[AttendanceType] int null
+[StartTime] time null
+[EndTime] time null
+[BreakTime] time null
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
 }
 
 table(Finance.Card) {
-[Id] guid null <<pk>>
+[Id] uniqueidentifier null <<pk>>
 [Timestamp] timestamp not null
-[CreatedBy] guid null
-[ModifiedBy] guid null
-[UserId] guid null <<fk>>
-[AccountId] guid null <<fk>>
-[CardTypeId] guid null <<fk>>
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
+[UserId] uniqueidentifier null <<fk>>
+[AccountId] uniqueidentifier null <<fk>>
+[CardType] int null
 [PAN] varchar[25] null
 [ValidUntil] date null
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
 }
 
-table(Identity.UserClaim) {
-[Id] guid null <<pk>>
+table(Attendance.Settings) {
+[Id] uniqueidentifier null <<pk>>
+[Timestamp] timestamp not null
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
+[UserId] uniqueidentifier null <<fk>>
+[WorkDays] int null
+[WorkHours] real null
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
-[UserId] guid null <<fk>>
+}
+
+table(Identity.UserClaim) {
+[Id] int null <<pk>>
+[PeriodEnd] datetime2 null
+[PeriodStart] datetime2 null
+[UserId] uniqueidentifier null <<fk>>
 [ClaimType] nvarchar[max] null
 [ClaimValue] nvarchar[max] null
 }
@@ -192,18 +188,18 @@ table(Identity.UserLogin) {
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
 [ProviderDisplayName] nvarchar[max] null
-[UserId] guid null <<fk>>
+[UserId] uniqueidentifier null <<fk>>
 }
 
 table(Identity.UserRole) {
-[UserId] guid null <<pk>> <<fk>>
-[RoleId] guid null <<pk>> <<fk>>
+[UserId] uniqueidentifier null <<pk>> <<fk>>
+[RoleId] uniqueidentifier null <<pk>> <<fk>>
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
 }
 
 table(Identity.UserToken) {
-[UserId] guid null <<pk>> <<fk>>
+[UserId] uniqueidentifier null <<pk>> <<fk>>
 [LoginProvider] nvarchar[450] null <<pk>>
 [Name] nvarchar[450] null <<pk>>
 [PeriodEnd] datetime2 null
@@ -211,24 +207,12 @@ table(Identity.UserToken) {
 [Value] nvarchar[max] null
 }
 
-table(Private.Attendance) {
-[Id] guid null <<pk>>
-[Timestamp] timestamp not null
-[CreatedBy] guid null
-[ModifiedBy] guid null
-[UserId] guid null <<fk>>
-[CalendarId] guid null <<fk>>
-[DayTypeId] guid null <<fk>>
-[StartTime] time null
-[EndTime] time null
-[BreakTime] time null
-[PeriodEnd] datetime2 null
-[PeriodStart] datetime2 null
-}
-
 table(Finance.CardTransaction) {
-[CardId] guid null <<pk>> <<fk>>
-[TransactionId] guid null <<pk>> <<fk>>
+[Timestamp] timestamp not null
+[CreatedBy] uniqueidentifier null
+[ModifiedBy] uniqueidentifier null
+[CardId] uniqueidentifier null <<pk>> <<fk>>
+[TransactionId] uniqueidentifier null <<pk>> <<fk>>
 [PeriodEnd] datetime2 null
 [PeriodStart] datetime2 null
 }
@@ -236,21 +220,19 @@ table(Finance.CardTransaction) {
 Finance.AccountTransaction --> Finance.Account:FK
 Finance.AccountUser --> Finance.Account:FK
 Finance.Card --> Finance.Account:FK
-Finance.Card --> Enumerator.CardType:FK
-Private.CalendarDay --> Enumerator.DayType:FK
-Private.Attendance --> Enumerator.DayType:FK
+Attendance.Attendance --> Common.Calendar:FK
 Identity.RoleClaim --> Identity.Role:FK
 Identity.UserRole --> Identity.Role:FK
 Finance.AccountTransaction --> Finance.Transaction:FK
 Finance.CardTransaction --> Finance.Transaction:FK
 Finance.AccountUser --> Identity.User:FK
+Attendance.Attendance --> Identity.User:FK
 Finance.Card --> Identity.User:FK
+Attendance.Settings --> Identity.User:FK
 Identity.UserClaim --> Identity.User:FK
 Identity.UserLogin --> Identity.User:FK
 Identity.UserRole --> Identity.User:FK
 Identity.UserToken --> Identity.User:FK
-Private.Attendance --> Identity.User:FK
-Private.Attendance --> Private.CalendarDay:FK
 Finance.CardTransaction --> Finance.Card:FK
 
 @enduml

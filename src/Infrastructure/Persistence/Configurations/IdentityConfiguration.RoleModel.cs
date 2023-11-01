@@ -1,6 +1,8 @@
-﻿using Domain.Models.Identity;
+﻿using BB84.Extensions;
+
 using Domain.Enumerators;
 using Domain.Extensions;
+using Domain.Models.Identity;
 
 using Infrastructure.Extensions;
 
@@ -36,7 +38,7 @@ internal static partial class IdentityConfiguration
 
 		private static ICollection<RoleModel> GetRoleTypes()
 		{
-			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.ToList();
+			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetValues().ToList();
 			ICollection<RoleModel> listToReturn = new List<RoleModel>();
 
 			foreach (RoleType roleType in roleTypes)

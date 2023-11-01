@@ -1,4 +1,5 @@
-﻿using Domain.Extensions;
+﻿using BB84.Extensions.Serialization;
+
 using Domain.Models.Identity;
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -15,6 +16,6 @@ internal sealed class PreferencesConverter : ValueConverter<PreferencesModel, st
 	/// <summary>
 	/// Initilizes an instance of the preferences value converter.
 	/// </summary>
-	public PreferencesConverter() : base(x => x.ToXmlString(XmlConstants.GetNamespaces(), null), x => new PreferencesModel().FromXmlString(x, null))
+	public PreferencesConverter() : base(x => x.ToXml(XmlConstants.GetNamespaces(), null), x => x.FromXml<PreferencesModel>(null))
 	{ }
 }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Extensions;
+using BB84.Extensions;
+
 using Domain.Models.Base;
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;

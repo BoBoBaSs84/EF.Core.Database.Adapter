@@ -1,5 +1,6 @@
-﻿using Domain.Enumerators;
-using Domain.Extensions;
+﻿using BB84.Extensions;
+
+using Domain.Enumerators;
 using Domain.Models.Attendance;
 using Domain.Models.Common;
 using Domain.Models.Finance;

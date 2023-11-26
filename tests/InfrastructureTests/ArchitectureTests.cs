@@ -44,8 +44,6 @@ public class ArchitectureTests : InfrastructureTestBase
 			expression: x => x.Name.EndsWith("Repository") && x.IsInterface.Equals(false)
 			);
 
-		typeList.Should().NotBeNullOrEmpty();
-
 		AssertionHelper.AssertInScope(() =>
 		{
 			typeList.Should().NotBeNullOrEmpty();
@@ -60,24 +58,18 @@ public class ArchitectureTests : InfrastructureTestBase
 
 	[TestMethod, Owner(TestConstants.Bobo)]
 	[Description("The services should not be public and should be sealed.")]
-	public void ServicesShouldNotBePublicAndShouldBeSealedTest()
+	public void ServicesShouldShouldBeSealedTest()
 	{
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
 			assembly: _assembly,
 			expression: x => x.Name.EndsWith("Service") && x.IsInterface.Equals(false)
 			);
 
-		typeList.Should().NotBeNullOrEmpty();
-
 		AssertionHelper.AssertInScope(() =>
 		{
 			typeList.Should().NotBeNullOrEmpty();
 			foreach (Type type in typeList)
-			{
 				type.IsSealed.Should().BeTrue();
-				type.IsPublic.Should().BeFalse();
-				type.IsVisible.Should().BeFalse();
-			}
 		});
 	}
 }

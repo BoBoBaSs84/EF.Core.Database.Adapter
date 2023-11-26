@@ -1,5 +1,5 @@
 ﻿using Application.Errors.Services;
-using Application.Interfaces.Infrastructure.Services;
+
 using BaseTests.Helpers;
 
 using Domain.Enumerators;
@@ -8,6 +8,8 @@ using Domain.Models.Identity;
 using Domain.Results;
 
 using FluentAssertions;
+
+using Infrastructure.Services;
 
 namespace ApplicationTests.Services;
 
@@ -65,9 +67,9 @@ public partial class AuthenticationServiceTests
 	[TestMethod]
 	public async Task AddUserToRoleIdentityError()
 	{
-		IRoleService roleService = GetService<IRoleService>();
+		RoleService roleService = GetService<RoleService>();
 
-		RoleModel role =
+		RoleModel? role =
 			await roleService.FindByNameAsync(RoleType.USER.ToString());
 
 		Guid userId = s_user.Id,

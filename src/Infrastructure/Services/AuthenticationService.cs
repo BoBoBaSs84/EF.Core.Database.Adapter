@@ -13,7 +13,6 @@ using AutoMapper;
 
 using Domain.Enumerators;
 using Domain.Errors;
-using Domain.Extensions;
 using Domain.Models.Identity;
 using Domain.Results;
 
@@ -32,8 +31,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 	private readonly IConfigurationSection _jwtSettings;
 	private readonly IDateTimeService _dateTimeService;
 	private readonly ILoggerService<AuthenticationService> _logger;
-	private readonly IRoleService _roleService;
-	private readonly IUserService _userService;
+	private readonly RoleService _roleService;
+	private readonly UserService _userService;
 	private readonly IMapper _mapper;
 
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
@@ -51,8 +50,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	/// <param name="roleService">The role service.</param>
 	/// <param name="userService">The user service.</param>
 	/// <param name="mapper">The auto mapper.</param>
-	public AuthenticationService(IConfiguration configuration, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger,
-		IRoleService roleService, IUserService userService, IMapper mapper)
+	public AuthenticationService(IConfiguration configuration, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger, RoleService roleService, UserService userService, IMapper mapper)
 	{
 		_configuration = configuration;
 		_jwtSettings = _configuration.GetRequiredSection(Jwt.JwtSettings);
@@ -65,16 +63,16 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId)
 	{
-		string[] parameters = new[] { $"{userId}", $"{roleId}" };
+		string[] parameters = [$"{userId}", $"{roleId}"];
 		ErrorOr<Created> response = new();
 		try
 		{
-			UserModel user = await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel role = await _roleService.FindByIdAsync($"{roleId}");
+			RoleModel? role = await _roleService.FindByIdAsync($"{roleId}");
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
@@ -179,8 +177,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			UserModel user =
-				await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
@@ -201,14 +198,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			UserModel user =
-				await _userService.FindByNameAsync(userName);
+			UserModel? user = await _userService.FindByNameAsync(userName);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByNameNotFound(userName);
 
-			UserResponse response =
-				_mapper.Map<UserResponse>(user);
+			UserResponse response = _mapper.Map<UserResponse>(user);
 
 			return response;
 		}
@@ -221,17 +216,17 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 	public async Task<ErrorOr<Deleted>> RemoveUserFromRole(Guid userId, Guid roleId)
 	{
-		string[] parameters = new[] { $"{userId}", $"{roleId}" };
+		string[] parameters = [$"{userId}", $"{roleId}"];
 		ErrorOr<Deleted> response = new();
 
 		try
 		{
-			UserModel user = await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel role = await _roleService.FindByIdAsync($"{roleId}");
+			RoleModel? role = await _roleService.FindByIdAsync($"{roleId}");
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
@@ -259,7 +254,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		ErrorOr<Updated> response = new();
 		try
 		{
-			UserModel user = await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await _userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
@@ -298,13 +293,10 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 	private async Task<IEnumerable<Claim>> GetClaims(UserModel user)
 	{
-		IList<Claim> claims = new List<Claim>()
-		{
-			new(ClaimTypes.Name, user.UserName),
-			new(ClaimTypes.NameIdentifier, $"{user.Id}"),
-		};
+		List<Claim> claims = [new(ClaimTypes.Name, user.UserName), new(ClaimTypes.NameIdentifier, $"{user.Id}")];
 
 		IList<string> roles = await _userService.GetRolesAsync(user);
+
 		foreach (string role in roles)
 			claims.Add(new Claim(ClaimTypes.Role, role));
 

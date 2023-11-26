@@ -9,7 +9,6 @@ using AutoMapper;
 
 using Domain.Errors;
 using Domain.Models.Finance;
-using Domain.Models.Identity;
 using Domain.Results;
 using Domain.Statics;
 
@@ -23,7 +22,6 @@ namespace Application.Services;
 internal sealed class CardService : ICardService
 {
 	private readonly ILoggerService<CardService> _loggerService;
-	private readonly IUserService _userService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
@@ -34,20 +32,18 @@ internal sealed class CardService : ICardService
 	/// Initilizes an instance of the account service class.
 	/// </summary>
 	/// <param name="loggerService">The logger service to use.</param>
-	/// <param name="userService">The user service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public CardService(ILoggerService<CardService> loggerService, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
+	public CardService(ILoggerService<CardService> loggerService, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_loggerService = loggerService;
-		_userService = userService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
 
 	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
+		string[] parameters = [$"{userId}", $"{accountId}"];
 		try
 		{
 			ErrorOr<Created> response = new();
@@ -75,10 +71,9 @@ internal sealed class CardService : ICardService
 			if (response.IsError)
 				return response;
 
-			UserModel user = await _userService.FindByIdAsync($"{userId}");
 			CardModel newCard = _mapper.Map<CardModel>(request);
 
-			newCard.User = user;
+			newCard.UserId = userId;
 			newCard.Account = accountEntry!;
 
 			await _repositoryService.CardRepository.CreateAsync(newCard, cancellationToken);
@@ -95,7 +90,7 @@ internal sealed class CardService : ICardService
 
 	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid cardId, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
+		string[] parameters = [$"{userId}", $"{cardId}"];
 		try
 		{
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
@@ -121,7 +116,7 @@ internal sealed class CardService : ICardService
 
 	public async Task<ErrorOr<CardResponse>> Get(Guid userId, Guid cardId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{cardId}" };
+		string[] parameters = [$"{userId}", $"{cardId}"];
 		try
 		{
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
@@ -145,7 +140,7 @@ internal sealed class CardService : ICardService
 
 	public async Task<ErrorOr<CardResponse>> Get(Guid userId, string pan, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{pan}" };
+		string[] parameters = [$"{userId}", $"{pan}"];
 		try
 		{
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(

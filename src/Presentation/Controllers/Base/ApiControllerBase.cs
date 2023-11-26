@@ -75,7 +75,7 @@ public abstract class ApiControllerBase : ControllerBase
 	protected IActionResult Get<T>(ErrorOr<T> result, MetaData? metaData)
 	{
 		if (!result.IsError && metaData is not null)
-			Response.Headers.Add(HttpHeaders.Pagination, metaData.ToJson());
+			Response.Headers.Append(HttpHeaders.Pagination, metaData.ToJson());
 
 		return Get(result);
 	}

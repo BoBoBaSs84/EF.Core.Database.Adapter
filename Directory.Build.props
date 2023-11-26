@@ -29,7 +29,7 @@
 		<RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
 		<SignAssembly>true</SignAssembly>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
@@ -59,8 +59,6 @@
 
 	<ItemGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
 		<InternalsVisibleTo Include="$(AssemblyName)Tests" Key="002400000480000094000000060200000024000052534131000400000100010035092fbe5ecdaf5295770b59e5ef0d3a55d729cbd0a17bca6b292f79e06bb03b70728fe215394b01ed3b26a98cd6da48403f7abe7408e723e4f351c47e39cb3fc99a3997b47e7d66ba9d89ff4c04fce1b08c8623e5202ab60c776e925c97813225fe71cb4dea30ef30eef4c8e233bca2fa001504b72c206348087c25937c6eda"/>
-		<None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
-		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
 		<Using Include="System.Diagnostics.CodeAnalysis" />
 	</ItemGroup>
 

@@ -9,6 +9,8 @@ using Domain.Enumerators;
 using Domain.Models.Common;
 using Domain.Models.Identity;
 
+using Infrastructure.Services;
+
 namespace ApplicationTests;
 
 /// <summary>
@@ -37,7 +39,7 @@ public static class DataSeedHelper
 
 	public static RoleModel SeedTestRole()
 	{
-		IRoleService roleService = ApplicationTestBase.GetService<IRoleService>();
+		RoleService roleService = ApplicationTestBase.GetService<RoleService>();
 		RoleModel testRole = new() { Id = Guid.NewGuid(), Name = "TestRole", Description = "Role for unit tests" };
 		roleService.CreateAsync(testRole).Wait();
 		return testRole;
@@ -46,7 +48,7 @@ public static class DataSeedHelper
 	public static UserModel SeedUser()
 	{
 		IMapper mapper = ApplicationTestBase.GetService<IMapper>();
-		IUserService userService = ApplicationTestBase.GetService<IUserService>();
+		UserService userService = ApplicationTestBase.GetService<UserService>();
 		IRepositoryService repositoryService = ApplicationTestBase.GetService<IRepositoryService>();
 		IEnumerable<CalendarModel> calendar = repositoryService.CalendarRepository.GetAllAsync().Result;
 

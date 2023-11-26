@@ -10,6 +10,8 @@ using Domain.Results;
 
 using FluentAssertions;
 
+using Infrastructure.Services;
+
 namespace ApplicationTests.Services;
 
 public partial class AuthenticationServiceTests
@@ -68,9 +70,9 @@ public partial class AuthenticationServiceTests
 	[TestMethod]
 	public async Task RemoveUserFromRoleIdentityError()
 	{
-		IRoleService roleService = GetService<IRoleService>();
+		RoleService roleService = GetService<RoleService>();
 
-		RoleModel role =
+		RoleModel? role =
 			await roleService.FindByNameAsync(RoleType.SUPERUSER.ToString());
 
 		Guid userId = s_user.Id,

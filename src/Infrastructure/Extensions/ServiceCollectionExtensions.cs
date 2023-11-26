@@ -43,8 +43,8 @@ internal static class ServiceCollectionExtensions
 	{
 		services.TryAddScoped<CustomSaveChangesInterceptor>();
 		services.TryAddScoped<IRepositoryService, RepositoryService>();
-		services.TryAddScoped<IUserService, UserService>();
-		services.TryAddScoped<IRoleService, RoleService>();
+		services.TryAddScoped<UserService>();
+		services.TryAddScoped<RoleService>();
 
 		return services;
 	}

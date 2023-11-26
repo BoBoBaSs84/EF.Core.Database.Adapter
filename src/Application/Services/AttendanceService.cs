@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Application.Contracts.Requests.Attendance;
+﻿using Application.Contracts.Requests.Attendance;
 using Application.Contracts.Responses.Attendance;
 using Application.Errors.Services;
 using Application.Extensions;
@@ -88,7 +86,7 @@ internal sealed class AttendanceService : IAttendanceService
 
 	public async Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{userId}", string.Join(";", requests.Select(x => x.Date)) };
+		string[] parameters = [$"{userId}", string.Join(";", requests.Select(x => x.Date))];
 		try
 		{
 			ErrorOr<Created> response = new();
@@ -106,7 +104,7 @@ internal sealed class AttendanceService : IAttendanceService
 					cancellationToken: cancellationToken
 					);
 
-			foreach (var request in requests.Where(x => calendarEntries.Select(x => x.Date).Contains(x.Date).Equals(false)))
+			foreach (AttendanceCreateRequest? request in requests.Where(x => calendarEntries.Select(x => x.Date).Contains(x.Date).Equals(false)))
 				response.Errors.Add(CalendarServiceErrors.GetByDateNotFound(request.Date));
 
 			if (response.IsError)
@@ -116,17 +114,17 @@ internal sealed class AttendanceService : IAttendanceService
 				await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
 					expression: x => x.UserId.Equals(userId) && requests.Select(x => x.Date).Contains(x.Calendar.Date),
 					cancellationToken: cancellationToken,
-					includeProperties: new[] { nameof(AttendanceModel.Calendar) }
+					includeProperties: [nameof(AttendanceModel.Calendar)]
 					);
 
 			if (attendanceEntries.Any())
-				foreach (var attendanceEntry in attendanceEntries)
+				foreach (AttendanceModel attendanceEntry in attendanceEntries)
 					response.Errors.Add(AttendanceServiceErrors.CreateConflict(attendanceEntry.Calendar.Date));
 
 			if (response.IsError)
 				return response;
 
-			List<AttendanceModel> newAttendances = new();
+			List<AttendanceModel> newAttendances = [];
 
 			foreach (CalendarModel calendarEntry in calendarEntries)
 			{
@@ -151,7 +149,7 @@ internal sealed class AttendanceService : IAttendanceService
 
 	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid calendarId, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{calendarId}" };
+		string[] parameters = [$"{userId}", $"{calendarId}"];
 		try
 		{
 			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository.GetByConditionAsync(
@@ -177,7 +175,7 @@ internal sealed class AttendanceService : IAttendanceService
 
 	public async Task<ErrorOr<Deleted>> Delete(Guid userId, IEnumerable<Guid> calendarIds, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", string.Join(", ", calendarIds) };
+		string[] parameters = [$"{userId}", string.Join(", ", calendarIds)];
 		try
 		{
 			IEnumerable<AttendanceModel> attendanceEntries = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
@@ -216,7 +214,7 @@ internal sealed class AttendanceService : IAttendanceService
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
+				includeProperties: [nameof(AttendanceModel.Calendar)]
 				);
 
 			if (!attendances.Any())
@@ -289,14 +287,14 @@ internal sealed class AttendanceService : IAttendanceService
 
 	public async Task<ErrorOr<AttendanceResponse>> Get(Guid userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{date}" };
+		string[] parameters = [$"{userId}", $"{date}"];
 		try
 		{
 			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Calendar.Date.Equals(date.ToSqlDate()),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
+				includeProperties: [nameof(AttendanceModel.Calendar)]
 				);
 
 			if (attendanceEntry is null)
@@ -315,14 +313,14 @@ internal sealed class AttendanceService : IAttendanceService
 
 	public async Task<ErrorOr<AttendanceResponse>> Get(Guid userId, Guid calendarId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{calendarId}" };
+		string[] parameters = [$"{userId}", $"{calendarId}"];
 		try
 		{
 			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AttendanceModel.Calendar) }
+				includeProperties: [nameof(AttendanceModel.Calendar)]
 				);
 
 			if (attendanceEntry is null)
@@ -371,7 +369,7 @@ internal sealed class AttendanceService : IAttendanceService
 
 	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { string.Join(";", requests.Select(x => x.Id)) };
+		string[] parameters = [string.Join(";", requests.Select(x => x.Id))];
 		try
 		{
 			ErrorOr<Updated> response = new();

@@ -9,7 +9,6 @@ using AutoMapper;
 
 using Domain.Errors;
 using Domain.Models.Finance;
-using Domain.Models.Identity;
 using Domain.Results;
 using Domain.Statics;
 
@@ -23,7 +22,6 @@ namespace Application.Services;
 internal sealed class AccountService : IAccountService
 {
 	private readonly ILoggerService<AccountService> _loggerService;
-	private readonly IUserService _userService;
 	private readonly IRepositoryService _repositoryService;
 	private readonly IMapper _mapper;
 
@@ -34,13 +32,11 @@ internal sealed class AccountService : IAccountService
 	/// Initilizes an instance of the account service class.
 	/// </summary>
 	/// <param name="loggerService">The logger service to use.</param>
-	/// <param name="userService">The user service to use.</param>
 	/// <param name="repositoryService">The repository service to use.</param>
 	/// <param name="mapper">The auto mapper to use.</param>
-	public AccountService(ILoggerService<AccountService> loggerService, IUserService userService, IRepositoryService repositoryService, IMapper mapper)
+	public AccountService(ILoggerService<AccountService> loggerService, IRepositoryService repositoryService, IMapper mapper)
 	{
 		_loggerService = loggerService;
-		_userService = userService;
 		_repositoryService = repositoryService;
 		_mapper = mapper;
 	}
@@ -85,16 +81,15 @@ internal sealed class AccountService : IAccountService
 			if (response.IsError)
 				return response;
 
-			UserModel userModel = await _userService.FindByIdAsync($"{userId}");
 			AccountModel newAccount = _mapper.Map<AccountModel>(request);
 
 			if (newAccount.Cards.Count > 0)
 			{
 				foreach (CardModel card in newAccount.Cards)
-					card.User = userModel;
+					card.UserId = userId;
 			}
 
-			AccountUserModel newAccountUser = new() { User = userModel, Account = newAccount };
+			AccountUserModel newAccountUser = new() { UserId = userId, Account = newAccount };
 			newAccount.AccountUsers.Add(newAccountUser);
 
 			await _repositoryService.AccountRepository.CreateAsync(newAccount, cancellationToken);
@@ -111,7 +106,7 @@ internal sealed class AccountService : IAccountService
 
 	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
+		string[] parameters = [$"{userId}", $"{accountId}"];
 		try
 		{
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
@@ -171,7 +166,7 @@ internal sealed class AccountService : IAccountService
 
 	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, Guid accountId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{accountId}" };
+		string[] parameters = [$"{userId}", $"{accountId}"];
 		try
 		{
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
@@ -205,14 +200,14 @@ internal sealed class AccountService : IAccountService
 
 	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new string[] { $"{userId}", $"{iban}" };
+		string[] parameters = [$"{userId}", $"{iban}"];
 		try
 		{
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban && x.Cards.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AccountModel.Cards) }
+				includeProperties: [nameof(AccountModel.Cards)]
 				);
 
 			if (accountEntry is null)
@@ -239,7 +234,7 @@ internal sealed class AccountService : IAccountService
 	}
 
 	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken cancellationToken = default)
-	{		
+	{
 		try
 		{
 			ErrorOr<Updated> response = new();
@@ -248,7 +243,7 @@ internal sealed class AccountService : IAccountService
 				expression: x => x.Id.Equals(request.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
 				cancellationToken: cancellationToken,
-				includeProperties: new[] { nameof(AccountModel.Cards) }
+				includeProperties: [nameof(AccountModel.Cards)]
 				);
 
 			if (accountEntry is null)
@@ -290,10 +285,10 @@ internal sealed class AccountService : IAccountService
 
 		if (request.Cards is not null && request.Cards.Any())
 		{
-			foreach(var cardRequest in request.Cards)
+			foreach (CardUpdateRequest cardRequest in request.Cards)
 			{
-				var card = account.Cards.Where(x=>x.Id.Equals(cardRequest.Id)).FirstOrDefault();
-				
+				CardModel? card = account.Cards.Where(x => x.Id.Equals(cardRequest.Id)).FirstOrDefault();
+
 				if (card is not null)
 					card.ValidUntil = cardRequest.ValidUntil;
 			}

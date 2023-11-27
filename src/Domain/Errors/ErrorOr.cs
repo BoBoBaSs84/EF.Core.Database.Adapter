@@ -19,7 +19,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	{ }
 
 	private ErrorOr(Error error) =>
-		Errors = new List<Error> { error };
+		Errors = [error];
 
 	private ErrorOr(List<Error> errors) =>
 		Errors = errors;
@@ -40,7 +40,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets the list of errors.
 	/// </summary>
-	public List<Error> Errors { get; } = new();
+	public List<Error> Errors { get; } = [];
 
 	/// <summary>
 	/// Gets the value.

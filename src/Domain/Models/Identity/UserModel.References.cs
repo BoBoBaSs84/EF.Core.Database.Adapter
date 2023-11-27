@@ -1,6 +1,5 @@
-﻿using Domain.Models.Finance;
-using Domain.Models.Attendance;
-using Domain.Models.Identity;
+﻿using Domain.Models.Attendance;
+using Domain.Models.Finance;
 
 namespace Domain.Models.Identity;
 

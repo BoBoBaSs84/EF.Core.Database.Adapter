@@ -1,9 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
-
-using Domain.Extensions;
-using Domain.Models.Identity;
 
 using Microsoft.AspNetCore.Identity;
 

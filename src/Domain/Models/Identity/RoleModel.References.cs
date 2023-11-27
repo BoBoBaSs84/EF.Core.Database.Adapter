@@ -1,6 +1,4 @@
-﻿using Domain.Models.Identity;
-
-namespace Domain.Models.Identity;
+﻿namespace Domain.Models.Identity;
 
 public partial class RoleModel
 {

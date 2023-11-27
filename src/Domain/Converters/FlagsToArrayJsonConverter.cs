@@ -29,8 +29,8 @@ public sealed class FlagsToArrayJsonConverter : JsonConverterFactory
 /// <typeparam name="T">The enumerator type to use.</typeparam>
 internal sealed class EnumFlagsToStringArray<T> : JsonConverter<T> where T : struct, Enum
 {
-	private readonly Dictionary<T, string> _enumToString = new();
-	private readonly Dictionary<string, T> _stringToEnum = new();
+	private readonly Dictionary<T, string> _enumToString = [];
+	private readonly Dictionary<string, T> _stringToEnum = [];
 
 	public EnumFlagsToStringArray()
 	{

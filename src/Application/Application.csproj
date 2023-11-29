@@ -1,16 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<Title>EF.Core.Database.Adapter.Application</Title>
-	</PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
 		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"/>
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
 	</ItemGroup>
 
 	<ItemGroup>

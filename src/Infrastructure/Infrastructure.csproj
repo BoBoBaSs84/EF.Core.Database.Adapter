@@ -1,8 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<Title>EF.Core.Database.Adapter.Infrastructure</Title>
-	</PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
 		<Compile Remove="Persistence\Configurations\Identity\**" />
@@ -11,9 +7,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"/>
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 	</ItemGroup>
 
 	<ItemGroup>

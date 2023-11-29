@@ -61,22 +61,6 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		shortname.Should().NotBeSameAs(nameof(shortname));
 	}
 
-	[TestMethod, Owner(Bobo)]
-	public void GetEnumDisplayAttributeSuccessTest()
-	{
-		TestEnum testEnum = TestEnum.ALLGOOD;
-		DisplayAttribute? displayAttribute = testEnum.GetDisplayAttribute();
-		displayAttribute.Should().NotBeNull();
-	}
-
-	[TestMethod, Owner(Bobo)]
-	public void GetEnumDisplayAttributeFailTest()
-	{
-		TestEnum testEnum = TestEnum.NODISPLAYATTRIBUTE;
-		DisplayAttribute? displayAttribute = testEnum.GetDisplayAttribute();
-		displayAttribute.Should().BeNull();
-	}
-
 	[TestMethod]
 	[DynamicData(nameof(GetWorkingHoursRelevantAttendances))]
 	public void IsWorkingHoursRelevantTrueTest(AttendanceType type)

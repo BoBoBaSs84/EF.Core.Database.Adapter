@@ -39,12 +39,13 @@
 		<Description>This is just an attempt to have a clean base architecture for database access.</Description>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageProjectUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/BoBoBaSs84/$(Product)</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<PackageTags>dotnetcore;dotnet-core;efcore;entity-framework-core;ef-core</PackageTags>
 		<Product>EF.Core.Database.Adapter</Product>
+		<Title>$(AssemblyName)</Title>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter</RepositoryUrl>
+		<RepositoryUrl>https://github.com/BoBoBaSs84/$(Product)</RepositoryUrl>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(Configuration.Equals('Debug'))">

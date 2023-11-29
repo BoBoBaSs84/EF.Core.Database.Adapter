@@ -1,12 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<Title>EF.Core.Database.Adapter.Domain</Title>
-	</PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="BB84.Extensions" Version="1.7.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14" />
+		<PackageReference Include="BB84.Extensions" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
 	</ItemGroup>
 
 	<ItemGroup>

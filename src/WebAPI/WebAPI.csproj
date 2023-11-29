@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.14" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14">
+		<PackageReference Include="Swashbuckle.AspNetCore"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -12,12 +12,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 		<ProjectReference Include="..\Presentation\Presentation.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="System.Diagnostics.CodeAnalysis" />
-		<Using Include="System.Text" />
-		<Using Include="System.Globalization" />
 	</ItemGroup>
 
 </Project>

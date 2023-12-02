@@ -1,30 +1,26 @@
 <Project>
 
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageVersion Include="Asp.Versioning.Mvc" Version="7.0.0"/>
-		<PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"/>
-		<PackageVersion Include="BB84.Extensions" Version="1.7.4"/>
-		<PackageVersion Include="Fare" Version="2.2.1" />
-		<PackageVersion Include="FluentAssertions" Version="6.12.0" />
-		<PackageVersion Include="MSTest.TestAdapter" Version="3.1.1" />
-		<PackageVersion Include="MSTest.TestFramework" Version="3.1.1" />
-		<PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14"/>
-		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14"/>
-		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14"/>
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.14"/>
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14"/>
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"/>
-		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0"/>
-		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-		<PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-		<PackageVersion Include="Tynamix.ObjectFiller" Version="1.5.8" />
-		<PackageVersion Include="Tynamix.ObjectFiller.RegEx" Version="1.0.0" />
-		<PackageVersion Include="coverlet.collector" Version="6.0.0" />
+	<ItemGroup>		
+		<PackageVersion Update="Asp.Versioning.Mvc" Version="7.0.0"/>
+		<PackageVersion Update="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"/>
+		<PackageVersion Update="BB84.Extensions" Version="1.7.4"/>
+		<PackageVersion Update="Fare" Version="2.2.1" />
+		<PackageVersion Update="FluentAssertions" Version="6.12.0" />
+		<PackageVersion Update="MSTest.TestAdapter" Version="3.1.1" />
+		<PackageVersion Update="MSTest.TestFramework" Version="3.1.1" />
+		<PackageVersion Update="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14"/>
+		<PackageVersion Update="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14"/>
+		<PackageVersion Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14"/>
+		<PackageVersion Update="Microsoft.EntityFrameworkCore.Relational" Version="7.0.14"/>
+		<PackageVersion Update="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14"/>
+		<PackageVersion Update="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"/>
+		<PackageVersion Update="Microsoft.Extensions.Hosting" Version="8.0.0" />
+		<PackageVersion Update="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0"/>
+		<PackageVersion Update="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+		<PackageVersion Update="Swashbuckle.AspNetCore" Version="6.5.0"/>
+		<PackageVersion Update="Tynamix.ObjectFiller" Version="1.5.8" />
+		<PackageVersion Update="Tynamix.ObjectFiller.RegEx" Version="1.0.0" />
+		<PackageVersion Update="coverlet.collector" Version="6.0.0" />
 	</ItemGroup>
 
 </Project>

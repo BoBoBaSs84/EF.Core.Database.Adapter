@@ -96,20 +96,20 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		=> new[]
 		{
 			new object[]{ AttendanceType.WORKDAY },
-			new object[]{ AttendanceType.ABSENCE },
-			new object[]{ AttendanceType.BUISNESSTRIP },
-			new object[]{ AttendanceType.MOBILEWORKING },
-			new object[]{ AttendanceType.SHORTTIMEWORK },
-			new object[]{ AttendanceType.VACATIONBLOCK },
-			new object[]{ AttendanceType.PLANNEDVACATION },
+			[AttendanceType.ABSENCE],
+			[AttendanceType.BUISNESSTRIP],
+			[AttendanceType.MOBILEWORKING],
+			[AttendanceType.SHORTTIMEWORK],
+			[AttendanceType.VACATIONBLOCK],
+			[AttendanceType.PLANNEDVACATION],
 		};
 
 	private static IEnumerable<object[]> GetWorkingHoursNotRelevantAttendances
 		=> new[]
 		{
 			new object[]{ AttendanceType.HOLIDAY },
-			new object[]{ AttendanceType.SUSPENSION },
-			new object[]{ AttendanceType.SICKNESS },
-			new object[]{ AttendanceType.VACATION },
+			[AttendanceType.SUSPENSION],
+			[AttendanceType.SICKNESS],
+			[AttendanceType.VACATION],
 		};
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="Asp.Versioning.Mvc" />
+		<PackageReference Include="Asp.Versioning.Mvc" Version="7.0.0"/>
 	</ItemGroup>
 
 	<ItemGroup>

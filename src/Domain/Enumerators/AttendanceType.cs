@@ -18,24 +18,6 @@ public enum AttendanceType
 		Description = nameof(RESX.AttendanceType_Holiday_Description))]
 	HOLIDAY = 1,
 	/// <summary>
-	/// The week day attendance type.
-	/// </summary>
-	[Display(ResourceType = typeof(RESX),
-		Name = nameof(RESX.AttendanceType_Weekday_Name),
-		ShortName = nameof(RESX.AttendanceType_Weekday_ShortName),
-		Description = nameof(RESX.AttendanceType_Weekday_Description))]
-	[Obsolete("Do not use this one any more, will be removed in the future.")]
-	WEEKDAY,
-	/// <summary>
-	/// The week end day attendance type.
-	/// </summary>
-	[Display(ResourceType = typeof(RESX),
-		Name = nameof(RESX.AttendanceType_WeekendDay_Name),
-		ShortName = nameof(RESX.AttendanceType_WeekendDay_ShortName),
-		Description = nameof(RESX.AttendanceType_WeekendDay_Description))]
-	[Obsolete("Do not use this one any more, will be removed in the future.")]
-	WEEKENDDAY,
-	/// <summary>
 	/// The work day attendance type.
 	/// </summary>	
 	[Display(ResourceType = typeof(RESX),
@@ -43,15 +25,6 @@ public enum AttendanceType
 		ShortName = nameof(RESX.AttendanceType_Workday_ShortName),
 		Description = nameof(RESX.AttendanceType_Workday_Description))]
 	WORKDAY,
-	/// <summary>
-	/// The week end work day attendance type.
-	/// </summary>	
-	[Display(ResourceType = typeof(RESX),
-		Name = nameof(RESX.AttendanceType_WeekendWorkday_Name),
-		ShortName = nameof(RESX.AttendanceType_WeekendWorkday_ShortName),
-		Description = nameof(RESX.AttendanceType_WeekendWorkday_Description))]
-	[Obsolete("Do not use this one any more, will be removed in the future.")]
-	WEEKENDWORKDAY,
 	/// <summary>
 	/// The absence attendance type.
 	/// </summary>

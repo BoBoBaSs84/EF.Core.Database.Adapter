@@ -10,6 +10,7 @@ using Infrastructure.Extensions;
 using Infrastructure.Installer;
 using Infrastructure.Persistence;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -33,6 +34,9 @@ public class ApplicationTestBase
 		s_repositoryContext = host.Services.GetRequiredService<RepositoryContext>();
 
 		s_repositoryContext.Database.EnsureCreated();
+		
+		var sqlScript = s_repositoryContext.Database.GenerateCreateScript();
+		File.WriteAllText("CreateScript.sql", sqlScript);
 
 		DataSeed();
 	}

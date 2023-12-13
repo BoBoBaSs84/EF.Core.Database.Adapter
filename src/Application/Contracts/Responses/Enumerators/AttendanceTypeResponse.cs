@@ -7,12 +7,9 @@ namespace Application.Contracts.Responses.Enumerators;
 /// <summary>
 /// The attendance type response class.
 /// </summary>
-public sealed class AttendanceTypeResponse : EnumeratorResponse<AttendanceType>
-{
-	/// <summary>
-	/// Initilizes an instance of the attendance type response class.
-	/// </summary>
-	/// <inheritdoc/>
-	public AttendanceTypeResponse(AttendanceType enumValue) : base(enumValue)
-	{ }
-}
+/// <remarks>
+/// Initilizes an instance of the attendance type response class.
+/// </remarks>
+/// <inheritdoc/>
+public sealed class AttendanceTypeResponse(AttendanceType enumValue) : EnumeratorResponse<AttendanceType>(enumValue)
+{ }

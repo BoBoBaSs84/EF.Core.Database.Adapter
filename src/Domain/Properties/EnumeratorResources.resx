@@ -225,33 +225,6 @@
   <data name="AttendanceType.VacationBlock.ShortName" xml:space="preserve">
     <value>VB</value>
   </data>
-  <data name="AttendanceType.Weekday.Description" xml:space="preserve">
-    <value>A weekday day means any day except any Saturday, any Sunday, or any day which is a legal holiday.</value>
-  </data>
-  <data name="AttendanceType.Weekday.Name" xml:space="preserve">
-    <value>Weekday</value>
-  </data>
-  <data name="AttendanceType.Weekday.ShortName" xml:space="preserve">
-    <value>WD</value>
-  </data>
-  <data name="AttendanceType.WeekendDay.Description" xml:space="preserve">
-    <value>Generally refers to the period between the end of a usual work week and the beginning of the new work week.</value>
-  </data>
-  <data name="AttendanceType.WeekendDay.Name" xml:space="preserve">
-    <value>Weekend day</value>
-  </data>
-  <data name="AttendanceType.WeekendDay.ShortName" xml:space="preserve">
-    <value>WE</value>
-  </data>
-  <data name="AttendanceType.WeekendWorkday.Description" xml:space="preserve">
-    <value>Weekend work means working on days that are usually non-working days.</value>
-  </data>
-  <data name="AttendanceType.WeekendWorkday.Name" xml:space="preserve">
-    <value>Weekend workday</value>
-  </data>
-  <data name="AttendanceType.WeekendWorkday.ShortName" xml:space="preserve">
-    <value>WW</value>
-  </data>
   <data name="AttendanceType.Workday.Description" xml:space="preserve">
     <value>Day on which professional work is performed or is to be performed.</value>
   </data>

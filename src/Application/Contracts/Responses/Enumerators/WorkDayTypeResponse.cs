@@ -7,12 +7,9 @@ namespace Application.Contracts.Responses.Enumerators;
 /// <summary>
 /// The work day type response class.
 /// </summary>
-public sealed class WorkDayTypeResponse : EnumeratorResponse<WorkDayTypes>
-{
-	/// <summary>
-	/// Initilizes an instance of the work day type response class.
-	/// </summary>
-	/// <inheritdoc/>
-	public WorkDayTypeResponse(WorkDayTypes enumValue) : base(enumValue)
-	{ }
-}
+/// <remarks>
+/// Initilizes an instance of the work day type response class.
+/// </remarks>
+/// <inheritdoc/>
+public sealed class WorkDayTypeResponse(WorkDayTypes enumValue) : EnumeratorResponse<WorkDayTypes>(enumValue)
+{ }

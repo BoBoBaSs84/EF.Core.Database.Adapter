@@ -26,7 +26,7 @@ internal abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>
 	/// Any context that inherits from <see cref="DbContext"/> should work.
 	/// </remarks>
 	/// <param name="dbContext">The database context to work with.</param>	
-	public GenericRepository(DbContext dbContext)
+	protected GenericRepository(DbContext dbContext)
 	{
 		_dbContext = dbContext;
 		_dbSet = dbContext.Set<TEntity>();

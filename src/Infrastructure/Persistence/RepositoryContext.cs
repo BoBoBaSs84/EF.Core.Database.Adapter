@@ -24,7 +24,7 @@ public sealed partial class RepositoryContext : IdentityDbContext<UserModel, Rol
 	private readonly ILoggerService<RepositoryContext> _logger;
 
 	private static readonly Action<ILogger, Exception?> LogException =
-	LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
+		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	/// <summary>
 	/// Initializes a new instance of the application repository context class.

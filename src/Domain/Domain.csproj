@@ -2,7 +2,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="BB84.Extensions" Version="2.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: CI
 
 on:
@@ -23,12 +20,12 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
 
-    - name: MSSQL Suite
+    - name: Setup MSSQL
       uses: potatoqualitee/mssqlsuite@v1.7
       with:
         install: localdb
     
-    - name: Restore dependencies
+    - name: Restore
       run: dotnet restore
     
     - name: Build

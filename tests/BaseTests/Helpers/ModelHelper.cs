@@ -16,8 +16,7 @@ public static class ModelHelper
 {
 	public static ICollection<AttendanceModel> GetNewAttendances(UserModel user, IList<CalendarModel> calendar, int entries = 10)
 	{
-		if (entries < 1)
-			throw new ArgumentOutOfRangeException(nameof(entries));
+		ArgumentOutOfRangeException.ThrowIfLessThan(entries, 1);
 
 		List<AttendanceModel> attendances = new();
 		for (int i = 1; i <= entries; i++)
@@ -35,8 +34,8 @@ public static class ModelHelper
 
 	public static ICollection<AccountUserModel> GetNewAccountUsers(UserModel user, int accounts = 2, int accountTransactions = 10, int cards = 2, int cardTransactions = 10)
 	{
-		if (accounts < 1)
-			throw new ArgumentOutOfRangeException(nameof(accounts));
+		ArgumentOutOfRangeException.ThrowIfLessThan(accounts, 1);
+
 		List<AccountUserModel> accountUsers = new();
 		for (int i = 1; i <= accounts; i++)
 		{
@@ -61,8 +60,8 @@ public static class ModelHelper
 
 	private static ICollection<AccountTransactionModel> GetNewAccountTransactions(AccountModel account, int amount = 10)
 	{
-		if (amount < 1)
-			throw new ArgumentOutOfRangeException(nameof(amount));
+		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
+
 		List<AccountTransactionModel> accountTransactions = new();
 		for (int i = 1; i <= amount; i++)
 			accountTransactions.Add(new() { Account = account, Transaction = GetNewTransaction() });
@@ -84,8 +83,8 @@ public static class ModelHelper
 
 	private static ICollection<CardModel> GetNewCards(UserModel user, AccountModel account, int cardsAmount = 2, int transactionAmount = 10)
 	{
-		if (cardsAmount < 1)
-			throw new ArgumentOutOfRangeException(nameof(cardsAmount));
+		ArgumentOutOfRangeException.ThrowIfLessThan(cardsAmount, 1);
+
 		List<CardModel> cardsToReturn = new();
 		for (int i = 1; i <= cardsAmount; i++)
 		{
@@ -98,8 +97,7 @@ public static class ModelHelper
 
 	private static ICollection<CardTransactionModel> GetNewCardTransactions(CardModel card, int amount = 10)
 	{
-		if (amount < 1)
-			throw new ArgumentOutOfRangeException(nameof(amount));
+		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
 
 		List<CardTransactionModel> cardTransactions = new();
 		for (int i = 1; i <= amount; i++)

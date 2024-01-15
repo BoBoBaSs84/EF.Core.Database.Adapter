@@ -29,27 +29,17 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+/// <param name="accountService">The bank account service to use.</param>
+/// <param name="currentUserService">The current user service to use.</param>
+/// <param name="transactionService">The transaction service to use.</param>
 [Authorize]
 [Route(Endpoints.Account.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed partial class AccountController : ApiControllerBase
+public sealed partial class AccountController(IAccountService accountService, ICurrentUserService currentUserService, ITransactionService transactionService) : ApiControllerBase
 {
-	private readonly IAccountService _accountService;
-	private readonly ICurrentUserService _currentUserService;
-	private readonly ITransactionService _transactionService;
-
-	/// <summary>
-	/// Initializes an instance of the bank account controller class.
-	/// </summary>
-	/// <param name="accountService">The bank account service to use.</param>
-	/// <param name="currentUserService">The current user service to use.</param>
-	/// <param name="transactionService">The transaction service to use.</param>
-	public AccountController(IAccountService accountService, ICurrentUserService currentUserService, ITransactionService transactionService)
-	{
-		_accountService = accountService;
-		_currentUserService = currentUserService;
-		_transactionService = transactionService;
-	}
+	private readonly IAccountService _accountService = accountService;
+	private readonly ICurrentUserService _currentUserService = currentUserService;
+	private readonly ITransactionService _transactionService = transactionService;
 
 	/// <summary>
 	/// Deletes an existing bank account for the application user by the bank account identifier.

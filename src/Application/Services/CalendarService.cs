@@ -19,33 +19,25 @@ namespace Application.Services;
 /// <summary>
 /// The calendar service class.
 /// </summary>
-internal sealed class CalendarService : ICalendarService
+/// <remarks>
+/// Initilizes an instance of the calendar service class.
+/// </remarks>
+/// <param name="dateTimeService">The date time service to use.</param>
+/// <param name="loggerService">The logger service to use.</param>
+/// <param name="repositoryService">The repository service to use.</param>
+/// <param name="mapper">The auto mapper to use.</param>
+internal sealed class CalendarService(IDateTimeService dateTimeService, ILoggerService<CalendarService> loggerService, IRepositoryService repositoryService, IMapper mapper) : ICalendarService
 {
-	private readonly IDateTimeService _dateTimeService;
-	private readonly ILoggerService<CalendarService> _loggerService;
-	private readonly IRepositoryService _repositoryService;
-	private readonly IMapper _mapper;
+	private readonly IDateTimeService _dateTimeService = dateTimeService;
+	private readonly ILoggerService<CalendarService> _loggerService = loggerService;
+	private readonly IRepositoryService _repositoryService = repositoryService;
+	private readonly IMapper _mapper = mapper;
 
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
-
-	/// <summary>
-	/// Initilizes an instance of the calendar service class.
-	/// </summary>
-	/// <param name="dateTimeService">The date time service to use.</param>
-	/// <param name="loggerService">The logger service to use.</param>
-	/// <param name="repositoryService">The repository service to use.</param>
-	/// <param name="mapper">The auto mapper to use.</param>
-	public CalendarService(IDateTimeService dateTimeService, ILoggerService<CalendarService> loggerService, IRepositoryService repositoryService, IMapper mapper)
-	{
-		_dateTimeService = dateTimeService;
-		_loggerService = loggerService;
-		_repositoryService = repositoryService;
-		_mapper = mapper;
-	}
 
 	public async Task<ErrorOr<CalendarResponse>> Get(DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{

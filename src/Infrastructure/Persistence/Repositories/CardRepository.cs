@@ -15,12 +15,10 @@ namespace Infrastructure.Persistence.Repositories;
 /// Derives from the <see cref="IdentityRepository{TEntity}"/> class
 /// and implements the <see cref="ICardRepository"/> interface.
 /// </remarks>
-internal sealed class CardRepository : IdentityRepository<CardModel>, ICardRepository
+/// <remarks>
+/// Initializes a new instance of the card repository class.
+/// </remarks>
+/// <inheritdoc/>
+internal sealed class CardRepository(DbContext dbContext) : IdentityRepository<CardModel>(dbContext), ICardRepository
 {
-	/// <summary>
-	/// Initializes a new instance of the card repository class.
-	/// </summary>
-	/// <inheritdoc/>
-	public CardRepository(DbContext dbContext) : base(dbContext)
-	{	}
 }

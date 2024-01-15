@@ -26,23 +26,14 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+/// <param name="authenticationService">The authentication service.</param>
+/// <param name="currentUserService">The current user service.</param>
 [Route(Endpoints.UserManagement.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class UserManagementController : ApiControllerBase
+public sealed class UserManagementController(IAuthenticationService authenticationService, ICurrentUserService currentUserService) : ApiControllerBase
 {
-	private readonly IAuthenticationService _authenticationService;
-	private readonly ICurrentUserService _currentUserService;
-
-	/// <summary>
-	/// Initializes an instance of <see cref="UserManagementController"/> class.
-	/// </summary>
-	/// <param name="authenticationService">The authentication service.</param>
-	/// <param name="currentUserService">The current user service.</param>
-	public UserManagementController(IAuthenticationService authenticationService, ICurrentUserService currentUserService)
-	{
-		_authenticationService = authenticationService;
-		_currentUserService = currentUserService;
-	}
+	private readonly IAuthenticationService _authenticationService = authenticationService;
+	private readonly ICurrentUserService _currentUserService = currentUserService;
 
 	/// <summary>
 	/// Adds the user with the <paramref name="userId"/> to the role with the <paramref name="roleId"/>.

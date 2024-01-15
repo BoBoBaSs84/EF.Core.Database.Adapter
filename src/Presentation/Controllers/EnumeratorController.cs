@@ -21,18 +21,12 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+/// <param name="enumeratorService">The enumerator service to use.</param>
 [Route(Endpoints.Enumerator.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class EnumeratorController : ApiControllerBase
+public sealed class EnumeratorController(IEnumeratorService enumeratorService) : ApiControllerBase
 {
-	private readonly IEnumeratorService _enumeratorService;
-
-	/// <summary>
-	/// Initializes an instance of the enumerator controller class.
-	/// </summary>
-	/// <param name="enumeratorService">The enumerator service to use.</param>
-	public EnumeratorController(IEnumeratorService enumeratorService)
-		=> _enumeratorService = enumeratorService;
+	private readonly IEnumeratorService _enumeratorService = enumeratorService;
 
 	/// <summary>
 	/// Returns all card type enumerators.

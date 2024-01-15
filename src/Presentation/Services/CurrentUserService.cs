@@ -5,16 +5,14 @@ using Application.Interfaces.Presentation.Services;
 using Microsoft.AspNetCore.Http;
 
 namespace Presentation.Services;
-internal sealed class CurrentUserService : ICurrentUserService
-{
-	private readonly IHttpContextAccessor _contextAccessor;
 
-	/// <summary>
-	/// Initializes a instance of the <see cref="CurrentUserService"/> class.
-	/// </summary>
-	/// <param name="contextAccessor">The http context accessor.</param>
-	public CurrentUserService(IHttpContextAccessor contextAccessor) =>
-		_contextAccessor = contextAccessor;
+/// <summary>
+/// The current user service class.
+/// </summary>
+/// <param name="contextAccessor">The http context accessor.</param>
+internal sealed class CurrentUserService(IHttpContextAccessor contextAccessor) : ICurrentUserService
+{
+	private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
 
 	/// <inheritdoc/>
 	public Guid UserId =>

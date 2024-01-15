@@ -19,27 +19,17 @@ namespace Application.Services;
 /// <summary>
 /// The account service class.
 /// </summary>
-internal sealed class AccountService : IAccountService
+/// <param name="loggerService">The logger service to use.</param>
+/// <param name="repositoryService">The repository service to use.</param>
+/// <param name="mapper">The auto mapper to use.</param>
+internal sealed class AccountService(ILoggerService<AccountService> loggerService, IRepositoryService repositoryService, IMapper mapper) : IAccountService
 {
-	private readonly ILoggerService<AccountService> _loggerService;
-	private readonly IRepositoryService _repositoryService;
-	private readonly IMapper _mapper;
+	private readonly ILoggerService<AccountService> _loggerService = loggerService;
+	private readonly IRepositoryService _repositoryService = repositoryService;
+	private readonly IMapper _mapper = mapper;
 
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
-
-	/// <summary>
-	/// Initilizes an instance of the account service class.
-	/// </summary>
-	/// <param name="loggerService">The logger service to use.</param>
-	/// <param name="repositoryService">The repository service to use.</param>
-	/// <param name="mapper">The auto mapper to use.</param>
-	public AccountService(ILoggerService<AccountService> loggerService, IRepositoryService repositoryService, IMapper mapper)
-	{
-		_loggerService = loggerService;
-		_repositoryService = repositoryService;
-		_mapper = mapper;
-	}
 
 	public async Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest request, CancellationToken cancellationToken = default)
 	{

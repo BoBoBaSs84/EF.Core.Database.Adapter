@@ -17,24 +17,15 @@ namespace Application.Services;
 /// <summary>
 /// The enumerator service class.
 /// </summary>
-internal sealed class EnumeratorService : IEnumeratorService
+/// <param name="loggerService">The logger service instance to use.</param>
+/// <param name="mapper">The auto mapper instance to use.</param>
+internal sealed class EnumeratorService(ILoggerService<EnumeratorService> loggerService, IMapper mapper) : IEnumeratorService
 {
-	private readonly ILoggerService<EnumeratorService> _loggerService;
-	private readonly IMapper _mapper;
+	private readonly ILoggerService<EnumeratorService> _loggerService = loggerService;
+	private readonly IMapper _mapper = mapper;
 
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
-
-	/// <summary>
-	/// Initilizes an instance of the enumerator service class.
-	/// </summary>
-	/// <param name="loggerService">The logger service instance to use.</param>
-	/// <param name="mapper">The auto mapper instance to use.</param>
-	public EnumeratorService(ILoggerService<EnumeratorService> loggerService, IMapper mapper)
-	{
-		_loggerService = loggerService;
-		_mapper = mapper;
-	}
 
 	public ErrorOr<IEnumerable<CardTypeResponse>> GetCardTypes()
 	{

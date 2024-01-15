@@ -8,13 +8,7 @@ namespace BaseTests.Attributes;
 /// <remarks>
 /// Derives from the <see cref="TestPropertyAttribute"/> class.
 /// </remarks>
+/// <param name="order">The order number.</param>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public sealed class TestOrderAttribute : TestPropertyAttribute
-{
-	/// <summary>
-	/// Initilizes an instance of the test order attribute class.
-	/// </summary>
-	/// <param name="order">The order number.</param>
-	public TestOrderAttribute([Range(1, int.MaxValue)] int order) : base("ExecutionOrder", $"{order}")
-	{ }
-}
+public sealed class TestOrderAttribute([Range(1, int.MaxValue)] int order) : TestPropertyAttribute("ExecutionOrder", $"{order}")
+{ }

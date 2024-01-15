@@ -10,17 +10,11 @@ namespace Infrastructure.Logging;
 /// <remarks>
 /// Implements the <see cref="ILoggerService{TLogger}"/> interface.
 /// </remarks>
-/// <typeparam name="TLogger"></typeparam>
-public sealed class LoggerService<TLogger> : ILoggerService<TLogger> where TLogger : class
+/// <typeparam name="T">The type to work with.</typeparam>
+/// <param name="logger">The logger.</param>
+public sealed class LoggerService<T>(ILogger<T> logger) : ILoggerService<T> where T : class
 {
-	private readonly ILogger<TLogger> _logger;
-
-	/// <summary>
-	/// Initializes an instance of the <see cref="LoggerService{TLogger}"/> class.
-	/// </summary>
-	/// <param name="logger">The logger.</param>
-	public LoggerService(ILogger<TLogger> logger)
-		=> _logger = logger;
+	private readonly ILogger<T> _logger = logger;
 
 	/// <inheritdoc/>
 	public void Log(Action<ILogger, Exception?> del, Exception? exception = null)

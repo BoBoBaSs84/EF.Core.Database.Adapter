@@ -23,27 +23,17 @@ namespace Application.Services;
 /// <summary>
 /// The attendance service class.
 /// </summary>
-internal sealed class AttendanceService : IAttendanceService
+/// <param name="loggerService">The logger service to use.</param>
+/// <param name="repositoryService">The repository service to use.</param>
+/// <param name="mapper">The auto mapper to use.</param>
+internal sealed class AttendanceService(ILoggerService<AttendanceService> loggerService, IRepositoryService repositoryService, IMapper mapper) : IAttendanceService
 {
-	private readonly ILoggerService<AttendanceService> _loggerService;
-	private readonly IRepositoryService _repositoryService;
-	private readonly IMapper _mapper;
+	private readonly ILoggerService<AttendanceService> _loggerService = loggerService;
+	private readonly IRepositoryService _repositoryService = repositoryService;
+	private readonly IMapper _mapper = mapper;
 
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
-
-	/// <summary>
-	/// Initilizes an instance of the attendance service class.
-	/// </summary>
-	/// <param name="loggerService">The logger service to use.</param>
-	/// <param name="repositoryService">The repository service to use.</param>
-	/// <param name="mapper">The auto mapper to use.</param>
-	public AttendanceService(ILoggerService<AttendanceService> loggerService, IRepositoryService repositoryService, IMapper mapper)
-	{
-		_loggerService = loggerService;
-		_repositoryService = repositoryService;
-		_mapper = mapper;
-	}
 
 	public async Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest request, CancellationToken cancellationToken = default)
 	{

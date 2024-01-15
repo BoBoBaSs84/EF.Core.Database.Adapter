@@ -29,27 +29,17 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+/// <param name="cardService">The bank card service to use.</param>
+/// <param name="currentUserService">The current user service to use.</param>
+/// <param name="transactionService">The transaction service to use.</param>
 [Authorize]
 [Route(Endpoints.Card.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed partial class CardController : ApiControllerBase
+public sealed partial class CardController(ICardService cardService, ICurrentUserService currentUserService, ITransactionService transactionService) : ApiControllerBase
 {
-	private readonly ICardService _cardService;
-	private readonly ICurrentUserService _currentUserService;
-	private readonly ITransactionService _transactionService;
-
-	/// <summary>
-	/// Initializes an instance of the bank card controller class.
-	/// </summary>
-	/// <param name="cardService">The bank card service to use.</param>
-	/// <param name="currentUserService">The current user service to use.</param>
-	/// <param name="transactionService">The transaction service to use.</param>
-	public CardController(ICardService cardService, ICurrentUserService currentUserService, ITransactionService transactionService)
-	{
-		_cardService = cardService;
-		_currentUserService = currentUserService;
-		_transactionService = transactionService;
-	}
+	private readonly ICardService _cardService = cardService;
+	private readonly ICurrentUserService _currentUserService = currentUserService;
+	private readonly ITransactionService _transactionService = transactionService;
 
 	/// <summary>
 	/// Deletes an existing bank card for the application user by the bank card identifier.

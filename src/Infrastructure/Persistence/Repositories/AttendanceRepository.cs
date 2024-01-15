@@ -15,12 +15,10 @@ namespace Infrastructure.Persistence.Repositories;
 /// Derives from the <see cref="IdentityRepository{TEntity}"/> class
 /// and implements the <see cref="IAttendanceRepository"/> interface.
 /// </remarks>
-internal sealed class AttendanceRepository : IdentityRepository<AttendanceModel>, IAttendanceRepository
+/// <remarks>
+/// Initializes a new instance of the attendance repository class.
+/// </remarks>
+/// <inheritdoc/>
+internal sealed class AttendanceRepository(DbContext dbContext) : IdentityRepository<AttendanceModel>(dbContext), IAttendanceRepository
 {
-	/// <summary>
-	/// Initializes a new instance of the attendance repository class.
-	/// </summary>
-	/// <inheritdoc/>
-	public AttendanceRepository(DbContext dbContext) : base(dbContext)
-	{ }
 }

@@ -11,20 +11,11 @@ namespace Infrastructure.Persistence.Interceptors;
 /// <summary>
 /// The custom save changes interceptor class.
 /// </summary>
-/// <remarks>
-/// Derives from the <see cref="SaveChangesInterceptor"/> class.
-/// </remarks>
-public sealed class CustomSaveChangesInterceptor : SaveChangesInterceptor
+/// <param name="currentUserService">The current user service.</param>
+/// <inheritdoc/>
+public sealed class CustomSaveChangesInterceptor(ICurrentUserService currentUserService) : SaveChangesInterceptor
 {
-	private readonly ICurrentUserService _currentUserService;
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="CustomSaveChangesInterceptor"/> class.
-	/// </summary>
-	/// <param name="currentUserService">The current user service.</param>
-	public CustomSaveChangesInterceptor(ICurrentUserService currentUserService) =>
-		_currentUserService = currentUserService;
-
+	private readonly ICurrentUserService _currentUserService = currentUserService;
 
 	/// <inheritdoc/>
 	public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)

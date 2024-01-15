@@ -25,24 +25,15 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+/// <param name="attendanceService">The attendance service to use.</param>
+/// <param name="currentUserService">The current user service to use.</param>
 [Authorize]
 [Route(Endpoints.Attendance.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class AttendanceController : ApiControllerBase
+public sealed class AttendanceController(IAttendanceService attendanceService, ICurrentUserService currentUserService) : ApiControllerBase
 {
-	private readonly IAttendanceService _attendanceService;
-	private readonly ICurrentUserService _currentUserService;
-
-	/// <summary>
-	/// Initializes an instance of the attendance controller class.
-	/// </summary>
-	/// <param name="attendanceService">The attendance service to use.</param>
-	/// <param name="currentUserService">The current user service to use.</param>
-	public AttendanceController(IAttendanceService attendanceService, ICurrentUserService currentUserService)
-	{
-		_attendanceService = attendanceService;
-		_currentUserService = currentUserService;
-	}
+	private readonly IAttendanceService _attendanceService = attendanceService;
+	private readonly ICurrentUserService _currentUserService = currentUserService;
 
 	/// <summary>
 	/// Returns multiple attendances as a paged list for the application user filtered by the <paramref name="parameters"/>.

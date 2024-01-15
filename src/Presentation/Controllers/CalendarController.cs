@@ -23,18 +23,12 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+/// <param name="calendarDayService">The calendar day service.</param>
 [Route(Endpoints.Calendar.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class CalendarController : ApiControllerBase
+public sealed class CalendarController(ICalendarService calendarDayService) : ApiControllerBase
 {
-	private readonly ICalendarService _calendarDayService;
-
-	/// <summary>
-	/// Initializes an instance of the calendar controller class.
-	/// </summary>
-	/// <param name="calendarDayService">The calendar day service.</param>
-	public CalendarController(ICalendarService calendarDayService) =>
-		_calendarDayService = calendarDayService;
+	private readonly ICalendarService _calendarDayService = calendarDayService;
 
 	/// <summary>
 	/// Returns calendar entries as a paged list, filtered by the parameters.

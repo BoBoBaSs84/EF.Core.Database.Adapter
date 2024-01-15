@@ -12,15 +12,8 @@ namespace Infrastructure.Persistence.Generators;
 /// The repository sql generator class.
 /// </summary>
 /// <inheritdoc/>
-internal sealed class RepositorySqlGenerator : SqlServerMigrationsSqlGenerator
+internal sealed class RepositorySqlGenerator(MigrationsSqlGeneratorDependencies dependencies, ICommandBatchPreparer commandBatchPreparer) : SqlServerMigrationsSqlGenerator(dependencies, commandBatchPreparer)
 {
-	/// <summary>
-	/// Initializes a new instance of the repository sql generator class.
-	/// </summary>
-	/// <inheritdoc/>
-	public RepositorySqlGenerator(MigrationsSqlGeneratorDependencies dependencies, ICommandBatchPreparer commandBatchPreparer) : base(dependencies, commandBatchPreparer)
-	{	}
-
 	protected override void Generate(MigrationOperation operation, IModel? model, MigrationCommandListBuilder builder)
 	{
 		if (operation is CreateDatabaseLogOperation logOperation)

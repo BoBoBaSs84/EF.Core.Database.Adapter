@@ -20,18 +20,12 @@ namespace Presentation.Controllers;
 /// <remarks>
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
+/// <param name="authenticationService">The authentication service.</param>
 [Route(Endpoints.Authentication.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class AuthenticationController : ApiControllerBase
+public sealed class AuthenticationController(IAuthenticationService authenticationService) : ApiControllerBase
 {
-	private readonly IAuthenticationService _authenticationService;
-
-	/// <summary>
-	/// Initializes an instance of <see cref="AuthenticationController"/> class.
-	/// </summary>
-	/// <param name="authenticationService">The authentication service.</param>
-	public AuthenticationController(IAuthenticationService authenticationService) =>
-		_authenticationService = authenticationService;
+	private readonly IAuthenticationService _authenticationService = authenticationService;
 
 	/// <summary>
 	/// Should authenticate an existing application user.

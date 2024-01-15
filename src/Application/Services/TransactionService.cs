@@ -21,30 +21,20 @@ namespace Application.Services;
 /// <summary>
 /// The transaction service class.
 /// </summary>
-internal sealed class TransactionService : ITransactionService
+/// <param name="loggerService">The logger service to use.</param>
+/// <param name="repositoryService">The repository service to use.</param>
+/// <param name="mapper">The auto mapper to use.</param>
+internal sealed class TransactionService(ILoggerService<TransactionService> loggerService, IRepositoryService repositoryService, IMapper mapper) : ITransactionService
 {
-	private readonly ILoggerService<TransactionService> _loggerService;
-	private readonly IRepositoryService _repositoryService;
-	private readonly IMapper _mapper;
+	private readonly ILoggerService<TransactionService> _loggerService = loggerService;
+	private readonly IRepositoryService _repositoryService = repositoryService;
+	private readonly IMapper _mapper = mapper;
 
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
-
-	/// <summary>
-	/// Initilizes an instance of the transaction service class.
-	/// </summary>
-	/// <param name="loggerService">The logger service to use.</param>
-	/// <param name="repositoryService">The repository service to use.</param>
-	/// <param name="mapper">The auto mapper to use.</param>
-	public TransactionService(ILoggerService<TransactionService> loggerService, IRepositoryService repositoryService, IMapper mapper)
-	{
-		_loggerService = loggerService;
-		_repositoryService = repositoryService;
-		_mapper = mapper;
-	}
 
 	public async Task<ErrorOr<Created>> CreateByAccountId(Guid accountId, TransactionCreateRequest request, CancellationToken cancellationToken = default)
 	{

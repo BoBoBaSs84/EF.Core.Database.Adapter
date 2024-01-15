@@ -35,7 +35,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets a value indicating whether the state is error.
 	/// </summary>
-	public bool IsError => Errors.Any();
+	public bool IsError => Errors.Count > 0;
 
 	/// <summary>
 	/// Gets the list of errors.
@@ -73,7 +73,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// Creates an <see cref="ErrorOr{TValue}"/> from a list of errors.
 	/// </summary>
 	/// <param name="errors">List of errors</param>
-	public static implicit operator ErrorOr<TValue>(Error[] errors) => new(errors.ToList());
+	public static implicit operator ErrorOr<TValue>(Error[] errors) => new([.. errors]);
 
 	/// <summary>
 	/// Executes one of two actions, according to the result (Success/Failure)

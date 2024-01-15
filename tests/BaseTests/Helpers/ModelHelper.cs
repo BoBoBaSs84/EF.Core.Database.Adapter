@@ -18,7 +18,7 @@ public static class ModelHelper
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(entries, 1);
 
-		List<AttendanceModel> attendances = new();
+		List<AttendanceModel> attendances = [];
 		for (int i = 1; i <= entries; i++)
 		{
 			Guid calendarId = calendar[GetInt(0, calendar.Count)].Id;
@@ -36,7 +36,7 @@ public static class ModelHelper
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(accounts, 1);
 
-		List<AccountUserModel> accountUsers = new();
+		List<AccountUserModel> accountUsers = [];
 		for (int i = 1; i <= accounts; i++)
 		{
 			AccountModel newAccount = GetNewAccount();
@@ -62,7 +62,7 @@ public static class ModelHelper
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
 
-		List<AccountTransactionModel> accountTransactions = new();
+		List<AccountTransactionModel> accountTransactions = [];
 		for (int i = 1; i <= amount; i++)
 			accountTransactions.Add(new() { Account = account, Transaction = GetNewTransaction() });
 		return accountTransactions;
@@ -85,7 +85,7 @@ public static class ModelHelper
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(cardsAmount, 1);
 
-		List<CardModel> cardsToReturn = new();
+		List<CardModel> cardsToReturn = [];
 		for (int i = 1; i <= cardsAmount; i++)
 		{
 			CardModel newCard = GetNewCard(user, account);
@@ -99,7 +99,7 @@ public static class ModelHelper
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
 
-		List<CardTransactionModel> cardTransactions = new();
+		List<CardTransactionModel> cardTransactions = [];
 		for (int i = 1; i <= amount; i++)
 			cardTransactions.Add(new() { Card = card, Transaction = GetNewTransaction() });
 		return cardTransactions;

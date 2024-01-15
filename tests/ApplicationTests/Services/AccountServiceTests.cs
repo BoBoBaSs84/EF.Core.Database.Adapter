@@ -87,7 +87,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		string pan = "UnitTest";
 		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
 		CardCreateRequest cardCreateRequest = new() { PAN = pan, CardType = CardType.DEBIT };
-		request.Cards = new[] { cardCreateRequest };
+		request.Cards = [cardCreateRequest];
 
 		ErrorOr<Created> result =
 			await _accountService.Create(userId, request);
@@ -106,7 +106,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		(Guid userId, _, _, _, string pan) = GetUserAccountCard();
 		AccountCreateRequest request = new AccountCreateRequest().GetAccountCreateRequest();
 		CardCreateRequest cardCreateRequest = new() { PAN = pan, CardType = CardType.DEBIT };
-		request.Cards = new[] { cardCreateRequest };
+		request.Cards = [cardCreateRequest];
 
 		ErrorOr<Created> result =
 			await _accountService.Create(userId, request);
@@ -259,7 +259,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		{
 			Id = accountId,
 			Provider = "UnitTest",
-			Cards = new[] { new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today } }
+			Cards = [new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today }]
 		};
 
 		ErrorOr<Updated> result =
@@ -306,7 +306,7 @@ public sealed class AccountServiceTests : ApplicationTestBase
 		{
 			Id = accountId,
 			Provider = "UnitTest",
-			Cards = new[] { new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today } }
+			Cards = [new CardUpdateRequest() { Id = cardId, ValidUntil = DateTime.Today }]
 		};
 
 		ErrorOr<Updated> result =

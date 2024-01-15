@@ -283,7 +283,7 @@ internal sealed class AccountService : IAccountService
 	{
 		account.Provider = request.Provider;
 
-		if (request.Cards is not null && request.Cards.Any())
+		if (request.Cards is not null && request.Cards.Length > 0)
 		{
 			foreach (CardUpdateRequest cardRequest in request.Cards)
 			{

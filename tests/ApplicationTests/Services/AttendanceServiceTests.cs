@@ -107,7 +107,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		AttendanceCreateRequest request = GetCreateRequest();
 		request.AttendanceType = AttendanceType.HOLIDAY;
 
-		AttendanceCreateRequest[] requests = { request };
+		AttendanceCreateRequest[] requests = [request];
 
 		ErrorOr<Created> result =
 			await _attendanceService.Create(userId, requests);
@@ -127,7 +127,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		AttendanceCreateRequest request = GetCreateRequest();
 		request.Date = DateTime.MinValue;
 
-		AttendanceCreateRequest[] requests = { request };
+		AttendanceCreateRequest[] requests = [request];
 
 		ErrorOr<Created> result =
 			await _attendanceService.Create(userId, requests);
@@ -147,7 +147,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		AttendanceCreateRequest request = GetCreateRequest();
 		request.Date = date;
 
-		AttendanceCreateRequest[] requests = { request };
+		AttendanceCreateRequest[] requests = [request];
 
 		ErrorOr<Created> result =
 			await _attendanceService.Create(userId, requests);
@@ -166,7 +166,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		(Guid userId, _, _, _) = GetUserAttendance();
 		AttendanceCreateRequest request = GetCreateRequest();
 
-		AttendanceCreateRequest[] requests = { request };
+		AttendanceCreateRequest[] requests = [request];
 
 		ErrorOr<Created> result =
 			await _attendanceService.Create(userId, requests);
@@ -218,7 +218,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		(Guid userId, Guid calendarId, _, _) = GetUserAttendance();
 		calendarId = default;
 
-		Guid[] guids = new Guid[1] { calendarId };
+		Guid[] guids = [calendarId];
 
 		ErrorOr<Deleted> result =
 			await _attendanceService.Delete(userId, guids);
@@ -236,7 +236,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 	{
 		(Guid userId, Guid calendarId, _, _) = GetUserAttendance();
 
-		Guid[] guids = new Guid[1] { calendarId };
+		Guid[] guids = [calendarId];
 
 		ErrorOr<Deleted> result =
 			await _attendanceService.Delete(userId, guids);
@@ -377,7 +377,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		request.AttendanceType = AttendanceType.HOLIDAY;
 		request.StartTime = new(6, 0, 0);
 
-		AttendanceUpdateRequest[] requests = { request };
+		AttendanceUpdateRequest[] requests = [request];
 
 		ErrorOr<Updated> result =
 			await _attendanceService.Update(requests);
@@ -396,7 +396,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		AttendanceUpdateRequest request = GetUpdateRequest();
 		request.Id = default;
 
-		AttendanceUpdateRequest[] requests = { request };
+		AttendanceUpdateRequest[] requests = [request];
 
 		ErrorOr<Updated> result =
 			await _attendanceService.Update(requests);
@@ -418,7 +418,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		request.EndTime = new(14, 0, 0);
 		request.BreakTime = new(0, 30, 0);
 
-		AttendanceUpdateRequest[] requests = { request };
+		AttendanceUpdateRequest[] requests = [request];
 
 		ErrorOr<Updated> result =
 			await _attendanceService.Update(requests);

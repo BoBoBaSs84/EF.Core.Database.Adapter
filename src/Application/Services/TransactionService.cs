@@ -102,7 +102,7 @@ internal sealed class TransactionService : ITransactionService
 
 	public async Task<ErrorOr<Deleted>> DeleteByAccountId(Guid accountId, Guid transactionId, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
+		string[] parameters = [$"{accountId}", $"{transactionId}"];
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
@@ -129,7 +129,7 @@ internal sealed class TransactionService : ITransactionService
 
 	public async Task<ErrorOr<Deleted>> DeleteByCardId(Guid cardId, Guid transactionId, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
+		string[] parameters = [$"{cardId}", $"{transactionId}"];
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
@@ -156,7 +156,7 @@ internal sealed class TransactionService : ITransactionService
 
 	public async Task<ErrorOr<TransactionResponse>> GetByAccountId(Guid accountId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{accountId}", $"{transactionId}" };
+		string[] parameters = [$"{accountId}", $"{transactionId}"];
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
@@ -181,7 +181,7 @@ internal sealed class TransactionService : ITransactionService
 
 	public async Task<ErrorOr<TransactionResponse>> GetByCardId(Guid cardId, Guid transactionId, bool trackChanges = false, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{cardId}", $"{transactionId}" };
+		string[] parameters = [$"{cardId}", $"{transactionId}"];
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
@@ -286,7 +286,7 @@ internal sealed class TransactionService : ITransactionService
 
 	public async Task<ErrorOr<Updated>> UpdateByAccountId(Guid accountId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{accountId}", $"{request.Id}" };
+		string[] parameters = [$"{accountId}", $"{request.Id}"];
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(
@@ -313,7 +313,7 @@ internal sealed class TransactionService : ITransactionService
 
 	public async Task<ErrorOr<Updated>> UpdateByCardId(Guid cardId, TransactionUpdateRequest request, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = new[] { $"{cardId}", $"{request.Id}" };
+		string[] parameters = [$"{cardId}", $"{request.Id}"];
 		try
 		{
 			TransactionModel? transactionEntry = await _repositoryService.TransactionRepository.GetByConditionAsync(

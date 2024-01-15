@@ -16,10 +16,9 @@ public static class ModelHelper
 {
 	public static ICollection<AttendanceModel> GetNewAttendances(UserModel user, IList<CalendarModel> calendar, int entries = 10)
 	{
-		if (entries < 1)
-			throw new ArgumentOutOfRangeException(nameof(entries));
+		ArgumentOutOfRangeException.ThrowIfLessThan(entries, 1);
 
-		List<AttendanceModel> attendances = new();
+		List<AttendanceModel> attendances = [];
 		for (int i = 1; i <= entries; i++)
 		{
 			Guid calendarId = calendar[GetInt(0, calendar.Count)].Id;
@@ -35,9 +34,9 @@ public static class ModelHelper
 
 	public static ICollection<AccountUserModel> GetNewAccountUsers(UserModel user, int accounts = 2, int accountTransactions = 10, int cards = 2, int cardTransactions = 10)
 	{
-		if (accounts < 1)
-			throw new ArgumentOutOfRangeException(nameof(accounts));
-		List<AccountUserModel> accountUsers = new();
+		ArgumentOutOfRangeException.ThrowIfLessThan(accounts, 1);
+
+		List<AccountUserModel> accountUsers = [];
 		for (int i = 1; i <= accounts; i++)
 		{
 			AccountModel newAccount = GetNewAccount();
@@ -61,9 +60,9 @@ public static class ModelHelper
 
 	private static ICollection<AccountTransactionModel> GetNewAccountTransactions(AccountModel account, int amount = 10)
 	{
-		if (amount < 1)
-			throw new ArgumentOutOfRangeException(nameof(amount));
-		List<AccountTransactionModel> accountTransactions = new();
+		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
+
+		List<AccountTransactionModel> accountTransactions = [];
 		for (int i = 1; i <= amount; i++)
 			accountTransactions.Add(new() { Account = account, Transaction = GetNewTransaction() });
 		return accountTransactions;
@@ -84,9 +83,9 @@ public static class ModelHelper
 
 	private static ICollection<CardModel> GetNewCards(UserModel user, AccountModel account, int cardsAmount = 2, int transactionAmount = 10)
 	{
-		if (cardsAmount < 1)
-			throw new ArgumentOutOfRangeException(nameof(cardsAmount));
-		List<CardModel> cardsToReturn = new();
+		ArgumentOutOfRangeException.ThrowIfLessThan(cardsAmount, 1);
+
+		List<CardModel> cardsToReturn = [];
 		for (int i = 1; i <= cardsAmount; i++)
 		{
 			CardModel newCard = GetNewCard(user, account);
@@ -98,10 +97,9 @@ public static class ModelHelper
 
 	private static ICollection<CardTransactionModel> GetNewCardTransactions(CardModel card, int amount = 10)
 	{
-		if (amount < 1)
-			throw new ArgumentOutOfRangeException(nameof(amount));
+		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
 
-		List<CardTransactionModel> cardTransactions = new();
+		List<CardTransactionModel> cardTransactions = [];
 		for (int i = 1; i <= amount; i++)
 			cardTransactions.Add(new() { Card = card, Transaction = GetNewTransaction() });
 		return cardTransactions;

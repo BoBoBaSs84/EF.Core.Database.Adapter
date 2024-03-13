@@ -14,8 +14,8 @@
 		<PackageVersion Include="MSTest.TestFramework" Version="3.2.2"/>
 		<PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
 		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
-		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.2" />
+		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2"/>
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />

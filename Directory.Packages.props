@@ -24,7 +24,7 @@
 		<PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageVersion Include="Tynamix.ObjectFiller" Version="1.5.8" />
 		<PackageVersion Include="Tynamix.ObjectFiller.RegEx" Version="1.0.0" />
-		<PackageVersion Include="coverlet.collector" Version="6.0.1" />
+		<PackageVersion Include="coverlet.collector" Version="6.0.2" />
 	</ItemGroup>
 
 </Project>

@@ -10,10 +10,10 @@ public interface IAuditedModelBase<CKey, MKey>
 	/// <summary>
 	/// The key that uniquely identify who created the data row.
 	/// </summary>
-	CKey CreatedBy { get; }
+	CKey CreatedBy { get; set; }
 
 	/// <summary>
 	/// The key that uniquely identify who last modified the data row.
 	/// </summary>
-	MKey ModifiedBy { get; }
+	MKey ModifiedBy { get; set; }
 }

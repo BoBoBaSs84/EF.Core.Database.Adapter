@@ -8,5 +8,5 @@ public interface ISoftDeleteableBase
 	/// <summary>
 	/// Is the data row in a soft deleted?
 	/// </summary>
-	bool IsDeleted { get; }
+	bool IsDeleted { get; set; }
 }

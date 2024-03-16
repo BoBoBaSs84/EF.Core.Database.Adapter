@@ -11,13 +11,22 @@ namespace Infrastructure.Persistence.Configurations.Base;
 /// <remarks>
 /// Implements the members of the <see cref="IEntityTypeConfiguration{TEntity}"/> interface.
 /// </remarks>
-/// <typeparam name="TEntity"></typeparam>
-internal abstract class CompositeBaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : class, IConcurrencyModel
+/// <typeparam name="T"></typeparam>
+internal abstract class CompositeBaseConfiguration<T> : IEntityTypeConfiguration<T> where T : class, IConcurrencyModel, IAuditedModel
 {
 	/// <inheritdoc/>
-	public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+	public virtual void Configure(EntityTypeBuilder<T> builder)
 	{
 		builder.Property(e => e.Timestamp)
-			.IsConcurrencyToken();
+			.IsRowVersion()
+			.HasColumnOrder(1);
+
+		builder.Property(e => e.CreatedBy)
+			.IsRequired()
+			.HasColumnOrder(2);
+
+		builder.Property(e => e.ModifiedBy)
+			.IsRequired(false)
+			.HasColumnOrder(3);
 	}
 }

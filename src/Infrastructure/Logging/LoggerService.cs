@@ -21,7 +21,7 @@ public sealed class LoggerService<T>(ILogger<T> logger) : ILoggerService<T> wher
 		=> del?.Invoke(_logger, exception);
 
 	/// <inheritdoc/>
-	public void Log<T>(Action<ILogger, T, Exception?> del, T param, Exception? exception = null)
+	public void Log<T1>(Action<ILogger, T1, Exception?> del, T1 param, Exception? exception = null)
 		=> del?.Invoke(_logger, param, exception);
 
 	/// <inheritdoc/>

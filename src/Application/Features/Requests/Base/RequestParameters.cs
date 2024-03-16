@@ -5,8 +5,8 @@
 /// </summary>
 public abstract class RequestParameters
 {
-	private const int maxPageSize = 100;
-	private int pageSize = 10;
+	private const int MaxPageSize = 100;
+	private int _pageSize = 10;
 
 	/// <summary>
 	/// The page number property.
@@ -21,7 +21,7 @@ public abstract class RequestParameters
 	/// </remarks>
 	public int PageSize
 	{
-		get => pageSize;
-		set => pageSize = value > maxPageSize ? maxPageSize : value;
+		get => _pageSize;
+		set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
 	}
 }

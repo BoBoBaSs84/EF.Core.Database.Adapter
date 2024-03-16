@@ -32,7 +32,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	/// <param name="ignoreQueryFilters">Should model-level entity query filters be applied?</param>
 	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
 	/// <returns>The number of all entities.</returns>
-	Task<int> GetTotalCountAsync(
+	Task<int> GetCountAsync(
 		bool ignoreQueryFilters = false,
 		CancellationToken cancellationToken = default
 		);

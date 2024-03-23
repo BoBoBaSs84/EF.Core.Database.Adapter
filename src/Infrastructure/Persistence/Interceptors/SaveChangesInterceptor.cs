@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Presentation.Services;
 
-using Domain.Models.Base;
+using Domain.Interfaces.Models;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -36,7 +36,13 @@ public sealed class CustomSaveChangesInterceptor(ICurrentUserService currentUser
 		if (context is null)
 			return;
 
-		foreach (EntityEntry<AuditedModel> entry in context.ChangeTracker.Entries<AuditedModel>())
+		foreach (EntityEntry<IEnumeratorModel> entry in context.ChangeTracker.Entries<IEnumeratorModel>())
+		{
+			if (entry.State is EntityState.Deleted)
+				entry.Entity.IsDeleted = true;
+		}
+
+		foreach (EntityEntry<IAuditedModel> entry in context.ChangeTracker.Entries<IAuditedModel>())
 		{
 			if (entry.State is EntityState.Deleted or EntityState.Modified)
 				entry.Entity.ModifiedBy = _currentUserService.UserId;

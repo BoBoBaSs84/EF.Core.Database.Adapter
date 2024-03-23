@@ -8,22 +8,25 @@ namespace Infrastructure.Persistence.Configurations.Base;
 /// <summary>
 /// The identity type base configuration class.
 /// </summary>
-/// <remarks>
-/// Implements the members of the <see cref="IEntityTypeConfiguration{TEntity}"/> interface.
-/// </remarks>
-/// <typeparam name="TEntity">
+/// <typeparam name="T">
 /// Must implement the <see cref="IIdentityModel"/> interface.
 /// </typeparam>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, entity type configuration.")]
-internal abstract class IdentityBaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : class, IIdentityModel, IConcurrencyModel
+internal abstract class IdentityBaseConfiguration<T> : IEntityTypeConfiguration<T> where T : class, IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
-	public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+	public virtual void Configure(EntityTypeBuilder<T> builder)
 	{
 		builder.HasKey(e => e.Id)
 			.IsClustered(false);
 
+		builder.Property(e => e.Id)
+			.HasDefaultValueSql("NEWID()")
+			.ValueGeneratedOnAdd()
+			.HasColumnOrder(1);
+
 		builder.Property(e => e.Timestamp)
-			.IsConcurrencyToken();
+			.IsRowVersion()
+			.HasColumnOrder(2);
 	}
 }

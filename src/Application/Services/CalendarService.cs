@@ -105,7 +105,7 @@ internal sealed class CalendarService(IDateTimeService dateTimeService, ILoggerS
 			if (!calendarEntries.Any())
 				return CalendarServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = await _repositoryService.CalendarRepository.GetCountAsync(
+			int totalCount = await _repositoryService.CalendarRepository.CountAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year)
 				.FilterByMonth(parameters.Month)
 				.FilterByDateRange(parameters.MinDate, parameters.MaxDate),

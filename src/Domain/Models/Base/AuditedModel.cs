@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-using Domain.Interfaces.Models;
+﻿using Domain.Interfaces.Models;
 
 namespace Domain.Models.Base;
 
@@ -14,10 +12,8 @@ namespace Domain.Models.Base;
 public abstract class AuditedModel : IdentityModel, IAuditedModel
 {
 	/// <inheritdoc/>
-	[Column(Order = 3)]
 	public Guid CreatedBy { get; set; }
 
 	/// <inheritdoc/>
-	[Column(Order = 4)]
 	public Guid? ModifiedBy { get; set; }
 }

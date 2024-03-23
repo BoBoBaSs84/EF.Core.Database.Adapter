@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-using Domain.Interfaces.Models;
+﻿using Domain.Interfaces.Models;
 
 namespace Domain.Models.Base;
 
@@ -18,10 +15,8 @@ namespace Domain.Models.Base;
 public abstract class IdentityModel : IIdentityModel, IConcurrencyModel
 {
 	/// <inheritdoc/>
-	[Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public Guid Id { get; private set; }
 
 	/// <inheritdoc/>
-	[Timestamp, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 	public byte[] Timestamp { get; private set; } = default!;
 }

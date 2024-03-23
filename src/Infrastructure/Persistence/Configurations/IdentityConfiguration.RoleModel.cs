@@ -39,7 +39,7 @@ internal static partial class IdentityConfiguration
 		private static ICollection<RoleModel> GetRoleTypes()
 		{
 			List<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetValues().ToList();
-			ICollection<RoleModel> listToReturn = new List<RoleModel>();
+			ICollection<RoleModel> listToReturn = [];
 
 			foreach (RoleType roleType in roleTypes)
 				listToReturn.Add(new RoleModel()

@@ -7,5 +7,5 @@ public partial class CalendarModel
 	/// <summary>
 	/// The <see cref="Attendances"/> property.
 	/// </summary>
-	public virtual ICollection<AttendanceModel> Attendances { get; set; } = new HashSet<AttendanceModel>();
+	public virtual ICollection<AttendanceModel> Attendances { get; set; } = [];
 }

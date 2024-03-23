@@ -214,7 +214,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (transactionEntries.Any().Equals(false))
 				return TransactionServiceErrors.GetByAccountIdNotFound(accountId);
 
-			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(
+			int totalCount = await _repositoryService.TransactionRepository.CountAsync(
 				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
 				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
 				.FilterByValueDate(parameters.ValueDate)
@@ -254,7 +254,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (transactionEntries.Any().Equals(false))
 				return TransactionServiceErrors.GetByCardIdNotFound(cardId);
 
-			int totalCount = await _repositoryService.TransactionRepository.GetCountAsync(
+			int totalCount = await _repositoryService.TransactionRepository.CountAsync(
 				expression: x => x.CardTransactions.Select(x => x.CardId).Contains(cardId),
 				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
 				.FilterByValueDate(parameters.ValueDate)

@@ -210,7 +210,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (!attendances.Any())
 				return AttendanceServiceErrors.GetPagedByParametersNotFound;
 
-			int totalCount = await _repositoryService.AttendanceRepository.GetCountAsync(
+			int totalCount = await _repositoryService.AttendanceRepository.CountAsync(
 				expression: x => x.UserId.Equals(userId),
 				queryFilter: x => x.FilterByYear(parameters.Year)
 				.FilterByMonth(parameters.Month)
@@ -259,7 +259,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			IEnumerable<AttendanceResponse> result =
 				calendarEntries.GroupJoin(attendanceEntries, c => c.Id, a => a.CalendarId, (c, a) => GetResponse(c, a.FirstOrDefault()));
 
-			int totalCount = await _repositoryService.CalendarRepository.GetCountAsync(
+			int totalCount = await _repositoryService.CalendarRepository.CountAsync(
 				queryFilter: x => x.FilterByYear(parameters.Year)
 				.FilterByMonth(parameters.Month)
 				.FilterByDateRange(parameters.MinDate, parameters.MaxDate),

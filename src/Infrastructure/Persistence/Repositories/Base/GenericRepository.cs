@@ -19,50 +19,128 @@ internal abstract class GenericRepository<T>(DbContext dbContext) : IGenericRepo
 	protected DbContext _dbContext = dbContext;
 	protected DbSet<T> _dbSet = dbContext.Set<T>();
 
+	public void Create(T entity)
+		=> _dbSet.Add(entity);
+
+	public void Create(IEnumerable<T> entities)
+		=> _dbSet.AddRange(entities);
+
 	public async Task CreateAsync(T entity, CancellationToken cancellationToken = default)
 		=> await _dbSet.AddAsync(entity, cancellationToken);
 
 	public async Task CreateAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
 		=> await _dbSet.AddRangeAsync(entities, cancellationToken);
 
+	public int Count(bool ignoreQueryFilters = false)
+	{
+		IQueryable<T> query = PrepareQuery(
+			ignoreQueryFilters: ignoreQueryFilters
+			);
+
+		return query.Count();
+	}
+
+	public int Count(Expression<Func<T, bool>>? expression = null, Func<IQueryable<T>,
+		IQueryable<T>>? queryFilter = null, bool ignoreQueryFilters = false)
+	{
+		IQueryable<T> query = PrepareQuery(
+			expression, queryFilter, ignoreQueryFilters
+			);
+
+		return query.Count();
+	}
+
+	public async Task<int> CountAsync(bool ignoreQueryFilters = false, CancellationToken cancellationToken = default)
+	{
+		IQueryable<T> query = PrepareQuery(
+			ignoreQueryFilters: ignoreQueryFilters
+			);
+
+		return await query.CountAsync(cancellationToken);
+	}
+
+	public async Task<int> CountAsync(Expression<Func<T, bool>>? expression = null, Func<IQueryable<T>,
+		IQueryable<T>>? queryFilter = null, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default)
+	{
+		IQueryable<T> query = PrepareQuery(
+			expression, queryFilter, ignoreQueryFilters
+			);
+
+		return await query.CountAsync(cancellationToken);
+	}
+
+	public IEnumerable<T> GetAll(bool ignoreQueryFilters = false, bool trackChanges = false)
+	{
+		IQueryable<T> query = PrepareQuery(
+			ignoreQueryFilters: ignoreQueryFilters, trackChanges: trackChanges
+			);
+
+		return [.. query];
+	}
+
 	public async Task<IEnumerable<T>> GetAllAsync(bool ignoreQueryFilters = false,
 		bool trackChanges = false,
 		CancellationToken cancellationToken = default)
 	{
-		IQueryable<T> query =
-			PrepareQuery(ignoreQueryFilters: ignoreQueryFilters, trackChanges: trackChanges);
+		IQueryable<T> query = PrepareQuery(
+			ignoreQueryFilters: ignoreQueryFilters, trackChanges: trackChanges
+			);
 
 		return await query.ToListAsync(cancellationToken);
 	}
 
-	public async Task<IEnumerable<T>> GetManyByConditionAsync(Expression<Func<T, bool>>? expression = null,
-		Func<IQueryable<T>, IQueryable<T>>? queryFilter = null,
-		bool ignoreQueryFilters = false,
-		Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-		int? take = null,
-		int? skip = null,
-		bool trackChanges = false,
-		CancellationToken cancellationToken = default,
-		params string[] includeProperties)
+	public IEnumerable<T> GetManyByCondition(Expression<Func<T, bool>>? expression = null,
+		Func<IQueryable<T>, IQueryable<T>>? queryFilter = null, bool ignoreQueryFilters = false,
+		Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, int? take = null,
+		int? skip = null, bool trackChanges = false, params string[] includeProperties)
 	{
-		IQueryable<T> query =
-			PrepareQuery(expression, queryFilter, ignoreQueryFilters, orderBy, take, skip, trackChanges, includeProperties);
+		IQueryable<T> query = PrepareQuery(
+			expression, queryFilter, ignoreQueryFilters, orderBy, take, skip, trackChanges, includeProperties
+			);
+
+		return [.. query];
+	}
+
+	public async Task<IEnumerable<T>> GetManyByConditionAsync(
+		Expression<Func<T, bool>>? expression = null, Func<IQueryable<T>, IQueryable<T>>? queryFilter = null,
+		bool ignoreQueryFilters = false, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+		int? take = null, int? skip = null, bool trackChanges = false,
+		CancellationToken cancellationToken = default, params string[] includeProperties)
+	{
+		IQueryable<T> query = PrepareQuery(
+				expression, queryFilter, ignoreQueryFilters, orderBy, take, skip, trackChanges, includeProperties
+				);
 
 		return await query.ToListAsync(cancellationToken);
+	}
+
+	public T? GetByCondition(Expression<Func<T, bool>> expression,
+		Func<IQueryable<T>, IQueryable<T>>? queryFilter = null, bool ignoreQueryFilters = false,
+		bool trackChanges = false, params string[] includeProperties)
+	{
+		IQueryable<T> query = PrepareQuery(
+			expression, queryFilter, ignoreQueryFilters, trackChanges: trackChanges, includeProperties: includeProperties
+			);
+
+		return query.FirstOrDefault();
 	}
 
 	public async Task<T?> GetByConditionAsync(Expression<Func<T, bool>> expression,
-		Func<IQueryable<T>, IQueryable<T>>? queryFilter = null,
-		bool ignoreQueryFilters = false,
-		bool trackChanges = false,
-		CancellationToken cancellationToken = default,
-		params string[] includeProperties)
+		Func<IQueryable<T>, IQueryable<T>>? queryFilter = null, bool ignoreQueryFilters = false,
+		bool trackChanges = false, CancellationToken cancellationToken = default, params string[] includeProperties)
 	{
-		IQueryable<T> query =
-			PrepareQuery(expression, queryFilter, ignoreQueryFilters, trackChanges: trackChanges, includeProperties: includeProperties);
+		IQueryable<T> query = PrepareQuery(
+			expression, queryFilter, ignoreQueryFilters, trackChanges: trackChanges, includeProperties: includeProperties
+			);
 
 		return await query.FirstOrDefaultAsync(cancellationToken);
 	}
+
+	public void Delete(T entity)
+		=> _dbSet.Remove(entity);
+
+	public void Delete(IEnumerable<T> entities)
+		=> _dbSet.RemoveRange(entities);
 
 	public Task DeleteAsync(T entity)
 	{
@@ -76,6 +154,12 @@ internal abstract class GenericRepository<T>(DbContext dbContext) : IGenericRepo
 		return Task.CompletedTask;
 	}
 
+	public void Update(T entity)
+		=> _dbSet.Update(entity);
+
+	public void Update(IEnumerable<T> entities)
+		=> _dbSet.UpdateRange(entities);
+
 	public Task UpdateAsync(T entity)
 	{
 		_dbSet.Update(entity);
@@ -86,26 +170,6 @@ internal abstract class GenericRepository<T>(DbContext dbContext) : IGenericRepo
 	{
 		_dbSet.UpdateRange(entities);
 		return Task.CompletedTask;
-	}
-
-	public async Task<int> GetCountAsync(Expression<Func<T, bool>>? expression = null,
-		Func<IQueryable<T>, IQueryable<T>>? queryFilter = null,
-		bool ignoreQueryFilters = false,
-		CancellationToken cancellationToken = default)
-	{
-		IQueryable<T> query =
-			PrepareQuery(expression, queryFilter, ignoreQueryFilters);
-
-		return await query.CountAsync(cancellationToken);
-	}
-
-	public async Task<int> GetCountAsync(bool ignoreQueryFilters = false,
-		CancellationToken cancellationToken = default)
-	{
-		IQueryable<T> query =
-			PrepareQuery(ignoreQueryFilters: ignoreQueryFilters);
-
-		return await query.CountAsync(cancellationToken);
 	}
 
 	protected IQueryable<T> PrepareQuery(Expression<Func<T, bool>>? expression = null,

@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
+using BB84.EntityFrameworkCore.Models;
+
 using Domain.Enumerators;
-using Domain.Models.Base;
 
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 

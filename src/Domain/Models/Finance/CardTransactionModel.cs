@@ -1,4 +1,4 @@
-﻿using Domain.Models.Base;
+﻿using BB84.EntityFrameworkCore.Models;
 
 namespace Domain.Models.Finance;
 

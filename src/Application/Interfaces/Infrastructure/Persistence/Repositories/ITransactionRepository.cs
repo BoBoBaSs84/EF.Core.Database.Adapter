@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Base;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
 using Domain.Models.Finance;
 
@@ -14,5 +14,4 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 /// </list>
 /// </remarks>
 public interface ITransactionRepository : IIdentityRepository<TransactionModel>
-{
-}
+{ }

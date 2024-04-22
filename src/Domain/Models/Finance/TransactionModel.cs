@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using Domain.Models.Base;
+using BB84.EntityFrameworkCore.Models;
 
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;

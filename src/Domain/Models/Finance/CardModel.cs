@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using BB84.EntityFrameworkCore.Models;
 using BB84.Extensions;
 
 using Domain.Enumerators;
-using Domain.Models.Base;
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;

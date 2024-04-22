@@ -1,7 +1,8 @@
-﻿using Domain.Models.Common;
+﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
+
+using Domain.Models.Common;
 
 using Infrastructure.Extensions;
-using Infrastructure.Persistence.Configurations.Base;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,7 +15,7 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class CommonConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class CalendarConfiguration : IdentityBaseConfiguration<CalendarModel>
+	internal sealed class CalendarConfiguration : IdentityConfiguration<CalendarModel>
 	{
 		/// <inheritdoc/>
 		public override void Configure(EntityTypeBuilder<CalendarModel> builder)

@@ -1,7 +1,8 @@
-﻿using Domain.Models.Finance;
+﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
+
+using Domain.Models.Finance;
 
 using Infrastructure.Extensions;
-using Infrastructure.Persistence.Configurations.Base;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,7 +15,7 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class FinanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AccountTransactionConfiguration : CompositeBaseConfiguration<AccountTransactionModel>
+	internal sealed class AccountTransactionConfiguration : CompositeConfiguration<AccountTransactionModel>
 	{
 		public override void Configure(EntityTypeBuilder<AccountTransactionModel> builder)
 		{

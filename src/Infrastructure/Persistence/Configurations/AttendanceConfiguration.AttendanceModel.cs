@@ -1,7 +1,8 @@
-﻿using Domain.Models.Attendance;
+﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
+
+using Domain.Models.Attendance;
 
 using Infrastructure.Extensions;
-using Infrastructure.Persistence.Configurations.Base;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,7 +15,7 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class AttendanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AttendanceModelConfiguration : IdentityBaseConfiguration<AttendanceModel>
+	internal sealed class AttendanceModelConfiguration : IdentityConfiguration<AttendanceModel>
 	{
 		public override void Configure(EntityTypeBuilder<AttendanceModel> builder)
 		{

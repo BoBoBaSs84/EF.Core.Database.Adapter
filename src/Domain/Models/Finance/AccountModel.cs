@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using BB84.EntityFrameworkCore.Models;
 using BB84.Extensions;
-
-using Domain.Models.Base;
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;

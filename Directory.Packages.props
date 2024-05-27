@@ -22,7 +22,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageVersion Include="Tynamix.ObjectFiller" Version="1.5.8" />
     <PackageVersion Include="Tynamix.ObjectFiller.RegEx" Version="1.0.0" />

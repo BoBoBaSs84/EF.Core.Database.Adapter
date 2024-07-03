@@ -96,5 +96,13 @@ public enum AttendanceType
 		Name = nameof(RESX.AttendanceType_VacationBlock_Name),
 		ShortName = nameof(RESX.AttendanceType_VacationBlock_ShortName),
 		Description = nameof(RESX.AttendanceType_VacationBlock_Description))]
-	VACATIONBLOCK
+	VACATIONBLOCK,
+	/// <summary>
+	/// The training attendance type.
+	/// </summary>
+	[Display(ResourceType = typeof(RESX),
+		Name = nameof(RESX.AttendanceType_Training_Name),
+		ShortName = nameof(RESX.AttendanceType_Training_ShortName),
+		Description = nameof(RESX.AttendanceType_Training_Description))]
+	TRAINING
 }

@@ -117,24 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CardType.Credit.Description" xml:space="preserve">
-    <value>A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder's accrued debt.</value>
-  </data>
-  <data name="CardType.Credit.Name" xml:space="preserve">
-    <value>Credit card</value>
-  </data>
-  <data name="CardType.Credit.ShortName" xml:space="preserve">
-    <value>CC</value>
-  </data>
-  <data name="CardType.Debit.Description" xml:space="preserve">
-    <value>A debit card, also known as a check card or bank card is a payment card that can be used in place of cash to make purchases.</value>
-  </data>
-  <data name="CardType.Debit.Name" xml:space="preserve">
-    <value>Debit card</value>
-  </data>
-  <data name="CardType.Debit.ShortName" xml:space="preserve">
-    <value>DC</value>
-  </data>
   <data name="AttendanceType.Absence.Description" xml:space="preserve">
     <value>Is an authorised prolonged absence from work, for any reason authorised by the workplace.</value>
   </data>
@@ -207,6 +189,15 @@
   <data name="AttendanceType.Suspension.ShortName" xml:space="preserve">
     <value>SP</value>
   </data>
+  <data name="AttendanceType.Training.Description" xml:space="preserve">
+    <value>Training and development involve improving the effectiveness of organizations and the individuals and teams within them.</value>
+  </data>
+  <data name="AttendanceType.Training.Name" xml:space="preserve">
+    <value>Training</value>
+  </data>
+  <data name="AttendanceType.Training.ShortName" xml:space="preserve">
+    <value>TR</value>
+  </data>
   <data name="AttendanceType.Vacation.Description" xml:space="preserve">
     <value>Is either a leave of absence from a regular job or an instance of leisure travel away from home.</value>
   </data>
@@ -233,6 +224,24 @@
   </data>
   <data name="AttendanceType.Workday.ShortName" xml:space="preserve">
     <value>WK</value>
+  </data>
+  <data name="CardType.Credit.Description" xml:space="preserve">
+    <value>A credit card is a payment card issued to users to enable the cardholder to pay a merchant for goods and services based on the cardholder's accrued debt.</value>
+  </data>
+  <data name="CardType.Credit.Name" xml:space="preserve">
+    <value>Credit card</value>
+  </data>
+  <data name="CardType.Credit.ShortName" xml:space="preserve">
+    <value>CC</value>
+  </data>
+  <data name="CardType.Debit.Description" xml:space="preserve">
+    <value>A debit card, also known as a check card or bank card is a payment card that can be used in place of cash to make purchases.</value>
+  </data>
+  <data name="CardType.Debit.Name" xml:space="preserve">
+    <value>Debit card</value>
+  </data>
+  <data name="CardType.Debit.ShortName" xml:space="preserve">
+    <value>DC</value>
   </data>
   <data name="ErrorTypes.Composite.Description" xml:space="preserve">
     <value>Error of multiple sources.</value>

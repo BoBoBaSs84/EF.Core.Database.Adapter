@@ -277,6 +277,33 @@ namespace Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Training and development involve improving the effectiveness of organizations and the individuals and teams within them..
+        /// </summary>
+        public static string AttendanceType_Training_Description {
+            get {
+                return ResourceManager.GetString("AttendanceType.Training.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Training.
+        /// </summary>
+        public static string AttendanceType_Training_Name {
+            get {
+                return ResourceManager.GetString("AttendanceType.Training.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TR.
+        /// </summary>
+        public static string AttendanceType_Training_ShortName {
+            get {
+                return ResourceManager.GetString("AttendanceType.Training.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is either a leave of absence from a regular job or an instance of leisure travel away from home..
         /// </summary>
         public static string AttendanceType_Vacation_Description {

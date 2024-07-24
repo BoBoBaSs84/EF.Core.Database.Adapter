@@ -4,13 +4,13 @@ using BB84.EntityFrameworkCore.Repositories;
 
 using Domain.Models.Finance;
 
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Interfaces.Persistence;
 
 namespace Infrastructure.Persistence.Repositories;
 
 /// <summary>
 /// The account repository class.
 /// </summary>
-/// <inheritdoc/>
-internal sealed class AccountRepository(DbContext dbContext) : IdentityRepository<AccountModel>(dbContext), IAccountRepository
+/// <param name="context">The database context to work with.</param>
+internal sealed class AccountRepository(IRepositoryContext context) : IdentityRepository<AccountModel>(context), IAccountRepository
 { }

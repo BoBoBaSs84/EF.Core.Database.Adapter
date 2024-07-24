@@ -1,9 +1,9 @@
 ﻿using Application.Interfaces.Infrastructure.Logging;
-using Application.Interfaces.Infrastructure.Persistence;
 
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
+using Infrastructure.Interfaces.Persistence;
 using Infrastructure.Persistence.Interceptors;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

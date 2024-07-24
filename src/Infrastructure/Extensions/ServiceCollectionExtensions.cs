@@ -6,6 +6,7 @@ using Application.Interfaces.Infrastructure.Services;
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
+using Infrastructure.Interfaces.Persistence;
 using Infrastructure.Logging;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Generators;
@@ -71,7 +72,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection AddRepositoryContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
-		services.AddDbContext<RepositoryContext>(options =>
+		services.AddDbContext<IRepositoryContext, RepositoryContext>(options =>
 		{
 			options.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),

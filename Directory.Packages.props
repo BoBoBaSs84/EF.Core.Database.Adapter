@@ -5,18 +5,18 @@
   <ItemGroup>
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Models" Version="1.1.716" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="1.1.716" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="1.1.716" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="1.1.716" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Models" Version="1.2.724" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="1.2.724" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="1.2.724" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="1.2.724" />
     <PackageVersion Include="BB84.Extensions" Version="2.4.717" />
     <PackageVersion Include="Fare" Version="2.2.1" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.5.0" />
     <PackageVersion Include="MSTest.TestFramework" Version="3.5.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
-    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.6" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.7" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7" />

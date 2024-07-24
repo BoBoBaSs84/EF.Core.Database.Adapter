@@ -4,7 +4,7 @@ using BB84.EntityFrameworkCore.Repositories;
 
 using Domain.Models.Finance;
 
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Interfaces.Persistence;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -12,5 +12,6 @@ namespace Infrastructure.Persistence.Repositories;
 /// The transaction repository class.
 /// </summary>
 /// <inheritdoc/>
-internal sealed class TransactionRepository(DbContext dbContext) : IdentityRepository<TransactionModel>(dbContext), ITransactionRepository
+/// <param name="context">The database context to work with.</param>
+internal sealed class TransactionRepository(IRepositoryContext context) : IdentityRepository<TransactionModel>(context), ITransactionRepository
 { }

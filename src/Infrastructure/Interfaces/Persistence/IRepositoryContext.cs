@@ -1,15 +1,17 @@
-﻿using Domain.Models.Attendance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+
+using Domain.Models.Attendance;
 using Domain.Models.Common;
 using Domain.Models.Finance;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Interfaces.Infrastructure.Persistence;
+namespace Infrastructure.Interfaces.Persistence;
 
 /// <summary>
 /// The application context interface.
 /// </summary>
-public interface IRepositoryContext
+public interface IRepositoryContext : IDbContext
 {
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AccountModel"/>.
@@ -35,10 +37,4 @@ public interface IRepositoryContext
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="TransactionModel"/>.
 	/// </summary>
 	DbSet<TransactionModel> Transactions { get; }
-
-	/// <summary>
-	/// Saves the changes asynchronous.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-	Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

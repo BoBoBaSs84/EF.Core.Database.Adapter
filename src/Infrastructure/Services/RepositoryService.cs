@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Interfaces.Infrastructure.Services;
 
-using Infrastructure.Persistence;
+using Infrastructure.Interfaces.Persistence;
 using Infrastructure.Persistence.Repositories;
 
 namespace Infrastructure.Services;
@@ -14,7 +14,7 @@ namespace Infrastructure.Services;
 /// </remarks>
 internal sealed class RepositoryService : IRepositoryService
 {
-	private readonly RepositoryContext _context;
+	private readonly IRepositoryContext _context;
 
 	private readonly Lazy<IAccountRepository> _lazyAccountRepository;
 	private readonly Lazy<ICardRepository> _lazyCardRepository;
@@ -26,7 +26,7 @@ internal sealed class RepositoryService : IRepositoryService
 	/// Initializes a new instance of the repository service class.
 	/// </summary>
 	/// <param name="context">The database context to work with.</param>
-	public RepositoryService(RepositoryContext context)
+	public RepositoryService(IRepositoryContext context)
 	{
 		_context = context ?? throw new ArgumentNullException(nameof(context));
 

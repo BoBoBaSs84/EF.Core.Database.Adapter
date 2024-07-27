@@ -9,11 +9,11 @@ namespace Infrastructure.Persistence.Converters;
 /// <summary>
 /// The <see cref="Color"/> converter.
 /// </summary>
-internal sealed class ColorConverter : ValueConverter<Color, string>
+internal sealed class ColorConverter : ValueConverter<Color, byte[]>
 {
 	/// <summary>
 	/// Initilizes an instance of the <see cref="ColorConverter"/> class.
 	/// </summary>
-	public ColorConverter() : base(x => x.ToRGBHexString(), x => x.FromRGBHexString())
+	public ColorConverter() : base(x => x.ToRgbByteArray(), x => x.FromRgbByteArray())
 	{ }
 }

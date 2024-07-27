@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces.Infrastructure.Logging;
 
+using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
+
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
@@ -20,7 +22,8 @@ namespace Infrastructure.Persistence;
 /// </remarks>
 public sealed partial class RepositoryContext : IdentityDbContext<UserModel, RoleModel, Guid, UserClaimModel, UserRoleModel, UserLoginModel, RoleClaimModel, UserTokenModel>, IRepositoryContext
 {
-	private readonly CustomSaveChangesInterceptor _changesInterceptor;
+	private readonly AuditingInterceptor _auditingInterceptor;
+	private readonly SoftDeletableInterceptor _softDeletableInterceptor;
 	private readonly ILoggerService<RepositoryContext> _logger;
 
 	private static readonly Action<ILogger, Exception?> LogException =
@@ -30,15 +33,18 @@ public sealed partial class RepositoryContext : IdentityDbContext<UserModel, Rol
 	/// Initializes a new instance of the application repository context class.
 	/// </summary>
 	/// <param name="dbContextOptions">The database context options.</param>
-	/// <param name="changesInterceptor">The auditable entity save changes interceptor.</param>
+	/// <param name="auditingInterceptor">The auditing save changes interceptor.</param>
+	/// <param name="softDeletableInterceptor">The soft deletable save changes interceptor.</param>
 	/// <param name="logger">The logger service.</param>
 	public RepositoryContext(
 		DbContextOptions<RepositoryContext> dbContextOptions,
-		CustomSaveChangesInterceptor changesInterceptor,
+		AuditingInterceptor auditingInterceptor,
+		SoftDeletableInterceptor softDeletableInterceptor,
 		ILoggerService<RepositoryContext> logger
 		) : base(dbContextOptions)
 	{
-		_changesInterceptor = changesInterceptor;
+		_auditingInterceptor = auditingInterceptor;
+		_softDeletableInterceptor = softDeletableInterceptor;
 		_logger = logger;
 
 		ChangeTracker.LazyLoadingEnabled = false;
@@ -55,7 +61,7 @@ public sealed partial class RepositoryContext : IdentityDbContext<UserModel, Rol
 
 	/// <inheritdoc/>
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		=> optionsBuilder.AddInterceptors(_changesInterceptor);
+		=> optionsBuilder.AddInterceptors(_auditingInterceptor, _softDeletableInterceptor);
 
 	/// <inheritdoc/>
 	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -7,7 +7,7 @@ namespace Domain.Enumerators;
 /// <summary>
 /// The attendance type enumerator.
 /// </summary>
-public enum AttendanceType
+public enum AttendanceType : byte
 {
 	/// <summary>
 	/// The holiday attendance type.

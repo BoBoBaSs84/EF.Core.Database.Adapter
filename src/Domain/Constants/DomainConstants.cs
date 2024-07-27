@@ -85,7 +85,10 @@ public static class DomainConstants
 			/// The <see cref="Finance"/> constant.
 			/// </summary>
 			public const string Finance = "Finance";
-
+			/// <summary>
+			/// The <see cref="Todo"/> constant.
+			/// </summary>
+			public const string Todo = "Todo";
 		}
 		/// <summary>
 		/// The sql data type class.

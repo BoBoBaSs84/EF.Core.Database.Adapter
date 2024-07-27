@@ -7,7 +7,7 @@ namespace Domain.Enumerators;
 /// <summary>
 /// The error types.
 /// </summary>
-public enum ErrorType
+public enum ErrorType : byte
 {
 	/// <summary>
 	/// The <see cref="Failure"/> error type.

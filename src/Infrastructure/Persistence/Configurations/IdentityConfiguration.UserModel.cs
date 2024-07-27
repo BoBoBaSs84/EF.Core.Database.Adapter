@@ -1,6 +1,7 @@
-﻿using Domain.Models.Identity;
+﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
-using Infrastructure.Extensions;
+using Domain.Models.Identity;
+
 using Infrastructure.Persistence.Converters;
 
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ internal static partial class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<UserModel> builder)
 		{
-			builder.ToVersionedTable(SqlSchema.Identity, "User");
+			builder.ToHistoryTable("User", SqlSchema.Identity, SqlSchema.History);
 
 			builder.Property(e => e.Preferences)
 				.HasConversion<PreferencesConverter>()

@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Interceptors;
 /// </summary>
 /// <param name="currentUserService">The current user service.</param>
 /// <inheritdoc/>
-public sealed class CustomSaveChangesInterceptor(ICurrentUserService currentUserService) : SaveChangesInterceptor
+public sealed class AuditingInterceptor(ICurrentUserService currentUserService) : SaveChangesInterceptor
 {
 	private readonly ICurrentUserService _currentUserService = currentUserService;
 
@@ -36,16 +36,16 @@ public sealed class CustomSaveChangesInterceptor(ICurrentUserService currentUser
 		if (context is null)
 			return;
 
-		foreach (EntityEntry<IEnumeratorModel> entry in context.ChangeTracker.Entries<IEnumeratorModel>())
+		foreach (EntityEntry<IAuditedModel> entry in context.ChangeTracker.Entries<IAuditedModel>())
 		{
-			if (entry.State is EntityState.Deleted)
-			{
-				entry.Entity.IsDeleted = true;
-				entry.State = EntityState.Modified;
-			}
+			if (entry.State is EntityState.Deleted or EntityState.Modified)
+				entry.Entity.ModifiedBy = _currentUserService.UserName;
+
+			if (entry.State is EntityState.Added)
+				entry.Entity.CreatedBy = _currentUserService.UserName;
 		}
 
-		foreach (EntityEntry<IAuditedModel> entry in context.ChangeTracker.Entries<IAuditedModel>())
+		foreach (EntityEntry<IAuditedCompositeModel> entry in context.ChangeTracker.Entries<IAuditedCompositeModel>())
 		{
 			if (entry.State is EntityState.Deleted or EntityState.Modified)
 				entry.Entity.ModifiedBy = _currentUserService.UserName;

@@ -1,5 +1,6 @@
 ﻿using Domain.Models.Attendance;
 using Domain.Models.Finance;
+using Domain.Models.Todo;
 
 namespace Domain.Models.Identity;
 
@@ -39,4 +40,9 @@ public partial class UserModel
 	/// The <see cref="Cards"/> property.
 	/// </summary>
 	public virtual ICollection<CardModel> Cards { get; set; } = [];
+
+	/// <summary>
+	/// The <see cref="TodoLists"/> property.
+	/// </summary>
+	public virtual ICollection<ListUserModel> TodoLists {  get; set; } = [];
 }

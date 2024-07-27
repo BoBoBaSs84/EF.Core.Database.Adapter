@@ -1,10 +1,9 @@
-﻿using BB84.Extensions;
+﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
+using BB84.Extensions;
 
 using Domain.Enumerators;
 using Domain.Extensions;
 using Domain.Models.Identity;
-
-using Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -21,7 +20,7 @@ internal static partial class IdentityConfiguration
 	{
 		public void Configure(EntityTypeBuilder<RoleModel> builder)
 		{
-			builder.ToVersionedTable(SqlSchema.Identity, "Role");
+			builder.ToHistoryTable("Role", SqlSchema.Identity, SqlSchema.History);
 
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.Role)

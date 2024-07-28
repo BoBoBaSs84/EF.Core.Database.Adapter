@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi.Any;
+﻿using Application.Common;
+
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
 using Presentation.Common;
@@ -47,10 +49,14 @@ internal static class SwaggerGenOptionsExtensions
 			License = new OpenApiLicense() { Name = "MIT License", Url = new Uri("https://opensource.org/licenses/MIT") }
 		});
 
-		string xmlFile = $"{typeof(IPresentationAssemblyMarker).Assembly.GetName().Name}.xml";
-		string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+		options.CustomSchemaIds(x => x.FullName);
 
-		options.IncludeXmlComments(xmlPath);
+		List<string> xmlFiles = [
+			$"{typeof(IPresentationAssemblyMarker).Assembly.GetName().Name}.xml",
+			$"{typeof(IApplicationAssemblyMarker).Assembly.GetName().Name}.xml"
+			];
+
+		xmlFiles.ForEach(xml => options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xml)));
 
 		return options;
 	}

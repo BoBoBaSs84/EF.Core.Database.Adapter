@@ -1,8 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
+using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
 using Domain.Models.Finance;
-
-using Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,11 +14,11 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class FinanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class CardConfiguration : IdentityConfiguration<CardModel>
+	internal sealed class CardConfiguration : AuditedConfiguration<CardModel>
 	{
 		public override void Configure(EntityTypeBuilder<CardModel> builder)
 		{
-			builder.ToVersionedTable(SqlSchema.Finance, "Card");
+			builder.ToHistoryTable("Card", SqlSchema.Finance, SqlSchema.History);
 
 			builder.Property(e => e.PAN)
 				.IsUnicode(false);

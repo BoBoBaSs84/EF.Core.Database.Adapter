@@ -7,7 +7,7 @@ namespace Domain.Enumerators;
 /// <summary>
 /// The role type enumerator.
 /// </summary>
-public enum RoleType
+public enum RoleType : byte
 {
 	/// <summary>
 	/// The <see cref="ADMINISTRATOR"/> role type.

@@ -7,7 +7,7 @@ namespace Domain.Enumerators;
 /// <summary>
 /// The card type enumerator.
 /// </summary>
-public enum CardType
+public enum CardType : byte
 {
 	/// <summary>
 	/// The <see cref="CREDIT"/> card type.

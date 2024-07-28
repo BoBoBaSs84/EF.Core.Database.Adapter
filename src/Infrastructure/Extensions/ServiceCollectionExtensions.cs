@@ -3,6 +3,8 @@
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
+using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
+
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
@@ -42,7 +44,8 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
 	{
-		services.TryAddScoped<CustomSaveChangesInterceptor>();
+		services.TryAddScoped<AuditingInterceptor>();
+		services.TryAddScoped<SoftDeletableInterceptor>();
 		services.TryAddScoped<IRepositoryService, RepositoryService>();
 		services.TryAddScoped<UserService>();
 		services.TryAddScoped<RoleService>();

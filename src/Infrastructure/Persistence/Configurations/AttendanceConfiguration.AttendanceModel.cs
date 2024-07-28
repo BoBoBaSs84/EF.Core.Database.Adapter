@@ -1,8 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
+using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
 using Domain.Models.Attendance;
-
-using Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,7 +18,7 @@ internal static partial class AttendanceConfiguration
 	{
 		public override void Configure(EntityTypeBuilder<AttendanceModel> builder)
 		{
-			builder.ToVersionedTable(SqlSchema.Attendance, "Attendance");
+			builder.ToHistoryTable("Attendance", SqlSchema.Attendance, SqlSchema.History);
 
 			builder.HasIndex(e => new { e.UserId, e.CalendarId })
 				.IsClustered(false)

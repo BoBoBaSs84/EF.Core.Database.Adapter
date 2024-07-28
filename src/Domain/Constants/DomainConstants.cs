@@ -85,7 +85,10 @@ public static class DomainConstants
 			/// The <see cref="Finance"/> constant.
 			/// </summary>
 			public const string Finance = "Finance";
-
+			/// <summary>
+			/// The <see cref="Todo"/> constant.
+			/// </summary>
+			public const string Todo = "Todo";
 		}
 		/// <summary>
 		/// The sql data type class.
@@ -237,6 +240,11 @@ public static class DomainConstants
 		/// The International Bank Account Number
 		/// </remarks>
 		public const string IBAN = @"^[A-Z]{2}(?:[ ]?[0-9]){18,20}$";
+
+		/// <summary>
+		/// A color is represented by three consecutive hexadecimal numbers, each of which represents a color in the RGB color space.
+		/// </summary>
+		public const string HEXRGB = @"^#[a-fA-F0-9]{6}$";
 
 		/// <summary>
 		/// The <see cref="PAN"/> property.

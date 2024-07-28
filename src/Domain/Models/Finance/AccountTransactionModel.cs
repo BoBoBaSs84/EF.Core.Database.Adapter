@@ -5,10 +5,7 @@ namespace Domain.Models.Finance;
 /// <summary>
 /// The account transaction model class.
 /// </summary>
-/// <remarks>
-/// Derives from the <see cref="CompositeModel"/> class.
-/// </remarks>
-public partial class AccountTransactionModel : CompositeModel
+public partial class AccountTransactionModel : AuditedCompositeModel
 {
 	/// <summary>
 	/// The <see cref="AccountId"/> property.

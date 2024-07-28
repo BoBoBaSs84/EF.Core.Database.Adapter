@@ -46,6 +46,24 @@ public sealed class CalendarResponse : IdentityResponse
 	public int DayOfYear { get; set; }
 
 	/// <summary>
+	/// The start of week property.
+	/// </summary>
+	[JsonConverter(typeof(DateJsonConverter))]
+	public DateTime StartOfWeek { get; set; }
+
+	/// <summary>
+	/// The end of Week property.
+	/// </summary>
+	[JsonConverter(typeof(DateJsonConverter))]
+	public DateTime EndOfWeek { get; set; }
+
+	/// <summary>
+	/// The start of month property.
+	/// </summary>
+	[JsonConverter(typeof(DateJsonConverter))]
+	public DateTime StartOfMonth { get; set; }
+
+	/// <summary>
 	/// The end of month property.
 	/// </summary>
 	[JsonConverter(typeof(DateJsonConverter))]

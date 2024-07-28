@@ -1,8 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
+using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
 using Domain.Models.Common;
-
-using Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,7 +19,7 @@ internal static partial class CommonConfiguration
 		/// <inheritdoc/>
 		public override void Configure(EntityTypeBuilder<CalendarModel> builder)
 		{
-			builder.ToVersionedTable(SqlSchema.Common, "Calendar");
+			builder.ToHistoryTable("Calendar", SqlSchema.Common, SqlSchema.History);
 
 			builder.HasIndex(e => e.Date)
 				.IsUnique(true);

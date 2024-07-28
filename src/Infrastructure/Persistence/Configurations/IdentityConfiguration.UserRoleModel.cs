@@ -1,6 +1,6 @@
-﻿using Domain.Models.Identity;
+﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
-using Infrastructure.Extensions;
+using Domain.Models.Identity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -16,6 +16,6 @@ internal static partial class IdentityConfiguration
 	internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRoleModel>
 	{
 		public void Configure(EntityTypeBuilder<UserRoleModel> builder) =>
-			builder.ToVersionedTable(SqlSchema.Identity, "UserRole");
+			builder.ToHistoryTable("UserRole", SqlSchema.Identity, SqlSchema.History);
 	}
 }

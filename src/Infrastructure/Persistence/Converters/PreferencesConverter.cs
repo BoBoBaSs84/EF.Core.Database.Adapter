@@ -14,7 +14,7 @@ namespace Infrastructure.Persistence.Converters;
 internal sealed class PreferencesConverter : ValueConverter<PreferencesModel, string>
 {
 	/// <summary>
-	/// Initilizes an instance of the preferences value converter.
+	/// Initilizes an instance of the <see cref="PreferencesConverter"/> class.
 	/// </summary>
 	public PreferencesConverter() : base(x => x.ToXml(XmlConstants.GetNamespaces(), null), x => x.FromXml<PreferencesModel>(null))
 	{ }

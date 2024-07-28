@@ -1,8 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
+using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
 using Domain.Models.Finance;
-
-using Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,11 +14,11 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class FinanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AccountTransactionConfiguration : CompositeConfiguration<AccountTransactionModel>
+	internal sealed class AccountTransactionConfiguration : AuditedCompositeConfiguration<AccountTransactionModel>
 	{
 		public override void Configure(EntityTypeBuilder<AccountTransactionModel> builder)
 		{
-			builder.ToVersionedTable(SqlSchema.Finance, "AccountTransaction");
+			builder.ToHistoryTable("AccountTransaction", SqlSchema.Finance, SqlSchema.History);
 
 			builder.HasKey(e => new { e.AccountId, e.TransactionId })
 				.IsClustered(false);

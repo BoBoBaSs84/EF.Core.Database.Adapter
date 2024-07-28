@@ -1,6 +1,6 @@
-﻿using Domain.Models.Identity;
+﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
-using Infrastructure.Extensions;
+using Domain.Models.Identity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -16,6 +16,6 @@ internal static partial class IdentityConfiguration
 	internal sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLoginModel>
 	{
 		public void Configure(EntityTypeBuilder<UserLoginModel> builder) =>
-			builder.ToVersionedTable(SqlSchema.Identity, "UserLogin");
+			builder.ToHistoryTable("UserLogin", SqlSchema.Identity, SqlSchema.History);
 	}
 }

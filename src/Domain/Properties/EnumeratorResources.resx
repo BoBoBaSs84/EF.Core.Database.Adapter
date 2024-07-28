@@ -324,6 +324,42 @@
   <data name="ErrorTypes.Validation.ShortName" xml:space="preserve">
     <value>VA</value>
   </data>
+  <data name="PriorityLevelType.High.Description" xml:space="preserve">
+    <value>Indicates the todo item has a high priority.</value>
+  </data>
+  <data name="PriorityLevelType.High.Name" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="PriorityLevelType.High.ShortName" xml:space="preserve">
+    <value>H</value>
+  </data>
+  <data name="PriorityLevelType.Low.Description" xml:space="preserve">
+    <value>Indicates the todo item has a low priority.</value>
+  </data>
+  <data name="PriorityLevelType.Low.Name" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="PriorityLevelType.Low.ShortName" xml:space="preserve">
+    <value>L</value>
+  </data>
+  <data name="PriorityLevelType.Medium.Description" xml:space="preserve">
+    <value>Indicates the todo item has a medium priority.</value>
+  </data>
+  <data name="PriorityLevelType.Medium.Name" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="PriorityLevelType.Medium.ShortName" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="PriorityLevelType.None.Description" xml:space="preserve">
+    <value>Indicates the the todo item has no priority.</value>
+  </data>
+  <data name="PriorityLevelType.None.Name" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="PriorityLevelType.None.ShortName" xml:space="preserve">
+    <value>N</value>
+  </data>
   <data name="RoleType.Administrator.Description" xml:space="preserve">
     <value>This is the ultimate god role ... so to say.</value>
   </data>

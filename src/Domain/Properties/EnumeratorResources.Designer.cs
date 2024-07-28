@@ -682,6 +682,114 @@ namespace Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indicates the todo item has a high priority..
+        /// </summary>
+        public static string PriorityLevelType_High_Description {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.High.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High.
+        /// </summary>
+        public static string PriorityLevelType_High_Name {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.High.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H.
+        /// </summary>
+        public static string PriorityLevelType_High_ShortName {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.High.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates the todo item has a low priority..
+        /// </summary>
+        public static string PriorityLevelType_Low_Description {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.Low.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low.
+        /// </summary>
+        public static string PriorityLevelType_Low_Name {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.Low.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L.
+        /// </summary>
+        public static string PriorityLevelType_Low_ShortName {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.Low.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates the todo item has a medium priority..
+        /// </summary>
+        public static string PriorityLevelType_Medium_Description {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.Medium.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        public static string PriorityLevelType_Medium_Name {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.Medium.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to M.
+        /// </summary>
+        public static string PriorityLevelType_Medium_ShortName {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.Medium.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates the the todo item has no priority..
+        /// </summary>
+        public static string PriorityLevelType_None_Description {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.None.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string PriorityLevelType_None_Name {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.None.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N.
+        /// </summary>
+        public static string PriorityLevelType_None_ShortName {
+            get {
+                return ResourceManager.GetString("PriorityLevelType.None.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is the ultimate god role ... so to say..
         /// </summary>
         public static string RoleType_Administrator_Description {

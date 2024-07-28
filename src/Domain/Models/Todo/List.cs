@@ -5,14 +5,14 @@ using BB84.EntityFrameworkCore.Models;
 namespace Domain.Models.Todo;
 
 /// <summary>
-/// The todo list model class.
+/// The todo list class.
 /// </summary>
-public class TodoListModel : AuditedModel
+public class List : AuditedModel
 {
 	/// <summary>
 	/// The title of the todo list.
 	/// </summary>
-	public string? Title { get; set; }
+	public string Title { get; set; } = default!;
 
 	/// <summary>
 	/// The color of the todo list.
@@ -22,10 +22,10 @@ public class TodoListModel : AuditedModel
 	/// <summary>
 	/// The items within the todo list.
 	/// </summary>
-	public virtual ICollection<ItemModel> Items { get; private set; } = [];
+	public virtual ICollection<Item> Items { get; private set; } = [];
 
 	/// <summary>
 	/// The navigational <see cref="Users"/> property.
 	/// </summary>
-	public virtual ICollection<ListUserModel> Users { get; private set; } = [];
+	public virtual ICollection<ListUser> Users { get; private set; } = [];
 }

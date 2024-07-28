@@ -718,6 +718,51 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred when creating the todo item for the list with the identifier: {0}..
+        /// </summary>
+        public static string TodoService_CreateItemByListId_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.CreateItemByListId.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while creating the todo list for the user with the identifier: {0}..
+        /// </summary>
+        public static string TodoService_CreateListByUserId_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.CreateListByUserId.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when loading the todo list with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TodoService_GetListById_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.GetListById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No todo list with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TodoService_GetListById_NotFound {
+            get {
+                return ResourceManager.GetString("TodoService.GetListById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when loading the todo list with the user identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string TodoService_GetListsById_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.GetListsById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while creating the transaction for the account with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string TransactionServiceErrors_CreateForAccount_Failed {

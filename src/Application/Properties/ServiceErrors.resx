@@ -336,6 +336,21 @@
   <data name="EnumeratorService.WorkDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the work day type enumerators.</value>
   </data>
+  <data name="TodoService.CreateItemByListId.Failed" xml:space="preserve">
+    <value>An error occurred when creating the todo item for the list with the identifier: {0}.</value>
+  </data>
+  <data name="TodoService.CreateListByUserId.Failed" xml:space="preserve">
+    <value>An error occurred while creating the todo list for the user with the identifier: {0}.</value>
+  </data>
+  <data name="TodoService.GetListById.Failed" xml:space="preserve">
+    <value>An error occurred when loading the todo list with the identifier: '{0}'.</value>
+  </data>
+  <data name="TodoService.GetListById.NotFound" xml:space="preserve">
+    <value>No todo list with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="TodoService.GetListsById.Failed" xml:space="preserve">
+    <value>An error occurred when loading the todo list with the user identifier: '{0}'.</value>
+  </data>
   <data name="TransactionServiceErrors.CreateForAccount.Failed" xml:space="preserve">
     <value>An error occurred while creating the transaction for the account with the identifier: '{0}'.</value>
   </data>

@@ -242,6 +242,11 @@ public static class DomainConstants
 		public const string IBAN = @"^[A-Z]{2}(?:[ ]?[0-9]){18,20}$";
 
 		/// <summary>
+		/// A color is represented by three consecutive hexadecimal numbers, each of which represents a color in the RGB color space.
+		/// </summary>
+		public const string HEXRGB = @"^#[a-fA-F0-9]{6}$";
+
+		/// <summary>
 		/// The <see cref="PAN"/> property.
 		/// </summary>
 		/// <remarks>

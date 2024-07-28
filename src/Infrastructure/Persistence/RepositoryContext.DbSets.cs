@@ -1,6 +1,7 @@
 ﻿using Domain.Models.Attendance;
 using Domain.Models.Common;
 using Domain.Models.Finance;
+using Domain.Models.Todo;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -8,28 +9,18 @@ namespace Infrastructure.Persistence;
 
 public sealed partial class RepositoryContext
 {
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarModel"/>.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<CalendarModel> CalendarDays { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AttendanceModel"/>.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<AttendanceModel> Attendances { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AccountModel"/>.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<AccountModel> Accounts { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CardModel"/>.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<CardModel> Cards { get; set; } = default!;
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="TransactionModel"/>.
-	/// </summary>
+	/// <inheritdoc/>
 	public DbSet<TransactionModel> Transactions { get; set; } = default!;
+	/// <inheritdoc/>
+	public DbSet<List> TodoLists { get; set; } = default!;
+	/// <inheritdoc/>
+	public DbSet<Item> TodoItems { get; set; } = default!;
 }

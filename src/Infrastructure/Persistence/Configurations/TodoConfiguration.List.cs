@@ -3,6 +3,9 @@ using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
 using Domain.Models.Todo;
 
+using Infrastructure.Persistence.Converters;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
@@ -13,17 +16,24 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class TodoConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class TodoItemModelConfiguration : AuditedConfiguration<ItemModel>
+	internal sealed class TodoListConfiguration : AuditedConfiguration<List>
 	{
-		public override void Configure(EntityTypeBuilder<ItemModel> builder)
+		public override void Configure(EntityTypeBuilder<List> builder)
 		{
-			builder.ToHistoryTable("Item", SqlSchema.Todo, SqlSchema.History);
+			builder.ToHistoryTable("List", SqlSchema.Todo, SqlSchema.History);
 
 			builder.Property(e => e.Title)
-				.HasMaxLength(256);
+				.HasMaxLength(256)
+				.IsUnicode();
 
-			builder.Property(e => e.Note)
-				.HasMaxLength(2048);
+			builder.Property(p => p.Color)
+				.HasConversion<ColorConverter>()
+				.HasColumnType("varbinary(3)");
+
+			builder.HasMany(e => e.Items)
+				.WithOne(e => e.List)
+				.HasForeignKey(e => e.ListId)
+				.OnDelete(DeleteBehavior.Cascade);
 
 			base.Configure(builder);
 		}

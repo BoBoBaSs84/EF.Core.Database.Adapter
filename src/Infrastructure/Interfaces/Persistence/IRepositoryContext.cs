@@ -3,6 +3,7 @@
 using Domain.Models.Attendance;
 using Domain.Models.Common;
 using Domain.Models.Finance;
+using Domain.Models.Todo;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -37,4 +38,14 @@ public interface IRepositoryContext : IDbContext
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="TransactionModel"/>.
 	/// </summary>
 	DbSet<TransactionModel> Transactions { get; }
+
+	/// <summary>
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="List"/>.
+	/// </summary>
+	DbSet<List> TodoLists { get; }
+
+	/// <summary>
+	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Item"/>.
+	/// </summary>
+	DbSet<Item> TodoItems { get; }
 }

@@ -1,13 +1,13 @@
-﻿using BB84.EntityFrameworkCore.Models;
+﻿using Application.Contracts.Responses.Base;
 
 using Domain.Enumerators;
 
-namespace Domain.Models.Todo;
+namespace Application.Contracts.Responses.Todo;
 
 /// <summary>
-/// The todo item model class.
+/// The response fo the todo list.
 /// </summary>
-public sealed class ItemModel : AuditedModel
+public sealed class ItemResponse : IdentityResponse
 {
 	/// <summary>
 	/// The title of the todo item.
@@ -33,14 +33,4 @@ public sealed class ItemModel : AuditedModel
 	/// Indicates if the todo item is done.
 	/// </summary>
 	public bool Done { get; set; }
-
-	/// <summary>
-	/// The identifier of the todo list object.
-	/// </summary>
-	public Guid ListId { get; set; }
-
-	/// <summary>
-	/// The navigational reference to the todo list object.
-	/// </summary>
-	public TodoListModel List { get; set; } = null!;
 }

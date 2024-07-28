@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
+using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 
 namespace Application.Interfaces.Infrastructure.Services;
 
@@ -31,6 +32,16 @@ public interface IRepositoryService
 	/// The transaction repository interface.
 	/// </summary>
 	ITransactionRepository TransactionRepository { get; }
+
+	/// <summary>
+	/// The todo list repository interface.
+	/// </summary>
+	IListRepository TodoListRepository { get; }
+
+	/// <summary>
+	/// The todo item repository interface.
+	/// </summary>
+	IItemRepository TodoItemRepository { get; }
 
 	/// <summary>
 	/// Should commit all the changes to the database context async.

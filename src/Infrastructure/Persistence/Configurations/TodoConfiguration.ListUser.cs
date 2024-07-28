@@ -14,9 +14,9 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class TodoConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class TodoListUserModelConfiguration : AuditedCompositeConfiguration<ListUserModel>
+	internal sealed class TodoListUserConfiguration : AuditedCompositeConfiguration<ListUser>
 	{
-		public override void Configure(EntityTypeBuilder<ListUserModel> builder)
+		public override void Configure(EntityTypeBuilder<ListUser> builder)
 		{
 			builder.ToHistoryTable("ListUser", SqlSchema.Todo, SqlSchema.History);
 

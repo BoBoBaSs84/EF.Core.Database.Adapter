@@ -5,9 +5,9 @@ using Domain.Models.Identity;
 namespace Domain.Models.Todo;
 
 /// <summary>
-/// The todo list user model class.
+/// The todo list user class.
 /// </summary>
-public class ListUserModel : AuditedCompositeModel
+public sealed class ListUser : AuditedCompositeModel
 {
 	/// <summary>
 	/// The <see cref="ListId"/> property.
@@ -22,10 +22,10 @@ public class ListUserModel : AuditedCompositeModel
 	/// <summary>
 	/// The <see cref="TodoList"/> property.
 	/// </summary>
-	public virtual TodoListModel TodoList { get; private set; } = default!;
+	public List TodoList { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="User"/> property.
 	/// </summary>
-	public virtual UserModel User { get; private set; } = default!;
+	public UserModel User { get; set; } = default!;
 }

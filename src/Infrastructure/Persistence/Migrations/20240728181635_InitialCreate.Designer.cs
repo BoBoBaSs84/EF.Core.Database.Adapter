@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240222184903_KeyUpdate")]
-    partial class KeyUpdate
+    [Migration("20240728181635_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -33,8 +33,8 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnOrder(1)
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<int>("AttendanceType")
-                        .HasColumnType("int");
+                    b.Property<byte>("AttendanceType")
+                        .HasColumnType("tinyint");
 
                     b.Property<TimeSpan?>("BreakTime")
                         .HasColumnType("time(0)");
@@ -42,14 +42,15 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("CalendarId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan?>("EndTime")
                         .HasColumnType("time(0)");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -156,8 +157,10 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnOrder(1)
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("IBAN")
                         .IsRequired()
@@ -165,8 +168,9 @@ namespace Infrastructure.Persistence.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(25)");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -221,13 +225,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("TransactionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -244,7 +249,7 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.HasKey("AccountId", "TransactionId");
 
@@ -274,13 +279,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -297,7 +303,7 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.HasKey("AccountId", "UserId");
 
@@ -330,14 +336,17 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CardType")
-                        .HasColumnType("int");
+                    b.Property<byte>("CardType")
+                        .HasColumnType("tinyint");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(3);
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("PAN")
                         .IsRequired()
@@ -403,13 +412,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("TransactionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -426,7 +436,7 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.HasKey("CardId", "TransactionId");
 
@@ -479,8 +489,10 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("CreditorId")
                         .HasMaxLength(25)
@@ -494,8 +506,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -644,21 +657,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fdb3fecc-6dcf-4494-ab46-8ccf17b7dc46"),
+                            Id = new Guid("e0a6450e-541b-4d17-accf-21846f0b5bbe"),
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("b5302921-8829-4f29-876b-7bce2f72cc9d"),
+                            Id = new Guid("d2ac538a-954d-4b50-8bba-80ebbb8e0bbc"),
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("017931d6-1e19-41d5-ae8a-c0b73a8e2b8e"),
+                            Id = new Guid("24b6d397-9495-40cf-b16e-80358a53ecc3"),
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -938,6 +951,195 @@ namespace Infrastructure.Persistence.Migrations
                             }));
                 });
 
+            modelBuilder.Entity("Domain.Models.Todo.Item", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(1)
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(3);
+
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ListId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<byte>("Priority")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime?>("Reminder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ListId");
+
+                    b.ToTable("Item", "Todo");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("Item", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
+
+            modelBuilder.Entity("Domain.Models.Todo.List", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(1)
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<byte[]>("Color")
+                        .HasColumnType("varbinary(3)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.ToTable("List", "Todo");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("List", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
+
+            modelBuilder.Entity("Domain.Models.Todo.ListUser", b =>
+                {
+                    b.Property<Guid>("ListId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(5);
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(3);
+
+                    b.HasKey("ListId", "UserId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("ListId", "UserId"), false);
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ListUser", "Todo");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("ListUser", "History");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
+
             modelBuilder.Entity("Domain.Models.Attendance.AttendanceModel", b =>
                 {
                     b.HasOne("Domain.Models.Common.CalendarModel", "Calendar")
@@ -1096,6 +1298,36 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Models.Todo.Item", b =>
+                {
+                    b.HasOne("Domain.Models.Todo.List", "List")
+                        .WithMany("Items")
+                        .HasForeignKey("ListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("List");
+                });
+
+            modelBuilder.Entity("Domain.Models.Todo.ListUser", b =>
+                {
+                    b.HasOne("Domain.Models.Todo.List", "TodoList")
+                        .WithMany("Users")
+                        .HasForeignKey("ListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Identity.UserModel", "User")
+                        .WithMany("TodoLists")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TodoList");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Models.Common.CalendarModel", b =>
                 {
                     b.Navigation("Attendances");
@@ -1141,9 +1373,18 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Navigation("Logins");
 
+                    b.Navigation("TodoLists");
+
                     b.Navigation("Tokens");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Domain.Models.Todo.List", b =>
+                {
+                    b.Navigation("Items");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

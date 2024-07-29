@@ -330,10 +330,13 @@
   <data name="EnumeratorService.GetDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the day type enumerators.</value>
   </data>
+  <data name="EnumeratorService.GetPriorityLevelTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the priority level type enumerators.</value>
+  </data>
   <data name="EnumeratorService.GetRoleTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the role type enumerators.</value>
   </data>
-  <data name="EnumeratorService.WorkDayTypes.Failed" xml:space="preserve">
+  <data name="EnumeratorService.GetWorkDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the work day type enumerators.</value>
   </data>
   <data name="TodoService.CreateItemByListId.Failed" xml:space="preserve">

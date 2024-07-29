@@ -18,27 +18,34 @@ public static class EnumeratorServiceErrors
 	/// Error that indicates an exception during the enumerator service.
 	/// </summary>
 	public static readonly ApiError GetCardTypesFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetCardTypesFailed}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetCardTypesFailed)}",
 			RESX.EnumeratorService_GetCardTypes_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the enumerator service.
 	/// </summary>
 	public static readonly ApiError GetAttendanceTypesFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetAttendanceTypesFailed}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAttendanceTypesFailed)}",
 			RESX.EnumeratorService_GetDayTypes_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the enumerator service.
 	/// </summary>
+	public static readonly ApiError GetPriorityLevelTypesFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPriorityLevelTypesFailed)}",
+			RESX.EnumeratorService_GetPriorityLevelTypes_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the enumerator service.
+	/// </summary>
 	public static readonly ApiError GetRoleTypesFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetRoleTypesFailed}",
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetRoleTypesFailed)}",
 			RESX.EnumeratorService_GetRoleTypes_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the enumerator service.
 	/// </summary>
 	public static readonly ApiError GetWorkDayTypesFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetWorkDayTypesFailed}",
-			RESX.EnumeratorService_WorkDayTypes_Failed);
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetWorkDayTypesFailed)}",
+			RESX.EnumeratorService_GetWorkDayTypes_Failed);
 }

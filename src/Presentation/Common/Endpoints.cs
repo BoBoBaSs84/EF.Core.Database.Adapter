@@ -112,6 +112,14 @@ internal static class Endpoints
 		}
 
 		/// <summary>
+		/// The priority level type route
+		/// </summary>
+		internal static class PriorityLevelType
+		{
+			internal const string Get = nameof(PriorityLevelType);
+		}
+
+		/// <summary>
 		/// The role type route.
 		/// </summary>
 		internal static class RoleType

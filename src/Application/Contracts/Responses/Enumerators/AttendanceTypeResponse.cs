@@ -5,11 +5,8 @@ using Domain.Enumerators;
 namespace Application.Contracts.Responses.Enumerators;
 
 /// <summary>
-/// The attendance type response class.
+/// The response class for the <see cref="AttendanceType"/> enumerator.
 /// </summary>
-/// <remarks>
-/// Initilizes an instance of the attendance type response class.
-/// </remarks>
-/// <inheritdoc/>
-public sealed class AttendanceTypeResponse(AttendanceType enumValue) : EnumeratorResponse<AttendanceType>(enumValue)
+/// <param name="attendance">The attendance type.</param>
+public sealed class AttendanceTypeResponse(AttendanceType attendance) : EnumeratorResponse<AttendanceType>(attendance)
 { }

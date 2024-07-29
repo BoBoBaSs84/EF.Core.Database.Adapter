@@ -700,6 +700,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the priority level type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetPriorityLevelTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetPriorityLevelTypes.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the role type enumerators..
         /// </summary>
         public static string EnumeratorService_GetRoleTypes_Failed {
@@ -711,9 +720,9 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the work day type enumerators..
         /// </summary>
-        public static string EnumeratorService_WorkDayTypes_Failed {
+        public static string EnumeratorService_GetWorkDayTypes_Failed {
             get {
-                return ResourceManager.GetString("EnumeratorService.WorkDayTypes.Failed", resourceCulture);
+                return ResourceManager.GetString("EnumeratorService.GetWorkDayTypes.Failed", resourceCulture);
             }
         }
         

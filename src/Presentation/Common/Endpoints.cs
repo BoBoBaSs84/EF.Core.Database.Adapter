@@ -137,6 +137,19 @@ internal static class Endpoints
 	}
 
 	/// <summary>
+	/// The todo list route.
+	/// </summary>
+	internal static class Todo
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Todo);
+
+		internal const string GetAll = EmptySuffix;
+		internal const string GetById = "{listId:guid}";
+		internal const string PostList = EmptySuffix;
+		internal const string PostItem = "{listId:guid}";
+	}
+
+	/// <summary>
 	/// The attendance route.
 	/// </summary>
 	internal static class Attendance

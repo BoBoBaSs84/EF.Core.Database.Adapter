@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Contracts.Requests.Todo;
-internal class ItemCreateRequest
+
+public sealed class ItemCreateRequest
 {
 }

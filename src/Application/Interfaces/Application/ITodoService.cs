@@ -9,7 +9,7 @@ namespace Application.Interfaces.Application;
 /// <summary>
 /// The interface fo the todo service
 /// </summary>
-internal interface ITodoService
+public interface ITodoService
 {
 	/// <summary>
 	/// Creates a new todo list for the provided <paramref name="userId"/>.

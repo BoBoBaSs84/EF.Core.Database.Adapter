@@ -22,9 +22,6 @@ namespace Presentation.Controllers;
 /// <summary>
 /// The attendance controller class.
 /// </summary>
-/// <remarks>
-/// Inherits from <see cref="ApiControllerBase"/>.
-/// </remarks>
 /// <param name="attendanceService">The attendance service to use.</param>
 /// <param name="currentUserService">The current user service to use.</param>
 [Authorize]

@@ -23,7 +23,7 @@ namespace Presentation.Controllers;
 /// <param name="todoService">The todo service instance to use.</param>
 /// <param name="userService">The current user service instance to use.</param>
 [Authorize]
-[Route(Endpoints.Attendance.BaseUri)]
+[Route(Endpoints.Todo.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
 public sealed class TodoController(ITodoService todoService, ICurrentUserService userService) : ApiControllerBase
 {

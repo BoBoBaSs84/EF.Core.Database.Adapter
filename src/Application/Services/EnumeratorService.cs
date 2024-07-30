@@ -57,6 +57,21 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		}
 	}
 
+	public ErrorOr<IEnumerable<PriorityLevelTypeResponse>> GetPriorityLevelTypes()
+	{
+		try
+		{
+			IEnumerable<PriorityLevelType> priorityLevelTypes = PriorityLevelType.NONE.GetValues();
+
+			return _mapper.Map<IEnumerable<PriorityLevelTypeResponse>>(priorityLevelTypes).ToList();
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogException, ex);
+			return EnumeratorServiceErrors.GetPriorityLevelTypesFailed;
+		}
+	}
+
 	public ErrorOr<IEnumerable<RoleTypeResponse>> GetRoleTypes()
 	{
 		try

@@ -330,10 +330,13 @@
   <data name="EnumeratorService.GetDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the day type enumerators.</value>
   </data>
+  <data name="EnumeratorService.GetPriorityLevelTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the priority level type enumerators.</value>
+  </data>
   <data name="EnumeratorService.GetRoleTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the role type enumerators.</value>
   </data>
-  <data name="EnumeratorService.WorkDayTypes.Failed" xml:space="preserve">
+  <data name="EnumeratorService.GetWorkDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the work day type enumerators.</value>
   </data>
   <data name="TodoService.CreateItemByListId.Failed" xml:space="preserve">
@@ -341,6 +344,15 @@
   </data>
   <data name="TodoService.CreateListByUserId.Failed" xml:space="preserve">
     <value>An error occurred while creating the todo list for the user with the identifier: {0}.</value>
+  </data>
+  <data name="TodoService.DeleteItemById.Failed" xml:space="preserve">
+    <value>An error occurred when deleting the todo item with the identifier: {0}.</value>
+  </data>
+  <data name="TodoService.DeleteListById.Failed" xml:space="preserve">
+    <value>An error occurred when deleting the todo list with the identifier: {0}.</value>
+  </data>
+  <data name="TodoService.GetItemById.NotFound" xml:space="preserve">
+    <value>No todo item with the identifier: '{0}' could be found to load.</value>
   </data>
   <data name="TodoService.GetListById.Failed" xml:space="preserve">
     <value>An error occurred when loading the todo list with the identifier: '{0}'.</value>
@@ -350,6 +362,12 @@
   </data>
   <data name="TodoService.GetListsById.Failed" xml:space="preserve">
     <value>An error occurred when loading the todo list with the user identifier: '{0}'.</value>
+  </data>
+  <data name="TodoService.UpdateItemById.Failed" xml:space="preserve">
+    <value>An error occurred when updating the todo item with the identifier: {0}.</value>
+  </data>
+  <data name="TodoService.UpdateListById.Failed" xml:space="preserve">
+    <value>An error occurred when updating the todo list with the identifier: {0}.</value>
   </data>
   <data name="TransactionServiceErrors.CreateForAccount.Failed" xml:space="preserve">
     <value>An error occurred while creating the transaction for the account with the identifier: '{0}'.</value>

@@ -12,7 +12,7 @@ public sealed class Item : AuditedModel
 	/// <summary>
 	/// The title of the todo item.
 	/// </summary>
-	public string? Title { get; set; }
+	public string Title { get; set; } = default!;
 
 	/// <summary>
 	/// The note on the todo item.

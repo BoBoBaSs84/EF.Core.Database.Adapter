@@ -20,7 +20,8 @@ internal static partial class RequestProfiles
 		{
 			CreateMap<ListCreateRequest, List>()
 				.ForMember(t => t.Color, o => o.MapFrom(s => MapColor(s.Color)));
-			CreateMap<ListUpdateRequest, List>();
+			CreateMap<ListUpdateRequest, List>()
+				.ForMember(t => t.Color, o => o.MapFrom(s => MapColor(s.Color)));
 			CreateMap<ItemCreateRequest, Item>();
 			CreateMap<ItemUpdateRequest, Item>();
 		}

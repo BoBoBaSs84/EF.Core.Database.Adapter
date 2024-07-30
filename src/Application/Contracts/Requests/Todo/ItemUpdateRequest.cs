@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Contracts.Requests.Todo.Base;
 
 namespace Application.Contracts.Requests.Todo;
-internal class ItemUpdateRequest
+
+/// <summary>
+/// The request class to update an existing todo item.
+/// </summary>
+public sealed class ItemUpdateRequest : ItemBaseRequest
 {
+	/// <summary>
+	/// Indicates if the todo item is done.
+	/// </summary>
+	public bool Done { get; set; }
 }

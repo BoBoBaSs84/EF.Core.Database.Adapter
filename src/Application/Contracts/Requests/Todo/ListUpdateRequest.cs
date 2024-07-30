@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Contracts.Requests.Todo.Base;
 
 namespace Application.Contracts.Requests.Todo;
-internal class ListUpdateRequest
-{
-}
+
+/// <summary>
+/// The request class to update an existing todo list.
+/// </summary>
+public sealed class ListUpdateRequest : ListBaseRequest
+{ }

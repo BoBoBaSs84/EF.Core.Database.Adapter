@@ -13,7 +13,7 @@ public sealed class ListResponse : IdentityResponse
 	/// The title of the todo list.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string? Title { get; set; }
+	public string Title { get; set; } = default!;
 
 	/// <summary>
 	/// The color of the todo list.
@@ -24,5 +24,5 @@ public sealed class ListResponse : IdentityResponse
 	/// <summary>
 	/// The items within the todo list.
 	/// </summary>
-	public IEnumerable<ItemResponse>? Items { get; set; }
+	public ItemResponse[]? Items { get; set; }
 }

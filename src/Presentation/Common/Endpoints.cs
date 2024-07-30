@@ -112,6 +112,14 @@ internal static class Endpoints
 		}
 
 		/// <summary>
+		/// The priority level type route
+		/// </summary>
+		internal static class PriorityLevelType
+		{
+			internal const string Get = nameof(PriorityLevelType);
+		}
+
+		/// <summary>
 		/// The role type route.
 		/// </summary>
 		internal static class RoleType
@@ -126,6 +134,23 @@ internal static class Endpoints
 		{
 			internal const string Get = nameof(WorkDayType);
 		}
+	}
+
+	/// <summary>
+	/// The todo list route.
+	/// </summary>
+	internal static class Todo
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Todo);
+
+		internal const string DeleteList = "{listId:guid}";
+		internal const string DeleteItem = "Items/{itemId:Guid}";
+		internal const string GetAll = EmptySuffix;
+		internal const string GetById = "{listId:guid}";
+		internal const string PostList = EmptySuffix;
+		internal const string PostItem = "{listId:guid}";
+		internal const string PutList = "{listId:guid}";
+		internal const string PutItem = "Items/{itemId:Guid}";
 	}
 
 	/// <summary>

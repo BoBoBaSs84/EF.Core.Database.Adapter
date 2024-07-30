@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Contracts.Requests.Todo.Base;
 
 namespace Application.Contracts.Requests.Todo;
-internal class ItemCreateRequest
-{
-}
+
+/// <summary>
+/// The request class for creating a new todo item.
+/// </summary>
+public sealed class ItemCreateRequest : ItemBaseRequest
+{ }

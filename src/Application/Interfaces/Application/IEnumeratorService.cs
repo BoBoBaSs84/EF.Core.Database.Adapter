@@ -22,6 +22,12 @@ public interface IEnumeratorService
 	ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes();
 
 	/// <summary>
+	/// Returns all priority level type enumerators.
+	/// </summary>
+	/// <returns>A list of priority level type responses.</returns>
+	ErrorOr<IEnumerable<PriorityLevelTypeResponse>> GetPriorityLevelTypes();
+
+	/// <summary>
 	/// Returns all role type enumerators.
 	/// </summary>
 	/// <returns>A list of role type responses.</returns>

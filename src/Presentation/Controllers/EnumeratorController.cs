@@ -31,12 +31,10 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	/// <summary>
 	/// Returns all card type enumerators.
 	/// </summary>
-	/// <response code="200">If the result is returned.</response>
-	/// <response code="404">If the result is empty.</response>
-	/// <response code="500">If something went wrong.</response>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Enumerator.CardType.Get)]
 	[ProducesResponseType(typeof(IEnumerable<CardTypeResponse>), StatusCodes.Status200OK)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetCardTypes()
 	{
@@ -47,12 +45,10 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	/// <summary>
 	/// Returns all attendance type enumerators.
 	/// </summary>
-	/// <response code="200">If the result is returned.</response>
-	/// <response code="404">If the result is empty.</response>
-	/// <response code="500">If something went wrong.</response>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Enumerator.AttendanceType.Get)]
 	[ProducesResponseType(typeof(IEnumerable<AttendanceTypeResponse>), StatusCodes.Status200OK)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetDayTypes()
 	{
@@ -61,18 +57,30 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	}
 
 	/// <summary>
+	/// Returns all priority level type enumerators.
+	/// </summary>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
+	[HttpGet(Endpoints.Enumerator.PriorityLevelType.Get)]
+	[ProducesResponseType(typeof(IEnumerable<AttendanceTypeResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public IActionResult GetPriorityLevelTypes()
+	{
+		ErrorOr<IEnumerable<PriorityLevelTypeResponse>> result = _enumeratorService.GetPriorityLevelTypes();
+		return Get(result);
+	}
+
+	/// <summary>
 	/// Returns all role type enumerators.
 	/// </summary>
-	/// <response code="200">If the result is returned.</response>
+	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
-	/// <response code="404">If the result is empty.</response>
-	/// <response code="500">If something went wrong.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Enumerator.RoleType.Get), AuthorizeRoles(RoleType.ADMINISTRATOR)]
 	[ProducesResponseType(typeof(IEnumerable<RoleTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetRoleTypes()
 	{
@@ -83,12 +91,10 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	/// <summary>
 	/// Returns all work day type enumerators.
 	/// </summary>
-	/// <response code="200">If the result is returned.</response>
-	/// <response code="404">If the result is empty.</response>
-	/// <response code="500">If something went wrong.</response>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Enumerator.WorkDayType.Get)]
 	[ProducesResponseType(typeof(IEnumerable<WorkDayTypeResponse>), StatusCodes.Status200OK)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetWorkDayTypes()
 	{

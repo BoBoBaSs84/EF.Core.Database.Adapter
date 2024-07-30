@@ -7,6 +7,8 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using BB84.Extensions;
+
 using Domain.Errors;
 using Domain.Models.Todo;
 using Domain.Results;
@@ -64,7 +66,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 				.ConfigureAwait(false);
 
 			if (list is null)
-				return TodoServiceErrors.GetListByListIdNotFound(listId);
+				return TodoServiceErrors.GetListByIdNotFound(listId);
 
 			Item item = MapFromCreateItemRequest(request);
 
@@ -85,6 +87,58 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 	}
 
+	public async Task<ErrorOr<Deleted>> DeleteListById(Guid listId, CancellationToken token = default)
+	{
+		try
+		{
+			List? existingList = await _repositoryService.TodoListRepository
+				.GetByConditionAsync(expression: x => x.Id.Equals(listId), cancellationToken: token)
+				.ConfigureAwait(false);
+
+			if (existingList is null)
+				return TodoServiceErrors.GetListByIdNotFound(listId);
+
+			await _repositoryService.TodoListRepository.DeleteAsync(existingList)
+				.ConfigureAwait(false);
+
+			_ = await _repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, listId, ex);
+			return TodoServiceErrors.DeleteListByIdFailed(listId);
+		}
+	}
+
+	public async Task<ErrorOr<Deleted>> DeleteItemById(Guid itemId, CancellationToken token = default)
+	{
+		try
+		{
+			Item? existingItem = await _repositoryService.TodoItemRepository
+				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), cancellationToken: token)
+				.ConfigureAwait(false);
+
+			if (existingItem is null)
+				return TodoServiceErrors.GetItemByIdNotFound(itemId);
+
+			await _repositoryService.TodoItemRepository.DeleteAsync(existingItem)
+				.ConfigureAwait(false);
+
+			_ = await _repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, itemId, ex);
+			return TodoServiceErrors.DeleteItemByIdFailed(itemId);
+		}
+	}
+
 	public async Task<ErrorOr<ListResponse>> GetListByListId(Guid userId, Guid listId, CancellationToken token = default)
 	{
 		try
@@ -98,7 +152,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 				.ConfigureAwait(false);
 
 			if (todoList is null)
-				return TodoServiceErrors.GetListByListIdNotFound(userId);
+				return TodoServiceErrors.GetListByIdNotFound(userId);
 
 			ListResponse response = MapToListResponse(todoList);
 
@@ -129,6 +183,61 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 			string[] parameters = [$"{nameof(userId)}:{userId}"];
 			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return TodoServiceErrors.GetListsByUserIdFailed(userId);
+		}
+	}
+
+	public async Task<ErrorOr<Updated>> UpdateListById(Guid listId, ListUpdateRequest request, CancellationToken token = default)
+	{
+		try
+		{
+			List? list = await _repositoryService.TodoListRepository
+				.GetByConditionAsync(expression: x => x.Id.Equals(listId), trackChanges: true, cancellationToken: token)
+				.ConfigureAwait(false);
+
+			if (list is null)
+				return TodoServiceErrors.GetListByIdNotFound(listId);
+
+			list.Title = request.Title;
+			list.Color = request.Color?.FromRGBHexString();
+
+			_ = await _repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Updated;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, listId, ex);
+			return TodoServiceErrors.UpdateListByIdFailed(listId);
+		}
+	}
+
+	public async Task<ErrorOr<Updated>> UpdateItemById(Guid itemId, ItemUpdateRequest request, CancellationToken token = default)
+	{
+		try
+		{
+			Item? item = await _repositoryService.TodoItemRepository
+				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), trackChanges: true, cancellationToken: token)
+				.ConfigureAwait(false);
+
+			if (item is null)
+				return TodoServiceErrors.GetItemByIdNotFound(itemId);
+
+			item.Title = request.Title;
+			item.Note = request.Note;
+			item.Priority = request.Priority;
+			item.Reminder = request.Reminder;
+			item.Done = request.Done;
+
+			_ = await _repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Updated;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, itemId, ex);
+			return TodoServiceErrors.UpdateItemByIdFailed(itemId);
 		}
 	}
 

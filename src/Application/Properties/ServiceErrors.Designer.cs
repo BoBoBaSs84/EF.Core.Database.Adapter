@@ -745,6 +745,33 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the todo item with the identifier: {0}..
+        /// </summary>
+        public static string TodoService_DeleteItemById_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.DeleteItemById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the todo list with the identifier: {0}..
+        /// </summary>
+        public static string TodoService_DeleteListById_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.DeleteListById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No todo item with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TodoService_GetItemById_NotFound {
+            get {
+                return ResourceManager.GetString("TodoService.GetItemById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred when loading the todo list with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string TodoService_GetListById_Failed {
@@ -768,6 +795,24 @@ namespace Application.Properties {
         public static string TodoService_GetListsById_Failed {
             get {
                 return ResourceManager.GetString("TodoService.GetListsById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when updating the todo item with the identifier: {0}..
+        /// </summary>
+        public static string TodoService_UpdateItemById_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.UpdateItemById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when updating the todo list with the identifier: {0}..
+        /// </summary>
+        public static string TodoService_UpdateListById_Failed {
+            get {
+                return ResourceManager.GetString("TodoService.UpdateListById.Failed", resourceCulture);
             }
         }
         

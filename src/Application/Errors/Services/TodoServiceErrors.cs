@@ -35,9 +35,25 @@ public static class TodoServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the todo service.
 	/// </summary>
+	/// <param name="id">The list id that failed to create.</param>
+	public static ApiError DeleteItemByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteItemByIdFailed)}",
+			$"{RESX.TodoService_DeleteItemById_Failed.FormatInvariant(id)}");
+
+	/// <summary>
+	/// Error that indicates an exception during the todo service.
+	/// </summary>
+	/// <param name="id">The list id that failed to create.</param>
+	public static ApiError DeleteListByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteListByIdFailed)}",
+			$"{RESX.TodoService_DeleteListById_Failed.FormatInvariant(id)}");
+
+	/// <summary>
+	/// Error that indicates an exception during the todo service.
+	/// </summary>
 	/// <param name="id">The list id that was not found.</param>
-	public static ApiError GetListByListIdNotFound(Guid id)
-		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetListByListIdNotFound)}",
+	public static ApiError GetListByIdNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetListByIdNotFound)}",
 			$"{RESX.TodoService_GetListById_NotFound.FormatInvariant(id)}");
 
 	/// <summary>
@@ -55,4 +71,28 @@ public static class TodoServiceErrors
 	public static ApiError GetListsByUserIdFailed(Guid id)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetListsByUserIdFailed)}",
 			$"{RESX.TodoService_GetListsById_Failed.FormatInvariant(id)}");
+
+	/// <summary>
+	/// Error that indicates an exception during the todo service.
+	/// </summary>
+	/// <param name="id">The item id that was not found.</param>
+	public static ApiError GetItemByIdNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetItemByIdNotFound)}",
+			$"{RESX.TodoService_GetItemById_NotFound.FormatInvariant(id)}");
+
+	/// <summary>
+	/// Error that indicates an exception during the todo service.
+	/// </summary>
+	/// <param name="id">The list id that failed to create.</param>
+	public static ApiError UpdateItemByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateItemByIdFailed)}",
+			$"{RESX.TodoService_UpdateItemById_Failed.FormatInvariant(id)}");
+
+	/// <summary>
+	/// Error that indicates an exception during the todo service.
+	/// </summary>
+	/// <param name="id">The list id that failed to create.</param>
+	public static ApiError UpdateListByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateListByIdFailed)}",
+			$"{RESX.TodoService_UpdateListById_Failed.FormatInvariant(id)}");
 }

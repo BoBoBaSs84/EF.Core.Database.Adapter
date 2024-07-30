@@ -30,11 +30,27 @@ public interface ITodoService
 	Task<ErrorOr<Created>> CreateItemByListId(Guid listId, ItemCreateRequest request, CancellationToken token = default);
 
 	/// <summary>
+	/// Deletes an existing todo list by the provided <paramref name="listId"/>.
+	/// </summary>
+	/// <param name="listId">The list identifier to use.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Deleted>> DeleteListById(Guid listId, CancellationToken token = default);
+
+	/// <summary>
+	/// Deletes an existing todo item by the provided <paramref name="itemId"/>.
+	/// </summary>
+	/// <param name="itemId">The item identifier to use.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Deleted>> DeleteItemById(Guid itemId, CancellationToken token = default);
+
+	/// <summary>
 	/// Returns a collection of todo lists for the provided <paramref name="userId"/>.
 	/// </summary>
 	/// <param name="userId">The user identifier to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
-	/// <returns>A collection of todo lists.</returns>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<IEnumerable<ListResponse>>> GetListsByUserId(Guid userId, CancellationToken token = default);
 
 	/// <summary>
@@ -43,6 +59,24 @@ public interface ITodoService
 	/// <param name="userId">The user identifier to use.</param>
 	/// <param name="listId">The list identifier to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
-	/// <returns>A todo list.</returns>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	Task<ErrorOr<ListResponse>> GetListByListId(Guid userId, Guid listId, CancellationToken token = default);
+
+	/// <summary>
+	/// Updates an existing todo list by the provided <paramref name="listId"/>.
+	/// </summary>
+	/// <param name="listId">The list identifier to use.</param>
+	/// <param name="request">The update todo list request to use.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Updated>> UpdateListById(Guid listId, ListUpdateRequest request, CancellationToken token = default);
+
+	/// <summary>
+	/// Updates an existing todo item by the provided <paramref name="itemId"/>.
+	/// </summary>
+	/// <param name="itemId">The item identifier to use.</param>
+	/// <param name="request">The update todo list request to use.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Updated>> UpdateItemById(Guid itemId, ItemUpdateRequest request, CancellationToken token = default);
 }

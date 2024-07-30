@@ -143,10 +143,14 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Todo);
 
+		internal const string DeleteList = "{listId:guid}";
+		internal const string DeleteItem = "Items/{itemId:Guid}";
 		internal const string GetAll = EmptySuffix;
 		internal const string GetById = "{listId:guid}";
 		internal const string PostList = EmptySuffix;
 		internal const string PostItem = "{listId:guid}";
+		internal const string PutList = "{listId:guid}";
+		internal const string PutItem = "Items/{itemId:Guid}";
 	}
 
 	/// <summary>

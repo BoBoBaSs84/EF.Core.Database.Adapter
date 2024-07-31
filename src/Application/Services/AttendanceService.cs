@@ -13,7 +13,6 @@ using AutoMapper;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Models.Attendance;
-using Domain.Models.Common;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -42,16 +41,8 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (request.IsValid().Equals(false))
 				return AttendanceServiceErrors.CreateBadRequest(request.Date);
 
-			CalendarModel? calendarEntry = await _repositoryService.CalendarRepository.GetByConditionAsync(
-				expression: x => x.Date.Equals(request.Date),
-				cancellationToken: cancellationToken
-				);
-
-			if (calendarEntry is null)
-				return CalendarServiceErrors.GetByDateNotFound(request.Date);
-
 			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.Calendar.Date.Equals(request.Date),
+				expression: x => x.Date.Equals(request.Date),
 				cancellationToken: cancellationToken
 				);
 
@@ -60,7 +51,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 
 			AttendanceModel newAttendance = _mapper.Map<AttendanceModel>(request);
 			newAttendance.UserId = userId;
-			newAttendance.CalendarId = calendarEntry.Id;
 
 			await _repositoryService.AttendanceRepository.CreateAsync(newAttendance, cancellationToken);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
@@ -137,19 +127,17 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid calendarId, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> Delete(Guid userId, DateTime date, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = [$"{userId}", $"{calendarId}"];
+		string[] parameters = [$"{userId}", $"{date}"];
 		try
 		{
-			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarId),
-				trackChanges: true,
-				cancellationToken: cancellationToken
-				);
+			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository
+				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), cancellationToken: cancellationToken)
+				.ConfigureAwait(false);
 
 			if (attendanceEntry is null)
-				return AttendanceServiceErrors.DeleteNotFound;
+				return AttendanceServiceErrors.GetByDateFailed(date);
 
 			await _repositoryService.AttendanceRepository.DeleteAsync(attendanceEntry);
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
@@ -163,16 +151,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, IEnumerable<Guid> calendarIds, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> Delete(Guid userId, IEnumerable<DateTime> dates, CancellationToken cancellationToken = default)
 	{
-		string[] parameters = [$"{userId}", string.Join(", ", calendarIds)];
+		string[] parameters = [$"{userId}", string.Join(", ", dates)];
 		try
 		{
-			IEnumerable<AttendanceModel> attendanceEntries = await _repositoryService.AttendanceRepository.GetManyByConditionAsync(
-				expression: x => calendarIds.Contains(x.CalendarId) && x.UserId.Equals(userId),
-				trackChanges: true,
-				cancellationToken: cancellationToken
-				);
+			IEnumerable<AttendanceModel> attendanceEntries = await _repositoryService.AttendanceRepository
+				.GetManyByConditionAsync(expression: x => dates.Contains(x.Date) && x.UserId.Equals(userId), cancellationToken: cancellationToken)
+				.ConfigureAwait(false);
 
 			if (attendanceEntries.Any().Equals(false))
 				return AttendanceServiceErrors.DeleteManyNotFound;
@@ -189,7 +175,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> Get(Guid userId, AttendanceParameters parameters, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> Get(Guid userId, AttendanceParameters parameters, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -199,12 +185,10 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				.FilterByMonth(parameters.Month)
 				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
 				.FilterByType(parameters.AttendanceType),
-				orderBy: x => x.OrderBy(x => x.Calendar.Date),
+				orderBy: x => x.OrderBy(x => x.Date),
 				take: parameters.PageSize,
 				skip: (parameters.PageNumber - 1) * parameters.PageSize,
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: [nameof(AttendanceModel.Calendar)]
+				cancellationToken: cancellationToken
 				);
 
 			if (!attendances.Any())
@@ -275,17 +259,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<AttendanceResponse>> Get(Guid userId, DateTime date, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AttendanceResponse>> Get(Guid userId, DateTime date, CancellationToken cancellationToken = default)
 	{
 		string[] parameters = [$"{userId}", $"{date}"];
 		try
 		{
-			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.Calendar.Date.Equals(date.ToSqlDate()),
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: [nameof(AttendanceModel.Calendar)]
-				);
+			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository
+				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), cancellationToken: cancellationToken)
+				.ConfigureAwait(false);
 
 			if (attendanceEntry is null)
 				return AttendanceServiceErrors.GetByDateNotFound(date);
@@ -298,32 +279,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		{
 			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetByDateFailed(date);
-		}
-	}
-
-	public async Task<ErrorOr<AttendanceResponse>> Get(Guid userId, Guid calendarId, bool trackChanges = false, CancellationToken cancellationToken = default)
-	{
-		string[] parameters = [$"{userId}", $"{calendarId}"];
-		try
-		{
-			AttendanceModel? attendanceEntry = await _repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.CalendarId.Equals(calendarId),
-				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
-				includeProperties: [nameof(AttendanceModel.Calendar)]
-				);
-
-			if (attendanceEntry is null)
-				return AttendanceServiceErrors.GetByIdNotFound(calendarId);
-
-			AttendanceResponse result = _mapper.Map<AttendanceResponse>(attendanceEntry);
-
-			return result;
-		}
-		catch (Exception ex)
-		{
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.GetByIdFailed(calendarId);
 		}
 	}
 
@@ -406,28 +361,5 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		attendance.StartTime = updateRequest.StartTime;
 		attendance.EndTime = updateRequest.EndTime;
 		attendance.BreakTime = updateRequest.BreakTime;
-	}
-
-	/// <summary>
-	/// Creates a new attendance response from the two models.
-	/// </summary>
-	/// <param name="calendarModel">The calendar model to use.</param>
-	/// <param name="attendanceModel">The attendance model to use.</param>
-	/// <returns>The created attendance response.</returns>
-	private static AttendanceResponse GetResponse(CalendarModel calendarModel, AttendanceModel? attendanceModel)
-	{
-		AttendanceResponse response = new() { Date = calendarModel.Date };
-
-		if (attendanceModel is not null)
-		{
-			response.Id = attendanceModel.Id;
-			response.AttendanceType = attendanceModel.AttendanceType;
-			response.StartTime = attendanceModel.StartTime;
-			response.EndTime = attendanceModel.EndTime;
-			response.BreakTime = attendanceModel.BreakTime;
-			response.WorkingHours = attendanceModel.GetResultingWorkingHours();
-		}
-
-		return response;
 	}
 }

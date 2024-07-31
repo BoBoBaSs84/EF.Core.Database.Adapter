@@ -19,11 +19,6 @@ public interface IRepositoryService
 	IAttendanceRepository AttendanceRepository { get; }
 
 	/// <summary>
-	/// The calendar repository interface.
-	/// </summary>
-	ICalendarRepository CalendarRepository { get; }
-
-	/// <summary>
 	/// The card repository interface.
 	/// </summary>
 	ICardRepository CardRepository { get; }

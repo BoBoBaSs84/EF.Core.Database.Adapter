@@ -26,7 +26,6 @@ internal static class ServiceCollectionExtensions
 	{
 		services.TryAddScoped<IAccountService, AccountService>();
 		services.TryAddScoped<IAttendanceService, AttendanceService>();
-		services.TryAddScoped<ICalendarService, CalendarService>();
 		services.TryAddScoped<ICardService, CardService>();
 		services.TryAddScoped<ITransactionService, TransactionService>();
 		services.TryAddScoped<ITodoService, TodoService>();

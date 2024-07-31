@@ -21,7 +21,6 @@ internal sealed class RepositoryService : IRepositoryService
 	private readonly Lazy<IAccountRepository> _lazyAccountRepository;
 	private readonly Lazy<ICardRepository> _lazyCardRepository;
 	private readonly Lazy<ITransactionRepository> _lazyTransactionRepository;
-	private readonly Lazy<ICalendarRepository> _lazyCalendarRepository;
 	private readonly Lazy<IAttendanceRepository> _lazyAttendanceRepository;
 	private readonly Lazy<IListRepository> _lazyTodoListRepository;
 	private readonly Lazy<IItemRepository> _lazyTodoItemRepository;
@@ -37,7 +36,6 @@ internal sealed class RepositoryService : IRepositoryService
 		_lazyAccountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(_context));
 		_lazyCardRepository = new Lazy<ICardRepository>(() => new CardRepository(_context));
 		_lazyTransactionRepository = new Lazy<ITransactionRepository>(() => new TransactionRepository(_context));
-		_lazyCalendarRepository = new Lazy<ICalendarRepository>(() => new CalendarRepository(_context));
 		_lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(_context));
 		_lazyTodoListRepository = new Lazy<IListRepository>(() => new ListRepository(_context));
 		_lazyTodoItemRepository = new Lazy<IItemRepository>(() => new ItemRepository(_context));
@@ -45,9 +43,6 @@ internal sealed class RepositoryService : IRepositoryService
 
 	public IAccountRepository AccountRepository
 		=> _lazyAccountRepository.Value;
-
-	public ICalendarRepository CalendarRepository
-		=> _lazyCalendarRepository.Value;
 
 	public ICardRepository CardRepository
 		=> _lazyCardRepository.Value;

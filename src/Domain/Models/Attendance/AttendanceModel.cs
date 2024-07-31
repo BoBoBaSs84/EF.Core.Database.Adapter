@@ -22,9 +22,10 @@ public partial class AttendanceModel : AuditedModel
 	public Guid UserId { get; set; }
 
 	/// <summary>
-	/// The <see cref="CalendarId"/> property.
+	/// The <see cref="Date"/> property.
 	/// </summary>
-	public Guid CalendarId { get; set; }
+	[Column(TypeName = SqlDataType.DATE)]
+	public DateTime Date {  get; set; }
 
 	/// <summary>
 	/// The attendance type property.

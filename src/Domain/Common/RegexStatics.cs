@@ -2,7 +2,7 @@
 
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 
-namespace Domain.Statics;
+namespace Domain.Common;
 
 /// <summary>
 /// The statics class.

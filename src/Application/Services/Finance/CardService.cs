@@ -7,10 +7,10 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using Domain.Common;
 using Domain.Errors;
 using Domain.Models.Finance;
 using Domain.Results;
-using Domain.Statics;
 
 using Microsoft.Extensions.Logging;
 

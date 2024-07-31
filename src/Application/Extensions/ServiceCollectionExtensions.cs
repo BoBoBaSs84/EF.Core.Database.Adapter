@@ -1,6 +1,10 @@
 ﻿using Application.Common;
 using Application.Interfaces.Application;
+using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Finance;
 using Application.Services;
+using Application.Services.Common;
+using Application.Services.Finance;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -37,6 +41,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureSingletonServices(this IServiceCollection services)
 	{
+		services.TryAddSingleton<IDateTimeService, DateTimeService>();
 		services.TryAddSingleton<IEnumeratorService, EnumeratorService>();
 
 		return services;

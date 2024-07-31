@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Finance;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
@@ -14,7 +14,7 @@ using Domain.Statics;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services;
+namespace Application.Services.Finance;
 
 /// <summary>
 /// The account service class.

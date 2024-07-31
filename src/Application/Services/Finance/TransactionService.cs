@@ -3,7 +3,7 @@ using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Finance;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
@@ -16,7 +16,7 @@ using Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services;
+namespace Application.Services.Finance;
 
 /// <summary>
 /// The transaction service class.

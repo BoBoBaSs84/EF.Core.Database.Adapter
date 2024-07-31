@@ -2,7 +2,7 @@
 
 using Domain.Errors;
 
-namespace Application.Interfaces.Application;
+namespace Application.Interfaces.Application.Common;
 
 /// <summary>
 /// The enumerator service interface.

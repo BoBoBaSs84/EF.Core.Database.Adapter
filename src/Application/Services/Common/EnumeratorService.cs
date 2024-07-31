@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses.Enumerators;
 using Application.Errors.Services;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Logging;
 
 using AutoMapper;
@@ -12,7 +12,7 @@ using Domain.Errors;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services;
+namespace Application.Services.Common;
 
 /// <summary>
 /// The enumerator service class.

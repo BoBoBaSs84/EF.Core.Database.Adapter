@@ -60,7 +60,6 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureTransientServices(this IServiceCollection services)
 	{
-		services.TryAddTransient<IDateTimeService, DateTimeService>();
 		services.TryAddTransient<IAuthenticationService, AuthenticationService>();
 
 		return services;

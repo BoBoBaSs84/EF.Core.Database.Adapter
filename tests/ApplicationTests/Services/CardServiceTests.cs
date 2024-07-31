@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Finance;
 
 using BaseTests.Helpers;
 

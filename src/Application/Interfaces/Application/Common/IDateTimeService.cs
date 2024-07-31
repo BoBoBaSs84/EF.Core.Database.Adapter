@@ -1,4 +1,4 @@
-﻿namespace Application.Interfaces.Infrastructure.Services;
+﻿namespace Application.Interfaces.Application.Common;
 
 /// <summary>
 /// The date time service interface.
@@ -9,6 +9,11 @@ public interface IDateTimeService
 	/// The current date.
 	/// </summary>
 	DateTime Today { get; }
+
+	/// <summary>
+	/// The current time.
+	/// </summary>
+	TimeSpan TimeOfDay { get; }
 
 	/// <summary>
 	/// The current date time.

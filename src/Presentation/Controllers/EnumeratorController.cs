@@ -1,5 +1,5 @@
 ﻿using Application.Contracts.Responses.Enumerators;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Common;
 
 using Asp.Versioning;
 

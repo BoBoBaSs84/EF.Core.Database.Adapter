@@ -41,6 +41,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureSingletonServices(this IServiceCollection services)
 	{
+		services.TryAddSingleton<ICalendarDayService, CalendarDayService>();
 		services.TryAddSingleton<IDateTimeService, DateTimeService>();
 		services.TryAddSingleton<IEnumeratorService, EnumeratorService>();
 

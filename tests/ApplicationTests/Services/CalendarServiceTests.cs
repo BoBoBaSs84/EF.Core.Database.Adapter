@@ -53,24 +53,6 @@ public class CalendarServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod, Owner(TestConstants.Bobo)]
-	public async Task GetByIdSuccessTest()
-	{
-		ErrorOr<CalendarResponse> result = await _calendarDayService.Get(DateTime.Now);
-
-		Guid calendarDayId = result.Value.Id;
-
-		result = await _calendarDayService.Get(calendarDayId);
-
-		AssertionHelper.AssertInScope(() =>
-		{
-			result.IsError.Should().BeFalse();
-			result.Errors.Should().BeEmpty();
-			result.Value.Should().NotBeNull();
-			result.Value.Id.Should().Be(calendarDayId);
-		});
-	}
-
-	[TestMethod, Owner(TestConstants.Bobo)]
 	public async Task GetByIdNotFoundTest()
 	{
 		Guid calendarDayId = Guid.NewGuid();

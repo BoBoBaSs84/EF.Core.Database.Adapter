@@ -2,6 +2,8 @@
 
 using Application.Features.Requests.Base;
 
+using DR = Application.Common.Statics.DateRanges;
+
 namespace Application.Features.Requests;
 
 /// <summary>
@@ -15,13 +17,13 @@ public sealed class CalendarParameters : RequestParameters
 	/// <summary>
 	/// Filter option by the year.
 	/// </summary>
-	[Range(1900, 9999)]
+	[Range(DR.MinYear, DR.MaxYear)]
 	public int? Year { get; set; }
 
 	/// <summary>
 	/// Filter option by the month.
 	/// </summary>
-	[Range(1, 12)]
+	[Range(DR.MinMonth, DR.MaxMonth)]
 	public int? Month { get; set; }
 
 	/// <summary>

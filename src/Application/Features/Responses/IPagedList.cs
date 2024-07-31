@@ -1,6 +1,4 @@
-﻿using Application.Contracts.Responses.Base;
-
-namespace Application.Features.Responses;
+﻿namespace Application.Features.Responses;
 
 /// <summary>
 /// The paged list interface.
@@ -9,7 +7,7 @@ namespace Application.Features.Responses;
 /// Derives from the <see cref="IList{T}"/> interface.
 /// </remarks>
 /// <typeparam name="T"></typeparam>
-public interface IPagedList<T> : IList<T> where T : IdentityResponse
+public interface IPagedList<T> : IList<T> where T : class
 {
 	/// <summary>
 	/// The meta data for the paged list.

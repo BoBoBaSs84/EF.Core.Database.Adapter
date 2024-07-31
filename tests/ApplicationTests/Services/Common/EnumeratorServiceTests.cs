@@ -7,7 +7,7 @@ using Domain.Errors;
 
 using FluentAssertions;
 
-namespace ApplicationTests.Services;
+namespace ApplicationTests.Services.Common;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]

@@ -1,4 +1,6 @@
 ﻿using Application.Contracts.Responses.Common;
+using Application.Errors.Services;
+using Application.Features.Requests;
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Services.Common;
@@ -15,11 +17,11 @@ namespace ApplicationTests.Services.Common;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit tests.")]
-public sealed class CalendarDayServiceTests
+public sealed class CalendarDayServiceTests : ApplicationTestBase
 {
+	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<IDateTimeService> _dateTimeServiceMock = default!;
 	private Mock<ILoggerService<CalendarDayService>> _loggerServiceMock = default!;
-	private Mock<IMapper> _mapperMock = default!;
 
 	[TestMethod, TestCategory("Methods")]
 	public void GetByDateShouldReturnResponseWhenSuccessfully()
@@ -30,13 +32,37 @@ public sealed class CalendarDayServiceTests
 		ErrorOr<CalendarResponse> result = sut.GetByDate(date);
 
 		result.Should().NotBeNull();
+		result.IsError.Should().BeFalse();
 		result.Value.Date.Should().Be(date.Date);
+	}
+
+	[TestMethod, TestCategory("Methods")]
+	public void GetByDateShouldReturnFailedResponseWhenExcpetionGetThrown()
+	{
+		CalendarDayService sut = CreateMockedInstance();
+		DateTime date = DateTime.MinValue;
+
+		ErrorOr<CalendarResponse> result = sut.GetByDate(date);
+
+		result.Should().NotBeNull();
+		result.IsError.Should().BeTrue();
+		result.Errors.First().Should().Be(CalendarServiceErrors.GetByDateFailed);
 	}
 
 	[TestMethod, TestCategory("Methods")]
 	public void GetPagedByParametersShouldReturnResponseWhenSuccessfully()
 	{
-		Assert.Fail();
+		CalendarDayService sut = CreateMockedInstance();
+		CalendarParameters parameters = new() { Year = 2020, PageSize = 100 };
+
+		var result = sut.GetPagedByParameters(parameters);
+
+		result.Should().NotBeNull();
+		result.IsError.Should().BeFalse();
+		result.Value.Count.Should().Be(100);
+		result.Value.MetaData.PageSize.Should().Be(100);
+		result.Value.MetaData.CurrentPage.Should().Be(1);
+		result.Value.MetaData.TotalPages.Should().Be(4);
 	}
 
 	[TestMethod, TestCategory("Methods")]
@@ -49,15 +75,28 @@ public sealed class CalendarDayServiceTests
 		ErrorOr<CalendarResponse> result = sut.GetCurrent();
 
 		result.Should().NotBeNull();
+		result.IsError.Should().BeFalse();
 		result.Value.Date.Should().Be(today);
+	}
+
+	[TestMethod, TestCategory("Methods")]
+	public void GetCurrentShouldReturnFailedResponseWhenExcpetionGetThrown()
+	{
+		CalendarDayService sut = CreateMockedInstance();
+		_dateTimeServiceMock.Setup(x => x.Today).Returns(DateTime.MinValue);
+
+		ErrorOr<CalendarResponse> result = sut.GetCurrent();
+
+		result.Should().NotBeNull();
+		result.IsError.Should().BeTrue();
+		result.Errors.First().Should().Be(CalendarServiceErrors.GetCurrentDateFailed);
 	}
 
 	private CalendarDayService CreateMockedInstance()
 	{
 		_dateTimeServiceMock = new();
 		_loggerServiceMock = new();
-		_mapperMock = new();
 
-		return new(_dateTimeServiceMock.Object, _loggerServiceMock.Object, _mapperMock.Object);
+		return new(_dateTimeServiceMock.Object, _loggerServiceMock.Object, _mapper);
 	}
 }

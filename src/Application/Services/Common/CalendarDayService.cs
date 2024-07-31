@@ -36,10 +36,7 @@ internal sealed class CalendarDayService(IDateTimeService dateTimeService, ILogg
 	{
 		try
 		{
-			DateTime? calendarDay = _dateTimes.FirstOrDefault(x => x.Date.Equals(date.Date));
-
-			if (calendarDay is null)
-				return CalendarServiceErrors.GetByDateNotFound(date);
+			DateTime? calendarDay = _dateTimes.Single(x => x.Date.Equals(date.Date));
 
 			CalendarResponse respone = mapper.Map<CalendarResponse>(calendarDay);
 
@@ -83,10 +80,7 @@ internal sealed class CalendarDayService(IDateTimeService dateTimeService, ILogg
 	{
 		try
 		{
-			DateTime? calendarDay = _dateTimes.FirstOrDefault(x => x.Date.Equals(dateTimeService.Today));
-
-			if (calendarDay is null)
-				return CalendarServiceErrors.GetByDateNotFound(dateTimeService.Today);
+			DateTime? calendarDay = _dateTimes.Single(x => x.Date.Equals(dateTimeService.Today));
 
 			CalendarResponse respone = mapper.Map<CalendarResponse>(calendarDay);
 
@@ -95,7 +89,7 @@ internal sealed class CalendarDayService(IDateTimeService dateTimeService, ILogg
 		catch (Exception ex)
 		{
 			loggerService.Log(LogException, ex);
-			return CalendarServiceErrors.GetByDateFailed;
+			return CalendarServiceErrors.GetCurrentDateFailed;
 		}
 	}
 

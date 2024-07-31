@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses.Enumerators;
+﻿using Application.Contracts.Responses.Common;
 using Application.Errors.Services;
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Logging;

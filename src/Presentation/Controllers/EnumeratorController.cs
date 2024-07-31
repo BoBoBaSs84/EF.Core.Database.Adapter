@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Responses.Enumerators;
+﻿using Application.Contracts.Responses.Common;
 using Application.Interfaces.Application.Common;
 
 using Asp.Versioning;

@@ -2,16 +2,14 @@
 
 using Domain.Extensions;
 
-namespace Application.Contracts.Responses.Base;
+namespace Application.Contracts.Responses.Common.Base;
 
 /// <summary>
-/// The <see langword="abstract"/> enumerator response class.
+/// The base class for enumerator responses.
 /// </summary>
-/// <remarks>
-/// Initilizes an instance of the enumerator response class.
-/// </remarks>
+/// <typeparam name="T">The enumerator type to work with.</typeparam>
 /// <param name="enumValue">The enumerator value.</param>
-public abstract class EnumeratorResponse<T>(T enumValue) where T : struct, IComparable, IFormattable, IConvertible
+public abstract class EnumeratorBaseResponse<T>(T enumValue) where T : struct, IComparable, IFormattable, IConvertible
 {
 	/// <summary>
 	/// The enumerator value.

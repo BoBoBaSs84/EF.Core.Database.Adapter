@@ -1,6 +1,4 @@
-﻿using Application.Contracts.Responses.Base;
-
-namespace Application.Features.Responses;
+﻿namespace Application.Features.Responses;
 
 /// <summary>
 /// The paged list class.
@@ -9,7 +7,7 @@ namespace Application.Features.Responses;
 /// Derives from the <see cref="List{T}"/> class.
 /// </remarks>
 /// <typeparam name="T"></typeparam>
-public sealed class PagedList<T> : List<T>, IPagedList<T> where T : IdentityResponse
+public sealed class PagedList<T> : List<T>, IPagedList<T> where T : class
 {
 	/// <inheritdoc/>
 	public MetaData MetaData { get; set; }

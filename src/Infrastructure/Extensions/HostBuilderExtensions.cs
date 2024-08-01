@@ -12,20 +12,22 @@ namespace Infrastructure.Extensions;
 public static class HostBuilderExtensions
 {
 	/// <summary>
-	/// Applies additional configuration to the host.
+	/// Configures the application settings for the host builder.
 	/// </summary>
-	/// <param name="host">The host builder to work with.</param>
+	/// <param name="hostBuilder">The host builder to work with.</param>
 	/// <param name="enviroment">The enviroment to load additionally.</param>
-	/// <returns>The enriched <paramref name="host"/>.</returns>
-	public static IHostBuilder ConfigureAppSettings(this IHostBuilder host, string enviroment = Environment.Development)
+	/// <returns>The enriched <paramref name="hostBuilder"/>.</returns>
+	public static IHostBuilder ConfigureAppSettings(this IHostBuilder hostBuilder, string? enviroment = null)
 	{
-		host.ConfigureAppConfiguration((context, builder) =>
+		enviroment ??= Environment.Development;
+
+		hostBuilder.ConfigureAppConfiguration((context, builder) =>
 		{
 			builder.AddJsonFile("appsettings.json", false, true);
 			builder.AddJsonFile($"appsettings.{enviroment}.json", true, true);
 			builder.AddEnvironmentVariables();
 		});
 
-		return host;
+		return hostBuilder;
 	}
 }

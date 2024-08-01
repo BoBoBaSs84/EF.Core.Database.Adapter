@@ -1,6 +1,10 @@
 ﻿using Application.Common;
 using Application.Interfaces.Application;
+using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Finance;
 using Application.Services;
+using Application.Services.Common;
+using Application.Services.Finance;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -22,7 +26,6 @@ internal static class ServiceCollectionExtensions
 	{
 		services.TryAddScoped<IAccountService, AccountService>();
 		services.TryAddScoped<IAttendanceService, AttendanceService>();
-		services.TryAddScoped<ICalendarService, CalendarService>();
 		services.TryAddScoped<ICardService, CardService>();
 		services.TryAddScoped<ITransactionService, TransactionService>();
 		services.TryAddScoped<ITodoService, TodoService>();
@@ -37,6 +40,8 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureSingletonServices(this IServiceCollection services)
 	{
+		services.TryAddSingleton<ICalendarDayService, CalendarDayService>();
+		services.TryAddSingleton<IDateTimeService, DateTimeService>();
 		services.TryAddSingleton<IEnumeratorService, EnumeratorService>();
 
 		return services;

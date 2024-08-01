@@ -6,6 +6,7 @@ using Domain.Models.Attendance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -14,15 +15,27 @@ namespace Infrastructure.Persistence.Configurations;
 internal static partial class AttendanceConfiguration
 {
 	/// <inheritdoc/>
-	internal sealed class AttendanceModelConfiguration : IdentityConfiguration<AttendanceModel>
+	internal sealed class AttendanceModelConfiguration : AuditedConfiguration<AttendanceModel>
 	{
 		public override void Configure(EntityTypeBuilder<AttendanceModel> builder)
 		{
 			builder.ToHistoryTable("Attendance", SqlSchema.Attendance, SqlSchema.History);
 
-			builder.HasIndex(e => new { e.UserId, e.CalendarId })
+			builder.HasIndex(i => new { i.UserId, i.Date })
 				.IsClustered(false)
 				.IsUnique();
+
+			builder.Property(p => p.Date)
+				.HasColumnType(SqlDataType.DATE);
+
+			builder.Property(p => p.StartTime)
+				.HasColumnType(SqlDataType.TIME0);
+
+			builder.Property(p => p.EndTime)
+				.HasColumnType(SqlDataType.TIME0);
+
+			builder.Property(p => p.BreakTime)
+				.HasColumnType(SqlDataType.TIME0);
 
 			base.Configure(builder);
 		}

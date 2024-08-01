@@ -5,7 +5,6 @@ using AutoMapper;
 using BB84.Extensions;
 
 using Domain.Extensions;
-using Domain.Models.Common;
 
 namespace Application.Common.MappingProfiles;
 
@@ -17,7 +16,7 @@ internal static partial class ResponseProfiles
 	{
 		public CommonResponseProfile()
 		{
-			CreateMap<CalendarModel, CalendarResponse>()
+			CreateMap<DateTime, CalendarResponse>()
 				.ForMember(t => t.Year, o => o.MapFrom(s => s.Date.Year))
 				.ForMember(t => t.Month, o => o.MapFrom(s => s.Date.Month))
 				.ForMember(t => t.IsoWeek, o => o.MapFrom(s => s.Date.WeekOfYear()))

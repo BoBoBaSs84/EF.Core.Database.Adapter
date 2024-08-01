@@ -1,5 +1,4 @@
 ﻿using Domain.Models.Attendance;
-using Domain.Models.Common;
 using Domain.Models.Finance;
 using Domain.Models.Todo;
 
@@ -9,8 +8,6 @@ namespace Infrastructure.Persistence;
 
 public sealed partial class RepositoryContext
 {
-	/// <inheritdoc/>
-	public DbSet<CalendarModel> CalendarDays { get; set; } = default!;
 	/// <inheritdoc/>
 	public DbSet<AttendanceModel> Attendances { get; set; } = default!;
 	/// <inheritdoc/>

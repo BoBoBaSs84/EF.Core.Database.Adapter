@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-using BB84.EntityFrameworkCore.Models;
+﻿using BB84.EntityFrameworkCore.Models;
 
 using Domain.Enumerators;
-
-using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
+using Domain.Models.Identity;
 
 namespace Domain.Models.Attendance;
 
@@ -14,7 +11,7 @@ namespace Domain.Models.Attendance;
 /// <remarks>
 /// Derives from the <see cref="AuditedModel"/> class.
 /// </remarks>
-public partial class AttendanceModel : AuditedModel
+public sealed class AttendanceModel : AuditedModel
 {
 	/// <summary>
 	/// The <see cref="UserId"/> property.
@@ -22,9 +19,9 @@ public partial class AttendanceModel : AuditedModel
 	public Guid UserId { get; set; }
 
 	/// <summary>
-	/// The <see cref="CalendarId"/> property.
+	/// The <see cref="Date"/> property.
 	/// </summary>
-	public Guid CalendarId { get; set; }
+	public DateTime Date { get; set; }
 
 	/// <summary>
 	/// The attendance type property.
@@ -34,18 +31,20 @@ public partial class AttendanceModel : AuditedModel
 	/// <summary>
 	/// The <see cref="StartTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
-	public TimeSpan? StartTime { get; set; } = default!;
+	public TimeSpan? StartTime { get; set; }
 
 	/// <summary>
 	/// The <see cref="EndTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
-	public TimeSpan? EndTime { get; set; } = default!;
+	public TimeSpan? EndTime { get; set; }
 
 	/// <summary>
 	/// The <see cref="BreakTime"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.TIME0)]
-	public TimeSpan? BreakTime { get; set; } = default!;
+	public TimeSpan? BreakTime { get; set; }
+
+	/// <summary>
+	/// The <see cref="User"/> property.
+	/// </summary>
+	public UserModel User { get; set; } = default!;
 }

@@ -1,36 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-using BB84.EntityFrameworkCore.Models;
+﻿using BB84.EntityFrameworkCore.Models;
 using BB84.Extensions;
 
 using Domain.Enumerators;
-
-using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
-using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
-using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
+using Domain.Models.Identity;
 
 namespace Domain.Models.Finance;
 
 /// <summary>
 /// The card model class.
 /// </summary>
-/// <remarks>
-/// Derives from the <see cref="AuditedModel"/> class.
-/// </remarks>
-public partial class CardModel : AuditedModel
+public sealed class CardModel : AuditedModel
 {
 	private string _pan = default!;
 
 	/// <summary>
 	/// The <see cref="UserId"/> property.
 	/// </summary>
-	public Guid UserId { get; set; } = default!;
+	public Guid UserId { get; set; }
 
 	/// <summary>
 	/// The <see cref="AccountId"/> property.
 	/// </summary>
-	public Guid AccountId { get; set; } = default!;
+	public Guid AccountId { get; set; }
 
 	/// <summary>
 	/// The card type property.
@@ -43,7 +34,6 @@ public partial class CardModel : AuditedModel
 	/// <remarks>
 	/// The payment card number or <b>p</b>rimary <b>a</b>ccount <b>n</b>umber.
 	/// </remarks>
-	[MaxLength(SqlMaxLength.MAX_25), RegularExpression(RegexPatterns.PAN)]
 	public string PAN
 	{
 		get => _pan;
@@ -57,6 +47,20 @@ public partial class CardModel : AuditedModel
 	/// <summary>
 	/// The <see cref="ValidUntil"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.DATE)]
-	public DateTime ValidUntil { get; set; } = default!;
+	public DateTime ValidUntil { get; set; }
+
+	/// <summary>
+	/// The <see cref="User"/> property.
+	/// </summary>
+	public UserModel User { get; set; } = default!;
+
+	/// <summary>
+	/// The <see cref="Account"/> property.
+	/// </summary>
+	public AccountModel Account { get; set; } = default!;
+
+	/// <summary>
+	/// The <see cref="Transactions"/> property.
+	/// </summary>
+	public ICollection<CardTransactionModel> Transactions { get; set; } = [];
 }

@@ -6,6 +6,7 @@ using System.Text;
 using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
+using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
@@ -77,7 +78,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.AddToRoleAsync(user, role.Name);
+			IdentityResult identityResult = await _userService.AddToRoleAsync(user, role.Name!);
 
 			if (!identityResult.Succeeded)
 			{
@@ -231,7 +232,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, role.Name);
+			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, role.Name!);
 
 			if (identityResult.Succeeded.Equals(false))
 			{
@@ -262,6 +263,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			user.FirstName = request.FirstName;
 			user.MiddleName = request.MiddleName;
 			user.LastName = request.LastName;
+			user.DateOfBirth = request.DateOfBirth;
 			user.Email = request.Email;
 			user.PhoneNumber = request.PhoneNumber;
 			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);
@@ -293,7 +295,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 	private async Task<IEnumerable<Claim>> GetClaims(UserModel user)
 	{
-		List<Claim> claims = [new(ClaimTypes.Name, user.UserName), new(ClaimTypes.NameIdentifier, $"{user.Id}")];
+		List<Claim> claims = [new(ClaimTypes.Name, user.UserName!), new(ClaimTypes.NameIdentifier, $"{user.Id}")];
 
 		IList<string> roles = await _userService.GetRolesAsync(user);
 

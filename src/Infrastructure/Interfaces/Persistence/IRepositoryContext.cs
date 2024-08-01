@@ -1,7 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
 using Domain.Models.Attendance;
-using Domain.Models.Common;
 using Domain.Models.Finance;
 using Domain.Models.Todo;
 
@@ -23,11 +22,6 @@ public interface IRepositoryContext : IDbContext
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AttendanceModel"/>.
 	/// </summary>
 	DbSet<AttendanceModel> Attendances { get; }
-
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CalendarModel"/>.
-	/// </summary>
-	DbSet<CalendarModel> CalendarDays { get; }
 
 	/// <summary>
 	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CardModel"/>.

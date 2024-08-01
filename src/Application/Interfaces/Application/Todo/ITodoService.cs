@@ -4,7 +4,7 @@ using Application.Contracts.Responses.Todo;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Application;
+namespace Application.Interfaces.Application.Todo;
 
 /// <summary>
 /// The interface fo the todo service

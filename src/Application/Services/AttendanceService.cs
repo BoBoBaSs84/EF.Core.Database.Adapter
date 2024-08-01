@@ -5,7 +5,6 @@ using Application.Extensions;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;

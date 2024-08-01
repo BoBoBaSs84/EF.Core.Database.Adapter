@@ -1,8 +1,7 @@
 ﻿using Application.Contracts.Requests.Todo;
 using Application.Contracts.Responses.Todo;
 using Application.Errors.Services;
-using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Application.Todo;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
@@ -15,7 +14,7 @@ using Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services;
+namespace Application.Services.Todo;
 
 /// <summary>
 /// The todo service implementation.

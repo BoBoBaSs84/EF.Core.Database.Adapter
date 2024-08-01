@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 namespace ApplicationTests;
 
 [TestClass]
-public class ApplicationTestBase
+public abstract class ApplicationTestBase
 {
 	private static IServiceProvider? s_serviceProvider;
 

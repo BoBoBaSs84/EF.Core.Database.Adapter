@@ -2,7 +2,6 @@
 using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
 using Application.Interfaces.Application.Finance;
-using Application.Interfaces.Infrastructure.Logging;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;

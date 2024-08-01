@@ -44,5 +44,5 @@ public partial class UserModel
 	/// <summary>
 	/// The <see cref="TodoLists"/> property.
 	/// </summary>
-	public virtual ICollection<ListUser> TodoLists {  get; set; } = [];
+	public virtual ICollection<ListUser> TodoLists { get; set; } = [];
 }

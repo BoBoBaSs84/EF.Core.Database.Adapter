@@ -1,13 +1,16 @@
-﻿using Application.Contracts.Requests.Todo;
+﻿using System.Drawing;
+
+using Application.Contracts.Responses.Todo;
 using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using Application.Services.Todo;
 
 using BaseTests.Helpers;
 
+using BB84.Extensions;
+
 using Domain.Errors;
 using Domain.Models.Todo;
-using Domain.Results;
 
 using FluentAssertions;
 
@@ -22,35 +25,33 @@ public sealed partial class TodoServiceTests
 {
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task CreateItemByListIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task GetListByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = new();
 		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
+		ErrorOr<ListResponse> result = await sut.GetListById(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(TodoServiceErrors.CreateItemByListIdFailed(listId));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Once);
+			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdFailed(listId));
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task CreateItemByListIdShouldReturnNotFoundWhenNotFound()
+	public async Task GetListByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = new();
 		Mock<IListRepository> listRepositoryMock = new();
 		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(null));
 		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
 
-		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
+		ErrorOr<ListResponse> result = await sut.GetListById(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -58,22 +59,21 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task CreateItemByListIdShouldReturnCreatedWhenSuccessful()
+	public async Task GetListByIdShouldReturnValidResultWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = new();
+		List list = new() { Title = "Hello", Color = Color.Black };
 		Mock<IListRepository> listRepositoryMock = new();
-		Mock<IItemRepository> itemRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(new()));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object, itemRepositoryMock.Object);
+		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default, nameof(List.Items))).Returns(Task.FromResult<List?>(list));
+		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
 
-		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
+		ErrorOr<ListResponse> result = await sut.GetListById(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -81,10 +81,10 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Should().Be(Result.Created);
-			itemRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<Item>(), default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
+			result.Value.Title.Should().Be(list.Title);
+			result.Value.Color.Should().Be(list.Color?.ToRGBHexString());
+			result.Value.Items.Should().BeEmpty();
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 }

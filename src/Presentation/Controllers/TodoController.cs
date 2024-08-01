@@ -110,7 +110,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> GetById(Guid listId, CancellationToken token = default)
 	{
 		ErrorOr<ListResponse> response = await todoService
-			.GetListByListId(userService.UserId, listId, token)
+			.GetListById(listId, token)
 			.ConfigureAwait(false);
 
 		return Get(response);

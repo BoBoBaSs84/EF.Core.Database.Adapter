@@ -1,6 +1,5 @@
 ﻿using Domain.Constants;
 
-using Application.Extensions;
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
 

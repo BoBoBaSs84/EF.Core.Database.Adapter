@@ -1,7 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 
-using Application.Contracts.Responses.Base;
-
 using Domain.Converters;
 
 namespace Application.Contracts.Responses.Common;

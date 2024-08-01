@@ -22,35 +22,35 @@ public sealed partial class TodoServiceTests
 {
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task CreateItemByListIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task UpdateListByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = new();
+		ListUpdateRequest request = new();
 		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
+		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(TodoServiceErrors.CreateItemByListIdFailed(listId));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Once);
+			result.Errors.First().Should().Be(TodoServiceErrors.UpdateListByIdFailed(listId));
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task CreateItemByListIdShouldReturnNotFoundWhenNotFound()
+	public async Task UpdateListByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = new();
+		ListUpdateRequest request = new();
 		Mock<IListRepository> listRepositoryMock = new();
 		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(null));
 		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
 
-		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
+		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -58,22 +58,21 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task CreateItemByListIdShouldReturnCreatedWhenSuccessful()
+	public async Task UpdateListByIdShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = new();
+		ListUpdateRequest request = new();
 		Mock<IListRepository> listRepositoryMock = new();
-		Mock<IItemRepository> itemRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(new()));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object, itemRepositoryMock.Object);
+		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, true, default)).Returns(Task.FromResult<List?>(new()));
+		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
 
-		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
+		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -81,10 +80,9 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Should().Be(Result.Created);
-			itemRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<Item>(), default), Times.Once);
+			result.Value.Should().Be(Result.Updated);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 }

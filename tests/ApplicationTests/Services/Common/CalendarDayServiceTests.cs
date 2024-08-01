@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Responses.Common;
 using Application.Errors.Services;
 using Application.Features.Requests;
+using Application.Features.Responses;
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Logging;
 using Application.Services.Common;
@@ -55,7 +56,7 @@ public sealed class CalendarDayServiceTests : ApplicationTestBase
 		CalendarDayService sut = CreateMockedInstance();
 		CalendarParameters parameters = new() { Year = 2020, PageSize = 100 };
 
-		var result = sut.GetPagedByParameters(parameters);
+		ErrorOr<IPagedList<CalendarResponse>> result = sut.GetPagedByParameters(parameters);
 
 		result.Should().NotBeNull();
 		result.IsError.Should().BeFalse();
@@ -63,6 +64,18 @@ public sealed class CalendarDayServiceTests : ApplicationTestBase
 		result.Value.MetaData.PageSize.Should().Be(100);
 		result.Value.MetaData.CurrentPage.Should().Be(1);
 		result.Value.MetaData.TotalPages.Should().Be(4);
+	}
+
+	[TestMethod, TestCategory("Methods")]
+	public void GetPagedByParametersShouldReturnFailedResponseWhenExcpetionGetThrown()
+	{
+		CalendarDayService sut = CreateMockedInstance();
+
+		ErrorOr<IPagedList<CalendarResponse>> result = sut.GetPagedByParameters(null!);
+
+		result.Should().NotBeNull();
+		result.IsError.Should().BeTrue();
+		result.Errors.First().Should().Be(CalendarServiceErrors.GetPagedByParametersFailed);
 	}
 
 	[TestMethod, TestCategory("Methods")]

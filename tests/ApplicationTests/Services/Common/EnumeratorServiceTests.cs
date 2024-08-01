@@ -1,5 +1,8 @@
 ﻿using Application.Contracts.Responses.Common;
-using Application.Interfaces.Application.Common;
+using Application.Interfaces.Infrastructure.Logging;
+using Application.Services.Common;
+
+using AutoMapper;
 
 using BaseTests.Helpers;
 
@@ -7,56 +10,106 @@ using Domain.Errors;
 
 using FluentAssertions;
 
+using Moq;
+
 namespace ApplicationTests.Services.Common;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, UnitTest.")]
 public sealed class EnumeratorServiceTests : ApplicationTestBase
 {
-	private readonly IEnumeratorService _enumeratorService;
-
-	public EnumeratorServiceTests()
-		=> _enumeratorService = GetService<IEnumeratorService>();
+	private readonly IMapper _mapper = GetService<IMapper>();
+	private Mock<ILoggerService<EnumeratorService>> _loggerServiceMock = default!;
 
 	[TestMethod]
-	public void GetCardTypesSuccessTest()
+	[TestCategory("Methods")]
+	public void GetCardTypesTest()
 	{
-		ErrorOr<IEnumerable<CardTypeResponse>> cardTypes = _enumeratorService.GetCardTypes();
+		EnumeratorService sut = CreateMockedInstance();
+
+		ErrorOr<IEnumerable<CardTypeResponse>> result = sut.GetCardTypes();
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			cardTypes.Should().NotBeNull();
-			cardTypes.IsError.Should().BeFalse();
-			cardTypes.Errors.Count.Should().Be(0);
-			cardTypes.Value.Should().NotBeNullOrEmpty();
+			result.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Count.Should().Be(0);
+			result.Value.Should().NotBeNullOrEmpty();
 		});
 	}
 
 	[TestMethod]
-	public void GetDayTypesSuccessTest()
+	[TestCategory("Methods")]
+	public void GetDayTypesTest()
 	{
-		ErrorOr<IEnumerable<AttendanceTypeResponse>> dayTypes = _enumeratorService.GetAttendanceTypes();
+		EnumeratorService sut = CreateMockedInstance();
+
+		ErrorOr<IEnumerable<AttendanceTypeResponse>> result = sut.GetAttendanceTypes();
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			dayTypes.Should().NotBeNull();
-			dayTypes.IsError.Should().BeFalse();
-			dayTypes.Errors.Count.Should().Be(0);
-			dayTypes.Value.Should().NotBeNullOrEmpty();
+			result.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Count.Should().Be(0);
+			result.Value.Should().NotBeNullOrEmpty();
 		});
 	}
 
 	[TestMethod]
-	public void GetRoleTypesSuccessTest()
+	[TestCategory("Methods")]
+	public void GetPriorityLevelTypesTest()
 	{
-		ErrorOr<IEnumerable<RoleTypeResponse>> roleTypes = _enumeratorService.GetRoleTypes();
+		EnumeratorService sut = CreateMockedInstance();
+
+		ErrorOr<IEnumerable<PriorityLevelTypeResponse>> result = sut.GetPriorityLevelTypes();
 
 		AssertionHelper.AssertInScope(() =>
 		{
-			roleTypes.Should().NotBeNull();
-			roleTypes.IsError.Should().BeFalse();
-			roleTypes.Errors.Count.Should().Be(0);
-			roleTypes.Value.Should().NotBeNullOrEmpty();
+			result.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Count.Should().Be(0);
+			result.Value.Should().NotBeNullOrEmpty();
 		});
+	}
+
+	[TestMethod]
+	[TestCategory("Methods")]
+	public void GetRoleTypesTest()
+	{
+		EnumeratorService sut = CreateMockedInstance();
+
+		ErrorOr<IEnumerable<RoleTypeResponse>> result = sut.GetRoleTypes();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Count.Should().Be(0);
+			result.Value.Should().NotBeNullOrEmpty();
+		});
+	}
+
+	[TestMethod]
+	[TestCategory("Methods")]
+	public void GetWorkDayTypesTest()
+	{
+		EnumeratorService sut = CreateMockedInstance();
+
+		ErrorOr<IEnumerable<WorkDayTypeResponse>> result = sut.GetWorkDayTypes();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Count.Should().Be(0);
+			result.Value.Should().NotBeNullOrEmpty();
+		});
+	}
+
+	private EnumeratorService CreateMockedInstance()
+	{
+		_loggerServiceMock = new();
+
+		return new(_loggerServiceMock.Object, _mapper);
 	}
 }

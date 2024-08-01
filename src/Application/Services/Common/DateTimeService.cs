@@ -8,6 +8,7 @@ namespace Application.Services.Common;
 /// <remarks>
 /// Implements the members of the <see cref="IDateTimeService"/> interface.
 /// </remarks>
+[ExcludeFromCodeCoverage(Justification = "Wrapper class.")]
 internal sealed class DateTimeService : IDateTimeService
 {
 	public DateTime Today => DateTime.Today;

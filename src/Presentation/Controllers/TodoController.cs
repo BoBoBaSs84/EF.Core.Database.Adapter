@@ -197,7 +197,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <param name="listId">The todo list identifier to use.</param>
 	/// <param name="request">The todo list update request to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
-	/// <response code="201">The resource was successfully updated.</response>
+	/// <response code="200">The resource was successfully updated.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="404">The requested resource could not be found.</response>

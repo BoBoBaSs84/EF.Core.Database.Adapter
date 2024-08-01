@@ -1,8 +1,7 @@
 ﻿using Application.Contracts.Requests.Todo;
 using Application.Contracts.Responses.Todo;
 using Application.Errors.Services;
-using Application.Interfaces.Application;
-using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Application.Todo;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
@@ -15,7 +14,7 @@ using Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services;
+namespace Application.Services.Todo;
 
 /// <summary>
 /// The todo service implementation.
@@ -139,20 +138,16 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<ListResponse>> GetListByListId(Guid userId, Guid listId, CancellationToken token = default)
+	public async Task<ErrorOr<ListResponse>> GetListById(Guid listId, CancellationToken token = default)
 	{
 		try
 		{
 			List? todoList = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(
-					expression: x => x.Users.Select(x => x.UserId).Contains(userId) && x.Id.Equals(listId),
-					includeProperties: [nameof(List.Items)],
-					cancellationToken: token
-					)
+				.GetByConditionAsync(expression: x => x.Id.Equals(listId), cancellationToken: token, includeProperties: [nameof(List.Items)])
 				.ConfigureAwait(false);
 
 			if (todoList is null)
-				return TodoServiceErrors.GetListByIdNotFound(userId);
+				return TodoServiceErrors.GetListByIdNotFound(listId);
 
 			ListResponse response = MapToListResponse(todoList);
 
@@ -160,8 +155,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{nameof(userId)}:{userId}", $"{nameof(listId)}:{listId}"];
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, listId, ex);
 			return TodoServiceErrors.GetListByIdFailed(listId);
 		}
 	}
@@ -180,8 +174,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{nameof(userId)}:{userId}"];
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, userId, ex);
 			return TodoServiceErrors.GetListsByUserIdFailed(userId);
 		}
 	}

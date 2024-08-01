@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Infrastructure.Logging;
+﻿using Application.Interfaces.Infrastructure.Services;
 
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 

@@ -66,7 +66,7 @@ public static class RequestHelper
 		if (request.Cards is null)
 			return request;
 
-		foreach (var card in request.Cards)
+		foreach (CardCreateRequest card in request.Cards)
 			card.PAN = RandomHelper.GetString(RegexPatterns.PAN);
 
 		return request;

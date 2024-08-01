@@ -1,5 +1,5 @@
 ﻿using Application.Contracts.Responses.Common;
-using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Infrastructure.Services;
 using Application.Services.Common;
 
 using AutoMapper;

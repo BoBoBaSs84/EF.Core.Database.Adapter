@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Application.Interfaces.Infrastructure.Logging;
+namespace Application.Interfaces.Infrastructure.Services;
 
 /// <summary>
 /// The logger service interface.

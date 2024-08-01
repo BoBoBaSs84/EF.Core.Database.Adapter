@@ -1,8 +1,8 @@
-﻿using Application.Interfaces.Infrastructure.Logging;
+﻿using Application.Interfaces.Infrastructure.Services;
 
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Logging;
+namespace Infrastructure.Services;
 
 /// <summary>
 /// The logger service class.
@@ -12,6 +12,7 @@ namespace Infrastructure.Logging;
 /// </remarks>
 /// <typeparam name="T">The type to work with.</typeparam>
 /// <param name="logger">The logger.</param>
+[ExcludeFromCodeCoverage(Justification = "Microsoft.Extensions.Logging Wrapper")]
 public sealed class LoggerService<T>(ILogger<T> logger) : ILoggerService<T> where T : class
 {
 	private readonly ILogger<T> _logger = logger;

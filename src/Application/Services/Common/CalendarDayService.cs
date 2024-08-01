@@ -4,7 +4,7 @@ using Application.Extensions;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application.Common;
-using Application.Interfaces.Infrastructure.Logging;
+using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 

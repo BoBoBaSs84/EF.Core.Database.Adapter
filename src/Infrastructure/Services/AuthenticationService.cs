@@ -263,6 +263,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			user.FirstName = request.FirstName;
 			user.MiddleName = request.MiddleName;
 			user.LastName = request.LastName;
+			user.DateOfBirth = request.DateOfBirth;
 			user.Email = request.Email;
 			user.PhoneNumber = request.PhoneNumber;
 			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);

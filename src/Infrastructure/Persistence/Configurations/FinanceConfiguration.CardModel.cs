@@ -6,6 +6,8 @@ using Domain.Models.Finance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
+using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -20,14 +22,18 @@ internal static partial class FinanceConfiguration
 		{
 			builder.ToHistoryTable("Card", SqlSchema.Finance, SqlSchema.History);
 
-			builder.Property(e => e.PAN)
-				.IsUnicode(false);
-
-			builder.HasIndex(e => e.PAN)
+			builder.HasIndex(i => i.PAN)
 				.IsClustered(false)
 				.IsUnique(true);
 
-			builder.HasMany(e => e.CardTransactions)
+			builder.Property(p => p.PAN)
+				.HasMaxLength(SqlMaxLength.MAX_25)
+				.IsUnicode(false);
+
+			builder.Property(p => p.ValidUntil)
+				.HasColumnType(SqlDataType.DATE);
+
+			builder.HasMany(e => e.Transactions)
 				.WithOne(e => e.Card)
 				.HasForeignKey(e => e.CardId)
 				.OnDelete(DeleteBehavior.Cascade)

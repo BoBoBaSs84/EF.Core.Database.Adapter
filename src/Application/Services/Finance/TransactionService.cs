@@ -50,7 +50,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 
 			AccountTransactionModel accountTransaction = new() { Account = accountEntry, Transaction = newTransaction };
 
-			accountEntry.AccountTransactions.Add(accountTransaction);
+			accountEntry.Transactions.Add(accountTransaction);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 
@@ -77,7 +77,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 
 			CardTransactionModel cardTransaction = new() { Card = cardEntry, Transaction = newTransaction };
 
-			cardEntry.CardTransactions.Add(cardTransaction);
+			cardEntry.Transactions.Add(cardTransaction);
 
 			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
 

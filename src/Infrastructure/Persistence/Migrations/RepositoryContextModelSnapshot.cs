@@ -36,18 +36,20 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<TimeSpan?>("BreakTime")
                         .HasColumnType("time(0)");
 
-                    b.Property<Guid>("CalendarId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(3);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
 
                     b.Property<TimeSpan?>("EndTime")
                         .HasColumnType("time(0)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("sysname")
+                        .HasColumnOrder(4);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -76,67 +78,16 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("CalendarId");
-
-                    b.HasIndex("UserId", "CalendarId")
+                    b.HasIndex("UserId", "Date")
                         .IsUnique();
 
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "CalendarId"), false);
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "Date"), false);
 
                     b.ToTable("Attendance", "Attendance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
                                 ttb.UseHistoryTable("Attendance", "History");
-                                ttb
-                                    .HasPeriodStart("PeriodStart")
-                                    .HasColumnName("PeriodStart");
-                                ttb
-                                    .HasPeriodEnd("PeriodEnd")
-                                    .HasColumnName("PeriodEnd");
-                            }));
-                });
-
-            modelBuilder.Entity("Domain.Models.Common.CalendarModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1)
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("PeriodEnd")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PeriodEnd");
-
-                    b.Property<DateTime>("PeriodStart")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PeriodStart");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
-                        .HasColumnOrder(2);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.HasIndex("Date")
-                        .IsUnique();
-
-                    b.ToTable("Calendar", "Common");
-
-                    b.ToTable(tb => tb.IsTemporal(ttb =>
-                            {
-                                ttb.UseHistoryTable("Calendar", "History");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -533,7 +484,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("rowversion")
                         .HasColumnOrder(2);
 
-                    b.Property<DateTime>("ValueDate")
+                    b.Property<DateTime?>("ValueDate")
                         .HasColumnType("date");
 
                     b.HasKey("Id");
@@ -654,21 +605,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("afc78927-8cb0-4e6e-bdb6-dc46a3e55a33"),
+                            Id = new Guid("67bc12d6-cff6-408c-b845-2fd1d4649219"),
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("9ad72c9f-d459-4a0f-b514-ec1130ff5c2f"),
+                            Id = new Guid("4f154fe3-88d7-407e-9e01-21e44dce1ab3"),
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("5fb8f78c-222c-4394-8bac-f7688cbc4ea1"),
+                            Id = new Guid("bf89ebe2-dea5-4ac1-a3a6-2bf20d86643d"),
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -1140,19 +1091,11 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Attendance.AttendanceModel", b =>
                 {
-                    b.HasOne("Domain.Models.Common.CalendarModel", "Calendar")
-                        .WithMany("Attendances")
-                        .HasForeignKey("CalendarId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Domain.Models.Identity.UserModel", "User")
                         .WithMany("Attendances")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Calendar");
 
                     b.Navigation("User");
                 });
@@ -1160,7 +1103,7 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Finance.AccountTransactionModel", b =>
                 {
                     b.HasOne("Domain.Models.Finance.AccountModel", "Account")
-                        .WithMany("AccountTransactions")
+                        .WithMany("Transactions")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1217,7 +1160,7 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Finance.CardTransactionModel", b =>
                 {
                     b.HasOne("Domain.Models.Finance.CardModel", "Card")
-                        .WithMany("CardTransactions")
+                        .WithMany("Transactions")
                         .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1326,23 +1269,18 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Common.CalendarModel", b =>
-                {
-                    b.Navigation("Attendances");
-                });
-
             modelBuilder.Entity("Domain.Models.Finance.AccountModel", b =>
                 {
-                    b.Navigation("AccountTransactions");
-
                     b.Navigation("AccountUsers");
 
                     b.Navigation("Cards");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Domain.Models.Finance.CardModel", b =>
                 {
-                    b.Navigation("CardTransactions");
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Domain.Models.Finance.TransactionModel", b =>

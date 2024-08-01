@@ -39,7 +39,7 @@ public static class ModelHelper
 		for (int i = 1; i <= accounts; i++)
 		{
 			AccountModel newAccount = GetNewAccount();
-			newAccount.AccountTransactions = GetNewAccountTransactions(newAccount, accountTransactions);
+			newAccount.Transactions = GetNewAccountTransactions(newAccount, accountTransactions);
 			newAccount.Cards = GetNewCards(user, newAccount, cards, cardTransactions);
 			accountUsers.Add(new() { User = user, Account = newAccount });
 		}
@@ -52,7 +52,7 @@ public static class ModelHelper
 		{
 			IBAN = iban ?? GetString(RegexPatterns.IBAN),
 			Provider = GetString(128),
-			AccountTransactions = accountTransactions ?? default!
+			Transactions = accountTransactions ?? default!
 		};
 		return accountToReturn;
 	}
@@ -73,7 +73,7 @@ public static class ModelHelper
 		{
 			Account = account,
 			CardType = (CardType)GetInt(1, 2),
-			CardTransactions = cardTransactions ?? default!,
+			Transactions = cardTransactions ?? default!,
 			PAN = cardNumber ?? GetString(RegexPatterns.PAN),
 			User = user
 		};
@@ -88,7 +88,7 @@ public static class ModelHelper
 		for (int i = 1; i <= cardsAmount; i++)
 		{
 			CardModel newCard = GetNewCard(user, account);
-			newCard.CardTransactions = GetNewCardTransactions(newCard, transactionAmount);
+			newCard.Transactions = GetNewCardTransactions(newCard, transactionAmount);
 			cardsToReturn.Add(newCard);
 		}
 		return cardsToReturn;

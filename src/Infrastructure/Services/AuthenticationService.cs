@@ -78,7 +78,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.AddToRoleAsync(user, role.Name);
+			IdentityResult identityResult = await _userService.AddToRoleAsync(user, role.Name!);
 
 			if (!identityResult.Succeeded)
 			{
@@ -232,7 +232,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, role.Name);
+			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, role.Name!);
 
 			if (identityResult.Succeeded.Equals(false))
 			{
@@ -294,7 +294,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 	private async Task<IEnumerable<Claim>> GetClaims(UserModel user)
 	{
-		List<Claim> claims = [new(ClaimTypes.Name, user.UserName), new(ClaimTypes.NameIdentifier, $"{user.Id}")];
+		List<Claim> claims = [new(ClaimTypes.Name, user.UserName!), new(ClaimTypes.NameIdentifier, $"{user.Id}")];
 
 		IList<string> roles = await _userService.GetRolesAsync(user);
 

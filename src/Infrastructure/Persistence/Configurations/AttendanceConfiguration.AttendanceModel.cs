@@ -20,7 +20,7 @@ internal static partial class AttendanceConfiguration
 		{
 			builder.ToHistoryTable("Attendance", SqlSchema.Attendance, SqlSchema.History);
 
-			builder.HasIndex(e => new { e.UserId, e.CalendarId })
+			builder.HasIndex(e => new { e.UserId, e.Date })
 				.IsClustered(false)
 				.IsUnique();
 

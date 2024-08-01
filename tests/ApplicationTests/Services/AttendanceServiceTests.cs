@@ -256,7 +256,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		date = DateTime.MinValue;
 
 		ErrorOr<AttendanceResponse> result =
-			await _attendanceService.Get(userId, date);
+			await _attendanceService.GetByDate(userId, date);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -272,7 +272,7 @@ public sealed class AttendanceServiceTests : ApplicationTestBase
 		(Guid userId, _, _, DateTime date) = GetUserAttendance();
 
 		ErrorOr<AttendanceResponse> result =
-			await _attendanceService.Get(userId, date);
+			await _attendanceService.GetByDate(userId, date);
 
 		AssertionHelper.AssertInScope(() =>
 		{

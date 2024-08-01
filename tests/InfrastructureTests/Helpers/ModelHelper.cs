@@ -2,7 +2,6 @@
 
 using Domain.Enumerators;
 using Domain.Models.Attendance;
-using Domain.Models.Common;
 using Domain.Models.Finance;
 using Domain.Models.Identity;
 
@@ -10,23 +9,23 @@ using static BaseTests.Helpers.RandomHelper;
 using static Domain.Constants.DomainConstants;
 using static Domain.Constants.DomainConstants.Sql;
 
-namespace BaseTests.Helpers;
+namespace InfrastructureTests.Helpers;
 
 public static class ModelHelper
 {
-	public static ICollection<AttendanceModel> GetNewAttendances(UserModel user, IList<CalendarModel> calendar, int entries = 10)
+	public static ICollection<AttendanceModel> GetNewAttendances(UserModel user, IList<DateTime> calendar, int entries = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(entries, 1);
 
 		List<AttendanceModel> attendances = [];
 		for (int i = 1; i <= entries; i++)
 		{
-			Guid calendarId = calendar[GetInt(0, calendar.Count)].Id;
+			DateTime calendarDate = calendar[GetInt(0, calendar.Count)];
 
-			while (attendances.Exists(x => x.CalendarId.Equals(calendarId)))
-				calendarId = calendar[GetInt(0, calendar.Count)].Id;
+			while (attendances.Exists(x => x.Date.Equals(calendarDate)))
+				calendarDate = calendar[GetInt(0, calendar.Count)];
 
-			attendances.Add(new() { User = user, CalendarId = calendarId, AttendanceType = (AttendanceType)GetInt(4, 13) });
+			attendances.Add(new() { User = user, Date = calendarDate, AttendanceType = (AttendanceType)GetInt(4, 13) });
 		}
 
 		return attendances;

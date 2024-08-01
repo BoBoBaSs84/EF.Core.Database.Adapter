@@ -1,13 +1,15 @@
 ﻿using Application.Contracts.Requests.Finance;
 using Application.Contracts.Requests.Identity;
 
+using BaseTests.Helpers;
+
 using Tynamix.ObjectFiller;
 
 using static Domain.Constants.DomainConstants;
 
 using TestUser = BaseTests.Constants.TestConstants.TestUser;
 
-namespace BaseTests.Helpers;
+namespace ApplicationTests.Helpers;
 
 /// <summary>
 /// The request helper class.

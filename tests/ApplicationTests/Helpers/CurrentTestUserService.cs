@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Presentation.Services;
 
-namespace BaseTests.Services;
+namespace ApplicationTests.Helpers;
 
 public sealed class CurrentTestUserService : ICurrentUserService
 {

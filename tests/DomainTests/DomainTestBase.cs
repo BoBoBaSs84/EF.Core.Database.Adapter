@@ -1,5 +1,11 @@
 ﻿namespace DomainTests;
 
 [TestClass]
-public class DomainTestBase
-{ }
+public abstract class DomainTestBase
+{
+	[AssemblyInitialize]
+	public static void AssemblyInitialize(TestContext context) { }
+
+	[AssemblyCleanup]
+	public static void AssemblyCleanup() { }
+}

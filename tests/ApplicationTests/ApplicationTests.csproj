@@ -8,10 +8,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="FluentAssertions" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Application\Application.csproj" />
-		<ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
 		<ProjectReference Include="..\BaseTests\BaseTests.csproj" />
 	</ItemGroup>
 	<ItemGroup>

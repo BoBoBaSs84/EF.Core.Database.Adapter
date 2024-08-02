@@ -46,7 +46,8 @@ public sealed partial class AttendanceServiceTests
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		string[] parameters = [$"{string.Join(", ", ids)}"];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(ids, false, false, default)).Returns(Task.FromResult<IEnumerable<AttendanceModel>>([]));
+		mock.Setup(x => x.GetByIdsAsync(ids, false, false, default))
+			.Returns(Task.FromResult<IEnumerable<AttendanceModel>>([]));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)
@@ -68,7 +69,8 @@ public sealed partial class AttendanceServiceTests
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		IEnumerable<AttendanceModel> models = [new(), new()];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(ids, false, false, default)).Returns(Task.FromResult(models));
+		mock.Setup(x => x.GetByIdsAsync(ids, false, false, default))
+			.Returns(Task.FromResult(models));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)

@@ -114,9 +114,11 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (entity is null)
 				return AttendanceServiceErrors.GetByIdNotFound(id);
 
-			await repositoryService.AttendanceRepository.DeleteAsync(entity);
+			await repositoryService.AttendanceRepository.DeleteAsync(entity)
+				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token);
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
 
 			return Result.Deleted;
 		}
@@ -138,9 +140,11 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (!entities.Any())
 				return AttendanceServiceErrors.GetByIdsNotFound(ids);
 
-			await repositoryService.AttendanceRepository.DeleteAsync(entities);
+			await repositoryService.AttendanceRepository.DeleteAsync(entities)
+				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token);
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
 
 			return Result.Deleted;
 		}

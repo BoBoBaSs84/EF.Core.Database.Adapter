@@ -192,7 +192,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 
 	public async Task<ErrorOr<AttendanceResponse>> GetByDate(Guid userId, DateTime date, CancellationToken token = default)
 	{
-		string[] parameters = [$"{userId}", $"{date}"];
 		try
 		{
 			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
@@ -208,6 +207,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
+			string[] parameters = [$"{userId}", $"{date}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetByDateFailed(date);
 		}

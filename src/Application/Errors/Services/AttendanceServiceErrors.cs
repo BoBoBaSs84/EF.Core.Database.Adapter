@@ -43,9 +43,26 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError CreateManyFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateManyFailed)}",
-			RESX.AttendanceService_CreateMany_Failed);
+	/// <param name="dates">The attendance dates to use.</param>
+	public static ApiError CreateMultipleBadRequest(IEnumerable<DateTime> dates)
+		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateMultipleBadRequest)}",
+			RESX.AttendanceService_CreateMultiple_BadRequest.FormatInvariant(string.Join(',', dates)));
+
+	/// <summary>
+	/// Error that indicates an exception during the attendance service.
+	/// </summary>
+	/// <param name="dates">The attendance dates to use.</param>
+	public static ApiError CreateMultipleConflict(IEnumerable<DateTime> dates)
+		=> ApiError.CreateConflict($"{ErrorPrefix}.{nameof(CreateMultipleConflict)}",
+			RESX.AttendanceService_CreateMultiple_Conflict.FormatInvariant(string.Join(',', dates)));
+
+	/// <summary>
+	/// Error that indicates an exception during the attendance service.
+	/// </summary>
+	/// <param name="dates">The attendance dates to use.</param>
+	public static ApiError CreateMultipleFailed(IEnumerable<DateTime> dates)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateMultipleFailed)}",
+			RESX.AttendanceService_CreateMultiple_Failed.FormatInvariant(string.Join(',', dates)));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

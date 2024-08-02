@@ -223,11 +223,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while creating the attendances/absences..
+        ///   Looks up a localized string similar to There are errors in the creation requests with the date values &apos;{0}&apos; please check and correct them..
         /// </summary>
-        public static string AttendanceService_CreateMany_Failed {
+        public static string AttendanceService_CreateMultiple_BadRequest {
             get {
-                return ResourceManager.GetString("AttendanceService.CreateMany.Failed", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.CreateMultiple.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple entries with the date values &apos;{0}&apos; have already been created..
+        /// </summary>
+        public static string AttendanceService_CreateMultiple_Conflict {
+            get {
+                return ResourceManager.GetString("AttendanceService.CreateMultiple.Conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when creating an attendance/absence with the date values &apos;{0}&apos;..
+        /// </summary>
+        public static string AttendanceService_CreateMultiple_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceService.CreateMultiple.Failed", resourceCulture);
             }
         }
         

@@ -171,8 +171,14 @@
   <data name="AttendanceService.Create.Failed" xml:space="preserve">
     <value>An error occurred when creating an attendance/absence with the date '{0}'.</value>
   </data>
-  <data name="AttendanceService.CreateMany.Failed" xml:space="preserve">
-    <value>An error occurred while creating the attendances/absences.</value>
+  <data name="AttendanceService.CreateMultiple.BadRequest" xml:space="preserve">
+    <value>There are errors in the creation requests with the date values '{0}' please check and correct them.</value>
+  </data>
+  <data name="AttendanceService.CreateMultiple.Conflict" xml:space="preserve">
+    <value>Multiple entries with the date values '{0}' have already been created.</value>
+  </data>
+  <data name="AttendanceService.CreateMultiple.Failed" xml:space="preserve">
+    <value>An error occurred when creating an attendance/absence with the date values '{0}'.</value>
   </data>
   <data name="AttendanceService.Delete.NotFound" xml:space="preserve">
     <value>The presence/absence which should be deleted could not be found.</value>

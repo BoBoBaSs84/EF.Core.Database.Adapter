@@ -36,20 +36,20 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (request.IsValid().Equals(false))
 				return AttendanceServiceErrors.CreateBadRequest(request.Date);
 
-			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
+			AttendanceModel? entity = await repositoryService.AttendanceRepository
 				.GetByConditionAsync(expression: x => x.UserId.Equals(id) && x.Date.Equals(request.Date), cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (attendanceEntry is not null)
+			if (entity is not null)
 				return AttendanceServiceErrors.CreateConflict(request.Date);
 
-			AttendanceModel newAttendance = mapper.Map<AttendanceModel>(request);
-			newAttendance.UserId = id;
+			AttendanceModel newEntity = mapper.Map<AttendanceModel>(request);
+			newEntity.UserId = id;
 
-			await repositoryService.AttendanceRepository.CreateAsync(newAttendance, token)
+			await repositoryService.AttendanceRepository.CreateAsync(newEntity, token)
 				.ConfigureAwait(false);
 
-			await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -66,44 +66,40 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			ErrorOr<Created> response = new();
+			IEnumerable<AttendanceCreateRequest> invalidRequests = requests.Where(x => x.IsValid().Equals(false));
 
-			foreach (AttendanceCreateRequest request in requests)
-				if (request.IsValid().Equals(false))
-					response.Errors.Add(AttendanceServiceErrors.CreateBadRequest(request.Date));
+			if (invalidRequests.Any())
+				return AttendanceServiceErrors.CreateMultipleBadRequest(invalidRequests.Select(x => x.Date));
 
-			if (response.IsError)
-				return response;
-
-			IEnumerable<AttendanceModel> attendanceEntries = await repositoryService.AttendanceRepository
+			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(expression: x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), cancellationToken: token)
 				.ConfigureAwait(false);
 
-			foreach (AttendanceModel attendanceEntry in attendanceEntries)
-				response.Errors.Add(AttendanceServiceErrors.CreateConflict(attendanceEntry.Date));
+			if (entities.Any())
+				return AttendanceServiceErrors.CreateMultipleConflict(entities.Select(x => x.Date));
 
-			if (response.IsError)
-				return response;
-
-			List<AttendanceModel> newAttendances = [];
+			List<AttendanceModel> newEntities = [];
 
 			foreach (AttendanceCreateRequest request in requests)
 			{
 				AttendanceModel newAttendance = mapper.Map<AttendanceModel>(request);
 				newAttendance.UserId = id;
-				newAttendances.Add(newAttendance);
+				newEntities.Add(newAttendance);
 			}
 
-			await repositoryService.AttendanceRepository.CreateAsync(newAttendances, token);
-			_ = await repositoryService.CommitChangesAsync(token);
+			await repositoryService.AttendanceRepository.CreateAsync(newEntities, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
 
 			return Result.Created;
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{id}", string.Join(";", requests.Select(x => x.Date))];
+			string[] parameters = [$"{id}", string.Join(',', requests.Select(x => x.Date))];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.CreateManyFailed;
+			return AttendanceServiceErrors.CreateMultipleFailed(requests.Select(x => x.Date));
 		}
 	}
 
@@ -248,7 +244,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 
 	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default)
 	{
-		
+
 		try
 		{
 			ErrorOr<Updated> response = new();

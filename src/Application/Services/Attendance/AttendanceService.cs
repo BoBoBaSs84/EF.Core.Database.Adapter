@@ -4,7 +4,7 @@ using Application.Errors.Services;
 using Application.Extensions;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Attendance;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
@@ -16,7 +16,7 @@ using Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services;
+namespace Application.Services.Attendance;
 
 /// <summary>
 /// The attendance service class.

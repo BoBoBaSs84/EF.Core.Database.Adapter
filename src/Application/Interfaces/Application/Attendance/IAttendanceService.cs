@@ -6,7 +6,7 @@ using Application.Features.Responses;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Application;
+namespace Application.Interfaces.Application.Attendance;
 
 /// <summary>
 /// The attendance service interface.

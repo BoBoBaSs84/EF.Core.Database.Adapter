@@ -83,7 +83,6 @@ internal static class Endpoints
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Calendar);
 
 		internal const string GetByDate = "{date}";
-		internal const string GetById = "{id:guid}";
 		internal const string GetPagedByParameters = EmptySuffix;
 		internal const string GetCurrent = "Current";
 	}

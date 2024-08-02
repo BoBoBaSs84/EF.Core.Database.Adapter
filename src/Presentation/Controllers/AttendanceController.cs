@@ -167,7 +167,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Created> result = await attendanceService
-			.Create(currentUserService.UserId, requests, token)
+			.CreateMultiple(currentUserService.UserId, requests, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);

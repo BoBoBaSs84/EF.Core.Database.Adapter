@@ -14,23 +14,23 @@ namespace Application.Interfaces.Application.Attendance;
 public interface IAttendanceService
 {
 	/// <summary>
-	/// Creates an attendance for for the application user.
+	/// Creates a new attendance entry for the user with the provided create <paramref name="request"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="request">The attendance create request.</param>
+	/// <param name="id">The identifier of the application user.</param>
+	/// <param name="request">The attendance create request to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest request, CancellationToken token = default);
+	Task<ErrorOr<Created>> Create(Guid id, AttendanceCreateRequest request, CancellationToken token = default);
 
 	/// <summary>
-	/// Creates multiple attendances for the for the application user.
+	/// Creates multiple new attendance entries for the user with the provided create <paramref name="requests"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="requests">The attendance create requests.</param>
+	/// <param name="id">The identifier of the application user.</param>
+	/// <param name="requests">The attendance create requests to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	/// <returns></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Created>> CreateMultiple(Guid id, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
 
 	/// <summary>
 	/// Deletes an attendance entry by the provided <paramref name="id"/>.

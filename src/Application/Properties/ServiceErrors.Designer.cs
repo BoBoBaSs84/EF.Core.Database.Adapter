@@ -196,7 +196,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are errors in the create request ({0}), please check and correct..
+        ///   Looks up a localized string similar to There are errors in the creation request with the date &apos;{0}&apos; please check and correct them..
         /// </summary>
         public static string AttendanceService_Create_BadRequest {
             get {
@@ -214,20 +214,11 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while creating the attendance/absence..
+        ///   Looks up a localized string similar to An error occurred when creating an attendance/absence with the date &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_Create_Failed {
             get {
                 return ResourceManager.GetString("AttendanceService.Create.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No calendar entry with the date &apos;{0}&apos; could be found to load..
-        /// </summary>
-        public static string AttendanceService_Create_NotFound {
-            get {
-                return ResourceManager.GetString("AttendanceService.Create.NotFound", resourceCulture);
             }
         }
         

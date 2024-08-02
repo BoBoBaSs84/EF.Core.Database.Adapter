@@ -19,32 +19,26 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError CreateFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateFailed)}",
-			RESX.AttendanceService_Create_Failed);
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	public static ApiError CreateBadRequest(DateTime date) =>
-		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateBadRequest)}",
+	/// <param name="date">The attendance date to use.</param>
+	public static ApiError CreateBadRequest(DateTime date)
+		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateBadRequest)}",
 			RESX.AttendanceService_Create_BadRequest.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	/// <param name="date">The date that inflicts the conflict.</param>
-	public static ApiError CreateConflict(DateTime date) =>
-		ApiError.CreateConflict($"{ErrorPrefix}.{nameof(CreateConflict)}",
-			RESX.AttendanceService_Create_Conflict.FormatInvariant(date.ToShortDateString()));
+	/// <param name="date">The attendance date to use.</param>
+	public static ApiError CreateConflict(DateTime date)
+		=> ApiError.CreateConflict($"{ErrorPrefix}.{nameof(CreateConflict)}",
+			RESX.AttendanceService_Create_Conflict.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	/// <param name="date">The date that was not found.</param>
-	public static ApiError CreateNotFound(DateTime date) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(CreateNotFound)}",
-			RESX.AttendanceService_Create_NotFound.FormatInvariant(date.ToShortDateString()));
+	/// <param name="date">The attendance date to use.</param>
+	public static ApiError CreateFailed(DateTime date)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateFailed)}",
+			RESX.AttendanceService_Create_Failed.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

@@ -29,37 +29,40 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> Create(Guid id, AttendanceCreateRequest request, CancellationToken token = default)
 	{
 		try
 		{
 			if (request.IsValid().Equals(false))
 				return AttendanceServiceErrors.CreateBadRequest(request.Date);
 
-			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.Date.Equals(request.Date),
-				cancellationToken: token
-				);
+			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
+				.GetByConditionAsync(expression: x => x.UserId.Equals(id) && x.Date.Equals(request.Date), cancellationToken: token)
+				.ConfigureAwait(false);
 
 			if (attendanceEntry is not null)
 				return AttendanceServiceErrors.CreateConflict(request.Date);
 
 			AttendanceModel newAttendance = mapper.Map<AttendanceModel>(request);
-			newAttendance.UserId = userId;
+			newAttendance.UserId = id;
 
-			await repositoryService.AttendanceRepository.CreateAsync(newAttendance, token);
-			_ = await repositoryService.CommitChangesAsync(token);
+			await repositoryService.AttendanceRepository.CreateAsync(newAttendance, token)
+				.ConfigureAwait(false);
+
+			await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
 
 			return Result.Created;
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogExceptionWithParams, request, ex);
-			return AttendanceServiceErrors.CreateFailed;
+			string[] parameters = [$"{id}", $"{request.Date}"];
+			loggerService.Log(LogExceptionWithParams, parameters, ex);
+			return AttendanceServiceErrors.CreateFailed(request.Date);
 		}
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateMultiple(Guid id, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
@@ -73,7 +76,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return response;
 
 			IEnumerable<AttendanceModel> attendanceEntries = await repositoryService.AttendanceRepository
-				.GetManyByConditionAsync(expression: x => x.UserId.Equals(userId) && requests.Select(x => x.Date).Contains(x.Date), cancellationToken: token)
+				.GetManyByConditionAsync(expression: x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), cancellationToken: token)
 				.ConfigureAwait(false);
 
 			foreach (AttendanceModel attendanceEntry in attendanceEntries)
@@ -87,7 +90,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			foreach (AttendanceCreateRequest request in requests)
 			{
 				AttendanceModel newAttendance = mapper.Map<AttendanceModel>(request);
-				newAttendance.UserId = userId;
+				newAttendance.UserId = id;
 				newAttendances.Add(newAttendance);
 			}
 
@@ -98,7 +101,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", string.Join(";", requests.Select(x => x.Date))];
+			string[] parameters = [$"{id}", string.Join(";", requests.Select(x => x.Date))];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.CreateManyFailed;
 		}
@@ -221,11 +224,9 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (request.IsValid().Equals(false))
 				return AttendanceServiceErrors.UpdateBadRequest(request.Id);
 
-			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(request.Id),
-				trackChanges: true,
-				cancellationToken: token
-				);
+			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
+				.GetByIdAsync(request.Id, trackChanges: true, cancellationToken: token)
+				.ConfigureAwait(false);
 
 			if (attendanceEntry is null)
 				return AttendanceServiceErrors.UpdateNotFound;
@@ -233,6 +234,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			UpdateAttendance(attendanceEntry, request);
 
 			await repositoryService.AttendanceRepository.UpdateAsync(attendanceEntry);
+
 			_ = await repositoryService.CommitChangesAsync(token);
 
 			return Result.Updated;
@@ -246,7 +248,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 
 	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default)
 	{
-		string[] parameters = [string.Join(";", requests.Select(x => x.Id))];
+		
 		try
 		{
 			ErrorOr<Updated> response = new();
@@ -258,11 +260,9 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (response.IsError)
 				return response;
 
-			IEnumerable<AttendanceModel> attendanceEntries = await repositoryService.AttendanceRepository.GetManyByConditionAsync(
-				expression: x => requests.Select(x => x.Id).Contains(x.Id),
-				trackChanges: true,
-				cancellationToken: token
-				);
+			IEnumerable<AttendanceModel> attendanceEntries = await repositoryService.AttendanceRepository
+				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, cancellationToken: token)
+				.ConfigureAwait(false);
 
 			if (attendanceEntries.Any().Equals(false))
 				return AttendanceServiceErrors.UpdateManyNotFound;
@@ -271,12 +271,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				UpdateAttendance(attendanceEntry, requests.Where(x => x.Id.Equals(attendanceEntry.Id)).First());
 
 			await repositoryService.AttendanceRepository.UpdateAsync(attendanceEntries);
+
 			_ = await repositoryService.CommitChangesAsync(token);
 
 			return Result.Updated;
 		}
 		catch (Exception ex)
 		{
+			string[] parameters = [string.Join(',', requests.Select(x => x.Id))];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.UpdateManyFailed;
 		}

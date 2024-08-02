@@ -163,16 +163,13 @@
     <value>An internal error occurred while updating the account.</value>
   </data>
   <data name="AttendanceService.Create.BadRequest" xml:space="preserve">
-    <value>There are errors in the create request ({0}), please check and correct.</value>
+    <value>There are errors in the creation request with the date '{0}' please check and correct them.</value>
   </data>
   <data name="AttendanceService.Create.Conflict" xml:space="preserve">
     <value>An entry with the date '{0}' has already been created.</value>
   </data>
   <data name="AttendanceService.Create.Failed" xml:space="preserve">
-    <value>An error occurred while creating the attendance/absence.</value>
-  </data>
-  <data name="AttendanceService.Create.NotFound" xml:space="preserve">
-    <value>No calendar entry with the date '{0}' could be found to load.</value>
+    <value>An error occurred when creating an attendance/absence with the date '{0}'.</value>
   </data>
   <data name="AttendanceService.CreateMany.Failed" xml:space="preserve">
     <value>An error occurred while creating the attendances/absences.</value>

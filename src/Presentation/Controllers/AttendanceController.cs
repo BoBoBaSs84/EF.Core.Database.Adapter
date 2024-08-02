@@ -217,7 +217,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Updated> result = await attendanceService
-			.Update(requests, token)
+			.UpdateMultiple(requests, token)
 			.ConfigureAwait(false);
 
 		return Put(result);

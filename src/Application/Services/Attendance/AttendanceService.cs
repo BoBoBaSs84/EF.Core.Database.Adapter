@@ -33,7 +33,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			if (request.IsValid().Equals(false))
+			if (!request.IsValid())
 				return AttendanceServiceErrors.CreateBadRequest(request.Date);
 
 			AttendanceModel? entity = await repositoryService.AttendanceRepository
@@ -135,7 +135,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				.GetByIdsAsync(ids, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (records.Any().Equals(false))
+			if (!records.Any())
 				return AttendanceServiceErrors.GetByIdsNotFound(ids);
 
 			await repositoryService.AttendanceRepository.DeleteAsync(records);
@@ -168,9 +168,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				cancellationToken: token
 				);
 
-			if (!attendances.Any())
-				return AttendanceServiceErrors.GetPagedByParametersNotFound;
-
 			int totalCount = await repositoryService.AttendanceRepository.CountAsync(
 				expression: x => x.UserId.Equals(userId),
 				queryFilter: x => x.FilterByYear(parameters.Year)
@@ -186,7 +183,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		catch (Exception ex)
 		{
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.GetPagedByParametersFailed;
+			return AttendanceServiceErrors.GetPagedListByParametersFailed;
 		}
 	}
 
@@ -217,7 +214,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			if (request.IsValid().Equals(false))
+			if (!request.IsValid())
 				return AttendanceServiceErrors.UpdateBadRequest(request.Id);
 
 			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
@@ -225,7 +222,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				.ConfigureAwait(false);
 
 			if (attendanceEntry is null)
-				return AttendanceServiceErrors.UpdateNotFound;
+				return AttendanceServiceErrors.GetByIdNotFound(request.Id);
 
 			UpdateAttendance(attendanceEntry, request);
 
@@ -242,9 +239,8 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateMultiple(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default)
 	{
-
 		try
 		{
 			ErrorOr<Updated> response = new();
@@ -260,8 +256,8 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (attendanceEntries.Any().Equals(false))
-				return AttendanceServiceErrors.UpdateManyNotFound;
+			if (!attendanceEntries.Any())
+				return AttendanceServiceErrors.GetByIdsNotFound(requests.Select(x => x.Id));
 
 			foreach (AttendanceModel attendanceEntry in attendanceEntries)
 				UpdateAttendance(attendanceEntry, requests.Where(x => x.Id.Equals(attendanceEntry.Id)).First());

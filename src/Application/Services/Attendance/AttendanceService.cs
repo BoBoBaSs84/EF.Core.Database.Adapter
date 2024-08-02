@@ -107,14 +107,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			AttendanceModel? record = await repositoryService.AttendanceRepository
+			AttendanceModel? entity = await repositoryService.AttendanceRepository
 				.GetByIdAsync(id, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (record is null)
+			if (entity is null)
 				return AttendanceServiceErrors.GetByIdNotFound(id);
 
-			await repositoryService.AttendanceRepository.DeleteAsync(record);
+			await repositoryService.AttendanceRepository.DeleteAsync(entity);
 
 			_ = await repositoryService.CommitChangesAsync(token);
 
@@ -131,14 +131,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> records = await repositoryService.AttendanceRepository
+			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
 				.GetByIdsAsync(ids, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (!records.Any())
+			if (!entities.Any())
 				return AttendanceServiceErrors.GetByIdsNotFound(ids);
 
-			await repositoryService.AttendanceRepository.DeleteAsync(records);
+			await repositoryService.AttendanceRepository.DeleteAsync(entities);
 
 			_ = await repositoryService.CommitChangesAsync(token);
 
@@ -146,7 +146,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{string.Join(", ", ids)}"];
+			string[] parameters = [$"{string.Join(',', ids)}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.DeleteByIdsFailed(ids);
 		}
@@ -217,16 +217,16 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (!request.IsValid())
 				return AttendanceServiceErrors.UpdateBadRequest(request.Id);
 
-			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
+			AttendanceModel? entity = await repositoryService.AttendanceRepository
 				.GetByIdAsync(request.Id, trackChanges: true, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (attendanceEntry is null)
+			if (entity is null)
 				return AttendanceServiceErrors.GetByIdNotFound(request.Id);
 
-			UpdateAttendance(attendanceEntry, request);
+			UpdateAttendance(entity, request);
 
-			await repositoryService.AttendanceRepository.UpdateAsync(attendanceEntry);
+			await repositoryService.AttendanceRepository.UpdateAsync(entity);
 
 			_ = await repositoryService.CommitChangesAsync(token);
 
@@ -235,7 +235,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		catch (Exception ex)
 		{
 			loggerService.Log(LogExceptionWithParams, request, ex);
-			return AttendanceServiceErrors.UpdateFailed;
+			return AttendanceServiceErrors.UpdateFailed(request.Id);
 		}
 	}
 
@@ -243,28 +243,26 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			ErrorOr<Updated> response = new();
+			IEnumerable<AttendanceUpdateRequest> invalidRequests = requests.Where(x => x.IsValid().Equals(false));
 
-			foreach (AttendanceUpdateRequest request in requests)
-				if (request.IsValid().Equals(false))
-					response.Errors.Add(AttendanceServiceErrors.UpdateBadRequest(request.Id));
+			if (invalidRequests.Any())
+				return AttendanceServiceErrors.UpdateMultipleBadRequest(invalidRequests.Select(x => x.Id));
 
-			if (response.IsError)
-				return response;
-
-			IEnumerable<AttendanceModel> attendanceEntries = await repositoryService.AttendanceRepository
+			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
 				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (!attendanceEntries.Any())
+			if (!entities.Any())
 				return AttendanceServiceErrors.GetByIdsNotFound(requests.Select(x => x.Id));
 
-			foreach (AttendanceModel attendanceEntry in attendanceEntries)
-				UpdateAttendance(attendanceEntry, requests.Where(x => x.Id.Equals(attendanceEntry.Id)).First());
+			foreach (AttendanceModel entity in entities)
+				UpdateAttendance(entity, requests.Where(x => x.Id.Equals(entity.Id)).First());
 
-			await repositoryService.AttendanceRepository.UpdateAsync(attendanceEntries);
+			await repositoryService.AttendanceRepository.UpdateAsync(entities)
+				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token);
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
 
 			return Result.Updated;
 		}
@@ -272,7 +270,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		{
 			string[] parameters = [string.Join(',', requests.Select(x => x.Id))];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.UpdateManyFailed;
+			return AttendanceServiceErrors.UpdateMultipleFailed(requests.Select(x => x.Id));
 		}
 	}
 

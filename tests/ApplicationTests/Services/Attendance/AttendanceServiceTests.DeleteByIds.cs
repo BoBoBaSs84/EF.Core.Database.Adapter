@@ -24,7 +24,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task DeleteByIdsShouldReturnFailedWhenExceptionIsThrown()
 	{
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
-		string[] parameters = [$"{string.Join(", ", ids)}"];
+		string[] parameters = [$"{string.Join(',', ids)}"];
 		AttendanceService sut = CreateMockedInstance();
 
 		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)

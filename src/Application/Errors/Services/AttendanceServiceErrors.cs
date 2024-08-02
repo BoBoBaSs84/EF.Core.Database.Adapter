@@ -122,6 +122,7 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
+	/// <param name="id">The attendance identifier to use.</param>
 	public static ApiError UpdateBadRequest(Guid id) =>
 		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateBadRequest)}",
 			RESX.AttendanceService_Update_BadRequest.FormatInvariant(id));
@@ -129,28 +130,24 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError UpdateFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateFailed)}",
-			RESX.AttendanceService_Update_Failed);
+	/// <param name="id">The attendance identifier to use.</param>
+	public static ApiError UpdateFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateFailed)}",
+			RESX.AttendanceService_Update_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError UpdateNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UpdateNotFound)}",
-			RESX.AttendanceService_Update_NotFound);
+	/// <param name="ids">The attendance identifiers to use.</param>
+	public static ApiError UpdateMultipleBadRequest(IEnumerable<Guid> ids) =>
+		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateMultipleBadRequest)}",
+			RESX.AttendanceService_Update_BadRequest.FormatInvariant(string.Join(',', ids)));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError UpdateManyFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateManyFailed)}",
-			RESX.AttendanceService_UpdateMany_Failed);
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	public static readonly ApiError UpdateManyNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UpdateManyNotFound)}",
-			RESX.AttendanceService_UpdateMany_NotFound);
+	/// <param name="ids">The attendance identifiers to use.</param>
+	public static ApiError UpdateMultipleFailed(IEnumerable<Guid> ids)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateMultipleFailed)}",
+			RESX.AttendanceService_Update_Failed.FormatInvariant(string.Join(',', ids)));
 }

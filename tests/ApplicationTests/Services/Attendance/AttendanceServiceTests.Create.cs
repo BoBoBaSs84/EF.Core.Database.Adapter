@@ -87,6 +87,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
+			result.Value.Should().Be(Result.Created);
 			mock.Verify(x => x.CreateAsync(It.IsAny<AttendanceModel>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);

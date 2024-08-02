@@ -286,15 +286,6 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The attendances/absences which should be deleted could not be found..
-        /// </summary>
-        public static string AttendanceService_DeleteMany_NotFound {
-            get {
-                return ResourceManager.GetString("AttendanceService.DeleteMany.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the attendance/absence with the calendar date: &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_GetByDate_Failed {
@@ -313,7 +304,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the attendance/absence with the identifier: &apos;{0}&apos;..
+        ///   Looks up a localized string similar to An error occurred while loading the attendance/absence with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_GetById_Failed {
             get {
@@ -358,16 +349,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No attendance entries could be found based on the parameterization..
-        /// </summary>
-        public static string AttendanceService_GetPagedByParameters_NotFound {
-            get {
-                return ResourceManager.GetString("AttendanceService.GetPagedByParameters.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are errors in the update request ({0}), please check and correct..
+        ///   Looks up a localized string similar to There are errors in the update request with the identifier &apos;{0}&apos; please check and correct them..
         /// </summary>
         public static string AttendanceService_Update_BadRequest {
             get {
@@ -376,7 +358,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while updating the attendance/absence..
+        ///   Looks up a localized string similar to An error occurred when updating an attendance/absence with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_Update_Failed {
             get {
@@ -385,29 +367,20 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The presence/absence which should be updated could not be found..
+        ///   Looks up a localized string similar to There are errors in the update requests with the identifiers &apos;{0}&apos; please check and correct them..
         /// </summary>
-        public static string AttendanceService_Update_NotFound {
+        public static string AttendanceService_UpdateMultiple_BadRequest {
             get {
-                return ResourceManager.GetString("AttendanceService.Update.NotFound", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.UpdateMultiple.BadRequest", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while updating the attendances/absences..
+        ///   Looks up a localized string similar to An error occurred when updating the attendances/absences with the identifiers &apos;{0}&apos;..
         /// </summary>
-        public static string AttendanceService_UpdateMany_Failed {
+        public static string AttendanceService_UpdateMultiple_Failed {
             get {
-                return ResourceManager.GetString("AttendanceService.UpdateMany.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The attendances/absences which should be updated could not be found..
-        /// </summary>
-        public static string AttendanceService_UpdateMany_NotFound {
-            get {
-                return ResourceManager.GetString("AttendanceService.UpdateMany.NotFound", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.UpdateMultiple.Failed", resourceCulture);
             }
         }
         

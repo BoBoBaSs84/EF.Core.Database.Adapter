@@ -57,8 +57,8 @@ internal sealed class CalendarService(IDateTimeService dateTimeService, ILoggerS
 				.FilterByMonth(parameters.Month)
 				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
 				.OrderBy(o => o)
-				.Take(parameters.PageSize)
-				.Skip((parameters.PageNumber - 1) * parameters.PageSize)];
+				.Skip((parameters.PageNumber - 1) * parameters.PageSize)
+				.Take(parameters.PageSize)];
 
 			int totalCount = _dateTimes.FilterByYear(parameters.Year)
 				.FilterByMonth(parameters.Month)

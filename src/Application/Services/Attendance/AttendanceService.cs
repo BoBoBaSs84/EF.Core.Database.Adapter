@@ -104,51 +104,52 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, DateTime date, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteById(Guid id, CancellationToken token = default)
 	{
-		string[] parameters = [$"{userId}", $"{date}"];
 		try
 		{
-			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), cancellationToken: token)
+			AttendanceModel? record = await repositoryService.AttendanceRepository
+				.GetByIdAsync(id, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (attendanceEntry is null)
-				return AttendanceServiceErrors.GetByDateFailed(date);
+			if (record is null)
+				return AttendanceServiceErrors.GetByIdNotFound(id);
 
-			await repositoryService.AttendanceRepository.DeleteAsync(attendanceEntry);
+			await repositoryService.AttendanceRepository.DeleteAsync(record);
+
 			_ = await repositoryService.CommitChangesAsync(token);
 
 			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.DeleteFailed;
+			loggerService.Log(LogExceptionWithParams, id, ex);
+			return AttendanceServiceErrors.DeleteByIdFailed(id);
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, IEnumerable<DateTime> dates, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteByIds(IEnumerable<Guid> ids, CancellationToken token = default)
 	{
-		string[] parameters = [$"{userId}", string.Join(", ", dates)];
 		try
 		{
-			IEnumerable<AttendanceModel> attendanceEntries = await repositoryService.AttendanceRepository
-				.GetManyByConditionAsync(expression: x => dates.Contains(x.Date) && x.UserId.Equals(userId), cancellationToken: token)
+			IEnumerable<AttendanceModel> records = await repositoryService.AttendanceRepository
+				.GetByIdsAsync(ids, cancellationToken: token)
 				.ConfigureAwait(false);
 
-			if (attendanceEntries.Any().Equals(false))
-				return AttendanceServiceErrors.DeleteManyNotFound;
+			if (records.Any().Equals(false))
+				return AttendanceServiceErrors.GetByIdsNotFound(ids);
 
-			await repositoryService.AttendanceRepository.DeleteAsync(attendanceEntries);
+			await repositoryService.AttendanceRepository.DeleteAsync(records);
+
 			_ = await repositoryService.CommitChangesAsync(token);
 
 			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
+			string[] parameters = [$"{string.Join(", ", ids)}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.DeleteManyFailed;
+			return AttendanceServiceErrors.DeleteByIdsFailed(ids);
 		}
 	}
 

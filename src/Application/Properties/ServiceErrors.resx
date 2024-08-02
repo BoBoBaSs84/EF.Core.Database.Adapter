@@ -177,11 +177,14 @@
   <data name="AttendanceService.CreateMany.Failed" xml:space="preserve">
     <value>An error occurred while creating the attendances/absences.</value>
   </data>
-  <data name="AttendanceService.Delete.Failed" xml:space="preserve">
-    <value>An error occurred while deleting the attendance/absence.</value>
-  </data>
   <data name="AttendanceService.Delete.NotFound" xml:space="preserve">
     <value>The presence/absence which should be deleted could not be found.</value>
+  </data>
+  <data name="AttendanceService.DeleteById.Failed" xml:space="preserve">
+    <value>An error occurred when deleting the attendance/absence with the identifier '{0}'.</value>
+  </data>
+  <data name="AttendanceService.DeleteByIds.Failed" xml:space="preserve">
+    <value>An error occurred when deleting the attendances/absences with the identifiers '{0}'.</value>
   </data>
   <data name="AttendanceService.DeleteMany.Failed" xml:space="preserve">
     <value>An error occurred while deleting the attendances/absences.</value>
@@ -196,10 +199,16 @@
     <value>No attendance/absence with calendar date: '{0}' could be found.</value>
   </data>
   <data name="AttendanceService.GetById.Failed" xml:space="preserve">
-    <value>An error occurred while loading the attendance/absence with the calendar day identifier: '{0}'.</value>
+    <value>An error occurred while loading the attendance/absence with the identifier: '{0}'.</value>
   </data>
   <data name="AttendanceService.GetById.NotFound" xml:space="preserve">
-    <value>No attendance/absence could be found with calendar day identifier: '{0}'.</value>
+    <value>No attendance/absence could be found with the identifier: '{0}'.</value>
+  </data>
+  <data name="AttendanceService.GetByIds.Failed" xml:space="preserve">
+    <value>An error occurred when loading the attendances/absences with the identifiers '{0}'.</value>
+  </data>
+  <data name="AttendanceService.GetByIds.NotFound" xml:space="preserve">
+    <value>No attendances/absences with the identifiers '{0}' could be found.</value>
   </data>
   <data name="AttendanceService.GetPagedByParameters.Failed" xml:space="preserve">
     <value>An error occurred while loading the attendance entries based on the parameterization.</value>

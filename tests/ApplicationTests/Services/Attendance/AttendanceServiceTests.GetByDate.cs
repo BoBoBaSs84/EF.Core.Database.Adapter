@@ -21,6 +21,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
+	[TestCategory("Method")]
 	public async Task GetByDateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -41,7 +42,8 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	public async Task GetByDateShouldReturnNotFoundWhenExceptionNotFound()
+	[TestCategory("Method")]
+	public async Task GetByDateShouldReturnNotFoundWhenNotFound()
 	{
 		Guid userId = Guid.NewGuid();
 		DateTime date = DateTime.Today;
@@ -63,6 +65,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory("Method")]
 	public async Task GetByDateShouldReturnValidResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();

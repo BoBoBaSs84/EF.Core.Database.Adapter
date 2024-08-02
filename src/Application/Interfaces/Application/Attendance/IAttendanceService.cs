@@ -33,22 +33,20 @@ public interface IAttendanceService
 	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
 
 	/// <summary>
-	/// Deletes an attendance for the application user and the calendar date.
+	/// Deletes an attendance entry by the provided <paramref name="id"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="date">The calendar date to delete.</param>
+	/// <param name="id">The attendance entry identifier to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(Guid userId, DateTime date, CancellationToken token = default);
+	Task<ErrorOr<Deleted>> DeleteById(Guid id, CancellationToken token = default);
 
 	/// <summary>
-	/// Deletes multiple attendances for the application user and the dates.
+	/// Deletes multiple attendance entries by the provided <paramref name="ids"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="dates">The calendar dates to delete.</param>
+	/// <param name="ids">The attendance entry identifiers to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(Guid userId, IEnumerable<DateTime> dates, CancellationToken token = default);
+	Task<ErrorOr<Deleted>> DeleteByIds(IEnumerable<Guid> ids, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns multiple attendances as a paged list for the application user filtered by the <paramref name="parameters"/>.

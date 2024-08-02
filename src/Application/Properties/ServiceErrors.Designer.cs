@@ -241,20 +241,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while deleting the attendance/absence..
-        /// </summary>
-        public static string AttendanceService_Delete_Failed {
-            get {
-                return ResourceManager.GetString("AttendanceService.Delete.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The presence/absence which should be deleted could not be found..
         /// </summary>
         public static string AttendanceService_Delete_NotFound {
             get {
                 return ResourceManager.GetString("AttendanceService.Delete.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the attendance/absence with the identifier &apos;{0}&apos;..
+        /// </summary>
+        public static string AttendanceService_DeleteById_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceService.DeleteById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the attendances/absences with the identifiers &apos;{0}&apos;..
+        /// </summary>
+        public static string AttendanceService_DeleteByIds_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceService.DeleteByIds.Failed", resourceCulture);
             }
         }
         
@@ -295,7 +304,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the attendance/absence with the calendar day identifier: &apos;{0}&apos;..
+        ///   Looks up a localized string similar to An error occurred while loading the attendance/absence with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_GetById_Failed {
             get {
@@ -304,11 +313,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No attendance/absence could be found with calendar day identifier: &apos;{0}&apos;..
+        ///   Looks up a localized string similar to No attendance/absence could be found with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_GetById_NotFound {
             get {
                 return ResourceManager.GetString("AttendanceService.GetById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when loading the attendances/absences with the identifiers &apos;{0}&apos;..
+        /// </summary>
+        public static string AttendanceService_GetByIds_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceService.GetByIds.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No attendances/absences with the identifiers &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string AttendanceService_GetByIds_NotFound {
+            get {
+                return ResourceManager.GetString("AttendanceService.GetByIds.NotFound", resourceCulture);
             }
         }
         

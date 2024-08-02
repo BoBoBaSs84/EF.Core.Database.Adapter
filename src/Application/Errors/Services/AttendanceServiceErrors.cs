@@ -56,62 +56,50 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError DeleteFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteFailed)}",
-			RESX.AttendanceService_Delete_Failed);
+	/// <param name="id">The attendance identifier to use.</param>
+	public static ApiError DeleteByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteByIdFailed)}",
+			RESX.AttendanceService_DeleteById_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError DeleteNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteNotFound)}",
-			RESX.AttendanceService_Delete_NotFound);
+	/// <param name="ids">The attendance identifiers to use.</param>
+	public static ApiError DeleteByIdsFailed(IEnumerable<Guid> ids)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteByIdsFailed)}",
+			RESX.AttendanceService_DeleteById_Failed.FormatInvariant(string.Join(',', ids)));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError DeleteManyFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteManyFailed)}",
-			RESX.AttendanceService_DeleteMany_Failed);
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	public static readonly ApiError DeleteManyNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteManyNotFound)}",
-			RESX.AttendanceService_DeleteMany_NotFound);
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	/// <param name="date">The date parameter.</param>
-	public static ApiError GetByDateFailed(DateTime date) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByDateFailed)}",
+	/// <param name="date">The attendance date to use.</param>
+	public static ApiError GetByDateFailed(DateTime date)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByDateFailed)}",
 			RESX.AttendanceService_GetByDate_Failed.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	/// <param name="date">The date parameter.</param>
-	public static ApiError GetByDateNotFound(DateTime date) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
+	/// <param name="date">The attendance date to use.</param>
+	public static ApiError GetByDateNotFound(DateTime date)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByDateNotFound)}",
 			RESX.AttendanceService_GetByDate_NotFound.FormatInvariant(date));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	/// <param name="calendarDayId">The calendar day identifier parameter.</param>
-	public static ApiError GetByIdFailed(Guid calendarDayId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
-			RESX.AttendanceService_GetById_Failed.FormatInvariant(calendarDayId));
+	/// <param name="id">The attendance identifier to use.</param>
+	public static ApiError GetByIdNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
+			RESX.AttendanceService_GetById_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	/// <param name="calendarId">The calendar identifier parameter.</param>
-	public static ApiError GetByIdNotFound(Guid calendarId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			RESX.AttendanceService_GetById_NotFound.FormatInvariant(calendarId));
+	/// <param name="ids">The attendance identifiers to use.</param>
+	public static ApiError GetByIdsNotFound(IEnumerable<Guid> ids)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(GetByIdsNotFound)}",
+			RESX.AttendanceService_GetByIds_NotFound.FormatInvariant(string.Join(',', ids)));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

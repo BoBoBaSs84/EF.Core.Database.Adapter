@@ -159,10 +159,10 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Attendance);
 
-		internal const string Delete = "{date}";
-		internal const string DeleteMultiple = "Multiple";
+		internal const string DeleteById = "{id:guid}";
+		internal const string DeleteByIds = "Multiple";
 		internal const string GetByDate = "{date}";
-		internal const string GetById = "{calendarId:guid}";
+		internal const string GetById = "{id:guid}";
 		internal const string GetPagedByParameters = EmptySuffix;
 		internal const string Post = EmptySuffix;
 		internal const string PostMultiple = "Multiple";

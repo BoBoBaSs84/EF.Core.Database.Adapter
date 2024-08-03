@@ -38,7 +38,6 @@ public sealed class CalendarController(ICalendarService calendarService) : ApiCo
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Calendar.GetPagedByParameters)]
 	[ProducesResponseType(typeof(IPagedList<CalendarResponse>), StatusCodes.Status200OK)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetPagedByParameters([FromQuery] CalendarParameters parameters)
 	{
@@ -51,11 +50,9 @@ public sealed class CalendarController(ICalendarService calendarService) : ApiCo
 	/// </summary>
 	/// <param name="date">The date of the calendar entry.</param>
 	/// <response code="200">If the response was successfully returned.</response>
-	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Calendar.GetByDate)]
 	[ProducesResponseType(typeof(CalendarResponse), StatusCodes.Status200OK)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetByDate([DataType(DataType.Date)] DateTime date)
 	{
@@ -70,7 +67,6 @@ public sealed class CalendarController(ICalendarService calendarService) : ApiCo
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Calendar.GetCurrent)]
 	[ProducesResponseType(typeof(CalendarResponse), StatusCodes.Status200OK)]
-	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetCurrent()
 	{

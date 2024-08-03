@@ -9,10 +9,11 @@ using FluentAssertions;
 namespace ApplicationTests.Extensions;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed class QueryableExtensionsTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory("Method")]
+	[TestCategory(nameof(QueryableExtensions.FilterByParameters))]
 	public void FilterByParametersWithAttendanceParametersValues()
 	{
 		DateTime minDate = new(2000, 1, 1),
@@ -32,11 +33,11 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 
 		IQueryable<AttendanceModel> filteredModels = models.FilterByParameters(parameters);
 
-		_ = filteredModels.Should().HaveCount(parameters.PageSize);
+		filteredModels.Should().HaveCount(parameters.PageSize);
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
+	[TestCategory(nameof(QueryableExtensions.FilterByParameters))]
 	public void FilterByParametersWithoutAttendanceParametersValues()
 	{
 		DateTime minDate = new(2000, 1, 1),
@@ -47,9 +48,8 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 
 		IQueryable<AttendanceModel> filteredModels = models.FilterByParameters(parameters);
 
-		_ = filteredModels.Should().HaveCount(maxDate.Day);
+		filteredModels.Should().HaveCount(maxDate.Day);
 	}
-
 
 	private static IQueryable<AttendanceModel> GetAttendanceModels(DateTime minDate, DateTime maxDate, AttendanceType type)
 	{

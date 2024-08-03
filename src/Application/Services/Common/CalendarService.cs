@@ -53,16 +53,12 @@ internal sealed class CalendarService(IDateTimeService dateTimeService, ILoggerS
 	{
 		try
 		{
-			IEnumerable<DateTime> calendarDays = [.. _dateTimes.FilterByYear(parameters.Year)
-				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+			IEnumerable<DateTime> calendarDays = _dateTimes.FilterByParameters(parameters)
 				.OrderBy(o => o)
 				.Skip((parameters.PageNumber - 1) * parameters.PageSize)
-				.Take(parameters.PageSize)];
+				.Take(parameters.PageSize);
 
-			int totalCount = _dateTimes.FilterByYear(parameters.Year)
-				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+			int totalCount = _dateTimes.FilterByParameters(parameters)
 				.Count();
 
 			IEnumerable<CalendarResponse> result = mapper.Map<IEnumerable<CalendarResponse>>(calendarDays);

@@ -41,5 +41,5 @@ public sealed class AttendanceParameters : RequestParameters
 	/// <summary>
 	/// Filter option by the attendance type.
 	/// </summary>
-	public AttendanceType? AttendanceType { get; set; }
+	public AttendanceType? Type { get; set; }
 }

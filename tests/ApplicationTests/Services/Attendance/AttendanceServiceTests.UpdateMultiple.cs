@@ -67,7 +67,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task UpdateMultipleShouldReturnCreatedWhenSuccessful()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.HOLIDAY }];
-		IEnumerable<AttendanceModel> models = [new() { AttendanceType = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero }];
+		IEnumerable<AttendanceModel> models = [new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero }];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(requests.Select(x => x.Id), false, true, default))
 			.Returns(Task.FromResult(models));

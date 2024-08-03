@@ -26,7 +26,7 @@ public sealed class AttendanceModel : AuditedModel
 	/// <summary>
 	/// The attendance type property.
 	/// </summary>
-	public AttendanceType AttendanceType { get; set; }
+	public AttendanceType Type { get; set; }
 
 	/// <summary>
 	/// The <see cref="StartTime"/> property.

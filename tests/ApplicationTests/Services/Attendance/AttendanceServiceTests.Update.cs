@@ -67,7 +67,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task UpdateShouldReturnCreatedWhenSuccessful()
 	{
 		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.HOLIDAY };
-		AttendanceModel model = new() { AttendanceType = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
+		AttendanceModel model = new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
 			.Returns(Task.FromResult<AttendanceModel?>(model));

@@ -10,7 +10,6 @@ using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 
 using Domain.Errors;
-using Domain.Extensions;
 using Domain.Models.Attendance;
 using Domain.Results;
 
@@ -160,25 +159,22 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> attendances = await repositoryService.AttendanceRepository.GetManyByConditionAsync(
-				expression: x => x.UserId.Equals(userId),
-				queryFilter: x => x.FilterByYear(parameters.Year)
-				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
-				.FilterByType(parameters.AttendanceType),
-				orderBy: x => x.OrderBy(x => x.Date),
-				take: parameters.PageSize,
-				skip: (parameters.PageNumber - 1) * parameters.PageSize,
-				cancellationToken: token
-				);
+			IEnumerable<AttendanceModel> attendances = await repositoryService.AttendanceRepository
+				.GetManyByConditionAsync(
+					expression: x => x.UserId.Equals(userId),
+					queryFilter: x => x.FilterByParameters(parameters),
+					orderBy: x => x.OrderBy(x => x.Date),
+					skip: (parameters.PageNumber - 1) * parameters.PageSize,
+					take: parameters.PageSize,
+					cancellationToken: token)
+				.ConfigureAwait(false);
 
-			int totalCount = await repositoryService.AttendanceRepository.CountAsync(
-				expression: x => x.UserId.Equals(userId),
-				queryFilter: x => x.FilterByYear(parameters.Year)
-				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
-				.FilterByType(parameters.AttendanceType),
-				cancellationToken: token);
+			int totalCount = await repositoryService.AttendanceRepository
+				.CountAsync(
+					expression: x => x.UserId.Equals(userId),
+					queryFilter: x => x.FilterByParameters(parameters),
+					cancellationToken: token)
+				.ConfigureAwait(false);
 
 			IEnumerable<AttendanceResponse> result = mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
 
@@ -285,7 +281,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	/// <param name="updateRequest">The request to update with.</param>
 	private static void UpdateAttendance(AttendanceModel attendance, AttendanceUpdateRequest updateRequest)
 	{
-		attendance.AttendanceType = updateRequest.AttendanceType;
+		attendance.Type = updateRequest.AttendanceType;
 		attendance.StartTime = updateRequest.StartTime;
 		attendance.EndTime = updateRequest.EndTime;
 		attendance.BreakTime = updateRequest.BreakTime;

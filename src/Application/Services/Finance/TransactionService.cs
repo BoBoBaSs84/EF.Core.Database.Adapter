@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
 using Application.Errors.Services;
+using Application.Extensions;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application.Finance;
@@ -9,7 +10,6 @@ using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 
 using Domain.Errors;
-using Domain.Extensions;
 using Domain.Models.Finance;
 using Domain.Results;
 

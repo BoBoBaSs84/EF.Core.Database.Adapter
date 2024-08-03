@@ -22,7 +22,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory("Method")]
+	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnBadRequestWhenNotValid()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.WORKDAY }];
@@ -41,7 +41,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
+	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnNotFoundWhenNotFound()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.VACATION }];
@@ -63,7 +63,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
+	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -94,7 +94,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
+	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnFailedWhenExceptionIsThrown()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY }];

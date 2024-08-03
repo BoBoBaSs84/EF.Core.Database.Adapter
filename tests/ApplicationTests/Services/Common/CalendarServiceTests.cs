@@ -17,14 +17,15 @@ using Moq;
 namespace ApplicationTests.Services.Common;
 
 [TestClass]
-[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit tests.")]
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed class CalendarServiceTests : ApplicationTestBase
 {
 	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<IDateTimeService> _dateTimeServiceMock = default!;
 	private Mock<ILoggerService<CalendarService>> _loggerServiceMock = default!;
 
-	[TestMethod, TestCategory("Methods")]
+	[TestMethod]
+	[TestCategory(nameof(CalendarService.GetByDate))]
 	public void GetByDateShouldReturnResponseWhenSuccessfully()
 	{
 		CalendarService sut = CreateMockedInstance();
@@ -37,7 +38,8 @@ public sealed class CalendarServiceTests : ApplicationTestBase
 		result.Value.Date.Should().Be(date.Date);
 	}
 
-	[TestMethod, TestCategory("Methods")]
+	[TestMethod]
+	[TestCategory(nameof(CalendarService.GetByDate))]
 	public void GetByDateShouldReturnFailedResponseWhenExcpetionGetThrown()
 	{
 		CalendarService sut = CreateMockedInstance();
@@ -50,7 +52,8 @@ public sealed class CalendarServiceTests : ApplicationTestBase
 		result.Errors.First().Should().Be(CalendarServiceErrors.GetByDateFailed);
 	}
 
-	[TestMethod, TestCategory("Methods")]
+	[TestMethod]
+	[TestCategory(nameof(CalendarService.GetPagedByParameters))]
 	public void GetPagedByParametersShouldReturnResponseWhenSuccessfully()
 	{
 		CalendarService sut = CreateMockedInstance();
@@ -66,7 +69,8 @@ public sealed class CalendarServiceTests : ApplicationTestBase
 		result.Value.MetaData.TotalPages.Should().Be(4);
 	}
 
-	[TestMethod, TestCategory("Methods")]
+	[TestMethod]
+	[TestCategory(nameof(CalendarService.GetPagedByParameters))]
 	public void GetPagedByParametersShouldReturnFailedResponseWhenExcpetionGetThrown()
 	{
 		CalendarService sut = CreateMockedInstance();
@@ -78,7 +82,8 @@ public sealed class CalendarServiceTests : ApplicationTestBase
 		result.Errors.First().Should().Be(CalendarServiceErrors.GetPagedByParametersFailed);
 	}
 
-	[TestMethod, TestCategory("Methods")]
+	[TestMethod]
+	[TestCategory(nameof(CalendarService.GetCurrent))]
 	public void GetCurrentShouldReturnResponseWhenSuccessfully()
 	{
 		DateTime today = DateTime.Today;
@@ -92,7 +97,8 @@ public sealed class CalendarServiceTests : ApplicationTestBase
 		result.Value.Date.Should().Be(today);
 	}
 
-	[TestMethod, TestCategory("Methods")]
+	[TestMethod]
+	[TestCategory(nameof(CalendarService.GetCurrent))]
 	public void GetCurrentShouldReturnFailedResponseWhenExcpetionGetThrown()
 	{
 		CalendarService sut = CreateMockedInstance();

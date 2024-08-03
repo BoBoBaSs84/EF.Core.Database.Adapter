@@ -42,7 +42,6 @@ internal static class ServiceCollectionExtensions
 	{
 		services.AddControllers(options => options.RespectBrowserAcceptHeader = true)
 			.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly)
-			.AddXmlSerializerFormatters()
 			.AddJsonOptions(options =>
 			{
 				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;

@@ -115,8 +115,8 @@ public static class AttendanceServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
-	public static readonly ApiError GetPagedListByParametersFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedListByParametersFailed)}",
+	public static readonly ApiError GetPagedByParametersFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
 			RESX.AttendanceService_GetPagedByParameters_Failed);
 
 	/// <summary>

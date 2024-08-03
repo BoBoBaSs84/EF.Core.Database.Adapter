@@ -9,7 +9,7 @@ using Domain.Results;
 namespace Application.Interfaces.Application.Attendance;
 
 /// <summary>
-/// The attendance service interface.
+/// The interface for the attendance service.
 /// </summary>
 public interface IAttendanceService
 {
@@ -55,7 +55,7 @@ public interface IAttendanceService
 	/// <param name="parameters">The query parameters.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedListByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default);
+	Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns the attendance for the application user and the calendar entry date.

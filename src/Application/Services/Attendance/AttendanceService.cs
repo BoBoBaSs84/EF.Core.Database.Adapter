@@ -9,6 +9,8 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using BB84.Extensions;
+
 using Domain.Errors;
 using Domain.Models.Attendance;
 using Domain.Results;
@@ -155,7 +157,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedListByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default)
+	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default)
 	{
 		try
 		{
@@ -183,7 +185,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		catch (Exception ex)
 		{
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AttendanceServiceErrors.GetPagedListByParametersFailed;
+			return AttendanceServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 

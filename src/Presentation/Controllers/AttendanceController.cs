@@ -90,7 +90,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] AttendanceParameters parameters, CancellationToken token)
 	{
 		ErrorOr<IPagedList<AttendanceResponse>> result = await attendanceService
-			.GetPagedListByParameters(currentUserService.UserId, parameters, token)
+			.GetPagedByParameters(currentUserService.UserId, parameters, token)
 			.ConfigureAwait(false);
 
 		return Get(result, result.Value.MetaData);

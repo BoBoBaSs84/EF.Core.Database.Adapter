@@ -9,8 +9,6 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using BB84.Extensions;
-
 using Domain.Errors;
 using Domain.Models.Attendance;
 using Domain.Results;

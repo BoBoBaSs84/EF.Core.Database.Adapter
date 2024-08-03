@@ -26,7 +26,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateShouldReturnBadRequestWhenNotValid()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, AttendanceType = AttendanceType.WORKDAY };
+		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.WORKDAY };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		AttendanceService sut = CreateMockedInstance();
 
@@ -47,7 +47,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateShouldReturnConflictWhenExistingEntryFound()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, AttendanceType = AttendanceType.VACATION };
+		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.VACATION };
 		AttendanceModel model = new() { Date = DateTime.Today };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> mock = new();
@@ -72,7 +72,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, AttendanceType = AttendanceType.VACATION };
+		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.VACATION };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(id) && x.Date.Equals(request.Date), null, false, false, default))
@@ -99,7 +99,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, AttendanceType = AttendanceType.WORKDAY, StartTime = TimeSpan.FromHours(6), EndTime = TimeSpan.FromHours(18), BreakTime = TimeSpan.FromHours(1) };
+		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.WORKDAY, StartTime = TimeSpan.FromHours(6), EndTime = TimeSpan.FromHours(18), BreakTime = TimeSpan.FromHours(1) };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		AttendanceService sut = CreateMockedInstance();
 

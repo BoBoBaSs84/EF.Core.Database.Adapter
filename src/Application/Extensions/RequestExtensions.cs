@@ -16,7 +16,7 @@ public static class RequestExtensions
 	/// <param name="request">The attendance create request to work with.</param>
 	/// <returns><see langword="true"/> if the attendance create request is valid otherwise <see langword="false"/></returns>
 	public static bool IsValid(this AttendanceCreateRequest request)
-		=> IsAttendanceRequestValid(request.AttendanceType, request.StartTime, request.EndTime, request.BreakTime);
+		=> IsAttendanceRequestValid(request.Type, request.StartTime, request.EndTime, request.BreakTime);
 
 	/// <summary>
 	/// Returns if the attendance update request is valid.
@@ -24,7 +24,7 @@ public static class RequestExtensions
 	/// <param name="request">The attendance update request to work with.</param>
 	/// <returns><see langword="true"/> if the attendance update request is valid otherwise <see langword="false"/></returns>
 	public static bool IsValid(this AttendanceUpdateRequest request)
-		=> IsAttendanceRequestValid(request.AttendanceType, request.StartTime, request.EndTime, request.BreakTime);
+		=> IsAttendanceRequestValid(request.Type, request.StartTime, request.EndTime, request.BreakTime);
 
 	private static bool IsAttendanceRequestValid(AttendanceType type, TimeSpan? startTime, TimeSpan? endTime, TimeSpan? breakTime)
 		=> (!type.IsWorkingHoursRelevant() || (startTime.HasValue && endTime.HasValue && !(endTime <= startTime)))

@@ -281,7 +281,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	/// <param name="updateRequest">The request to update with.</param>
 	private static void UpdateAttendance(AttendanceModel attendance, AttendanceUpdateRequest updateRequest)
 	{
-		attendance.Type = updateRequest.AttendanceType;
+		attendance.Type = updateRequest.Type;
 		attendance.StartTime = updateRequest.StartTime;
 		attendance.EndTime = updateRequest.EndTime;
 		attendance.BreakTime = updateRequest.BreakTime;

@@ -86,7 +86,7 @@ public sealed partial class AttendanceServiceTests
 			result.Errors.Should().BeEmpty();
 			result.Value.Id.Should().Be(model.Id);
 			result.Value.Date.Should().Be(date.Date);
-			result.Value.AttendanceType.Should().Be(model.Type);
+			result.Value.Type.Should().Be(model.Type);
 			result.Value.StartTime.Should().Be(model.StartTime);
 			result.Value.EndTime.Should().Be(model.EndTime);
 			result.Value.BreakTime.Should().Be(model.BreakTime);

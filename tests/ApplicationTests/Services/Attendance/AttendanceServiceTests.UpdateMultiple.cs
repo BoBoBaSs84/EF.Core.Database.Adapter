@@ -25,7 +25,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateMultipleShouldReturnBadRequestWhenNotValid()
 	{
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.WORKDAY }];
+		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.WORKDAY }];
 		AttendanceService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.UpdateMultiple(requests)
@@ -44,7 +44,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateMultipleShouldReturnNotFoundWhenNotFound()
 	{
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.VACATION }];
+		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.VACATION }];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(requests.Select(x => x.Id), false, true, default))
 			.Returns(Task.FromResult<IEnumerable<AttendanceModel>>([]));
@@ -66,7 +66,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateMultipleShouldReturnCreatedWhenSuccessful()
 	{
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.HOLIDAY }];
+		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY }];
 		IEnumerable<AttendanceModel> models = [new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero }];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(requests.Select(x => x.Id), false, true, default))
@@ -92,7 +92,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateMultipleShouldReturnFailedWhenExceptionIsThrown()
 	{
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.HOLIDAY }];
+		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY }];
 		string[] parameters = [string.Join(',', requests.Select(x => x.Id))];
 		AttendanceService sut = CreateMockedInstance();
 

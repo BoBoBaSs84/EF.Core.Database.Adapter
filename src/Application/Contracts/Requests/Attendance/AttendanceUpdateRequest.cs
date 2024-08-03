@@ -21,7 +21,7 @@ public sealed class AttendanceUpdateRequest
 	/// The attendance type property.
 	/// </summary>
 	[Required]
-	public AttendanceType AttendanceType { get; set; }
+	public AttendanceType Type { get; set; }
 
 	/// <summary>
 	/// The start time property.

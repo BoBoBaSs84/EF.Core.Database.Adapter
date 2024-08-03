@@ -25,7 +25,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateShouldReturnBadRequestWhenNotValid()
 	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.WORKDAY };
+		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.WORKDAY };
 		AttendanceService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.Update(request)
@@ -44,7 +44,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateShouldReturnNotFoundWhenNotFound()
 	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.HOLIDAY };
+		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
 			.Returns(Task.FromResult<AttendanceModel?>(null));
@@ -66,7 +66,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateShouldReturnCreatedWhenSuccessful()
 	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.HOLIDAY };
+		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY };
 		AttendanceModel model = new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
@@ -92,7 +92,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory("Method")]
 	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
 	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), AttendanceType = AttendanceType.HOLIDAY };
+		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY };
 		AttendanceService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.Update(request)

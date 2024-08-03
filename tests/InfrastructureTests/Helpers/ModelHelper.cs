@@ -25,7 +25,7 @@ public static class ModelHelper
 			while (attendances.Exists(x => x.Date.Equals(calendarDate)))
 				calendarDate = calendar[GetInt(0, calendar.Count)];
 
-			attendances.Add(new() { User = user, Date = calendarDate, AttendanceType = (AttendanceType)GetInt(4, 13) });
+			attendances.Add(new() { User = user, Date = calendarDate, Type = (AttendanceType)GetInt(4, 13) });
 		}
 
 		return attendances;

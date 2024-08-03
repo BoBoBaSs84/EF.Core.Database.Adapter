@@ -6,49 +6,47 @@ using Application.Features.Responses;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Application;
+namespace Application.Interfaces.Application.Attendance;
 
 /// <summary>
-/// The attendance service interface.
+/// The interface for the attendance service.
 /// </summary>
 public interface IAttendanceService
 {
 	/// <summary>
-	/// Creates an attendance for for the application user.
+	/// Creates a new attendance entry for the user with the provided create <paramref name="request"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="request">The attendance create request.</param>
+	/// <param name="id">The identifier of the application user.</param>
+	/// <param name="request">The attendance create request to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, AttendanceCreateRequest request, CancellationToken token = default);
+	Task<ErrorOr<Created>> Create(Guid id, AttendanceCreateRequest request, CancellationToken token = default);
 
 	/// <summary>
-	/// Creates multiple attendances for the for the application user.
+	/// Creates multiple new attendance entries for the user with the provided create <paramref name="requests"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="requests">The attendance create requests.</param>
+	/// <param name="id">The identifier of the application user.</param>
+	/// <param name="requests">The attendance create requests to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	/// <returns></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Created>> CreateMultiple(Guid id, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
 
 	/// <summary>
-	/// Deletes an attendance for the application user and the calendar date.
+	/// Deletes an attendance entry by the provided <paramref name="id"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="date">The calendar date to delete.</param>
+	/// <param name="id">The attendance entry identifier to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(Guid userId, DateTime date, CancellationToken token = default);
+	Task<ErrorOr<Deleted>> DeleteById(Guid id, CancellationToken token = default);
 
 	/// <summary>
-	/// Deletes multiple attendances for the application user and the dates.
+	/// Deletes multiple attendance entries by the provided <paramref name="ids"/>.
 	/// </summary>
-	/// <param name="userId">The identifier of the application user.</param>
-	/// <param name="dates">The calendar dates to delete.</param>
+	/// <param name="ids">The attendance entry identifiers to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(Guid userId, IEnumerable<DateTime> dates, CancellationToken token = default);
+	Task<ErrorOr<Deleted>> DeleteByIds(IEnumerable<Guid> ids, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns multiple attendances as a paged list for the application user filtered by the <paramref name="parameters"/>.
@@ -57,7 +55,7 @@ public interface IAttendanceService
 	/// <param name="parameters">The query parameters.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedListByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default);
+	Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns the attendance for the application user and the calendar entry date.
@@ -82,5 +80,5 @@ public interface IAttendanceService
 	/// <param name="requests">The attendance update requests.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Updated>> UpdateMultiple(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default);
 }

@@ -22,7 +22,7 @@ namespace Application.Services.Common;
 /// <param name="dateTimeService">The date time service instance to use.</param>
 /// <param name="loggerService">The logger service instance to use.</param>
 /// <param name="mapper">The auto mapper instance to use.</param>
-internal sealed class CalendarDayService(IDateTimeService dateTimeService, ILoggerService<CalendarDayService> loggerService, IMapper mapper) : ICalendarDayService
+internal sealed class CalendarService(IDateTimeService dateTimeService, ILoggerService<CalendarService> loggerService, IMapper mapper) : ICalendarService
 {
 	private readonly IQueryable<DateTime> _dateTimes = GetPossibleDates();
 
@@ -53,16 +53,12 @@ internal sealed class CalendarDayService(IDateTimeService dateTimeService, ILogg
 	{
 		try
 		{
-			IEnumerable<DateTime> calendarDays = [.. _dateTimes.FilterByYear(parameters.Year)
-				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+			IEnumerable<DateTime> calendarDays = _dateTimes.FilterByParameters(parameters)
 				.OrderBy(o => o)
-				.Take(parameters.PageSize)
-				.Skip((parameters.PageNumber - 1) * parameters.PageSize)];
+				.Skip((parameters.PageNumber - 1) * parameters.PageSize)
+				.Take(parameters.PageSize);
 
-			int totalCount = _dateTimes.FilterByYear(parameters.Year)
-				.FilterByMonth(parameters.Month)
-				.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
+			int totalCount = _dateTimes.FilterByParameters(parameters)
 				.Count();
 
 			IEnumerable<CalendarResponse> result = mapper.Map<IEnumerable<CalendarResponse>>(calendarDays);

@@ -1,9 +1,9 @@
 ﻿using Application.Common;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Attendance;
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Application.Finance;
 using Application.Interfaces.Application.Todo;
-using Application.Services;
+using Application.Services.Attendance;
 using Application.Services.Common;
 using Application.Services.Finance;
 using Application.Services.Todo;
@@ -42,7 +42,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureSingletonServices(this IServiceCollection services)
 	{
-		services.TryAddSingleton<ICalendarDayService, CalendarDayService>();
+		services.TryAddSingleton<ICalendarService, CalendarService>();
 		services.TryAddSingleton<IDateTimeService, DateTimeService>();
 		services.TryAddSingleton<IEnumeratorService, EnumeratorService>();
 

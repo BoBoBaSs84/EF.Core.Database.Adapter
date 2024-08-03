@@ -2,7 +2,7 @@
 using Application.Contracts.Responses.Attendance;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application;
+using Application.Interfaces.Application.Attendance;
 using Application.Interfaces.Presentation.Services;
 
 using Asp.Versioning;
@@ -30,46 +30,46 @@ namespace Presentation.Controllers;
 public sealed class AttendanceController(IAttendanceService attendanceService, ICurrentUserService currentUserService) : ApiControllerBase
 {
 	/// <summary>
-	/// Deletes an existing attendance entry by the calendar entry date.
+	/// Deletes an attendance entry by the provided <paramref name="id"/>.
 	/// </summary>
-	/// <param name="date">The attendance date to delete.</param>
+	/// <param name="id">The attendance entry identifier to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpDelete(Endpoints.Attendance.Delete)]
+	[HttpDelete(Endpoints.Attendance.DeleteById)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(DateTime date, CancellationToken token)
+	public async Task<IActionResult> Delete(Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> result = await attendanceService
-			.Delete(currentUserService.UserId, date, token)
+			.DeleteById(id, token)
 			.ConfigureAwait(false);
 
 		return Delete(result);
 	}
 
 	/// <summary>
-	/// Deletes multiple attendance entries by the calendar entry identifiers.
+	/// Deletes multiple attendance entries by the provided <paramref name="ids"/>.
 	/// </summary>
-	/// <param name="dates">The attendance dates to delete.</param>
+	/// <param name="ids">The attendance entry identifiers to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpDelete(Endpoints.Attendance.DeleteMultiple)]
+	[HttpDelete(Endpoints.Attendance.DeleteByIds)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete([FromBody] IEnumerable<DateTime> dates, CancellationToken token)
+	public async Task<IActionResult> Delete([FromBody] IEnumerable<Guid> ids, CancellationToken token)
 	{
 		ErrorOr<Deleted> result = await attendanceService
-			.Delete(currentUserService.UserId, dates, token)
+			.DeleteByIds(ids, token)
 			.ConfigureAwait(false);
 
 		return Delete(result);
@@ -90,10 +90,10 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] AttendanceParameters parameters, CancellationToken token)
 	{
 		ErrorOr<IPagedList<AttendanceResponse>> result = await attendanceService
-			.GetPagedListByParameters(currentUserService.UserId, parameters, token)
+			.GetPagedByParameters(currentUserService.UserId, parameters, token)
 			.ConfigureAwait(false);
 
-		return Get(result, result.Value?.MetaData);
+		return Get(result, result.Value.MetaData);
 	}
 
 	/// <summary>
@@ -167,7 +167,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Created> result = await attendanceService
-			.Create(currentUserService.UserId, requests, token)
+			.CreateMultiple(currentUserService.UserId, requests, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
@@ -217,7 +217,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Updated> result = await attendanceService
-			.Update(requests, token)
+			.UpdateMultiple(requests, token)
 			.ConfigureAwait(false);
 
 		return Put(result);

@@ -9,7 +9,7 @@ namespace Application.Interfaces.Application.Common;
 /// <summary>
 /// The interface for the calendar service.
 /// </summary>
-public interface ICalendarDayService
+public interface ICalendarService
 {
 	/// <summary>
 	/// Returns the calendar information based on the provided <paramref name="date"/>.

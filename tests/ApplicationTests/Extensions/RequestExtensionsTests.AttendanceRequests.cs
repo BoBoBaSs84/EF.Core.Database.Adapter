@@ -12,7 +12,7 @@ public partial class RequestExtensionsTests
 	{
 		AttendanceCreateRequest request = new()
 		{
-			AttendanceType = AttendanceType.WORKDAY,
+			Type = AttendanceType.WORKDAY,
 			StartTime = new(6, 0, 0),
 			EndTime = new(14, 30, 0),
 			BreakTime = new(0, 45, 0)
@@ -28,7 +28,7 @@ public partial class RequestExtensionsTests
 	{
 		AttendanceCreateRequest request = new()
 		{
-			AttendanceType = AttendanceType.WORKDAY,
+			Type = AttendanceType.WORKDAY,
 			EndTime = new(14, 30, 0),
 			BreakTime = new(0, 45, 0)
 		};
@@ -43,7 +43,7 @@ public partial class RequestExtensionsTests
 	{
 		AttendanceCreateRequest request = new()
 		{
-			AttendanceType = AttendanceType.BUISNESSTRIP,
+			Type = AttendanceType.BUISNESSTRIP,
 			StartTime = new(6, 0, 0),
 			BreakTime = new(0, 45, 0)
 		};
@@ -58,7 +58,7 @@ public partial class RequestExtensionsTests
 	{
 		AttendanceUpdateRequest request = new()
 		{
-			AttendanceType = AttendanceType.WORKDAY,
+			Type = AttendanceType.WORKDAY,
 			StartTime = new(6, 0, 0),
 			EndTime = new(14, 30, 0),
 			BreakTime = new(0, 45, 0)
@@ -74,7 +74,7 @@ public partial class RequestExtensionsTests
 	{
 		AttendanceUpdateRequest request = new()
 		{
-			AttendanceType = AttendanceType.VACATION,
+			Type = AttendanceType.VACATION,
 			StartTime = new(6, 0, 0),
 			EndTime = new(14, 30, 0),
 			BreakTime = new(0, 45, 0)
@@ -90,7 +90,7 @@ public partial class RequestExtensionsTests
 	{
 		AttendanceUpdateRequest request = new()
 		{
-			AttendanceType = AttendanceType.MOBILEWORKING,
+			Type = AttendanceType.MOBILEWORKING,
 			EndTime = new(6, 0, 0),
 			StartTime = new(14, 30, 0),
 			BreakTime = new(0, 45, 0)

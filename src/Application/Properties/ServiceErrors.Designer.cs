@@ -196,7 +196,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are errors in the create request ({0}), please check and correct..
+        ///   Looks up a localized string similar to There are errors in the creation request with the date &apos;{0}&apos; please check and correct them..
         /// </summary>
         public static string AttendanceService_Create_BadRequest {
             get {
@@ -214,7 +214,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while creating the attendance/absence..
+        ///   Looks up a localized string similar to An error occurred when creating an attendance/absence with the date &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_Create_Failed {
             get {
@@ -223,29 +223,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No calendar entry with the date &apos;{0}&apos; could be found to load..
+        ///   Looks up a localized string similar to There are errors in the creation requests with the date values &apos;{0}&apos; please check and correct them..
         /// </summary>
-        public static string AttendanceService_Create_NotFound {
+        public static string AttendanceService_CreateMultiple_BadRequest {
             get {
-                return ResourceManager.GetString("AttendanceService.Create.NotFound", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.CreateMultiple.BadRequest", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while creating the attendances/absences..
+        ///   Looks up a localized string similar to Multiple entries with the date values &apos;{0}&apos; have already been created..
         /// </summary>
-        public static string AttendanceService_CreateMany_Failed {
+        public static string AttendanceService_CreateMultiple_Conflict {
             get {
-                return ResourceManager.GetString("AttendanceService.CreateMany.Failed", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.CreateMultiple.Conflict", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while deleting the attendance/absence..
+        ///   Looks up a localized string similar to An error occurred when creating an attendance/absence with the date values &apos;{0}&apos;..
         /// </summary>
-        public static string AttendanceService_Delete_Failed {
+        public static string AttendanceService_CreateMultiple_Failed {
             get {
-                return ResourceManager.GetString("AttendanceService.Delete.Failed", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.CreateMultiple.Failed", resourceCulture);
             }
         }
         
@@ -259,20 +259,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the attendance/absence with the identifier &apos;{0}&apos;..
+        /// </summary>
+        public static string AttendanceService_DeleteById_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceService.DeleteById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the attendances/absences with the identifiers &apos;{0}&apos;..
+        /// </summary>
+        public static string AttendanceService_DeleteByIds_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceService.DeleteByIds.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while deleting the attendances/absences..
         /// </summary>
         public static string AttendanceService_DeleteMany_Failed {
             get {
                 return ResourceManager.GetString("AttendanceService.DeleteMany.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The attendances/absences which should be deleted could not be found..
-        /// </summary>
-        public static string AttendanceService_DeleteMany_NotFound {
-            get {
-                return ResourceManager.GetString("AttendanceService.DeleteMany.NotFound", resourceCulture);
             }
         }
         
@@ -295,7 +304,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the attendance/absence with the calendar day identifier: &apos;{0}&apos;..
+        ///   Looks up a localized string similar to An error occurred while loading the attendance/absence with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_GetById_Failed {
             get {
@@ -304,11 +313,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No attendance/absence could be found with calendar day identifier: &apos;{0}&apos;..
+        ///   Looks up a localized string similar to No attendance/absence could be found with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_GetById_NotFound {
             get {
                 return ResourceManager.GetString("AttendanceService.GetById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when loading the attendances/absences with the identifiers &apos;{0}&apos;..
+        /// </summary>
+        public static string AttendanceService_GetByIds_Failed {
+            get {
+                return ResourceManager.GetString("AttendanceService.GetByIds.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No attendances/absences with the identifiers &apos;{0}&apos; could be found..
+        /// </summary>
+        public static string AttendanceService_GetByIds_NotFound {
+            get {
+                return ResourceManager.GetString("AttendanceService.GetByIds.NotFound", resourceCulture);
             }
         }
         
@@ -322,16 +349,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No attendance entries could be found based on the parameterization..
-        /// </summary>
-        public static string AttendanceService_GetPagedByParameters_NotFound {
-            get {
-                return ResourceManager.GetString("AttendanceService.GetPagedByParameters.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are errors in the update request ({0}), please check and correct..
+        ///   Looks up a localized string similar to There are errors in the update request with the identifier &apos;{0}&apos; please check and correct them..
         /// </summary>
         public static string AttendanceService_Update_BadRequest {
             get {
@@ -340,7 +358,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while updating the attendance/absence..
+        ///   Looks up a localized string similar to An error occurred when updating an attendance/absence with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_Update_Failed {
             get {
@@ -349,29 +367,20 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The presence/absence which should be updated could not be found..
+        ///   Looks up a localized string similar to There are errors in the update requests with the identifiers &apos;{0}&apos; please check and correct them..
         /// </summary>
-        public static string AttendanceService_Update_NotFound {
+        public static string AttendanceService_UpdateMultiple_BadRequest {
             get {
-                return ResourceManager.GetString("AttendanceService.Update.NotFound", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.UpdateMultiple.BadRequest", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while updating the attendances/absences..
+        ///   Looks up a localized string similar to An error occurred when updating the attendances/absences with the identifiers &apos;{0}&apos;..
         /// </summary>
-        public static string AttendanceService_UpdateMany_Failed {
+        public static string AttendanceService_UpdateMultiple_Failed {
             get {
-                return ResourceManager.GetString("AttendanceService.UpdateMany.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The attendances/absences which should be updated could not be found..
-        /// </summary>
-        public static string AttendanceService_UpdateMany_NotFound {
-            get {
-                return ResourceManager.GetString("AttendanceService.UpdateMany.NotFound", resourceCulture);
+                return ResourceManager.GetString("AttendanceService.UpdateMultiple.Failed", resourceCulture);
             }
         }
         

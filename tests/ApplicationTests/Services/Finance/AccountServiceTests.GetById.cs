@@ -23,26 +23,26 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetByAccountId))]
-	public async Task GetByAccountIdShouldReturnFailedWhenExceptionIsThrown()
+	[TestCategory(nameof(AccountService.GetById))]
+	public async Task GetByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		AccountService sut = CreateMockedInstance();
 
-		ErrorOr<AccountResponse> result = await sut.GetByAccountId(id);
+		ErrorOr<AccountResponse> result = await sut.GetById(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AccountServiceErrors.GetByAccountIdFailed(id));
+			result.Errors.First().Should().Be(AccountServiceErrors.GetByIdFailed(id));
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetByAccountId))]
-	public async Task GetByAccountIdShouldReturnNotFoundWhenAccountNotFound()
+	[TestCategory(nameof(AccountService.GetById))]
+	public async Task GetByIdShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IAccountRepository> accountMock = new();
@@ -50,7 +50,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<AccountModel?>(null));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 
-		ErrorOr<AccountResponse> result = await sut.GetByAccountId(id);
+		ErrorOr<AccountResponse> result = await sut.GetById(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -63,8 +63,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetByAccountId))]
-	public async Task GetByAccountIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
+	[TestCategory(nameof(AccountService.GetById))]
+	public async Task GetByIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
 		AccountModel accountModel = new() { Id = id, IBAN = "UnitTest", Provider = "UnitTest" };
@@ -76,7 +76,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<IEnumerable<CardModel>>([]));
 		AccountService sut = CreateMockedInstance(accountMock.Object, cardMock.Object);
 
-		ErrorOr<AccountResponse> result = await sut.GetByAccountId(id);
+		ErrorOr<AccountResponse> result = await sut.GetById(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -95,8 +95,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetByAccountId))]
-	public async Task GetByAccountIdShouldReturnResponseWithCardsWhenCardsFound()
+	[TestCategory(nameof(AccountService.GetById))]
+	public async Task GetByIdShouldReturnResponseWithCardsWhenCardsFound()
 	{
 		Guid id = Guid.NewGuid();
 		AccountModel accountModel = new() { Id = id, IBAN = "UnitTest", Provider = "UnitTest" };
@@ -109,7 +109,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<IEnumerable<CardModel>>([cardModel]));
 		AccountService sut = CreateMockedInstance(accountMock.Object, cardMock.Object);
 
-		ErrorOr<AccountResponse> result = await sut.GetByAccountId(id);
+		ErrorOr<AccountResponse> result = await sut.GetById(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{

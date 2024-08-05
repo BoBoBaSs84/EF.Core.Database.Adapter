@@ -99,7 +99,7 @@ public sealed partial class CardController(ICardService cardService, ICurrentUse
 	public async Task<IActionResult> GetByCardId(Guid id, CancellationToken token)
 	{
 		ErrorOr<CardResponse> response = await _cardService
-			.GetByCardId(id, token)
+			.GetById(id, token)
 			.ConfigureAwait(false);
 
 		return Get(response);

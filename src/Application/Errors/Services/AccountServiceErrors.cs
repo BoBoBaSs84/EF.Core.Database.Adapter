@@ -26,8 +26,8 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError GetByAccountIdFailed(Guid id)
-		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetByAccountIdFailed}",
+	public static ApiError GetByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
 			RESX.AccountService_GetByAccountId_Failed.FormatInvariant(id));
 
 	/// <summary>

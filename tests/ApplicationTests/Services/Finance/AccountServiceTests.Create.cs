@@ -60,6 +60,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AccountServiceErrors.CreateAccountNumberConflict(request.IBAN));
+			accountMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -88,6 +89,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AccountServiceErrors.CreateCardNumberConflict(cardRequest.PAN));
+			accountMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default), Times.Once);
+			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), accountRequest, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -115,7 +118,9 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			accountMock.Verify(x => x.CreateAsync(It.IsAny<AccountModel>(), default), Times.Once);
+			accountMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default), Times.Once);
+			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default), Times.Once);
+			accountMock.Verify(x => x.CreateAsync(It.IsAny<AccountModel>(), default), Times.Once);			
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), accountRequest, It.IsAny<Exception>()), Times.Never);
 		});

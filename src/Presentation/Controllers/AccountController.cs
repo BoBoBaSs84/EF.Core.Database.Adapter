@@ -91,15 +91,15 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpGet(Endpoints.Account.GetByAccountId)]
+	[HttpGet(Endpoints.Account.GetById)]
 	[ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByAccountId(Guid id, CancellationToken token)
+	public async Task<IActionResult> GetById(Guid id, CancellationToken token)
 	{
 		ErrorOr<AccountResponse> response = await _accountService
-			.GetByAccountId(id, token)
+			.GetById(id, token)
 			.ConfigureAwait(false);
 
 		return Get(response);

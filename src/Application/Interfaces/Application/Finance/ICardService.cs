@@ -35,7 +35,7 @@ public interface ICardService
 	/// <param name="id">The identifier of the bank card.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<CardResponse>> GetByCardId(Guid id, CancellationToken token = default);
+	Task<ErrorOr<CardResponse>> GetById(Guid id, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns a collection of bank cards for for the application user.

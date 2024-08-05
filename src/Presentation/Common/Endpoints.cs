@@ -20,7 +20,7 @@ internal static class Endpoints
 
 		internal const string Delete = "{id:guid}";
 		internal const string GetByUserId = EmptySuffix;
-		internal const string GetByAccountId = "{id:guid}";
+		internal const string GetById = "{id:guid}";
 		internal const string Post = EmptySuffix;
 		internal const string Put = "{id:guid}";
 

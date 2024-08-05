@@ -6,7 +6,6 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Common;
 using Domain.Errors;
 using Domain.Models.Finance;
 using Domain.Results;
@@ -34,46 +33,38 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			ErrorOr<Created> response = new();
+			AccountModel? accountEntity = await _repositoryService.AccountRepository
+				.GetByIdAsync(accountId, token: token)
+				.ConfigureAwait(false);
 
-			if (RegexStatics.CreditCard.IsMatch(request.PAN).Equals(false))
-				response.Errors.Add(CardServiceErrors.CreateNumberInvalid(request.PAN));
+			if (accountEntity is null)
+				return CardServiceErrors.CreateAccountIdNotFound(accountId);
 
-			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
-				trackChanges: true,
-				token: token
-				);
+			CardModel? cardEntity = await _repositoryService.CardRepository
+				.GetByConditionAsync(x => x.PAN == request.PAN, token: token)
+				.ConfigureAwait(false);
 
-			if (accountEntry is null)
-				response.Errors.Add(CardServiceErrors.CreateAccountIdNotFound(accountId));
-
-			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.PAN == request.PAN,
-				token: token
-				);
-
-			if (cardEntry is not null)
-				response.Errors.Add(CardServiceErrors.CreateNumberConflict(request.PAN));
-
-			if (response.IsError)
-				return response;
+			if (cardEntity is not null)
+				return CardServiceErrors.CreateNumberConflict(request.PAN);
 
 			CardModel newCard = _mapper.Map<CardModel>(request);
 
 			newCard.UserId = userId;
-			newCard.Account = accountEntry!;
+			newCard.AccountId = accountId;
 
-			await _repositoryService.CardRepository.CreateAsync(newCard, token);
-			_ = await _repositoryService.CommitChangesAsync(token);
+			await _repositoryService.CardRepository.CreateAsync(newCard, token)
+				.ConfigureAwait(false);
 
-			return response;
+			_ = await _repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Created;
 		}
 		catch (Exception ex)
 		{
 			string[] parameters = [$"{userId}", $"{accountId}"];
 			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return CardServiceErrors.CreateFailed;
+			return CardServiceErrors.CreateFailed(accountId);
 		}
 	}
 
@@ -86,17 +77,17 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 				.ConfigureAwait(false);
 
 			return result.Equals(0)
-				? CardServiceErrors.GetByIdNotFound(id)
+				? CardServiceErrors.DeleteNotFound(id)
 				: Result.Deleted;
 		}
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, id, ex);
-			return CardServiceErrors.DeleteFailed;
+			return CardServiceErrors.DeleteFailed(id);
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> GetByCardId(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<CardResponse>> GetById(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -114,7 +105,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, id, ex);
-			return CardServiceErrors.GetByCardIdFailed(id);
+			return CardServiceErrors.GetByIdFailed(id);
 		}
 	}
 
@@ -133,7 +124,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, id, ex);
-			return CardServiceErrors.GetByUserIdFailed;
+			return CardServiceErrors.GetByUserIdFailed(id);
 		}
 	}
 
@@ -145,14 +136,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 				.UpdateAsync(id, s => s.SetProperty(p => p.CardType, request.CardType).SetProperty(p => p.ValidUntil, request.ValidUntil), token)
 				.ConfigureAwait(false);
 
-			return request.Equals(0)
-				? CardServiceErrors.GetByIdNotFound(id)
+			return result.Equals(0)
+				? CardServiceErrors.UpdateNotFound(id)
 				: Result.Updated;
 		}
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, id, ex);
-			return CardServiceErrors.UpdateFailed;
+			return CardServiceErrors.UpdateFailed(id);
 		}
 	}
 }

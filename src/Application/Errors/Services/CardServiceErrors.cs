@@ -19,8 +19,8 @@ public static class CardServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	public static readonly ApiError GetAllFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}",
+	public static readonly ApiError GetByUserIdFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetByUserIdFailed}",
 			RESX.CardService_Create_Failed);
 
 	/// <summary>
@@ -34,8 +34,8 @@ public static class CardServiceErrors
 	/// Error that indicates an exception during the card service.
 	/// </summary>
 	/// <param name="cardId">The identifier of the bank card.</param>
-	public static ApiError GetByIdFailed(Guid cardId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
+	public static ApiError GetByCardIdFailed(Guid cardId) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetByCardIdFailed}",
 			RESX.CardService_GetById_Failed.FormatInvariant(cardId));
 
 	/// <summary>

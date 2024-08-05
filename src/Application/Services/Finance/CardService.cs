@@ -32,7 +32,6 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 
 	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken token = default)
 	{
-		string[] parameters = [$"{userId}", $"{accountId}"];
 		try
 		{
 			ErrorOr<Created> response = new();
@@ -72,96 +71,60 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
+			string[] parameters = [$"{userId}", $"{accountId}"];
 			_loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.CreateFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid cardId, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> Delete(Guid id, CancellationToken token = default)
 	{
-		string[] parameters = [$"{userId}", $"{cardId}"];
 		try
 		{
-			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
-				trackChanges: true,
-				token: token
-				);
+			int result = await _repositoryService.CardRepository
+				.DeleteAsync(id, token)
+				.ConfigureAwait(false);
 
-			if (cardEntry is null)
-				return CardServiceErrors.GetByIdNotFound(cardId);
-
-			await _repositoryService.CardRepository.DeleteAsync(cardEntry);
-			_ = await _repositoryService.CommitChangesAsync(token);
-
-			return Result.Deleted;
+			return result.Equals(0)
+				? CardServiceErrors.GetByIdNotFound(id)
+				: Result.Deleted;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			_loggerService.Log(LogExceptionWithParams, id, ex);
 			return CardServiceErrors.DeleteFailed;
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> Get(Guid userId, Guid cardId, bool trackChanges = false, CancellationToken token = default)
+	public async Task<ErrorOr<CardResponse>> GetByCardId(Guid id, CancellationToken token = default)
 	{
-		string[] parameters = [$"{userId}", $"{cardId}"];
 		try
 		{
-			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
-				token: token
-				);
+			CardModel? cardEntity = await _repositoryService.CardRepository
+				.GetByIdAsync(id, token: token)
+				.ConfigureAwait(false);
 
-			if (cardEntry is null)
-				return CardServiceErrors.GetByIdNotFound(cardId);
+			if (cardEntity is null)
+				return CardServiceErrors.GetByIdNotFound(id);
 
-			CardResponse response = _mapper.Map<CardResponse>(cardEntry);
+			CardResponse response = _mapper.Map<CardResponse>(cardEntity);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return CardServiceErrors.GetByIdFailed(cardId);
+			_loggerService.Log(LogExceptionWithParams, id, ex);
+			return CardServiceErrors.GetByCardIdFailed(id);
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> Get(Guid userId, string pan, bool trackChanges = false, CancellationToken token = default)
-	{
-		string[] parameters = [$"{userId}", $"{pan}"];
-		try
-		{
-			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.PAN == pan,
-				token: token
-				);
-
-			if (cardEntry is null)
-				return CardServiceErrors.GetByNumberNotFound(pan);
-
-			CardResponse response = _mapper.Map<CardResponse>(cardEntry);
-
-			return response;
-		}
-		catch (Exception ex)
-		{
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return CardServiceErrors.GetByNumberFailed(pan);
-		}
-	}
-
-	public async Task<ErrorOr<IEnumerable<CardResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken token = default)
+	public async Task<ErrorOr<IEnumerable<CardResponse>>> GetByUserId(Guid id, CancellationToken token = default)
 	{
 		try
 		{
-			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
-				expression: x => x.UserId.Equals(userId),
-				token: token
-				);
-
-			if (cardEntries.Any().Equals(false))
-				return CardServiceErrors.GetAllNotFound;
+			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository
+				.GetManyByConditionAsync(x => x.UserId.Equals(id), token: token)
+				.ConfigureAwait(false);
 
 			IEnumerable<CardResponse> response = _mapper.Map<IEnumerable<CardResponse>>(cardEntries);
 
@@ -169,33 +132,26 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, userId, ex);
-			return CardServiceErrors.GetAllFailed;
+			_loggerService.Log(LogExceptionWithParams, id, ex);
+			return CardServiceErrors.GetByUserIdFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> Update(Guid id, CardUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
-			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.Id.Equals(request.Id),
-				trackChanges: true,
-				token: token
-				);
+			int result = await _repositoryService.CardRepository
+				.UpdateAsync(id, s => s.SetProperty(p => p.CardType, request.CardType).SetProperty(p => p.ValidUntil, request.ValidUntil), token)
+				.ConfigureAwait(false);
 
-			if (cardEntry is null)
-				return CardServiceErrors.GetByIdNotFound(request.Id);
-
-			cardEntry.ValidUntil = request.ValidUntil;
-
-			_ = await _repositoryService.CommitChangesAsync(token);
-
-			return Result.Updated;
+			return request.Equals(0)
+				? CardServiceErrors.GetByIdNotFound(id)
+				: Result.Updated;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, userId, ex);
+			_loggerService.Log(LogExceptionWithParams, id, ex);
 			return CardServiceErrors.UpdateFailed;
 		}
 	}

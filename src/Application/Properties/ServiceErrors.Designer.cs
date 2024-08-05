@@ -133,7 +133,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while creating the account..
+        ///   Looks up a localized string similar to An error occurred when creating the bank account with the international bank account number &apos;{0}&apos;..
         /// </summary>
         public static string AccountService_Create_Failed {
             get {
@@ -142,7 +142,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while deleting the account..
+        ///   Looks up a localized string similar to An error occurred when deleting the bank account with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string AccountService_Delete_Failed {
             get {

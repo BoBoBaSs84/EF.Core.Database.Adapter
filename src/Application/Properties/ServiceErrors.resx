@@ -142,10 +142,10 @@
     <value>No card type with the identifier: '{0}' could be found to load.</value>
   </data>
   <data name="AccountService.Create.Failed" xml:space="preserve">
-    <value>An internal error occurred while creating the account.</value>
+    <value>An error occurred when creating the bank account with the international bank account number '{0}'.</value>
   </data>
   <data name="AccountService.Delete.Failed" xml:space="preserve">
-    <value>An internal error occurred while deleting the account.</value>
+    <value>An error occurred when deleting the bank account with the identifier '{0}'.</value>
   </data>
   <data name="AccountService.GetAll.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank accounts.</value>

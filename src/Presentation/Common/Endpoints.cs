@@ -19,8 +19,8 @@ internal static class Endpoints
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Account);
 
 		internal const string Delete = "{accountId:guid}";
-		internal const string GetAll = EmptySuffix;
-		internal const string GetById = "{accountId:guid}";
+		internal const string GetByUserId = EmptySuffix;
+		internal const string GetByAccountId = "{accountId:guid}";
 		internal const string GetByNumber = "{iban}";
 		internal const string Post = EmptySuffix;
 		internal const string Put = EmptySuffix;

@@ -19,8 +19,8 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static readonly ApiError GetAllFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}",
+	public static readonly ApiError GetByUserId =
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetByUserId}",
 			RESX.AccountService_GetAll_Failed);
 
 	/// <summary>
@@ -33,8 +33,8 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError GetByIdFailed(Guid accountId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
+	public static ApiError GetByAccountId(Guid accountId) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetByAccountId}",
 			RESX.AccountService_GetById_Failed.FormatInvariant(accountId));
 
 	/// <summary>
@@ -68,16 +68,9 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError CreateAccountNumberConflict(string iban) =>
-		ApiError.CreateConflict($"{ErrorPrefix}.{CreateAccountNumberConflict}",
+	public static ApiError CreateAccountNumberConflict(string iban)
+		=> ApiError.CreateConflict($"{ErrorPrefix}.{CreateAccountNumberConflict}",
 			RESX.AccountService_AccountNumber_Conflict.FormatInvariant(iban));
-
-	/// <summary>
-	/// Error that indicates an exception during the account service.
-	/// </summary>
-	public static ApiError CreateCardNumberInvalid(string pan) =>
-		ApiError.CreateConflict($"{ErrorPrefix}.{CreateCardNumberInvalid}",
-			RESX.AccountService_CardNumber_Invalid.FormatInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
@@ -89,23 +82,23 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static readonly ApiError CreateAccountFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{CreateAccountFailed}",
-			RESX.AccountService_Create_Failed);
+	public static ApiError CreateAccountFailed(string iban)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{CreateAccountFailed}",
+			RESX.AccountService_Create_Failed.FormatInvariant(iban));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError DeleteAccountNotFound(Guid accountId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteAccountNotFound)}",
+	public static ApiError DeleteAccountNotFound(Guid accountId)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteAccountNotFound)}",
 			RESX.AccountService_AccountId_NotFound.FormatInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static readonly ApiError DeleteAccountFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{DeleteAccountFailed}",
-			RESX.AccountService_Delete_Failed);
+	public static ApiError DeleteAccountFailed(Guid accountId)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{DeleteAccountFailed}",
+			RESX.AccountService_Delete_Failed.FormatInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.

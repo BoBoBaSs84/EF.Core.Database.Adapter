@@ -143,7 +143,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, id, ex);
-			return AccountServiceErrors.GetByUserIdFailed;
+			return AccountServiceErrors.GetByUserIdFailed(id);
 		}
 	}
 

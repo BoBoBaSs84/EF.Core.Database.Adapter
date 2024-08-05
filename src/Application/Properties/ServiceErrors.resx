@@ -144,14 +144,14 @@
   <data name="AccountService.GetAll.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank accounts.</value>
   </data>
-  <data name="AccountService.GetAll.NotFound" xml:space="preserve">
-    <value>No bank accounts could be found to load.</value>
-  </data>
   <data name="AccountService.GetByAccountId.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank account with the identifier: '{0}'.</value>
   </data>
   <data name="AccountService.GetByAccountId.NotFound" xml:space="preserve">
     <value>No bank account with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="AccountService.GetByUserId.Failed" xml:space="preserve">
+    <value>An error occurred when loading the bank accounts for the user with the identifier '{0}'.</value>
   </data>
   <data name="AccountService.Update.Failed" xml:space="preserve">
     <value>An internal error occurred while updating the account.</value>

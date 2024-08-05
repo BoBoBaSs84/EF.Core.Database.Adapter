@@ -142,15 +142,6 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No bank accounts could be found to load..
-        /// </summary>
-        public static string AccountService_GetAll_NotFound {
-            get {
-                return ResourceManager.GetString("AccountService.GetAll.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the bank account with the identifier: &apos;{0}&apos;..
         /// </summary>
         public static string AccountService_GetByAccountId_Failed {
@@ -165,6 +156,15 @@ namespace Application.Properties {
         public static string AccountService_GetByAccountId_NotFound {
             get {
                 return ResourceManager.GetString("AccountService.GetByAccountId.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when loading the bank accounts for the user with the identifier &apos;{0}&apos;..
+        /// </summary>
+        public static string AccountService_GetByUserId_Failed {
+            get {
+                return ResourceManager.GetString("AccountService.GetByUserId.Failed", resourceCulture);
             }
         }
         

@@ -19,16 +19,9 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static readonly ApiError GetByUserIdFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByUserIdFailed}",
-			RESX.AccountService_GetAll_Failed);
-
-	/// <summary>
-	/// Error that indicates an exception during the account service.
-	/// </summary>
-	public static readonly ApiError GetAllNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetAllNotFound}",
-			RESX.AccountService_GetAll_NotFound);
+	public static ApiError GetByUserIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetByUserIdFailed}",
+			RESX.AccountService_GetByUserId_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.

@@ -57,6 +57,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AccountServiceErrors.GetByIdNotFound(id));
+			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -87,6 +88,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.IBAN.Should().Be(accountModel.IBAN);
 			result.Value.Provider.Should().Be(accountModel.Provider);
 			result.Value.Cards.Should().BeEmpty();
+			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
+			cardMock.Verify(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, null, null, null, false, default), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -119,6 +122,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.Cards?.First().CardType.Should().Be(cardModel.CardType);
 			result.Value.Cards?.First().PAN.Should().Be(cardModel.PAN);
 			result.Value.Cards?.First().ValidUntil.Should().Be(cardModel.ValidUntil);
+			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
+			cardMock.Verify(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, null, null, null, false, default), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

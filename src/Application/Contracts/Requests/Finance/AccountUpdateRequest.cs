@@ -10,19 +10,8 @@ namespace Application.Contracts.Requests.Finance;
 public sealed class AccountUpdateRequest
 {
 	/// <summary>
-	/// The identifier of the account.
-	/// </summary>
-	[Required]
-	public Guid Id { get; set; }
-
-	/// <summary>
 	/// The account provider.
 	/// </summary>
 	[Required, MaxLength(MaxLength.MAX_500)]
 	public string Provider { get; set; } = string.Empty;
-
-	/// <summary>
-	/// The cards belonging to this account.
-	/// </summary>
-	public CardUpdateRequest[]? Cards { get; set; }
 }

@@ -61,38 +61,11 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No bank account with the identifier: &apos;{0}&apos; could be found to load..
-        /// </summary>
-        public static string AccountService_AccountId_NotFound {
-            get {
-                return ResourceManager.GetString("AccountService.AccountId.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The account with the number: &apos;{0}&apos; already exists..
         /// </summary>
         public static string AccountService_AccountNumber_Conflict {
             get {
                 return ResourceManager.GetString("AccountService.AccountNumber.Conflict", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The account number: &apos;{0}&apos; is invalid..
-        /// </summary>
-        public static string AccountService_AccountNumber_Invalid {
-            get {
-                return ResourceManager.GetString("AccountService.AccountNumber.Invalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No bank account with the number: &apos;{0}&apos; could be found to load..
-        /// </summary>
-        public static string AccountService_AccountNumber_NotFound {
-            get {
-                return ResourceManager.GetString("AccountService.AccountNumber.NotFound", resourceCulture);
             }
         }
         
@@ -151,6 +124,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No bank account with the identifier: &apos;{0}&apos; could be found to delete..
+        /// </summary>
+        public static string AccountService_Delete_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.Delete.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the bank accounts..
         /// </summary>
         public static string AccountService_GetAll_Failed {
@@ -171,18 +153,18 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the bank account with the identifier: &apos;{0}&apos;..
         /// </summary>
-        public static string AccountService_GetById_Failed {
+        public static string AccountService_GetByAccountId_Failed {
             get {
-                return ResourceManager.GetString("AccountService.GetById.Failed", resourceCulture);
+                return ResourceManager.GetString("AccountService.GetByAccountId.Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the bank account with the number: &apos;{0}&apos;..
+        ///   Looks up a localized string similar to No bank account with the identifier: &apos;{0}&apos; could be found to load..
         /// </summary>
-        public static string AccountService_GetByNumber_Failed {
+        public static string AccountService_GetByAccountId_NotFound {
             get {
-                return ResourceManager.GetString("AccountService.GetByNumber.Failed", resourceCulture);
+                return ResourceManager.GetString("AccountService.GetByAccountId.NotFound", resourceCulture);
             }
         }
         
@@ -192,6 +174,15 @@ namespace Application.Properties {
         public static string AccountService_Update_Failed {
             get {
                 return ResourceManager.GetString("AccountService.Update.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank account with the identifier: &apos;{0}&apos; could be found to update..
+        /// </summary>
+        public static string AccountService_Update_NotFound {
+            get {
+                return ResourceManager.GetString("AccountService.Update.NotFound", resourceCulture);
             }
         }
         

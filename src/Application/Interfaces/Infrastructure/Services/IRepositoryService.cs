@@ -41,7 +41,7 @@ public interface IRepositoryService
 	/// <summary>
 	/// Should commit all the changes to the database context async.
 	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <param name="token">The cancellation token.</param>
 	/// <returns>From the commit affected changes.</returns>
-	Task<int> CommitChangesAsync(CancellationToken cancellationToken = default);
+	Task<int> CommitChangesAsync(CancellationToken token = default);
 }

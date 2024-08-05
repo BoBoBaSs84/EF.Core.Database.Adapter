@@ -30,7 +30,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken token = default)
 	{
 		string[] parameters = [$"{userId}", $"{accountId}"];
 		try
@@ -43,7 +43,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (accountEntry is null)
@@ -51,7 +51,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.PAN == request.PAN,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntry is not null)
@@ -65,8 +65,8 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 			newCard.UserId = userId;
 			newCard.Account = accountEntry!;
 
-			await _repositoryService.CardRepository.CreateAsync(newCard, cancellationToken);
-			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+			await _repositoryService.CardRepository.CreateAsync(newCard, token);
+			_ = await _repositoryService.CommitChangesAsync(token);
 
 			return response;
 		}
@@ -77,7 +77,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid cardId, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid cardId, CancellationToken token = default)
 	{
 		string[] parameters = [$"{userId}", $"{cardId}"];
 		try
@@ -85,14 +85,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
 				trackChanges: true,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntry is null)
 				return CardServiceErrors.GetByIdNotFound(cardId);
 
 			await _repositoryService.CardRepository.DeleteAsync(cardEntry);
-			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(token);
 
 			return Result.Deleted;
 		}
@@ -103,14 +103,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> Get(Guid userId, Guid cardId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardResponse>> Get(Guid userId, Guid cardId, bool trackChanges = false, CancellationToken token = default)
 	{
 		string[] parameters = [$"{userId}", $"{cardId}"];
 		try
 		{
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(cardId),
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntry is null)
@@ -127,14 +127,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> Get(Guid userId, string pan, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<CardResponse>> Get(Guid userId, string pan, bool trackChanges = false, CancellationToken token = default)
 	{
 		string[] parameters = [$"{userId}", $"{pan}"];
 		try
 		{
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.PAN == pan,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntry is null)
@@ -151,13 +151,13 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<CardResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<CardResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId),
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntries.Any().Equals(false))
@@ -174,14 +174,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, CardUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
 			CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.Id.Equals(request.Id),
 				trackChanges: true,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntry is null)
@@ -189,7 +189,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 
 			cardEntry.ValidUntil = request.ValidUntil;
 
-			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(token);
 
 			return Result.Updated;
 		}

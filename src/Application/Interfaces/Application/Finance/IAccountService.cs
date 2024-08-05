@@ -16,18 +16,18 @@ public interface IAccountService
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="request">The account create request.</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest request, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest request, CancellationToken token = default);
 
 	/// <summary>
 	/// Deletes an existing bank account for the application user by the bank account identifier.
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="accountId">The identifier of the bank account.</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> Delete(Guid userId, Guid accountId, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Deleted>> Delete(Guid userId, Guid accountId, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns a bank account for the application user by the bank account identifier.
@@ -35,9 +35,9 @@ public interface IAccountService
 	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="accountId">The identifier of the bank account.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<AccountResponse>> Get(Guid userId, Guid accountId, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<AccountResponse>> Get(Guid userId, Guid accountId, bool trackChanges = false, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns a bank account for the application user by the international bank account number.
@@ -45,25 +45,25 @@ public interface IAccountService
 	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="iban">The international bank account number.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns>A account entity.</returns>
-	Task<ErrorOr<AccountResponse>> Get(Guid userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<AccountResponse>> Get(Guid userId, string iban, bool trackChanges = false, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns a collection of bank accounts for for the application user.
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="trackChanges">Should the fetched entries be tracked?</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns>A collection of account entities.</returns>
-	Task<ErrorOr<IEnumerable<AccountResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default);
+	Task<ErrorOr<IEnumerable<AccountResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken token = default);
 
 	/// <summary>
 	/// Updates an existing bank account for the application user.
 	/// </summary>
 	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="request">The account update request.</param>
-	/// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken cancellationToken = default);
+	Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken token = default);
 }

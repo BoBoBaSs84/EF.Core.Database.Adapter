@@ -61,7 +61,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			List? list = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), cancellationToken: token)
+				.GetByConditionAsync(expression: x => x.Id.Equals(listId), token: token)
 				.ConfigureAwait(false);
 
 			if (list is null)
@@ -91,7 +91,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			List? existingList = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), cancellationToken: token)
+				.GetByConditionAsync(expression: x => x.Id.Equals(listId), token: token)
 				.ConfigureAwait(false);
 
 			if (existingList is null)
@@ -117,7 +117,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			Item? existingItem = await _repositoryService.TodoItemRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), cancellationToken: token)
+				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), token: token)
 				.ConfigureAwait(false);
 
 			if (existingItem is null)
@@ -143,7 +143,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			List? todoList = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), cancellationToken: token, includeProperties: [nameof(List.Items)])
+				.GetByConditionAsync(expression: x => x.Id.Equals(listId), token: token, includeProperties: [nameof(List.Items)])
 				.ConfigureAwait(false);
 
 			if (todoList is null)
@@ -165,7 +165,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			IEnumerable<List> todoLists = await _repositoryService.TodoListRepository
-				.GetManyByConditionAsync(expression: x => x.Users.Select(x => x.UserId).Contains(userId), cancellationToken: token)
+				.GetManyByConditionAsync(expression: x => x.Users.Select(x => x.UserId).Contains(userId), token: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<ListResponse> response = todoLists.Select(MapToListResponse);
@@ -184,7 +184,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			List? list = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), trackChanges: true, cancellationToken: token)
+				.GetByConditionAsync(expression: x => x.Id.Equals(listId), trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
 			if (list is null)
@@ -210,7 +210,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			Item? item = await _repositoryService.TodoItemRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), trackChanges: true, cancellationToken: token)
+				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
 			if (item is null)

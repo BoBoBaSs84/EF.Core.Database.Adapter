@@ -30,7 +30,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest request, CancellationToken token = default)
 	{
 		ErrorOr<Created> response = new();
 		try
@@ -43,7 +43,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.IBAN == request.IBAN,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (accountEntry is not null)
@@ -60,7 +60,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 
 					CardModel? cardModel = await _repositoryService.CardRepository.GetByConditionAsync(
 						expression: x => x.PAN == cardRequest.PAN,
-						cancellationToken: cancellationToken
+						token: token
 						);
 
 					if (cardModel is not null)
@@ -81,8 +81,8 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			AccountUserModel newAccountUser = new() { UserId = userId, Account = newAccount };
 			newAccount.AccountUsers.Add(newAccountUser);
 
-			await _repositoryService.AccountRepository.CreateAsync(newAccount, cancellationToken);
-			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+			await _repositoryService.AccountRepository.CreateAsync(newAccount, token);
+			_ = await _repositoryService.CommitChangesAsync(token);
 
 			return response;
 		}
@@ -93,7 +93,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid accountId, CancellationToken token = default)
 	{
 		string[] parameters = [$"{userId}", $"{accountId}"];
 		try
@@ -101,14 +101,14 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (accountEntry is null)
 				return AccountServiceErrors.DeleteAccountNotFound(accountId);
 
 			await _repositoryService.AccountRepository.DeleteAsync(accountEntry);
-			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(token);
 
 			return Result.Deleted;
 		}
@@ -119,14 +119,14 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<AccountResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<IEnumerable<AccountResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<AccountModel> accountEntries = await _repositoryService.AccountRepository.GetManyByConditionAsync(
 				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (accountEntries.Any().Equals(false))
@@ -135,7 +135,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && accountEntries.Select(x => x.Id).Contains(x.AccountId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntries.Any().Equals(true))
@@ -153,7 +153,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, Guid accountId, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, Guid accountId, bool trackChanges = false, CancellationToken token = default)
 	{
 		string[] parameters = [$"{userId}", $"{accountId}"];
 		try
@@ -161,7 +161,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (accountEntry is null)
@@ -170,7 +170,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.AccountId.Equals(accountId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntries.Any().Equals(true))
@@ -187,7 +187,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, string iban, bool trackChanges = false, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, string iban, bool trackChanges = false, CancellationToken token = default)
 	{
 		string[] parameters = [$"{userId}", $"{iban}"];
 		try
@@ -195,7 +195,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban && x.Cards.Select(x => x.UserId).Contains(userId),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken,
+				token: token,
 				includeProperties: [nameof(AccountModel.Cards)]
 				);
 
@@ -205,7 +205,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
 				expression: x => x.UserId.Equals(userId) && x.AccountId.Equals(accountEntry.Id),
 				trackChanges: trackChanges,
-				cancellationToken: cancellationToken
+				token: token
 				);
 
 			if (cardEntries.Any().Equals(true))
@@ -222,7 +222,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken cancellationToken = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
@@ -231,7 +231,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
 				expression: x => x.Id.Equals(request.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
 				trackChanges: true,
-				cancellationToken: cancellationToken,
+				token: token,
 				includeProperties: [nameof(AccountModel.Cards)]
 				);
 
@@ -244,7 +244,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 					CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
 						expression: x => x.Id.Equals(cardRequest.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(request.Id),
 						trackChanges: true,
-						cancellationToken: cancellationToken
+						token: token
 						);
 
 					if (cardEntry is null)
@@ -257,7 +257,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			if (accountEntry is not null)
 				UpdateAccount(accountEntry, request);
 
-			_ = await _repositoryService.CommitChangesAsync(cancellationToken);
+			_ = await _repositoryService.CommitChangesAsync(token);
 
 			return response;
 		}

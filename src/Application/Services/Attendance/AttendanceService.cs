@@ -36,7 +36,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return AttendanceServiceErrors.CreateBadRequest(request.Date);
 
 			AttendanceModel? entity = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.UserId.Equals(id) && x.Date.Equals(request.Date), cancellationToken: token)
+				.GetByConditionAsync(expression: x => x.UserId.Equals(id) && x.Date.Equals(request.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entity is not null)
@@ -71,7 +71,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return AttendanceServiceErrors.CreateMultipleBadRequest(invalidRequests.Select(x => x.Date));
 
 			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
-				.GetManyByConditionAsync(expression: x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), cancellationToken: token)
+				.GetManyByConditionAsync(expression: x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entities.Any())
@@ -107,7 +107,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			AttendanceModel? entity = await repositoryService.AttendanceRepository
-				.GetByIdAsync(id, cancellationToken: token)
+				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -133,7 +133,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
-				.GetByIdsAsync(ids, cancellationToken: token)
+				.GetByIdsAsync(ids, token: token)
 				.ConfigureAwait(false);
 
 			if (!entities.Any())
@@ -166,14 +166,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 					orderBy: x => x.OrderBy(x => x.Date),
 					skip: (parameters.PageNumber - 1) * parameters.PageSize,
 					take: parameters.PageSize,
-					cancellationToken: token)
+					token: token)
 				.ConfigureAwait(false);
 
 			int totalCount = await repositoryService.AttendanceRepository
 				.CountAsync(
 					expression: x => x.UserId.Equals(userId),
 					queryFilter: x => x.FilterByParameters(parameters),
-					cancellationToken: token)
+					token: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<AttendanceResponse> result = mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
@@ -192,7 +192,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), cancellationToken: token)
+				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (attendanceEntry is null)
@@ -218,7 +218,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return AttendanceServiceErrors.UpdateBadRequest(request.Id);
 
 			AttendanceModel? entity = await repositoryService.AttendanceRepository
-				.GetByIdAsync(request.Id, trackChanges: true, cancellationToken: token)
+				.GetByIdAsync(request.Id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -249,7 +249,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return AttendanceServiceErrors.UpdateMultipleBadRequest(invalidRequests.Select(x => x.Id));
 
 			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
-				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, cancellationToken: token)
+				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
 			if (!entities.Any())

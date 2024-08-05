@@ -77,7 +77,7 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			itemRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Item>()), Times.Once);
+			itemRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Item>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), itemId, It.IsAny<Exception>()), Times.Never);
 		});

@@ -16,14 +16,14 @@ using Moq;
 namespace ApplicationTests.Services.Finance;
 
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
-public sealed partial class AccountServiceTests : ApplicationTestBase
+public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Delete))]
+	[TestCategory(nameof(CardService.Delete))]
 	public async Task DeleteShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		AccountService sut = CreateMockedInstance();
+		CardService sut = CreateMockedInstance();
 
 		ErrorOr<Deleted> result = await sut.Delete(id);
 
@@ -31,20 +31,20 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AccountServiceErrors.DeleteAccountFailed(id));
+			result.Errors.First().Should().Be(CardServiceErrors.DeleteFailed(id));
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Delete))]
-	public async Task DeleteShouldReturnNotFoundWhenAccountNotFound()
+	[TestCategory(nameof(CardService.Delete))]
+	public async Task DeleteShouldReturnNotFoundWhenCardNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.DeleteAsync(id, default))
+		Mock<ICardRepository> cardMock = new();
+		cardMock.Setup(x => x.DeleteAsync(id, default))
 			.Returns(Task.FromResult(0));
-		AccountService sut = CreateMockedInstance(accountMock.Object);
+		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<Deleted> result = await sut.Delete(id);
 
@@ -52,20 +52,20 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AccountServiceErrors.DeleteAccountNotFound(id));
+			result.Errors.First().Should().Be(CardServiceErrors.DeleteNotFound(id));
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Delete))]
+	[TestCategory(nameof(CardService.Delete))]
 	public async Task DeleteShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.DeleteAsync(id, default))
+		Mock<ICardRepository> cardMock = new();
+		cardMock.Setup(x => x.DeleteAsync(id, default))
 			.Returns(Task.FromResult(1));
-		AccountService sut = CreateMockedInstance(accountMock.Object);
+		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<Deleted> result = await sut.Delete(id);
 

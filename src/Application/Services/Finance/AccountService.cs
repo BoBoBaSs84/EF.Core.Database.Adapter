@@ -97,7 +97,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> GetByAccountId(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<AccountResponse>> GetById(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -122,7 +122,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, id, ex);
-			return AccountServiceErrors.GetByAccountIdFailed(id);
+			return AccountServiceErrors.GetByIdFailed(id);
 		}
 	}
 

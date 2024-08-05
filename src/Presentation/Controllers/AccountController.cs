@@ -42,6 +42,11 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	/// </summary>
 	/// <param name="id">The identifier of the bank account.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <response code="200">The resource was successfully deleted.</response>
+	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
+	/// <response code="404">The requested resource could not be found.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpDelete(Endpoints.Account.Delete), AuthorizeRoles(RoleType.ADMINISTRATOR)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -61,6 +66,9 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	/// Returns a collection of bank accounts for for the application user.
 	/// </summary>
 	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Account.GetByUserId)]
 	[ProducesResponseType(typeof(IEnumerable<AccountResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -79,15 +87,19 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	/// </summary>
 	/// <param name="id">The identifier of the bank account.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
-	[HttpGet(Endpoints.Account.GetByAccountId)]
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="404">The requested resource could not be found.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
+	[HttpGet(Endpoints.Account.GetById)]
 	[ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetByAccountId(Guid id, CancellationToken token)
+	public async Task<IActionResult> GetById(Guid id, CancellationToken token)
 	{
 		ErrorOr<AccountResponse> response = await _accountService
-			.GetByAccountId(id, token)
+			.GetById(id, token)
 			.ConfigureAwait(false);
 
 		return Get(response);
@@ -98,6 +110,11 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	/// </summary>
 	/// <param name="request">The account create request.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <response code="201">The resource was successfully created.</response>
+	/// <response code="400">The provided request contained errors.</response>
+	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="409">The request conflicts with the target resource.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPost(Endpoints.Account.Post)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -119,6 +136,11 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	/// <param name="id">The identifier of the bank account.</param>
 	/// <param name="request">The account update request.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <response code="200">The resource was successfully updated.</response>
+	/// <response code="400">The provided request contained errors.</response>
+	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="404">The requested resource could not be found.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPut(Endpoints.Account.Put)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]

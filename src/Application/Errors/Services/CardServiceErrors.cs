@@ -19,91 +19,70 @@ public static class CardServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	public static readonly ApiError GetAllFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetAllFailed}",
-			RESX.CardService_Create_Failed);
+	public static ApiError GetByUserIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetByUserIdFailed}",
+			RESX.CardService_Create_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	public static readonly ApiError GetAllNotFound =
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetAllNotFound}",
-			RESX.CardService_GetAll_NotFound);
+	public static ApiError GetByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
+			RESX.CardService_GetById_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	/// <param name="cardId">The identifier of the bank card.</param>
-	public static ApiError GetByIdFailed(Guid cardId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByIdFailed}",
-			RESX.CardService_GetById_Failed.FormatInvariant(cardId));
+	public static ApiError GetByIdNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
+			RESX.CardService_GetById_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	/// <param name="cardId">The identifier of the bank card.</param>
-	public static ApiError GetByIdNotFound(Guid cardId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.CardService_GetById_NotFound.FormatInvariant(cardId));
+	public static ApiError CreateFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{CreateFailed}",
+			RESX.CardService_Create_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	/// <param name="pan">The payment card number of the bank card.</param>
-	public static ApiError GetByNumberFailed(string pan) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByNumberFailed}",
-			RESX.CardService_GetByNumber_Failed.FormatInvariant(pan));
-
-	/// <summary>
-	/// Error that indicates an exception during the card service.
-	/// </summary>
-	/// <param name="pan">The payment card number of the bank card.</param>
-	public static ApiError GetByNumberNotFound(string pan) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByNumberNotFound}",
-			RESX.CardService_GetByNumber_NotFound.FormatInvariant(pan));
-
-	/// <summary>
-	/// Error that indicates an exception during the card service.
-	/// </summary>
-	public static readonly ApiError CreateFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{CreateFailed}",
-			RESX.CardService_Create_Failed);
-
-	/// <summary>
-	/// Error that indicates an exception during the card service.
-	/// </summary>
-	/// <param name="accountId">The identifier of the bank account.</param>
-	public static ApiError CreateAccountIdNotFound(Guid accountId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{CreateAccountIdNotFound}",
+	public static ApiError CreateAccountIdNotFound(Guid accountId)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{CreateAccountIdNotFound}",
 			RESX.CardService_GetAccountById_NotFound.FormatInvariant(accountId));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	/// <param name="pan">The payment card number of the bank card.</param>
-	public static ApiError CreateNumberConflict(string pan) =>
-		ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberConflict}",
+	public static ApiError CreateNumberConflict(string pan)
+		=> ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberConflict}",
 			RESX.CardService_Number_Conflict.FormatInvariant(pan));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	/// <param name="pan">The payment card number of the bank card.</param>
-	public static ApiError CreateNumberInvalid(string pan) =>
-		ApiError.CreateConflict($"{ErrorPrefix}.{CreateNumberInvalid}",
-			RESX.CardService_Number_Invalid.FormatInvariant(pan));
+	public static ApiError DeleteFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{DeleteFailed}",
+			RESX.CardService_Delete_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	public static readonly ApiError DeleteFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{DeleteFailed}",
-			RESX.CardService_Delete_Failed);
+	public static ApiError DeleteNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{DeleteNotFound}",
+			RESX.CardService_Delete_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.
 	/// </summary>
-	public static readonly ApiError UpdateFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{UpdateFailed}",
-			RESX.CardService_Update_Failed);
+	public static ApiError UpdateFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{UpdateFailed}",
+			RESX.CardService_Update_Failed.FormatInvariant(id));
+
+	/// <summary>
+	/// Error that indicates an exception during the card service.
+	/// </summary>
+	public static ApiError UpdateNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{UpdateNotFound}",
+			RESX.CardService_Update_NotFound.FormatInvariant(id));
 }

@@ -283,10 +283,16 @@
     <value>No calendar entries could be found based on the parameterization.</value>
   </data>
   <data name="CardService.Create.Failed" xml:space="preserve">
-    <value>An internal error occurred while creating the bank card.</value>
+    <value>An error occurred when creating the bank card for the bank account with the identifier '{0}'.</value>
+  </data>
+  <data name="CardService.Create.NotFound" xml:space="preserve">
+    <value />
   </data>
   <data name="CardService.Delete.Failed" xml:space="preserve">
-    <value>An internal error occurred while deleting the bank card.</value>
+    <value>An error occurred when deleting the bank card with the identifier '{0}'.</value>
+  </data>
+  <data name="CardService.Delete.NotFound" xml:space="preserve">
+    <value>No bank card with the identifier: '{0}' could be found to delete.</value>
   </data>
   <data name="CardService.GetAccountById.NotFound" xml:space="preserve">
     <value>No bank account with the identifier: '{0}' could be found to load.</value>
@@ -316,7 +322,10 @@
     <value>The bank card number: '{0}' is invalid.</value>
   </data>
   <data name="CardService.Update.Failed" xml:space="preserve">
-    <value>An internal error occurred while updating the bank card.</value>
+    <value>An error occurred when deleting the bank card with the identifier '{0}'.</value>
+  </data>
+  <data name="CardService.Update.NotFound" xml:space="preserve">
+    <value>No bank card with the identifier: '{0}' could be found to update.</value>
   </data>
   <data name="EnumeratorService.GetCardTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the card type enumerators.</value>

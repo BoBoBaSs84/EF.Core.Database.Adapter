@@ -34,7 +34,7 @@ public interface IAccountService
 	/// <param name="id">The identifier of the bank account.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<AccountResponse>> GetByAccountId(Guid id, CancellationToken token = default);
+	Task<ErrorOr<AccountResponse>> GetById(Guid id, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns a collection of bank accounts for for the application user.

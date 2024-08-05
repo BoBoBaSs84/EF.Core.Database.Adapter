@@ -20,7 +20,7 @@ internal static class Endpoints
 
 		internal const string Delete = "{id:guid}";
 		internal const string GetByUserId = EmptySuffix;
-		internal const string GetByAccountId = "{id:guid}";
+		internal const string GetById = "{id:guid}";
 		internal const string Post = EmptySuffix;
 		internal const string Put = "{id:guid}";
 
@@ -54,12 +54,11 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Card);
 
-		internal const string Delete = "{cardId:guid}";
-		internal const string GetAll = EmptySuffix;
-		internal const string GetById = "{cardId:guid}";
-		internal const string GetByNumber = "{pan}";
-		internal const string Post = "{accountId:guid}";
-		internal const string Put = EmptySuffix;
+		internal const string Delete = "{id:guid}";
+		internal const string GetByUserId = EmptySuffix;
+		internal const string GetByCardId = "{id:guid}";
+		internal const string Post = "{id:guid}";
+		internal const string Put = "{id:guid}";
 
 		/// <summary>
 		/// The transaction route.

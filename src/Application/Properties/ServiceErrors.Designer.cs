@@ -556,7 +556,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while creating the bank card..
+        ///   Looks up a localized string similar to An error occurred when creating the bank card for the bank account with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string CardService_Create_Failed {
             get {
@@ -565,11 +565,29 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while deleting the bank card..
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string CardService_Create_NotFound {
+            get {
+                return ResourceManager.GetString("CardService.Create.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the bank card with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string CardService_Delete_Failed {
             get {
                 return ResourceManager.GetString("CardService.Delete.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank card with the identifier: &apos;{0}&apos; could be found to delete..
+        /// </summary>
+        public static string CardService_Delete_NotFound {
+            get {
+                return ResourceManager.GetString("CardService.Delete.NotFound", resourceCulture);
             }
         }
         
@@ -655,11 +673,20 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while updating the bank card..
+        ///   Looks up a localized string similar to An error occurred when deleting the bank card with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string CardService_Update_Failed {
             get {
                 return ResourceManager.GetString("CardService.Update.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank card with the identifier: &apos;{0}&apos; could be found to update..
+        /// </summary>
+        public static string CardService_Update_NotFound {
+            get {
+                return ResourceManager.GetString("CardService.Update.NotFound", resourceCulture);
             }
         }
         

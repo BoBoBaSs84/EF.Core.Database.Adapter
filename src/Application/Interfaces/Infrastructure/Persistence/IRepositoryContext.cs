@@ -6,7 +6,7 @@ using Domain.Models.Todo;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Interfaces.Persistence;
+namespace Application.Interfaces.Infrastructure.Persistence;
 
 /// <summary>
 /// The application context interface.

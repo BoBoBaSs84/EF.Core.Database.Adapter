@@ -1,11 +1,11 @@
-﻿using Application.Interfaces.Infrastructure.Services;
+﻿using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Services;
 
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
-using Infrastructure.Interfaces.Persistence;
 using Infrastructure.Persistence.Interceptors;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

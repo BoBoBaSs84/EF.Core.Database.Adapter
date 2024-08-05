@@ -1,10 +1,9 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
+﻿using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 
 using BB84.EntityFrameworkCore.Repositories;
 
 using Domain.Models.Todo;
-
-using Infrastructure.Interfaces.Persistence;
 
 namespace Infrastructure.Persistence.Repositories.Todo;
 

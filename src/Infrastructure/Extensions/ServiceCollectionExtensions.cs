@@ -1,5 +1,6 @@
 ﻿using System.Text;
 
+using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Infrastructure.Services;
 
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
@@ -7,7 +8,6 @@ using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
-using Infrastructure.Interfaces.Persistence;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Generators;
 using Infrastructure.Persistence.Interceptors;

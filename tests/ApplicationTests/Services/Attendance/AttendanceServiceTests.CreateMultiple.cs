@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Application.Contracts.Requests.Attendance;
+﻿using Application.Contracts.Requests.Attendance;
 using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Attendance;

@@ -1,10 +1,9 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
+﻿using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Persistence.Repositories;
 
 using BB84.EntityFrameworkCore.Repositories;
 
 using Domain.Models.Attendance;
-
-using Infrastructure.Interfaces.Persistence;
 
 namespace Infrastructure.Persistence.Repositories;
 

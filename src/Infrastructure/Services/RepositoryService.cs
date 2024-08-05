@@ -1,8 +1,8 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
+﻿using Application.Interfaces.Infrastructure.Persistence;
+using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using Application.Interfaces.Infrastructure.Services;
 
-using Infrastructure.Interfaces.Persistence;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Todo;
 

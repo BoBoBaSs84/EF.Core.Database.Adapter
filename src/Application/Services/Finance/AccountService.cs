@@ -6,7 +6,6 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Common;
 using Domain.Errors;
 using Domain.Models.Finance;
 using Domain.Results;
@@ -30,257 +29,138 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, AccountCreateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> Create(Guid id, AccountCreateRequest request, CancellationToken token = default)
 	{
-		ErrorOr<Created> response = new();
 		try
 		{
-			if (RegexStatics.Iban.IsMatch(request.IBAN).Equals(false))
-			{
-				response.Errors.Add(AccountServiceErrors.CreateAccountNumberInvalid(request.IBAN));
-				return response;
-			}
+			AccountModel? accountEntity = await _repositoryService.AccountRepository
+				.GetByConditionAsync(expression: x => x.IBAN == request.IBAN, token: token)
+				.ConfigureAwait(false);
 
-			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.IBAN == request.IBAN,
-				token: token
-				);
-
-			if (accountEntry is not null)
-				response.Errors.Add(AccountServiceErrors.CreateAccountNumberConflict(accountEntry.IBAN));
+			if (accountEntity is not null)
+				return AccountServiceErrors.CreateAccountNumberConflict(request.IBAN);
 
 			if (request.Cards is not null)
+			{
 				foreach (CardCreateRequest cardRequest in request.Cards)
 				{
-					if (RegexStatics.CreditCard.IsMatch(cardRequest.PAN).Equals(false))
-					{
-						response.Errors.Add(AccountServiceErrors.CreateCardNumberInvalid(cardRequest.PAN));
-						continue;
-					}
+					CardModel? cardEntity = await _repositoryService.CardRepository
+						.GetByConditionAsync(expression: x => x.PAN == cardRequest.PAN, token: token)
+						.ConfigureAwait(false);
 
-					CardModel? cardModel = await _repositoryService.CardRepository.GetByConditionAsync(
-						expression: x => x.PAN == cardRequest.PAN,
-						token: token
-						);
-
-					if (cardModel is not null)
-						response.Errors.Add(AccountServiceErrors.CreateCardNumberConflict(cardModel.PAN));
+					if (cardEntity is not null)
+						return AccountServiceErrors.CreateCardNumberConflict(cardRequest.PAN);
 				}
-
-			if (response.IsError)
-				return response;
+			}
 
 			AccountModel newAccount = _mapper.Map<AccountModel>(request);
 
 			if (newAccount.Cards.Count > 0)
 			{
 				foreach (CardModel card in newAccount.Cards)
-					card.UserId = userId;
+					card.UserId = id;
 			}
 
-			AccountUserModel newAccountUser = new() { UserId = userId, Account = newAccount };
-			newAccount.AccountUsers.Add(newAccountUser);
+			newAccount.AccountUsers.Add(new() { UserId = id, Account = newAccount });
 
-			await _repositoryService.AccountRepository.CreateAsync(newAccount, token);
-			_ = await _repositoryService.CommitChangesAsync(token);
+			await _repositoryService.AccountRepository.CreateAsync(newAccount, token)
+				.ConfigureAwait(false);
+
+			_ = await _repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Created;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, request, ex);
+			return AccountServiceErrors.CreateAccountFailed(request.IBAN);
+		}
+	}
+
+	public async Task<ErrorOr<Deleted>> Delete(Guid id, CancellationToken token = default)
+	{
+		try
+		{
+			int result = await _repositoryService.AccountRepository
+				.DeleteAsync(id, token)
+				.ConfigureAwait(false);
+
+			return result.Equals(0)
+				? AccountServiceErrors.DeleteAccountNotFound(id)
+				: Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Log(LogExceptionWithParams, id, ex);
+			return AccountServiceErrors.DeleteAccountFailed(id);
+		}
+	}
+
+	public async Task<ErrorOr<AccountResponse>> GetByAccountId(Guid id, CancellationToken token = default)
+	{
+		try
+		{
+			AccountModel? accountEntity = await _repositoryService.AccountRepository
+				.GetByIdAsync(id, token: token)
+				.ConfigureAwait(false);
+
+			if (accountEntity is null)
+				return AccountServiceErrors.GetByIdNotFound(id);
+
+			IEnumerable<CardModel> cardEntities = await _repositoryService.CardRepository
+				.GetManyByConditionAsync(x => x.UserId.Equals(id) && x.AccountId.Equals(id), token: token)
+				.ConfigureAwait(false);
+
+			if (cardEntities.Any())
+				accountEntity.Cards = cardEntities.ToList();
+
+			AccountResponse response = _mapper.Map<AccountResponse>(accountEntity);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, request, ex);
-			return AccountServiceErrors.CreateAccountFailed;
+			_loggerService.Log(LogExceptionWithParams, id, ex);
+			return AccountServiceErrors.GetByAccountIdFailed(id);
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid userId, Guid accountId, CancellationToken token = default)
-	{
-		string[] parameters = [$"{userId}", $"{accountId}"];
-		try
-		{
-			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
-				trackChanges: true,
-				token: token
-				);
-
-			if (accountEntry is null)
-				return AccountServiceErrors.DeleteAccountNotFound(accountId);
-
-			await _repositoryService.AccountRepository.DeleteAsync(accountEntry);
-			_ = await _repositoryService.CommitChangesAsync(token);
-
-			return Result.Deleted;
-		}
-		catch (Exception ex)
-		{
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AccountServiceErrors.DeleteAccountFailed;
-		}
-	}
-
-	public async Task<ErrorOr<IEnumerable<AccountResponse>>> Get(Guid userId, bool trackChanges = false, CancellationToken token = default)
+	public async Task<ErrorOr<IEnumerable<AccountResponse>>> GetByUserId(Guid id, CancellationToken token = default)
 	{
 		try
 		{
-			IEnumerable<AccountModel> accountEntries = await _repositoryService.AccountRepository.GetManyByConditionAsync(
-				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId),
-				trackChanges: trackChanges,
-				token: token
-				);
+			IEnumerable<AccountModel> accountEntities = await _repositoryService.AccountRepository
+				.GetManyByConditionAsync(x => x.AccountUsers.Select(x => x.UserId).Contains(id), token: token)
+				.ConfigureAwait(false);
 
-			if (accountEntries.Any().Equals(false))
-				return AccountServiceErrors.GetAllNotFound;
-
-			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && accountEntries.Select(x => x.Id).Contains(x.AccountId),
-				trackChanges: trackChanges,
-				token: token
-				);
-
-			if (cardEntries.Any().Equals(true))
-				foreach (AccountModel account in accountEntries)
-					account.Cards = cardEntries.Where(x => x.AccountId.Equals(account.Id)).ToList();
-
-			IEnumerable<AccountResponse> result = _mapper.Map<IEnumerable<AccountResponse>>(accountEntries);
+			IEnumerable<AccountResponse> result = _mapper.Map<IEnumerable<AccountResponse>>(accountEntities);
 
 			return result.ToList();
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, userId, ex);
-			return AccountServiceErrors.GetAllFailed;
+			_loggerService.Log(LogExceptionWithParams, id, ex);
+			return AccountServiceErrors.GetByUserIdFailed(id);
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, Guid accountId, bool trackChanges = false, CancellationToken token = default)
-	{
-		string[] parameters = [$"{userId}", $"{accountId}"];
-		try
-		{
-			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(accountId) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
-				trackChanges: trackChanges,
-				token: token
-				);
-
-			if (accountEntry is null)
-				return AccountServiceErrors.GetByIdNotFound(accountId);
-
-			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.AccountId.Equals(accountId),
-				trackChanges: trackChanges,
-				token: token
-				);
-
-			if (cardEntries.Any().Equals(true))
-				accountEntry.Cards = cardEntries.ToList();
-
-			AccountResponse response = _mapper.Map<AccountResponse>(accountEntry);
-
-			return response;
-		}
-		catch (Exception ex)
-		{
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AccountServiceErrors.GetByIdFailed(accountId);
-		}
-	}
-
-	public async Task<ErrorOr<AccountResponse>> Get(Guid userId, string iban, bool trackChanges = false, CancellationToken token = default)
-	{
-		string[] parameters = [$"{userId}", $"{iban}"];
-		try
-		{
-			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.AccountUsers.Select(x => x.UserId).Contains(userId) && x.IBAN == iban && x.Cards.Select(x => x.UserId).Contains(userId),
-				trackChanges: trackChanges,
-				token: token,
-				includeProperties: [nameof(AccountModel.Cards)]
-				);
-
-			if (accountEntry is null)
-				return AccountServiceErrors.GetByNumberNotFound(iban);
-
-			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository.GetManyByConditionAsync(
-				expression: x => x.UserId.Equals(userId) && x.AccountId.Equals(accountEntry.Id),
-				trackChanges: trackChanges,
-				token: token
-				);
-
-			if (cardEntries.Any().Equals(true))
-				accountEntry.Cards = cardEntries.ToList();
-
-			AccountResponse response = _mapper.Map<AccountResponse>(accountEntry);
-
-			return response;
-		}
-		catch (Exception ex)
-		{
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
-			return AccountServiceErrors.GetByNumberFailed(iban);
-		}
-	}
-
-	public async Task<ErrorOr<Updated>> Update(Guid userId, AccountUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> Update(Guid id, AccountUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
-			ErrorOr<Updated> response = new();
+			int result = await _repositoryService.AccountRepository
+				.UpdateAsync(id, s => s.SetProperty(p => p.Provider, request.Provider), token)
+				.ConfigureAwait(false);
 
-			AccountModel? accountEntry = await _repositoryService.AccountRepository.GetByConditionAsync(
-				expression: x => x.Id.Equals(request.Id) && x.AccountUsers.Select(x => x.UserId).Contains(userId),
-				trackChanges: true,
-				token: token,
-				includeProperties: [nameof(AccountModel.Cards)]
-				);
-
-			if (accountEntry is null)
-				response.Errors.Add(AccountServiceErrors.UpdateAccountNotFound(request.Id));
-
-			if (request.Cards is not null)
-				foreach (CardUpdateRequest cardRequest in request.Cards)
-				{
-					CardModel? cardEntry = await _repositoryService.CardRepository.GetByConditionAsync(
-						expression: x => x.Id.Equals(cardRequest.Id) && x.UserId.Equals(userId) && x.AccountId.Equals(request.Id),
-						trackChanges: true,
-						token: token
-						);
-
-					if (cardEntry is null)
-						response.Errors.Add(AccountServiceErrors.UpdateCardNotFound(cardRequest.Id));
-				}
-
-			if (response.IsError)
-				return response;
-
-			if (accountEntry is not null)
-				UpdateAccount(accountEntry, request);
-
-			_ = await _repositoryService.CommitChangesAsync(token);
-
-			return response;
+			return result.Equals(0)
+				? AccountServiceErrors.UpdateAccountNotFound(id)
+				: Result.Updated;
 		}
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, request, ex);
-			return AccountServiceErrors.UpdateAccountFailed;
-		}
-	}
-
-	private static void UpdateAccount(AccountModel account, AccountUpdateRequest request)
-	{
-		account.Provider = request.Provider;
-
-		if (request.Cards is not null && request.Cards.Length > 0)
-		{
-			foreach (CardUpdateRequest cardRequest in request.Cards)
-			{
-				CardModel? card = account.Cards.Where(x => x.Id.Equals(cardRequest.Id)).FirstOrDefault();
-
-				if (card is not null)
-					card.ValidUntil = cardRequest.ValidUntil;
-			}
+			return AccountServiceErrors.UpdateAccountFailed(id);
 		}
 	}
 }

@@ -18,12 +18,11 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Account);
 
-		internal const string Delete = "{accountId:guid}";
-		internal const string GetAll = EmptySuffix;
-		internal const string GetById = "{accountId:guid}";
-		internal const string GetByNumber = "{iban}";
+		internal const string Delete = "{id:guid}";
+		internal const string GetByUserId = EmptySuffix;
+		internal const string GetByAccountId = "{id:guid}";
 		internal const string Post = EmptySuffix;
-		internal const string Put = EmptySuffix;
+		internal const string Put = "{id:guid}";
 
 		/// <summary>
 		/// The transaction route.

@@ -26,16 +26,16 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError GetByAccountIdFailed(Guid accountId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByAccountIdFailed}",
-			RESX.AccountService_GetByAccountId_Failed.FormatInvariant(accountId));
+	public static ApiError GetByAccountIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetByAccountIdFailed}",
+			RESX.AccountService_GetByAccountId_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError GetByIdNotFound(Guid accountId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
-			RESX.AccountService_GetByAccountId_NotFound.FormatInvariant(accountId));
+	public static ApiError GetByIdNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{GetByIdNotFound}",
+			RESX.AccountService_GetByAccountId_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
@@ -47,8 +47,8 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError CreateCardNumberConflict(string pan) =>
-		ApiError.CreateConflict($"{ErrorPrefix}.{CreateCardNumberConflict}",
+	public static ApiError CreateCardNumberConflict(string pan)
+		=> ApiError.CreateConflict($"{ErrorPrefix}.{CreateCardNumberConflict}",
 			RESX.AccountService_CardNumber_Conflict.FormatInvariant(pan));
 
 	/// <summary>
@@ -61,42 +61,28 @@ public static class AccountServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError DeleteAccountNotFound(Guid accountId)
+	public static ApiError DeleteAccountNotFound(Guid id)
 		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(DeleteAccountNotFound)}",
-			RESX.AccountService_Delete_NotFound.FormatInvariant(accountId));
+			RESX.AccountService_Delete_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError DeleteAccountFailed(Guid accountId)
+	public static ApiError DeleteAccountFailed(Guid id)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{DeleteAccountFailed}",
-			RESX.AccountService_Delete_NotFound.FormatInvariant(accountId));
+			RESX.AccountService_Delete_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError UpdateAccountNotFound(Guid accountId) =>
-		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateAccountNotFound}",
-			RESX.AccountService_Update_NotFound.FormatInvariant(accountId));
+	public static ApiError UpdateAccountNotFound(Guid id)
+		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateAccountNotFound}",
+			RESX.AccountService_Update_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.
 	/// </summary>
-	public static ApiError UpdateCardNotFound(Guid cardId) =>
-		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardNotFound}",
-			RESX.AccountService_CardId_NotFound.FormatInvariant(cardId));
-
-	/// <summary>
-	/// Error that indicates an exception during the account service.
-	/// </summary>
-	public static ApiError UpdateCardTypeNotFound(Guid cardTypeId) =>
-		ApiError.CreateBadRequest($"{ErrorPrefix}.{UpdateCardTypeNotFound}",
-			RESX.AccountService_CardTypeId_NotFound.FormatInvariant(cardTypeId));
-
-	/// <summary>
-	/// Error that indicates an exception during the account service.
-	/// </summary>
-	public static readonly ApiError UpdateAccountFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{UpdateAccountFailed}",
-			RESX.AccountService_Update_Failed);
+	public static ApiError UpdateAccountFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{UpdateAccountFailed}",
+			RESX.AccountService_Update_Failed.FormatInvariant(id));
 }

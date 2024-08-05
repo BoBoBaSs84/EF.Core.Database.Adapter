@@ -7,7 +7,6 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
-using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Models.Finance;
 
@@ -23,7 +22,7 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetByAccountId))]
+	[TestCategory(nameof(AccountService.GetByUserId))]
 	public async Task GetByUserIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
@@ -41,7 +40,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetByAccountId))]
+	[TestCategory(nameof(AccountService.GetByUserId))]
 	public async Task GetByUserIdShouldReturnResponseWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();

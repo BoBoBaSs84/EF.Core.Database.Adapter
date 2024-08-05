@@ -129,9 +129,6 @@
   <data name="AccountService.CardNumber.Invalid" xml:space="preserve">
     <value>The card number: '{0}' is invalid.</value>
   </data>
-  <data name="AccountService.CardTypeId.NotFound" xml:space="preserve">
-    <value>No card type with the identifier: '{0}' could be found to load.</value>
-  </data>
   <data name="AccountService.Create.Failed" xml:space="preserve">
     <value>An error occurred when creating the bank account with the international bank account number '{0}'.</value>
   </data>
@@ -140,9 +137,6 @@
   </data>
   <data name="AccountService.Delete.NotFound" xml:space="preserve">
     <value>No bank account with the identifier: '{0}' could be found to delete.</value>
-  </data>
-  <data name="AccountService.GetAll.Failed" xml:space="preserve">
-    <value>An error occurred while loading the bank accounts.</value>
   </data>
   <data name="AccountService.GetByAccountId.Failed" xml:space="preserve">
     <value>An error occurred while loading the bank account with the identifier: '{0}'.</value>
@@ -154,7 +148,7 @@
     <value>An error occurred when loading the bank accounts for the user with the identifier '{0}'.</value>
   </data>
   <data name="AccountService.Update.Failed" xml:space="preserve">
-    <value>An internal error occurred while updating the account.</value>
+    <value>An error occurred when updating the bank account with the identifier '{0}'.</value>
   </data>
   <data name="AccountService.Update.NotFound" xml:space="preserve">
     <value>No bank account with the identifier: '{0}' could be found to update.</value>

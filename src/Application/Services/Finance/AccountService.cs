@@ -6,8 +6,6 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using BB84.Extensions;
-
 using Domain.Errors;
 using Domain.Models.Finance;
 using Domain.Results;
@@ -162,7 +160,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		catch (Exception ex)
 		{
 			_loggerService.Log(LogExceptionWithParams, request, ex);
-			return AccountServiceErrors.UpdateAccountFailed;
+			return AccountServiceErrors.UpdateAccountFailed(id);
 		}
 	}
 }

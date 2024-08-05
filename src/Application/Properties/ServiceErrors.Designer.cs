@@ -97,15 +97,6 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No card type with the identifier: &apos;{0}&apos; could be found to load..
-        /// </summary>
-        public static string AccountService_CardTypeId_NotFound {
-            get {
-                return ResourceManager.GetString("AccountService.CardTypeId.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred when creating the bank account with the international bank account number &apos;{0}&apos;..
         /// </summary>
         public static string AccountService_Create_Failed {
@@ -129,15 +120,6 @@ namespace Application.Properties {
         public static string AccountService_Delete_NotFound {
             get {
                 return ResourceManager.GetString("AccountService.Delete.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while loading the bank accounts..
-        /// </summary>
-        public static string AccountService_GetAll_Failed {
-            get {
-                return ResourceManager.GetString("AccountService.GetAll.Failed", resourceCulture);
             }
         }
         
@@ -169,7 +151,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred while updating the account..
+        ///   Looks up a localized string similar to An error occurred when updating the bank account with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string AccountService_Update_Failed {
             get {

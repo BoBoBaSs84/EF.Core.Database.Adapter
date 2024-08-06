@@ -35,7 +35,6 @@ public class ArchitectureTests : InfrastructureTestBase
 	}
 
 	[TestMethod]
-	[Description("The repositories should not be public and should be sealed.")]
 	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
 	{
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
@@ -56,8 +55,7 @@ public class ArchitectureTests : InfrastructureTestBase
 	}
 
 	[TestMethod]
-	[Description("The services should not be public and should be sealed.")]
-	public void ServicesShouldShouldBeSealedTest()
+	public void ServicesShouldNotBePublicAndShouldBeSealedTest()
 	{
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
 			assembly: _assembly,
@@ -68,7 +66,11 @@ public class ArchitectureTests : InfrastructureTestBase
 		{
 			typeList.Should().NotBeNullOrEmpty();
 			foreach (Type type in typeList)
+			{
 				type.IsSealed.Should().BeTrue();
+				type.IsPublic.Should().BeFalse();
+				type.IsVisible.Should().BeFalse();
+			}
 		});
 	}
 }

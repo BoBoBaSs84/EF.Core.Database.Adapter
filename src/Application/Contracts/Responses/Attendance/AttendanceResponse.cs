@@ -24,7 +24,7 @@ public sealed class AttendanceResponse : IdentityResponse
 	/// <summary>
 	/// The attendance type property.
 	/// </summary>
-	public AttendanceType? Type { get; set; }
+	public AttendanceType Type { get; set; }
 
 	/// <summary>
 	/// The start time property.

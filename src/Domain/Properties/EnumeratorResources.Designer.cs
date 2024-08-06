@@ -61,6 +61,87 @@ namespace Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is a deposit account or bank account held at a bank or other financial institution..
+        /// </summary>
+        public static string AccountType_Checking_Description {
+            get {
+                return ResourceManager.GetString("AccountType.Checking.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking account.
+        /// </summary>
+        public static string AccountType_Checking_Name {
+            get {
+                return ResourceManager.GetString("AccountType.Checking.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CH.
+        /// </summary>
+        public static string AccountType_Checking_ShortName {
+            get {
+                return ResourceManager.GetString("AccountType.Checking.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A joint or community account is a bank account that has been opened by two or more individuals or entities..
+        /// </summary>
+        public static string AccountType_Community_Description {
+            get {
+                return ResourceManager.GetString("AccountType.Community.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Community account.
+        /// </summary>
+        public static string AccountType_Community_Name {
+            get {
+                return ResourceManager.GetString("AccountType.Community.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CO.
+        /// </summary>
+        public static string AccountType_Community_ShortName {
+            get {
+                return ResourceManager.GetString("AccountType.Community.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Common features include a limited number of withdrawals, a lack of cheque and linked debit card facilities, limited transfer options and the inability to be overdrawn..
+        /// </summary>
+        public static string AccountType_Savings_Description {
+            get {
+                return ResourceManager.GetString("AccountType.Savings.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Savings account.
+        /// </summary>
+        public static string AccountType_Savings_Name {
+            get {
+                return ResourceManager.GetString("AccountType.Savings.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SA.
+        /// </summary>
+        public static string AccountType_Savings_ShortName {
+            get {
+                return ResourceManager.GetString("AccountType.Savings.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is an authorised prolonged absence from work, for any reason authorised by the workplace..
         /// </summary>
         public static string AttendanceType_Absence_Description {

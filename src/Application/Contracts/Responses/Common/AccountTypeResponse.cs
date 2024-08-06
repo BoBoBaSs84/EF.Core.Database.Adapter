@@ -5,8 +5,8 @@ using Domain.Enumerators.Finance;
 namespace Application.Contracts.Responses.Common;
 
 /// <summary>
-/// The bank card type response.
+/// The bank account type response.
 /// </summary>
 /// <inheritdoc/>
-public sealed class CardTypeResponse(CardType enumValue) : EnumeratorBaseResponse<CardType>(enumValue)
+public sealed class AccountTypeResponse(AccountType enumValue) : EnumeratorBaseResponse<AccountType>(enumValue)
 { }

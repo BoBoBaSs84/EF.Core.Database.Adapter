@@ -5,8 +5,8 @@ using Domain.Enumerators;
 namespace Application.Contracts.Responses.Common;
 
 /// <summary>
-/// The response class for the <see cref="PriorityLevelType"/> enumerator.
+/// The priority level type response.
 /// </summary>
-/// <param name="priorityLevel">The priority level type.</param>
-public sealed class PriorityLevelTypeResponse(PriorityLevelType priorityLevel) : EnumeratorBaseResponse<PriorityLevelType>(priorityLevel)
+/// <inheritdoc/>
+public sealed class PriorityLevelTypeResponse(PriorityLevelType enumValue) : EnumeratorBaseResponse<PriorityLevelType>(enumValue)
 { }

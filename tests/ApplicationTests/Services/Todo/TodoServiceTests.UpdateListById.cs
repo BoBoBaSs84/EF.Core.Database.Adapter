@@ -46,9 +46,10 @@ public sealed partial class TodoServiceTests
 	{
 		Guid listId = Guid.NewGuid();
 		ListUpdateRequest request = new();
-		Mock<IListRepository> listRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(null));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.GetByIdAsync(listId, false, true, default))
+			.Returns(Task.FromResult<List?>(null));
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
 			.ConfigureAwait(false);
@@ -58,6 +59,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
+			listMock.Verify(x => x.GetByIdAsync(listId, false, true, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -68,9 +70,10 @@ public sealed partial class TodoServiceTests
 	{
 		Guid listId = Guid.NewGuid();
 		ListUpdateRequest request = new();
-		Mock<IListRepository> listRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, true, default)).Returns(Task.FromResult<List?>(new()));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.GetByIdAsync(listId, false, true, default))
+			.Returns(Task.FromResult<List?>(new()));
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
 			.ConfigureAwait(false);
@@ -81,6 +84,7 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
+			listMock.Verify(x => x.GetByIdAsync(listId, false, true, default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});

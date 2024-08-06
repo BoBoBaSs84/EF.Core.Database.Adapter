@@ -46,8 +46,8 @@ public sealed partial class TodoServiceTests
 	{
 		Guid userId = Guid.NewGuid();
 		ListCreateRequest request = new();
-		Mock<IListRepository> listRepositoryMock = new();
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		Mock<IListRepository> listMock = new();
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Created> result = await sut.CreateListByUserId(userId, request)
 			.ConfigureAwait(false);
@@ -58,7 +58,7 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			listRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<List>(), default), Times.Once);
+			listMock.Verify(x => x.CreateAsync(It.IsAny<List>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
 		});

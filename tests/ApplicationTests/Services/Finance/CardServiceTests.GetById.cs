@@ -80,7 +80,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().NotBeNull();
 			result.Value.Id.Should().Be(cardModel.Id);
-			result.Value.CardType.Should().Be(cardModel.Type);
+			result.Value.Type.Should().Be(cardModel.Type);
 			result.Value.PAN.Should().Be(cardModel.PAN);
 			result.Value.ValidUntil.Should().Be(cardModel.ValidUntil);
 			cardMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);

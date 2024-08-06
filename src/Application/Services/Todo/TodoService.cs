@@ -24,10 +24,6 @@ namespace Application.Services.Todo;
 /// <param name="mapper">The auto mapper instance to use.</param>
 internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRepositoryService repositoryService, IMapper mapper) : ITodoService
 {
-	private readonly ILoggerService<TodoService> _loggerService = loggerService;
-	private readonly IRepositoryService _repositoryService = repositoryService;
-	private readonly IMapper _mapper = mapper;
-
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
@@ -37,21 +33,19 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		{
 			List list = MapFromCreateListRequest(request);
 
-			ListUser user = new() { TodoList = list, UserId = userId };
+			list.Users = [new() { TodoList = list, UserId = userId }];
 
-			list.Users.Add(user);
-
-			await _repositoryService.TodoListRepository.CreateAsync(list, token)
+			await repositoryService.TodoListRepository.CreateAsync(list, token)
 				.ConfigureAwait(false);
 
-			_ = await _repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, request, ex);
+			loggerService.Log(LogExceptionWithParams, request, ex);
 			return TodoServiceErrors.CreateListByUserFailed(userId);
 		}
 	}
@@ -60,8 +54,8 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? list = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), token: token)
+			List? list = await repositoryService.TodoListRepository
+				.GetByIdAsync(listId, token: token)
 				.ConfigureAwait(false);
 
 			if (list is null)
@@ -71,17 +65,17 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 
 			item.ListId = listId;
 
-			await _repositoryService.TodoItemRepository.CreateAsync(item, token)
+			await repositoryService.TodoItemRepository.CreateAsync(item, token)
 				.ConfigureAwait(false);
 
-			_ = await _repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, request, ex);
+			loggerService.Log(LogExceptionWithParams, request, ex);
 			return TodoServiceErrors.CreateItemByListIdFailed(listId);
 		}
 	}
@@ -90,24 +84,17 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? existingList = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), token: token)
+			int result = await repositoryService.TodoListRepository
+				.DeleteAsync(listId, token)
 				.ConfigureAwait(false);
 
-			if (existingList is null)
-				return TodoServiceErrors.GetListByIdNotFound(listId);
-
-			await _repositoryService.TodoListRepository.DeleteAsync(existingList)
-				.ConfigureAwait(false);
-
-			_ = await _repositoryService.CommitChangesAsync(token)
-				.ConfigureAwait(false);
-
-			return Result.Deleted;
+			return result.Equals(0)
+				? TodoServiceErrors.GetListByIdNotFound(listId)
+				: Result.Deleted;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, listId, ex);
+			loggerService.Log(LogExceptionWithParams, listId, ex);
 			return TodoServiceErrors.DeleteListByIdFailed(listId);
 		}
 	}
@@ -116,24 +103,17 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			Item? existingItem = await _repositoryService.TodoItemRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), token: token)
+			int result = await repositoryService.TodoItemRepository
+				.DeleteAsync(itemId, token)
 				.ConfigureAwait(false);
 
-			if (existingItem is null)
-				return TodoServiceErrors.GetItemByIdNotFound(itemId);
-
-			await _repositoryService.TodoItemRepository.DeleteAsync(existingItem)
-				.ConfigureAwait(false);
-
-			_ = await _repositoryService.CommitChangesAsync(token)
-				.ConfigureAwait(false);
-
-			return Result.Deleted;
+			return result.Equals(0)
+				? TodoServiceErrors.GetItemByIdNotFound(itemId)
+				: Result.Deleted;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, itemId, ex);
+			loggerService.Log(LogExceptionWithParams, itemId, ex);
 			return TodoServiceErrors.DeleteItemByIdFailed(itemId);
 		}
 	}
@@ -142,7 +122,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? todoList = await _repositoryService.TodoListRepository
+			List? todoList = await repositoryService.TodoListRepository
 				.GetByConditionAsync(expression: x => x.Id.Equals(listId), token: token, includeProperties: [nameof(List.Items)])
 				.ConfigureAwait(false);
 
@@ -155,7 +135,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, listId, ex);
+			loggerService.Log(LogExceptionWithParams, listId, ex);
 			return TodoServiceErrors.GetListByIdFailed(listId);
 		}
 	}
@@ -164,7 +144,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			IEnumerable<List> todoLists = await _repositoryService.TodoListRepository
+			IEnumerable<List> todoLists = await repositoryService.TodoListRepository
 				.GetManyByConditionAsync(expression: x => x.Users.Select(x => x.UserId).Contains(userId), token: token)
 				.ConfigureAwait(false);
 
@@ -174,7 +154,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, userId, ex);
+			loggerService.Log(LogExceptionWithParams, userId, ex);
 			return TodoServiceErrors.GetListsByUserIdFailed(userId);
 		}
 	}
@@ -183,8 +163,8 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? list = await _repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), trackChanges: true, token: token)
+			List? list = await repositoryService.TodoListRepository
+				.GetByIdAsync(listId, false, true, token)
 				.ConfigureAwait(false);
 
 			if (list is null)
@@ -193,14 +173,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 			list.Title = request.Title;
 			list.Color = request.Color?.FromRGBHexString();
 
-			_ = await _repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, listId, ex);
+			loggerService.Log(LogExceptionWithParams, listId, ex);
 			return TodoServiceErrors.UpdateListByIdFailed(listId);
 		}
 	}
@@ -209,8 +189,8 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			Item? item = await _repositoryService.TodoItemRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(itemId), trackChanges: true, token: token)
+			Item? item = await repositoryService.TodoItemRepository
+				.GetByIdAsync(itemId, false, true, token)
 				.ConfigureAwait(false);
 
 			if (item is null)
@@ -222,24 +202,24 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 			item.Reminder = request.Reminder;
 			item.Done = request.Done;
 
-			_ = await _repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, itemId, ex);
+			loggerService.Log(LogExceptionWithParams, itemId, ex);
 			return TodoServiceErrors.UpdateItemByIdFailed(itemId);
 		}
 	}
 
 	private List MapFromCreateListRequest(ListCreateRequest request)
-		=> _mapper.Map<List>(request);
+		=> mapper.Map<List>(request);
 
 	private Item MapFromCreateItemRequest(ItemCreateRequest request)
-		=> _mapper.Map<Item>(request);
+		=> mapper.Map<Item>(request);
 
 	private ListResponse MapToListResponse(List todoList)
-		=> _mapper.Map<ListResponse>(todoList);
+		=> mapper.Map<ListResponse>(todoList);
 }

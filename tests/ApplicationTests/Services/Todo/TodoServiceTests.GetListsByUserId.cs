@@ -47,12 +47,11 @@ public sealed partial class TodoServiceTests
 	public async Task GetListsByUserIdShouldReturnValidResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		List list = new() { Title = "Hello", Color = Color.Black };
-		Mock<IListRepository> listRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetManyByConditionAsync(
-			x => x.Users.Select(x => x.UserId).Contains(userId), null, false, null, null, null, false, default)
-		).Returns(Task.FromResult<IEnumerable<List>>([list]));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		List list = new() { Title = "Hello", Color = Color.Red };
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.GetManyByConditionAsync(x => x.Users.Select(x => x.UserId).Contains(userId), null, false, null, null, null, false, default))
+			.Returns(Task.FromResult<IEnumerable<List>>([list]));
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<IEnumerable<ListResponse>> result = await sut.GetListsByUserId(userId)
 			.ConfigureAwait(false);

@@ -23,6 +23,40 @@ public sealed class EnumeratorServiceTests : ApplicationTestBase
 	private Mock<ILoggerService<EnumeratorService>> _loggerServiceMock = default!;
 
 	[TestMethod]
+	[TestCategory(nameof(EnumeratorService.GetAccountTypes))]
+	public void GetAccountTypesShouldReturnResultWhenSuccessful()
+	{
+		EnumeratorService sut = CreateMockedInstance(_mapper);
+
+		var result = sut.GetAccountTypes();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNullOrEmpty();
+		});
+	}
+
+	[TestMethod]
+	[TestCategory(nameof(EnumeratorService.GetAccountTypes))]
+	public void GetAccountTypesShouldReturnFailedWhenExceptionGetThrown()
+	{
+		EnumeratorService sut = CreateMockedInstance(null!);
+
+		var result = sut.GetAccountTypes();
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNull();
+			result.IsError.Should().BeTrue();
+			result.Errors.First().Should().Be(EnumeratorServiceErrors.GetCardTypesFailed);
+			result.Value.Should().BeNullOrEmpty();
+		});
+	}
+
+	[TestMethod]
 	[TestCategory(nameof(EnumeratorService.GetCardTypes))]
 	public void GetCardTypesShouldReturnResultWhenSuccessful()
 	{

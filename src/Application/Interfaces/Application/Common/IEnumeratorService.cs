@@ -10,32 +10,38 @@ namespace Application.Interfaces.Application.Common;
 public interface IEnumeratorService
 {
 	/// <summary>
-	/// Returns all card type enumerators.
+	/// Returns all bank account type enumerators.
 	/// </summary>
-	/// <returns>A list of card type responses.</returns>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	ErrorOr<IEnumerable<AccountTypeResponse>> GetAccountTypes();
+
+	/// <summary>
+	/// Returns all bank card type enumerators.
+	/// </summary>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	ErrorOr<IEnumerable<CardTypeResponse>> GetCardTypes();
 
 	/// <summary>
 	/// Returns all attendance type enumerators.
 	/// </summary>
-	/// <returns>A list of attendance type responses.</returns>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes();
 
 	/// <summary>
 	/// Returns all priority level type enumerators.
 	/// </summary>
-	/// <returns>A list of priority level type responses.</returns>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	ErrorOr<IEnumerable<PriorityLevelTypeResponse>> GetPriorityLevelTypes();
 
 	/// <summary>
-	/// Returns all role type enumerators.
+	/// Returns all user role type enumerators.
 	/// </summary>
-	/// <returns>A list of role type responses.</returns>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	ErrorOr<IEnumerable<RoleTypeResponse>> GetRoleTypes();
 
 	/// <summary>
 	/// Returns all work day type enumerators.
 	/// </summary>
-	/// <returns>A list of work day type responses.</returns>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	ErrorOr<IEnumerable<WorkDayTypeResponse>> GetWorkDayTypes();
 }

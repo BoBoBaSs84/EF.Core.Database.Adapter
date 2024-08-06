@@ -5,7 +5,7 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 using Domain.Errors;
 using Domain.Models.Finance;
 
@@ -65,7 +65,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task GetByIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CardModel cardModel = new() { Id = id, CardType = CardType.DEBIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
+		CardModel cardModel = new() { Id = id, Type = CardType.DEBIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
 			.Returns(Task.FromResult<CardModel?>(cardModel));
@@ -80,7 +80,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().NotBeNull();
 			result.Value.Id.Should().Be(cardModel.Id);
-			result.Value.CardType.Should().Be(cardModel.CardType);
+			result.Value.Type.Should().Be(cardModel.Type);
 			result.Value.PAN.Should().Be(cardModel.PAN);
 			result.Value.ValidUntil.Should().Be(cardModel.ValidUntil);
 			cardMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);

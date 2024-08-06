@@ -17,19 +17,19 @@ public abstract class EnumeratorBaseResponse<T>(T enumValue) where T : struct, I
 	public T Value { get; } = enumValue;
 
 	/// <summary>
-	/// The enumerator name.
+	/// The name of the enumerator.
 	/// </summary>
 	[DataType(DataType.Text)]
 	public string Name { get; } = enumValue.GetName();
 
 	/// <summary>
-	/// The enumerator short name.
+	/// The short name of the enumerator.
 	/// </summary>
 	[DataType(DataType.Text)]
 	public string ShortName { get; } = enumValue.GetShortName();
 
 	/// <summary>
-	/// The enumerator description.
+	/// The description of the enumerator.
 	/// </summary>
 	[DataType(DataType.Text)]
 	public string Description { get; } = enumValue.GetDescription();

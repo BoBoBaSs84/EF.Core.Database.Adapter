@@ -1,7 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Models;
 using BB84.Extensions;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 using Domain.Models.Identity;
 
 namespace Domain.Models.Finance;
@@ -26,7 +26,7 @@ public sealed class CardModel : AuditedModel
 	/// <summary>
 	/// The card type property.
 	/// </summary>
-	public CardType CardType { get; set; }
+	public CardType Type { get; set; }
 
 	/// <summary>
 	/// The <see cref="PAN"/> property.

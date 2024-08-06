@@ -18,18 +18,27 @@ namespace Presentation.Controllers;
 /// <summary>
 /// The enumerator controller class.
 /// </summary>
-/// <remarks>
-/// Inherits from <see cref="ApiControllerBase"/>.
-/// </remarks>
 /// <param name="enumeratorService">The enumerator service to use.</param>
 [Route(Endpoints.Enumerator.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
 public sealed class EnumeratorController(IEnumeratorService enumeratorService) : ApiControllerBase
 {
-	private readonly IEnumeratorService _enumeratorService = enumeratorService;
+	/// <summary>
+	/// Returns all bank account type enumerators.
+	/// </summary>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
+	[HttpGet(Endpoints.Enumerator.AccountType.Get)]
+	[ProducesResponseType(typeof(IEnumerable<CardTypeResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public IActionResult GetAccountTypes()
+	{
+		ErrorOr<IEnumerable<AccountTypeResponse>> result = enumeratorService.GetAccountTypes();
+		return Get(result);
+	}
 
 	/// <summary>
-	/// Returns all card type enumerators.
+	/// Returns all bank card type enumerators.
 	/// </summary>
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
@@ -38,7 +47,7 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetCardTypes()
 	{
-		ErrorOr<IEnumerable<CardTypeResponse>> result = _enumeratorService.GetCardTypes();
+		ErrorOr<IEnumerable<CardTypeResponse>> result = enumeratorService.GetCardTypes();
 		return Get(result);
 	}
 
@@ -52,7 +61,7 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetDayTypes()
 	{
-		ErrorOr<IEnumerable<AttendanceTypeResponse>> result = _enumeratorService.GetAttendanceTypes();
+		ErrorOr<IEnumerable<AttendanceTypeResponse>> result = enumeratorService.GetAttendanceTypes();
 		return Get(result);
 	}
 
@@ -66,7 +75,7 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetPriorityLevelTypes()
 	{
-		ErrorOr<IEnumerable<PriorityLevelTypeResponse>> result = _enumeratorService.GetPriorityLevelTypes();
+		ErrorOr<IEnumerable<PriorityLevelTypeResponse>> result = enumeratorService.GetPriorityLevelTypes();
 		return Get(result);
 	}
 
@@ -84,7 +93,7 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetRoleTypes()
 	{
-		ErrorOr<IEnumerable<RoleTypeResponse>> result = _enumeratorService.GetRoleTypes();
+		ErrorOr<IEnumerable<RoleTypeResponse>> result = enumeratorService.GetRoleTypes();
 		return Get(result);
 	}
 
@@ -98,7 +107,7 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public IActionResult GetWorkDayTypes()
 	{
-		ErrorOr<IEnumerable<WorkDayTypeResponse>> result = _enumeratorService.GetWorkDayTypes();
+		ErrorOr<IEnumerable<WorkDayTypeResponse>> result = enumeratorService.GetWorkDayTypes();
 		return Get(result);
 	}
 }

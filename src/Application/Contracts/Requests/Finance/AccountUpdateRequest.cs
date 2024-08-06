@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Domain.Enumerators.Finance;
+
 using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 
 namespace Application.Contracts.Requests.Finance;
@@ -9,6 +11,12 @@ namespace Application.Contracts.Requests.Finance;
 /// </summary>
 public sealed class AccountUpdateRequest
 {
+	/// <summary>
+	/// The type of the bank account.
+	/// </summary>
+	[Required]
+	public AccountType Type { get; set; }
+
 	/// <summary>
 	/// The account provider.
 	/// </summary>

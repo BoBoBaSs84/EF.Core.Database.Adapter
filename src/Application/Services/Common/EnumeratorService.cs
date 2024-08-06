@@ -8,6 +8,7 @@ using AutoMapper;
 using BB84.Extensions;
 
 using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 using Domain.Errors;
 
 using Microsoft.Extensions.Logging;
@@ -21,11 +22,23 @@ namespace Application.Services.Common;
 /// <param name="mapper">The auto mapper instance to use.</param>
 internal sealed class EnumeratorService(ILoggerService<EnumeratorService> loggerService, IMapper mapper) : IEnumeratorService
 {
-	private readonly ILoggerService<EnumeratorService> _loggerService = loggerService;
-	private readonly IMapper _mapper = mapper;
-
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
+
+	public ErrorOr<IEnumerable<AccountTypeResponse>> GetAccountTypes()
+	{
+		try
+		{
+			IEnumerable<AccountType> accountTypes = AccountType.CHECKING.GetValues();
+
+			return mapper.Map<IEnumerable<AccountTypeResponse>>(accountTypes).ToList();
+		}
+		catch (Exception ex)
+		{
+			loggerService.Log(LogException, ex);
+			return EnumeratorServiceErrors.GetCardTypesFailed;
+		}
+	}
 
 	public ErrorOr<IEnumerable<CardTypeResponse>> GetCardTypes()
 	{
@@ -33,11 +46,11 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		{
 			IEnumerable<CardType> cardTypes = CardType.CREDIT.GetValues();
 
-			return _mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes).ToList();
+			return mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes).ToList();
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogException, ex);
+			loggerService.Log(LogException, ex);
 			return EnumeratorServiceErrors.GetCardTypesFailed;
 		}
 	}
@@ -48,11 +61,11 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		{
 			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.HOLIDAY.GetValues();
 
-			return _mapper.Map<IEnumerable<AttendanceTypeResponse>>(attendanceTypes).ToList();
+			return mapper.Map<IEnumerable<AttendanceTypeResponse>>(attendanceTypes).ToList();
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogException, ex);
+			loggerService.Log(LogException, ex);
 			return EnumeratorServiceErrors.GetAttendanceTypesFailed;
 		}
 	}
@@ -63,11 +76,11 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		{
 			IEnumerable<PriorityLevelType> priorityLevelTypes = PriorityLevelType.NONE.GetValues();
 
-			return _mapper.Map<IEnumerable<PriorityLevelTypeResponse>>(priorityLevelTypes).ToList();
+			return mapper.Map<IEnumerable<PriorityLevelTypeResponse>>(priorityLevelTypes).ToList();
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogException, ex);
+			loggerService.Log(LogException, ex);
 			return EnumeratorServiceErrors.GetPriorityLevelTypesFailed;
 		}
 	}
@@ -78,11 +91,11 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		{
 			IEnumerable<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetValues();
 
-			return _mapper.Map<IEnumerable<RoleTypeResponse>>(roleTypes).ToList();
+			return mapper.Map<IEnumerable<RoleTypeResponse>>(roleTypes).ToList();
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogException, ex);
+			loggerService.Log(LogException, ex);
 			return EnumeratorServiceErrors.GetRoleTypesFailed;
 		}
 	}
@@ -93,11 +106,11 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		{
 			IEnumerable<WorkDayTypes> workDayTypes = WorkDayTypes.Sunday.GetValues();
 
-			return _mapper.Map<IEnumerable<WorkDayTypeResponse>>(workDayTypes).ToList();
+			return mapper.Map<IEnumerable<WorkDayTypeResponse>>(workDayTypes).ToList();
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogException, ex);
+			loggerService.Log(LogException, ex);
 			return EnumeratorServiceErrors.GetWorkDayTypesFailed;
 		}
 	}

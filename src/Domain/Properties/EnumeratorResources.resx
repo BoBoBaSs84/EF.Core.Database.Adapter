@@ -117,6 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountType.Checking.Description" xml:space="preserve">
+    <value>Is a deposit account or bank account held at a bank or other financial institution.</value>
+  </data>
+  <data name="AccountType.Checking.Name" xml:space="preserve">
+    <value>Checking account</value>
+  </data>
+  <data name="AccountType.Checking.ShortName" xml:space="preserve">
+    <value>CH</value>
+  </data>
+  <data name="AccountType.Community.Description" xml:space="preserve">
+    <value>A joint or community account is a bank account that has been opened by two or more individuals or entities.</value>
+  </data>
+  <data name="AccountType.Community.Name" xml:space="preserve">
+    <value>Community account</value>
+  </data>
+  <data name="AccountType.Community.ShortName" xml:space="preserve">
+    <value>CO</value>
+  </data>
+  <data name="AccountType.Savings.Description" xml:space="preserve">
+    <value>Common features include a limited number of withdrawals, a lack of cheque and linked debit card facilities, limited transfer options and the inability to be overdrawn.</value>
+  </data>
+  <data name="AccountType.Savings.Name" xml:space="preserve">
+    <value>Savings account</value>
+  </data>
+  <data name="AccountType.Savings.ShortName" xml:space="preserve">
+    <value>SA</value>
+  </data>
   <data name="AttendanceType.Absence.Description" xml:space="preserve">
     <value>Is an authorised prolonged absence from work, for any reason authorised by the workplace.</value>
   </data>

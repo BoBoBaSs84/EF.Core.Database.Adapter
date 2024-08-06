@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 
 using Domain.Converters;
-using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 
 namespace Application.Contracts.Requests.Finance;
 
@@ -15,7 +15,7 @@ public sealed class CardUpdateRequest
 	/// The card type.
 	/// </summary>
 	[Required]
-	public CardType CardType { get; set; }
+	public CardType Type { get; set; }
 
 	/// <summary>
 	/// The valid until property.

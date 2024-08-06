@@ -5,7 +5,6 @@ using Application.Services.Todo;
 using BaseTests.Helpers;
 
 using Domain.Errors;
-using Domain.Models.Todo;
 using Domain.Results;
 
 using FluentAssertions;
@@ -43,9 +42,10 @@ public sealed partial class TodoServiceTests
 	public async Task DeleteListByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
-		Mock<IListRepository> listRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(null));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.DeleteAsync(listId, default))
+			.Returns(Task.FromResult(0));
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteListById(listId)
 			.ConfigureAwait(false);
@@ -55,6 +55,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
+			listMock.Verify(x => x.DeleteAsync(listId, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -64,9 +65,10 @@ public sealed partial class TodoServiceTests
 	public async Task DeleteListByIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
-		Mock<IListRepository> listRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(new()));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.DeleteAsync(listId, default))
+			.Returns(Task.FromResult(1));
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteListById(listId)
 			.ConfigureAwait(false);
@@ -77,8 +79,7 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			listRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<List>(), default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			listMock.Verify(x => x.DeleteAsync(listId, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

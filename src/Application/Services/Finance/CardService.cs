@@ -22,10 +22,6 @@ namespace Application.Services.Finance;
 /// <param name="mapper">The auto mapper to use.</param>
 internal sealed class CardService(ILoggerService<CardService> loggerService, IRepositoryService repositoryService, IMapper mapper) : ICardService
 {
-	private readonly ILoggerService<CardService> _loggerService = loggerService;
-	private readonly IRepositoryService _repositoryService = repositoryService;
-	private readonly IMapper _mapper = mapper;
-
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
@@ -33,29 +29,29 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			AccountModel? accountEntity = await _repositoryService.AccountRepository
+			AccountModel? accountEntity = await repositoryService.AccountRepository
 				.GetByIdAsync(accountId, token: token)
 				.ConfigureAwait(false);
 
 			if (accountEntity is null)
 				return CardServiceErrors.CreateAccountIdNotFound(accountId);
 
-			CardModel? cardEntity = await _repositoryService.CardRepository
+			CardModel? cardEntity = await repositoryService.CardRepository
 				.GetByConditionAsync(x => x.PAN == request.PAN, token: token)
 				.ConfigureAwait(false);
 
 			if (cardEntity is not null)
 				return CardServiceErrors.CreateNumberConflict(request.PAN);
 
-			CardModel newCard = _mapper.Map<CardModel>(request);
+			CardModel newCard = mapper.Map<CardModel>(request);
 
 			newCard.UserId = userId;
 			newCard.AccountId = accountId;
 
-			await _repositoryService.CardRepository.CreateAsync(newCard, token)
+			await repositoryService.CardRepository.CreateAsync(newCard, token)
 				.ConfigureAwait(false);
 
-			_ = await _repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -63,7 +59,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		catch (Exception ex)
 		{
 			string[] parameters = [$"{userId}", $"{accountId}"];
-			_loggerService.Log(LogExceptionWithParams, parameters, ex);
+			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.CreateFailed(accountId);
 		}
 	}
@@ -72,7 +68,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			int result = await _repositoryService.CardRepository
+			int result = await repositoryService.CardRepository
 				.DeleteAsync(id, token)
 				.ConfigureAwait(false);
 
@@ -82,7 +78,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, id, ex);
+			loggerService.Log(LogExceptionWithParams, id, ex);
 			return CardServiceErrors.DeleteFailed(id);
 		}
 	}
@@ -91,20 +87,20 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			CardModel? cardEntity = await _repositoryService.CardRepository
+			CardModel? cardEntity = await repositoryService.CardRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
 			if (cardEntity is null)
 				return CardServiceErrors.GetByIdNotFound(id);
 
-			CardResponse response = _mapper.Map<CardResponse>(cardEntity);
+			CardResponse response = mapper.Map<CardResponse>(cardEntity);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, id, ex);
+			loggerService.Log(LogExceptionWithParams, id, ex);
 			return CardServiceErrors.GetByIdFailed(id);
 		}
 	}
@@ -113,17 +109,17 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			IEnumerable<CardModel> cardEntries = await _repositoryService.CardRepository
+			IEnumerable<CardModel> cardEntries = await repositoryService.CardRepository
 				.GetManyByConditionAsync(x => x.UserId.Equals(id), token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<CardResponse> response = _mapper.Map<IEnumerable<CardResponse>>(cardEntries);
+			IEnumerable<CardResponse> response = mapper.Map<IEnumerable<CardResponse>>(cardEntries);
 
 			return response.ToList();
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, id, ex);
+			loggerService.Log(LogExceptionWithParams, id, ex);
 			return CardServiceErrors.GetByUserIdFailed(id);
 		}
 	}
@@ -132,8 +128,8 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			int result = await _repositoryService.CardRepository
-				.UpdateAsync(id, s => s.SetProperty(p => p.CardType, request.CardType).SetProperty(p => p.ValidUntil, request.ValidUntil), token)
+			int result = await repositoryService.CardRepository
+				.UpdateAsync(id, s => s.SetProperty(p => p.Type, request.Type).SetProperty(p => p.ValidUntil, request.ValidUntil), token)
 				.ConfigureAwait(false);
 
 			return result.Equals(0)
@@ -142,7 +138,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Log(LogExceptionWithParams, id, ex);
+			loggerService.Log(LogExceptionWithParams, id, ex);
 			return CardServiceErrors.UpdateFailed(id);
 		}
 	}

@@ -91,6 +91,14 @@ internal static class Endpoints
 	internal static class Enumerator
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Enumerator);
+		
+		/// <summary>
+		/// The account type route.
+		/// </summary>
+		internal static class AccountType
+		{
+			internal const string Get = nameof(AccountType);
+		}
 
 		/// <summary>
 		/// The attendance type route.

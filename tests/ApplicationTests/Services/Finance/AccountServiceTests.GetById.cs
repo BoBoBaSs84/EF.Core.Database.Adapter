@@ -7,7 +7,7 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 using Domain.Errors;
 using Domain.Models.Finance;
 
@@ -67,7 +67,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		AccountModel accountModel = new() { Id = id, IBAN = "UnitTest", Provider = "UnitTest" };
+		AccountModel accountModel = new() { Id = id, IBAN = "UnitTest", Type = AccountType.CHECKING, Provider = "UnitTest" };
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(accountModel));
@@ -86,6 +86,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.Should().NotBeNull();
 			result.Value.Id.Should().Be(accountModel.Id);
 			result.Value.IBAN.Should().Be(accountModel.IBAN);
+			result.Value.Type.Should().Be(accountModel.Type);
 			result.Value.Provider.Should().Be(accountModel.Provider);
 			result.Value.Cards.Should().BeEmpty();
 			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
@@ -99,11 +100,11 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByIdShouldReturnResponseWithCardsWhenCardsFound()
 	{
 		Guid id = Guid.NewGuid();
-		AccountModel accountModel = new() { Id = id, IBAN = "UnitTest", Provider = "UnitTest" };
+		AccountModel accountModel = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(accountModel));
-		CardModel cardModel = new() { Id = Guid.NewGuid(), CardType = CardType.CREDIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
+		CardModel cardModel = new() { Id = Guid.NewGuid(), Type = CardType.CREDIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult<IEnumerable<CardModel>>([cardModel]));
@@ -119,7 +120,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.Should().NotBeNull();
 			result.Value.Cards.Should().NotBeNullOrEmpty();
 			result.Value.Cards?.First().Id.Should().Be(cardModel.Id);
-			result.Value.Cards?.First().CardType.Should().Be(cardModel.CardType);
+			result.Value.Cards?.First().Type.Should().Be(cardModel.Type);
 			result.Value.Cards?.First().PAN.Should().Be(cardModel.PAN);
 			result.Value.Cards?.First().ValidUntil.Should().Be(cardModel.ValidUntil);
 			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);

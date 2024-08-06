@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Domain.Enumerators.Finance;
+
 using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
 
@@ -15,6 +17,12 @@ public sealed class AccountCreateRequest
 	/// </summary>
 	[Required, MaxLength(MaxLength.MAX_25), RegularExpression(RegexPatterns.IBAN)]
 	public string IBAN { get; set; } = string.Empty;
+
+	/// <summary>
+	/// The type of the bank account.
+	/// </summary>
+	[Required]
+	public AccountType Type { get; set; }
 
 	/// <summary>
 	/// The account provider.

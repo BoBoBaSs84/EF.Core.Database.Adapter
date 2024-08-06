@@ -9,6 +9,7 @@ using BaseTests.Helpers;
 
 using BB84.Extensions;
 
+using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Models.Todo;
 
@@ -47,9 +48,10 @@ public sealed partial class TodoServiceTests
 	public async Task GetListByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
-		Mock<IListRepository> listRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default)).Returns(Task.FromResult<List?>(null));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default))
+			.Returns(Task.FromResult<List?>(null));
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<ListResponse> result = await sut.GetListById(listId)
 			.ConfigureAwait(false);
@@ -68,10 +70,12 @@ public sealed partial class TodoServiceTests
 	public async Task GetListByIdShouldReturnValidResultWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
-		List list = new() { Title = "Hello", Color = Color.Black };
-		Mock<IListRepository> listRepositoryMock = new();
-		listRepositoryMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default, nameof(List.Items))).Returns(Task.FromResult<List?>(list));
-		TodoService sut = CreateMockedInstance(listRepositoryMock.Object);
+		Item item = new() { Id = Guid.NewGuid(), Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.MEDIUM, Reminder = DateTime.Today, Done = true };
+		List list = new() { Id = listId, Title = "UnitTest", Color = Color.Black, Items = [item] };
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default, nameof(List.Items)))
+			.Returns(Task.FromResult<List?>(list));
+		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<ListResponse> result = await sut.GetListById(listId)
 			.ConfigureAwait(false);
@@ -83,7 +87,13 @@ public sealed partial class TodoServiceTests
 			result.Errors.Should().BeEmpty();
 			result.Value.Title.Should().Be(list.Title);
 			result.Value.Color.Should().Be(list.Color?.ToRGBHexString());
-			result.Value.Items.Should().BeEmpty();
+			result.Value.Items.Should().NotBeNullOrEmpty();
+			result.Value.Items?.First().Id.Should().Be(item.Id);
+			result.Value.Items?.First().Title.Should().Be(item.Title);
+			result.Value.Items?.First().Note.Should().Be(item.Note);
+			result.Value.Items?.First().Priority.Should().Be(item.Priority);
+			result.Value.Items?.First().Reminder.Should().Be(item.Reminder);
+			result.Value.Items?.First().Done.Should().Be(item.Done);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

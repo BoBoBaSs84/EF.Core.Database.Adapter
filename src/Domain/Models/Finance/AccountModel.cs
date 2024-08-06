@@ -1,6 +1,8 @@
 ﻿using BB84.EntityFrameworkCore.Models;
 using BB84.Extensions;
 
+using Domain.Enumerators.Finance;
+
 namespace Domain.Models.Finance;
 
 /// <summary>
@@ -22,6 +24,11 @@ public sealed class AccountModel : AuditedModel
 				_iban = value.RemoveWhitespace();
 		}
 	}
+
+	/// <summary>
+	/// The <see cref="Type"/> property.
+	/// </summary>
+	public AccountType Type { get; set; }
 
 	/// <summary>
 	/// The <see cref="Provider"/> property.

@@ -2,6 +2,8 @@
 
 using Application.Contracts.Responses.Base;
 
+using Domain.Enumerators.Finance;
+
 namespace Application.Contracts.Responses.Finance;
 
 /// <summary>
@@ -17,6 +19,11 @@ public sealed class AccountResponse : IdentityResponse
 	/// </summary>
 	[DataType(DataType.Text)]
 	public string IBAN { get; set; } = string.Empty;
+
+	/// <summary>
+	/// The type of the bank account.
+	/// </summary>
+	public AccountType Type { get; set; }
 
 	/// <summary>
 	/// The account provider.

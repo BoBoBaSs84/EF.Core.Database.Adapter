@@ -13,7 +13,7 @@ namespace Infrastructure.Services;
 /// <typeparam name="T">The type to work with.</typeparam>
 /// <param name="logger">The logger.</param>
 [ExcludeFromCodeCoverage(Justification = "Microsoft.Extensions.Logging Wrapper")]
-public sealed class LoggerService<T>(ILogger<T> logger) : ILoggerService<T> where T : class
+internal sealed class LoggerService<T>(ILogger<T> logger) : ILoggerService<T> where T : class
 {
 	private readonly ILogger<T> _logger = logger;
 

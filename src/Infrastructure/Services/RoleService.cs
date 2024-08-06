@@ -15,5 +15,6 @@ namespace Infrastructure.Services;
 /// Initializes a new instance of the role service class.
 /// </remarks>
 /// <inheritdoc/>
-public sealed class RoleService(IRoleStore<RoleModel> store, IEnumerable<IRoleValidator<RoleModel>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<RoleModel>> logger) : RoleManager<RoleModel>(store, roleValidators, keyNormalizer, errors, logger)
+[ExcludeFromCodeCoverage(Justification = "Wrapper class.")]
+internal sealed class RoleService(IRoleStore<RoleModel> store, IEnumerable<IRoleValidator<RoleModel>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<RoleModel>> logger) : RoleManager<RoleModel>(store, roleValidators, keyNormalizer, errors, logger)
 { }

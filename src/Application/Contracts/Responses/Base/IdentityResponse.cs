@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Application.Contracts.Responses.Base;
+﻿namespace Application.Contracts.Responses.Base;
 
 /// <summary>
 /// The <see langword="abstract"/> identity response class.
@@ -9,7 +7,6 @@ public abstract class IdentityResponse
 {
 	/// <summary>
 	/// The globally unique identifier property.
-	/// </summary>
-	[DataType(DataType.Text)]
+	/// </summary>	
 	public Guid Id { get; set; }
 }

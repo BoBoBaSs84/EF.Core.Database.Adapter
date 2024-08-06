@@ -31,7 +31,7 @@ internal sealed class RepositoryService : IRepositoryService
 	/// <param name="context">The database context to work with.</param>
 	public RepositoryService(IRepositoryContext context)
 	{
-		_context = context ?? throw new ArgumentNullException(nameof(context));
+		_context = context;
 
 		_lazyAccountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(_context));
 		_lazyCardRepository = new Lazy<ICardRepository>(() => new CardRepository(_context));
@@ -59,6 +59,6 @@ internal sealed class RepositoryService : IRepositoryService
 	public IItemRepository TodoItemRepository
 		=> _lazyTodoItemRepository.Value;
 
-	public async Task<int> CommitChangesAsync(CancellationToken cancellationToken = default)
-		=> await _context.SaveChangesAsync(cancellationToken);
+	public async Task<int> CommitChangesAsync(CancellationToken token = default)
+		=> await _context.SaveChangesAsync(token);
 }

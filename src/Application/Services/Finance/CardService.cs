@@ -133,7 +133,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		try
 		{
 			int result = await _repositoryService.CardRepository
-				.UpdateAsync(id, s => s.SetProperty(p => p.CardType, request.CardType).SetProperty(p => p.ValidUntil, request.ValidUntil), token)
+				.UpdateAsync(id, s => s.SetProperty(p => p.Type, request.Type).SetProperty(p => p.ValidUntil, request.ValidUntil), token)
 				.ConfigureAwait(false);
 
 			return result.Equals(0)

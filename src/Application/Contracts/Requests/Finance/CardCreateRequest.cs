@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 
 using Domain.Converters;
-using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 
 using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
 using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
@@ -18,7 +18,7 @@ public sealed class CardCreateRequest
 	/// The type of the card.
 	/// </summary>
 	[Required]
-	public CardType CardType { get; set; }
+	public CardType Type { get; set; }
 
 	/// <summary>
 	/// The payment card number.

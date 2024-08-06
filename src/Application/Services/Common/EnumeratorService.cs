@@ -8,6 +8,7 @@ using AutoMapper;
 using BB84.Extensions;
 
 using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 using Domain.Errors;
 
 using Microsoft.Extensions.Logging;

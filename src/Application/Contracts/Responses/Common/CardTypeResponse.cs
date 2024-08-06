@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses.Common.Base;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 
 namespace Application.Contracts.Responses.Common;
 

@@ -1,6 +1,7 @@
 ﻿using BB84.Extensions;
 
 using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 using Domain.Models.Attendance;
 using Domain.Models.Finance;
 using Domain.Models.Identity;
@@ -72,7 +73,7 @@ public static class ModelHelper
 		CardModel cardToReturn = new()
 		{
 			Account = account,
-			CardType = (CardType)GetInt(1, 2),
+			Type = (CardType)GetInt(1, 2),
 			Transactions = cardTransactions ?? default!,
 			PAN = cardNumber ?? GetString(RegexPatterns.PAN),
 			User = user

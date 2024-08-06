@@ -7,7 +7,7 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Finance;
 using Domain.Errors;
 using Domain.Models.Finance;
 
@@ -103,7 +103,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(accountModel));
-		CardModel cardModel = new() { Id = Guid.NewGuid(), CardType = CardType.CREDIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
+		CardModel cardModel = new() { Id = Guid.NewGuid(), Type = CardType.CREDIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult<IEnumerable<CardModel>>([cardModel]));
@@ -119,7 +119,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.Should().NotBeNull();
 			result.Value.Cards.Should().NotBeNullOrEmpty();
 			result.Value.Cards?.First().Id.Should().Be(cardModel.Id);
-			result.Value.Cards?.First().CardType.Should().Be(cardModel.CardType);
+			result.Value.Cards?.First().CardType.Should().Be(cardModel.Type);
 			result.Value.Cards?.First().PAN.Should().Be(cardModel.PAN);
 			result.Value.Cards?.First().ValidUntil.Should().Be(cardModel.ValidUntil);
 			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);

@@ -828,18 +828,36 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while creating the transaction for the account with the identifier: &apos;{0}&apos;..
         /// </summary>
-        public static string TransactionServiceErrors_CreateForAccount_Failed {
+        public static string TransactionServiceErrors_CreateByAccountId_Failed {
             get {
-                return ResourceManager.GetString("TransactionServiceErrors.CreateForAccount.Failed", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.CreateByAccountId.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank account with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TransactionServiceErrors_CreateByAccountId_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.CreateByAccountId.NotFound", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while creating the transaction for the card with the identifier: &apos;{0}&apos;..
         /// </summary>
-        public static string TransactionServiceErrors_CreateForCard_Failed {
+        public static string TransactionServiceErrors_CreateByCardId_Failed {
             get {
-                return ResourceManager.GetString("TransactionServiceErrors.CreateForCard.Failed", resourceCulture);
+                return ResourceManager.GetString("TransactionServiceErrors.CreateByCardId.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank card with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string TransactionServiceErrors_CreateByCardId_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.CreateByCardId.NotFound", resourceCulture);
             }
         }
         
@@ -849,6 +867,15 @@ namespace Application.Properties {
         public static string TransactionServiceErrors_Delete_Failed {
             get {
                 return ResourceManager.GetString("TransactionServiceErrors.Delete.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank transaction with the identifier: &apos;{0}&apos; could be found to delete..
+        /// </summary>
+        public static string TransactionServiceErrors_Delete_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.Delete.NotFound", resourceCulture);
             }
         }
         
@@ -912,6 +939,15 @@ namespace Application.Properties {
         public static string TransactionServiceErrors_Update_Failed {
             get {
                 return ResourceManager.GetString("TransactionServiceErrors.Update.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bank transaction with the identifier: &apos;{0}&apos; could be found to delete..
+        /// </summary>
+        public static string TransactionServiceErrors_Update_NotFound {
+            get {
+                return ResourceManager.GetString("TransactionServiceErrors.Update.NotFound", resourceCulture);
             }
         }
     }

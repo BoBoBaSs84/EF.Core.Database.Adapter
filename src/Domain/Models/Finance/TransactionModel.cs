@@ -65,10 +65,10 @@ public sealed class TransactionModel : AuditedModel
 	/// <summary>
 	/// The <see cref="AccountTransactions"/> property.
 	/// </summary>
-	public ICollection<AccountTransactionModel> AccountTransactions { get; set; } = [];
+	public ICollection<AccountTransactionModel> AccountTransactions { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="CardTransactions"/> property.
 	/// </summary>
-	public ICollection<CardTransactionModel> CardTransactions { get; set; } = [];
+	public ICollection<CardTransactionModel> CardTransactions { get; set; } = default!;
 }

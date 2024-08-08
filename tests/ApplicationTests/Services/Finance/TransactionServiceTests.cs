@@ -10,7 +10,7 @@ namespace ApplicationTests.Services.Finance;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
-internal sealed partial class TransactionServiceTests : ApplicationTestBase
+public sealed partial class TransactionServiceTests : ApplicationTestBase
 {
 	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<ILoggerService<TransactionService>> _loggerServiceMock = default!;

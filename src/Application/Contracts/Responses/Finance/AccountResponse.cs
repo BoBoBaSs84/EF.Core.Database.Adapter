@@ -17,18 +17,19 @@ public sealed class AccountResponse : IdentityResponse
 	/// <summary>
 	/// The international bank account number.
 	/// </summary>
-	[DataType(DataType.Text)]
+	[Required, DataType(DataType.Text)]
 	public string IBAN { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The type of the bank account.
 	/// </summary>
+	[Required]
 	public AccountType Type { get; set; }
 
 	/// <summary>
 	/// The account provider.
 	/// </summary>
-	[DataType(DataType.Text)]
+	[Required, DataType(DataType.Text)]
 	public string Provider { get; set; } = string.Empty;
 
 	/// <summary>

@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
+﻿using Application.Contracts.Requests.Finance;
+using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Services.Finance;
 
@@ -60,5 +61,24 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			CustomerReference = GetString(50)
 		};
 		return transaction;
+	}
+
+	private static TransactionUpdateRequest CreateUpdateRequest()
+	{
+		TransactionUpdateRequest request = new()
+		{
+			BookingDate = GetDateTime(),
+			ValueDate = GetDateTime(),
+			PostingText = GetString(100),
+			ClientBeneficiary = GetString(250),
+			Purpose = GetString(400),
+			AccountNumber = GetString(RegexPatterns.IBAN).RemoveWhitespace(),
+			BankCode = GetString(25),
+			AmountEur = GetInt(-100, 250),
+			CreditorId = GetString(25),
+			MandateReference = GetString(50),
+			CustomerReference = GetString(50)
+		};
+		return request;
 	}
 }

@@ -17,17 +17,18 @@ public sealed class CardResponse : IdentityResponse
 	/// <summary>
 	/// The payment card number.
 	/// </summary>
-	[DataType(DataType.CreditCard)]
+	[Required, DataType(DataType.CreditCard)]
 	public string PAN { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The card type.
 	/// </summary>
+	[Required]
 	public CardType Type { get; set; }
 
 	/// <summary>
 	/// The valid until property.
 	/// </summary>
-	[DataType(DataType.Date)]
+	[Required, DataType(DataType.Date)]
 	public DateTime ValidUntil { get; set; }
 }

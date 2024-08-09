@@ -49,17 +49,17 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 				}
 			}
 
-			AccountModel newAccount = mapper.Map<AccountModel>(request);
+			AccountModel account = mapper.Map<AccountModel>(request);
 
-			if (newAccount.Cards.Count > 0)
+			if (account.Cards.Count > 0)
 			{
-				foreach (CardModel card in newAccount.Cards)
+				foreach (CardModel card in account.Cards)
 					card.UserId = id;
 			}
 
-			newAccount.AccountUsers.Add(new() { UserId = id, Account = newAccount });
+			account.AccountUsers = [new() { UserId = id, Account = account }];
 
-			await repositoryService.AccountRepository.CreateAsync(newAccount, token)
+			await repositoryService.AccountRepository.CreateAsync(account, token)
 				.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)

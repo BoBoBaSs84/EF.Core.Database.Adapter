@@ -62,5 +62,5 @@ public sealed class CardModel : AuditedModel
 	/// <summary>
 	/// The <see cref="Transactions"/> property.
 	/// </summary>
-	public ICollection<CardTransactionModel> Transactions { get; set; } = [];
+	public ICollection<CardTransactionModel> Transactions { get; set; } = default!;
 }

@@ -372,14 +372,23 @@
   <data name="TodoService.UpdateListById.Failed" xml:space="preserve">
     <value>An error occurred when updating the todo list with the identifier: {0}.</value>
   </data>
-  <data name="TransactionServiceErrors.CreateForAccount.Failed" xml:space="preserve">
+  <data name="TransactionServiceErrors.CreateByAccountId.Failed" xml:space="preserve">
     <value>An error occurred while creating the transaction for the account with the identifier: '{0}'.</value>
   </data>
-  <data name="TransactionServiceErrors.CreateForCard.Failed" xml:space="preserve">
+  <data name="TransactionServiceErrors.CreateByAccountId.NotFound" xml:space="preserve">
+    <value>No bank account with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="TransactionServiceErrors.CreateByCardId.Failed" xml:space="preserve">
     <value>An error occurred while creating the transaction for the card with the identifier: '{0}'.</value>
+  </data>
+  <data name="TransactionServiceErrors.CreateByCardId.NotFound" xml:space="preserve">
+    <value>No bank card with the identifier: '{0}' could be found to load.</value>
   </data>
   <data name="TransactionServiceErrors.Delete.Failed" xml:space="preserve">
     <value>An error occurred while deleting the transaction with the identifier: '{0}'.</value>
+  </data>
+  <data name="TransactionServiceErrors.Delete.NotFound" xml:space="preserve">
+    <value>No bank transaction with the identifier: '{0}' could be found to delete.</value>
   </data>
   <data name="TransactionServiceErrors.GetByAccountId.Failed" xml:space="preserve">
     <value>An error occurred while loading the transaction for the bank account with the identifier: '{0}'.</value>
@@ -401,5 +410,8 @@
   </data>
   <data name="TransactionServiceErrors.Update.Failed" xml:space="preserve">
     <value>An error occurred while updating the transaction with the identifier: '{0}'.</value>
+  </data>
+  <data name="TransactionServiceErrors.Update.NotFound" xml:space="preserve">
+    <value>No bank transaction with the identifier: '{0}' could be found to delete.</value>
   </data>
 </root>

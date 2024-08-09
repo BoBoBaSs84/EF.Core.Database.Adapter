@@ -38,15 +38,15 @@ public sealed class AccountModel : AuditedModel
 	/// <summary>
 	/// The <see cref="AccountUsers"/> property.
 	/// </summary>
-	public ICollection<AccountUserModel> AccountUsers { get; set; } = [];
+	public ICollection<AccountUserModel> AccountUsers { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="Transactions"/> property.
 	/// </summary>
-	public ICollection<AccountTransactionModel> Transactions { get; set; } = [];
+	public ICollection<AccountTransactionModel> Transactions { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="Cards"/> property.
 	/// </summary>
-	public ICollection<CardModel> Cards { get; set; } = [];
+	public ICollection<CardModel> Cards { get; set; } = default!;
 }

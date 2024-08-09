@@ -70,20 +70,20 @@ public interface ITransactionService
 	/// <summary>
 	/// Returns multiple transaction entries as a paged list for a bank account filtered by the transaction query parameters.
 	/// </summary>
-	/// <param name="accountId">The identifier of the bank account.</param>
+	/// <param name="id">The identifier of the bank account.</param>
 	/// <param name="parameters">The transaction query parameters.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByAccountId(Guid accountId, TransactionParameters parameters, CancellationToken token = default);
+	Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByAccountId(Guid id, TransactionParameters parameters, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns multiple transaction entries as a paged list for a bank card filtered by the transaction query parameters.
 	/// </summary>
-	/// <param name="cardId">The identifier of the bank card.</param>
+	/// <param name="id">The identifier of the bank card.</param>
 	/// <param name="parameters">The transaction query parameters.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByCardId(Guid cardId, TransactionParameters parameters, CancellationToken token = default);
+	Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByCardId(Guid id, TransactionParameters parameters, CancellationToken token = default);
 
 	/// <summary>
 	/// Updates an existing transaction for the bank account.

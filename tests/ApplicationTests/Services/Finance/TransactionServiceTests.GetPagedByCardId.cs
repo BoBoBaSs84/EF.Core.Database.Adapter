@@ -1,0 +1,68 @@
+﻿using System.Linq.Expressions;
+
+using Application.Contracts.Responses.Finance;
+using Application.Errors.Services;
+using Application.Features.Requests;
+using Application.Features.Responses;
+using Application.Interfaces.Infrastructure.Persistence.Repositories;
+using Application.Services.Finance;
+
+using BaseTests.Helpers;
+
+using Domain.Errors;
+using Domain.Models.Finance;
+
+using FluentAssertions;
+
+using Microsoft.Extensions.Logging;
+
+using Moq;
+
+namespace ApplicationTests.Services.Finance;
+
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
+public sealed partial class TransactionServiceTests : ApplicationTestBase
+{
+	[TestMethod]
+	[TestCategory(nameof(TransactionService.GetPagedByCardId))]
+	public async Task GetPagedByCardIdShouldReturnFailedWhenExceptionIsThrown()
+	{
+		Guid id = Guid.NewGuid();
+		TransactionService sut = CreateMockedInstance();
+
+		ErrorOr<IPagedList<TransactionResponse>> result = await sut.GetPagedByCardId(id, new())
+			.ConfigureAwait(false);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNull();
+			result.IsError.Should().BeTrue();
+			result.Errors.First().Should().Be(TransactionServiceErrors.GetPagedByCardIdFailed(id));
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Once);
+		});
+	}
+
+	[TestMethod]
+	[TestCategory(nameof(TransactionService.GetPagedByCardId))]
+	public async Task GetPagedByCardIdShouldReturnResponseWhenSuccessful()
+	{
+		Guid id = Guid.NewGuid();
+		TransactionParameters parameters = new();
+		Mock<ITransactionRepository> mock = new();
+		TransactionService sut = CreateMockedInstance(transactionRepository: mock.Object);
+
+		ErrorOr<IPagedList<TransactionResponse>> result = await sut.GetPagedByCardId(id, parameters)
+			.ConfigureAwait(false);
+
+		AssertionHelper.AssertInScope(() =>
+		{
+			result.Should().NotBeNull();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().HaveCount(0);
+			mock.Verify(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), It.IsAny<Func<IQueryable<TransactionModel>, IQueryable<TransactionModel>>>(), false, It.IsAny<Func<IQueryable<TransactionModel>, IOrderedQueryable<TransactionModel>>>(), (parameters.PageNumber - 1) * parameters.PageSize, parameters.PageSize, false, default), Times.Once);
+			mock.Verify(x => x.CountAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), It.IsAny<Func<IQueryable<TransactionModel>, IQueryable<TransactionModel>>>(), false, default), Times.Once);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
+		});
+	}
+}

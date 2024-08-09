@@ -25,9 +25,6 @@ namespace Application.Services.Finance;
 /// <param name="mapper">The auto mapper to use.</param>
 internal sealed class TransactionService(ILoggerService<TransactionService> loggerService, IRepositoryService repositoryService, IMapper mapper) : ITransactionService
 {
-	private static readonly Action<ILogger, Exception?> LogException =
-		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
-
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
@@ -177,33 +174,26 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByAccountId(Guid accountId, TransactionParameters parameters, CancellationToken token = default)
+	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByAccountId(Guid id, TransactionParameters parameters, CancellationToken token = default)
 	{
 		try
 		{
-			IEnumerable<TransactionModel> entities = await repositoryService.TransactionRepository.GetManyByConditionAsync(
-				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
-				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
-				.FilterByValueDate(parameters.ValueDate)
-				.FilterByBeneficiary(parameters.Beneficiary)
-				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
-				orderBy: x => x.OrderBy(x => x.BookingDate),
-				take: parameters.PageSize,
-				skip: (parameters.PageNumber - 1) * parameters.PageSize,
-				token: token
-				);
+			IEnumerable<TransactionModel> entities = await repositoryService.TransactionRepository
+				.GetManyByConditionAsync(
+					expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
+					queryFilter: x => x.FilterByParameters(parameters),
+					orderBy: x => x.OrderBy(x => x.BookingDate),
+					skip: (parameters.PageNumber - 1) * parameters.PageSize,
+					take: parameters.PageSize,
+					token: token)
+				.ConfigureAwait(false);
 
-			if (entities.Any().Equals(false))
-				return TransactionServiceErrors.GetByAccountIdNotFound(accountId);
-
-			int totalCount = await repositoryService.TransactionRepository.CountAsync(
-				expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
-				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
-				.FilterByValueDate(parameters.ValueDate)
-				.FilterByBeneficiary(parameters.Beneficiary)
-				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
-				token: token
-				);
+			int totalCount = await repositoryService.TransactionRepository
+				.CountAsync(
+					expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
+					queryFilter: x => x.FilterByParameters(parameters),
+					token: token)
+				.ConfigureAwait(false);
 
 			IEnumerable<TransactionResponse> result = mapper.Map<IEnumerable<TransactionResponse>>(entities);
 
@@ -211,38 +201,31 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogException, ex);
-			return TransactionServiceErrors.GetByAccountIdFailed(accountId);
+			loggerService.Log(LogExceptionWithParams, id, ex);
+			return TransactionServiceErrors.GetPagedByAccountIdFailed(id);
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByCardId(Guid cardId, TransactionParameters parameters, CancellationToken token = default)
+	public async Task<ErrorOr<IPagedList<TransactionResponse>>> GetPagedByCardId(Guid id, TransactionParameters parameters, CancellationToken token = default)
 	{
 		try
 		{
-			IEnumerable<TransactionModel> entities = await repositoryService.TransactionRepository.GetManyByConditionAsync(
-				expression: x => x.CardTransactions.Select(x => x.CardId).Contains(cardId),
-				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
-				.FilterByValueDate(parameters.ValueDate)
-				.FilterByBeneficiary(parameters.Beneficiary)
-				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
-				orderBy: x => x.OrderBy(x => x.BookingDate),
-				take: parameters.PageSize,
-				skip: (parameters.PageNumber - 1) * parameters.PageSize,
-				token: token
-				);
+			IEnumerable<TransactionModel> entities = await repositoryService.TransactionRepository
+				.GetManyByConditionAsync(
+					expression: x => x.CardTransactions.Select(x => x.CardId).Contains(id),
+					queryFilter: x => x.FilterByParameters(parameters),
+					orderBy: x => x.OrderBy(x => x.BookingDate),
+					skip: (parameters.PageNumber - 1) * parameters.PageSize,
+					take: parameters.PageSize,
+					token: token)
+				.ConfigureAwait(false);
 
-			if (entities.Any().Equals(false))
-				return TransactionServiceErrors.GetByCardIdNotFound(cardId);
-
-			int totalCount = await repositoryService.TransactionRepository.CountAsync(
-				expression: x => x.CardTransactions.Select(x => x.CardId).Contains(cardId),
-				queryFilter: x => x.FilterByBookingDate(parameters.BookingDate)
-				.FilterByValueDate(parameters.ValueDate)
-				.FilterByBeneficiary(parameters.Beneficiary)
-				.FilterByAmountRange(parameters.MinValue, parameters.MaxValue),
-				token: token
-				);
+			int totalCount = await repositoryService.TransactionRepository
+				.CountAsync(
+					expression: x => x.CardTransactions.Select(x => x.CardId).Contains(id),
+					queryFilter: x => x.FilterByParameters(parameters),
+					token: token)
+				.ConfigureAwait(false);
 
 			IEnumerable<TransactionResponse> result = mapper.Map<IEnumerable<TransactionResponse>>(entities);
 
@@ -250,8 +233,8 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogException, ex);
-			return TransactionServiceErrors.GetByCardIdFailed(cardId);
+			loggerService.Log(LogExceptionWithParams, id, ex);
+			return TransactionServiceErrors.GetPagedByCardIdFailed(id);
 		}
 	}
 

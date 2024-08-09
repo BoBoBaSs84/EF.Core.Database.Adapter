@@ -89,34 +89,16 @@ public static class TransactionServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="cardId">The identifier of the bank card.</param>
-	public static ApiError GetByCardIdFailed(Guid cardId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByCardIdFailed}",
-			RESX.TransactionServiceErrors_GetByCardId_Failed.FormatInvariant(cardId));
+	public static ApiError GetPagedByCardIdFailed(Guid id) =>
+		ApiError.CreateFailed($"{ErrorPrefix}.{GetPagedByCardIdFailed}",
+			RESX.TransactionServiceErrors_GetByCardId_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.
 	/// </summary>
-	/// <param name="cardId">The identifier of the bank card.</param>
-	public static ApiError GetByCardIdNotFound(Guid cardId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByCardIdNotFound}",
-			RESX.TransactionServiceErrors_GetByCardId_NotFound.FormatInvariant(cardId));
-
-	/// <summary>
-	/// Error that indicates an exception during the transaction service.
-	/// </summary>
-	/// <param name="accountId">The identifier of the bank account.</param>
-	public static ApiError GetByAccountIdFailed(Guid accountId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{GetByAccountIdFailed}",
-			RESX.TransactionServiceErrors_GetByAccountId_Failed.FormatInvariant(accountId));
-
-	/// <summary>
-	/// Error that indicates an exception during the transaction service.
-	/// </summary>
-	/// <param name="accountId">The identifier of the bank account.</param>
-	public static ApiError GetByAccountIdNotFound(Guid accountId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{GetByAccountIdNotFound}",
-			RESX.TransactionServiceErrors_GetByAccountId_NotFound.FormatInvariant(accountId));
+	public static ApiError GetPagedByAccountIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetPagedByAccountIdFailed}",
+			RESX.TransactionServiceErrors_GetByAccountId_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.

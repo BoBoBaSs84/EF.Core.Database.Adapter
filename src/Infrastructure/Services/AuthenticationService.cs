@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -15,25 +14,27 @@ using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Models.Identity;
 using Domain.Results;
+using Domain.Settings;
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
-using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
 
 namespace Infrastructure.Services;
 
-internal sealed class AuthenticationService : IAuthenticationService
+/// <summary>
+/// The authentication service class.
+/// </summary>
+/// <param name="options">The options for the bearer settings.</param>
+/// <param name="dateTimeService">The date time service instance to use.</param>
+/// <param name="logger">The logger service instance to use.</param>
+/// <param name="roleService">The role service instance to use.</param>
+/// <param name="userService">The user service instance to use.</param>
+/// <param name="mapper">The auto mapper instance to use.</param>
+internal sealed class AuthenticationService(IOptions<BearerSettings> options, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger, RoleService roleService, UserService userService, IMapper mapper) : IAuthenticationService
 {
-	private readonly IConfiguration _configuration;
-	private readonly IConfigurationSection _jwtSettings;
-	private readonly IDateTimeService _dateTimeService;
-	private readonly ILoggerService<AuthenticationService> _logger;
-	private readonly RoleService _roleService;
-	private readonly UserService _userService;
-	private readonly IMapper _mapper;
+	private readonly BearerSettings _bearerSettings = options.Value;
 
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -41,43 +42,22 @@ internal sealed class AuthenticationService : IAuthenticationService
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
-	/// <summary>
-	/// Initilizes an instance of <see cref="AuthenticationService"/> class.
-	/// </summary>
-	/// <param name="configuration">The configuration.</param>
-	/// <param name="dateTimeService">The date time service.</param>
-	/// <param name="logger">The logger service.</param>
-	/// <param name="roleService">The role service.</param>
-	/// <param name="userService">The user service.</param>
-	/// <param name="mapper">The auto mapper.</param>
-	public AuthenticationService(IConfiguration configuration, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger, RoleService roleService, UserService userService, IMapper mapper)
-	{
-		_configuration = configuration;
-		_jwtSettings = _configuration.GetRequiredSection(Jwt.JwtSettings);
-		_dateTimeService = dateTimeService;
-		_logger = logger;
-		_roleService = roleService;
-		_userService = userService;
-		_mapper = mapper;
-	}
-
 	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId)
 	{
-		string[] parameters = [$"{userId}", $"{roleId}"];
 		ErrorOr<Created> response = new();
 		try
 		{
-			UserModel? user = await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await _roleService.FindByIdAsync($"{roleId}");
+			RoleModel? role = await roleService.FindByIdAsync($"{roleId}");
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.AddToRoleAsync(user, role.Name!);
+			IdentityResult identityResult = await userService.AddToRoleAsync(user, role.Name!);
 
 			if (!identityResult.Succeeded)
 			{
@@ -90,7 +70,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			string[] parameters = [$"{userId}", $"{roleId}"];
+			logger.Log(LogExceptionWithParams, parameters, ex);
 			return AuthenticationServiceErrors.AddUserToRoleFailed;
 		}
 	}
@@ -99,12 +80,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			UserModel? user = await _userService.FindByNameAsync(request.UserName);
+			UserModel? user = await userService.FindByNameAsync(request.UserName);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
-			if (!await _userService.CheckPasswordAsync(user, request.Password))
+			if (!await userService.CheckPasswordAsync(user, request.Password))
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
 			SigningCredentials signingCredentials = GetSigningCredentials();
@@ -122,7 +103,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, request, ex);
+			logger.Log(LogExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.AuthenticateUserFailed;
 		}
 	}
@@ -132,9 +113,9 @@ internal sealed class AuthenticationService : IAuthenticationService
 		ErrorOr<Created> response = new();
 		try
 		{
-			UserModel user = _mapper.Map<UserModel>(request);
+			UserModel user = mapper.Map<UserModel>(request);
 
-			IdentityResult result = await _userService.CreateAsync(user, request.Password);
+			IdentityResult result = await userService.CreateAsync(user, request.Password);
 
 			if (!result.Succeeded)
 			{
@@ -143,13 +124,13 @@ internal sealed class AuthenticationService : IAuthenticationService
 				return response;
 			}
 
-			_ = await _userService.AddToRoleAsync(user, RoleType.USER.ToString());
+			_ = await userService.AddToRoleAsync(user, RoleType.USER.ToString());
 
 			return response;
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, request, ex);
+			logger.Log(LogExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.CreateUserFailed;
 		}
 	}
@@ -159,16 +140,16 @@ internal sealed class AuthenticationService : IAuthenticationService
 		try
 		{
 			IList<UserModel> users =
-				await _userService.GetUsersInRoleAsync(RoleType.USER.ToString());
+				await userService.GetUsersInRoleAsync(RoleType.USER.ToString());
 
 			IEnumerable<UserResponse> response =
-				_mapper.Map<IEnumerable<UserResponse>>(users);
+				mapper.Map<IEnumerable<UserResponse>>(users);
 
 			return response.ToList();
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogException, ex);
+			logger.Log(LogException, ex);
 			return AuthenticationServiceErrors.GetAllFailed;
 		}
 	}
@@ -177,19 +158,19 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			UserModel? user = await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
 			UserResponse response =
-				_mapper.Map<UserResponse>(user);
+				mapper.Map<UserResponse>(user);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, userId, ex);
+			logger.Log(LogExceptionWithParams, userId, ex);
 			return AuthenticationServiceErrors.GetUserByIdFailed(userId);
 		}
 	}
@@ -198,40 +179,38 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		try
 		{
-			UserModel? user = await _userService.FindByNameAsync(userName);
+			UserModel? user = await userService.FindByNameAsync(userName);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByNameNotFound(userName);
 
-			UserResponse response = _mapper.Map<UserResponse>(user);
+			UserResponse response = mapper.Map<UserResponse>(user);
 
 			return response;
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, userName, ex);
+			logger.Log(LogExceptionWithParams, userName, ex);
 			return AuthenticationServiceErrors.GetUserByNameFailed(userName);
 		}
 	}
 
 	public async Task<ErrorOr<Deleted>> RemoveUserFromRole(Guid userId, Guid roleId)
 	{
-		string[] parameters = [$"{userId}", $"{roleId}"];
 		ErrorOr<Deleted> response = new();
-
 		try
 		{
-			UserModel? user = await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await _roleService.FindByIdAsync($"{roleId}");
+			RoleModel? role = await roleService.FindByIdAsync($"{roleId}");
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await _userService.RemoveFromRoleAsync(user, role.Name!);
+			IdentityResult identityResult = await userService.RemoveFromRoleAsync(user, role.Name!);
 
 			if (identityResult.Succeeded.Equals(false))
 			{
@@ -244,7 +223,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, parameters, ex);
+			string[] parameters = [$"{userId}", $"{roleId}"];
+			logger.Log(LogExceptionWithParams, parameters, ex);
 			return AuthenticationServiceErrors.RemoveUserToRoleFailed;
 		}
 	}
@@ -254,7 +234,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 		ErrorOr<Updated> response = new();
 		try
 		{
-			UserModel? user = await _userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService.FindByIdAsync($"{userId}");
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
@@ -266,9 +246,9 @@ internal sealed class AuthenticationService : IAuthenticationService
 			user.Email = request.Email;
 			user.PhoneNumber = request.PhoneNumber;
 			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);
-			user.Preferences = _mapper.Map<PreferencesModel>(request.Preferences);
+			user.Preferences = mapper.Map<PreferencesModel>(request.Preferences);
 
-			IdentityResult result = await _userService.UpdateAsync(user);
+			IdentityResult result = await userService.UpdateAsync(user);
 
 			if (!result.Succeeded)
 			{
@@ -280,14 +260,14 @@ internal sealed class AuthenticationService : IAuthenticationService
 		}
 		catch (Exception ex)
 		{
-			_logger.Log(LogExceptionWithParams, request, ex);
+			logger.Log(LogExceptionWithParams, request, ex);
 			return AuthenticationServiceErrors.UpdateUserFailed;
 		}
 	}
 
 	private SigningCredentials GetSigningCredentials()
 	{
-		byte[] key = Encoding.UTF8.GetBytes(_jwtSettings[Jwt.SecurityKey]!);
+		byte[] key = Encoding.UTF8.GetBytes(_bearerSettings.SecurityKey);
 		SymmetricSecurityKey secret = new(key);
 		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha512);
 	}
@@ -296,7 +276,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 	{
 		List<Claim> claims = [new(ClaimTypes.Name, user.UserName!), new(ClaimTypes.NameIdentifier, $"{user.Id}")];
 
-		IList<string> roles = await _userService.GetRolesAsync(user);
+		IList<string> roles = await userService.GetRolesAsync(user);
 
 		foreach (string role in roles)
 			claims.Add(new Claim(ClaimTypes.Role, role));
@@ -306,13 +286,11 @@ internal sealed class AuthenticationService : IAuthenticationService
 
 	private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, IEnumerable<Claim> claims)
 	{
-		string expiryInMinutes = _jwtSettings[Jwt.ExpiryInMinutes] ?? "5";
-
 		JwtSecurityToken tokenOptions = new(
-				issuer: _jwtSettings[Jwt.ValidIssuer],
-				audience: _jwtSettings[Jwt.ValidAudience],
+				issuer: _bearerSettings.Issuer,
+				audience: _bearerSettings.Audience,
 				claims: claims,
-				expires: _dateTimeService.Now.AddMinutes(int.Parse(expiryInMinutes, CultureInfo.CurrentCulture)),
+				expires: dateTimeService.Now.AddMinutes(_bearerSettings.ExpiryInMinutes),
 				signingCredentials: signingCredentials);
 
 		return tokenOptions;

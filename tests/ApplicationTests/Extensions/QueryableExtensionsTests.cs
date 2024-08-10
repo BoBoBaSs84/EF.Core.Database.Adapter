@@ -1,10 +1,16 @@
 ﻿using Application.Extensions;
 using Application.Features.Requests;
 
+using BB84.Extensions;
+
 using Domain.Enumerators;
 using Domain.Models.Attendance;
+using Domain.Models.Finance;
 
 using FluentAssertions;
+
+using static BaseTests.Helpers.RandomHelper;
+using static Domain.Constants.DomainConstants;
 
 namespace ApplicationTests.Extensions;
 
@@ -16,10 +22,9 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	[TestCategory(nameof(QueryableExtensions.FilterByParameters))]
 	public void FilterByParametersWithAttendanceParametersValues()
 	{
-		DateTime minDate = new(2000, 1, 1),
-			maxDate = new(2000, 1, 31);
+		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
 		AttendanceType type = AttendanceType.HOLIDAY;
-		IQueryable<AttendanceModel> models = GetAttendanceModels(minDate, maxDate, type);
+		IQueryable<AttendanceModel> models = GetAttendances(minDate, maxDate, type);
 		AttendanceParameters parameters = new()
 		{
 			Year = minDate.Year,
@@ -40,10 +45,9 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	[TestCategory(nameof(QueryableExtensions.FilterByParameters))]
 	public void FilterByParametersWithoutAttendanceParametersValues()
 	{
-		DateTime minDate = new(2000, 1, 1),
-			maxDate = new(2000, 1, 31);
+		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
 		AttendanceType type = AttendanceType.HOLIDAY;
-		IQueryable<AttendanceModel> models = GetAttendanceModels(minDate, maxDate, type);
+		IQueryable<AttendanceModel> models = GetAttendances(minDate, maxDate, type);
 		AttendanceParameters parameters = new();
 
 		IQueryable<AttendanceModel> filteredModels = models.FilterByParameters(parameters);
@@ -51,7 +55,42 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 		filteredModels.Should().HaveCount(maxDate.Day);
 	}
 
-	private static IQueryable<AttendanceModel> GetAttendanceModels(DateTime minDate, DateTime maxDate, AttendanceType type)
+	[TestMethod]
+	[TestCategory(nameof(QueryableExtensions.FilterByParameters))]
+	public void FilterByParametersWithTransactionParametersValues()
+	{
+		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
+		IQueryable<TransactionModel> models = GetTransactions(minDate, maxDate);
+		TransactionParameters parameters = new()
+		{
+			Beneficiary = GetString(250),
+			BookingDate = minDate,
+			ValueDate = minDate,
+			MinValue = 0,
+			MaxValue = 0,
+			PageNumber = minDate.Day,
+			PageSize = maxDate.Day
+		};
+
+		IQueryable<TransactionModel> filteredModels = models.FilterByParameters(parameters);
+
+		filteredModels.Should().HaveCount(0);
+	}
+
+	[TestMethod]
+	[TestCategory(nameof(QueryableExtensions.FilterByParameters))]
+	public void FilterByParametersWithoutTransactionParametersValues()
+	{
+		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
+		IQueryable<TransactionModel> models = GetTransactions(minDate, maxDate);
+		TransactionParameters parameters = new();
+
+		IQueryable<TransactionModel> filteredModels = models.FilterByParameters(parameters);
+
+		filteredModels.Should().HaveCount(maxDate.Day);
+	}
+
+	private static IQueryable<AttendanceModel> GetAttendances(DateTime minDate, DateTime maxDate, AttendanceType type)
 	{
 		DateTime currentDate = minDate;
 		List<AttendanceModel> models = [];
@@ -65,6 +104,36 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 			};
 
 			models.Add(attendance);
+			currentDate = currentDate.AddDays(1);
+		}
+		return models.AsQueryable();
+	}
+
+	private static IQueryable<TransactionModel> GetTransactions(DateTime minDate, DateTime maxDate)
+	{
+		DateTime currentDate = minDate;
+		List<TransactionModel> models = [];
+		while (currentDate <= maxDate)
+		{
+			TransactionModel transaction = new()
+			{
+				Id = Guid.NewGuid(),
+				CreatedBy = GetString(50),
+				ModifiedBy = GetString(50),
+				BookingDate = currentDate,
+				ValueDate = currentDate.AddDays(1),
+				PostingText = GetString(100),
+				ClientBeneficiary = GetString(250),
+				Purpose = GetString(400),
+				AccountNumber = GetString(RegexPatterns.IBAN).RemoveWhitespace(),
+				BankCode = GetString(25),
+				AmountEur = GetInt(-100, 250),
+				CreditorId = GetString(25),
+				MandateReference = GetString(50),
+				CustomerReference = GetString(50)
+			};
+
+			models.Add(transaction);
 			currentDate = currentDate.AddDays(1);
 		}
 		return models.AsQueryable();

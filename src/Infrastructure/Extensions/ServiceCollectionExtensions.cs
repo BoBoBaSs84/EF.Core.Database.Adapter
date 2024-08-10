@@ -6,6 +6,7 @@ using Application.Interfaces.Infrastructure.Services;
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 
 using Domain.Models.Identity;
+using Domain.Settings;
 
 using Infrastructure.Common;
 using Infrastructure.Persistence;
@@ -22,10 +23,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
-using Jwt = Infrastructure.Constants.InfrastructureConstants.BearerJwt;
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
 
 namespace Infrastructure.Extensions;
 
@@ -78,7 +77,7 @@ internal static class ServiceCollectionExtensions
 			options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"),
 				builder =>
 				{
-					builder.MigrationsHistoryTable("Migration", SqlSchema.Migration);
+					builder.MigrationsHistoryTable("Migration", "Migration");
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 
@@ -133,7 +132,11 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
 	{
-		IConfigurationSection jwtSettings = configuration.GetRequiredSection(Jwt.JwtSettings);
+		services.Configure<BearerSettings>(configuration.GetSection(nameof(BearerSettings)))
+			.AddOptions();
+
+		BearerSettings settings = services.BuildServiceProvider()
+			.GetRequiredService<IOptions<BearerSettings>>().Value;
 
 		services.AddAuthentication(options =>
 		{
@@ -145,9 +148,9 @@ internal static class ServiceCollectionExtensions
 			ValidateAudience = true,
 			ValidateLifetime = true,
 			ValidateIssuerSigningKey = true,
-			ValidIssuer = jwtSettings[Jwt.ValidIssuer],
-			ValidAudience = jwtSettings[Jwt.ValidAudience],
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings[Jwt.SecurityKey]))
+			ValidIssuer = settings.Issuer,
+			ValidAudience = settings.Audience,
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey)),
 		});
 
 		return services;

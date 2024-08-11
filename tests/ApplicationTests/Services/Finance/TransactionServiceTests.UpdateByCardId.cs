@@ -90,6 +90,17 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
+			model.BookingDate.Should().Be(request.BookingDate);
+			model.ValueDate.Should().Be(request.ValueDate);
+			model.PostingText.Should().Be(request.PostingText);
+			model.ClientBeneficiary.Should().Be(request.ClientBeneficiary);
+			model.Purpose.Should().Be(request.Purpose);
+			model.AccountNumber.Should().Be(request.AccountNumber);
+			model.BankCode.Should().Be(request.BankCode);
+			model.AmountEur.Should().Be(request.AmountEur);
+			model.CreditorId.Should().Be(request.CreditorId);
+			model.MandateReference.Should().Be(request.MandateReference);
+			model.CustomerReference.Should().Be(request.CustomerReference);
 			mock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), null, false, true, default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);

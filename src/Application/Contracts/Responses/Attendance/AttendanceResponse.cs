@@ -3,7 +3,7 @@
 using Application.Contracts.Responses.Base;
 
 using Domain.Converters;
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 
 namespace Application.Contracts.Responses.Attendance;
 

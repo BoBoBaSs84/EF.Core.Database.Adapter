@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 
 using XmlDataType = Domain.Constants.DomainConstants.Xml.DataType;
 using XmlElements = Domain.Constants.DomainConstants.Xml.Elements;

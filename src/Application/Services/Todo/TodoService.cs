@@ -6,8 +6,6 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using BB84.Extensions;
-
 using Domain.Errors;
 using Domain.Models.Todo;
 using Domain.Results;
@@ -170,8 +168,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 			if (list is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			list.Title = request.Title;
-			list.Color = request.Color?.FromRGBHexString();
+			_ = mapper.Map(request, list);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -196,11 +193,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 			if (item is null)
 				return TodoServiceErrors.GetItemByIdNotFound(itemId);
 
-			item.Title = request.Title;
-			item.Note = request.Note;
-			item.Priority = request.Priority;
-			item.Reminder = request.Reminder;
-			item.Done = request.Done;
+			_ = mapper.Map(request, item);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);

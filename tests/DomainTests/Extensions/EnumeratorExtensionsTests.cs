@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 using Domain.Extensions;
 
 using FluentAssertions;

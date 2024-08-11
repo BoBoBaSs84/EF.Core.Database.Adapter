@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Attendance;
 using Application.Extensions;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 
 namespace ApplicationTests.Extensions;
 

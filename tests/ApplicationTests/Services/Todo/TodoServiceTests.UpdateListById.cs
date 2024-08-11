@@ -1,4 +1,6 @@
-﻿using Application.Contracts.Requests.Todo;
+﻿using BB84.Extensions;
+
+using Application.Contracts.Requests.Todo;
 using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using Application.Services.Todo;
@@ -68,14 +70,15 @@ public sealed partial class TodoServiceTests
 	[TestCategory("Methods")]
 	public async Task UpdateListByIdShouldReturnUpdatedWhenSuccessful()
 	{
-		Guid listId = Guid.NewGuid();
-		ListUpdateRequest request = new();
+		Guid id = Guid.NewGuid();
+		ListUpdateRequest request = new() { Title = "UnitTest", Color = "#000000" };
+		List model = new();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByIdAsync(listId, false, true, default))
-			.Returns(Task.FromResult<List?>(new()));
+		listMock.Setup(x => x.GetByIdAsync(id, false, true, default))
+			.Returns(Task.FromResult<List?>(model));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
+		ErrorOr<Updated> result = await sut.UpdateListById(id, request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -84,9 +87,11 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
-			listMock.Verify(x => x.GetByIdAsync(listId, false, true, default), Times.Once);
+			model.Title.Should().Be(request.Title);
+			model.Color.Should().Be(request.Color.FromRGBHexString());
+			listMock.Verify(x => x.GetByIdAsync(id, false, true, default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 }

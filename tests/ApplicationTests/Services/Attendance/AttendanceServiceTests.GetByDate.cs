@@ -5,7 +5,7 @@ using Application.Services.Attendance;
 
 using BaseTests.Helpers;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 using Domain.Errors;
 using Domain.Models.Attendance;
 

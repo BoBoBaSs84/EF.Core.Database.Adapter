@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Models;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Todo;
 
 namespace Domain.Models.Todo;
 

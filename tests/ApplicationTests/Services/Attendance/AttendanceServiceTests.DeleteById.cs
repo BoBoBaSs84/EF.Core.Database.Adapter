@@ -26,7 +26,7 @@ public sealed partial class AttendanceServiceTests
 		Guid id = Guid.NewGuid();
 		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id)
+		ErrorOr<Deleted> result = await sut.DeleteById(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -44,10 +44,11 @@ public sealed partial class AttendanceServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdAsync(id, false, false, default)).Returns(Task.FromResult<AttendanceModel?>(null));
+		mock.Setup(x => x.DeleteAsync(id, default))
+			.Returns(Task.FromResult(0));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id)
+		ErrorOr<Deleted> result = await sut.DeleteById(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -55,6 +56,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.GetByIdNotFound(id));
+			mock.Verify(x => x.DeleteAsync(id, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -66,10 +68,11 @@ public sealed partial class AttendanceServiceTests
 		Guid id = Guid.NewGuid();
 		AttendanceModel model = new();
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdAsync(id, false, false, default)).Returns(Task.FromResult<AttendanceModel?>(model));
+		mock.Setup(x => x.DeleteAsync(id, default))
+			.Returns(Task.FromResult(1));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id)
+		ErrorOr<Deleted> result = await sut.DeleteById(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -77,8 +80,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			mock.Verify(x => x.DeleteAsync(model, default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			mock.Verify(x => x.DeleteAsync(id, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

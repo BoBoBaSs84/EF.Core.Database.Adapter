@@ -9,7 +9,7 @@ using BaseTests.Helpers;
 
 using BB84.Extensions;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Todo;
 using Domain.Errors;
 using Domain.Models.Todo;
 

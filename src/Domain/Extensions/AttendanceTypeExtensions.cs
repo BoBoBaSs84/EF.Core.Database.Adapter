@@ -1,4 +1,4 @@
-﻿using Domain.Enumerators;
+﻿using Domain.Enumerators.Attendance;
 
 namespace Domain.Extensions;
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Todo;
 
 namespace Application.Contracts.Requests.Todo.Base;
 

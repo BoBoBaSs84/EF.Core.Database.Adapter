@@ -106,20 +106,13 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			AttendanceModel? entity = await repositoryService.AttendanceRepository
-				.GetByIdAsync(id, token: token)
+			int result = await repositoryService.AttendanceRepository
+				.DeleteAsync(id, token)
 				.ConfigureAwait(false);
 
-			if (entity is null)
-				return AttendanceServiceErrors.GetByIdNotFound(id);
-
-			await repositoryService.AttendanceRepository.DeleteAsync(entity)
-				.ConfigureAwait(false);
-
-			_ = await repositoryService.CommitChangesAsync(token)
-				.ConfigureAwait(false);
-
-			return Result.Deleted;
+			return result.Equals(0)
+				? AttendanceServiceErrors.GetByIdNotFound(id)
+				: Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -132,20 +125,13 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
-				.GetByIdsAsync(ids, token: token)
+			int result = await repositoryService.AttendanceRepository
+				.DeleteAsync(ids, token)
 				.ConfigureAwait(false);
 
-			if (!entities.Any())
-				return AttendanceServiceErrors.GetByIdsNotFound(ids);
-
-			await repositoryService.AttendanceRepository.DeleteAsync(entities)
-				.ConfigureAwait(false);
-
-			_ = await repositoryService.CommitChangesAsync(token)
-				.ConfigureAwait(false);
-
-			return Result.Deleted;
+			return result.Equals(0)
+				? AttendanceServiceErrors.GetByIdsNotFound(ids)
+				: Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -224,11 +210,13 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (entity is null)
 				return AttendanceServiceErrors.GetByIdNotFound(request.Id);
 
-			UpdateAttendance(entity, request);
+			_ = mapper.Map(request, entity);
 
-			await repositoryService.AttendanceRepository.UpdateAsync(entity);
+			await repositoryService.AttendanceRepository.UpdateAsync(entity, token)
+				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token);
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
 
 			return Result.Updated;
 		}
@@ -256,9 +244,9 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return AttendanceServiceErrors.GetByIdsNotFound(requests.Select(x => x.Id));
 
 			foreach (AttendanceModel entity in entities)
-				UpdateAttendance(entity, requests.Where(x => x.Id.Equals(entity.Id)).First());
+				_ = mapper.Map(requests.Where(x => x.Id.Equals(entity.Id)).Single(), entity);
 
-			await repositoryService.AttendanceRepository.UpdateAsync(entities)
+			await repositoryService.AttendanceRepository.UpdateAsync(entities, token)
 				.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)
@@ -272,18 +260,5 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.UpdateMultipleFailed(requests.Select(x => x.Id));
 		}
-	}
-
-	/// <summary>
-	/// Updates the attendance with the update request.
-	/// </summary>
-	/// <param name="attendance">The attendance to update.</param>
-	/// <param name="updateRequest">The request to update with.</param>
-	private static void UpdateAttendance(AttendanceModel attendance, AttendanceUpdateRequest updateRequest)
-	{
-		attendance.Type = updateRequest.Type;
-		attendance.StartTime = updateRequest.StartTime;
-		attendance.EndTime = updateRequest.EndTime;
-		attendance.BreakTime = updateRequest.BreakTime;
 	}
 }

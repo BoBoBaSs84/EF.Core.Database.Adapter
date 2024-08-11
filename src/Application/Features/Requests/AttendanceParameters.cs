@@ -2,7 +2,7 @@
 
 using Application.Features.Requests.Base;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 
 namespace Application.Features.Requests;
 

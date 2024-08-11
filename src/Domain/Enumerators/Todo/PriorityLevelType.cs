@@ -2,7 +2,7 @@
 
 using RESX = Domain.Properties.EnumeratorResources;
 
-namespace Domain.Enumerators;
+namespace Domain.Enumerators.Todo;
 
 /// <summary>
 /// The priority level for todo items.

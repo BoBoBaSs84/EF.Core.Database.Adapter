@@ -5,6 +5,7 @@ using Application.Services.Todo;
 
 using BaseTests.Helpers;
 
+using Domain.Enumerators.Todo;
 using Domain.Errors;
 using Domain.Models.Todo;
 using Domain.Results;
@@ -68,14 +69,15 @@ public sealed partial class TodoServiceTests
 	[TestCategory("Methods")]
 	public async Task UpdateItemByIdShouldReturnUpdatedWhenSuccessful()
 	{
-		Guid itemId = Guid.NewGuid();
-		ItemUpdateRequest request = new();
+		Guid id = Guid.NewGuid();
+		ItemUpdateRequest request = new() { Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.MEDIUM, Reminder = DateTime.Today, Done = true };
+		Item model = new();
 		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, default))
-			.Returns(Task.FromResult<Item?>(new()));
+		itemMock.Setup(x => x.GetByIdAsync(id, false, true, default))
+			.Returns(Task.FromResult<Item?>(model));
 		TodoService sut = CreateMockedInstance(itemRepository: itemMock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateItemById(itemId, request)
+		ErrorOr<Updated> result = await sut.UpdateItemById(id, request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -84,9 +86,14 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
-			itemMock.Verify(x => x.GetByIdAsync(itemId, false, true, default), Times.Once);
+			model.Title.Should().Be(request.Title);
+			model.Note.Should().Be(request.Note);
+			model.Priority.Should().Be(request.Priority);
+			model.Reminder.Should().Be(request.Reminder);
+			model.Done.Should().Be(request.Done);
+			itemMock.Verify(x => x.GetByIdAsync(id, false, true, default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), itemId, It.IsAny<Exception>()), Times.Never);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 }

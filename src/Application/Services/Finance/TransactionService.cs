@@ -249,7 +249,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (entity is null)
 				return TransactionServiceErrors.UpdateByAccountIdNotFound(id);
 
-			entity = mapper.Map<TransactionModel>(request);
+			_ = mapper.Map(request, entity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -275,7 +275,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (entity is null)
 				return TransactionServiceErrors.UpdateByCardIdNotFound(id);
 
-			entity = mapper.Map<TransactionModel>(request);
+			_ = mapper.Map(request, entity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);

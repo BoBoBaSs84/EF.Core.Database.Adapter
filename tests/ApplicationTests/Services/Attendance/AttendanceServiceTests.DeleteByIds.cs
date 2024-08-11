@@ -5,7 +5,6 @@ using Application.Services.Attendance;
 using BaseTests.Helpers;
 
 using Domain.Errors;
-using Domain.Models.Attendance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -46,8 +45,8 @@ public sealed partial class AttendanceServiceTests
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		string[] parameters = [$"{string.Join(", ", ids)}"];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(ids, false, false, default))
-			.Returns(Task.FromResult<IEnumerable<AttendanceModel>>([]));
+		mock.Setup(x => x.DeleteAsync(ids, default))
+			.Returns(Task.FromResult(0));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)
@@ -58,6 +57,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.GetByIdsNotFound(ids));
+			mock.Verify(x => x.DeleteAsync(ids, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -67,10 +67,10 @@ public sealed partial class AttendanceServiceTests
 	public async Task DeleteByIdsShouldReturnDeletedWhenSuccessful()
 	{
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
-		IEnumerable<AttendanceModel> models = [new(), new()];
+		string[] parameters = [$"{string.Join(", ", ids)}"];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(ids, false, false, default))
-			.Returns(Task.FromResult(models));
+		mock.Setup(x => x.DeleteAsync(ids, default))
+			.Returns(Task.FromResult(1));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)
@@ -81,8 +81,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			mock.Verify(x => x.DeleteAsync(models, default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			mock.Verify(x => x.DeleteAsync(ids, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -2,7 +2,7 @@
 
 using Application.Contracts.Responses.Base;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Todo;
 
 namespace Application.Contracts.Responses.Todo;
 

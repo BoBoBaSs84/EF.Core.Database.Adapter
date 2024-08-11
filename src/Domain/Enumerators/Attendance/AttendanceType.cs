@@ -2,7 +2,7 @@
 
 using RESX = Domain.Properties.EnumeratorResources;
 
-namespace Domain.Enumerators;
+namespace Domain.Enumerators.Attendance;
 
 /// <summary>
 /// The attendance type enumerator.

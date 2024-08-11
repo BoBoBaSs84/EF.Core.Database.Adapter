@@ -3,6 +3,7 @@
 using AutoMapper;
 
 using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 using Domain.Enumerators.Finance;
 
 namespace Application.Common.MappingProfiles;

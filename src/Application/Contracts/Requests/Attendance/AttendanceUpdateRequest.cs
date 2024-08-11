@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 
 using Domain.Converters;
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 
 namespace Application.Contracts.Requests.Attendance;
 

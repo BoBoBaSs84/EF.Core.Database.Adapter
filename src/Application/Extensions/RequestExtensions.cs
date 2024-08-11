@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Requests.Attendance;
 
-using Domain.Enumerators;
+using Domain.Enumerators.Attendance;
 using Domain.Extensions;
 
 namespace Application.Extensions;

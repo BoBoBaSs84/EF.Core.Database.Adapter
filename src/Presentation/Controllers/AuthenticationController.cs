@@ -15,33 +15,29 @@ using Presentation.Controllers.Base;
 namespace Presentation.Controllers;
 
 /// <summary>
-/// The <see cref="AuthenticationController"/> class.
+/// The authentication controller class.
 /// </summary>
-/// <remarks>
-/// Inherits from <see cref="ApiControllerBase"/>.
-/// </remarks>
 /// <param name="authenticationService">The authentication service.</param>
 [Route(Endpoints.Authentication.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
 public sealed class AuthenticationController(IAuthenticationService authenticationService) : ApiControllerBase
 {
-	private readonly IAuthenticationService _authenticationService = authenticationService;
-
 	/// <summary>
-	/// Should authenticate an existing application user.
+	/// Authenticates an existing application user.
 	/// </summary>
-	/// <param name="loginRequest">The user login request.</param>
-	/// <response code="200">If the user can login.</response>
-	/// <response code="401">No credentials or invalid credentials.</response>
-	/// <response code="500">If the something went wrong.</response>
+	/// <param name="request">The authentication request to use.</param>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPost(Endpoints.Authentication.Authenticate)]
 	[ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Authenticate([FromBody] AuthenticationRequest loginRequest)
+	public async Task<IActionResult> Authenticate([FromBody] AuthenticationRequest request)
 	{
-		ErrorOr<AuthenticationResponse> result =
-			await _authenticationService.Authenticate(loginRequest);
+		ErrorOr<AuthenticationResponse> result = await authenticationService
+			.Authenticate(request)
+			.ConfigureAwait(false);
 
 		return Get(result);
 	}

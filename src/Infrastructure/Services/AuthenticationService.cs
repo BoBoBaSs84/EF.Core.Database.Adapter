@@ -274,7 +274,14 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 	private async Task<IEnumerable<Claim>> GetClaims(UserModel user)
 	{
-		List<Claim> claims = [new(ClaimTypes.Name, user.UserName!), new(ClaimTypes.NameIdentifier, $"{user.Id}")];
+		List<Claim> claims = [
+			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}"),
+			new(ClaimTypes.Email, $"{user.Email}"),
+			new(ClaimTypes.GivenName, $"{user.LastName}, {user.FirstName}"),
+			new(ClaimTypes.MobilePhone, $"{user.PhoneNumber}"),
+			new(ClaimTypes.Name, $"{user.UserName}"),
+			new(ClaimTypes.NameIdentifier, $"{user.Id}")
+			];
 
 		IList<string> roles = await userService.GetRolesAsync(user);
 

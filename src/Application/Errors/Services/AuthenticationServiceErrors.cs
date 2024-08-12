@@ -26,49 +26,43 @@ public static class AuthenticationServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
-	public static ApiError GetUserByIdFailed(Guid userId) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
-			RESX.AuthenticationService_GetUserById_Failed.FormatInvariant(userId));
+	public static ApiError GetUserByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByIdFailed)}",
+			RESX.AuthenticationService_GetUserById_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.
 	/// </summary>
-	/// <param name="userId">The user identifier.</param>
-	public static ApiError UserByIdNotFound(Guid userId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByIdNotFound)}",
-			RESX.AuthenticationService_UserById_NotFound.FormatInvariant(userId));
+	public static ApiError UserByIdNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByIdNotFound)}",
+			RESX.AuthenticationService_UserById_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.
 	/// </summary>
-	/// <param name="userName">The user name.</param>
-	public static ApiError GetUserByNameFailed(string userName) =>
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByNameFailed)}",
+	public static ApiError GetUserByNameFailed(string userName)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetUserByNameFailed)}",
 			RESX.AuthenticationService_GetUserByName_Failed.FormatInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.
 	/// </summary>
-	/// <param name="userName">The user name.</param>
-	public static ApiError UserByNameNotFound(string userName) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByNameNotFound)}",
+	public static ApiError UserByNameNotFound(string userName)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(UserByNameNotFound)}",
 			RESX.AuthenticationService_UserByName_NotFound.FormatInvariant(userName));
 
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.
 	/// </summary>
-	/// <param name="roleId">The role identifier.</param>
-	public static ApiError RoleByIdNotFound(Guid roleId) =>
-		ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(RoleByIdNotFound)}",
-			RESX.AuthenticationService_RoleById_NotFound.FormatInvariant(roleId));
+	public static ApiError RoleByIdNotFound(Guid id)
+		=> ApiError.CreateNotFound($"{ErrorPrefix}.{nameof(RoleByIdNotFound)}",
+			RESX.AuthenticationService_RoleById_NotFound.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.
 	/// </summary>
-	/// <param name="userName">The user name.</param>
-	public static ApiError UserUnauthorized(string userName) =>
-		ApiError.CreateUnauthorized($"{ErrorPrefix}.{nameof(UserUnauthorized)}",
+	public static ApiError UserUnauthorized(string userName)
+		=> ApiError.CreateUnauthorized($"{ErrorPrefix}.{nameof(UserUnauthorized)}",
 			RESX.AuthenticationService_User_Unauthorized.FormatInvariant(userName));
 
 	/// <summary>
@@ -91,15 +85,6 @@ public static class AuthenticationServiceErrors
 	public static readonly ApiError UpdateUserFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateUserFailed)}",
 			RESX.AuthenticationService_UpdateUser_Failed);
-
-	/// <summary>
-	/// Error that indicates an exception during the authentication service.
-	/// </summary>
-	/// <param name="code">The identity error code.</param>
-	/// <param name="description">The identity error description.</param>
-	public static ApiError IdentityError(string code, string description) =>
-		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(IdentityError)}",
-			$"{code} - {description}");
 
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.

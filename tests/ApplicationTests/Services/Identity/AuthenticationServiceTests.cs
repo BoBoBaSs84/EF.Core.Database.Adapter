@@ -12,8 +12,6 @@ using Microsoft.Extensions.Options;
 
 using Moq;
 
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
-
 namespace ApplicationTests.Services.Identity;
 
 [TestClass]

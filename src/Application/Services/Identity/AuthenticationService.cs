@@ -90,12 +90,18 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			UserModel? user = await userService.FindByNameAsync(request.UserName);
+			UserModel? user = await userService
+				.FindByNameAsync(request.UserName)
+				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
-			if (!await userService.CheckPasswordAsync(user, request.Password))
+			bool success = await userService
+				.CheckPasswordAsync(user, request.Password)
+				.ConfigureAwait(false);
+
+			if (success.IsFalse())
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
 			SigningCredentials signingCredentials = GetSigningCredentials();
@@ -113,7 +119,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 		}
 		catch (Exception ex)
 		{
-			logger.Log(LogExceptionWithParams, request, ex);
+			logger.Log(LogException, ex);
 			return AuthenticationServiceErrors.AuthenticateUserFailed;
 		}
 	}
@@ -310,7 +316,9 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 			new(ClaimTypes.NameIdentifier, $"{user.Id}")
 			];
 
-		IList<string> roles = await userService.GetRolesAsync(user);
+		IList<string> roles = await userService
+			.GetRolesAsync(user)
+			.ConfigureAwait(false);
 
 		foreach (string role in roles)
 			claims.Add(new Claim(ClaimTypes.Role, role));

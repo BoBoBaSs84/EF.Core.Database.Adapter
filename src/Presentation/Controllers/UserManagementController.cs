@@ -90,7 +90,7 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	public async Task<IActionResult> GetAll()
 	{
 		ErrorOr<IEnumerable<UserResponse>> result = await authenticationService
-			.GetAll()
+			.GetAllUser()
 			.ConfigureAwait(false);
 
 		return Get(result);

@@ -17,8 +17,6 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 namespace ApplicationTests.Services.Identity;
 
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]

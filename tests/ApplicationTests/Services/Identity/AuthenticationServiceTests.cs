@@ -4,6 +4,7 @@ using Application.Services.Identity;
 
 using AutoMapper;
 
+using Domain.Models.Identity;
 using Domain.Settings;
 
 using Microsoft.Extensions.Options;
@@ -39,5 +40,20 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 
 		return new(_bearerSettingsMock.Object, _dateTimeServiceMock.Object, _loggerServiceMock.Object,
 			_roleServiceMock.Object, _userServiceMock.Object, _mapper);
+	}
+
+	private static UserModel CreateUser(Guid? userId = null)
+	{
+		UserModel user = new()
+		{
+			Id = userId ?? Guid.NewGuid(),
+			FirstName = "UnitTest",
+			MiddleName = "UnitTest",
+			LastName = "UnitTest",
+			DateOfBirth = DateTime.Today,
+			Email = "unit.test@example.com",
+		};
+
+		return user;
 	}
 }

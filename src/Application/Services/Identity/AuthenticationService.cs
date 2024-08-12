@@ -157,7 +157,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<UserResponse>>> GetAll()
+	public async Task<ErrorOr<IEnumerable<UserResponse>>> GetAllUser()
 	{
 		try
 		{

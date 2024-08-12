@@ -61,11 +61,10 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 			if (!identityResult.Succeeded)
 			{
-				// Todo: refactoring needed
-				ErrorOr<Created> response = new();
 				foreach (IdentityError error in identityResult.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError($"{error.Code}", $"{error.Description}"));
-				return response;
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.AddUserToRoleFailed;
 			}
 
 			return Result.Created;

@@ -6,8 +6,6 @@
 [SuppressMessage("Design", "CA1000:Do not declare static members on generic types")]
 public readonly record struct ErrorOr<TValue> : IErrorOr
 {
-	private readonly TValue? value = default;
-
 	private static readonly Error NoFirstError = Error.Unexpected(
 		code: "ErrorOr.NoFirstError",
 		description: "First error cannot be retrieved from a successful ErrorOr.");
@@ -18,14 +16,11 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	public ErrorOr()
 	{ }
 
-	private ErrorOr(Error error) =>
-		Errors = [error];
+	private ErrorOr(Error error) => Errors = [error];
 
-	private ErrorOr(List<Error> errors) =>
-		Errors = errors;
+	private ErrorOr(List<Error> errors) => Errors = errors;
 
-	private ErrorOr(TValue value) =>
-		this.value = value;
+	private ErrorOr(TValue value) => Value = value;
 
 	/// <summary>
 	/// Creates an <see cref="ErrorOr{TValue}"/> from a list of errors.
@@ -45,7 +40,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 	/// <summary>
 	/// Gets the value.
 	/// </summary>
-	public TValue Value => value!;
+	public TValue Value { get; } = default!;
 
 	/// <summary>
 	/// Gets the first error.
@@ -139,6 +134,7 @@ public readonly record struct ErrorOr<TValue> : IErrorOr
 		return IsError ? onFirstError(FirstError) : onValue(Value);
 	}
 }
+
 public static class ErrorOr
 {
 	public static ErrorOr<TValue> From<TValue>(TValue value) => value;

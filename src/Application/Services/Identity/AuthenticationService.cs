@@ -45,7 +45,6 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId)
 	{
-		ErrorOr<Created> response = new();
 		try
 		{
 			UserModel? user = await userService.FindByIdAsync($"{userId}");
@@ -62,12 +61,14 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 			if (!identityResult.Succeeded)
 			{
+				// Todo: refactoring needed
+				ErrorOr<Created> response = new();
 				foreach (IdentityError error in identityResult.Errors)
 					response.Errors.Add(AuthenticationServiceErrors.IdentityError($"{error.Code}", $"{error.Description}"));
 				return response;
 			}
 
-			return response;
+			return Result.Created;
 		}
 		catch (Exception ex)
 		{

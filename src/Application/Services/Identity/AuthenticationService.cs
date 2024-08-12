@@ -11,8 +11,11 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using BB84.Extensions.Serialization;
+
 using Domain.Enumerators;
 using Domain.Errors;
+using Domain.Extensions;
 using Domain.Models.Identity;
 using Domain.Results;
 using Domain.Settings;
@@ -47,17 +50,23 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService
+				.FindByIdAsync($"{userId}")
+				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await roleService.FindByIdAsync($"{roleId}");
+			RoleModel? role = await roleService
+				.FindByIdAsync($"{roleId}")
+				.ConfigureAwait(false);
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await userService.AddToRoleAsync(user, role.Name!);
+			IdentityResult identityResult = await userService
+				.AddToRoleAsync(user, role.Name!)
+				.ConfigureAwait(false);
 
 			if (!identityResult.Succeeded)
 			{
@@ -111,23 +120,35 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 	public async Task<ErrorOr<Created>> CreateUser(UserCreateRequest request)
 	{
-		ErrorOr<Created> response = new();
 		try
 		{
 			UserModel user = mapper.Map<UserModel>(request);
 
-			IdentityResult result = await userService.CreateAsync(user, request.Password);
+			IdentityResult result = await userService
+				.CreateAsync(user, request.Password)
+				.ConfigureAwait(false);
 
 			if (!result.Succeeded)
 			{
 				foreach (IdentityError error in result.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
-				return response;
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.CreateUserFailed;
 			}
 
-			_ = await userService.AddToRoleAsync(user, RoleType.USER.ToString());
+			result = await userService
+				.AddToRoleAsync(user, RoleType.USER.GetName())
+				.ConfigureAwait(false);
 
-			return response;
+			if (!result.Succeeded)
+			{
+				foreach (IdentityError error in result.Errors)
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.AddUserToRoleFailed;
+			}
+
+			return Result.Created;
 		}
 		catch (Exception ex)
 		{
@@ -140,11 +161,11 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			IList<UserModel> users =
-				await userService.GetUsersInRoleAsync(RoleType.USER.ToString());
+			IList<UserModel> userEntities = await userService
+				.GetUsersInRoleAsync(RoleType.USER.GetName())
+				.ConfigureAwait(false);
 
-			IEnumerable<UserResponse> response =
-				mapper.Map<IEnumerable<UserResponse>>(users);
+			IEnumerable<UserResponse> response = mapper.Map<IEnumerable<UserResponse>>(userEntities);
 
 			return response.ToList();
 		}

@@ -13,6 +13,7 @@ using Moq;
 namespace ApplicationTests.Services.Identity;
 
 [TestClass]
+[TestCategory("UnitTest")]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 {

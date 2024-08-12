@@ -22,13 +22,10 @@ public static class DependencyInjectionHelper
 	public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
 		services.AddMicrosoftLogger();
-
 		services.AddRepositoryContext(configuration, environment);
 		services.AddIdentityService();
-		services.ConfigureJWT(configuration);
-
-		services.ConfigureScopedServices();
-		services.ConfigureTransientServices();
+		services.AddJwtConfiguration(configuration);
+		services.AddScopedServices();
 
 		return services;
 	}

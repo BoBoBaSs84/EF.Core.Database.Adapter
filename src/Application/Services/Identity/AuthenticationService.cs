@@ -11,8 +11,6 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using BB84.Extensions.Serialization;
-
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
@@ -219,7 +217,6 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 	public async Task<ErrorOr<Deleted>> RemoveUserFromRole(Guid userId, Guid roleId)
 	{
-		ErrorOr<Deleted> response = new();
 		try
 		{
 			UserModel? user = await userService.FindByIdAsync($"{userId}");
@@ -232,16 +229,17 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await userService.RemoveFromRoleAsync(user, role.Name!);
+			IdentityResult result = await userService.RemoveFromRoleAsync(user, role.Name!);
 
-			if (identityResult.Succeeded.Equals(false))
+			if (result.Succeeded.Equals(false))
 			{
-				foreach (IdentityError error in identityResult.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError($"{error.Code}", $"{error.Description}"));
-				return response;
+				foreach (IdentityError error in result.Errors)
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.RemoveUserToRoleFailed;
 			}
 
-			return response;
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{

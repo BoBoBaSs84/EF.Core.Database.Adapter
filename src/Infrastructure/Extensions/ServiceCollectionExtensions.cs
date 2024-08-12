@@ -39,25 +39,13 @@ internal static class ServiceCollectionExtensions
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
+	internal static IServiceCollection AddScopedServices(this IServiceCollection services)
 	{
 		services.TryAddScoped<AuditingInterceptor>();
 		services.TryAddScoped<SoftDeletableInterceptor>();
 		services.TryAddScoped<IRepositoryService, RepositoryService>();
-		services.TryAddScoped<UserService>();
-		services.TryAddScoped<RoleService>();
-
-		return services;
-	}
-
-	/// <summary>
-	/// Enriches a service collection with the transient singleton services.
-	/// </summary>
-	/// <param name="services">The service collection to enrich.</param>
-	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureTransientServices(this IServiceCollection services)
-	{
-		services.TryAddTransient<IAuthenticationService, AuthenticationService>();
+		services.TryAddScoped<IUserService, UserService>();
+		services.TryAddScoped<IRoleService, RoleService>();
 
 		return services;
 	}
@@ -130,7 +118,7 @@ internal static class ServiceCollectionExtensions
 	/// <param name="services">The service collection to enrich.</param>
 	/// <param name="configuration">The current configuration.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+	internal static IServiceCollection AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
 	{
 		services.Configure<BearerSettings>(configuration.GetSection(nameof(BearerSettings)))
 			.AddOptions();

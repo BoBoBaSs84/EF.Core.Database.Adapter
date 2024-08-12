@@ -4,7 +4,7 @@ using Application.Contracts.Responses.Identity;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Infrastructure.Services;
+namespace Application.Interfaces.Application.Identity;
 
 /// <summary>
 /// The authentication service interface.

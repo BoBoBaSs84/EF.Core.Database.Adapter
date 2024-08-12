@@ -6,6 +6,7 @@ using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
 using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
@@ -21,7 +22,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Services;
+namespace Application.Services.Identity;
 
 /// <summary>
 /// The authentication service class.
@@ -32,7 +33,7 @@ namespace Infrastructure.Services;
 /// <param name="roleService">The role service instance to use.</param>
 /// <param name="userService">The user service instance to use.</param>
 /// <param name="mapper">The auto mapper instance to use.</param>
-internal sealed class AuthenticationService(IOptions<BearerSettings> options, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger, RoleService roleService, UserService userService, IMapper mapper) : IAuthenticationService
+internal sealed class AuthenticationService(IOptions<BearerSettings> options, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger, IRoleService roleService, IUserService userService, IMapper mapper) : IAuthenticationService
 {
 	private readonly BearerSettings _bearerSettings = options.Value;
 

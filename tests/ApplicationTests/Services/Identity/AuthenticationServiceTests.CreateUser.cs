@@ -61,6 +61,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.CreateUserFailed);
+			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), $"{error.Code} - {error.Description}", It.IsAny<Exception>()), Times.Once);
 		});
 	}
@@ -85,6 +86,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.AddUserToRoleFailed);
+			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password), Times.Once);
+			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserModel>(), RoleType.USER.GetName()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), $"{error.Code} - {error.Description}", It.IsAny<Exception>()), Times.Once);
 		});
 	}
@@ -109,6 +112,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
+			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password), Times.Once);
+			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserModel>(), RoleType.USER.GetName()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

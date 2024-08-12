@@ -11,6 +11,8 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using BB84.Extensions;
+
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
@@ -66,7 +68,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 				.AddToRoleAsync(user, role.Name!)
 				.ConfigureAwait(false);
 
-			if (!identityResult.Succeeded)
+			if (identityResult.Succeeded.IsFalse())
 			{
 				foreach (IdentityError error in identityResult.Errors)
 					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
@@ -126,7 +128,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 				.CreateAsync(user, request.Password)
 				.ConfigureAwait(false);
 
-			if (!result.Succeeded)
+			if (result.Succeeded.IsFalse())
 			{
 				foreach (IdentityError error in result.Errors)
 					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
@@ -138,7 +140,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 				.AddToRoleAsync(user, RoleType.USER.GetName())
 				.ConfigureAwait(false);
 
-			if (!result.Succeeded)
+			if (result.Succeeded.IsFalse())
 			{
 				foreach (IdentityError error in result.Errors)
 					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
@@ -231,7 +233,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 			IdentityResult result = await userService.RemoveFromRoleAsync(user, role.Name!);
 
-			if (result.Succeeded.Equals(false))
+			if (result.Succeeded.IsFalse())
 			{
 				foreach (IdentityError error in result.Errors)
 					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
@@ -251,10 +253,11 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 
 	public async Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest request)
 	{
-		ErrorOr<Updated> response = new();
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService
+				.FindByIdAsync($"{userId}")
+				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
@@ -268,15 +271,19 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);
 			user.Preferences = mapper.Map<PreferencesModel>(request.Preferences);
 
-			IdentityResult result = await userService.UpdateAsync(user);
+			IdentityResult result = await userService
+				.UpdateAsync(user)
+				.ConfigureAwait(false);
 
-			if (!result.Succeeded)
+			if (result.Succeeded.IsFalse())
 			{
 				foreach (IdentityError error in result.Errors)
-					response.Errors.Add(AuthenticationServiceErrors.IdentityError(error.Code, error.Description));
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.UpdateUserFailed;
 			}
 
-			return response;
+			return Result.Updated;
 		}
 		catch (Exception ex)
 		{

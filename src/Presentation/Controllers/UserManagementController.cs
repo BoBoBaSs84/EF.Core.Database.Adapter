@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
-using Application.Interfaces.Infrastructure.Services;
+using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Presentation.Services;
 
 using Asp.Versioning;
@@ -23,18 +23,12 @@ namespace Presentation.Controllers;
 /// <summary>
 /// The <see cref="UserManagementController"/> class.
 /// </summary>
-/// <remarks>
-/// Inherits from <see cref="ApiControllerBase"/>.
-/// </remarks>
 /// <param name="authenticationService">The authentication service.</param>
 /// <param name="currentUserService">The current user service.</param>
 [Route(Endpoints.UserManagement.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
 public sealed class UserManagementController(IAuthenticationService authenticationService, ICurrentUserService currentUserService) : ApiControllerBase
 {
-	private readonly IAuthenticationService _authenticationService = authenticationService;
-	private readonly ICurrentUserService _currentUserService = currentUserService;
-
 	/// <summary>
 	/// Adds the user with the <paramref name="userId"/> to the role with the <paramref name="roleId"/>.
 	/// </summary>
@@ -48,21 +42,21 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
 	[HttpPost(Endpoints.UserManagement.AddUserToRole)]
-	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(Created), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> AddUserToRole(Guid userId, Guid roleId)
 	{
 		ErrorOr<Created> result =
-			await _authenticationService.AddUserToRole(userId, roleId);
+			await authenticationService.AddUserToRole(userId, roleId);
 
 		return Put(result);
 	}
 
 	/// <summary>
-	/// Creeates a new application user.
+	/// Creates a new application user.
 	/// </summary>
 	/// <param name="createRequest">The user create request.</param>
 	/// <response code="201">If the new user was created.</response>
@@ -75,7 +69,7 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	public async Task<IActionResult> Create([FromBody] UserCreateRequest createRequest)
 	{
 		ErrorOr<Created> result =
-			await _authenticationService.CreateUser(createRequest);
+			await authenticationService.CreateUser(createRequest);
 
 		return PostWithoutLocation(result);
 	}
@@ -89,14 +83,15 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
 	[HttpGet(Endpoints.UserManagement.GetAll)]
-	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(IEnumerable<UserResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetAll()
 	{
-		ErrorOr<IEnumerable<UserResponse>> result =
-			await _authenticationService.GetAll();
+		ErrorOr<IEnumerable<UserResponse>> result = await authenticationService
+			.GetAllUser()
+			.ConfigureAwait(false);
 
 		return Get(result);
 	}
@@ -113,14 +108,15 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
 	[HttpGet(Endpoints.UserManagement.GetByName)]
-	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetByName(string userName)
 	{
-		ErrorOr<UserResponse> result =
-			await _authenticationService.GetUserByName(userName);
+		ErrorOr<UserResponse> result = await authenticationService
+			.GetUserByName(userName)
+			.ConfigureAwait(false);
 
 		return Get(result);
 	}
@@ -133,13 +129,13 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="500">If the something went wrong.</response>
 	[Authorize]
 	[HttpGet(Endpoints.UserManagement.GetCurrent)]
-	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetCurrent()
 	{
 		ErrorOr<UserResponse> result =
-			await _authenticationService.GetUserById(_currentUserService.UserId);
+			await authenticationService.GetUserById(currentUserService.UserId);
 
 		return Get(result);
 	}
@@ -156,16 +152,16 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="404">If the user or the role was not found.</response>
 	/// <response code="500">If the something went wrong.</response>
 	[AuthorizeRoles(Roles.ADMINISTRATOR)]
-	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-	[ProducesResponseType(StatusCodes.Status403Forbidden)]
+	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	[HttpDelete(Endpoints.UserManagement.RemoveUserToRole)]
 	public async Task<IActionResult> RemoveUserFromRole(Guid userId, Guid roleId)
 	{
 		ErrorOr<Deleted> result =
-			await _authenticationService.RemoveUserFromRole(userId, roleId);
+			await authenticationService.RemoveUserFromRole(userId, roleId);
 
 		return Delete(result);
 	}
@@ -183,13 +179,13 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	[HttpPut(Endpoints.UserManagement.UpdateCurrent)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> UpdateCurrent([FromBody] UserUpdateRequest updateRequest)
 	{
 		ErrorOr<Updated> result =
-			await _authenticationService.UpdateUser(_currentUserService.UserId, updateRequest);
+			await authenticationService.UpdateUser(currentUserService.UserId, updateRequest);
 
 		return Put(result);
 	}

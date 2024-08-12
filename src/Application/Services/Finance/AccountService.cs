@@ -146,7 +146,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		try
 		{
 			int result = await repositoryService.AccountRepository
-				.UpdateAsync(id, s => s.SetProperty(p => p.Provider, request.Provider), token)
+				.UpdateAsync(id, s => s.SetProperty(p => p.Type, request.Type).SetProperty(p => p.Provider, request.Provider), token)
 				.ConfigureAwait(false);
 
 			return result.Equals(0)

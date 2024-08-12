@@ -2,10 +2,12 @@
 using Application.Interfaces.Application.Attendance;
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Application.Finance;
+using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Application.Todo;
 using Application.Services.Attendance;
 using Application.Services.Common;
 using Application.Services.Finance;
+using Application.Services.Identity;
 using Application.Services.Todo;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +30,7 @@ internal static class ServiceCollectionExtensions
 	{
 		services.TryAddScoped<IAccountService, AccountService>();
 		services.TryAddScoped<IAttendanceService, AttendanceService>();
+		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 		services.TryAddScoped<ICardService, CardService>();
 		services.TryAddScoped<ITransactionService, TransactionService>();
 		services.TryAddScoped<ITodoService, TodoService>();

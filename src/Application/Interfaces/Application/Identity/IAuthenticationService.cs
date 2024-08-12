@@ -4,7 +4,7 @@ using Application.Contracts.Responses.Identity;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Infrastructure.Services;
+namespace Application.Interfaces.Application.Identity;
 
 /// <summary>
 /// The authentication service interface.
@@ -31,7 +31,7 @@ public interface IAuthenticationService
 	/// Should retrieve all apllication users.
 	/// </summary>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<IEnumerable<UserResponse>>> GetAll();
+	Task<ErrorOr<IEnumerable<UserResponse>>> GetAllUser();
 
 	/// <summary>
 	/// Creates a new application user.

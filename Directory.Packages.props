@@ -24,7 +24,7 @@
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.1" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.2" />
     <PackageVersion Include="Tynamix.ObjectFiller" Version="1.5.9" />
     <PackageVersion Include="Tynamix.ObjectFiller.RegEx" Version="1.0.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />

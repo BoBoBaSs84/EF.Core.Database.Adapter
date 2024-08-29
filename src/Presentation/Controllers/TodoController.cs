@@ -80,11 +80,11 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpGet(Endpoints.Todo.GetAll)]
+	[HttpGet(Endpoints.Todo.GetAllLists)]
 	[ProducesResponseType(typeof(IEnumerable<ListResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetAll(CancellationToken token = default)
+	public async Task<IActionResult> GetAllLists(CancellationToken token = default)
 	{
 		ErrorOr<IEnumerable<ListResponse>> response = await todoService
 			.GetListsByUserId(userService.UserId, token)
@@ -102,12 +102,12 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpGet(Endpoints.Todo.GetById)]
-	[ProducesResponseType(typeof(IEnumerable<ListResponse>), StatusCodes.Status200OK)]
+	[HttpGet(Endpoints.Todo.GetListById)]
+	[ProducesResponseType(typeof(ListResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> GetById(Guid listId, CancellationToken token = default)
+	public async Task<IActionResult> GetListById(Guid listId, CancellationToken token = default)
 	{
 		ErrorOr<ListResponse> response = await todoService
 			.GetListById(listId, token)

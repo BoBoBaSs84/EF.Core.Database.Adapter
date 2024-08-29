@@ -150,8 +150,8 @@ internal static class Endpoints
 
 		internal const string DeleteList = "{listId:guid}";
 		internal const string DeleteItem = "Items/{itemId:Guid}";
-		internal const string GetAll = EmptySuffix;
-		internal const string GetById = "{listId:guid}";
+		internal const string GetAllLists = EmptySuffix;
+		internal const string GetListById = "{listId:guid}";
 		internal const string PostList = EmptySuffix;
 		internal const string PostItem = "{listId:guid}";
 		internal const string PutList = "{listId:guid}";

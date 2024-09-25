@@ -26,9 +26,9 @@ public sealed class CalendarResponse
 	public int Month { get; set; }
 
 	/// <summary>
-	/// The iso week property.
+	/// The week property.
 	/// </summary>
-	public int IsoWeek { get; set; }
+	public int Week { get; set; }
 
 	/// <summary>
 	/// The day of week property.

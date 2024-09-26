@@ -9,7 +9,7 @@ internal static class Statics
 		public const int MinMonth = 1;
 		public const int MaxMonth = 12;
 		public const int MinDay = 1;
-		public const int MaxDay = 12;
+		public const int MaxDay = 31;
 		public static readonly DateTime MinDate = new(MinYear, MinMonth, MinDay);
 		public static readonly DateTime MaxDate = new(MaxYear, MaxMonth, MaxDay);
 	}

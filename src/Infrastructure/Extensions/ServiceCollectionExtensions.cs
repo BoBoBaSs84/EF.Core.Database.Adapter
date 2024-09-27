@@ -6,7 +6,7 @@ using Application.Interfaces.Infrastructure.Services;
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 
 using Domain.Models.Identity;
-using Domain.Settings;
+using Domain.Options;
 
 using Infrastructure.Common;
 using Infrastructure.Persistence;
@@ -75,7 +75,7 @@ internal static class ServiceCollectionExtensions
 				options.EnableDetailedErrors(true);
 
 				if (environment.IsTesting())
-					options.LogTo(Console.WriteLine, LogLevel.Error);
+					options.LogTo(Console.WriteLine, LogLevel.Warning);
 
 				if (environment.IsDevelopment())
 					options.LogTo(Console.WriteLine, LogLevel.Debug);
@@ -120,8 +120,10 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.Configure<BearerSettings>(configuration.GetSection(nameof(BearerSettings)))
-			.AddOptions();
+		services.AddOptions<BearerSettings>()
+			.Bind(configuration.GetSection(nameof(BearerSettings)))
+			.ValidateDataAnnotations()
+			.ValidateOnStart();
 
 		BearerSettings settings = services.BuildServiceProvider()
 			.GetRequiredService<IOptions<BearerSettings>>().Value;

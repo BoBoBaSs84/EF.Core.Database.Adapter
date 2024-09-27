@@ -7,7 +7,7 @@ using BaseTests.Helpers;
 
 using Domain.Errors;
 using Domain.Models.Identity;
-using Domain.Settings;
+using Domain.Options;
 
 using FluentAssertions;
 

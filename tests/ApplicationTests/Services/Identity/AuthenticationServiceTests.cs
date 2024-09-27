@@ -6,7 +6,7 @@ using Application.Services.Identity;
 using AutoMapper;
 
 using Domain.Models.Identity;
-using Domain.Settings;
+using Domain.Options;
 
 using Microsoft.Extensions.Options;
 

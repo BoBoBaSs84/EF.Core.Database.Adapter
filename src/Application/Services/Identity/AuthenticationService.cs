@@ -17,8 +17,8 @@ using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Models.Identity;
+using Domain.Options;
 using Domain.Results;
-using Domain.Settings;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

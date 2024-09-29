@@ -1,25 +1,28 @@
 ﻿using Application.Extensions;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Installer;
 
 /// <summary>
-/// Helper class for application dependency injection.
+/// The dependency injection helper class.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, dependency injection.")]
 public static class DependencyInjectionHelper
 {
 	/// <summary>
-	/// Enriches a service collection with the application services.
+	/// Registers the required application services to the provided <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
+	/// <param name="configuration">The current application configuration.</param>
 	/// <returns>The enriched service collection.</returns>
-	public static IServiceCollection ConfigureApplicationServices(this IServiceCollection services)
+	public static IServiceCollection RegisterApplicationServices(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.ConfigureAutoMapper();
-		services.ConfigureScopedServices();
-		services.ConfigureSingletonServices();
+		services.RegisterApplicationOptions(configuration)
+			.RegisterAutoMapper()
+			.RegisterScopedServices()
+			.RegisterSingletonServices();
 
 		return services;
 	}

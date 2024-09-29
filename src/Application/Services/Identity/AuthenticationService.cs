@@ -8,6 +8,7 @@ using Application.Errors.Services;
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
+using Application.Options;
 
 using AutoMapper;
 
@@ -17,7 +18,6 @@ using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
 using Domain.Models.Identity;
-using Domain.Options;
 using Domain.Results;
 
 using Microsoft.AspNetCore.Identity;

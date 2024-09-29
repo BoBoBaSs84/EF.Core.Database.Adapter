@@ -11,7 +11,6 @@ using Application.Services.Finance;
 using Application.Services.Identity;
 using Application.Services.Todo;
 
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -70,12 +69,11 @@ internal static class ServiceCollectionExtensions
 	/// Registers the required application options and settings to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
-	/// <param name="configuration">The current application configuration.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection RegisterApplicationOptions(this IServiceCollection services, IConfiguration configuration)
+	internal static IServiceCollection RegisterApplicationOptions(this IServiceCollection services)
 	{
 		services.AddOptions<BearerSettings>()
-			.Bind(configuration.GetSection(nameof(BearerSettings)))
+			.BindConfiguration(nameof(BearerSettings))
 			.ValidateDataAnnotations()
 			.ValidateOnStart();
 

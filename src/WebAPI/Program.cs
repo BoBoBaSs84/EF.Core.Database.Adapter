@@ -17,7 +17,7 @@ internal sealed class Program
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-		builder.Services.RegisterApplicationServices(builder.Configuration)
+		builder.Services.RegisterApplicationServices()
 			.RegisterInfrastructureServices(builder.Configuration, builder.Environment)
 			.RegisterPresentationServices();
 

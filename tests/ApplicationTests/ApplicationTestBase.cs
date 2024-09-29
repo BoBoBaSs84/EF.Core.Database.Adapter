@@ -39,7 +39,7 @@ public abstract class ApplicationTestBase
 
 		IHostBuilder host = Host.CreateDefaultBuilder()
 			.UseEnvironment(env)
-			.ConfigureServices((context, services) => services.RegisterApplicationServices(context.Configuration));
+			.ConfigureServices((context, services) => services.RegisterApplicationServices());
 
 		return host.Start();
 	}

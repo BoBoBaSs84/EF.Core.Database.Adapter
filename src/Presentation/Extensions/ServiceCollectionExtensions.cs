@@ -11,22 +11,20 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Presentation.Common;
 using Presentation.Services;
 
-using HttpHeaders = Presentation.Constants.PresentationConstants.HttpHeaders;
-
 namespace Presentation.Extensions;
 
 /// <summary>
-/// The service collection extensions class.
+/// The <see cref="IServiceCollection"/> extensions class.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, dependency injection.")]
 internal static class ServiceCollectionExtensions
 {
 	/// <summary>
-	/// Enriches a service collection with the presentation singleton services.
+	/// Registers the required singleton services to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureSingletonServices(this IServiceCollection services)
+	internal static IServiceCollection RegisterSingletonServices(this IServiceCollection services)
 	{
 		services.TryAddSingleton<ICurrentUserService, CurrentUserService>();
 
@@ -34,11 +32,11 @@ internal static class ServiceCollectionExtensions
 	}
 
 	/// <summary>
-	/// Enriches a service collection with the presentation controllers.
+	/// Registers the required controller configuration to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureApiControllers(this IServiceCollection services)
+	internal static IServiceCollection RegisterControllerConfiguration(this IServiceCollection services)
 	{
 		services.AddControllers(options => options.RespectBrowserAcceptHeader = true)
 			.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly)
@@ -53,18 +51,18 @@ internal static class ServiceCollectionExtensions
 	}
 
 	/// <summary>
-	/// Enriches a service collection with the api versioning.
+	/// Registers the required api version configuration to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
+	internal static IServiceCollection RegisterApiVersionConfiguration(this IServiceCollection services)
 	{
 		services.AddApiVersioning(options =>
 		{
 			options.AssumeDefaultVersionWhenUnspecified = true;
 			options.DefaultApiVersion = Versioning.ApiVersion;
 			options.ReportApiVersions = true;
-			options.ApiVersionReader = new HeaderApiVersionReader(HttpHeaders.Version);
+			options.ApiVersionReader = new HeaderApiVersionReader(Constants.HttpHeaders.Version);
 		});
 
 		return services;

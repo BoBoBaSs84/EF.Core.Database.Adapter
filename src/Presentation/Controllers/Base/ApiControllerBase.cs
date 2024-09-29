@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-using Presentation.Constants;
+using Presentation.Common;
 using Presentation.Extensions;
 
-using HttpHeaders = Presentation.Constants.PresentationConstants.HttpHeaders;
+using HttpHeaders = Presentation.Common.Constants.HttpHeaders;
 
 namespace Presentation.Controllers.Base;
 
@@ -148,7 +148,7 @@ public abstract class ApiControllerBase : ControllerBase
 
 		ProblemDetails problemDetails = new()
 		{
-			Type = PresentationConstants.ProblemDetailsTypes.Error500Type,
+			Type = Constants.ProblemDetailsTypes.Error500Type,
 			Status = (int)error.StatusCode,
 			Title = error.Code,
 			Detail = error.Description,

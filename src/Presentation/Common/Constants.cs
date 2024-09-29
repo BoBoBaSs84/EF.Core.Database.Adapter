@@ -1,11 +1,11 @@
 ﻿using System.Net;
 
-namespace Presentation.Constants;
+namespace Presentation.Common;
 
 /// <summary>
 /// Class with some constants for web
 /// </summary>
-public static class PresentationConstants
+public static class Constants
 {
 	/// <summary>
 	/// Class with some constatnts for auth related things

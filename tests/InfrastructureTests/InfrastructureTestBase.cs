@@ -57,7 +57,7 @@ public abstract class InfrastructureTestBase
 			.UseEnvironment(env)
 			.ConfigureServices((context, services) =>
 			{
-				services.ConfigureInfrastructureServices(context.Configuration, context.HostingEnvironment);
+				services.RegisterInfrastructureServices(context.Configuration, context.HostingEnvironment);
 				services.TryAddSingleton<ICurrentUserService, TestUserService>();
 			});
 

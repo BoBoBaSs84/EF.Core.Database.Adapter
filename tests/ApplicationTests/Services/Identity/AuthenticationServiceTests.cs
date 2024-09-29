@@ -1,12 +1,12 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Services;
+using Application.Options;
 using Application.Services.Identity;
 
 using AutoMapper;
 
 using Domain.Models.Identity;
-using Domain.Options;
 
 using Microsoft.Extensions.Options;
 

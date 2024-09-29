@@ -1,13 +1,13 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
+using Application.Options;
 using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
 using Domain.Errors;
 using Domain.Models.Identity;
-using Domain.Options;
 
 using FluentAssertions;
 

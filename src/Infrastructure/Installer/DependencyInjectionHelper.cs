@@ -7,25 +7,25 @@ using Microsoft.Extensions.Hosting;
 namespace Infrastructure.Installer;
 
 /// <summary>
-/// Helper class for infrastructure dependency injection.
+/// The dependency injection helper class.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 public static class DependencyInjectionHelper
 {
 	/// <summary>
-	/// Enriches a service collection with the infrastructure services.
+	/// Registers the required infrastructure services to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
-	/// <param name="configuration">The current configuration.</param>
-	/// <param name="environment">The hosting environment.</param>
+	/// <param name="configuration">The current configuration to use.</param>
+	/// <param name="environment">The current hosting environment to use.</param>
 	/// <returns>The enriched service collection.</returns>
-	public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+	public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
-		services.AddMicrosoftLogger();
-		services.AddRepositoryContext(configuration, environment);
-		services.AddIdentityService();
-		services.AddJwtConfiguration(configuration);
-		services.AddScopedServices();
+		services.RegisterScopedServices()
+			.RegisterSingletonServices()
+			.RegisterRepositoryContext(configuration, environment)
+			.RegisterIdentityService()
+			.RegisterJwtBearerConfiguration(configuration);
 
 		return services;
 	}

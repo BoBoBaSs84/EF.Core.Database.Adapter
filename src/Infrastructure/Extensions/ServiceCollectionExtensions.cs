@@ -2,11 +2,11 @@
 
 using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Infrastructure.Services;
+using Application.Options;
 
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 
 using Domain.Models.Identity;
-using Domain.Options;
 
 using Infrastructure.Common;
 using Infrastructure.Persistence;
@@ -29,17 +29,17 @@ using Microsoft.IdentityModel.Tokens;
 namespace Infrastructure.Extensions;
 
 /// <summary>
-/// The service collection extensions class.
+/// The <see cref="IServiceCollection"/> extensions class.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 internal static class ServiceCollectionExtensions
 {
 	/// <summary>
-	/// Enriches a service collection with the infrastructure scoped services.
+	/// Registers the required scoped services to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection AddScopedServices(this IServiceCollection services)
+	internal static IServiceCollection RegisterScopedServices(this IServiceCollection services)
 	{
 		services.TryAddScoped<AuditingInterceptor>();
 		services.TryAddScoped<SoftDeletableInterceptor>();
@@ -51,13 +51,25 @@ internal static class ServiceCollectionExtensions
 	}
 
 	/// <summary>
-	/// Registers the application context.
+	/// Registers the required singleton services to the <paramref name="services"/> collection.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	internal static IServiceCollection RegisterSingletonServices(this IServiceCollection services)
+	{
+		services.TryAddSingleton(typeof(ILoggerService<>), typeof(LoggerService<>));
+
+		return services;
+	}
+
+	/// <summary>
+	/// Registers the required repository context to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <param name="configuration">The current configuration.</param>
 	/// <param name="environment">The hosting environment.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection AddRepositoryContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+	internal static IServiceCollection RegisterRepositoryContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
 	{
 		services.AddDbContext<IRepositoryContext, RepositoryContext>(options =>
 		{
@@ -86,11 +98,11 @@ internal static class ServiceCollectionExtensions
 	}
 
 	/// <summary>
-	/// Registers the identity service.
+	/// Registers the required identity services to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection AddIdentityService(this IServiceCollection services)
+	internal static IServiceCollection RegisterIdentityService(this IServiceCollection services)
 	{
 		services.AddIdentity<UserModel, RoleModel>(options =>
 		{
@@ -113,18 +125,13 @@ internal static class ServiceCollectionExtensions
 	}
 
 	/// <summary>
-	/// Registers the identity jwt bearer authentication.
+	/// Registers the required jwt bearer configuration to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <param name="configuration">The current configuration.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
+	internal static IServiceCollection RegisterJwtBearerConfiguration(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.AddOptions<BearerSettings>()
-			.Bind(configuration.GetSection(nameof(BearerSettings)))
-			.ValidateDataAnnotations()
-			.ValidateOnStart();
-
 		BearerSettings settings = services.BuildServiceProvider()
 			.GetRequiredService<IOptions<BearerSettings>>().Value;
 
@@ -142,18 +149,6 @@ internal static class ServiceCollectionExtensions
 			ValidAudience = settings.Audience,
 			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey)),
 		});
-
-		return services;
-	}
-
-	/// <summary>
-	/// Registers the <see cref="LoggerService{T}"></see> as <b>Singleton</b>
-	/// </summary>
-	/// <param name="services">The service collection to enrich.</param>
-	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection AddMicrosoftLogger(this IServiceCollection services)
-	{
-		services.TryAddSingleton(typeof(ILoggerService<>), typeof(LoggerService<>));
 
 		return services;
 	}

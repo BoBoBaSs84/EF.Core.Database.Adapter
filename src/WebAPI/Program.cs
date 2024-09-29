@@ -1,5 +1,7 @@
 using Application.Installer;
 
+using BB84.Extensions;
+
 using Infrastructure.Installer;
 
 using Presentation.Installer;
@@ -15,21 +17,18 @@ internal sealed class Program
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-		// Add services to the container.
-		builder.Services.ConfigureInfrastructureServices(builder.Configuration, builder.Environment);
-		builder.Services.ConfigureApplicationServices();
-		builder.Services.ConfigurePresentationServices();
+		builder.Services.RegisterApplicationServices(builder.Configuration)
+			.RegisterInfrastructureServices(builder.Configuration, builder.Environment)
+			.RegisterPresentationServices();
 
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-		builder.Services.AddEndpointsApiExplorer();
-		builder.Services.ConfigureSwagger();
+		builder.Services.AddEndpointsApiExplorer()
+			.RegisterSwaggerConfiguration();
 
 		WebApplication app = builder.Build();
 		// Configure the HTTP request pipeline.
-		if (!app.Environment.IsProduction())
-		{
+		if (app.Environment.IsProduction().IsFalse())
 			app.ConfigureSwaggerUI();
-		}
 
 		app.UseHttpsRedirection();
 		app.UseRouting();

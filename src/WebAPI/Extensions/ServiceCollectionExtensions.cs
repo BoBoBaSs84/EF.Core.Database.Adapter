@@ -7,11 +7,11 @@
 internal static class ServiceCollectionExtensions
 {
 	/// <summary>
-	/// Enriches a service collection with the swagger services.
+	/// Registers the required swagger configuration to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection ConfigureSwagger(this IServiceCollection services)
+	internal static IServiceCollection RegisterSwaggerConfiguration(this IServiceCollection services)
 	{
 		services.AddSwaggerGen(options =>
 		{

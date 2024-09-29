@@ -9,8 +9,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 using WebAPI.Common;
 
-using Auth = Presentation.Constants.PresentationConstants.Authentication;
-
 namespace WebAPI.Extensions;
 
 /// <summary>
@@ -68,14 +66,14 @@ internal static class SwaggerGenOptionsExtensions
 	/// <returns>The enriched swagger options collection.</returns>
 	internal static SwaggerGenOptions ConfigureSecurityDefinition(this SwaggerGenOptions options)
 	{
-		options.AddSecurityDefinition(Auth.Bearer, new OpenApiSecurityScheme()
+		options.AddSecurityDefinition(Constants.Authentication.Bearer, new OpenApiSecurityScheme()
 		{
 			In = ParameterLocation.Header,
 			Description = "Please enter token",
-			Name = Auth.SecuritySchemeName,
+			Name = Constants.Authentication.SecuritySchemeName,
 			Type = SecuritySchemeType.Http,
-			BearerFormat = Auth.BearerFormat,
-			Scheme = Auth.Bearer
+			BearerFormat = Constants.Authentication.BearerFormat,
+			Scheme = Constants.Authentication.Bearer
 		});
 
 		return options;
@@ -96,7 +94,7 @@ internal static class SwaggerGenOptionsExtensions
 						Reference = new OpenApiReference
 						{
 							Type = ReferenceType.SecurityScheme,
-							Id = Auth.Bearer
+							Id = Constants.Authentication.Bearer
 						}
 					},
 					Array.Empty<string>()

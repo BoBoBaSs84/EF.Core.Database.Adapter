@@ -60,7 +60,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection RegisterAutoMapper(this IServiceCollection services)
 	{
-		services.AddAutoMapper(typeof(IApplicationAssemblyMarker));
+		services.AddAutoMapper(config => config.AllowNullCollections = true, typeof(IApplicationAssemblyMarker));
 
 		return services;
 	}

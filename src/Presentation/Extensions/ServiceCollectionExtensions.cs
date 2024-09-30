@@ -44,7 +44,7 @@ internal static class ServiceCollectionExtensions
 			{
 				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 				options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-				options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+				options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;				
 			});
 
 		return services;

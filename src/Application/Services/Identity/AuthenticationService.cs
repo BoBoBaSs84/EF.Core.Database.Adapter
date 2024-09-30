@@ -274,7 +274,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 			user.DateOfBirth = request.DateOfBirth;
 			user.Email = request.Email;
 			user.PhoneNumber = request.PhoneNumber;
-			user.Picture = Convert.FromBase64String(request.Picture ?? string.Empty);
+			user.Picture = request.Picture;
 			user.Preferences = mapper.Map<PreferencesModel>(request.Preferences);
 
 			IdentityResult result = await userService

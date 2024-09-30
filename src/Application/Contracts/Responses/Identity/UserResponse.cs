@@ -2,8 +2,7 @@
 using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
-
-using Domain.Converters;
+using Application.Converters;
 
 namespace Application.Contracts.Responses.Identity;
 
@@ -18,49 +17,51 @@ public sealed class UserResponse : IdentityResponse
 	/// <summary>
 	/// The first name of the user.
 	/// </summary>
-	[DataType(DataType.Text)]
+	[Required, DataType(DataType.Text)]
 	public string FirstName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The middle name of the user.
-	/// </summary>
+	/// </summary>	
 	[DataType(DataType.Text)]
 	public string? MiddleName { get; set; }
 
 	/// <summary>
 	/// The last name of the user.
 	/// </summary>
-	[DataType(DataType.Text)]
+	[Required, DataType(DataType.Text)]
 	public string LastName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The date of birth of the user.
 	/// </summary>
-	[JsonConverter(typeof(DateJsonConverter))]
+	[DataType(DataType.Date)]
+	[JsonConverter(typeof(NullableDateTimeJsonConverter))]
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
 	/// The user name of the user.
 	/// </summary>
-	[DataType(DataType.Text)]
+	[Required, DataType(DataType.Text)]
 	public string UserName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The email of the user.
 	/// </summary>
-	[DataType(DataType.EmailAddress)]
+	[Required, EmailAddress, DataType(DataType.EmailAddress)]
 	public string Email { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The phone number of the user.
-	/// </summary>
-	[DataType(DataType.PhoneNumber)]
+	/// </summary>	
+	[Phone, DataType(DataType.PhoneNumber)]
 	public string? PhoneNumber { get; set; }
 
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	public string? Picture { get; set; }
+	[JsonConverter(typeof(NullableByteArrayJsonConverter))]
+	public byte[]? Picture { get; set; }
 
 	/// <summary>
 	/// The application preferences of the user.

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Domain.Converters;
+using Application.Converters;
 
 namespace Application.Contracts.Requests.Finance;
 
@@ -14,14 +14,14 @@ public sealed class TransactionCreateRequest
 	/// The booking date of the bank transaction.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateJsonConverter))]
+	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime BookingDate { get; set; }
 
 	/// <summary>
 	/// The value date of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Date)]
-	[JsonConverter(typeof(DateJsonConverter))]
+	[JsonConverter(typeof(NullableDateTimeJsonConverter))]
 	public DateTime? ValueDate { get; set; }
 
 	/// <summary>

@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
+using Application.Converters;
 
-using Domain.Converters;
 using Domain.Enumerators.Attendance;
 
 namespace Application.Contracts.Responses.Attendance;
@@ -18,30 +19,35 @@ public sealed class AttendanceResponse : IdentityResponse
 	/// <summary>
 	/// The date property.
 	/// </summary>
-	[JsonConverter(typeof(DateJsonConverter))]
+	[Required, DataType(DataType.Date)]
+	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime Date { get; set; }
 
 	/// <summary>
 	/// The attendance type property.
 	/// </summary>
+	[Required]
 	public AttendanceType Type { get; set; }
 
 	/// <summary>
 	/// The start time property.
 	/// </summary>	
-	[JsonConverter(typeof(NullableTimeJsonConverter))]
+	[DataType(DataType.Time)]
+	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? StartTime { get; set; }
 
 	/// <summary>
 	/// The end time property.
 	/// </summary>
-	[JsonConverter(typeof(NullableTimeJsonConverter))]
+	[DataType(DataType.Time)]
+	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? EndTime { get; set; }
 
 	/// <summary>
 	/// The break time property.
 	/// </summary>
-	[JsonConverter(typeof(NullableTimeJsonConverter))]
+	[DataType(DataType.Time)]
+	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? BreakTime { get; set; }
 
 	/// <summary>

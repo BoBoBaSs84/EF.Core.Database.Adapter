@@ -12,13 +12,13 @@ public abstract class ItemBaseRequest
 	/// <summary>
 	/// The title of the new todo item.
 	/// </summary>
-	[Required, MaxLength(256)]
+	[Required, MaxLength(256), DataType(DataType.Text)]
 	public string Title { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The note on the new todo item.
 	/// </summary>
-	[MaxLength(2048)]
+	[MaxLength(2048), DataType(DataType.Text)]
 	public string? Note { get; set; }
 
 	/// <summary>

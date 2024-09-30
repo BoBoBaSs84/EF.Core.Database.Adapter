@@ -12,7 +12,7 @@ public abstract class ListBaseRequest
 	/// <summary>
 	/// The title of the todo list.
 	/// </summary>
-	[Required, MaxLength(256)]
+	[Required, MaxLength(256), DataType(DataType.Text)]
 	public string Title { get; set; } = string.Empty;
 
 	/// <summary>

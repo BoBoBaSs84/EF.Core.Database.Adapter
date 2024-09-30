@@ -17,8 +17,7 @@ internal static partial class RequestProfiles
 		public IdentityRequestProfile()
 		{
 			CreateMap<UserCreateRequest, UserModel>();
-			CreateMap<UserUpdateRequest, UserModel>()
-				.ForMember(dest => dest.Picture, opt => opt.MapFrom(src => Convert.FromBase64String(src.Picture ?? string.Empty)));
+			CreateMap<UserUpdateRequest, UserModel>();
 
 			CreateMap<PreferencesRequest, PreferencesModel>();
 			CreateMap<AttendancePreferencesRequest, AttendancePreferencesModel>();

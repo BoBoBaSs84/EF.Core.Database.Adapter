@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+using Application.Converters;
 
 namespace Application.Contracts.Requests.Identity;
 
@@ -29,6 +32,7 @@ public sealed class UserUpdateRequest
 	/// The date of birth of the user.
 	/// </summary>
 	[DataType(DataType.Date)]
+	[JsonConverter(typeof(NullableDateTimeJsonConverter))]
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
@@ -46,7 +50,8 @@ public sealed class UserUpdateRequest
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	public string? Picture { get; set; }
+	[JsonConverter(typeof(NullableByteArrayJsonConverter))]
+	public byte[]? Picture { get; set; }
 
 	/// <summary>
 	/// The application preferences of the user.

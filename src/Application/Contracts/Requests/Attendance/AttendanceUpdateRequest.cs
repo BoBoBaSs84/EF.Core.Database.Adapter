@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Domain.Converters;
+using Application.Converters;
+
 using Domain.Enumerators.Attendance;
 
 namespace Application.Contracts.Requests.Attendance;
@@ -27,20 +28,20 @@ public sealed class AttendanceUpdateRequest
 	/// The start time property.
 	/// </summary>
 	[DataType(DataType.Time)]
-	[JsonConverter(typeof(NullableTimeJsonConverter))]
+	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? StartTime { get; set; }
 
 	/// <summary>
 	/// The end time property.
 	/// </summary>
 	[DataType(DataType.Time)]
-	[JsonConverter(typeof(NullableTimeJsonConverter))]
+	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? EndTime { get; set; }
 
 	/// <summary>
 	/// The break time property.
 	/// </summary>
 	[DataType(DataType.Time)]
-	[JsonConverter(typeof(NullableTimeJsonConverter))]
+	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? BreakTime { get; set; }
 }

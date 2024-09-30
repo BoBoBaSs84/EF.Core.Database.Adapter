@@ -16,8 +16,7 @@ internal static partial class ResponseProfiles
 	{
 		public IdentityResponseProfile()
 		{
-			CreateMap<UserModel, UserResponse>()
-				.ForMember(dest => dest.Picture, opt => opt.MapFrom(src => Convert.ToBase64String(src.Picture ?? Array.Empty<byte>())));
+			CreateMap<UserModel, UserResponse>();
 
 			CreateMap<PreferencesModel, PreferencesResponse>();
 			CreateMap<AttendancePreferencesModel, AttendancePreferencesResponse>();

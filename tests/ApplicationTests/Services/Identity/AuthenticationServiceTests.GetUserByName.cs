@@ -86,7 +86,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.Value.DateOfBirth.Should().Be(user.DateOfBirth);
 			result.Value.Email.Should().Be(user.Email);
 			result.Value.PhoneNumber.Should().Be(user.PhoneNumber);
-			result.Value.Picture.Should().Be(Convert.ToBase64String(user.Picture ?? []));
+			result.Value.Picture?.SequenceEqual(user.Picture).Should().BeTrue();
 			result.Value.Preferences.Should().Be(user.Preferences);
 			_userServiceMock.Verify(x => x.FindByNameAsync(userName), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userName, It.IsAny<Exception>()), Times.Never);

@@ -67,7 +67,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			DateOfBirth = DateTime.Today,
 			Email = "unit.test@example.com",
 			PhoneNumber = "1234567890",
-			Picture = "",
+			Picture = [],
 			Preferences = null
 		};
 		return request;

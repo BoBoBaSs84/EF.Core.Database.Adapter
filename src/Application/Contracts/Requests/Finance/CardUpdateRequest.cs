@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Domain.Converters;
+using Application.Converters;
+
 using Domain.Enumerators.Finance;
 
 namespace Application.Contracts.Requests.Finance;
@@ -20,8 +21,7 @@ public sealed class CardUpdateRequest
 	/// <summary>
 	/// The valid until property.
 	/// </summary>
-	[Required]
-	[DataType(DataType.Date)]
-	[JsonConverter(typeof(DateJsonConverter))]
+	[Required, DataType(DataType.Date)]
+	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime ValidUntil { get; set; }
 }

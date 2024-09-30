@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
+using Application.Converters;
 
 using Domain.Enumerators.Finance;
 
@@ -30,5 +32,6 @@ public sealed class CardResponse : IdentityResponse
 	/// The valid until property.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
+	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime ValidUntil { get; set; }
 }

@@ -88,7 +88,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.IBAN.Should().Be(accountModel.IBAN);
 			result.Value.Type.Should().Be(accountModel.Type);
 			result.Value.Provider.Should().Be(accountModel.Provider);
-			result.Value.Cards.Should().BeEmpty();
+			result.Value.Cards.Should().BeNull();
 			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
 			cardMock.Verify(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, null, null, null, false, default), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);

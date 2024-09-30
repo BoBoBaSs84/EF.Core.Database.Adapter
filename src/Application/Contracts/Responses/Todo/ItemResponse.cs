@@ -14,8 +14,8 @@ public sealed class ItemResponse : IdentityResponse
 	/// <summary>
 	/// The title of the todo item.
 	/// </summary>
-	[DataType(DataType.Text)]
-	public string Title { get; set; } = default!;
+	[Required, DataType(DataType.Text)]
+	public string Title { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The note on the todo item.
@@ -26,6 +26,7 @@ public sealed class ItemResponse : IdentityResponse
 	/// <summary>
 	/// The priority of the todo item.
 	/// </summary>
+	[Required]
 	public PriorityLevelType Priority { get; set; }
 
 	/// <summary>

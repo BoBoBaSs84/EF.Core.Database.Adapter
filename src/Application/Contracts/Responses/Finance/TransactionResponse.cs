@@ -2,8 +2,7 @@
 using System.Text.Json.Serialization;
 
 using Application.Contracts.Responses.Base;
-
-using Domain.Converters;
+using Application.Converters;
 
 namespace Application.Contracts.Responses.Finance;
 
@@ -19,14 +18,14 @@ public sealed class TransactionResponse : IdentityResponse
 	/// The booking date of the bank transaction.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateJsonConverter))]
+	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime BookingDate { get; set; }
 
 	/// <summary>
 	/// The value date of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Date)]
-	[JsonConverter(typeof(DateJsonConverter))]
+	[JsonConverter(typeof(NullableDateTimeJsonConverter))]
 	public DateTime? ValueDate { get; set; }
 
 	/// <summary>

@@ -10,12 +10,12 @@ public sealed class AuthenticationResponse
 	/// <summary>
 	/// The token property.
 	/// </summary>
-	[DataType(DataType.Text)]
+	[Required, DataType(DataType.Text)]
 	public string Token { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The expiry date property.
 	/// </summary>
-	[DataType(DataType.DateTime)]
+	[Required, DataType(DataType.DateTime)]
 	public DateTime ExpiryDate { get; set; }
 }

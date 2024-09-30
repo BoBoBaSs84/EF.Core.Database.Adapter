@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Domain.Converters;
+using Application.Converters;
+
 using Domain.Enumerators.Finance;
 
 using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
@@ -29,8 +30,7 @@ public sealed class CardCreateRequest
 	/// <summary>
 	/// The valid until property.
 	/// </summary>
-	[Required]
-	[DataType(DataType.Date)]
-	[JsonConverter(typeof(DateJsonConverter))]
+	[Required, DataType(DataType.Date)]
+	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime ValidUntil { get; set; }
 }

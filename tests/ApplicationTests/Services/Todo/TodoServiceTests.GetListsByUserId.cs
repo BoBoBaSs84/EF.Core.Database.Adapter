@@ -63,7 +63,7 @@ public sealed partial class TodoServiceTests
 			result.Errors.Should().BeEmpty();
 			result.Value.First().Title.Should().Be(list.Title);
 			result.Value.First().Color.Should().Be(list.Color?.ToRGBHexString());
-			result.Value.First().Items.Should().BeEmpty();
+			result.Value.First().Items.Should().BeNull();
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

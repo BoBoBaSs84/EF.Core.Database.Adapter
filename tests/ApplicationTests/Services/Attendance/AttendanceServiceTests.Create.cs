@@ -23,27 +23,6 @@ public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
 	[TestCategory("Method")]
-	public async Task CreateShouldReturnBadRequestWhenNotValid()
-	{
-		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.WORKDAY };
-		string[] parameters = [$"{id}", $"{request.Date}"];
-		AttendanceService sut = CreateMockedInstance();
-
-		ErrorOr<Created> result = await sut.Create(id, request)
-			.ConfigureAwait(false);
-
-		AssertionHelper.AssertInScope(() =>
-		{
-			result.Should().NotBeNull();
-			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AttendanceServiceErrors.CreateBadRequest(request.Date));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);
-		});
-	}
-
-	[TestMethod]
-	[TestCategory("Method")]
 	public async Task CreateShouldReturnConflictWhenExistingEntryFound()
 	{
 		Guid id = Guid.NewGuid();

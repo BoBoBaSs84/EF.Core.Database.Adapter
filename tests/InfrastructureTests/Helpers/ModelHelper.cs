@@ -7,8 +7,8 @@ using Domain.Models.Finance;
 using Domain.Models.Identity;
 
 using static BaseTests.Helpers.RandomHelper;
-using static Domain.Constants.DomainConstants;
-using static Domain.Constants.DomainConstants.Sql;
+using static Domain.Common.Constants;
+using static Domain.Common.Constants.Sql;
 
 namespace InfrastructureTests.Helpers;
 

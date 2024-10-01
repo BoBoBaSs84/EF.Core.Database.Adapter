@@ -10,7 +10,7 @@ using Domain.Models.Finance;
 using FluentAssertions;
 
 using static BaseTests.Helpers.RandomHelper;
-using static Domain.Constants.DomainConstants;
+using static Domain.Common.Constants;
 
 namespace ApplicationTests.Extensions;
 

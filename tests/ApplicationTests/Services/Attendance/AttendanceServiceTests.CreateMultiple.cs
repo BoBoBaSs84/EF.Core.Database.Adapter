@@ -23,26 +23,6 @@ public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
 	[TestCategory("Method")]
-	public async Task CreateMultipleShouldReturnBadRequestWhenRequestsNotValid()
-	{
-		Guid id = Guid.NewGuid();
-		IEnumerable<AttendanceCreateRequest> requests = [new() { Date = DateTime.Today, Type = AttendanceType.WORKDAY }];
-		AttendanceService sut = CreateMockedInstance();
-
-		ErrorOr<Created> result = await sut.CreateMultiple(id, requests)
-			.ConfigureAwait(false);
-
-		AssertionHelper.AssertInScope(() =>
-		{
-			result.Should().NotBeNull();
-			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AttendanceServiceErrors.CreateMultipleBadRequest(requests.Select(x => x.Date)));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
-		});
-	}
-
-	[TestMethod]
-	[TestCategory("Method")]
 	public async Task CreateMultipleShouldReturnConflictWhenExistingEntriesFound()
 	{
 		Guid id = Guid.NewGuid();

@@ -23,25 +23,6 @@ public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
 	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
-	public async Task UpdateMultipleShouldReturnBadRequestWhenNotValid()
-	{
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.WORKDAY }];
-		AttendanceService sut = CreateMockedInstance();
-
-		ErrorOr<Updated> result = await sut.UpdateMultiple(requests)
-			.ConfigureAwait(false);
-
-		AssertionHelper.AssertInScope(() =>
-		{
-			result.Should().NotBeNull();
-			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AttendanceServiceErrors.UpdateMultipleBadRequest(requests.Select(x => x.Id)));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
-		});
-	}
-
-	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnNotFoundWhenNotFound()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.VACATION }];

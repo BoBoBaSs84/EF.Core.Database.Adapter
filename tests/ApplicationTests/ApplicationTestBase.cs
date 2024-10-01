@@ -1,6 +1,6 @@
 ﻿using Application.Installer;
 
-using Domain.Constants;
+using Domain.Common;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,7 +35,7 @@ public abstract class ApplicationTestBase
 
 	private static IHost CreateHost()
 	{
-		string env = DomainConstants.Environment.Testing;
+		string env = Constants.Environment.Testing;
 
 		IHostBuilder host = Host.CreateDefaultBuilder()
 			.UseEnvironment(env)

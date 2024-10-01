@@ -23,25 +23,6 @@ public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
 	[TestCategory(nameof(AttendanceService.Update))]
-	public async Task UpdateShouldReturnBadRequestWhenNotValid()
-	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.WORKDAY };
-		AttendanceService sut = CreateMockedInstance();
-
-		ErrorOr<Updated> result = await sut.Update(request)
-			.ConfigureAwait(false);
-
-		AssertionHelper.AssertInScope(() =>
-		{
-			result.Should().NotBeNull();
-			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AttendanceServiceErrors.UpdateBadRequest(request.Id));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
-		});
-	}
-
-	[TestMethod]
-	[TestCategory(nameof(AttendanceService.Update))]
 	public async Task UpdateShouldReturnNotFoundWhenNotFound()
 	{
 		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY };

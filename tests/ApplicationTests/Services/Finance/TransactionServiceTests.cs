@@ -12,7 +12,7 @@ using Domain.Models.Finance;
 using Moq;
 
 using static BaseTests.Helpers.RandomHelper;
-using static Domain.Constants.DomainConstants;
+using static Domain.Common.Constants;
 
 namespace ApplicationTests.Services.Finance;
 

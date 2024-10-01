@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Presentation.Services;
 
-using Domain.Constants;
+using Domain.Common;
 
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
@@ -50,7 +50,7 @@ public abstract class InfrastructureTestBase
 
 	private static IHost CreateHost()
 	{
-		string env = DomainConstants.Environment.Testing;
+		string env = Constants.Environment.Testing;
 
 		IHostBuilder host = Host.CreateDefaultBuilder()
 			.ConfigureAppSettings(env)

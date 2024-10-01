@@ -1,31 +1,43 @@
 ﻿using System.Text.RegularExpressions;
 
-using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
+using RegexPatterns = Domain.Common.Constants.RegexPatterns;
 
 namespace Domain.Common;
 
 /// <summary>
 /// The statics class.
 /// </summary>
-public static class RegexStatics
+public static partial class RegexStatics
 {
 	/// <summary>
 	/// The <see cref="CreditCard"/> property.
 	/// </summary>
-	public static Regex CreditCard { get; } = new(RegexPatterns.PAN);
+	public static Regex CreditCard { get; } = PANRegex();
 
 	/// <summary>
 	/// The <see cref="Email"/> property.
 	/// </summary>
-	public static Regex Email { get; } = new(RegexPatterns.Email);
+	public static Regex Email { get; } = EmailRegex();
 
 	/// <summary>
 	/// The <see cref="Iban"/> property.
 	/// </summary>
-	public static Regex Iban { get; } = new(RegexPatterns.IBAN);
+	public static Regex Iban { get; } = IBANRegex();
 
 	/// <summary>
 	/// The <see cref="Whitespace"/> property.
 	/// </summary>
-	public static Regex Whitespace { get; } = new(RegexPatterns.Whitespace);
+	public static Regex Whitespace { get; } = WhitespaceRegex();
+
+	[GeneratedRegex(RegexPatterns.PAN)]
+	private static partial Regex PANRegex();
+	
+	[GeneratedRegex(RegexPatterns.Email)]
+	private static partial Regex EmailRegex();
+	
+	[GeneratedRegex(RegexPatterns.IBAN)]
+	private static partial Regex IBANRegex();
+	
+	[GeneratedRegex(RegexPatterns.Whitespace)]
+	private static partial Regex WhitespaceRegex();
 }

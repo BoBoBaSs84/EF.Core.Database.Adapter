@@ -6,8 +6,8 @@ using Domain.Models.Finance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
+using SqlMaxLength = Domain.Common.Constants.Sql.MaxLength;
+using SqlSchema = Domain.Common.Constants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 

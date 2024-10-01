@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Identity;
 
-using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
+using SqlMaxLength = Domain.Common.Constants.Sql.MaxLength;
 
 namespace Domain.Models.Identity;
 

@@ -1,13 +1,13 @@
 ﻿using System.Xml.Serialization;
 
-namespace Domain.Constants;
+namespace Domain.Common;
 
 /// <summary>
 /// The constants class.
 /// </summary>
 [SuppressMessage("Naming", "CA1720", Justification = "Constants.")]
 [SuppressMessage("Naming", "CA1707", Justification = "Constants.")]
-public static class DomainConstants
+public static class Constants
 {
 	/// <summary>
 	/// The environment constants class.

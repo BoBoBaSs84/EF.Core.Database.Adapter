@@ -7,8 +7,8 @@ using Infrastructure.Persistence.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
+using SqlDataType = Domain.Common.Constants.Sql.DataType;
+using SqlSchema = Domain.Common.Constants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 

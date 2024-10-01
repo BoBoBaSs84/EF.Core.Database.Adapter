@@ -8,7 +8,7 @@ using Domain.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
+using SqlSchema = Domain.Common.Constants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 

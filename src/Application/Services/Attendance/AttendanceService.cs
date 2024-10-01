@@ -32,9 +32,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			if (!request.IsValid())
-				return AttendanceServiceErrors.CreateBadRequest(request.Date);
-
 			AttendanceModel? entity = await repositoryService.AttendanceRepository
 				.GetByConditionAsync(expression: x => x.UserId.Equals(id) && x.Date.Equals(request.Date), token: token)
 				.ConfigureAwait(false);
@@ -65,11 +62,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceCreateRequest> invalidRequests = requests.Where(x => x.IsValid().Equals(false));
-
-			if (invalidRequests.Any())
-				return AttendanceServiceErrors.CreateMultipleBadRequest(invalidRequests.Select(x => x.Date));
-
 			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(expression: x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), token: token)
 				.ConfigureAwait(false);
@@ -200,9 +192,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			if (!request.IsValid())
-				return AttendanceServiceErrors.UpdateBadRequest(request.Id);
-
 			AttendanceModel? entity = await repositoryService.AttendanceRepository
 				.GetByIdAsync(request.Id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
@@ -231,11 +220,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceUpdateRequest> invalidRequests = requests.Where(x => x.IsValid().Equals(false));
-
-			if (invalidRequests.Any())
-				return AttendanceServiceErrors.UpdateMultipleBadRequest(invalidRequests.Select(x => x.Id));
-
 			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
 				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, token: token)
 				.ConfigureAwait(false);

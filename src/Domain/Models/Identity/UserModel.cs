@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.AspNetCore.Identity;
 
-using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
-using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
+using SqlDataType = Domain.Common.Constants.Sql.DataType;
+using SqlMaxLength = Domain.Common.Constants.Sql.MaxLength;
 
 namespace Domain.Models.Identity;
 

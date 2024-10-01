@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using static Domain.Constants.DomainConstants;
+using static Domain.Common.Constants;
 
 namespace Application.Contracts.Requests.Todo.Base;
 

@@ -2,8 +2,8 @@
 
 using Domain.Enumerators.Finance;
 
-using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
-using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
+using MaxLength = Domain.Common.Constants.Sql.MaxLength;
+using RegexPatterns = Domain.Common.Constants.RegexPatterns;
 
 namespace Application.Contracts.Requests.Finance;
 

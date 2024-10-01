@@ -2,7 +2,7 @@
 
 using Domain.Enumerators.Finance;
 
-using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
+using MaxLength = Domain.Common.Constants.Sql.MaxLength;
 
 namespace Application.Contracts.Requests.Finance;
 

@@ -1,49 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
+using Application.Contracts.Requests.Attendance.Base;
 using Application.Converters;
-
-using Domain.Enumerators.Attendance;
 
 namespace Application.Contracts.Requests.Attendance;
 
 /// <summary>
 /// The attendance create request class.
 /// </summary>
-public sealed class AttendanceCreateRequest
+public sealed class AttendanceCreateRequest : AttendanceBaseRequest
 {
 	/// <summary>
 	/// The date property.
 	/// </summary>
 	[Required]
-	[DataType(DataType.Date)]
 	[JsonConverter(typeof(DateTimeJsonConverter))]
-	public DateTime Date { get; set; }
-
-	/// <summary>
-	/// The attendance type property.
-	/// </summary>
-	[Required]
-	public AttendanceType Type { get; set; }
-
-	/// <summary>
-	/// The start time property.
-	/// </summary>
-	[DataType(DataType.Time)]
-	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
-	public TimeSpan? StartTime { get; set; }
-
-	/// <summary>
-	/// The end time property.
-	/// </summary>
-	[DataType(DataType.Time)]
-	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
-	public TimeSpan? EndTime { get; set; }
-
-	/// <summary>
-	/// The break time property.
-	/// </summary>
-	[DataType(DataType.Time)]
-	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
-	public TimeSpan? BreakTime { get; set; }
+	public required DateTime Date { get; init; }
 }

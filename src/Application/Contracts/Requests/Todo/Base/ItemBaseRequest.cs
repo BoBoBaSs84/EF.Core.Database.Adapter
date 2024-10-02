@@ -18,7 +18,7 @@ public abstract class ItemBaseRequest
 	/// <summary>
 	/// The note on the new todo item.
 	/// </summary>
-	[MaxLength(2048), DataType(DataType.Text)]
+	[MaxLength(2048)]
 	public string? Note { get; init; }
 
 	/// <summary>

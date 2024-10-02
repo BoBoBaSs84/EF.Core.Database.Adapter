@@ -7,12 +7,12 @@ using Application.Converters;
 namespace Application.Contracts.Requests.Attendance;
 
 /// <summary>
-/// The attendance create request class.
+/// The request for creating a attendance.
 /// </summary>
 public sealed class AttendanceCreateRequest : AttendanceBaseRequest
 {
 	/// <summary>
-	/// The date property.
+	/// The date of the attendance.
 	/// </summary>
 	[Required]
 	[JsonConverter(typeof(DateTimeJsonConverter))]

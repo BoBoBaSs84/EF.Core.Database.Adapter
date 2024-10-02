@@ -8,30 +8,30 @@ using Domain.Enumerators.Attendance;
 namespace Application.Contracts.Requests.Attendance.Base;
 
 /// <summary>
-/// The base attendance request for creation or update.
+/// The base request for creating or updating a attendance.
 /// </summary>
 public abstract class AttendanceBaseRequest
 {
 	/// <summary>
-	/// The attendance type property.
+	/// The type of the attendance.
 	/// </summary>
 	[Required]
 	public required AttendanceType Type { get; init; }
 
 	/// <summary>
-	/// The start time property.
+	/// The start time of the attendance.
 	/// </summary>
 	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? StartTime { get; init; }
 
 	/// <summary>
-	/// The end time property.
+	/// The end time of the attendance.
 	/// </summary>
 	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? EndTime { get; init; }
 
 	/// <summary>
-	/// The break time property.
+	/// The break time of the attendance.
 	/// </summary>
 	[JsonConverter(typeof(NullableTimeSpanJsonConverter))]
 	public TimeSpan? BreakTime { get; init; }

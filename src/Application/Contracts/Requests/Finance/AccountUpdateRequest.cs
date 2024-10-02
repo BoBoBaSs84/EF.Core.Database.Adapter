@@ -3,7 +3,7 @@
 namespace Application.Contracts.Requests.Finance;
 
 /// <summary>
-/// The account update request class.
+/// The request for updating a bank account.
 /// </summary>
 public sealed class AccountUpdateRequest : AccountBaseRequest
 { }

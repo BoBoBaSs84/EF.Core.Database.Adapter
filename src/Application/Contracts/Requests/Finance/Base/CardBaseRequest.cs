@@ -8,7 +8,7 @@ using Domain.Enumerators.Finance;
 namespace Application.Contracts.Requests.Finance.Base;
 
 /// <summary>
-/// The card base request class.
+/// The base request for creating or updating a bank card.
 /// </summary>
 public abstract class CardBaseRequest
 {

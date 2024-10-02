@@ -5,12 +5,12 @@ using Application.Contracts.Requests.Finance.Base;
 namespace Application.Contracts.Requests.Finance;
 
 /// <summary>
-/// The account create request class.
+/// The request for creating a bank account.
 /// </summary>
 public sealed class AccountCreateRequest : AccountBaseRequest
 {
 	/// <summary>
-	/// The iban number.
+	/// The international bank account number.
 	/// </summary>
 	[Required]
 	public required string IBAN { get; init; }

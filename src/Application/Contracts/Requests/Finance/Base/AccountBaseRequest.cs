@@ -5,7 +5,7 @@ using Domain.Enumerators.Finance;
 namespace Application.Contracts.Requests.Finance.Base;
 
 /// <summary>
-/// The account base reqeust class.
+/// The base request for creating or updating a bank account.
 /// </summary>
 public abstract class AccountBaseRequest
 {

@@ -10,9 +10,9 @@ namespace Domain.Common;
 public static partial class RegexStatics
 {
 	/// <summary>
-	/// The <see cref="CreditCard"/> property.
+	/// The <see cref="PAN"/> property.
 	/// </summary>
-	public static Regex CreditCard { get; } = PANRegex();
+	public static Regex PAN { get; } = PANRegex();
 
 	/// <summary>
 	/// The <see cref="Email"/> property.
@@ -20,9 +20,9 @@ public static partial class RegexStatics
 	public static Regex Email { get; } = EmailRegex();
 
 	/// <summary>
-	/// The <see cref="Iban"/> property.
+	/// The <see cref="IBAN"/> property.
 	/// </summary>
-	public static Regex Iban { get; } = IBANRegex();
+	public static Regex IBAN { get; } = IBANRegex();
 
 	/// <summary>
 	/// The <see cref="Whitespace"/> property.

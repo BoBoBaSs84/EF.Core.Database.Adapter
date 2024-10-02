@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Domain.Common;
+
 using FluentValidation;
 using FluentValidation.Validators;
 
@@ -11,7 +13,7 @@ namespace Application.Validators;
 public static class CustomValidators
 {
 	/// <summary>
-	/// The phone custom validator class.
+	/// The custom phone validator class.
 	/// </summary>
 	/// <typeparam name="T">The type to work with.</typeparam>
 	public sealed class PhoneValidator<T> : PropertyValidator<T, string?>
@@ -28,5 +30,42 @@ public static class CustomValidators
 		/// <inheritdoc/>
 		protected override string GetDefaultMessageTemplate(string errorCode)
 			=> "'{PropertyName}' is not a valid phone number.";
+	}
+
+	/// <summary>
+	/// The custom international bank account number validator class.
+	/// </summary>
+	/// <typeparam name="T">The type to work with.</typeparam>
+	public sealed class InternationalBankAccountNumberValidator<T> : PropertyValidator<T, string>
+	{
+		/// <inheritdoc/>
+		public override string Name => "InternationalBankAccountNumberValidator";
+
+		/// <inheritdoc/>
+		public override bool IsValid(ValidationContext<T> context, string value)
+			=> RegexStatics.IBAN.IsMatch(value);
+
+		/// <inheritdoc/>
+		protected override string GetDefaultMessageTemplate(string errorCode)
+		 => "'{PropertyName}' is not a valid international bank account number.";
+	}
+
+	/// <summary>
+	/// The custom permanent account number validator class.
+	/// </summary>
+	/// <typeparam name="T">The type to work with.</typeparam>
+	public sealed class PermanentAccountNumberValidator<T> : PropertyValidator<T, string>
+	{
+		/// <inheritdoc/>
+		public override string Name => "PermanentAccountNumberValidator";
+
+		/// <inheritdoc/>
+		public override bool IsValid(ValidationContext<T> context, string value)
+			=> RegexStatics.PAN.IsMatch(value);
+
+		/// <inheritdoc/>
+		protected override string GetDefaultMessageTemplate(string errorCode)
+			=> "'{PropertyName}' is not a valid permanent account number.";
+
 	}
 }

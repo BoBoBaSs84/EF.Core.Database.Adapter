@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Requests.Identity;
+using Application.Validators.Identity.Base;
 
 using FluentValidation;
 

@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Extensions;
+using Application.Validators.Identity.Base;
 
 using FluentValidation;
 

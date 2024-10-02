@@ -8,7 +8,7 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Identity;
+namespace ApplicationTests.Validators.Identity.Base;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

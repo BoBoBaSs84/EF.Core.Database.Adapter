@@ -2,7 +2,7 @@
 
 using FluentValidation;
 
-namespace Application.Validators.Identity;
+namespace Application.Validators.Identity.Base;
 
 /// <summary>
 /// The validator for the user base request.

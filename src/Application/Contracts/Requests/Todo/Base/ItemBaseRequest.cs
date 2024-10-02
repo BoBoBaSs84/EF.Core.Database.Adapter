@@ -12,23 +12,23 @@ public abstract class ItemBaseRequest
 	/// <summary>
 	/// The title of the new todo item.
 	/// </summary>
-	[Required, MaxLength(256), DataType(DataType.Text)]
-	public string Title { get; set; } = string.Empty;
+	[Required, MaxLength(256)]
+	public required string Title { get; init; }
 
 	/// <summary>
 	/// The note on the new todo item.
 	/// </summary>
 	[MaxLength(2048), DataType(DataType.Text)]
-	public string? Note { get; set; }
+	public string? Note { get; init; }
 
 	/// <summary>
 	/// The priority of the new todo item.
 	/// </summary>
 	[Required]
-	public PriorityLevelType Priority { get; set; }
+	public required PriorityLevelType Priority { get; init; }
 
 	/// <summary>
 	/// The reminder date for the new todo item.
 	/// </summary>
-	public DateTime? Reminder { get; set; }
+	public DateTime? Reminder { get; init; }
 }

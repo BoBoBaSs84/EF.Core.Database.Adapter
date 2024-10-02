@@ -27,7 +27,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateListByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid listId = Guid.NewGuid();
-		ListUpdateRequest request = new();
+		ListUpdateRequest request = GetListUpdateRequest();
 		TodoService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
@@ -47,7 +47,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateListByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
-		ListUpdateRequest request = new();
+		ListUpdateRequest request = GetListUpdateRequest();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, false, true, default))
 			.Returns(Task.FromResult<List?>(null));
@@ -71,7 +71,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateListByIdShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		ListUpdateRequest request = new() { Title = "UnitTest", Color = "#000000" };
+		ListUpdateRequest request = GetListUpdateRequest();
 		List model = new();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(id, false, true, default))
@@ -88,7 +88,7 @@ public sealed partial class TodoServiceTests
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
 			model.Title.Should().Be(request.Title);
-			model.Color.Should().Be(request.Color.FromRGBHexString());
+			model.Color.Should().Be(request.Color?.FromRGBHexString());
 			listMock.Verify(x => x.GetByIdAsync(id, false, true, default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);

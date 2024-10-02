@@ -25,7 +25,7 @@ public sealed partial class TodoServiceTests
 	public async Task CreateListByUserIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		ListCreateRequest request = new();
+		ListCreateRequest request = GetListCreateRequest();
 		TodoService sut = CreateMockedInstance();
 
 		ErrorOr<Created> result = await sut.CreateListByUserId(userId, request)
@@ -45,7 +45,7 @@ public sealed partial class TodoServiceTests
 	public async Task CreateListByUserIdShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		ListCreateRequest request = new();
+		ListCreateRequest request = GetListCreateRequest();
 		Mock<IListRepository> listMock = new();
 		TodoService sut = CreateMockedInstance(listMock.Object);
 

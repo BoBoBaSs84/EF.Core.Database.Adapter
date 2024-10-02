@@ -1,14 +1,17 @@
 ﻿using System.Drawing;
 
 using Application.Contracts.Requests.Attendance;
+using Application.Contracts.Requests.Finance;
 using Application.Contracts.Requests.Identity;
 using Application.Contracts.Requests.Todo;
 
+using BaseTests.Constants;
 using BaseTests.Helpers;
 
 using BB84.Extensions;
 
 using Domain.Enumerators.Attendance;
+using Domain.Enumerators.Finance;
 using Domain.Enumerators.Todo;
 
 namespace ApplicationTests.Helpers;
@@ -16,6 +19,53 @@ namespace ApplicationTests.Helpers;
 internal static class RequestHelper
 {
 	private const string UnitTestEmail = "UnitTest@UnitTest.net";
+
+	internal static AccountCreateRequest GetAccountCreateRequest()
+	{
+		AccountCreateRequest request = new()
+		{
+			IBAN = RandomHelper.GetString(18, TestConstants.CharsAndNumbers),
+			Provider = RandomHelper.GetString(25),
+			Type = AccountType.SAVINGS,
+			Cards = [GetCardCreateRequest()]
+		};
+
+		return request;
+	}
+
+	internal static AccountUpdateRequest GetAccountUpdateRequest()
+	{
+		AccountUpdateRequest request = new()
+		{
+			Provider = RandomHelper.GetString(25),
+			Type = AccountType.CHECKING
+		};
+
+		return request;
+	}
+
+	internal static CardCreateRequest GetCardCreateRequest()
+	{
+		CardCreateRequest request = new()
+		{
+			PAN = RandomHelper.GetString(25),
+			Type = CardType.CREDIT,
+			ValidUntil = DateTime.MaxValue
+		};
+
+		return request;
+	}
+
+	internal static CardUpdateRequest GetCardUpdateRequest()
+	{
+		CardUpdateRequest request = new()
+		{
+			Type = CardType.DEBIT,
+			ValidUntil = DateTime.MinValue
+		};
+
+		return request;
+	}
 
 	internal static AttendanceCreateRequest GetAttendanceCreateRequest()
 	{

@@ -57,7 +57,20 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		return user;
 	}
 
-	private static UserUpdateRequest CreateUpdateRequest()
+	private static UserCreateRequest GetUserCreateRequest()
+	{
+		UserCreateRequest request = new()
+		{
+			FirstName = "UnitTest",
+			LastName = "UnitTest",
+			Email = "unit.test@example.com",
+			UserName = "UnitTest",
+			Password = "!UnitTest123456*",
+		};
+		return request;
+	}
+
+	private static UserUpdateRequest GetUserUpdateRequest()
 	{
 		UserUpdateRequest request = new()
 		{

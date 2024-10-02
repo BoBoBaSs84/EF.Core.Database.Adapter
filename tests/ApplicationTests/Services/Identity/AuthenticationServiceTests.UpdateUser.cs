@@ -25,7 +25,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = new();
+		UserUpdateRequest request = GetUserUpdateRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
 			.Throws(new InvalidOperationException());
@@ -47,7 +47,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnNotFoundWhenUserNotFound()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = new();
+		UserUpdateRequest request = GetUserUpdateRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
 			.Returns(Task.FromResult<UserModel?>(null));
@@ -70,7 +70,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnFailedWhenUserWasNotCreated()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = new();
+		UserUpdateRequest request = GetUserUpdateRequest();
 		UserModel user = new();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
@@ -98,7 +98,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = CreateUpdateRequest();
+		UserUpdateRequest request = GetUserUpdateRequest();
 		UserModel user = new() { Id = userId };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))

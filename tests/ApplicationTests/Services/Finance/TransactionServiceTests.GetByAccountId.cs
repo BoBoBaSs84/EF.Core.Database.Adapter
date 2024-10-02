@@ -69,7 +69,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task GetByAccountIdShouldReturnTransactionResponseWhenSuccessful()
 	{
 		Guid accountId = Guid.NewGuid(), id = Guid.NewGuid();
-		TransactionModel model = CreateTransaction();
+		TransactionModel model = new();
 		Mock<ITransactionRepository> transactionMock = new();
 		transactionMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), null, false, false, default))
 			.Returns(Task.FromResult<TransactionModel?>(model));

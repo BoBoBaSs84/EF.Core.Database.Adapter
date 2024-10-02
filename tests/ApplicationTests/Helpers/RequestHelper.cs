@@ -5,7 +5,6 @@ using Application.Contracts.Requests.Finance;
 using Application.Contracts.Requests.Identity;
 using Application.Contracts.Requests.Todo;
 
-using BaseTests.Constants;
 using BaseTests.Helpers;
 
 using BB84.Extensions;
@@ -14,17 +13,17 @@ using Domain.Enumerators.Attendance;
 using Domain.Enumerators.Finance;
 using Domain.Enumerators.Todo;
 
+using RegexPatterns = Domain.Common.Constants.RegexPatterns;
+
 namespace ApplicationTests.Helpers;
 
 internal static class RequestHelper
 {
-	private const string UnitTestEmail = "UnitTest@UnitTest.net";
-
 	internal static AccountCreateRequest GetAccountCreateRequest()
 	{
 		AccountCreateRequest request = new()
 		{
-			IBAN = RandomHelper.GetString(18, TestConstants.CharsAndNumbers),
+			IBAN = RandomHelper.GetString(RegexPatterns.IBAN).RemoveWhitespace(),
 			Provider = RandomHelper.GetString(25),
 			Type = AccountType.SAVINGS,
 			Cards = [GetCardCreateRequest()]
@@ -48,7 +47,7 @@ internal static class RequestHelper
 	{
 		CardCreateRequest request = new()
 		{
-			PAN = RandomHelper.GetString(25),
+			PAN = RandomHelper.GetString(RegexPatterns.PAN).RemoveWhitespace(),
 			Type = CardType.CREDIT,
 			ValidUntil = DateTime.MaxValue
 		};
@@ -101,7 +100,7 @@ internal static class RequestHelper
 		{
 			FirstName = RandomHelper.GetString(50),
 			LastName = RandomHelper.GetString(50),
-			Email = UnitTestEmail,
+			Email = RandomHelper.GetString(RegexPatterns.Email),
 			UserName = RandomHelper.GetString(50),
 			Password = RandomHelper.GetString(50),
 		};
@@ -116,10 +115,10 @@ internal static class RequestHelper
 			MiddleName = RandomHelper.GetString(50),
 			LastName = RandomHelper.GetString(50),
 			DateOfBirth = DateTime.Today,
-			Email = UnitTestEmail,
+			Email = RandomHelper.GetString(RegexPatterns.Email),
 			PhoneNumber = "+1234567890",
-			Picture = [],
-			Preferences = null
+			Picture = null,
+			Preferences = null,
 		};
 		return request;
 	}
@@ -168,6 +167,46 @@ internal static class RequestHelper
 			Reminder = DateTime.Today,
 			Note = RandomHelper.GetString(1024),
 			Done = true
+		};
+
+		return request;
+	}
+
+	internal static TransactionCreateRequest GetTransactionCreateRequest()
+	{
+		TransactionCreateRequest request = new()
+		{
+			AccountNumber = RandomHelper.GetString(RegexPatterns.IBAN).RemoveWhitespace(),
+			AmountEur = RandomHelper.GetDecimal(),
+			BankCode = RandomHelper.GetString(25),
+			BookingDate = RandomHelper.GetDateTime(),
+			ClientBeneficiary = RandomHelper.GetString(250),
+			CreditorId = RandomHelper.GetString(25),
+			CustomerReference = RandomHelper.GetString(50),
+			MandateReference = RandomHelper.GetString(50),
+			PostingText = RandomHelper.GetString(100),
+			Purpose = RandomHelper.GetString(4000),
+			ValueDate = RandomHelper.GetDateTime()
+		};
+
+		return request;
+	}
+
+	internal static TransactionUpdateRequest GetTransactionUpdateRequest()
+	{
+		TransactionUpdateRequest request = new()
+		{
+			AccountNumber = RandomHelper.GetString(RegexPatterns.IBAN).RemoveWhitespace(),
+			AmountEur = RandomHelper.GetDecimal(),
+			BankCode = RandomHelper.GetString(25),
+			BookingDate = RandomHelper.GetDateTime(),
+			ClientBeneficiary = RandomHelper.GetString(250),
+			CreditorId = RandomHelper.GetString(25),
+			CustomerReference = RandomHelper.GetString(50),
+			MandateReference = RandomHelper.GetString(50),
+			PostingText = RandomHelper.GetString(100),
+			Purpose = RandomHelper.GetString(4000),
+			ValueDate = RandomHelper.GetDateTime()
 		};
 
 		return request;

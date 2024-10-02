@@ -6,6 +6,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using BB84.Extensions;
+
 using Domain.Errors;
 using Domain.Models.Identity;
 using Domain.Results;
@@ -124,8 +126,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			user.DateOfBirth.Should().Be(request.DateOfBirth);
 			user.Email.Should().Be(request.Email);
 			user.PhoneNumber.Should().Be(request.PhoneNumber);
-			user.Picture.Should().BeEmpty();
-			user.Preferences.Should().Be(request.Preferences);
+			user.Picture.Should().BeNull();
+			user.Preferences.Should().BeNull();
 			_userServiceMock.Verify(x => x.FindByIdAsync($"{userId}"), Times.Once);
 			_userServiceMock.Verify(x => x.UpdateAsync(It.IsAny<UserModel>()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);

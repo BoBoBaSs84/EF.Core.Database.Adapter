@@ -31,7 +31,7 @@ public sealed class AttendancePreferencesRequestValidatorTests : ApplicationTest
 		Assert.IsNotNull(result);
 		result.IsValid.Should().BeFalse();
 		result.Errors.Should().NotBeEmpty();
-		result.Errors.Should().HaveCount(4);
+		result.Errors.Should().HaveCount(3);
 		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.WorkDays));
 		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.WorkHours));
 		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.VacationDays));

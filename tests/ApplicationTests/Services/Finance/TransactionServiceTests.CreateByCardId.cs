@@ -3,6 +3,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -25,7 +27,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task CreateByCardIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		TransactionCreateRequest request = new();
+		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		TransactionService sut = CreateMockedInstance();
 
 		ErrorOr<Created> result = await sut.CreateByCardId(id, request)
@@ -45,7 +47,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task CreateByCardIdShouldReturnNotFoundWhenAccountIsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		TransactionCreateRequest request = new();
+		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
 			.Returns(Task.FromResult<CardModel?>(null));
@@ -69,7 +71,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task CreateByCardIdShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		TransactionCreateRequest request = new();
+		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		CardModel model = new();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))

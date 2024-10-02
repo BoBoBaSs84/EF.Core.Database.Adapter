@@ -4,7 +4,7 @@ using Domain.Enumerators.Attendance;
 
 using FluentValidation;
 
-namespace Application.Validators.Attendance;
+namespace Application.Validators.Attendance.Base;
 
 /// <summary>
 /// The validator for the attendance base request.
@@ -17,7 +17,9 @@ public sealed class AttendanceBaseRequestValidator : AbstractValidator<Attendanc
 	/// </summary>
 	public AttendanceBaseRequestValidator()
 	{
-		RuleFor(x => x.Type).IsInEnum();
+		RuleFor(x => x.Type)
+			.IsInEnum();
+
 		When(x => IsTimeRelevant(x.Type), () =>
 		{
 			RuleFor(x => x.StartTime).NotNull();

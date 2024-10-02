@@ -66,6 +66,5 @@ public static class CustomValidators
 		/// <inheritdoc/>
 		protected override string GetDefaultMessageTemplate(string errorCode)
 			=> "'{PropertyName}' is not a valid permanent account number.";
-
 	}
 }

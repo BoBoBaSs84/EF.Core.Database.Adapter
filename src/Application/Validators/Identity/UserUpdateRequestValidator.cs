@@ -18,7 +18,11 @@ public sealed class UserUpdateRequestValidator : AbstractValidator<UserUpdateReq
 	public UserUpdateRequestValidator()
 	{
 		Include(new UserBaseRequestValidator());
-		RuleFor(x => x.MiddleName).MaximumLength(100);
-		RuleFor(x => x.PhoneNumber).PhoneNumber();
+
+		RuleFor(x => x.MiddleName)
+			.MaximumLength(100);
+
+		RuleFor(x => x.PhoneNumber)
+			.PhoneNumber();
 	}
 }

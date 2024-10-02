@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Requests.Attendance;
+using Application.Validators.Attendance.Base;
 
 using FluentValidation;
 
@@ -16,6 +17,8 @@ public sealed class AttendanceUpdateRequestValidator : AbstractValidator<Attenda
 	public AttendanceUpdateRequestValidator()
 	{
 		Include(new AttendanceBaseRequestValidator());
-		RuleFor(x => x.Id).NotEqual(Guid.Empty);
+
+		RuleFor(x => x.Id)
+			.NotEqual(Guid.Empty);
 	}
 }

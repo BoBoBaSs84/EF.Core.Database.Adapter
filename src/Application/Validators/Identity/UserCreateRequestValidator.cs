@@ -17,7 +17,11 @@ public sealed class UserCreateRequestValidator : AbstractValidator<UserCreateReq
 	public UserCreateRequestValidator()
 	{
 		Include(new UserBaseRequestValidator());
-		RuleFor(x => x.UserName).NotEmpty();
-		RuleFor(x => x.Password).NotEmpty();
+
+		RuleFor(x => x.UserName)
+			.NotEmpty();
+
+		RuleFor(x => x.Password)
+			.NotEmpty();
 	}
 }

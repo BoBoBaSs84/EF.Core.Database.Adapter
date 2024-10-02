@@ -15,7 +15,8 @@ public sealed class PreferencesRequestValidator : AbstractValidator<PreferencesR
 	/// </summary>
 	public PreferencesRequestValidator()
 	{
-		RuleFor(x => x.AttendancePreferences).SetValidator(new AttendancePreferencesRequestValidator());
+		RuleFor(x => x.AttendancePreferences)
+			.SetValidator(new AttendancePreferencesRequestValidator());
 	}
 }
 
@@ -30,8 +31,13 @@ public sealed class AttendancePreferencesRequestValidator : AbstractValidator<At
 	/// </summary>
 	public AttendancePreferencesRequestValidator()
 	{
-		RuleFor(x => x.WorkDays).IsInEnum().NotEmpty();
-		RuleFor(x => x.WorkHours).NotEmpty();
-		RuleFor(x => x.VacationDays).NotEmpty();
+		RuleFor(x => x.WorkDays)
+			.IsInEnum();
+
+		RuleFor(x => x.WorkHours)
+			.NotEmpty();
+
+		RuleFor(x => x.VacationDays)
+			.NotEmpty();
 	}
 }

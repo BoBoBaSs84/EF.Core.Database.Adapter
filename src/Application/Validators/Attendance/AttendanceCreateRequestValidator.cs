@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Requests.Attendance;
+using Application.Validators.Attendance.Base;
 
 using FluentValidation;
 
@@ -18,6 +19,9 @@ public sealed class AttendanceCreateRequestValidator : AbstractValidator<Attenda
 	public AttendanceCreateRequestValidator()
 	{
 		Include(new AttendanceBaseRequestValidator());
-		RuleFor(x => x.Date).NotNull().GreaterThan(DateRanges.MinDate).LessThan(DateRanges.MaxDate);
+
+		RuleFor(x => x.Date)
+			.GreaterThanOrEqualTo(DateRanges.MinDate)
+			.LessThanOrEqualTo(DateRanges.MaxDate);
 	}
 }

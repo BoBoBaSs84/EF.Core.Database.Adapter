@@ -18,5 +18,5 @@ public sealed class AccountCreateRequest : AccountBaseRequest
 	/// <summary>
 	/// The cards belonging to this account.
 	/// </summary>
-	public CardCreateRequest[]? Cards { get; set; }
+	public CardCreateRequest[]? Cards { get; init; }
 }

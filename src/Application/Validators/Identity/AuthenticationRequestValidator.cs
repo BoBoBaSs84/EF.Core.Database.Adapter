@@ -15,7 +15,10 @@ public sealed class AuthenticationRequestValidator : AbstractValidator<Authentic
 	/// </summary>
 	public AuthenticationRequestValidator()
 	{
-		RuleFor(x => x.UserName).NotEmpty();
-		RuleFor(x => x.Password).NotEmpty();
+		RuleFor(x => x.UserName)
+			.NotEmpty();
+
+		RuleFor(x => x.Password)
+			.NotEmpty();
 	}
 }

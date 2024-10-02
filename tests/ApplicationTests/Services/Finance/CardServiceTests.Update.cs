@@ -5,6 +5,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -28,7 +30,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		CardUpdateRequest request = new();
+		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		CardService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.Update(id, request);
@@ -47,7 +49,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CardUpdateRequest request = new();
+		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.UpdateAsync(id, It.IsAny<Expression<Func<SetPropertyCalls<CardModel>, SetPropertyCalls<CardModel>>>>(), default))
 			.Returns(Task.FromResult(0));
@@ -69,7 +71,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		CardUpdateRequest request = new();
+		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.UpdateAsync(id, It.IsAny<Expression<Func<SetPropertyCalls<CardModel>, SetPropertyCalls<CardModel>>>>(), default))
 			.Returns(Task.FromResult(1));

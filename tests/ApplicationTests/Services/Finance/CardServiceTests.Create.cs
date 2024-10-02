@@ -5,6 +5,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -28,7 +30,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{accountId}"];
-		CardCreateRequest request = new();
+		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		CardService sut = CreateMockedInstance();
 
 		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
@@ -47,7 +49,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task CreateShouldReturnNotFoundWhenAccountIsNotFound()
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
-		CardCreateRequest request = new();
+		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(null));
@@ -70,12 +72,12 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task CreateShouldReturnConflictWhenCardNumberIsFound()
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
-		CardCreateRequest request = new();
+		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		AccountModel accountModel = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(accountModel));
-		CardModel cardModel = new();
+		CardModel cardModel = new() { PAN = request.PAN };
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default))
 			.Returns(Task.FromResult<CardModel?>(cardModel));
@@ -99,7 +101,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task CreateShouldReturnCreatedWhenCreateIsSuccessful()
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
-		CardCreateRequest request = new();
+		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		AccountModel accountModel = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))

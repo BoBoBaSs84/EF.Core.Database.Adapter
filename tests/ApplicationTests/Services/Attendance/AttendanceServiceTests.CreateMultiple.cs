@@ -3,9 +3,10 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Attendance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
-using Domain.Enumerators.Attendance;
 using Domain.Errors;
 using Domain.Models.Attendance;
 using Domain.Results;
@@ -26,7 +27,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateMultipleShouldReturnConflictWhenExistingEntriesFound()
 	{
 		Guid id = Guid.NewGuid();
-		IEnumerable<AttendanceCreateRequest> requests = [new() { Date = DateTime.Today, Type = AttendanceType.HOLIDAY }];
+		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		IEnumerable<AttendanceModel> models = [new() { Date = DateTime.Today }];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, default))
@@ -50,7 +51,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateMultipleShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		IEnumerable<AttendanceCreateRequest> requests = [new() { Date = DateTime.Today, Type = AttendanceType.HOLIDAY }];
+		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult<IEnumerable<AttendanceModel>>([]));
@@ -76,7 +77,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateMultipleShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		IEnumerable<AttendanceCreateRequest> requests = [new() { Date = DateTime.Today, Type = AttendanceType.VACATION }];
+		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		string[] parameters = [$"{id}", string.Join(',', requests.Select(x => x.Date))];
 		AttendanceService sut = CreateMockedInstance();
 

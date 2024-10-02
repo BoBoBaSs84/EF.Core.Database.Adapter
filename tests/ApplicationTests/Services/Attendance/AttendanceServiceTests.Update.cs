@@ -3,6 +3,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Attendance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Enumerators.Attendance;
@@ -25,7 +27,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory(nameof(AttendanceService.Update))]
 	public async Task UpdateShouldReturnNotFoundWhenNotFound()
 	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY };
+		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
 			.Returns(Task.FromResult<AttendanceModel?>(null));
@@ -47,7 +49,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory(nameof(AttendanceService.Update))]
 	public async Task UpdateShouldReturnCreatedWhenSuccessful()
 	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY };
+		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		AttendanceModel model = new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
@@ -77,7 +79,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory(nameof(AttendanceService.Update))]
 	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
 	{
-		AttendanceUpdateRequest request = new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY };
+		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		AttendanceService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.Update(request)

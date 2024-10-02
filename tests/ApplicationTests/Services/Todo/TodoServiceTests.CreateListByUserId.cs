@@ -3,6 +3,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using Application.Services.Todo;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -25,7 +27,7 @@ public sealed partial class TodoServiceTests
 	public async Task CreateListByUserIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		ListCreateRequest request = GetListCreateRequest();
+		ListCreateRequest request = RequestHelper.GetListCreateRequest();
 		TodoService sut = CreateMockedInstance();
 
 		ErrorOr<Created> result = await sut.CreateListByUserId(userId, request)
@@ -45,7 +47,7 @@ public sealed partial class TodoServiceTests
 	public async Task CreateListByUserIdShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		ListCreateRequest request = GetListCreateRequest();
+		ListCreateRequest request = RequestHelper.GetListCreateRequest();
 		Mock<IListRepository> listMock = new();
 		TodoService sut = CreateMockedInstance(listMock.Object);
 

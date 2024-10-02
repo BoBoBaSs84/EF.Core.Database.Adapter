@@ -1,5 +1,4 @@
-﻿using Application.Contracts.Requests.Identity;
-using Application.Interfaces.Application.Common;
+﻿using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;
@@ -55,34 +54,5 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			Email = "unit.test@example.com",
 		};
 		return user;
-	}
-
-	private static UserCreateRequest GetUserCreateRequest()
-	{
-		UserCreateRequest request = new()
-		{
-			FirstName = "UnitTest",
-			LastName = "UnitTest",
-			Email = "unit.test@example.com",
-			UserName = "UnitTest",
-			Password = "!UnitTest123456*",
-		};
-		return request;
-	}
-
-	private static UserUpdateRequest GetUserUpdateRequest()
-	{
-		UserUpdateRequest request = new()
-		{
-			FirstName = "UnitTest",
-			MiddleName = "UnitTest",
-			LastName = "UnitTest",
-			DateOfBirth = DateTime.Today,
-			Email = "unit.test@example.com",
-			PhoneNumber = "1234567890",
-			Picture = [],
-			Preferences = null
-		};
-		return request;
 	}
 }

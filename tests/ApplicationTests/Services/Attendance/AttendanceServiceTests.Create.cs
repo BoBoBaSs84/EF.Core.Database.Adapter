@@ -3,9 +3,10 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Attendance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
-using Domain.Enumerators.Attendance;
 using Domain.Errors;
 using Domain.Models.Attendance;
 using Domain.Results;
@@ -26,7 +27,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateShouldReturnConflictWhenExistingEntryFound()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.VACATION };
+		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		AttendanceModel model = new() { Date = DateTime.Today };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> mock = new();
@@ -51,7 +52,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.VACATION };
+		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(id) && x.Date.Equals(request.Date), null, false, false, default))
@@ -78,7 +79,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceCreateRequest request = new() { Date = DateTime.Today, Type = AttendanceType.WORKDAY, StartTime = TimeSpan.FromHours(6), EndTime = TimeSpan.FromHours(18), BreakTime = TimeSpan.FromHours(1) };
+		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		AttendanceService sut = CreateMockedInstance();
 

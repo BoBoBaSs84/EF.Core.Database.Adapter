@@ -3,6 +3,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using Application.Services.Todo;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -25,7 +27,7 @@ public sealed partial class TodoServiceTests
 	public async Task CreateItemByListIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = GetItemCreateRequest();
+		ItemCreateRequest request = RequestHelper.GetItemCreateRequest();
 		TodoService sut = CreateMockedInstance();
 
 		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
@@ -45,7 +47,7 @@ public sealed partial class TodoServiceTests
 	public async Task CreateItemByListIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = GetItemCreateRequest();
+		ItemCreateRequest request = RequestHelper.GetItemCreateRequest();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, false, false, default))
 			.Returns(Task.FromResult<List?>(null));
@@ -69,7 +71,7 @@ public sealed partial class TodoServiceTests
 	public async Task CreateItemByListIdShouldReturnCreatedWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemCreateRequest request = GetItemCreateRequest();
+		ItemCreateRequest request = RequestHelper.GetItemCreateRequest();
 		Mock<IListRepository> listMock = new();
 		Mock<IItemRepository> itemMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, false, false, default))

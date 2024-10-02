@@ -16,6 +16,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 
 using Moq;
+using ApplicationTests.Helpers;
 
 namespace ApplicationTests.Services.Todo;
 
@@ -27,7 +28,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateListByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid listId = Guid.NewGuid();
-		ListUpdateRequest request = GetListUpdateRequest();
+		ListUpdateRequest request = RequestHelper.GetListUpdateRequest();
 		TodoService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
@@ -47,7 +48,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateListByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
-		ListUpdateRequest request = GetListUpdateRequest();
+		ListUpdateRequest request = RequestHelper.GetListUpdateRequest();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, false, true, default))
 			.Returns(Task.FromResult<List?>(null));
@@ -71,7 +72,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateListByIdShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		ListUpdateRequest request = GetListUpdateRequest();
+		ListUpdateRequest request = RequestHelper.GetListUpdateRequest();
 		List model = new();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(id, false, true, default))

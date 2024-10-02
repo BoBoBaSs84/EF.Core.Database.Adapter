@@ -3,6 +3,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Attendance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Enumerators.Attendance;
@@ -25,9 +27,9 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnNotFoundWhenNotFound()
 	{
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.VACATION }];
+		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(requests.Select(x => x.Id), false, true, default))
+		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
 			.Returns(Task.FromResult<IEnumerable<AttendanceModel>>([]));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
@@ -47,9 +49,8 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnCreatedWhenSuccessful()
 	{
-		Guid id = Guid.NewGuid();
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = id, Type = AttendanceType.HOLIDAY }];
-		IEnumerable<AttendanceModel> models = [new() { Id = id, Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero }];
+		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
+		IEnumerable<AttendanceModel> models = [new() { Id = requests.First().Id, Type = AttendanceType.VACATION }];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
 			.Returns(Task.FromResult(models));
@@ -78,7 +79,7 @@ public sealed partial class AttendanceServiceTests
 	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
 	public async Task UpdateMultipleShouldReturnFailedWhenExceptionIsThrown()
 	{
-		IEnumerable<AttendanceUpdateRequest> requests = [new() { Id = Guid.NewGuid(), Type = AttendanceType.HOLIDAY }];
+		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		string[] parameters = [string.Join(',', requests.Select(x => x.Id))];
 		AttendanceService sut = CreateMockedInstance();
 

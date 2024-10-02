@@ -15,6 +15,6 @@ public static class ValidatorExtensions
 	/// </summary>
 	/// <typeparam name="T">The type to work with.</typeparam>
 	/// <param name="ruleBuilder">The rule binder to extend.</param>
-	public static IRuleBuilderOptions<T, string?> Phone<T>(this IRuleBuilder<T, string?> ruleBuilder)
+	public static IRuleBuilderOptions<T, string?> PhoneNumber<T>(this IRuleBuilder<T, string?> ruleBuilder)
 		=> ruleBuilder.SetValidator(new PhoneValidator<T>());
 }

@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Microsoft.AspNetCore.Identity;
-
-using SqlMaxLength = Domain.Common.Constants.Sql.MaxLength;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Models.Identity;
 
@@ -12,6 +8,5 @@ public partial class RoleModel : IdentityRole<Guid>
 	/// <summary>
 	/// The <see cref="Description"/> property.
 	/// </summary>
-	[MaxLength(SqlMaxLength.MAX_500)]
 	public string? Description { get; set; }
 }

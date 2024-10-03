@@ -1,10 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-using Microsoft.AspNetCore.Identity;
-
-using SqlDataType = Domain.Common.Constants.Sql.DataType;
-using SqlMaxLength = Domain.Common.Constants.Sql.MaxLength;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Models.Identity;
 
@@ -14,25 +8,21 @@ public partial class UserModel : IdentityUser<Guid>
 	/// <summary>
 	/// The <see cref="FirstName"/> property.
 	/// </summary>
-	[MaxLength(SqlMaxLength.MAX_100)]
 	public string FirstName { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="MiddleName"/> property.
 	/// </summary>
-	[MaxLength(SqlMaxLength.MAX_100)]
 	public string? MiddleName { get; set; }
 
 	/// <summary>
 	/// The <see cref="LastName"/> property.
 	/// </summary>
-	[MaxLength(SqlMaxLength.MAX_100)]
 	public string LastName { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="DateOfBirth"/> property.
 	/// </summary>
-	[Column(TypeName = SqlDataType.DATE)]
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>

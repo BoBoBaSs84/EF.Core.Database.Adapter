@@ -22,6 +22,10 @@ internal static partial class IdentityConfiguration
 		{
 			builder.ToHistoryTable("Role", SqlSchema.Identity, SqlSchema.History);
 
+			builder.Property(p => p.Description)
+				.HasMaxLength(500)
+				.IsRequired(false);
+
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.Role)
 				.HasForeignKey(ur => ur.RoleId)

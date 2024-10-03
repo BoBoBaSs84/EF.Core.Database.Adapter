@@ -7,7 +7,6 @@ using Infrastructure.Persistence.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlDataType = Domain.Common.Constants.Sql.DataType;
 using SqlSchema = Domain.Common.Constants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -22,9 +21,22 @@ internal static partial class IdentityConfiguration
 		{
 			builder.ToHistoryTable("User", SqlSchema.Identity, SqlSchema.History);
 
+			builder.Property(p => p.FirstName)
+				.HasMaxLength(100);
+
+			builder.Property(p => p.MiddleName)
+				.HasMaxLength(100)
+				.IsRequired(false);
+
+			builder.Property(p => p.LastName)
+				.HasMaxLength(100);
+
+			builder.Property(p => p.DateOfBirth)
+				.HasColumnType("date");
+
 			builder.Property(e => e.Preferences)
 				.HasConversion<PreferencesConverter>()
-				.HasColumnType(SqlDataType.XML);
+				.HasColumnType("xml");
 
 			builder.HasMany(e => e.Claims)
 				.WithOne(e => e.User)

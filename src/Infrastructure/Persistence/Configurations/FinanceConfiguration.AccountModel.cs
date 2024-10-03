@@ -6,7 +6,6 @@ using Domain.Models.Finance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlMaxLength = Domain.Common.Constants.Sql.MaxLength;
 using SqlSchema = Domain.Common.Constants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -26,11 +25,11 @@ internal static partial class FinanceConfiguration
 				.IsUnique(true);
 
 			builder.Property(p => p.IBAN)
-				.HasMaxLength(SqlMaxLength.MAX_25)
+				.HasMaxLength(25)
 				.IsUnicode(false);
 
 			builder.Property(p => p.Provider)
-				.HasMaxLength(SqlMaxLength.MAX_500);
+				.HasMaxLength(500);
 
 			builder.HasMany(e => e.AccountUsers)
 				.WithOne(e => e.Account)

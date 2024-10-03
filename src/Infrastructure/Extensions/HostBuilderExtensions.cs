@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-using Environment = Domain.Constants.DomainConstants.Environment;
+using Environment = Domain.Common.Constants.Environment;
 
 namespace Infrastructure.Extensions;
 

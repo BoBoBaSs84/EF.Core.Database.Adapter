@@ -8,7 +8,7 @@ using Domain.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
+using SqlSchema = Domain.Common.Constants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -21,6 +21,10 @@ internal static partial class IdentityConfiguration
 		public void Configure(EntityTypeBuilder<RoleModel> builder)
 		{
 			builder.ToHistoryTable("Role", SqlSchema.Identity, SqlSchema.History);
+
+			builder.Property(p => p.Description)
+				.HasMaxLength(500)
+				.IsRequired(false);
 
 			builder.HasMany(e => e.UserRoles)
 				.WithOne(e => e.Role)

@@ -1,37 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Enumerators.Finance;
-
-using MaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
-using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
+using Application.Contracts.Requests.Finance.Base;
 
 namespace Application.Contracts.Requests.Finance;
 
 /// <summary>
-/// The account create request class.
+/// The request for creating a bank account.
 /// </summary>
-public sealed class AccountCreateRequest
+public sealed class AccountCreateRequest : AccountBaseRequest
 {
 	/// <summary>
-	/// The iban number.
-	/// </summary>
-	[Required, MaxLength(MaxLength.MAX_25), RegularExpression(RegexPatterns.IBAN)]
-	public string IBAN { get; set; } = string.Empty;
-
-	/// <summary>
-	/// The type of the bank account.
+	/// The international bank account number.
 	/// </summary>
 	[Required]
-	public AccountType Type { get; set; }
-
-	/// <summary>
-	/// The account provider.
-	/// </summary>
-	[Required, MaxLength(MaxLength.MAX_500)]
-	public string Provider { get; set; } = string.Empty;
+	public required string IBAN { get; init; }
 
 	/// <summary>
 	/// The cards belonging to this account.
 	/// </summary>
-	public CardCreateRequest[]? Cards { get; set; }
+	public CardCreateRequest[]? Cards { get; init; }
 }

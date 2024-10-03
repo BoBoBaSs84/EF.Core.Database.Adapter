@@ -5,6 +5,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -28,7 +30,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		AccountUpdateRequest request = new();
+		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		AccountService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.Update(id, request);
@@ -47,7 +49,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		AccountUpdateRequest request = new();
+		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.UpdateAsync(id, It.IsAny<Expression<Func<SetPropertyCalls<AccountModel>, SetPropertyCalls<AccountModel>>>>(), default))
 			.Returns(Task.FromResult(0));
@@ -69,7 +71,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		AccountUpdateRequest request = new();
+		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.UpdateAsync(id, It.IsAny<Expression<Func<SetPropertyCalls<AccountModel>, SetPropertyCalls<AccountModel>>>>(), default))
 			.Returns(Task.FromResult(1));

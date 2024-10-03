@@ -10,12 +10,12 @@ public sealed class AuthenticationRequest
 	/// <summary>
 	/// The user name of the user.
 	/// </summary>
-	[Required, DataType(DataType.Text)]
-	public string UserName { get; set; } = default!;
+	[Required]
+	public required string UserName { get; init; }
 
 	/// <summary>
 	/// The password of the user.
 	/// </summary>
-	[Required, DataType(DataType.Password)]
-	public string Password { get; set; } = default!;
+	[Required]
+	public required string Password { get; init; }
 }

@@ -20,14 +20,6 @@ public static class AttendanceServiceErrors
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	/// <param name="date">The attendance date to use.</param>
-	public static ApiError CreateBadRequest(DateTime date)
-		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateBadRequest)}",
-			RESX.AttendanceService_Create_BadRequest.FormatInvariant(date));
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	/// <param name="date">The attendance date to use.</param>
 	public static ApiError CreateConflict(DateTime date)
 		=> ApiError.CreateConflict($"{ErrorPrefix}.{nameof(CreateConflict)}",
 			RESX.AttendanceService_Create_Conflict.FormatInvariant(date));
@@ -39,14 +31,6 @@ public static class AttendanceServiceErrors
 	public static ApiError CreateFailed(DateTime date)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateFailed)}",
 			RESX.AttendanceService_Create_Failed.FormatInvariant(date));
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	/// <param name="dates">The attendance dates to use.</param>
-	public static ApiError CreateMultipleBadRequest(IEnumerable<DateTime> dates)
-		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateMultipleBadRequest)}",
-			RESX.AttendanceService_CreateMultiple_BadRequest.FormatInvariant(string.Join(',', dates)));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.
@@ -123,25 +107,9 @@ public static class AttendanceServiceErrors
 	/// Error that indicates an exception during the attendance service.
 	/// </summary>
 	/// <param name="id">The attendance identifier to use.</param>
-	public static ApiError UpdateBadRequest(Guid id) =>
-		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateBadRequest)}",
-			RESX.AttendanceService_Update_BadRequest.FormatInvariant(id));
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	/// <param name="id">The attendance identifier to use.</param>
 	public static ApiError UpdateFailed(Guid id)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateFailed)}",
 			RESX.AttendanceService_Update_Failed.FormatInvariant(id));
-
-	/// <summary>
-	/// Error that indicates an exception during the attendance service.
-	/// </summary>
-	/// <param name="ids">The attendance identifiers to use.</param>
-	public static ApiError UpdateMultipleBadRequest(IEnumerable<Guid> ids) =>
-		ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateMultipleBadRequest)}",
-			RESX.AttendanceService_Update_BadRequest.FormatInvariant(string.Join(',', ids)));
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

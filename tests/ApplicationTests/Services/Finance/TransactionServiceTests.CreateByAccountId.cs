@@ -3,6 +3,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -25,7 +27,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task CreateByAccountIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		TransactionCreateRequest request = new();
+		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		TransactionService sut = CreateMockedInstance();
 
 		ErrorOr<Created> result = await sut.CreateByAccountId(id, request)
@@ -45,7 +47,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task CreateByAccountIdShouldReturnNotFoundWhenAccountIsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		TransactionCreateRequest request = new();
+		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(null));
@@ -69,7 +71,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task CreateByAccountIdShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		TransactionCreateRequest request = new();
+		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		AccountModel model = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))

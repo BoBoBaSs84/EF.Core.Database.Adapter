@@ -1,4 +1,4 @@
-﻿using Domain.Constants;
+﻿using Domain.Common;
 
 using Microsoft.Extensions.Hosting;
 
@@ -10,10 +10,10 @@ namespace Infrastructure.Extensions;
 internal static class HostEnvironmentExtensions
 {
 	/// <summary>
-	/// Checks if the current host environment name is <see cref="DomainConstants.Environment.Testing"/>.
+	/// Checks if the current host environment name is <see cref="Constants.Environment.Testing"/>.
 	/// </summary>
 	/// <param name="hostEnvironment">An instance of <see cref="IHostEnvironment"/>.</param>
-	/// <returns>True if the environment name is <see cref="DomainConstants.Environment.Testing"/>, otherwise false.</returns>
+	/// <returns>True if the environment name is <see cref="Constants.Environment.Testing"/>, otherwise false.</returns>
 	public static bool IsTesting(this IHostEnvironment hostEnvironment)
-		=> hostEnvironment.IsEnvironment(DomainConstants.Environment.Testing);
+		=> hostEnvironment.IsEnvironment(Constants.Environment.Testing);
 }

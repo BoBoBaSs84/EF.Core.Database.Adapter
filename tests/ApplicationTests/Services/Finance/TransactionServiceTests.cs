@@ -1,18 +1,10 @@
-﻿using Application.Contracts.Requests.Finance;
-using Application.Interfaces.Infrastructure.Persistence.Repositories;
+﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Services.Finance;
 
 using AutoMapper;
 
-using BB84.Extensions;
-
-using Domain.Models.Finance;
-
 using Moq;
-
-using static BaseTests.Helpers.RandomHelper;
-using static Domain.Constants.DomainConstants;
 
 namespace ApplicationTests.Services.Finance;
 
@@ -39,46 +31,5 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			_repositoryServiceMock.Setup(x => x.TransactionRepository).Returns(transactionRepository);
 
 		return new(_loggerServiceMock.Object, _repositoryServiceMock.Object, _mapper);
-	}
-
-	private static TransactionModel CreateTransaction()
-	{
-		TransactionModel transaction = new()
-		{
-			Id = Guid.NewGuid(),
-			CreatedBy = GetString(50),
-			ModifiedBy = GetString(50),
-			BookingDate = GetDateTime(),
-			ValueDate = GetDateTime(),
-			PostingText = GetString(100),
-			ClientBeneficiary = GetString(250),
-			Purpose = GetString(400),
-			AccountNumber = GetString(RegexPatterns.IBAN).RemoveWhitespace(),
-			BankCode = GetString(25),
-			AmountEur = GetInt(-100, 250),
-			CreditorId = GetString(25),
-			MandateReference = GetString(50),
-			CustomerReference = GetString(50)
-		};
-		return transaction;
-	}
-
-	private static TransactionUpdateRequest CreateUpdateRequest()
-	{
-		TransactionUpdateRequest request = new()
-		{
-			BookingDate = GetDateTime(),
-			ValueDate = GetDateTime(),
-			PostingText = GetString(100),
-			ClientBeneficiary = GetString(250),
-			Purpose = GetString(400),
-			AccountNumber = GetString(RegexPatterns.IBAN).RemoveWhitespace(),
-			BankCode = GetString(25),
-			AmountEur = GetInt(-100, 250),
-			CreditorId = GetString(25),
-			MandateReference = GetString(50),
-			CustomerReference = GetString(50)
-		};
-		return request;
 	}
 }

@@ -1,31 +1,35 @@
 ﻿using System.Text.RegularExpressions;
 
-using RegexPatterns = Domain.Constants.DomainConstants.RegexPatterns;
+using RegexPatterns = Domain.Common.Constants.RegexPatterns;
 
 namespace Domain.Common;
 
 /// <summary>
 /// The statics class.
 /// </summary>
-public static class RegexStatics
+public static partial class RegexStatics
 {
 	/// <summary>
-	/// The <see cref="CreditCard"/> property.
+	/// The permanent account number regex.
 	/// </summary>
-	public static Regex CreditCard { get; } = new(RegexPatterns.PAN);
+	public static Regex PAN { get; } = PANRegex();
 
 	/// <summary>
-	/// The <see cref="Email"/> property.
+	/// The international bank account number regex.
 	/// </summary>
-	public static Regex Email { get; } = new(RegexPatterns.Email);
+	public static Regex IBAN { get; } = IBANRegex();
 
 	/// <summary>
-	/// The <see cref="Iban"/> property.
+	/// The bank identification code regex.
 	/// </summary>
-	public static Regex Iban { get; } = new(RegexPatterns.IBAN);
+	public static Regex BIC { get; } = BICRegex();
 
-	/// <summary>
-	/// The <see cref="Whitespace"/> property.
-	/// </summary>
-	public static Regex Whitespace { get; } = new(RegexPatterns.Whitespace);
+	[GeneratedRegex(RegexPatterns.PAN)]
+	private static partial Regex PANRegex();
+
+	[GeneratedRegex(RegexPatterns.IBAN)]
+	private static partial Regex IBANRegex();
+
+	[GeneratedRegex(RegexPatterns.BIC)]
+	private static partial Regex BICRegex();
 }

@@ -2,6 +2,8 @@
 using Application.Errors.Services;
 using Application.Services.Identity;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Enumerators;
@@ -26,7 +28,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.CreateUser))]
 	public async Task CreateUserShouldReturnFailedWhenExceptionIsThrown()
 	{
-		UserCreateRequest request = new();
+		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
 			.Throws(new InvalidOperationException());
@@ -47,7 +49,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.CreateUser))]
 	public async Task CreateUserShouldReturnFailedWhenUserWasNotCreated()
 	{
-		UserCreateRequest request = new();
+		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
@@ -70,7 +72,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.CreateUser))]
 	public async Task CreateUserShouldReturnFailedWhenRoleWasNotCreated()
 	{
-		UserCreateRequest request = new();
+		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
@@ -96,7 +98,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.CreateUser))]
 	public async Task CreateUserShouldReturnCreatedWhenSuccessful()
 	{
-		UserCreateRequest request = new();
+		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
 			.Returns(Task.FromResult(IdentityResult.Success));

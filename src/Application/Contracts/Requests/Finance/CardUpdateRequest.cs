@@ -1,27 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-using Application.Converters;
-
-using Domain.Enumerators.Finance;
+﻿using Application.Contracts.Requests.Finance.Base;
 
 namespace Application.Contracts.Requests.Finance;
 
 /// <summary>
-/// The card update request class.
+/// The request for updating a bank card.
 /// </summary>
-public sealed class CardUpdateRequest
-{
-	/// <summary>
-	/// The card type.
-	/// </summary>
-	[Required]
-	public CardType Type { get; set; }
-
-	/// <summary>
-	/// The valid until property.
-	/// </summary>
-	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
-	public DateTime ValidUntil { get; set; }
-}
+public sealed class CardUpdateRequest : CardBaseRequest
+{ }

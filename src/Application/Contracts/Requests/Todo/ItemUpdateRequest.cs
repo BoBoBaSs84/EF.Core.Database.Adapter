@@ -10,5 +10,5 @@ public sealed class ItemUpdateRequest : ItemBaseRequest
 	/// <summary>
 	/// Indicates if the todo item is done.
 	/// </summary>
-	public bool Done { get; set; }
+	public required bool Done { get; init; }
 }

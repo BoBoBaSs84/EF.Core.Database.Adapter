@@ -5,6 +5,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -27,7 +29,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task UpdateByCardIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
-		TransactionUpdateRequest request = new();
+		TransactionUpdateRequest request = RequestHelper.GetTransactionUpdateRequest();
 		string[] parameters = [$"{cardId}", $"{id}"];
 		TransactionService sut = CreateMockedInstance();
 
@@ -48,7 +50,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task UpdateByCardIdShouldReturnNotFoundWhenTransactionNotFound()
 	{
 		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
-		TransactionUpdateRequest request = new();
+		TransactionUpdateRequest request = RequestHelper.GetTransactionUpdateRequest();
 		string[] parameters = [$"{cardId}", $"{id}"];
 		Mock<ITransactionRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), null, false, true, default))
@@ -73,7 +75,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task UpdateByCardIdShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
-		TransactionUpdateRequest request = CreateUpdateRequest();
+		TransactionUpdateRequest request = RequestHelper.GetTransactionUpdateRequest();
 		TransactionModel model = new() { Id = id };
 		string[] parameters = [$"{cardId}", $"{id}"];
 		Mock<ITransactionRepository> mock = new();

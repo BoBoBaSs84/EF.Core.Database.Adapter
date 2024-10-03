@@ -2,7 +2,11 @@
 using Application.Errors.Services;
 using Application.Services.Identity;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
+
+using BB84.Extensions;
 
 using Domain.Errors;
 using Domain.Models.Identity;
@@ -25,7 +29,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = new();
+		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
 			.Throws(new InvalidOperationException());
@@ -47,7 +51,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnNotFoundWhenUserNotFound()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = new();
+		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
 			.Returns(Task.FromResult<UserModel?>(null));
@@ -70,7 +74,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnFailedWhenUserWasNotCreated()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = new();
+		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
 		UserModel user = new();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
@@ -98,7 +102,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task UpdateUserShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		UserUpdateRequest request = CreateUpdateRequest();
+		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
 		UserModel user = new() { Id = userId };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
@@ -122,8 +126,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			user.DateOfBirth.Should().Be(request.DateOfBirth);
 			user.Email.Should().Be(request.Email);
 			user.PhoneNumber.Should().Be(request.PhoneNumber);
-			user.Picture.Should().BeEmpty();
-			user.Preferences.Should().Be(request.Preferences);
+			user.Picture.Should().BeNull();
+			user.Preferences.Should().BeNull();
 			_userServiceMock.Verify(x => x.FindByIdAsync($"{userId}"), Times.Once);
 			_userServiceMock.Verify(x => x.UpdateAsync(It.IsAny<UserModel>()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);

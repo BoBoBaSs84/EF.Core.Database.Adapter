@@ -24,7 +24,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.Authenticate))]
 	public async Task AuthenticateShouldReturnFailedWhenExceptionIsThrown()
 	{
-		AuthenticationRequest request = new();
+		AuthenticationRequest request = GetRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
 			.Throws(new InvalidOperationException());
@@ -45,7 +45,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.Authenticate))]
 	public async Task AuthenticateShouldReturnUnauthorizedWhenUserNotFound()
 	{
-		AuthenticationRequest request = new();
+		AuthenticationRequest request = GetRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
 			.Returns(Task.FromResult<UserModel?>(null));
@@ -67,7 +67,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.Authenticate))]
 	public async Task AuthenticateShouldReturnUnauthorizedWhenPasswordCheckIsFalse()
 	{
-		AuthenticationRequest request = new();
+		AuthenticationRequest request = GetRequest();
 		UserModel user = new();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
@@ -100,7 +100,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			ExpiryInMinutes = 5,
 			SecurityKey = RandomHelper.GetString(64)
 		};
-		AuthenticationRequest request = new();
+		AuthenticationRequest request = GetRequest();
 		UserModel user = CreateUser();
 		AuthenticationService sut = CreateMockedInstance(settings);
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
@@ -126,4 +126,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, Exception?>>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
+
+	private static AuthenticationRequest GetRequest()
+		=> new() { UserName = "UserName", Password = "Password" };
 }

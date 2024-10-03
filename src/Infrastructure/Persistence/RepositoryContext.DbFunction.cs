@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using DbFunction = Domain.Constants.DomainConstants.Sql.DbFunction;
+using DbFunction = Domain.Common.Constants.Sql.DbFunction;
 
 namespace Infrastructure.Persistence;
 

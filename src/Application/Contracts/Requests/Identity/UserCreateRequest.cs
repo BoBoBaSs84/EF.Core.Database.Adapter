@@ -1,39 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Application.Contracts.Requests.Identity.Base;
+
 namespace Application.Contracts.Requests.Identity;
 
 /// <summary>
 /// The user create request class.
 /// </summary>
-public sealed class UserCreateRequest
+public sealed class UserCreateRequest : UserBaseRequest
 {
-	/// <summary>
-	/// The first name of the user.
-	/// </summary>
-	[Required, MaxLength(100), DataType(DataType.Text)]
-	public string FirstName { get; set; } = string.Empty;
-
-	/// <summary>
-	/// The last name of the user.
-	/// </summary>
-	[Required, MaxLength(100), DataType(DataType.Text)]
-	public string LastName { get; set; } = string.Empty;
-
 	/// <summary>
 	/// The user name of the user.
 	/// </summary>
-	[Required, DataType(DataType.Text)]
-	public string UserName { get; set; } = string.Empty;
-
-	/// <summary>
-	/// The email of the user.
-	/// </summary>
-	[Required, EmailAddress, DataType(DataType.EmailAddress)]
-	public string Email { get; set; } = string.Empty;
+	[Required]
+	public required string UserName { get; init; }
 
 	/// <summary>
 	/// The password of the user.
 	/// </summary>
-	[Required, DataType(DataType.Password)]
-	public string Password { get; set; } = string.Empty;
+	[Required]
+	public required string Password { get; init; }
 }

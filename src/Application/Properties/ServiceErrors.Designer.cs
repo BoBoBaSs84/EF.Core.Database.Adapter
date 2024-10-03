@@ -169,15 +169,6 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are errors in the creation request with the date &apos;{0}&apos; please check and correct them..
-        /// </summary>
-        public static string AttendanceService_Create_BadRequest {
-            get {
-                return ResourceManager.GetString("AttendanceService.Create.BadRequest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An entry with the date &apos;{0}&apos; has already been created..
         /// </summary>
         public static string AttendanceService_Create_Conflict {
@@ -192,15 +183,6 @@ namespace Application.Properties {
         public static string AttendanceService_Create_Failed {
             get {
                 return ResourceManager.GetString("AttendanceService.Create.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are errors in the creation requests with the date values &apos;{0}&apos; please check and correct them..
-        /// </summary>
-        public static string AttendanceService_CreateMultiple_BadRequest {
-            get {
-                return ResourceManager.GetString("AttendanceService.CreateMultiple.BadRequest", resourceCulture);
             }
         }
         
@@ -322,29 +304,11 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are errors in the update request with the identifier &apos;{0}&apos; please check and correct them..
-        /// </summary>
-        public static string AttendanceService_Update_BadRequest {
-            get {
-                return ResourceManager.GetString("AttendanceService.Update.BadRequest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred when updating an attendance/absence with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string AttendanceService_Update_Failed {
             get {
                 return ResourceManager.GetString("AttendanceService.Update.Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are errors in the update requests with the identifiers &apos;{0}&apos; please check and correct them..
-        /// </summary>
-        public static string AttendanceService_UpdateMultiple_BadRequest {
-            get {
-                return ResourceManager.GetString("AttendanceService.UpdateMultiple.BadRequest", resourceCulture);
             }
         }
         

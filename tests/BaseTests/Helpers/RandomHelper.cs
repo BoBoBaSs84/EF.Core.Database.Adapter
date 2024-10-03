@@ -18,11 +18,13 @@ public static class RandomHelper
 		return bytes;
 	}
 
-	public static DateTime GetDateTime()
+	public static DateTime GetDateTime(DateTime? minDate = null, DateTime? maxDate = null)
 	{
-		DateTime startDate = new(1753, 1, 1);
-		int range = (DateTime.Today - startDate).Days;
-		return startDate.AddDays(Random.Next(range));
+		minDate ??= DateTime.MinValue;
+		maxDate ??= DateTime.MaxValue;
+
+		int range = (maxDate - minDate).Value.Days;
+		return minDate.Value.AddDays(Random.Next(range));
 	}
 
 	public static DateTime GetDateTime(int year)

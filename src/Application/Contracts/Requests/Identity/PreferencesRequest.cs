@@ -10,7 +10,7 @@ public sealed class PreferencesRequest
 	/// <summary>
 	/// The attendance preferences.
 	/// </summary>
-	public AttendancePreferencesRequest? AttendancePreferences { get; set; }
+	public AttendancePreferencesRequest? AttendancePreferences { get; init; }
 }
 
 /// <summary>
@@ -21,15 +21,15 @@ public sealed class AttendancePreferencesRequest
 	/// <summary>
 	/// The work days per week property.
 	/// </summary>
-	public WorkDayTypes WorkDays { get; set; }
+	public required WorkDayTypes WorkDays { get; init; }
 
 	/// <summary>
 	/// The work hours per week property.
 	/// </summary>
-	public float WorkHours { get; set; }
+	public required float WorkHours { get; init; }
 
 	/// <summary>
 	/// The vacation days per year.
 	/// </summary>
-	public int VacationDays { get; set; }
+	public required int VacationDays { get; init; }
 }

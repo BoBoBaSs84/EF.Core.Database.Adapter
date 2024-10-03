@@ -3,9 +3,10 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using Application.Services.Todo;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
-using Domain.Enumerators.Todo;
 using Domain.Errors;
 using Domain.Models.Todo;
 using Domain.Results;
@@ -26,7 +27,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateItemByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid itemId = Guid.NewGuid();
-		ItemUpdateRequest request = new();
+		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		TodoService sut = CreateMockedInstance();
 
 		ErrorOr<Updated> result = await sut.UpdateItemById(itemId, request)
@@ -46,7 +47,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateItemByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid itemId = Guid.NewGuid();
-		ItemUpdateRequest request = new();
+		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		Mock<IItemRepository> itemMock = new();
 		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, default))
 			.Returns(Task.FromResult<Item?>(null));
@@ -70,7 +71,7 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateItemByIdShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		ItemUpdateRequest request = new() { Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.MEDIUM, Reminder = DateTime.Today, Done = true };
+		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		Item model = new();
 		Mock<IItemRepository> itemMock = new();
 		itemMock.Setup(x => x.GetByIdAsync(id, false, true, default))

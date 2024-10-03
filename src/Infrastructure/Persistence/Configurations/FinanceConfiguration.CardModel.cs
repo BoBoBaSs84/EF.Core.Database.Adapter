@@ -6,9 +6,7 @@ using Domain.Models.Finance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlDataType = Domain.Constants.DomainConstants.Sql.DataType;
-using SqlMaxLength = Domain.Constants.DomainConstants.Sql.MaxLength;
-using SqlSchema = Domain.Constants.DomainConstants.Sql.Schema;
+using SqlSchema = Domain.Common.Constants.Sql.Schema;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -27,11 +25,11 @@ internal static partial class FinanceConfiguration
 				.IsUnique(true);
 
 			builder.Property(p => p.PAN)
-				.HasMaxLength(SqlMaxLength.MAX_25)
+				.HasMaxLength(25)
 				.IsUnicode(false);
 
 			builder.Property(p => p.ValidUntil)
-				.HasColumnType(SqlDataType.DATE);
+				.HasColumnType("date");
 
 			builder.HasMany(e => e.Transactions)
 				.WithOne(e => e.Card)

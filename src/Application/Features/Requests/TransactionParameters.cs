@@ -5,40 +5,32 @@ using Application.Features.Requests.Base;
 namespace Application.Features.Requests;
 
 /// <summary>
-/// The transaction request parameter class.
+/// The parameters fo the transaction request.
 /// </summary>
-/// <remarks>
-/// Derives from the <see cref="RequestParameters"/> class.
-/// </remarks>
 public sealed class TransactionParameters : RequestParameters
 {
 	/// <summary>
 	/// The booking date filter option.
 	/// </summary>
-	[DataType(DataType.Date)]
-	public DateTime? BookingDate { get; set; }
+	public DateTime? BookingDate { get; init; }
 
 	/// <summary>
 	/// The value date filter option.
 	/// </summary>
-	[DataType(DataType.Date)]
-	public DateTime? ValueDate { get; set; }
+	public DateTime? ValueDate { get; init; }
 
 	/// <summary>
 	/// The client beneficiary filter option.
 	/// </summary>
-	[DataType(DataType.Text)]
-	public string? Beneficiary { get; set; }
+	public string? Beneficiary { get; init; }
 
 	/// <summary>
 	/// The minimum amount value filter option.
 	/// </summary>
-	[DataType(DataType.Currency)]
-	public decimal? MinValue { get; set; }
+	public decimal? MinValue { get; init; }
 
 	/// <summary>
 	/// The maximum amount value filter option.
 	/// </summary>
-	[DataType(DataType.Currency)]
-	public decimal? MaxValue { get; set; }
+	public decimal? MaxValue { get; init; }
 }

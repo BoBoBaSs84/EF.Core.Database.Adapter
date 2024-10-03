@@ -9,15 +9,15 @@ namespace Infrastructure.Persistence;
 public sealed partial class RepositoryContext
 {
 	/// <inheritdoc/>
-	public DbSet<AttendanceModel> Attendances { get; set; } = default!;
+	public required DbSet<AttendanceModel> Attendances { get; init; }
 	/// <inheritdoc/>
-	public DbSet<AccountModel> Accounts { get; set; } = default!;
+	public required DbSet<AccountModel> Accounts { get; init; }
 	/// <inheritdoc/>
-	public DbSet<CardModel> Cards { get; set; } = default!;
+	public required DbSet<CardModel> Cards { get; init; }
 	/// <inheritdoc/>
-	public DbSet<TransactionModel> Transactions { get; set; } = default!;
+	public required DbSet<TransactionModel> Transactions { get; init; }
 	/// <inheritdoc/>
-	public DbSet<List> TodoLists { get; set; } = default!;
+	public required DbSet<List> TodoLists { get; init; }
 	/// <inheritdoc/>
-	public DbSet<Item> TodoItems { get; set; } = default!;
+	public required DbSet<Item> TodoItems { get; init; }
 }

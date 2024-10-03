@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using static Domain.Constants.DomainConstants;
+using static Domain.Common.Constants;
 
 namespace Application.Contracts.Requests.Todo.Base;
 
@@ -12,12 +12,12 @@ public abstract class ListBaseRequest
 	/// <summary>
 	/// The title of the todo list.
 	/// </summary>
-	[Required, MaxLength(256), DataType(DataType.Text)]
-	public string Title { get; set; } = string.Empty;
+	[Required, MaxLength(256)]
+	public required string Title { get; init; }
 
 	/// <summary>
 	/// The color of the todo list.
 	/// </summary>
 	[MaxLength(7), RegularExpression(RegexPatterns.HEXRGB)]
-	public string? Color { get; set; }
+	public string? Color { get; init; }
 }

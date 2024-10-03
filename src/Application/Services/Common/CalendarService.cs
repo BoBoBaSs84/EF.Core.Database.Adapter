@@ -12,7 +12,7 @@ using Domain.Errors;
 
 using Microsoft.Extensions.Logging;
 
-using DR = Application.Common.Statics.DateRanges;
+using DateRanges = Application.Common.Statics.DateRanges;
 
 namespace Application.Services.Common;
 
@@ -91,8 +91,10 @@ internal sealed class CalendarService(IDateTimeService dateTimeService, ILoggerS
 
 	private static IQueryable<DateTime> GetPossibleDates()
 	{
-		return Enumerable.Range(0, (DR.MaxDate - DR.MinDate).Days)
-			.Select(i => DR.MinDate.AddDays(i))
+		IQueryable<DateTime> dates = Enumerable.Range(0, (DateRanges.MaxDate - DateRanges.MinDate).Days)
+			.Select(i => DateRanges.MinDate.AddDays(i))
 			.AsQueryable();
+
+		return dates;
 	}
 }

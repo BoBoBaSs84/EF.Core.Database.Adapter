@@ -17,9 +17,9 @@ namespace Presentation.Controllers;
 /// <summary>
 /// The authentication controller class.
 /// </summary>
-/// <param name="authenticationService">The authentication service.</param>
-[Route(Endpoints.Authentication.BaseUri)]
+/// <param name="authenticationService">The authentication service instance to use.</param>
 [ApiVersion(Versioning.CurrentVersion)]
+[Route(Endpoints.Authentication.BaseUri)]
 public sealed class AuthenticationController(IAuthenticationService authenticationService) : ApiControllerBase
 {
 	/// <summary>
@@ -27,10 +27,12 @@ public sealed class AuthenticationController(IAuthenticationService authenticati
 	/// </summary>
 	/// <param name="request">The authentication request to use.</param>
 	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPost(Endpoints.Authentication.Authenticate)]
 	[ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Authenticate([FromBody] AuthenticationRequest request)

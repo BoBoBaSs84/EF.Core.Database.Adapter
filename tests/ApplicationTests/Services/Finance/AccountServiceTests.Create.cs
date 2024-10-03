@@ -5,6 +5,8 @@ using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
+using ApplicationTests.Helpers;
+
 using BaseTests.Helpers;
 
 using Domain.Errors;
@@ -27,7 +29,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		AccountCreateRequest request = new();
+		AccountCreateRequest request = RequestHelper.GetAccountCreateRequest();
 		AccountService sut = CreateMockedInstance();
 
 		ErrorOr<Created> result = await sut.Create(userId, request);
@@ -47,7 +49,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid();
 		AccountModel model = new();
-		AccountCreateRequest request = new();
+		AccountCreateRequest request = RequestHelper.GetAccountCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(model));
@@ -72,8 +74,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		Guid userId = Guid.NewGuid();
 		AccountModel accountModel = new();
 		CardModel cardModel = new();
-		CardCreateRequest cardRequest = new();
-		AccountCreateRequest accountRequest = new() { Cards = [cardRequest] };
+		AccountCreateRequest accountRequest = RequestHelper.GetAccountCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(null));
@@ -88,7 +89,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AccountServiceErrors.CreateCardNumberConflict(cardRequest.PAN));
+			result.Errors.First().Should().Be(AccountServiceErrors.CreateCardNumberConflict(accountRequest.Cards!.First().PAN));
 			accountMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default), Times.Once);
 			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), accountRequest, It.IsAny<Exception>()), Times.Never);
@@ -100,8 +101,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task CreateShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		CardCreateRequest cardRequest = new();
-		AccountCreateRequest accountRequest = new() { Cards = [cardRequest] };
+		AccountCreateRequest accountRequest = RequestHelper.GetAccountCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default))
 			.Returns(Task.FromResult<AccountModel?>(null));
@@ -120,7 +120,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.Should().Be(Result.Created);
 			accountMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, false, default), Times.Once);
 			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default), Times.Once);
-			accountMock.Verify(x => x.CreateAsync(It.IsAny<AccountModel>(), default), Times.Once);			
+			accountMock.Verify(x => x.CreateAsync(It.IsAny<AccountModel>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), accountRequest, It.IsAny<Exception>()), Times.Never);
 		});

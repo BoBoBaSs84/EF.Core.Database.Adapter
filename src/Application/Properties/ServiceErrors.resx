@@ -153,17 +153,11 @@
   <data name="AccountService.Update.NotFound" xml:space="preserve">
     <value>No bank account with the identifier: '{0}' could be found to update.</value>
   </data>
-  <data name="AttendanceService.Create.BadRequest" xml:space="preserve">
-    <value>There are errors in the creation request with the date '{0}' please check and correct them.</value>
-  </data>
   <data name="AttendanceService.Create.Conflict" xml:space="preserve">
     <value>An entry with the date '{0}' has already been created.</value>
   </data>
   <data name="AttendanceService.Create.Failed" xml:space="preserve">
     <value>An error occurred when creating an attendance/absence with the date '{0}'.</value>
-  </data>
-  <data name="AttendanceService.CreateMultiple.BadRequest" xml:space="preserve">
-    <value>There are errors in the creation requests with the date values '{0}' please check and correct them.</value>
   </data>
   <data name="AttendanceService.CreateMultiple.Conflict" xml:space="preserve">
     <value>Multiple entries with the date values '{0}' have already been created.</value>
@@ -204,14 +198,8 @@
   <data name="AttendanceService.GetPagedByParameters.Failed" xml:space="preserve">
     <value>An error occurred while loading the attendance entries based on the parameterization.</value>
   </data>
-  <data name="AttendanceService.Update.BadRequest" xml:space="preserve">
-    <value>There are errors in the update request with the identifier '{0}' please check and correct them.</value>
-  </data>
   <data name="AttendanceService.Update.Failed" xml:space="preserve">
     <value>An error occurred when updating an attendance/absence with the identifier '{0}'.</value>
-  </data>
-  <data name="AttendanceService.UpdateMultiple.BadRequest" xml:space="preserve">
-    <value>There are errors in the update requests with the identifiers '{0}' please check and correct them.</value>
   </data>
   <data name="AttendanceService.UpdateMultiple.Failed" xml:space="preserve">
     <value>An error occurred when updating the attendances/absences with the identifiers '{0}'.</value>

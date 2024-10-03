@@ -11,6 +11,9 @@ using Application.Services.Finance;
 using Application.Services.Identity;
 using Application.Services.Todo;
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -61,6 +64,21 @@ internal static class ServiceCollectionExtensions
 	internal static IServiceCollection RegisterAutoMapper(this IServiceCollection services)
 	{
 		services.AddAutoMapper(config => config.AllowNullCollections = true, typeof(IApplicationAssemblyMarker));
+
+		return services;
+	}
+
+	/// <summary>
+	/// Registers the required fluent validation validators to the <paramref name="services"/> collection.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	internal static IServiceCollection RegisterFluentValidation(this IServiceCollection services)
+	{
+		services.AddFluentValidationAutoValidation(options => options.DisableDataAnnotationsValidation = true)
+			.AddFluentValidationClientsideAdapters();
+
+		services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>();
 
 		return services;
 	}

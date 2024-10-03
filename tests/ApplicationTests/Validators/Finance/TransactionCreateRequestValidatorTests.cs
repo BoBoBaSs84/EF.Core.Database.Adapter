@@ -19,7 +19,7 @@ public sealed class TransactionCreateRequestValidatorTests : ApplicationTestBase
 	public void RequestShouldBeValiedWhenEverythingIsCorrect()
 	{
 		_validator = CreateValidatorInstance();
-		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
+		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();		
 
 		ValidationResult result = _validator.Validate(request);
 

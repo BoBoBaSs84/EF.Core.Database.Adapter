@@ -21,7 +21,8 @@ public static class CustomValidators
 		private static readonly PhoneAttribute PhoneAttribute = new();
 
 		/// <inheritdoc/>
-		public override string Name => "PhoneValidator";
+		public override string Name
+			=> "PhoneValidator";
 
 		/// <inheritdoc/>
 		public override bool IsValid(ValidationContext<T> context, string? value)
@@ -39,7 +40,8 @@ public static class CustomValidators
 	public sealed class InternationalBankAccountNumberValidator<T> : PropertyValidator<T, string>
 	{
 		/// <inheritdoc/>
-		public override string Name => "InternationalBankAccountNumberValidator";
+		public override string Name
+			=> "InternationalBankAccountNumberValidator";
 
 		/// <inheritdoc/>
 		public override bool IsValid(ValidationContext<T> context, string value)
@@ -47,7 +49,7 @@ public static class CustomValidators
 
 		/// <inheritdoc/>
 		protected override string GetDefaultMessageTemplate(string errorCode)
-		 => "'{PropertyName}' is not a valid international bank account number.";
+			=> "'{PropertyName}' is not a valid international bank account number.";
 	}
 
 	/// <summary>
@@ -57,7 +59,8 @@ public static class CustomValidators
 	public sealed class PermanentAccountNumberValidator<T> : PropertyValidator<T, string>
 	{
 		/// <inheritdoc/>
-		public override string Name => "PermanentAccountNumberValidator";
+		public override string Name
+			=> "PermanentAccountNumberValidator";
 
 		/// <inheritdoc/>
 		public override bool IsValid(ValidationContext<T> context, string value)
@@ -66,5 +69,24 @@ public static class CustomValidators
 		/// <inheritdoc/>
 		protected override string GetDefaultMessageTemplate(string errorCode)
 			=> "'{PropertyName}' is not a valid permanent account number.";
+	}
+
+	/// <summary>
+	/// The custom bank identification code validator class.
+	/// </summary>
+	/// <typeparam name="T">The type to work with.</typeparam>
+	public sealed class BankIdentificationCodeValidator<T> : PropertyValidator<T, string>
+	{
+		/// <inheritdoc/>
+		public override string Name
+			=> "BankIdentificationCodeValidator";
+
+		/// <inheritdoc/>
+		public override bool IsValid(ValidationContext<T> context, string value)
+			=> RegexStatics.BIC.IsMatch(value);
+
+		/// <inheritdoc/>
+		protected override string GetDefaultMessageTemplate(string errorCode)
+			=> "'{PropertyName}' is not a valid bank identification code.";
 	}
 }

@@ -33,4 +33,12 @@ public static class ValidatorExtensions
 	/// <param name="ruleBuilder">The rule binder to extend.</param>
 	public static IRuleBuilderOptions<T, string> PermanentAccountNumber<T>(this IRuleBuilder<T, string> ruleBuilder)
 		=> ruleBuilder.SetValidator(new PermanentAccountNumberValidator<T>());
+
+	/// <summary>
+	/// Checks if the property is a valid bank identification code.
+	/// </summary>
+	/// <typeparam name="T">The type to work with.</typeparam>
+	/// <param name="ruleBuilder">The rule binder to extend.</param>
+	public static IRuleBuilderOptions<T, string> BankIdentificationCode<T>(this IRuleBuilder<T, string> ruleBuilder)
+		=> ruleBuilder.SetValidator(new BankIdentificationCodeValidator<T>());
 }

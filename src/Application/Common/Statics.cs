@@ -1,16 +1,18 @@
-﻿namespace Application.Common;
+﻿using CDR = Application.Common.Constants.DateRanges;
 
+namespace Application.Common;
+
+/// <summary>
+/// The Application statics class.
+/// </summary>
 internal static class Statics
 {
+	/// <summary>
+	/// The sate ranges statics class.
+	/// </summary>
 	public static class DateRanges
 	{
-		public const int MinYear = 1970;
-		public const int MaxYear = 2069;
-		public const int MinMonth = 1;
-		public const int MaxMonth = 12;
-		public const int MinDay = 1;
-		public const int MaxDay = 31;
-		public static readonly DateTime MinDate = new(MinYear, MinMonth, MinDay);
-		public static readonly DateTime MaxDate = new(MaxYear, MaxMonth, MaxDay);
+		public static readonly DateTime MinDate = new(CDR.MinYear, CDR.MinMonth, CDR.MinDay);
+		public static readonly DateTime MaxDate = new(CDR.MaxYear, CDR.MaxMonth, CDR.MaxDay);
 	}
 }

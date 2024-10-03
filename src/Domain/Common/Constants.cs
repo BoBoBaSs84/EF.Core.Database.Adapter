@@ -234,11 +234,8 @@ public static class Constants
 		public const string Email = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
 
 		/// <summary>
-		/// The <see cref="IBAN"/> property.
+		/// The International Bank Account Number regex pattern.
 		/// </summary>
-		/// <remarks>
-		/// The International Bank Account Number
-		/// </remarks>
 		public const string IBAN = @"^[A-Z]{2}(?:[ ]?[0-9]){18,20}$";
 
 		/// <summary>
@@ -247,17 +244,11 @@ public static class Constants
 		public const string HEXRGB = @"^#[a-fA-F0-9]{6}$";
 
 		/// <summary>
-		/// The <see cref="PAN"/> property.
+		/// The permanent account number regex pattern.
 		/// </summary>
-		/// <remarks>
-		/// Credit card number is the card unique identifier found on payment cards.
+		/// <remarks> 
 		/// Matches Visa, MasterCard, American Express, Diners Club, Discover and JCB cards.
 		/// </remarks>
 		public const string PAN = @"^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$";
-
-		/// <summary>
-		/// The whitespace regex pattern.
-		/// </summary>
-		public const string Whitespace = @"\s+";
 	}
 }

@@ -2,7 +2,7 @@
 
 using Application.Features.Requests.Base;
 
-using DR = Application.Common.Statics.DateRanges;
+using CDR = Application.Common.Constants.DateRanges;
 
 namespace Application.Features.Requests;
 
@@ -17,19 +17,18 @@ public sealed class CalendarParameters : RequestParameters
 	/// <summary>
 	/// Filter option by the year.
 	/// </summary>
-	[Range(DR.MinYear, DR.MaxYear)]
+	[Range(CDR.MinYear, CDR.MaxYear)]
 	public int? Year { get; set; }
 
 	/// <summary>
 	/// Filter option by the month.
 	/// </summary>
-	[Range(DR.MinMonth, DR.MaxMonth)]
+	[Range(CDR.MinMonth, CDR.MaxMonth)]
 	public int? Month { get; set; }
 
 	/// <summary>
 	/// Filter option by the minimum date.
-	/// </summary>	
-	[DataType(DataType.Date)]
+	/// </summary>
 	public DateTime? MinDate { get; set; }
 
 	/// <summary>

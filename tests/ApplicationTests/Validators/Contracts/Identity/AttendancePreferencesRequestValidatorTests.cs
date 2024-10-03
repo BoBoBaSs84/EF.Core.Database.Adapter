@@ -28,7 +28,7 @@ public sealed class AttendancePreferencesRequestValidatorTests : ApplicationTest
 
 		ValidationResult result = _validator.Validate(request);
 
-		Assert.IsNotNull(result);
+		result.Should().NotBeNull();
 		result.IsValid.Should().BeFalse();
 		result.Errors.Should().NotBeEmpty();
 		result.Errors.Should().HaveCount(3);
@@ -50,11 +50,11 @@ public sealed class AttendancePreferencesRequestValidatorTests : ApplicationTest
 
 		ValidationResult result = _validator.Validate(request);
 
-		Assert.IsNotNull(result);
+		result.Should().NotBeNull();
 		result.IsValid.Should().BeTrue();
 		result.Errors.Should().BeEmpty();
 	}
 
 	private static IValidator<AttendancePreferencesRequest> CreateValidatorInstance()
-	=> GetService<IValidator<AttendancePreferencesRequest>>();
+		=> GetService<IValidator<AttendancePreferencesRequest>>();
 }

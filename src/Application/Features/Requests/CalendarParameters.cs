@@ -1,39 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Application.Features.Requests.Base;
-
-using CDR = Application.Common.Constants.DateRanges;
+﻿using Application.Features.Requests.Base;
 
 namespace Application.Features.Requests;
 
 /// <summary>
-/// The calendar request parameter class.
+/// The parameters for the calendar request.
 /// </summary>
-/// <remarks>
-/// Derives from the <see cref="RequestParameters"/> class.
-/// </remarks>
 public sealed class CalendarParameters : RequestParameters
 {
 	/// <summary>
 	/// Filter option by the year.
 	/// </summary>
-	[Range(CDR.MinYear, CDR.MaxYear)]
-	public int? Year { get; set; }
+	public int? Year { get; init; }
 
 	/// <summary>
 	/// Filter option by the month.
 	/// </summary>
-	[Range(CDR.MinMonth, CDR.MaxMonth)]
-	public int? Month { get; set; }
+	public int? Month { get; init; }
 
 	/// <summary>
 	/// Filter option by the minimum date.
 	/// </summary>
-	public DateTime? MinDate { get; set; }
+	public DateTime? MinDate { get; init; }
 
 	/// <summary>
 	/// Filter option by the maximum date.
 	/// </summary>
-	[DataType(DataType.Date)]
-	public DateTime? MaxDate { get; set; }
+	public DateTime? MaxDate { get; init; }
 }

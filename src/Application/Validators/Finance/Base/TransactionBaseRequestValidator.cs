@@ -22,8 +22,14 @@ public sealed class TransactionBaseRequestValidator : AbstractValidator<Transact
 			.NotEmpty()
 			.InclusiveBetween(DateRanges.MinDate, DateRanges.MaxDate);
 
-		RuleFor(x => x.ValueDate)
-			.InclusiveBetween(DateRanges.MinDate, DateRanges.MaxDate);
+		When(x => x.ValueDate is not null, () =>
+		{
+			RuleFor(x => x.ValueDate)
+				.GreaterThanOrEqualTo(x => x.BookingDate);
+
+			RuleFor(x => x.ValueDate)
+				.InclusiveBetween(DateRanges.MinDate, DateRanges.MaxDate);
+		});
 
 		RuleFor(x => x.PostingText)
 			.NotEmpty()

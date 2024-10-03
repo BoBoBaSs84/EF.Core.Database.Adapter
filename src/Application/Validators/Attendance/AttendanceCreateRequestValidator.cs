@@ -21,7 +21,6 @@ public sealed class AttendanceCreateRequestValidator : AbstractValidator<Attenda
 		Include(new AttendanceBaseRequestValidator());
 
 		RuleFor(x => x.Date)
-			.GreaterThanOrEqualTo(DateRanges.MinDate)
-			.LessThanOrEqualTo(DateRanges.MaxDate);
+			.InclusiveBetween(DateRanges.MinDate, DateRanges.MaxDate);
 	}
 }

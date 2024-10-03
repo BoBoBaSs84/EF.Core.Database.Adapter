@@ -13,6 +13,7 @@ using Domain.Enumerators.Attendance;
 using Domain.Enumerators.Finance;
 using Domain.Enumerators.Todo;
 
+using DateRanges = Application.Common.Statics.DateRanges;
 using RegexPatterns = Domain.Common.Constants.RegexPatterns;
 
 namespace ApplicationTests.Helpers;
@@ -177,16 +178,16 @@ internal static class RequestHelper
 		TransactionCreateRequest request = new()
 		{
 			AccountNumber = RandomHelper.GetString(RegexPatterns.IBAN).RemoveWhitespace(),
-			AmountEur = RandomHelper.GetDecimal(),
-			BankCode = RandomHelper.GetString(25),
-			BookingDate = RandomHelper.GetDateTime(),
+			AmountEur = (decimal)RandomHelper.GetFloat() * RandomHelper.GetInt(10000),
+			BankCode = RandomHelper.GetString(RegexPatterns.BIC).RemoveWhitespace(),
+			BookingDate = RandomHelper.GetDateTime(DateRanges.MinDate, DateRanges.MaxDate),
 			ClientBeneficiary = RandomHelper.GetString(250),
 			CreditorId = RandomHelper.GetString(25),
 			CustomerReference = RandomHelper.GetString(50),
 			MandateReference = RandomHelper.GetString(50),
 			PostingText = RandomHelper.GetString(100),
 			Purpose = RandomHelper.GetString(4000),
-			ValueDate = RandomHelper.GetDateTime()
+			ValueDate = RandomHelper.GetDateTime(DateRanges.MinDate, DateRanges.MaxDate)
 		};
 
 		return request;
@@ -197,16 +198,16 @@ internal static class RequestHelper
 		TransactionUpdateRequest request = new()
 		{
 			AccountNumber = RandomHelper.GetString(RegexPatterns.IBAN).RemoveWhitespace(),
-			AmountEur = RandomHelper.GetDecimal(),
-			BankCode = RandomHelper.GetString(25),
-			BookingDate = RandomHelper.GetDateTime(),
+			AmountEur = (decimal)RandomHelper.GetFloat() * RandomHelper.GetInt(10000),
+			BankCode = RandomHelper.GetString(RegexPatterns.BIC).RemoveWhitespace(),
+			BookingDate = RandomHelper.GetDateTime(DateRanges.MinDate, DateRanges.MaxDate),
 			ClientBeneficiary = RandomHelper.GetString(250),
 			CreditorId = RandomHelper.GetString(25),
 			CustomerReference = RandomHelper.GetString(50),
 			MandateReference = RandomHelper.GetString(50),
 			PostingText = RandomHelper.GetString(100),
 			Purpose = RandomHelper.GetString(4000),
-			ValueDate = RandomHelper.GetDateTime()
+			ValueDate = RandomHelper.GetDateTime(DateRanges.MinDate, DateRanges.MaxDate)
 		};
 
 		return request;

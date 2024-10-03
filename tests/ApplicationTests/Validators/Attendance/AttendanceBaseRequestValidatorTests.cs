@@ -128,5 +128,5 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 	}
 
 	private static IValidator<AttendanceBaseRequest> CreateValidatorInstance()
-	=> GetService<IValidator<AttendanceBaseRequest>>();
+		=> GetService<IValidator<AttendanceBaseRequest>>();
 }

@@ -29,7 +29,7 @@ internal static partial class FinanceConfiguration
 				.IsUnicode(false);
 
 			builder.Property(p => p.ValidUntil)
-				.HasColumnType("date");
+				.HasDateColumnType();
 
 			builder.HasMany(e => e.Transactions)
 				.WithOne(e => e.Card)

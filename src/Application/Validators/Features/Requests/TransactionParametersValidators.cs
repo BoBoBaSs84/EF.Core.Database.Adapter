@@ -2,7 +2,7 @@
 
 using FluentValidation;
 
-using DRS = Application.Common.Statics.DateRanges;
+using DRS = Application.Common.ApplicationStatics.DateStatics;
 
 namespace Application.Validators.Features.Requests;
 

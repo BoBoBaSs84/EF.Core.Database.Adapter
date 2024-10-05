@@ -2,9 +2,9 @@
 
 using Domain.Enumerators.Attendance;
 
-using XmlDataType = Domain.Common.Constants.Xml.DataType;
-using XmlElements = Domain.Common.Constants.Xml.Elements;
-using XmlNameSpaces = Domain.Common.Constants.Xml.NameSpaces;
+using XmlDataType = Domain.Common.DomainConstants.Xml.DataType;
+using XmlElements = Domain.Common.DomainConstants.Xml.Elements;
+using XmlNameSpaces = Domain.Common.DomainConstants.Xml.NameSpaces;
 
 namespace Domain.Models.Identity;
 

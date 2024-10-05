@@ -62,7 +62,7 @@ internal static class ServiceCollectionExtensions
 			options.AssumeDefaultVersionWhenUnspecified = true;
 			options.DefaultApiVersion = Versioning.ApiVersion;
 			options.ReportApiVersions = true;
-			options.ApiVersionReader = new HeaderApiVersionReader(Constants.HttpHeaders.Version);
+			options.ApiVersionReader = new HeaderApiVersionReader(PresentationConstants.HttpHeaders.Version);
 		});
 
 		return services;

@@ -13,8 +13,9 @@ using Domain.Enumerators.Attendance;
 using Domain.Enumerators.Finance;
 using Domain.Enumerators.Todo;
 
-using DateRanges = Application.Common.Statics.DateRanges;
-using RegexPatterns = Domain.Common.Constants.RegexPatterns;
+using static Application.Common.ApplicationConstants;
+
+using DateStatics = Application.Common.ApplicationStatics.DateStatics;
 
 namespace ApplicationTests.Helpers;
 
@@ -175,7 +176,7 @@ internal static class RequestHelper
 
 	internal static TransactionCreateRequest GetTransactionCreateRequest()
 	{
-		DateTime bookingDate = RandomHelper.GetDateTime(DateRanges.MinDate, DateRanges.MaxDate);
+		DateTime bookingDate = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate);
 		DateTime valueDate = bookingDate.AddDays(1);
 
 		TransactionCreateRequest request = new()
@@ -198,7 +199,7 @@ internal static class RequestHelper
 
 	internal static TransactionUpdateRequest GetTransactionUpdateRequest()
 	{
-		DateTime bookingDate = RandomHelper.GetDateTime(DateRanges.MinDate, DateRanges.MaxDate);
+		DateTime bookingDate = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate);
 		DateTime valueDate = bookingDate.AddDays(1);
 
 		TransactionUpdateRequest request = new()

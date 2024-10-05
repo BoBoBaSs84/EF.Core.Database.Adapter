@@ -50,7 +50,7 @@ public abstract class InfrastructureTestBase
 
 	private static IHost CreateHost()
 	{
-		string env = Constants.Environment.Testing;
+		string env = DomainConstants.Environment.Testing;
 
 		IHostBuilder host = Host.CreateDefaultBuilder()
 			.ConfigureAppSettings(env)

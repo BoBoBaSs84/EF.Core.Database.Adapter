@@ -66,14 +66,14 @@ internal static class SwaggerGenOptionsExtensions
 	/// <returns>The enriched swagger options collection.</returns>
 	internal static SwaggerGenOptions ConfigureSecurityDefinition(this SwaggerGenOptions options)
 	{
-		options.AddSecurityDefinition(Constants.Authentication.Bearer, new OpenApiSecurityScheme()
+		options.AddSecurityDefinition(PresentationConstants.Authentication.Bearer, new OpenApiSecurityScheme()
 		{
 			In = ParameterLocation.Header,
 			Description = "Please enter token",
-			Name = Constants.Authentication.SecuritySchemeName,
+			Name = PresentationConstants.Authentication.SecuritySchemeName,
 			Type = SecuritySchemeType.Http,
-			BearerFormat = Constants.Authentication.BearerFormat,
-			Scheme = Constants.Authentication.Bearer
+			BearerFormat = PresentationConstants.Authentication.BearerFormat,
+			Scheme = PresentationConstants.Authentication.Bearer
 		});
 
 		return options;
@@ -94,7 +94,7 @@ internal static class SwaggerGenOptionsExtensions
 						Reference = new OpenApiReference
 						{
 							Type = ReferenceType.SecurityScheme,
-							Id = Constants.Authentication.Bearer
+							Id = PresentationConstants.Authentication.Bearer
 						}
 					},
 					Array.Empty<string>()

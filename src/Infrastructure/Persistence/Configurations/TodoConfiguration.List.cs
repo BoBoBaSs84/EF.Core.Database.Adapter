@@ -8,7 +8,7 @@ using Infrastructure.Persistence.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlSchema = Domain.Common.Constants.Sql.Schema;
+using static Infrastructure.Common.InfrastructureConstants;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -28,7 +28,7 @@ internal static partial class TodoConfiguration
 
 			builder.Property(p => p.Color)
 				.HasConversion<ColorConverter>()
-				.HasColumnType("varbinary(3)");
+				.HasVarbinaryColumnType(3);
 
 			builder.HasMany(e => e.Items)
 				.WithOne(e => e.List)

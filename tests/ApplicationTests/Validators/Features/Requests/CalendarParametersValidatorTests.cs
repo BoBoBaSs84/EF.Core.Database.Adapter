@@ -5,8 +5,8 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 
-using DRC = Application.Common.Constants.DateRanges;
-using DRS = Application.Common.Statics.DateRanges;
+using DRC = Application.Common.ApplicationConstants.DateRanges;
+using DRS = Application.Common.ApplicationStatics.DateStatics;
 
 namespace ApplicationTests.Validators.Features.Requests;
 

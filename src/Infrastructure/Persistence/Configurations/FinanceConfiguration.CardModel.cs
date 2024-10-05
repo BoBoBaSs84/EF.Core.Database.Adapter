@@ -6,7 +6,7 @@ using Domain.Models.Finance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlSchema = Domain.Common.Constants.Sql.Schema;
+using static Infrastructure.Common.InfrastructureConstants;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -29,7 +29,7 @@ internal static partial class FinanceConfiguration
 				.IsUnicode(false);
 
 			builder.Property(p => p.ValidUntil)
-				.HasColumnType("date");
+				.HasDateColumnType();
 
 			builder.HasMany(e => e.Transactions)
 				.WithOne(e => e.Card)

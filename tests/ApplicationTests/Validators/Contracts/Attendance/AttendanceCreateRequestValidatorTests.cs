@@ -7,7 +7,7 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 
-using DateRanges = Application.Common.Statics.DateRanges;
+using DateStatics = Application.Common.ApplicationStatics.DateStatics;
 
 namespace ApplicationTests.Validators.Contracts.Attendance;
 
@@ -23,7 +23,7 @@ public sealed class AttendanceCreateRequestValidatorTests : ApplicationTestBase
 		_validator = CreateValidatorInstance();
 		AttendanceCreateRequest request = new()
 		{
-			Date = DateRanges.MaxDate.AddDays(1),
+			Date = DateStatics.MaxDate.AddDays(1),
 			Type = AttendanceType.VACATION
 		};
 
@@ -41,7 +41,7 @@ public sealed class AttendanceCreateRequestValidatorTests : ApplicationTestBase
 		_validator = CreateValidatorInstance();
 		AttendanceCreateRequest request = new()
 		{
-			Date = DateRanges.MinDate.AddDays(-1),
+			Date = DateStatics.MinDate.AddDays(-1),
 			Type = AttendanceType.ABSENCE
 		};
 

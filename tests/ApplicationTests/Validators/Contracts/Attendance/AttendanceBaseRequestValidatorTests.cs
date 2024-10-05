@@ -8,7 +8,7 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 
-using static Application.Common.Statics;
+using static Application.Common.ApplicationStatics;
 
 namespace ApplicationTests.Validators.Contracts.Attendance;
 
@@ -112,7 +112,7 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 		_validator = CreateValidatorInstance();
 		AttendanceCreateRequest request = new()
 		{
-			Date = DateRanges.MaxDate,
+			Date = DateStatics.MaxDate,
 			Type = AttendanceType.MOBILEWORKING,
 			StartTime = new(16, 0, 0),
 			EndTime = new(6, 0, 0),

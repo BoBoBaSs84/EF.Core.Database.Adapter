@@ -35,7 +35,7 @@ public abstract class ApplicationTestBase
 
 	private static IHost CreateHost()
 	{
-		string env = Constants.Environment.Testing;
+		string env = DomainConstants.Environment.Testing;
 
 		IHostBuilder host = Host.CreateDefaultBuilder()
 			.UseEnvironment(env)

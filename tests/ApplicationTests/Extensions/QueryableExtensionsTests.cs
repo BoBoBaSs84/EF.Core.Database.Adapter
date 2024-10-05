@@ -9,8 +9,9 @@ using Domain.Models.Finance;
 
 using FluentAssertions;
 
+using static Application.Common.ApplicationConstants;
 using static BaseTests.Helpers.RandomHelper;
-using static Domain.Common.Constants;
+using static Domain.Common.DomainConstants;
 
 namespace ApplicationTests.Extensions;
 

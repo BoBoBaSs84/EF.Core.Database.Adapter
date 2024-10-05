@@ -3,7 +3,7 @@ using Application.Extensions;
 
 using FluentValidation;
 
-using DateRanges = Application.Common.Statics.DateRanges;
+using DateStatics = Application.Common.ApplicationStatics.DateStatics;
 
 namespace Application.Validators.Contracts.Finance.Base;
 
@@ -20,7 +20,7 @@ public sealed class TransactionBaseRequestValidator : AbstractValidator<Transact
 	{
 		RuleFor(x => x.BookingDate)
 			.NotEmpty()
-			.InclusiveBetween(DateRanges.MinDate, DateRanges.MaxDate);
+			.InclusiveBetween(DateStatics.MinDate, DateStatics.MaxDate);
 
 		When(x => x.ValueDate is not null, () =>
 		{
@@ -28,7 +28,7 @@ public sealed class TransactionBaseRequestValidator : AbstractValidator<Transact
 				.GreaterThanOrEqualTo(x => x.BookingDate);
 
 			RuleFor(x => x.ValueDate)
-				.InclusiveBetween(DateRanges.MinDate, DateRanges.MaxDate);
+				.InclusiveBetween(DateStatics.MinDate, DateStatics.MaxDate);
 		});
 
 		RuleFor(x => x.PostingText)

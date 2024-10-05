@@ -7,7 +7,7 @@ using Infrastructure.Persistence.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlSchema = Domain.Common.Constants.Sql.Schema;
+using static Infrastructure.Common.InfrastructureConstants;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -32,11 +32,11 @@ internal static partial class IdentityConfiguration
 				.HasMaxLength(100);
 
 			builder.Property(p => p.DateOfBirth)
-				.HasColumnType("date");
+				.HasDateColumnType();
 
 			builder.Property(e => e.Preferences)
 				.HasConversion<PreferencesConverter>()
-				.HasColumnType("xml");
+				.HasXmlColumnType();
 
 			builder.HasMany(e => e.Claims)
 				.WithOne(e => e.User)

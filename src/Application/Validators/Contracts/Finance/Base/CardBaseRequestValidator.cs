@@ -2,7 +2,7 @@
 
 using FluentValidation;
 
-using static Application.Common.Statics;
+using static Application.Common.ApplicationStatics;
 
 namespace Application.Validators.Contracts.Finance.Base;
 
@@ -21,7 +21,7 @@ public sealed class CardBaseRequestValidator : AbstractValidator<CardBaseRequest
 			.IsInEnum();
 
 		RuleFor(x => x.ValidUntil)
-			.GreaterThanOrEqualTo(DateRanges.MinDate)
-			.LessThanOrEqualTo(DateRanges.MaxDate);
+			.GreaterThanOrEqualTo(DateStatics.MinDate)
+			.LessThanOrEqualTo(DateStatics.MaxDate);
 	}
 }

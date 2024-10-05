@@ -3,7 +3,7 @@ using Application.Validators.Contracts.Attendance.Base;
 
 using FluentValidation;
 
-using DateRanges = Application.Common.Statics.DateRanges;
+using DateStatics = Application.Common.ApplicationStatics.DateStatics;
 
 namespace Application.Validators.Contracts.Attendance;
 
@@ -21,6 +21,6 @@ public sealed class AttendanceCreateRequestValidator : AbstractValidator<Attenda
 		Include(new AttendanceBaseRequestValidator());
 
 		RuleFor(x => x.Date)
-			.InclusiveBetween(DateRanges.MinDate, DateRanges.MaxDate);
+			.InclusiveBetween(DateStatics.MinDate, DateStatics.MaxDate);
 	}
 }

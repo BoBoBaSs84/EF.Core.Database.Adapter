@@ -6,7 +6,7 @@ using Domain.Models.Finance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlSchema = Domain.Common.Constants.Sql.Schema;
+using static Infrastructure.Common.InfrastructureConstants;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -21,10 +21,10 @@ internal static partial class FinanceConfiguration
 			builder.ToHistoryTable("Transaction", SqlSchema.Finance, SqlSchema.History);
 
 			builder.Property(p => p.BookingDate)
-				.HasColumnType("date");
+				.HasDateColumnType();
 
 			builder.Property(p => p.ValueDate)
-				.HasColumnType("date");
+				.HasDateColumnType();
 
 			builder.Property(p => p.PostingText)
 				.HasMaxLength(100);
@@ -44,7 +44,7 @@ internal static partial class FinanceConfiguration
 				.IsUnicode(false);
 
 			builder.Property(p => p.AmountEur)
-				.HasColumnType("money");
+				.HasMoneyColumnType();
 
 			builder.Property(p => p.CreditorId)
 				.HasMaxLength(25);

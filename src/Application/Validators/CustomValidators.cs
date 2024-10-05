@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Common;
-
 using FluentValidation;
 using FluentValidation.Validators;
+
+using static Application.Common.ApplicationStatics;
 
 namespace Application.Validators;
 

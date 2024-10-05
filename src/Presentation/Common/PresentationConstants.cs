@@ -5,7 +5,7 @@ namespace Presentation.Common;
 /// <summary>
 /// Class with some constants for web
 /// </summary>
-public static class Constants
+public static class PresentationConstants
 {
 	/// <summary>
 	/// Class with some constatnts for auth related things

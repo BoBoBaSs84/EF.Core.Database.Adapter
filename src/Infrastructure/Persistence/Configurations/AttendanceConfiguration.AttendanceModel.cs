@@ -6,7 +6,7 @@ using Domain.Models.Attendance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SqlSchema = Domain.Common.Constants.Sql.Schema;
+using static Infrastructure.Common.InfrastructureConstants;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -25,16 +25,16 @@ internal static partial class AttendanceConfiguration
 				.IsUnique();
 
 			builder.Property(p => p.Date)
-				.HasColumnType("date");
+				.HasDateColumnType();
 
 			builder.Property(p => p.StartTime)
-				.HasColumnType("time(0)");
+				.HasTimeColumnType(0);
 
 			builder.Property(p => p.EndTime)
-				.HasColumnType("time(0)");
+				.HasTimeColumnType(0);
 
 			builder.Property(p => p.BreakTime)
-				.HasColumnType("time(0)");
+				.HasTimeColumnType(0);
 
 			base.Configure(builder);
 		}

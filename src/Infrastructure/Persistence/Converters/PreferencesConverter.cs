@@ -4,7 +4,7 @@ using Domain.Models.Identity;
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using XmlConstants = Domain.Common.Constants.Xml;
+using XmlConstants = Domain.Common.DomainConstants.Xml;
 
 namespace Infrastructure.Persistence.Converters;
 

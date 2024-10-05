@@ -7,8 +7,6 @@ using Domain.Models.Finance;
 using Domain.Models.Identity;
 
 using static BaseTests.Helpers.RandomHelper;
-using static Domain.Common.Constants;
-using static Domain.Common.Constants.Sql;
 
 namespace InfrastructureTests.Helpers;
 
@@ -51,7 +49,7 @@ public static class ModelHelper
 	{
 		AccountModel accountToReturn = new()
 		{
-			IBAN = iban ?? GetString(RegexPatterns.IBAN),
+			IBAN = iban ?? GetString(20),
 			Provider = GetString(128),
 			Transactions = accountTransactions ?? default!
 		};
@@ -75,7 +73,7 @@ public static class ModelHelper
 			Account = account,
 			Type = (CardType)GetInt(1, 2),
 			Transactions = cardTransactions ?? default!,
-			PAN = cardNumber ?? GetString(RegexPatterns.PAN),
+			PAN = cardNumber ?? GetString(20),
 			User = user
 		};
 		return cardToReturn;
@@ -111,15 +109,15 @@ public static class ModelHelper
 		{
 			BookingDate = GetDateTime(),
 			ValueDate = GetDateTime(),
-			PostingText = GetString(MaxLength.MAX_100),
-			ClientBeneficiary = GetString(MaxLength.MAX_250),
-			Purpose = GetString(MaxLength.MAX_4000),
-			AccountNumber = GetString(RegexPatterns.IBAN).RemoveWhitespace(),
-			BankCode = GetString(MaxLength.MAX_25),
+			PostingText = GetString(50),
+			ClientBeneficiary = GetString(150),
+			Purpose = GetString(1000),
+			AccountNumber = GetString(20).RemoveWhitespace(),
+			BankCode = GetString(25),
 			AmountEur = GetInt(-100, 250),
-			CreditorId = GetString(MaxLength.MAX_25),
-			MandateReference = GetString(MaxLength.MAX_50),
-			CustomerReference = GetString(MaxLength.MAX_50)
+			CreditorId = GetString(25),
+			MandateReference = GetString(50),
+			CustomerReference = GetString(50)
 		};
 		return transactionToReturn;
 	}

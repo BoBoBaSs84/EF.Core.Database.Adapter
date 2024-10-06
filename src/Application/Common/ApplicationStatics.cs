@@ -33,25 +33,33 @@ public static partial class ApplicationStatics
 		/// <summary>
 		/// The permanent account number regex.
 		/// </summary>
-		public static Regex PAN { get; } = PANRegex();
+		public static Regex PAN { get; } = PanRegex();
 
 		/// <summary>
 		/// The international bank account number regex.
 		/// </summary>
-		public static Regex IBAN { get; } = IBANRegex();
+		public static Regex IBAN { get; } = IbanRegex();
 
 		/// <summary>
 		/// The bank identification code regex.
 		/// </summary>
-		public static Regex BIC { get; } = BICRegex();
+		public static Regex BIC { get; } = BicRegex();
+
+		/// <summary>
+		/// The rgb hex regex.
+		/// </summary>
+		public static Regex HEXRGB { get; } = HexRgbRegex();
 
 		[GeneratedRegex(RegexPatterns.PAN)]
-		private static partial Regex PANRegex();
+		private static partial Regex PanRegex();
 
 		[GeneratedRegex(RegexPatterns.IBAN)]
-		private static partial Regex IBANRegex();
+		private static partial Regex IbanRegex();
 
 		[GeneratedRegex(RegexPatterns.BIC)]
-		private static partial Regex BICRegex();
+		private static partial Regex BicRegex();
+
+		[GeneratedRegex(RegexPatterns.HEXRGB)]
+		private static partial Regex HexRgbRegex();
 	}
 }

@@ -37,15 +37,15 @@ public static class CustomValidators
 	/// The custom international bank account number validator class.
 	/// </summary>
 	/// <typeparam name="T">The type to work with.</typeparam>
-	public sealed class InternationalBankAccountNumberValidator<T> : PropertyValidator<T, string>
+	public sealed class InternationalBankAccountNumberValidator<T> : PropertyValidator<T, string?>
 	{
 		/// <inheritdoc/>
 		public override string Name
 			=> "InternationalBankAccountNumberValidator";
 
 		/// <inheritdoc/>
-		public override bool IsValid(ValidationContext<T> context, string value)
-			=> RegexStatics.IBAN.IsMatch(value);
+		public override bool IsValid(ValidationContext<T> context, string? value)
+			=> value is null || RegexStatics.IBAN.IsMatch(value);
 
 		/// <inheritdoc/>
 		protected override string GetDefaultMessageTemplate(string errorCode)
@@ -56,15 +56,15 @@ public static class CustomValidators
 	/// The custom permanent account number validator class.
 	/// </summary>
 	/// <typeparam name="T">The type to work with.</typeparam>
-	public sealed class PermanentAccountNumberValidator<T> : PropertyValidator<T, string>
+	public sealed class PermanentAccountNumberValidator<T> : PropertyValidator<T, string?>
 	{
 		/// <inheritdoc/>
 		public override string Name
 			=> "PermanentAccountNumberValidator";
 
 		/// <inheritdoc/>
-		public override bool IsValid(ValidationContext<T> context, string value)
-			=> RegexStatics.PAN.IsMatch(value);
+		public override bool IsValid(ValidationContext<T> context, string? value)
+			=> value is null || RegexStatics.PAN.IsMatch(value);
 
 		/// <inheritdoc/>
 		protected override string GetDefaultMessageTemplate(string errorCode)
@@ -75,18 +75,37 @@ public static class CustomValidators
 	/// The custom bank identification code validator class.
 	/// </summary>
 	/// <typeparam name="T">The type to work with.</typeparam>
-	public sealed class BankIdentificationCodeValidator<T> : PropertyValidator<T, string>
+	public sealed class BankIdentificationCodeValidator<T> : PropertyValidator<T, string?>
 	{
 		/// <inheritdoc/>
 		public override string Name
 			=> "BankIdentificationCodeValidator";
 
 		/// <inheritdoc/>
-		public override bool IsValid(ValidationContext<T> context, string value)
-			=> RegexStatics.BIC.IsMatch(value);
+		public override bool IsValid(ValidationContext<T> context, string? value)
+			=> value is null || RegexStatics.BIC.IsMatch(value);
 
 		/// <inheritdoc/>
 		protected override string GetDefaultMessageTemplate(string errorCode)
 			=> "'{PropertyName}' is not a valid bank identification code.";
+	}
+
+	/// <summary>
+	/// The custom rgb hex validator class.
+	/// </summary>
+	/// <typeparam name="T">The type to work with.</typeparam>
+	public sealed class RgbHexValidator<T> : PropertyValidator<T, string?>
+	{
+		/// <inheritdoc/>
+		public override string Name
+			=> "RgbHexValidator";
+
+		/// <inheritdoc/>
+		public override bool IsValid(ValidationContext<T> context, string? value)
+			=> value is null || RegexStatics.HEXRGB.IsMatch(value);
+
+		/// <inheritdoc/>
+		protected override string GetDefaultMessageTemplate(string errorCode)
+			=> "'{PropertyName}' is not a valid rgb hex string representation.";
 	}
 }

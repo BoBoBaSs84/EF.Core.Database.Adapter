@@ -2,6 +2,8 @@
 
 using FluentValidation;
 
+using static Application.Common.ApplicationStatics;
+
 namespace Application.Validators.Contracts.Todo.Base;
 
 /// <summary>
@@ -24,5 +26,8 @@ public sealed class ItemBaseRequestValidator : AbstractValidator<ItemBaseRequest
 
 		RuleFor(x => x.Priority)
 			.IsInEnum();
+
+		RuleFor(x => x.Reminder)
+			.InclusiveBetween(DateStatics.MinDate, DateStatics.MaxDate);
 	}
 }

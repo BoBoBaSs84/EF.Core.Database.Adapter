@@ -51,7 +51,7 @@ internal static class RequestHelper
 		{
 			PAN = RandomHelper.GetString(RegexPatterns.PAN).RemoveWhitespace(),
 			Type = CardType.CREDIT,
-			ValidUntil = DateTime.MaxValue
+			ValidUntil = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate)
 		};
 
 		return request;
@@ -62,7 +62,7 @@ internal static class RequestHelper
 		CardUpdateRequest request = new()
 		{
 			Type = CardType.DEBIT,
-			ValidUntil = DateTime.MinValue
+			ValidUntil = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate)
 		};
 
 		return request;

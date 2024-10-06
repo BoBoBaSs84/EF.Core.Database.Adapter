@@ -20,6 +20,7 @@ public sealed class CardCreateRequestValidator : AbstractValidator<CardCreateReq
 		Include(new CardBaseRequestValidator());
 
 		RuleFor(x => x.PAN)
+			.NotEmpty()
 			.PermanentAccountNumber();
 	}
 }

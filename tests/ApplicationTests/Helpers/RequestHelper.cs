@@ -151,9 +151,9 @@ internal static class RequestHelper
 	{
 		ItemCreateRequest request = new()
 		{
-			Title = RandomHelper.GetString(50),
+			Title = RandomHelper.GetString(128),
 			Priority = PriorityLevelType.NONE,
-			Reminder = DateTime.Today,
+			Reminder = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate),
 			Note = RandomHelper.GetString(1024)
 		};
 
@@ -164,9 +164,9 @@ internal static class RequestHelper
 	{
 		ItemUpdateRequest request = new()
 		{
-			Title = RandomHelper.GetString(50),
+			Title = RandomHelper.GetString(128),
 			Priority = PriorityLevelType.NONE,
-			Reminder = DateTime.Today,
+			Reminder = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate),
 			Note = RandomHelper.GetString(1024),
 			Done = true
 		};

@@ -21,7 +21,6 @@ public sealed class CardBaseRequestValidator : AbstractValidator<CardBaseRequest
 			.IsInEnum();
 
 		RuleFor(x => x.ValidUntil)
-			.GreaterThanOrEqualTo(DateStatics.MinDate)
-			.LessThanOrEqualTo(DateStatics.MaxDate);
+			.InclusiveBetween(DateStatics.MinDate, DateStatics.MaxDate);
 	}
 }

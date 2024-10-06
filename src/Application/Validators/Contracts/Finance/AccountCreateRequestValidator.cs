@@ -20,6 +20,7 @@ public sealed class AccountCreateRequestValidator : AbstractValidator<AccountCre
 		Include(new AccountBaseRequestValidator());
 
 		RuleFor(x => x.IBAN)
+			.NotEmpty()
 			.InternationalBankAccountNumber();
 	}
 }

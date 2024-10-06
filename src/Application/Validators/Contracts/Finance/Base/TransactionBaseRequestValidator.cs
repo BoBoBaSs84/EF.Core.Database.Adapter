@@ -52,7 +52,7 @@ public sealed class TransactionBaseRequestValidator : AbstractValidator<Transact
 
 		RuleFor(x => x.AmountEur)
 			.NotEmpty()
-			.InclusiveBetween(0.01M, 999999999.99M);
+			.InclusiveBetween(-999999999.99M, 999999999.99M);
 
 		RuleFor(x => x.CreditorId)
 			.MaximumLength(25);

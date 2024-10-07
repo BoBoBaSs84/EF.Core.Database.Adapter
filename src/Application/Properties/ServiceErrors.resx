@@ -273,9 +273,6 @@
   <data name="CardService.Create.Failed" xml:space="preserve">
     <value>An error occurred when creating the bank card for the bank account with the identifier '{0}'.</value>
   </data>
-  <data name="CardService.Create.NotFound" xml:space="preserve">
-    <value />
-  </data>
   <data name="CardService.Delete.Failed" xml:space="preserve">
     <value>An error occurred when deleting the bank card with the identifier '{0}'.</value>
   </data>
@@ -302,6 +299,9 @@
   </data>
   <data name="CardService.GetByNumber.NotFound" xml:space="preserve">
     <value>No bank card with the number: '{0}' could be found to load.</value>
+  </data>
+  <data name="CardService.GetByUserId.Failed" xml:space="preserve">
+    <value>An error occurred while loading the bank card for the user with the identifier: '{0}'.</value>
   </data>
   <data name="CardService.Number.Conflict" xml:space="preserve">
     <value>The bank card with the number: '{0}' already exists.</value>

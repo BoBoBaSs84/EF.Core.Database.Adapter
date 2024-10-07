@@ -529,15 +529,6 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string CardService_Create_NotFound {
-            get {
-                return ResourceManager.GetString("CardService.Create.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred when deleting the bank card with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string CardService_Delete_Failed {
@@ -615,6 +606,15 @@ namespace Application.Properties {
         public static string CardService_GetByNumber_NotFound {
             get {
                 return ResourceManager.GetString("CardService.GetByNumber.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the bank card for the user with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string CardService_GetByUserId_Failed {
+            get {
+                return ResourceManager.GetString("CardService.GetByUserId.Failed", resourceCulture);
             }
         }
         

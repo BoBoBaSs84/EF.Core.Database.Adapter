@@ -21,7 +21,7 @@ public static class CardServiceErrors
 	/// </summary>
 	public static ApiError GetByUserIdFailed(Guid id)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{GetByUserIdFailed}",
-			RESX.CardService_Create_Failed.FormatInvariant(id));
+			RESX.CardService_GetByUserId_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.

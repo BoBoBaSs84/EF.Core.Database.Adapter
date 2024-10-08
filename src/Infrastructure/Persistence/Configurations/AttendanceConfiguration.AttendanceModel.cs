@@ -25,16 +25,16 @@ internal static partial class AttendanceConfiguration
 				.IsUnique();
 
 			builder.Property(p => p.Date)
-				.HasDateColumnType();
+				.IsDateColumn();
 
 			builder.Property(p => p.StartTime)
-				.HasTimeColumnType(0);
+				.IsTimeColumn(0);
 
 			builder.Property(p => p.EndTime)
-				.HasTimeColumnType(0);
+				.IsTimeColumn(0);
 
 			builder.Property(p => p.BreakTime)
-				.HasTimeColumnType(0);
+				.IsTimeColumn(0);
 
 			base.Configure(builder);
 		}

@@ -28,7 +28,7 @@ internal static partial class TodoConfiguration
 
 			builder.Property(p => p.Color)
 				.HasConversion<ColorConverter>()
-				.HasVarbinaryColumnType(3);
+				.IsBinaryColumn(3);
 
 			builder.HasMany(e => e.Items)
 				.WithOne(e => e.List)

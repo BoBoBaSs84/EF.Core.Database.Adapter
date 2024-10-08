@@ -32,11 +32,11 @@ internal static partial class IdentityConfiguration
 				.HasMaxLength(100);
 
 			builder.Property(p => p.DateOfBirth)
-				.HasDateColumnType();
+				.IsDateColumn();
 
 			builder.Property(e => e.Preferences)
 				.HasConversion<PreferencesConverter>()
-				.HasXmlColumnType();
+				.IsXmlColumn();
 
 			builder.HasMany(e => e.Claims)
 				.WithOne(e => e.User)

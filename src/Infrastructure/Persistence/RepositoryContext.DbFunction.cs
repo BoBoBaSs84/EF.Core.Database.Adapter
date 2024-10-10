@@ -4,40 +4,25 @@ using static Infrastructure.Common.InfrastructureConstants;
 
 namespace Infrastructure.Persistence;
 
-public sealed partial class RepositoryContext
+internal sealed partial class RepositoryContext
 {
-	/// <summary>
-	/// Returns a four-character (SOUNDEX) code to evaluate the similarity of two strings.
-	/// </summary>
-	/// <param name="inputString">Is an alphanumeric expression of character data.</param>
-	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = SqlDbFunction.SOUNDLIKE)]
-	public static string SoundLike(string inputString)
-		=> throw new NotImplementedException();
+	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = SqlDbFunction.DIFFERENCE)]
+	public int Difference(string inputValue, string valueToCompare)
+		=> throw new InvalidOperationException("Method can not be used like this.");
 
-	/// <summary>
-	/// Returns the string provided as a first argument, after some characters specified in the second argument
-	/// are translated guido a destination set of characters, specified in the third argument.
-	/// </summary>
-	/// <param name="inputString">The string expression to be searched.</param>
-	/// <param name="characters">A string expression containing characters that should be replaced.</param>
-	/// <param name="translations">A string expression containing the replacement characters.</param>
+	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = SqlDbFunction.SOUNDEX)]
+	public string Soundex(string inputValue)
+		=> throw new InvalidOperationException("Method can not be used like this.");
+
 	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = SqlDbFunction.TRANSLATE)]
-	public static string Translate(string inputString, string characters, string translations)
-		=> throw new NotImplementedException();
+	public string Translate(string inputValue, string characters, string translations)
+		=> throw new InvalidOperationException("Method can not be used like this.");
 
-	/// <summary>
-	/// This function returns the last day of the month containing a specified date.
-	/// </summary>
-	/// <param name="inputDate">A date expression that specifies the date for which to return the last day of the month.</param>
 	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = SqlDbFunction.ENDOFMONTH)]
-	public static DateTime EndOfMonth(DateTime inputDate)
-		=> throw new NotImplementedException();
+	public DateTime EndOfMonth(DateTime inputDate)
+		=> throw new InvalidOperationException("Method can not be used like this.");
 
-	/// <summary>
-	/// This function returns a Unicode string with the delimiters added to make the
-	/// input string a valid SQL Server delimited identifier.
-	/// </summary>
-	[DbFunction(IsBuiltIn = true, IsNullable = false, Name = SqlDbFunction.QUOTENAME)]
-	public static string QuotaName(string inputString)
-		=> throw new NotImplementedException();
+	[DbFunction(IsBuiltIn = true, IsNullable = true, Name = SqlDbFunction.QUOTENAME)]
+	public string? QuoteName(string inputValue)
+		=> throw new InvalidOperationException("Method can not be used like this.");
 }

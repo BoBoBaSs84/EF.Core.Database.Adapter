@@ -11,6 +11,11 @@ internal static class InfrastructureConstants
 	internal static class SqlDbFunction
 	{
 		/// <summary>
+		/// The difference function.
+		/// </summary>
+		internal const string DIFFERENCE = "DIFFERENCE";
+
+		/// <summary>
 		/// The end of month function.
 		/// </summary>
 		internal const string ENDOFMONTH = "EOMONTH";
@@ -18,7 +23,7 @@ internal static class InfrastructureConstants
 		/// <summary>
 		/// The sound ex function.
 		/// </summary>
-		internal const string SOUNDLIKE = "SOUNDEX";
+		internal const string SOUNDEX = "SOUNDEX";
 
 		/// <summary>
 		/// The translate function.

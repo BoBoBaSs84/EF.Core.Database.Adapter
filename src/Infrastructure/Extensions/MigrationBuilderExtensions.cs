@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence.Generators.Operations;
+﻿using Infrastructure.Common;
+using Infrastructure.Persistence.Generators.Operations;
 
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
@@ -17,8 +18,11 @@ internal static class MigrationBuilderExtensions
 	/// <param name="schemaName">The name of the table schema.</param>
 	/// <param name="tableName">The name of the table.</param>
 	/// <returns><see cref="OperationBuilder{TOperation}"/></returns>
-	internal static OperationBuilder<CreateDatabaseLogOperation> CreateDatabaseLog(this MigrationBuilder migrationBuilder, string schemaName = "Migration", string tableName = "DatabaseLog")
+	internal static OperationBuilder<CreateDatabaseLogOperation> AddDatabaseEventLog(this MigrationBuilder migrationBuilder, string? schemaName = null, string? tableName = null)
 	{
+		schemaName ??= InfrastructureConstants.SqlSchema.Private;
+		tableName ??= "DatabaseEventLog";
+
 		CreateDatabaseLogOperation operation = new(schemaName, tableName);
 
 		migrationBuilder.Operations.Add(operation);

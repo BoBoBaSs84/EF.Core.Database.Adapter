@@ -5,11 +5,9 @@ using Domain.Common;
 
 using Infrastructure.Extensions;
 using Infrastructure.Installer;
-using Infrastructure.Persistence;
 
 using InfrastructureTests.Helpers;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 namespace InfrastructureTests;
 
 [TestClass]
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public abstract class InfrastructureTestBase
 {
 	private static IServiceProvider? s_serviceProvider;
@@ -26,12 +25,10 @@ public abstract class InfrastructureTestBase
 	public static void AssemblyInitialize(TestContext context)
 	{
 		IHost host = CreateHost();
+
 		s_serviceProvider = host.Services;
 		s_repositoryContext = host.Services.GetRequiredService<IRepositoryContext>();
-
-		
 		s_repositoryContext.Database.EnsureCreated();
-		File.WriteAllText("CreateDatabase.sql", s_repositoryContext.Database.GenerateCreateScript());
 	}
 
 	[AssemblyCleanup]
@@ -56,10 +53,8 @@ public abstract class InfrastructureTestBase
 			.ConfigureAppSettings(env)
 			.UseEnvironment(env)
 			.ConfigureServices((context, services) =>
-			{
-				services.RegisterInfrastructureServices(context.Configuration, context.HostingEnvironment);
-				services.TryAddSingleton<ICurrentUserService, TestUserService>();
-			});
+				services.RegisterInfrastructureServices(context.Configuration, context.HostingEnvironment)
+					.TryAddSingleton<ICurrentUserService, TestUserService>());
 
 		return host.Start();
 	}

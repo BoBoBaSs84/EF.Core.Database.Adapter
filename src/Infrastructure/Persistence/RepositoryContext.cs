@@ -43,6 +43,7 @@ internal sealed partial class RepositoryContext
 	{
 		base.OnModelCreating(builder);
 
+		builder.HasDefaultSchema(InfrastructureConstants.SqlSchema.Private);
 		builder.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
 	}
 
@@ -52,6 +53,6 @@ internal sealed partial class RepositoryContext
 		base.OnConfiguring(optionsBuilder);
 
 		optionsBuilder.AddInterceptors(_auditingInterceptor, _softDeletableInterceptor);
-		optionsBuilder.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();
+		optionsBuilder.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();		
 	}
 }

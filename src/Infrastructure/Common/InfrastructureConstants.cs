@@ -44,36 +44,36 @@ internal static class InfrastructureConstants
 		/// <summary>
 		/// The <see cref="Attendance"/> constant.
 		/// </summary>
-		internal const string Attendance = "Attendance";
+		internal const string Attendance = "attendance";
 
 		/// <summary>
 		/// The <see cref="Common"/> constant.
 		/// </summary>
-		internal const string Common = "Common";
+		internal const string Common = "common";
 
 		/// <summary>
 		/// The <see cref="History"/> constant.
 		/// </summary>
-		internal const string History = "History";
+		internal const string History = "history";
 
 		/// <summary>
 		/// The <see cref="Identity"/> constant.
 		/// </summary>
-		internal const string Identity = "Identity";
+		internal const string Identity = "identity";
 
 		/// <summary>
-		/// The <see cref="Migration"/> constant.
+		/// The <see cref="Private"/> constant.
 		/// </summary>
-		internal const string Migration = "Migration";
+		internal const string Private = "private";
 
 		/// <summary>
 		/// The <see cref="Finance"/> constant.
 		/// </summary>
-		internal const string Finance = "Finance";
+		internal const string Finance = "finance";
 
 		/// <summary>
 		/// The <see cref="Todo"/> constant.
 		/// </summary>
-		internal const string Todo = "Todo";
+		internal const string Todo = "todo";
 	}
 }

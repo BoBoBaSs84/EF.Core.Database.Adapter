@@ -12,15 +12,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240803052013_AttendanceColumnRename")]
-    partial class AttendanceColumnRename
+    [Migration("20241010154815_InitialDeploy")]
+    partial class InitialDeploy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasDefaultSchema("private")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -86,11 +87,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "Date"), false);
 
-                    b.ToTable("Attendance", "Attendance");
+                    b.ToTable("Attendance", "attendance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("Attendance", "History");
+                                ttb.UseHistoryTable("Attendance", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -145,6 +146,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("rowversion")
                         .HasColumnOrder(2);
 
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
+
                     b.HasKey("Id");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
@@ -154,11 +158,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("IBAN"), false);
 
-                    b.ToTable("Account", "Finance");
+                    b.ToTable("Account", "finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("Account", "History");
+                                ttb.UseHistoryTable("Account", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -208,11 +212,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("TransactionId");
 
-                    b.ToTable("AccountTransaction", "Finance");
+                    b.ToTable("AccountTransaction", "finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("AccountTransaction", "History");
+                                ttb.UseHistoryTable("AccountTransaction", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -262,11 +266,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AccountUser", "Finance");
+                    b.ToTable("AccountUser", "finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("AccountUser", "History");
+                                ttb.UseHistoryTable("AccountUser", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -286,9 +290,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte>("CardType")
-                        .HasColumnType("tinyint");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -322,6 +323,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("rowversion")
                         .HasColumnOrder(2);
 
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -341,11 +345,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Card", "Finance");
+                    b.ToTable("Card", "finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("Card", "History");
+                                ttb.UseHistoryTable("Card", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -395,11 +399,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("TransactionId");
 
-                    b.ToTable("CardTransaction", "Finance");
+                    b.ToTable("CardTransaction", "finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("CardTransaction", "History");
+                                ttb.UseHistoryTable("CardTransaction", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -494,11 +498,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.ToTable("Transaction", "Finance");
+                    b.ToTable("Transaction", "finance");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("Transaction", "History");
+                                ttb.UseHistoryTable("Transaction", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -539,11 +543,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaim", "Identity");
+                    b.ToTable("RoleClaim", "identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("RoleClaim", "History");
+                                ttb.UseHistoryTable("RoleClaim", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -592,11 +596,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Role", "Identity");
+                    b.ToTable("Role", "identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("Role", "History");
+                                ttb.UseHistoryTable("Role", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -608,21 +612,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a1f8eacc-f751-4cbf-a38d-1c5ff039a318"),
+                            Id = new Guid("3fb0d2c8-a452-46cc-a9e7-ff96e3ea11f8"),
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("2fd501ff-1e58-44bf-adbb-532bfed9dc80"),
+                            Id = new Guid("70295553-c9db-4150-b013-30632611b551"),
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("d5b2b4b4-07bb-49a3-94be-9252c719713d"),
+                            Id = new Guid("83e23b39-b89f-4367-a4ea-7c05b1e4a1f2"),
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -660,11 +664,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaim", "Identity");
+                    b.ToTable("UserClaim", "identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("UserClaim", "History");
+                                ttb.UseHistoryTable("UserClaim", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -702,11 +706,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogin", "Identity");
+                    b.ToTable("UserLogin", "identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("UserLogin", "History");
+                                ttb.UseHistoryTable("UserLogin", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -812,11 +816,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("User", "Identity");
+                    b.ToTable("User", "identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("User", "History");
+                                ttb.UseHistoryTable("User", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -848,11 +852,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole", "Identity");
+                    b.ToTable("UserRole", "identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("UserRole", "History");
+                                ttb.UseHistoryTable("UserRole", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -888,11 +892,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserToken", "Identity");
+                    b.ToTable("UserToken", "identity");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("UserToken", "History");
+                                ttb.UseHistoryTable("UserToken", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -963,11 +967,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ListId");
 
-                    b.ToTable("Item", "Todo");
+                    b.ToTable("Item", "todo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("Item", "History");
+                                ttb.UseHistoryTable("Item", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -986,7 +990,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<byte[]>("Color")
-                        .HasColumnType("varbinary(3)");
+                        .HasColumnType("binary(3)");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -1024,11 +1028,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.ToTable("List", "Todo");
+                    b.ToTable("List", "todo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("List", "History");
+                                ttb.UseHistoryTable("List", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -1078,11 +1082,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ListUser", "Todo");
+                    b.ToTable("ListUser", "todo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
-                                ttb.UseHistoryTable("ListUser", "History");
+                                ttb.UseHistoryTable("ListUser", "history");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");

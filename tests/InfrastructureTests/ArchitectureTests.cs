@@ -16,12 +16,11 @@ public class ArchitectureTests : InfrastructureTestBase
 	private readonly Assembly _assembly = typeof(IInfrastructureAssemblyMarker).Assembly;
 
 	[TestMethod]
-	public void ContextMustBeSealedTest()
+	public void DatabaseContextsShouldNotBePublicAndShouldBeSealed()
 	{
 		IEnumerable<Type> contextTypes = TypeHelper.GetAssemblyTypes(
 			assembly: _assembly,
 			expression: x => x.Name.EndsWith("Context") && x.BaseType is not null
-			&& (x.BaseType.Name.Contains("DbContext") || x.BaseType.Name.Contains("IdentityDbContext"))
 			);
 
 		AssertionHelper.AssertInScope(() =>
@@ -30,12 +29,14 @@ public class ArchitectureTests : InfrastructureTestBase
 			foreach (Type type in contextTypes)
 			{
 				type.IsSealed.Should().BeTrue();
+				type.IsPublic.Should().BeFalse();
+				type.IsVisible.Should().BeFalse();
 			}
 		});
 	}
 
 	[TestMethod]
-	public void RepositoriesShouldNotBePublicAndShouldBeSealedTest()
+	public void RepositoriesShouldNotBePublicAndShouldBeSealed()
 	{
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
 			assembly: _assembly,
@@ -55,7 +56,7 @@ public class ArchitectureTests : InfrastructureTestBase
 	}
 
 	[TestMethod]
-	public void ServicesShouldNotBePublicAndShouldBeSealedTest()
+	public void ServicesShouldNotBePublicAndShouldBeSealed()
 	{
 		IEnumerable<Type> typeList = TypeHelper.GetAssemblyTypes(
 			assembly: _assembly,

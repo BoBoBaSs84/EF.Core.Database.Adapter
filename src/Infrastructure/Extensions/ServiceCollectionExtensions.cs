@@ -75,7 +75,7 @@ internal static class ServiceCollectionExtensions
 				builder =>
 				{
 					builder.MaxBatchSize(1000);
-					builder.MigrationsHistoryTable("MigrationsHistory");
+					builder.MigrationsHistoryTable("MigrationsHistory", InfrastructureConstants.SqlSchema.Private);
 					builder.MigrationsAssembly(typeof(IInfrastructureAssemblyMarker).Assembly.FullName);
 				});
 

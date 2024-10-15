@@ -51,7 +51,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 
 			AccountModel account = mapper.Map<AccountModel>(request);
 
-			if (account.Cards.Count > 0)
+			if (account.Cards is not null && account.Cards.Count > 0)
 			{
 				foreach (CardModel card in account.Cards)
 					card.UserId = id;

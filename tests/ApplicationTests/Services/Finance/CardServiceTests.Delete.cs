@@ -5,6 +5,7 @@ using Application.Services.Finance;
 using BaseTests.Helpers;
 
 using Domain.Errors;
+using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -42,8 +43,8 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	{
 		Guid id = Guid.NewGuid();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.DeleteAsync(id, default))
-			.Returns(Task.FromResult(0));
+		cardMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+			.Returns(Task.FromResult<CardModel?>(null));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<Deleted> result = await sut.Delete(id);
@@ -53,6 +54,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.DeleteNotFound(id));
+			cardMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -62,10 +64,15 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task DeleteShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
+		CardModel card = new();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.DeleteAsync(id, default))
-			.Returns(Task.FromResult(1));
+		cardMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+			.Returns(Task.FromResult<CardModel?>(card));
+		cardMock.Setup(x => x.DeleteAsync(card, default))
+			.Returns(Task.CompletedTask);
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+			.Returns(Task.FromResult(1));
 
 		ErrorOr<Deleted> result = await sut.Delete(id);
 
@@ -75,6 +82,9 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
+			cardMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			cardMock.Verify(x => x.DeleteAsync(card, default), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -5,6 +5,7 @@ using Application.Services.Todo;
 using BaseTests.Helpers;
 
 using Domain.Errors;
+using Domain.Models.Todo;
 using Domain.Results;
 
 using FluentAssertions;
@@ -22,18 +23,18 @@ public sealed partial class TodoServiceTests
 	[TestCategory("Methods")]
 	public async Task DeleteListByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
-		Guid listId = Guid.NewGuid();
+		Guid id = Guid.NewGuid();
 		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteListById(listId)
+		ErrorOr<Deleted> result = await sut.DeleteListById(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(TodoServiceErrors.DeleteListByIdFailed(listId));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Once);
+			result.Errors.First().Should().Be(TodoServiceErrors.DeleteListByIdFailed(id));
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
@@ -41,22 +42,22 @@ public sealed partial class TodoServiceTests
 	[TestCategory("Methods")]
 	public async Task DeleteListByIdShouldReturnNotFoundWhenNotFound()
 	{
-		Guid listId = Guid.NewGuid();
+		Guid id = Guid.NewGuid();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.DeleteAsync(listId, default))
-			.Returns(Task.FromResult(0));
+		listMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+			.Returns(Task.FromResult<List?>(null));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteListById(listId)
+		ErrorOr<Deleted> result = await sut.DeleteListById(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
-			listMock.Verify(x => x.DeleteAsync(listId, default), Times.Once);
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
+			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(id));
+			listMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
@@ -64,13 +65,18 @@ public sealed partial class TodoServiceTests
 	[TestCategory("Methods")]
 	public async Task DeleteListByIdShouldReturnDeletedWhenSuccessful()
 	{
-		Guid listId = Guid.NewGuid();
+		Guid id = Guid.NewGuid();
+		List list = new();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.DeleteAsync(listId, default))
-			.Returns(Task.FromResult(1));
+		listMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+			.Returns(Task.FromResult<List?>(list));
+		listMock.Setup(x => x.DeleteAsync(list, default))
+			.Returns(Task.CompletedTask);
 		TodoService sut = CreateMockedInstance(listMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.DeleteListById(listId)
+		ErrorOr<Deleted> result = await sut.DeleteListById(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -79,8 +85,10 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			listMock.Verify(x => x.DeleteAsync(listId, default), Times.Once);
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
+			listMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			listMock.Verify(x => x.DeleteAsync(list, default), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 }

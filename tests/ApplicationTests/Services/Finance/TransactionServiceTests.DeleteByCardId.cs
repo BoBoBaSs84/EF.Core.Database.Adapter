@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using Application.Errors.Services;
+﻿using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
 
@@ -47,8 +45,8 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	{
 		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
 		Mock<ITransactionRepository> transactionMock = new();
-		transactionMock.Setup(x => x.DeleteAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), default))
-			.Returns(Task.FromResult(0));
+		transactionMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), default, default, default, default))
+			.Returns(Task.FromResult<TransactionModel?>(null));
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteByCardId(cardId, id, default)
@@ -59,7 +57,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TransactionServiceErrors.DeleteByCardIdNotFound(id));
-			transactionMock.Verify(x => x.DeleteAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), default), Times.Once);
+			transactionMock.Verify(x => x.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), default, default, default, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -68,13 +66,18 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	[TestCategory(nameof(TransactionService.DeleteByCardId))]
 	public async Task DeleteByCardIdShouldReturnDeletedWhenSuccessful()
 	{
-		Guid accountId = Guid.NewGuid(), id = Guid.NewGuid();
+		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
+		TransactionModel transaction = new();
 		Mock<ITransactionRepository> transactionMock = new();
-		transactionMock.Setup(x => x.DeleteAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), default))
-			.Returns(Task.FromResult(1));
+		transactionMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), default, default, default, default))
+			.Returns(Task.FromResult<TransactionModel?>(transaction));
+		transactionMock.Setup(x => x.DeleteAsync(transaction, default))
+			.Returns(Task.CompletedTask);
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.DeleteByCardId(accountId, id, default)
+		ErrorOr<Deleted> result = await sut.DeleteByCardId(cardId, id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -83,7 +86,9 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			transactionMock.Verify(x => x.DeleteAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), default), Times.Once);
+			transactionMock.Verify(x => x.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), default, default, default, default), Times.Once);
+			transactionMock.Verify(x => x.DeleteAsync(transaction, default), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

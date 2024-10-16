@@ -49,7 +49,7 @@ public sealed partial class TodoServiceTests
 	{
 		Guid listId = Guid.NewGuid();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default))
+		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)))
 			.Returns(Task.FromResult<List?>(null));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
@@ -61,6 +61,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
+			listMock.Verify(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -73,7 +74,7 @@ public sealed partial class TodoServiceTests
 		Item item = new() { Id = Guid.NewGuid(), Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.MEDIUM, Reminder = DateTime.Today, Done = true };
 		List list = new() { Id = listId, Title = "UnitTest", Color = Color.Black, Items = [item] };
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(listId), null, false, false, default, nameof(List.Items)))
+		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)))
 			.Returns(Task.FromResult<List?>(list));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
@@ -94,6 +95,7 @@ public sealed partial class TodoServiceTests
 			result.Value.Items?.First().Priority.Should().Be(item.Priority);
 			result.Value.Items?.First().Reminder.Should().Be(item.Reminder);
 			result.Value.Items?.First().Done.Should().Be(item.Done);
+			listMock.Verify(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

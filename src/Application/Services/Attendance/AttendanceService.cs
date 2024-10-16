@@ -9,6 +9,8 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using BB84.Extensions;
+
 using Domain.Errors;
 using Domain.Models.Attendance;
 using Domain.Results;
@@ -98,13 +100,21 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			int result = await repositoryService.AttendanceRepository
-				.DeleteAsync(id, token)
+			AttendanceModel? entity = await repositoryService.AttendanceRepository
+				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? AttendanceServiceErrors.GetByIdNotFound(id)
-				: Result.Deleted;
+			if (entity is null)
+				return AttendanceServiceErrors.GetByIdNotFound(id);
+
+			await repositoryService.AttendanceRepository
+				.DeleteAsync(entity, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -117,13 +127,21 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			int result = await repositoryService.AttendanceRepository
-				.DeleteAsync(ids, token)
+			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
+				.GetByIdsAsync(ids, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? AttendanceServiceErrors.GetByIdsNotFound(ids)
-				: Result.Deleted;
+			if (entities.Any().IsFalse())
+				return AttendanceServiceErrors.GetByIdsNotFound(ids);
+
+			await repositoryService.AttendanceRepository
+				.DeleteAsync(entities, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -228,7 +246,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return AttendanceServiceErrors.GetByIdsNotFound(requests.Select(x => x.Id));
 
 			foreach (AttendanceModel entity in entities)
-				_ = mapper.Map(requests.Where(x => x.Id.Equals(entity.Id)).Single(), entity);
+				_ = mapper.Map(requests.Single(x => x.Id.Equals(entity.Id)), entity);
 
 			await repositoryService.AttendanceRepository.UpdateAsync(entities, token)
 				.ConfigureAwait(false);

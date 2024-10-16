@@ -29,7 +29,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List list = MapFromCreateListRequest(request);
+			List list = MapFromRequest(request);
 
 			list.Users = [new() { TodoList = list, UserId = userId }];
 
@@ -59,8 +59,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 			if (list is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			Item item = MapFromCreateItemRequest(request);
-
+			Item item = MapFromRequest(request);
 			item.ListId = listId;
 
 			await repositoryService.TodoItemRepository.CreateAsync(item, token)
@@ -82,13 +81,21 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			int result = await repositoryService.TodoListRepository
-				.DeleteAsync(listId, token)
+			List? listEntity = await repositoryService.TodoListRepository
+				.GetByIdAsync(listId, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? TodoServiceErrors.GetListByIdNotFound(listId)
-				: Result.Deleted;
+			if (listEntity is null)
+				return TodoServiceErrors.GetListByIdNotFound(listId);
+
+			await repositoryService.TodoListRepository
+				.DeleteAsync(listEntity, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -101,13 +108,21 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			int result = await repositoryService.TodoItemRepository
-				.DeleteAsync(itemId, token)
+			Item? itemEntity = await repositoryService.TodoItemRepository
+				.GetByIdAsync(itemId, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? TodoServiceErrors.GetItemByIdNotFound(itemId)
-				: Result.Deleted;
+			if (itemEntity is null)
+				return TodoServiceErrors.GetItemByIdNotFound(itemId);
+
+			await repositoryService.TodoItemRepository
+				.DeleteAsync(itemEntity, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -121,13 +136,13 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			List? todoList = await repositoryService.TodoListRepository
-				.GetByConditionAsync(expression: x => x.Id.Equals(listId), token: token, includeProperties: [nameof(List.Items)])
+				.GetByIdAsync(listId, token: token, includeProperties: nameof(List.Items))
 				.ConfigureAwait(false);
 
 			if (todoList is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			ListResponse response = MapToListResponse(todoList);
+			ListResponse response = MapToResponse(todoList);
 
 			return response;
 		}
@@ -146,7 +161,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 				.GetManyByConditionAsync(expression: x => x.Users.Select(x => x.UserId).Contains(userId), token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<ListResponse> response = todoLists.Select(MapToListResponse);
+			IEnumerable<ListResponse> response = MapToResponse(todoLists);
 
 			return response.ToList();
 		}
@@ -162,13 +177,13 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			List? list = await repositoryService.TodoListRepository
-				.GetByIdAsync(listId, false, true, token)
+				.GetByIdAsync(listId, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
 			if (list is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			_ = mapper.Map(request, list);
+			_ = MapFromRequest(request, list);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -187,13 +202,13 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			Item? item = await repositoryService.TodoItemRepository
-				.GetByIdAsync(itemId, false, true, token)
+				.GetByIdAsync(itemId, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
 			if (item is null)
 				return TodoServiceErrors.GetItemByIdNotFound(itemId);
 
-			_ = mapper.Map(request, item);
+			_ = MapFromRequest(request, item);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -207,12 +222,21 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 	}
 
-	private List MapFromCreateListRequest(ListCreateRequest request)
+	private List MapFromRequest(ListCreateRequest request)
 		=> mapper.Map<List>(request);
 
-	private Item MapFromCreateItemRequest(ItemCreateRequest request)
+	private Item MapFromRequest(ItemCreateRequest request)
 		=> mapper.Map<Item>(request);
 
-	private ListResponse MapToListResponse(List todoList)
-		=> mapper.Map<ListResponse>(todoList);
+	private ListResponse MapToResponse(List list)
+		=> mapper.Map<ListResponse>(list);
+
+	private IEnumerable<ListResponse> MapToResponse(IEnumerable<List> lists)
+		=> lists.Select(MapToResponse);
+
+	private List MapFromRequest(ListUpdateRequest request, List list)
+		=> mapper.Map(request, list);
+
+	private Item MapFromRequest(ItemUpdateRequest request, Item item)
+		=> mapper.Map(request, item);
 }

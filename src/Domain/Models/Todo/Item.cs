@@ -42,5 +42,5 @@ public sealed class Item : AuditedModel
 	/// <summary>
 	/// The navigational reference to the todo list object.
 	/// </summary>
-	public List List { get; set; } = null!;
+	public List List { get; set; } = default!;
 }

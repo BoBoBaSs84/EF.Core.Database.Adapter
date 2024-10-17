@@ -92,13 +92,21 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
-			int result = await repositoryService.TransactionRepository
-				.DeleteAsync(x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId), token)
+			TransactionModel? entity = await repositoryService.TransactionRepository
+				.GetByConditionAsync(x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId), token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? TransactionServiceErrors.DeleteByAccountIdNotFound(id)
-				: Result.Deleted;
+			if (entity is null)
+				return TransactionServiceErrors.DeleteByAccountIdNotFound(id);
+
+			await repositoryService.TransactionRepository
+				.DeleteAsync(entity, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -112,13 +120,21 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
-			int result = await repositoryService.TransactionRepository
-				.DeleteAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), token)
+			TransactionModel? entity = await repositoryService.TransactionRepository
+				.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? TransactionServiceErrors.DeleteByCardIdNotFound(id)
-				: Result.Deleted;
+			if (entity is null)
+				return TransactionServiceErrors.DeleteByCardIdNotFound(id);
+
+			await repositoryService.TransactionRepository
+				.DeleteAsync(entity, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{

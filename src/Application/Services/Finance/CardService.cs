@@ -68,13 +68,20 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			int result = await repositoryService.CardRepository
-				.DeleteAsync(id, token)
+			CardModel? cardEntity = await repositoryService.CardRepository
+				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? CardServiceErrors.DeleteNotFound(id)
-				: Result.Deleted;
+			if (cardEntity is null)
+				return CardServiceErrors.DeleteNotFound(id);
+
+			await repositoryService.CardRepository.DeleteAsync(cardEntity, token)
+				.ConfigureAwait(false);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -128,13 +135,19 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			int result = await repositoryService.CardRepository
-				.UpdateAsync(id, s => s.SetProperty(p => p.Type, request.Type).SetProperty(p => p.ValidUntil, request.ValidUntil), token)
+			CardModel? cardEntity = await repositoryService.CardRepository
+				.GetByIdAsync(id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? CardServiceErrors.UpdateNotFound(id)
-				: Result.Updated;
+			if (cardEntity is null)
+				return CardServiceErrors.UpdateNotFound(id);
+
+			_ = mapper.Map(request, cardEntity);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Updated;
 		}
 		catch (Exception ex)
 		{

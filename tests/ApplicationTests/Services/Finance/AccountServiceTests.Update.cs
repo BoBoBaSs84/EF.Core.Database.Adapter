@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using Application.Contracts.Requests.Finance;
+﻿using Application.Contracts.Requests.Finance;
 using Application.Errors.Services;
 using Application.Interfaces.Infrastructure.Persistence.Repositories;
 using Application.Services.Finance;
@@ -15,7 +13,6 @@ using Domain.Results;
 
 using FluentAssertions;
 
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -51,8 +48,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.UpdateAsync(id, It.IsAny<Expression<Func<SetPropertyCalls<AccountModel>, SetPropertyCalls<AccountModel>>>>(), default))
-			.Returns(Task.FromResult(0));
+		accountMock.Setup(x => x.GetByIdAsync(id, default, true, default))
+			.Returns(Task.FromResult<AccountModel?>(null));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 
 		ErrorOr<Updated> result = await sut.Update(id, request);
@@ -62,6 +59,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AccountServiceErrors.UpdateAccountNotFound(id));
+			accountMock.Verify(x => x.GetByIdAsync(id, default, true, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -71,11 +69,14 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
+		AccountModel account = new();
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.UpdateAsync(id, It.IsAny<Expression<Func<SetPropertyCalls<AccountModel>, SetPropertyCalls<AccountModel>>>>(), default))
-			.Returns(Task.FromResult(1));
+		accountMock.Setup(x => x.GetByIdAsync(id, default, true, default))
+			.Returns(Task.FromResult<AccountModel?>(account));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+			.Returns(Task.FromResult(1));
 
 		ErrorOr<Updated> result = await sut.Update(id, request);
 
@@ -85,6 +86,10 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
+			account.Type.Should().Be(request.Type);
+			account.Provider.Should().Be(request.Provider);
+			accountMock.Verify(x => x.GetByIdAsync(id, default, true, default), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

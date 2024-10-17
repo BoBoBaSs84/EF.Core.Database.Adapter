@@ -78,13 +78,21 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			int result = await repositoryService.AccountRepository
-				.DeleteAsync(id, token)
+			AccountModel? accountEntity = await repositoryService.AccountRepository
+				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? AccountServiceErrors.DeleteAccountNotFound(id)
-				: Result.Deleted;
+			if (accountEntity is null)
+				return AccountServiceErrors.DeleteAccountNotFound(id);
+
+			await repositoryService.AccountRepository
+				.DeleteAsync(accountEntity, token)
+				.ConfigureAwait(false);
+
+			await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
@@ -98,18 +106,11 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		try
 		{
 			AccountModel? accountEntity = await repositoryService.AccountRepository
-				.GetByIdAsync(id, token: token)
+				.GetByIdAsync(id, token: token, includeProperties: nameof(AccountModel.Cards))
 				.ConfigureAwait(false);
 
 			if (accountEntity is null)
 				return AccountServiceErrors.GetByIdNotFound(id);
-
-			IEnumerable<CardModel> cardEntities = await repositoryService.CardRepository
-				.GetManyByConditionAsync(x => x.UserId.Equals(id) && x.AccountId.Equals(id), token: token)
-				.ConfigureAwait(false);
-
-			if (cardEntities.Any())
-				accountEntity.Cards = cardEntities.ToList();
 
 			AccountResponse response = mapper.Map<AccountResponse>(accountEntity);
 
@@ -145,13 +146,19 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			int result = await repositoryService.AccountRepository
-				.UpdateAsync(id, s => s.SetProperty(p => p.Type, request.Type).SetProperty(p => p.Provider, request.Provider), token)
+			AccountModel? account = await repositoryService.AccountRepository
+				.GetByIdAsync(id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
-			return result.Equals(0)
-				? AccountServiceErrors.UpdateAccountNotFound(id)
-				: Result.Updated;
+			if (account is null)
+				return AccountServiceErrors.UpdateAccountNotFound(id);
+
+			_ = mapper.Map(request, account);
+
+			_ = await repositoryService.CommitChangesAsync(token)
+				.ConfigureAwait(false);
+
+			return Result.Updated;
 		}
 		catch (Exception ex)
 		{

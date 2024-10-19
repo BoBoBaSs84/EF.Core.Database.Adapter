@@ -261,7 +261,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<AuthenticationResponse>> RefreshToken(TokenRequest request)
+	public async Task<ErrorOr<AuthenticationResponse>> RefreshAccessToken(TokenRequest request)
 	{
 		try
 		{
@@ -306,7 +306,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		}
 	}
 
-	public async Task<ErrorOr<VoidResult>> RevokeToken(Guid userId)
+	public async Task<ErrorOr<Deleted>> RevokeRefreshToken(Guid userId)
 	{
 		try
 		{
@@ -323,13 +323,13 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 				// TODO
 				throw new Exception();
 
-			return Result.Void;
+			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
 			logger.Log(LogException, ex);
 			// TODO
-			return Result.Void;
+			return Result.Deleted;
 		}
 	}
 

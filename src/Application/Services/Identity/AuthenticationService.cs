@@ -5,7 +5,6 @@ using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
 using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
-using Application.Options;
 
 using AutoMapper;
 
@@ -19,7 +18,6 @@ using Domain.Results;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Application.Services.Identity;
 
@@ -27,16 +25,12 @@ namespace Application.Services.Identity;
 /// The authentication service class.
 /// </summary>
 /// <param name="logger">The logger service instance to use.</param>
-/// <param name="options">The bearer option instance to use.</param>
 /// <param name="tokenService">The token service instance to use.</param>
 /// <param name="roleService">The role service instance to use.</param>
 /// <param name="userService">The user service instance to use.</param>
 /// <param name="mapper">The auto mapper instance to use.</param>
-internal sealed class AuthenticationService(ILoggerService<AuthenticationService> logger, IOptions<BearerSettings> options, ITokenService tokenService, IRoleService roleService, IUserService userService, IMapper mapper) : IAuthenticationService
+internal sealed class AuthenticationService(ILoggerService<AuthenticationService> logger, ITokenService tokenService, IRoleService roleService, IUserService userService, IMapper mapper) : IAuthenticationService
 {
-	private const string RefreshTokenName = "RefreshToken";
-	private readonly BearerSettings _bearerSettings = options.Value;
-
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
@@ -108,12 +102,10 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			List<Claim> claims = GetClaims(user, roles);
 			string token = tokenService.GenerateAccessToken(claims);
 
-			string refreshToken = await userService
-				.GenerateUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName)
+			string refreshToken = await tokenService.GenerateRefreshTokenAsync(user)
 				.ConfigureAwait(false);
 
-			IdentityResult result = await userService
-				.SetAuthenticationTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName, refreshToken)
+			IdentityResult result = await tokenService.SetRefreshTokenAsync(user, refreshToken)
 				.ConfigureAwait(false);
 
 			AuthenticationResponse response = new()
@@ -237,19 +229,19 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		try
 		{
 			UserModel? user = await userService.FindByIdAsync($"{userId}")
-				.ConfigureAwait(false); ;
+				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
 			RoleModel? role = await roleService.FindByIdAsync($"{roleId}")
-				.ConfigureAwait(false); ;
+				.ConfigureAwait(false);
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
 			IdentityResult result = await userService.RemoveFromRoleAsync(user, role.Name!)
-				.ConfigureAwait(false); ;
+				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
 			{
@@ -287,16 +279,16 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 				// TODO
 				throw new Exception();
 
-			bool result = await userService
-				.VerifyUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName, request.RefreshToken)
-				.ConfigureAwait(false);
+			bool result = await tokenService.VerifyRefreshTokenAsync(user, request.RefreshToken)
+					.ConfigureAwait(false);
 
 			if (result.IsFalse())
 				// TODO
 				throw new Exception();
 
 			string newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
-			string newRefreshToken = await userService.GenerateUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName);
+			string newRefreshToken = await tokenService.GenerateRefreshTokenAsync(user)
+				.ConfigureAwait(false);
 
 			AuthenticationResponse response = new()
 			{
@@ -324,8 +316,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			IdentityResult result = await userService
-				.RemoveAuthenticationTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName)
+			IdentityResult result = await tokenService.RemoveRefreshTokenAsync(user)
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
@@ -387,10 +378,10 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		List<Claim> claims = [
 			new(ClaimTypes.NameIdentifier, $"{user.Id}"),
-			new(ClaimTypes.Name, $"{user.UserName}"),			
+			new(ClaimTypes.Name, $"{user.UserName}"),
 			new(ClaimTypes.Email, $"{user.Email}"),
 			new(ClaimTypes.GivenName, $"{user.FirstName}"),
-			new(ClaimTypes.Surname, $"{user.LastName}"),			
+			new(ClaimTypes.Surname, $"{user.LastName}"),
 			new(ClaimTypes.MobilePhone, $"{user.PhoneNumber}"),
 			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}")
 			];

@@ -4,8 +4,12 @@ using System.Text;
 
 using Application.Interfaces.Application.Common;
 using Application.Interfaces.Application.Identity;
+using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 
+using Domain.Models.Identity;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,15 +20,21 @@ namespace Application.Services.Identity;
 /// </summary>
 /// <param name="options">The bearer option instance to use.</param>
 /// <param name="dateTimeService">The date time service instance to use.</param>
-internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeService dateTimeService) : ITokenService
+/// <param name="userService">The user service instance to use.</param>
+internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeService dateTimeService, IUserService userService) : ITokenService
 {
+	private const string RefreshTokenName = "RefreshToken";
 	private readonly BearerSettings _bearerSettings = options.Value;
 
 	public string GenerateAccessToken(IEnumerable<Claim> claims)
 	{
 		SigningCredentials signingCredentials = GetSigningCredentials();
 		JwtSecurityToken tokenOptions = GetSecurityToken(signingCredentials, claims);
-		return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+		JwtSecurityTokenHandler tokenHandler = new();
+		string token = tokenHandler.WriteToken(tokenOptions);
+
+		return token;
 	}
 
 	public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
@@ -36,16 +46,51 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeSe
 			ValidateIssuerSigningKey = true,
 			IssuerSigningKey = GetSecurityKey(),
 			ValidateLifetime = false,
+			ValidAlgorithms = [SecurityAlgorithms.HmacSha512]
 		};
 
 		JwtSecurityTokenHandler tokenHandler = new();
 		ClaimsPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken securityToken);
 
-		return securityToken is not JwtSecurityToken jwtSecurityToken
+		return securityToken is not JwtSecurityToken
 			? throw new SecurityTokenException("Invalid token.")
-			: jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.OrdinalIgnoreCase)
-				? principal
-				: throw new SecurityTokenException("Invalid token.");
+			: principal;
+	}
+
+	public async Task<IdentityResult> SetRefreshTokenAsync(UserModel user, string token)
+	{
+		IdentityResult result = await userService
+			.SetAuthenticationTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName, token)
+			.ConfigureAwait(false);
+
+		return result;
+	}
+
+	public async Task<string> GenerateRefreshTokenAsync(UserModel user)
+	{
+		string token = await userService
+			.GenerateUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName)
+			.ConfigureAwait(false);
+
+		return token;
+	}
+
+	public async Task<IdentityResult> RemoveRefreshTokenAsync(UserModel user)
+	{
+		IdentityResult result = await userService
+			.RemoveAuthenticationTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName)
+			.ConfigureAwait(false);
+
+		return result;
+	}
+
+	public async Task<bool> VerifyRefreshTokenAsync(UserModel user, string token)
+	{
+		bool valid = await userService
+			.VerifyUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName, token)
+			.ConfigureAwait(false);
+
+		return valid;
 	}
 
 	private SigningCredentials GetSigningCredentials()

@@ -39,7 +39,6 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 
 		AuthenticationService authenticationService = new(
 			logger: _loggerServiceMock.Object,
-			options: _bearerSettingsMock.Object,
 			tokenService: _tokenServiceMock.Object,
 			roleService: _roleServiceMock.Object,
 			userService: _userServiceMock.Object,

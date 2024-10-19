@@ -1,9 +1,7 @@
-﻿using Application.Interfaces.Application.Identity;
+﻿using Application.Interfaces.Application.Common;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;
-
-using AutoMapper;
 
 using Domain.Models.Identity;
 
@@ -15,36 +13,31 @@ namespace ApplicationTests.Services.Identity;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
-public sealed partial class AuthenticationServiceTests : ApplicationTestBase
+public sealed partial class TokenServiceTests : ApplicationTestBase
 {
-	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<IOptions<BearerSettings>> _bearerSettingsMock = default!;
-	private Mock<ITokenService> _tokenServiceMock = default!;
-	private Mock<ILoggerService<AuthenticationService>> _loggerServiceMock = default!;
-	private Mock<IRoleService> _roleServiceMock = default!;
+	private Mock<IDateTimeService> _dateTimeServiceMock = default!;
 	private Mock<IUserService> _userServiceMock = default!;
 
-	private AuthenticationService CreateMockedInstance(BearerSettings? settings = null)
+	private TokenService CreateMockedInstance(BearerSettings? settings = null)
 	{
 		_bearerSettingsMock = new();
 
 		if (settings is not null)
 			_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
 
-		_tokenServiceMock = new();
-		_loggerServiceMock = new();
-		_roleServiceMock = new();
+		_dateTimeServiceMock = new();
+		_dateTimeServiceMock.SetupAllProperties();
+
 		_userServiceMock = new();
 
-		AuthenticationService authenticationService = new(
-			logger: _loggerServiceMock.Object,
-			tokenService: _tokenServiceMock.Object,
-			roleService: _roleServiceMock.Object,
-			userService: _userServiceMock.Object,
-			mapper: _mapper
+		TokenService tokenService = new(
+			options: _bearerSettingsMock.Object,
+			dateTimeService: _dateTimeServiceMock.Object,
+			userService: _userServiceMock.Object
 			);
 
-		return authenticationService;
+		return tokenService;
 	}
 
 	private static UserModel CreateUser(Guid? userId = null)

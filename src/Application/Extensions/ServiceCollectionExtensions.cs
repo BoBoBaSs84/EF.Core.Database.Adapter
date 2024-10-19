@@ -38,6 +38,7 @@ internal static class ServiceCollectionExtensions
 		services.TryAddScoped<ICardService, CardService>();
 		services.TryAddScoped<ITransactionService, TransactionService>();
 		services.TryAddScoped<ITodoService, TodoService>();
+		services.TryAddScoped<ITokenService, TokenService>();
 
 		return services;
 	}

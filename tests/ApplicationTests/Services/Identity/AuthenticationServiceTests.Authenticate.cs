@@ -118,8 +118,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Token.Should().NotBeNull();
-			result.Value.ExpiryDate.Should().NotBe(DateTime.MinValue);
+			result.Value.AccessToken.Should().NotBeNull();
+			result.Value.RefreshToken.Should().NotBeNull();
 			_userServiceMock.Verify(x => x.FindByNameAsync(request.UserName), Times.Once);
 			_userServiceMock.Verify(x => x.CheckPasswordAsync(user, request.Password), Times.Once);
 			_userServiceMock.Verify(x => x.GetRolesAsync(user), Times.Once);

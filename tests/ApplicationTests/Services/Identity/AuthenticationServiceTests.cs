@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Application.Common;
+﻿using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;
@@ -20,7 +20,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 {
 	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<IOptions<BearerSettings>> _bearerSettingsMock = default!;
-	private Mock<IDateTimeService> _dateTimeServiceMock = default!;
+	private Mock<ITokenService> _tokenServiceMock = default!;
 	private Mock<ILoggerService<AuthenticationService>> _loggerServiceMock = default!;
 	private Mock<IRoleService> _roleServiceMock = default!;
 	private Mock<IUserService> _userServiceMock = default!;
@@ -28,18 +28,25 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	private AuthenticationService CreateMockedInstance(BearerSettings? settings = null)
 	{
 		_bearerSettingsMock = new();
+
 		if (settings is not null)
 			_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
 
-		_dateTimeServiceMock = new();
-		_dateTimeServiceMock.SetupAllProperties();
-
+		_tokenServiceMock = new();
 		_loggerServiceMock = new();
 		_roleServiceMock = new();
 		_userServiceMock = new();
 
-		return new(_bearerSettingsMock.Object, _dateTimeServiceMock.Object, _loggerServiceMock.Object,
-			_roleServiceMock.Object, _userServiceMock.Object, _mapper);
+		AuthenticationService authenticationService = new(
+			logger: _loggerServiceMock.Object,
+			options: _bearerSettingsMock.Object,
+			tokenService: _tokenServiceMock.Object,
+			roleService: _roleServiceMock.Object,
+			userService: _userServiceMock.Object,
+			mapper: _mapper
+			);
+
+		return authenticationService;
 	}
 
 	private static UserModel CreateUser(Guid? userId = null)
@@ -52,6 +59,9 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			LastName = "UnitTest",
 			DateOfBirth = DateTime.Today,
 			Email = "unit.test@example.com",
+			EmailConfirmed = true,
+			PhoneNumber = "1234567890",
+			PhoneNumberConfirmed = false
 		};
 		return user;
 	}

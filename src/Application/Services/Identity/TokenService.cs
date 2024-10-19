@@ -42,11 +42,13 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeSe
 		TokenValidationParameters validationParameters = new()
 		{
 			ValidateAudience = true,
+			ValidAudience = _bearerSettings.Audience,
 			ValidateIssuer = true,
+			ValidIssuer = _bearerSettings.Issuer,
 			ValidateIssuerSigningKey = true,
 			IssuerSigningKey = GetSecurityKey(),
 			ValidateLifetime = false,
-			ValidAlgorithms = [SecurityAlgorithms.HmacSha512]
+			ValidAlgorithms = [SecurityAlgorithms.HmacSha512],
 		};
 
 		JwtSecurityTokenHandler tokenHandler = new();

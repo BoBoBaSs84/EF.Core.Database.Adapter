@@ -31,32 +31,29 @@ namespace Application.Services.Identity;
 /// <param name="mapper">The auto mapper instance to use.</param>
 internal sealed class AuthenticationService(ILoggerService<AuthenticationService> logger, ITokenService tokenService, IRoleService roleService, IUserService userService, IMapper mapper) : IAuthenticationService
 {
-	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
-		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
-
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
+
+	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
+		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
 	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId)
 	{
 		try
 		{
-			UserModel? user = await userService
-				.FindByIdAsync($"{userId}")
+			UserModel? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await roleService
-				.FindByIdAsync($"{roleId}")
+			RoleModel? role = await roleService.FindByIdAsync($"{roleId}")
 				.ConfigureAwait(false);
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await userService
-				.AddToRoleAsync(user, role.Name!)
+			IdentityResult identityResult = await userService.AddToRoleAsync(user, role.Name!)
 				.ConfigureAwait(false);
 
 			if (identityResult.Succeeded.IsFalse())
@@ -81,22 +78,19 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService
-				.FindByNameAsync(request.UserName)
+			UserModel? user = await userService.FindByNameAsync(request.UserName)
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
-			bool success = await userService
-				.CheckPasswordAsync(user, request.Password)
+			bool success = await userService.CheckPasswordAsync(user, request.Password)
 				.ConfigureAwait(false);
 
 			if (success.IsFalse())
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
-			IList<string> roles = await userService
-				.GetRolesAsync(user)
+			IList<string> roles = await userService.GetRolesAsync(user)
 				.ConfigureAwait(false);
 
 			List<Claim> claims = GetClaims(user, roles);
@@ -107,6 +101,14 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 
 			IdentityResult result = await tokenService.SetRefreshTokenAsync(user, refreshToken)
 				.ConfigureAwait(false);
+
+			if (result.Succeeded.IsFalse())
+			{
+				foreach (IdentityError error in result.Errors)
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.AuthenticateUserFailed;
+			}
 
 			AuthenticationResponse response = new()
 			{
@@ -129,8 +131,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		{
 			UserModel user = mapper.Map<UserModel>(request);
 
-			IdentityResult result = await userService
-				.CreateAsync(user, request.Password)
+			IdentityResult result = await userService.CreateAsync(user, request.Password)
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
@@ -141,8 +142,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 				return AuthenticationServiceErrors.CreateUserFailed;
 			}
 
-			result = await userService
-				.AddToRoleAsync(user, RoleType.USER.GetName())
+			result = await userService.AddToRoleAsync(user, RoleType.USER.GetName())
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
@@ -166,8 +166,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			IList<UserModel> userEntities = await userService
-				.GetUsersInRoleAsync(RoleType.USER.GetName())
+			IList<UserModel> userEntities = await userService.GetUsersInRoleAsync(RoleType.USER.GetName())
 				.ConfigureAwait(false);
 
 			IEnumerable<UserResponse> response = mapper.Map<IEnumerable<UserResponse>>(userEntities);
@@ -274,8 +273,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.GetUserByNameFailed(userName);
 
-			bool result = await tokenService
-				.VerifyRefreshTokenAsync(user, request.RefreshToken)
+			bool result = await tokenService.VerifyRefreshTokenAsync(user, request.RefreshToken)
 				.ConfigureAwait(false);
 
 			if (result.IsFalse())
@@ -304,20 +302,18 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService
-				.FindByIdAsync($"{userId}")
+			UserModel? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			IdentityResult result = await tokenService
-				.RemoveRefreshTokenAsync(user)
+			IdentityResult result = await tokenService.RemoveRefreshTokenAsync(user)
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
 			{
-				foreach (var error in result.Errors)
+				foreach (IdentityError error in result.Errors)
 					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
 
 				return AuthenticationServiceErrors.RevokeRefreshTokenFailed;

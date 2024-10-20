@@ -1,4 +1,7 @@
-﻿using Application.Contracts.Requests.Identity;
+﻿using System.Security.Claims;
+using System.Security.Principal;
+
+using Application.Contracts.Requests.Identity;
 using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
@@ -26,6 +29,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	private Mock<ILoggerService<AuthenticationService>> _loggerServiceMock = default!;
 	private Mock<IRoleService> _roleServiceMock = default!;
 	private Mock<IUserService> _userServiceMock = default!;
+	private Mock<IIdentity> _identityMock = default!;
 
 	private AuthenticationService CreateMockedInstance(BearerSettings? settings = null)
 	{
@@ -55,6 +59,16 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			);
 
 		return authenticationService;
+	}
+
+	private ClaimsPrincipal CreatePrincipal(string name = "UnitTest", bool isAuthenticated = true)
+	{
+		_identityMock = new();
+		_identityMock.SetupAllProperties();
+		_identityMock.Setup(x => x.Name).Returns(name);
+		_identityMock.Setup(x => x.IsAuthenticated).Returns(isAuthenticated);
+
+		return new(_identityMock.Object);
 	}
 
 	private static UserModel CreateUser(Guid? userId = null)

@@ -265,7 +265,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		try
 		{
 			ClaimsPrincipal principal = tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
-			string userName = principal.Identity?.Name!;
+			string userName = principal.Identity!.Name!;
 
 			UserModel? user = await userService.FindByNameAsync(userName)
 				.ConfigureAwait(false);

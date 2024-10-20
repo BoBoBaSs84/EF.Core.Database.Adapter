@@ -1,4 +1,5 @@
 ﻿using Application.Features.Requests;
+using Application.Validators.Features.Requests.Base;
 
 using FluentValidation;
 
@@ -17,6 +18,8 @@ public sealed class TransactionParametersValidators : AbstractValidator<Transact
 	/// </summary>
 	public TransactionParametersValidators()
 	{
+		Include(new RequestParametersValidator());
+
 		When(x => x.BookingDate is not null, () => RuleFor(x => x.BookingDate)
 			.InclusiveBetween(DRS.MinDate, DRS.MaxDate));
 

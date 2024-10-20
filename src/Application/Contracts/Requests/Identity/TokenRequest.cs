@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Contracts.Responses.Identity;
+namespace Application.Contracts.Requests.Identity;
 
 /// <summary>
-/// The authentication response class.
+/// The token request class.
 /// </summary>
-public sealed class AuthenticationResponse
+public sealed class TokenRequest
 {
 	/// <summary>
 	/// The application user access token.

@@ -448,6 +448,33 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing the access token..
+        /// </summary>
+        public static string AuthenticationServiceErrors_RefreshAccessTokenFailed {
+            get {
+                return ResourceManager.GetString("AuthenticationServiceErrors.RefreshAccessTokenFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while verifying the refresh token..
+        /// </summary>
+        public static string AuthenticationServiceErrors_RefreshAccessTokenVerificationFailed {
+            get {
+                return ResourceManager.GetString("AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while revoking the refresh token..
+        /// </summary>
+        public static string AuthenticationServiceErrors_RevokeRefreshTokenFailed {
+            get {
+                return ResourceManager.GetString("AuthenticationServiceErrors.RevokeRefreshTokenFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the calendar day by date..
         /// </summary>
         public static string CalendarDayService_GetByDate_Failed {

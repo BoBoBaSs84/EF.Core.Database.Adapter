@@ -102,6 +102,9 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection RegisterIdentityService(this IServiceCollection services)
 	{
+		BearerSettings settings = services.BuildServiceProvider()
+			.GetRequiredService<IOptions<BearerSettings>>().Value;
+
 		services.AddIdentity<UserModel, RoleModel>(options =>
 		{
 			options.SignIn.RequireConfirmedAccount = true;
@@ -115,7 +118,7 @@ internal static class ServiceCollectionExtensions
 			options.User.RequireUniqueEmail = true;
 		})
 			.AddEntityFrameworkStores<RepositoryContext>()
-			.AddDefaultTokenProviders()
+			.AddTokenProvider(settings.Issuer, typeof(DataProtectorTokenProvider<UserModel>))
 			.AddUserManager<UserService>()
 			.AddRoleManager<RoleService>();
 
@@ -137,15 +140,31 @@ internal static class ServiceCollectionExtensions
 		{
 			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-		}).AddJwtBearer(options => options.TokenValidationParameters = new()
+		}).AddJwtBearer(options =>
 		{
-			ValidateIssuer = true,
-			ValidateAudience = true,
-			ValidateLifetime = true,
-			ValidateIssuerSigningKey = true,
-			ValidIssuer = settings.Issuer,
-			ValidAudience = settings.Audience,
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey)),
+			options.TokenValidationParameters = new()
+			{
+				ValidateIssuer = true,
+				ValidateAudience = true,
+				ValidateLifetime = true,
+				ValidateIssuerSigningKey = true,
+				ValidIssuer = settings.Issuer,
+				ValidAudience = settings.Audience,
+				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey))
+			};
+		});
+
+		return services;
+	}
+
+	internal static IServiceCollection RegisterCors(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddCors(options =>
+		{
+			options.AddPolicy("EnableCors", policy =>
+			{
+				policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+			});
 		});
 
 		return services;

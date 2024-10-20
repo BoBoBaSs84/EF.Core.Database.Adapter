@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Infrastructure.Persistence;
+﻿using Application.Installer;
+using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Presentation.Services;
 
 using Domain.Common;
@@ -53,8 +54,11 @@ public abstract class InfrastructureTestBase
 			.ConfigureAppSettings(env)
 			.UseEnvironment(env)
 			.ConfigureServices((context, services) =>
-				services.RegisterInfrastructureServices(context.Configuration, context.HostingEnvironment)
-					.TryAddSingleton<ICurrentUserService, TestUserService>());
+			{
+				services.RegisterApplicationServices();
+				services.RegisterInfrastructureServices(context.Configuration, context.HostingEnvironment);
+				services.TryAddSingleton<ICurrentUserService, TestUserService>();
+			});
 
 		return host.Start();
 	}

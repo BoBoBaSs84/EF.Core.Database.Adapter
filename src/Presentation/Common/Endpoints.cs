@@ -45,6 +45,15 @@ internal static class Endpoints
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Authentication);
 
 		internal const string Authenticate = EmptySuffix;
+
+		/// <summary>
+		/// The token route.
+		/// </summary>
+		internal static class Token
+		{
+			internal const string Refresh = $"{nameof(Token)}";
+			internal const string Revoke = $"{nameof(Token)}";
+		}
 	}
 
 	/// <summary>

@@ -1,9 +1,15 @@
-﻿using Application.Interfaces.Application.Common;
+﻿using System.Security.Claims;
+using System.Security.Principal;
+
+using Application.Contracts.Requests.Identity;
+using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;
 
 using AutoMapper;
+
+using BaseTests.Helpers;
 
 using Domain.Models.Identity;
 
@@ -14,32 +20,55 @@ using Moq;
 namespace ApplicationTests.Services.Identity;
 
 [TestClass]
-[TestCategory("UnitTest")]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 {
 	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<IOptions<BearerSettings>> _bearerSettingsMock = default!;
-	private Mock<IDateTimeService> _dateTimeServiceMock = default!;
+	private Mock<ITokenService> _tokenServiceMock = default!;
 	private Mock<ILoggerService<AuthenticationService>> _loggerServiceMock = default!;
 	private Mock<IRoleService> _roleServiceMock = default!;
 	private Mock<IUserService> _userServiceMock = default!;
+	private Mock<IIdentity> _identityMock = default!;
 
 	private AuthenticationService CreateMockedInstance(BearerSettings? settings = null)
 	{
 		_bearerSettingsMock = new();
-		if (settings is not null)
-			_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
 
-		_dateTimeServiceMock = new();
-		_dateTimeServiceMock.SetupAllProperties();
+		settings ??= new()
+		{
+			Issuer = "UnitTest",
+			Audience = "http://UnitTest.org",
+			ExpiryInMinutes = 5,
+			SecurityKey = RandomHelper.GetString(64)
+		};
 
+		_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
+
+		_tokenServiceMock = new();
 		_loggerServiceMock = new();
 		_roleServiceMock = new();
 		_userServiceMock = new();
 
-		return new(_bearerSettingsMock.Object, _dateTimeServiceMock.Object, _loggerServiceMock.Object,
-			_roleServiceMock.Object, _userServiceMock.Object, _mapper);
+		AuthenticationService authenticationService = new(
+			logger: _loggerServiceMock.Object,
+			tokenService: _tokenServiceMock.Object,
+			roleService: _roleServiceMock.Object,
+			userService: _userServiceMock.Object,
+			mapper: _mapper
+			);
+
+		return authenticationService;
+	}
+
+	private ClaimsPrincipal CreatePrincipal(string name = "UnitTest", bool isAuthenticated = true)
+	{
+		_identityMock = new();
+		_identityMock.SetupAllProperties();
+		_identityMock.Setup(x => x.Name).Returns(name);
+		_identityMock.Setup(x => x.IsAuthenticated).Returns(isAuthenticated);
+
+		return new(_identityMock.Object);
 	}
 
 	private static UserModel CreateUser(Guid? userId = null)
@@ -52,7 +81,22 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			LastName = "UnitTest",
 			DateOfBirth = DateTime.Today,
 			Email = "unit.test@example.com",
+			EmailConfirmed = true,
+			PhoneNumber = "1234567890",
+			PhoneNumberConfirmed = false
 		};
 		return user;
 	}
+
+	private static AuthenticationRequest CreateAuthenticationRequest() => new()
+	{
+		UserName = RandomHelper.GetString(16),
+		Password = RandomHelper.GetString(16)
+	};
+
+	private static TokenRequest CreateTokenRequest() => new()
+	{
+		AccessToken = RandomHelper.GetString(64),
+		RefreshToken = RandomHelper.GetString(64)
+	};
 }

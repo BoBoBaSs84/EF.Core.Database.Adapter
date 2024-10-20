@@ -1,4 +1,5 @@
 ﻿using Application.Features.Requests;
+using Application.Validators.Features.Requests.Base;
 
 using FluentValidation;
 
@@ -18,6 +19,8 @@ public sealed class CalendarParametersValidator : AbstractValidator<CalendarPara
 	/// </summary>
 	public CalendarParametersValidator()
 	{
+		Include(new RequestParametersValidator());
+
 		When(x => x.Year is not null, () => RuleFor(x => x.Year)
 			.InclusiveBetween(DRC.MinYear, DRC.MaxYear));
 

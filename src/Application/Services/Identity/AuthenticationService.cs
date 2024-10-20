@@ -1,14 +1,10 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Security.Claims;
 
 using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
-using Application.Interfaces.Application.Common;
 using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
-using Application.Options;
 
 using AutoMapper;
 
@@ -22,50 +18,42 @@ using Domain.Results;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Identity;
 
 /// <summary>
 /// The authentication service class.
 /// </summary>
-/// <param name="options">The options for the bearer settings.</param>
-/// <param name="dateTimeService">The date time service instance to use.</param>
 /// <param name="logger">The logger service instance to use.</param>
+/// <param name="tokenService">The token service instance to use.</param>
 /// <param name="roleService">The role service instance to use.</param>
 /// <param name="userService">The user service instance to use.</param>
 /// <param name="mapper">The auto mapper instance to use.</param>
-internal sealed class AuthenticationService(IOptions<BearerSettings> options, IDateTimeService dateTimeService, ILoggerService<AuthenticationService> logger, IRoleService roleService, IUserService userService, IMapper mapper) : IAuthenticationService
+internal sealed class AuthenticationService(ILoggerService<AuthenticationService> logger, ITokenService tokenService, IRoleService roleService, IUserService userService, IMapper mapper) : IAuthenticationService
 {
-	private readonly BearerSettings _bearerSettings = options.Value;
+	private static readonly Action<ILogger, Exception?> LogException =
+		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
-
-	private static readonly Action<ILogger, Exception?> LogException =
-		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
 
 	public async Task<ErrorOr<Created>> AddUserToRole(Guid userId, Guid roleId)
 	{
 		try
 		{
-			UserModel? user = await userService
-				.FindByIdAsync($"{userId}")
+			UserModel? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await roleService
-				.FindByIdAsync($"{roleId}")
+			RoleModel? role = await roleService.FindByIdAsync($"{roleId}")
 				.ConfigureAwait(false);
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult identityResult = await userService
-				.AddToRoleAsync(user, role.Name!)
+			IdentityResult identityResult = await userService.AddToRoleAsync(user, role.Name!)
 				.ConfigureAwait(false);
 
 			if (identityResult.Succeeded.IsFalse())
@@ -90,29 +78,42 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			UserModel? user = await userService
-				.FindByNameAsync(request.UserName)
+			UserModel? user = await userService.FindByNameAsync(request.UserName)
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
-			bool success = await userService
-				.CheckPasswordAsync(user, request.Password)
+			bool success = await userService.CheckPasswordAsync(user, request.Password)
 				.ConfigureAwait(false);
 
 			if (success.IsFalse())
 				return AuthenticationServiceErrors.UserUnauthorized(request.UserName);
 
-			SigningCredentials signingCredentials = GetSigningCredentials();
-			IEnumerable<Claim> claims = await GetClaims(user);
-			JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
-			string token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+			IList<string> roles = await userService.GetRolesAsync(user)
+				.ConfigureAwait(false);
+
+			List<Claim> claims = GetClaims(user, roles);
+			string token = tokenService.GenerateAccessToken(claims);
+
+			string refreshToken = await tokenService.GenerateRefreshTokenAsync(user)
+				.ConfigureAwait(false);
+
+			IdentityResult result = await tokenService.SetRefreshTokenAsync(user, refreshToken)
+				.ConfigureAwait(false);
+
+			if (result.Succeeded.IsFalse())
+			{
+				foreach (IdentityError error in result.Errors)
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.AuthenticateUserFailed;
+			}
 
 			AuthenticationResponse response = new()
 			{
-				Token = token,
-				ExpiryDate = tokenOptions.ValidTo
+				AccessToken = token,
+				RefreshToken = refreshToken
 			};
 
 			return response;
@@ -130,8 +131,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 		{
 			UserModel user = mapper.Map<UserModel>(request);
 
-			IdentityResult result = await userService
-				.CreateAsync(user, request.Password)
+			IdentityResult result = await userService.CreateAsync(user, request.Password)
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
@@ -142,8 +142,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 				return AuthenticationServiceErrors.CreateUserFailed;
 			}
 
-			result = await userService
-				.AddToRoleAsync(user, RoleType.USER.GetName())
+			result = await userService.AddToRoleAsync(user, RoleType.USER.GetName())
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
@@ -167,8 +166,7 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			IList<UserModel> userEntities = await userService
-				.GetUsersInRoleAsync(RoleType.USER.GetName())
+			IList<UserModel> userEntities = await userService.GetUsersInRoleAsync(RoleType.USER.GetName())
 				.ConfigureAwait(false);
 
 			IEnumerable<UserResponse> response = mapper.Map<IEnumerable<UserResponse>>(userEntities);
@@ -186,7 +184,8 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService.FindByIdAsync($"{userId}")
+				.ConfigureAwait(false); ;
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
@@ -207,7 +206,8 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			UserModel? user = await userService.FindByNameAsync(userName);
+			UserModel? user = await userService.FindByNameAsync(userName)
+				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByNameNotFound(userName);
@@ -227,17 +227,20 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}");
+			UserModel? user = await userService.FindByIdAsync($"{userId}")
+				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await roleService.FindByIdAsync($"{roleId}");
+			RoleModel? role = await roleService.FindByIdAsync($"{roleId}")
+				.ConfigureAwait(false);
 
 			if (role is null)
 				return AuthenticationServiceErrors.RoleByIdNotFound(roleId);
 
-			IdentityResult result = await userService.RemoveFromRoleAsync(user, role.Name!);
+			IdentityResult result = await userService.RemoveFromRoleAsync(user, role.Name!)
+				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
 			{
@@ -257,28 +260,87 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest request)
+	public async Task<ErrorOr<AuthenticationResponse>> RefreshAccessToken(TokenRequest request)
 	{
 		try
 		{
-			UserModel? user = await userService
-				.FindByIdAsync($"{userId}")
+			ClaimsPrincipal principal = tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
+			string userName = principal.Identity!.Name!;
+
+			UserModel? user = await userService.FindByNameAsync(userName)
+				.ConfigureAwait(false);
+
+			if (user is null)
+				return AuthenticationServiceErrors.GetUserByNameFailed(userName);
+
+			bool result = await tokenService.VerifyRefreshTokenAsync(user, request.RefreshToken)
+				.ConfigureAwait(false);
+
+			if (result.IsFalse())
+				return AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed;
+
+			string newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
+			string newRefreshToken = await tokenService.GenerateRefreshTokenAsync(user)
+				.ConfigureAwait(false);
+
+			AuthenticationResponse response = new()
+			{
+				AccessToken = newAccessToken,
+				RefreshToken = newRefreshToken
+			};
+
+			return response;
+		}
+		catch (Exception ex)
+		{
+			logger.Log(LogException, ex);
+			return AuthenticationServiceErrors.RefreshAccessTokenFailed;
+		}
+	}
+
+	public async Task<ErrorOr<Deleted>> RevokeRefreshToken(Guid userId)
+	{
+		try
+		{
+			UserModel? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			user.FirstName = request.FirstName;
-			user.MiddleName = request.MiddleName;
-			user.LastName = request.LastName;
-			user.DateOfBirth = request.DateOfBirth;
-			user.Email = request.Email;
-			user.PhoneNumber = request.PhoneNumber;
-			user.Picture = request.Picture;
-			user.Preferences = mapper.Map<PreferencesModel>(request.Preferences);
+			IdentityResult result = await tokenService.RemoveRefreshTokenAsync(user)
+				.ConfigureAwait(false);
 
-			IdentityResult result = await userService
-				.UpdateAsync(user)
+			if (result.Succeeded.IsFalse())
+			{
+				foreach (IdentityError error in result.Errors)
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.RevokeRefreshTokenFailed;
+			}
+
+			return Result.Deleted;
+		}
+		catch (Exception ex)
+		{
+			logger.Log(LogExceptionWithParams, userId, ex);
+			return AuthenticationServiceErrors.RevokeRefreshTokenFailed;
+		}
+	}
+
+	public async Task<ErrorOr<Updated>> UpdateUser(Guid userId, UserUpdateRequest request)
+	{
+		try
+		{
+			UserModel? user = await userService.FindByIdAsync($"{userId}")
+				.ConfigureAwait(false);
+
+			if (user is null)
+				return AuthenticationServiceErrors.UserByIdNotFound(userId);
+
+			_ = mapper.Map(request, user);
+
+			IdentityResult result = await userService.UpdateAsync(user)
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
@@ -298,43 +360,21 @@ internal sealed class AuthenticationService(IOptions<BearerSettings> options, ID
 		}
 	}
 
-	private SigningCredentials GetSigningCredentials()
-	{
-		byte[] key = Encoding.UTF8.GetBytes(_bearerSettings.SecurityKey);
-		SymmetricSecurityKey secret = new(key);
-		return new SigningCredentials(secret, SecurityAlgorithms.HmacSha512);
-	}
-
-	private async Task<IEnumerable<Claim>> GetClaims(UserModel user)
+	private static List<Claim> GetClaims(UserModel user, IList<string> roles)
 	{
 		List<Claim> claims = [
-			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}"),
-			new(ClaimTypes.Email, $"{user.Email}"),
-			new(ClaimTypes.GivenName, $"{user.LastName}, {user.FirstName}"),
-			new(ClaimTypes.MobilePhone, $"{user.PhoneNumber}"),
+			new(ClaimTypes.NameIdentifier, $"{user.Id}"),
 			new(ClaimTypes.Name, $"{user.UserName}"),
-			new(ClaimTypes.NameIdentifier, $"{user.Id}")
+			new(ClaimTypes.Email, $"{user.Email}"),
+			new(ClaimTypes.GivenName, $"{user.FirstName}"),
+			new(ClaimTypes.Surname, $"{user.LastName}"),
+			new(ClaimTypes.MobilePhone, $"{user.PhoneNumber}"),
+			new(ClaimTypes.DateOfBirth, $"{user.DateOfBirth}")
 			];
-
-		IList<string> roles = await userService
-			.GetRolesAsync(user)
-			.ConfigureAwait(false);
 
 		foreach (string role in roles)
 			claims.Add(new Claim(ClaimTypes.Role, role));
 
 		return claims;
-	}
-
-	private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, IEnumerable<Claim> claims)
-	{
-		JwtSecurityToken tokenOptions = new(
-				issuer: _bearerSettings.Issuer,
-				audience: _bearerSettings.Audience,
-				claims: claims,
-				expires: dateTimeService.Now.AddMinutes(_bearerSettings.ExpiryInMinutes),
-				signingCredentials: signingCredentials);
-
-		return tokenOptions;
 	}
 }

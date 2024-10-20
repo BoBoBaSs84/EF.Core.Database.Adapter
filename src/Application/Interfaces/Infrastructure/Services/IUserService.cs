@@ -27,4 +27,14 @@ public interface IUserService
 	Task<IdentityResult> RemoveFromRoleAsync(UserModel user, string role);
 	/// <inheritdoc cref="UserManager{TUser}.UpdateAsync(TUser)"/>
 	Task<IdentityResult> UpdateAsync(UserModel user);
+	/// <inheritdoc cref="UserManager{TUser}.GetAuthenticationTokenAsync(TUser, string, string)"/>
+	Task<string?> GetAuthenticationTokenAsync(UserModel user, string loginProvider, string tokenName);
+	/// <inheritdoc cref="UserManager{TUser}.GenerateUserTokenAsync(TUser, string, string)"/>
+	Task<string> GenerateUserTokenAsync(UserModel user, string tokenProvider, string purpose);
+	/// <inheritdoc cref="UserManager{TUser}.SetAuthenticationTokenAsync(TUser, string, string, string?)"/>
+	Task<IdentityResult> SetAuthenticationTokenAsync(UserModel user, string loginProvider, string tokenName, string? tokenValue);
+	/// <inheritdoc cref="UserManager{TUser}.RemoveAuthenticationTokenAsync(TUser, string, string)"/>
+	Task<IdentityResult> RemoveAuthenticationTokenAsync(UserModel user, string loginProvider, string tokenName);
+	/// <inheritdoc cref="UserManager{TUser}.VerifyUserTokenAsync(TUser, string, string, string)"/>
+	Task<bool> VerifyUserTokenAsync(UserModel user, string tokenProvider, string purpose, string token);
 }

@@ -5,7 +5,9 @@
 /// </summary>
 public abstract class RequestParameters
 {
+	private const int MinPageNumber = 1;
 	private const int MaxPageSize = 100;
+	private int _pageNumber = 1;
 	private int _pageSize = 10;
 
 	/// <summary>
@@ -14,14 +16,11 @@ public abstract class RequestParameters
 	public int PageNumber { get; set; } = 1;
 
 	/// <summary>
-	/// The page size property.
+	/// The desired page size.
 	/// </summary>
 	/// <remarks>
-	/// The current maximum is 100.
+	/// Should be between 10 and 100. The default value is 10.
 	/// </remarks>
-	public int PageSize
-	{
-		get => _pageSize;
-		set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
-	}
+	public int PageSize { get; set; } = 10;
+	
 }

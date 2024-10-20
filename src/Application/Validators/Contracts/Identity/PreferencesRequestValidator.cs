@@ -7,14 +7,17 @@ namespace Application.Validators.Contracts.Identity;
 /// <summary>
 /// The validator for the preferences request.
 /// </summary>
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent validation.")]
 public sealed class PreferencesRequestValidator : AbstractValidator<PreferencesRequest>
 {
 	/// <summary>
 	/// Initializes an instance of <see cref="PreferencesRequestValidator"/> class.
 	/// </summary>
 	public PreferencesRequestValidator()
-		=> RuleFor(x => x.AttendancePreferences)
-			.SetValidator(new AttendancePreferencesRequestValidator());
+	{
+		When(x => x.AttendancePreferences is not null, () => RuleFor(x => x.AttendancePreferences)
+		.SetValidator(new AttendancePreferencesRequestValidator()!));
+	}
 }
 
 /// <summary>

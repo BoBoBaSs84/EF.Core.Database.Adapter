@@ -55,6 +55,20 @@ public interface IAuthenticationService
 	Task<ErrorOr<UserResponse>> GetUserByName(string userName);
 
 	/// <summary>
+	/// Refreshes the user's access and refresh token.
+	/// </summary>
+	/// <param name="request">The token request to use.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<AuthenticationResponse>> RefreshAccessToken(TokenRequest request);
+
+	/// <summary>
+	/// Revokes the current user's refresh token.
+	/// </summary>
+	/// <param name="userId">The identifier of the user.</param>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	Task<ErrorOr<Deleted>> RevokeRefreshToken(Guid userId);
+
+	/// <summary>
 	/// Removes the user with the <paramref name="userId"/> to the role
 	/// with the <paramref name="roleId"/>.
 	/// </summary>

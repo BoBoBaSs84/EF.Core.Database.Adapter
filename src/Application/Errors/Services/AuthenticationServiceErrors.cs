@@ -106,4 +106,25 @@ public static class AuthenticationServiceErrors
 	public static readonly ApiError RemoveUserToRoleFailed =
 		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(RemoveUserToRoleFailed)}",
 			RESX.AuthenticationService_RemoveUserToRole_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the authentication service.
+	/// </summary>
+	public static readonly ApiError RevokeRefreshTokenFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(RevokeRefreshTokenFailed)}",
+			RESX.AuthenticationServiceErrors_RevokeRefreshTokenFailed);
+
+	/// <summary>
+	/// Error that indicates an exception during the authentication service.
+	/// </summary>
+	public static readonly ApiError RefreshAccessTokenFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(RefreshAccessTokenFailed)}",
+			RESX.AuthenticationServiceErrors_RefreshAccessTokenFailed);
+
+	/// <summary>
+	/// Error that indicates an exception during the authentication service.
+	/// </summary>
+	public static readonly ApiError RefreshAccessTokenVerificationFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(RefreshAccessTokenFailed)}",
+			RESX.AuthenticationServiceErrors_RefreshAccessTokenVerificationFailed);
 }

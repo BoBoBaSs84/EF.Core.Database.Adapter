@@ -246,6 +246,15 @@
   <data name="AuthenticationService.UserByName.NotFound" xml:space="preserve">
     <value>The user with the name: '{0}' could not be found.</value>
   </data>
+  <data name="AuthenticationServiceErrors.RefreshAccessTokenFailed" xml:space="preserve">
+    <value>An error occurred while refreshing the access token.</value>
+  </data>
+  <data name="AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthenticationServiceErrors.RevokeRefreshTokenFailed" xml:space="preserve">
+    <value>An error occurred while revoking the refresh token.</value>
+  </data>
   <data name="CalendarDayService.GetByDate.Failed" xml:space="preserve">
     <value>An error occurred while loading the calendar day by date.</value>
   </data>

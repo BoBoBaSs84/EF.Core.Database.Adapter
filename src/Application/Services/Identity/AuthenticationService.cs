@@ -266,25 +266,20 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		try
 		{
 			ClaimsPrincipal principal = tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
-			string? userName = principal.Identity?.Name;
-
-			if (userName is null)
-				// TODO
-				throw new Exception();
+			string userName = principal.Identity?.Name!;
 
 			UserModel? user = await userService.FindByNameAsync(userName)
 				.ConfigureAwait(false);
 
 			if (user is null)
-				// TODO
-				throw new Exception();
+				return AuthenticationServiceErrors.GetUserByNameFailed(userName);
 
-			bool result = await tokenService.VerifyRefreshTokenAsync(user, request.RefreshToken)
-					.ConfigureAwait(false);
+			bool result = await tokenService
+				.VerifyRefreshTokenAsync(user, request.RefreshToken)
+				.ConfigureAwait(false);
 
 			if (result.IsFalse())
-				// TODO
-				throw new Exception();
+				return AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed;
 
 			string newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
 			string newRefreshToken = await tokenService.GenerateRefreshTokenAsync(user)
@@ -301,8 +296,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		catch (Exception ex)
 		{
 			logger.Log(LogException, ex);
-			// TODO
-			throw new Exception();
+			return AuthenticationServiceErrors.RefreshAccessTokenFailed;
 		}
 	}
 
@@ -310,26 +304,31 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}")
+			UserModel? user = await userService
+				.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			IdentityResult result = await tokenService.RemoveRefreshTokenAsync(user)
+			IdentityResult result = await tokenService
+				.RemoveRefreshTokenAsync(user)
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
-				// TODO
-				throw new Exception();
+			{
+				foreach (var error in result.Errors)
+					logger.Log(LogExceptionWithParams, $"{error.Code} - {error.Description}");
+
+				return AuthenticationServiceErrors.RevokeRefreshTokenFailed;
+			}
 
 			return Result.Deleted;
 		}
 		catch (Exception ex)
 		{
 			logger.Log(LogException, ex);
-			// TODO
-			return Result.Deleted;
+			return AuthenticationServiceErrors.RevokeRefreshTokenFailed;
 		}
 	}
 
@@ -344,15 +343,6 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
 			_ = mapper.Map(request, user);
-
-			//user.FirstName = request.FirstName;
-			//user.MiddleName = request.MiddleName;
-			//user.LastName = request.LastName;
-			//user.DateOfBirth = request.DateOfBirth;
-			//user.Email = request.Email;
-			//user.PhoneNumber = request.PhoneNumber;
-			//user.Picture = request.Picture;
-			//user.Preferences = mapper.Map<PreferencesModel>(request.Preferences);
 
 			IdentityResult result = await userService.UpdateAsync(user)
 				.ConfigureAwait(false);

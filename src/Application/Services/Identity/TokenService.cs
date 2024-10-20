@@ -88,11 +88,11 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeSe
 
 	public async Task<bool> VerifyRefreshTokenAsync(UserModel user, string token)
 	{
-		bool valid = await userService
+		bool isValid = await userService
 			.VerifyUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName, token)
 			.ConfigureAwait(false);
 
-		return valid;
+		return isValid;
 	}
 
 	private SigningCredentials GetSigningCredentials()

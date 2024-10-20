@@ -323,7 +323,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		}
 		catch (Exception ex)
 		{
-			logger.Log(LogException, ex);
+			logger.Log(LogExceptionWithParams, userId, ex);
 			return AuthenticationServiceErrors.RevokeRefreshTokenFailed;
 		}
 	}

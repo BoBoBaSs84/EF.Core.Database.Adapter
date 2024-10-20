@@ -1,9 +1,12 @@
-﻿using Application.Interfaces.Application.Identity;
+﻿using Application.Contracts.Requests.Identity;
+using Application.Interfaces.Application.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;
 
 using AutoMapper;
+
+using BaseTests.Helpers;
 
 using Domain.Models.Identity;
 
@@ -28,8 +31,15 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		_bearerSettingsMock = new();
 
-		if (settings is not null)
-			_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
+		settings ??= new()
+		{
+			Issuer = "UnitTest",
+			Audience = "http://UnitTest.org",
+			ExpiryInMinutes = 5,
+			SecurityKey = RandomHelper.GetString(64)
+		};
+
+		_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
 
 		_tokenServiceMock = new();
 		_loggerServiceMock = new();
@@ -63,4 +73,16 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		};
 		return user;
 	}
+
+	private static AuthenticationRequest CreateAuthenticationRequest() => new()
+	{
+		UserName = RandomHelper.GetString(16),
+		Password = RandomHelper.GetString(16)
+	};
+
+	private static TokenRequest CreateTokenRequest() => new()
+	{
+		AccessToken = RandomHelper.GetString(64),
+		RefreshToken = RandomHelper.GetString(64)
+	};
 }

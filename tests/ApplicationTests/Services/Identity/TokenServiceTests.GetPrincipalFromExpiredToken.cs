@@ -1,13 +1,10 @@
 ﻿using System.Security.Claims;
 
-using Application.Options;
 using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
 using FluentAssertions;
-
-using Microsoft.Extensions.Options;
 
 namespace ApplicationTests.Services.Identity;
 
@@ -17,8 +14,7 @@ public sealed partial class TokenServiceTests
 	[TestCategory(nameof(TokenService.GetPrincipalFromExpiredToken))]
 	public void GetPrincipalFromExpiredTokenShouldReturnPrincipalWhenTokenValid()
 	{
-		IOptions<BearerSettings> options = GetService<IOptions<BearerSettings>>();
-		TokenService sut = CreateMockedInstance(options.Value);
+		TokenService sut = CreateMockedInstance();
 		string token = sut.GenerateAccessToken([]);
 
 		ClaimsPrincipal principal = sut.GetPrincipalFromExpiredToken(token);

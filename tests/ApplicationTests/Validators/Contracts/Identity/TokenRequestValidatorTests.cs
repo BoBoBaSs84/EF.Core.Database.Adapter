@@ -50,7 +50,7 @@ public sealed class TokenRequestValidatorTests : ApplicationTestBase
 		result.IsValid.Should().BeFalse();
 		result.Errors.Should().NotBeEmpty();
 		result.Errors.Should().HaveCount(1);
-		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.AccessToken));
+		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.RefreshToken));
 	}
 
 	private static IValidator<TokenRequest> CreateValidatorInstance()

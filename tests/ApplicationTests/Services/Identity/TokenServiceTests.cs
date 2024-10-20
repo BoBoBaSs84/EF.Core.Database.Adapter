@@ -3,6 +3,8 @@ using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;
 
+using BaseTests.Helpers;
+
 using Domain.Models.Identity;
 
 using Microsoft.Extensions.Options;
@@ -23,8 +25,15 @@ public sealed partial class TokenServiceTests : ApplicationTestBase
 	{
 		_bearerSettingsMock = new();
 
-		if (settings is not null)
-			_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
+		settings ??= new()
+		{
+			Issuer = "UnitTest",
+			Audience = "http://UnitTest.org",
+			ExpiryInMinutes = 5,
+			SecurityKey = RandomHelper.GetString(64)
+		};
+
+		_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
 
 		_dateTimeServiceMock = new();
 		_dateTimeServiceMock.SetupAllProperties();

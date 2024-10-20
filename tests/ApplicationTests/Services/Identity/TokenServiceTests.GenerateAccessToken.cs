@@ -1,9 +1,6 @@
-﻿using Application.Options;
-using Application.Services.Identity;
+﻿using Application.Services.Identity;
 
 using FluentAssertions;
-
-using Microsoft.Extensions.Options;
 
 namespace ApplicationTests.Services.Identity;
 
@@ -13,8 +10,7 @@ public sealed partial class TokenServiceTests
 	[TestCategory(nameof(TokenService.GenerateAccessToken))]
 	public void GenerateAccessTokenShouldGenerateAccessToken()
 	{
-		IOptions<BearerSettings> options = GetService<IOptions<BearerSettings>>();
-		TokenService sut = CreateMockedInstance(options.Value);
+		TokenService sut = CreateMockedInstance();
 
 		string token = sut.GenerateAccessToken([]);
 

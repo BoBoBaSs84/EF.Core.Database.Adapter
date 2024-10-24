@@ -49,6 +49,10 @@ internal sealed class DocumentConfiguration : AuditedConfiguration<Document>
 		builder.Property(p => p.MD5Hash)
 			.IsBinaryColumn(16)
 			.IsRequired();
+
+		builder.HasIndex(i => i.MD5Hash)
+			.IsClustered(false)
+			.IsUnique(true);
 		
 		base.Configure(builder);
 	}

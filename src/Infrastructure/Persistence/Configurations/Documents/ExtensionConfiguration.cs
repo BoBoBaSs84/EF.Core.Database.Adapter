@@ -22,6 +22,10 @@ internal sealed class ExtensionConfiguration : AuditedConfiguration<Extension>
 			.HasMaxLength(256)
 			.IsRequired();
 
+		builder.HasIndex(p => p.Name)
+			.IsClustered(false)
+			.IsUnique();
+
 		builder.HasMany(e => e.Documents)
 			.WithOne(e => e.Extension)
 			.HasForeignKey(e => e.ExtensionId)

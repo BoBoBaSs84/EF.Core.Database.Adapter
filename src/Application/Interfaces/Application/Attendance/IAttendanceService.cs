@@ -29,7 +29,6 @@ public interface IAttendanceService
 	/// <param name="requests">The attendance create requests to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	/// <returns></returns>
 	Task<ErrorOr<Created>> CreateMultiple(Guid id, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
 
 	/// <summary>

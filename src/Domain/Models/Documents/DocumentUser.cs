@@ -22,10 +22,10 @@ public sealed class DocumentUser : AuditedModel
 	/// <summary>
 	/// The <see cref="Document"/> property.
 	/// </summary>
-	public required Document Document { get; set; }
+	public Document Document { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="User"/> property.
 	/// </summary>
-	public required UserModel User { get; set; }
+	public UserModel User { get; set; } = default!;
 }

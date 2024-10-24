@@ -8,4 +8,5 @@ namespace Application.Contracts.Requests.Documents;
 
 public sealed class DocumentCreateRequest
 {
+	public required byte[] MD5Hash { get; init; }
 }

@@ -457,7 +457,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while verifying the refresh token..
+        ///   Looks up a localized string similar to An error occurred while validating the access token..
         /// </summary>
         public static string AuthenticationServiceErrors_RefreshAccessTokenVerificationFailed {
             get {

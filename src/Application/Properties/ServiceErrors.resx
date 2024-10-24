@@ -250,7 +250,7 @@
     <value>An error occurred while refreshing the access token.</value>
   </data>
   <data name="AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed" xml:space="preserve">
-    <value />
+    <value>An error occurred while validating the access token.</value>
   </data>
   <data name="AuthenticationServiceErrors.RevokeRefreshTokenFailed" xml:space="preserve">
     <value>An error occurred while revoking the refresh token.</value>

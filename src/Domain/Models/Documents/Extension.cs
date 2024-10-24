@@ -5,7 +5,7 @@ namespace Domain.Models.Documents;
 /// <summary>
 /// The document extension entity.
 /// </summary>
-public sealed class DocumentExtension : AuditedModel
+public sealed class Extension : AuditedModel
 {
 	/// <summary>
 	/// The name of the document extenion.
@@ -13,7 +13,7 @@ public sealed class DocumentExtension : AuditedModel
 	public required string Name { get; set; }
 
 	/// <summary>
-	/// The documents that use the extension.
+	/// The navigational <see cref="Documents"/> property.
 	/// </summary>
 	public required ICollection<Document> Documents { get; set; }
 }

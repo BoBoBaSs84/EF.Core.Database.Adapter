@@ -5,12 +5,12 @@ namespace Domain.Models.Documents;
 /// <summary>
 /// The document data entity.
 /// </summary>
-public sealed class DocumentData : AuditedModel
+public sealed class Data : AuditedModel
 {
 	/// <summary>
 	/// The actual data of the document.
 	/// </summary>
-	public required byte[] Data { get; set; }
+	public required byte[] RawData { get; set; }
 
 	/// <summary>
 	/// The document identifier the data belongs to.
@@ -18,7 +18,7 @@ public sealed class DocumentData : AuditedModel
 	public required Guid DocumentId { get; set; }
 
 	/// <summary>
-	/// The document the data belongs to.
+	/// The navigational <see cref="Document"/> property.
 	/// </summary>
 	public required Document Document { get; set; }
 }

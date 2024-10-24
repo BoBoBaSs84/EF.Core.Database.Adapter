@@ -1,4 +1,5 @@
 ﻿using Domain.Models.Attendance;
+using Domain.Models.Documents;
 using Domain.Models.Finance;
 using Domain.Models.Todo;
 
@@ -45,4 +46,9 @@ public partial class UserModel
 	/// The <see cref="TodoLists"/> property.
 	/// </summary>
 	public virtual ICollection<ListUser> TodoLists { get; set; } = [];
+
+	/// <summary>
+	/// The <see cref="DocumentUsers"/> property.
+	/// </summary>
+	public virtual ICollection<DocumentUser> DocumentUsers { get; set; } = [];
 }

@@ -1,6 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Models;
 
 using Domain.Enumerators.Documents;
+using Domain.Models.Todo;
 
 namespace Domain.Models.Documents;
 
@@ -55,7 +56,17 @@ public sealed class Document : AuditedModel
 	public required Guid ExtensionId { get; set; }
 
 	/// <summary>
-	/// The extension of the document.
+	/// The navigational <see cref="Data"/> property.
 	/// </summary>
-	public required DocumentExtension Extension { get; set; }
+	public required Data Data { get; set; }
+
+	/// <summary>
+	/// The navigational <see cref="Extension"/> property.
+	/// </summary>
+	public required Extension Extension { get; set; }
+
+	/// <summary>
+	/// The navigational <see cref="DocumentUsers"/> property.
+	/// </summary>
+	public required ICollection<DocumentUser> DocumentUsers { get; set; }
 }

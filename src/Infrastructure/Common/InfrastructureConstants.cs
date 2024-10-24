@@ -52,6 +52,11 @@ internal static class InfrastructureConstants
 		internal const string Common = "common";
 
 		/// <summary>
+		/// The <see cref="Documents"/> constant.
+		/// </summary>
+		internal const string Documents = "documents";
+
+		/// <summary>
 		/// The <see cref="History"/> constant.
 		/// </summary>
 		internal const string History = "history";

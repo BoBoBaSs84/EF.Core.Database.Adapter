@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
+using Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
 using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 
 namespace Application.Interfaces.Infrastructure.Services;
@@ -9,32 +10,37 @@ namespace Application.Interfaces.Infrastructure.Services;
 public interface IRepositoryService
 {
 	/// <summary>
-	/// The account repository interface.
+	/// The account repository instance.
 	/// </summary>
 	IAccountRepository AccountRepository { get; }
 
 	/// <summary>
-	/// The attendance repository interface.
+	/// The attendance repository instance.
 	/// </summary>
 	IAttendanceRepository AttendanceRepository { get; }
 
 	/// <summary>
-	/// The card repository interface.
+	/// The card repository instance.
 	/// </summary>
 	ICardRepository CardRepository { get; }
 
 	/// <summary>
-	/// The transaction repository interface.
+	/// The document repository instance.
+	/// </summary>
+	IDocumentRepository DocumentRepository { get; }
+
+	/// <summary>
+	/// The transaction repository instance.
 	/// </summary>
 	ITransactionRepository TransactionRepository { get; }
 
 	/// <summary>
-	/// The todo list repository interface.
+	/// The todo list repository instance.
 	/// </summary>
 	IListRepository TodoListRepository { get; }
 
 	/// <summary>
-	/// The todo item repository interface.
+	/// The todo item repository instance.
 	/// </summary>
 	IItemRepository TodoItemRepository { get; }
 

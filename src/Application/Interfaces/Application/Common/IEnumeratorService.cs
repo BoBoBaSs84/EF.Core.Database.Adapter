@@ -16,16 +16,22 @@ public interface IEnumeratorService
 	ErrorOr<IEnumerable<AccountTypeResponse>> GetAccountTypes();
 
 	/// <summary>
+	/// Returns all attendance type enumerators.
+	/// </summary>
+	/// <returns><see cref="ErrorOr{TValue}"/></returns>
+	ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes();
+
+	/// <summary>
 	/// Returns all bank card type enumerators.
 	/// </summary>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
 	ErrorOr<IEnumerable<CardTypeResponse>> GetCardTypes();
 
 	/// <summary>
-	/// Returns all attendance type enumerators.
+	/// Returns all document type enumerators.
 	/// </summary>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes();
+	ErrorOr<IEnumerable<DocumentTypeResponse>> GetDocumentTypes();
 
 	/// <summary>
 	/// Returns all priority level type enumerators.

@@ -682,6 +682,24 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the account type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetAccountTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetAccountTypes.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the attendance type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetAttendanceTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetAttendanceTypes.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while loading the card type enumerators..
         /// </summary>
         public static string EnumeratorService_GetCardTypes_Failed {
@@ -696,6 +714,15 @@ namespace Application.Properties {
         public static string EnumeratorService_GetDayTypes_Failed {
             get {
                 return ResourceManager.GetString("EnumeratorService.GetDayTypes.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the document type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetDocumentTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetDocumentTypes.Failed", resourceCulture);
             }
         }
         

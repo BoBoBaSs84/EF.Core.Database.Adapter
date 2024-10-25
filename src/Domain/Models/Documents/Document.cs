@@ -46,7 +46,7 @@ public sealed class Document : AuditedModel
 	public DateTime? LastAccessTime { get; set; }
 
 	/// <summary>
-	/// The Message-Digest Algorithm 5 of the document.
+	/// The <b>Message-Digest Algorithm 5</b> of the document.
 	/// </summary>
 	public required byte[] MD5Hash { get; set; }
 

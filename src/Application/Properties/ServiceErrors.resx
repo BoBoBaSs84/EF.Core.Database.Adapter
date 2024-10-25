@@ -411,4 +411,13 @@
   <data name="TransactionServiceErrors.Update.NotFound" xml:space="preserve">
     <value>No bank transaction with the identifier: '{0}' could be found to delete.</value>
   </data>
+  <data name="EnumeratorService.GetAccountTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the account type enumerators.</value>
+  </data>
+  <data name="EnumeratorService.GetDocumentTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the document type enumerators.</value>
+  </data>
+  <data name="EnumeratorService.GetAttendanceTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the attendance type enumerators.</value>
+  </data>
 </root>

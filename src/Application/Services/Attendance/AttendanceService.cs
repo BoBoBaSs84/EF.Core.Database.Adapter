@@ -219,9 +219,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 
 			_ = mapper.Map(request, entity);
 
-			await repositoryService.AttendanceRepository.UpdateAsync(entity, token)
-				.ConfigureAwait(false);
-
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
@@ -242,14 +239,11 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
-			if (!entities.Any())
+			if (entities.Any().IsFalse())
 				return AttendanceServiceErrors.GetByIdsNotFound(requests.Select(x => x.Id));
 
 			foreach (AttendanceModel entity in entities)
 				_ = mapper.Map(requests.Single(x => x.Id.Equals(entity.Id)), entity);
-
-			await repositoryService.AttendanceRepository.UpdateAsync(entities, token)
-				.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);

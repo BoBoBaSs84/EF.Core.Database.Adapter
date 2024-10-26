@@ -69,7 +69,6 @@ public sealed partial class AttendanceServiceTests
 			model.StartTime.Should().Be(request.StartTime);
 			model.EndTime.Should().Be(request.EndTime);
 			model.BreakTime.Should().Be(request.BreakTime);
-			mock.Verify(x => x.UpdateAsync(It.IsAny<AttendanceModel>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});

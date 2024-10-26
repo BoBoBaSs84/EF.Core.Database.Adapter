@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Contracts.Requests.Documents.Base;
 
 namespace Application.Contracts.Requests.Documents;
 
-public sealed class DocumentCreateRequest
-{
-	public required byte[] MD5Hash { get; init; }
-}
+/// <summary>
+/// The request to creating a document.
+/// </summary>
+public sealed class DocumentCreateRequest : DocumentBaseRequest
+{ }

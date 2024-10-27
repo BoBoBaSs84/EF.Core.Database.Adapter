@@ -10,10 +10,16 @@ namespace Application.Contracts.Requests.Documents.Base;
 public abstract class DocumentBaseRequest
 {
 	/// <summary>
-	/// The name of the document.
+	/// The name of the document without extension.
 	/// </summary>
 	[Required]
 	public required string Name { get; init; }
+
+	/// <summary>
+	/// The extension of the document without the <b>dot</b>.
+	/// </summary>
+	[Required]
+	public required string Extension { get; init; }
 
 	/// <summary>
 	/// The directory of the document.

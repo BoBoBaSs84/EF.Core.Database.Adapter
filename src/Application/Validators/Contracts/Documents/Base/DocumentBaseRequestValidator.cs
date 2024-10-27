@@ -18,6 +18,9 @@ public sealed class DocumentBaseRequestValidator : AbstractValidator<DocumentBas
 		RuleFor(x => x.Name)
 			.NotEmpty();
 
+		RuleFor(x => x.Extension)
+			.NotEmpty();
+
 		RuleFor(x => x.Directory)
 			.NotEmpty();
 

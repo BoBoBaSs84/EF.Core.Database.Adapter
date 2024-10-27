@@ -25,7 +25,7 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.CreateMultiple))]
+	[TestCategory(nameof(DocumentService.Create))]
 	public async Task CreateMultipleShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -34,40 +34,40 @@ public sealed partial class DocumentServiceTests
 		IEnumerable<string> documents = requests.Select(x => $"{x.Name}.{x.ExtensionName}");
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateMultiple(userId, requests)
+		ErrorOr<Created> result = await sut.Create(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(DocumentServiceErrors.CreateMultipleDocumentFailed(documents));
+			result.Errors.First().Should().Be(DocumentServiceErrors.CreateMultipleFailed(documents));
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.CreateMultiple))]
+	[TestCategory(nameof(DocumentService.Create))]
 	public async Task CreateMultipleShouldReturnBadRequestWhenBodyIsEmpty()
 	{
 		Guid userId = Guid.NewGuid();
 		IEnumerable<DocumentCreateRequest> requests = [];
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateMultiple(userId, requests)
+		ErrorOr<Created> result = await sut.Create(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(DocumentServiceErrors.CreateMultipleDocumentNotEmpty);
+			result.Errors.First().Should().Be(DocumentServiceErrors.CreateMultipleBadRequest);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.CreateMultiple))]
+	[TestCategory(nameof(DocumentService.Create))]
 	public async Task CreateMultipleShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
@@ -83,7 +83,7 @@ public sealed partial class DocumentServiceTests
 		Mock<IDocumentRepository> docRepoMock = new();
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
-		ErrorOr<Created> result = await sut.CreateMultiple(userId, requests)
+		ErrorOr<Created> result = await sut.Create(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

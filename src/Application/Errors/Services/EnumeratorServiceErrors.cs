@@ -12,7 +12,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class EnumeratorServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(EnumeratorServiceErrors)}";
+	private const string ErrorPrefix = nameof(EnumeratorServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the enumerator service.

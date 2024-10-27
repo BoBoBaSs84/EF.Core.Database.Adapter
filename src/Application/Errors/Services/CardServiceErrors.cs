@@ -14,7 +14,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CardServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(CardServiceErrors)}";
+	private const string ErrorPrefix = nameof(CardServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the card service.

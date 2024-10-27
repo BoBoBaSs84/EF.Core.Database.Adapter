@@ -50,16 +50,16 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 
 			string document = $"{request.Name}.{request.ExtensionName}";
-			return DocumentServiceErrors.CreateDocumentFailed(document);
+			return DocumentServiceErrors.CreateFailed(document);
 		}
 	}
 
-	public async Task<ErrorOr<Created>> CreateMultiple(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
 			if (requests.Any().IsFalse())
-				return DocumentServiceErrors.CreateMultipleDocumentNotEmpty;
+				return DocumentServiceErrors.CreateMultipleBadRequest;
 
 			List<Document> documents = [];
 
@@ -85,7 +85,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 
 			IEnumerable<string> documents = requests.Select(x => $"{x.Name}.{x.ExtensionName}");
-			return DocumentServiceErrors.CreateMultipleDocumentFailed(documents);
+			return DocumentServiceErrors.CreateMultipleFailed(documents);
 		}
 	}
 
@@ -93,15 +93,14 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			Document? entity = await repositoryService.DocumentRepository
+			Document? document = await repositoryService.DocumentRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
-			if (entity is null)
-				// TODO: NotFound
-				throw new InvalidOperationException();
+			if (document is null)
+				return DocumentServiceErrors.DeleteByIdNotFound(id);
 
-			await repositoryService.DocumentRepository.DeleteAsync(entity, token)
+			await repositoryService.DocumentRepository.DeleteAsync(document, token)
 				.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)
@@ -112,24 +111,22 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		catch (Exception ex)
 		{
 			loggerService.Log(LogExceptionWithParams, $"{id}", ex);
-			// TODO: Failed
-			throw new InvalidOperationException();
+			return DocumentServiceErrors.DeleteByIdFailed(id);
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteByIds(IEnumerable<Guid> ids, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteByIds(Guid userId, IEnumerable<Guid> ids, CancellationToken token = default)
 	{
 		try
 		{
-			IEnumerable<Document> entities = await repositoryService.DocumentRepository
-				.GetByIdsAsync(ids, token: token)
+			IEnumerable<Document> documents = await repositoryService.DocumentRepository
+				.GetManyByConditionAsync(x => x.UserId.Equals(userId) && ids.Contains(x.Id), token: token)
 				.ConfigureAwait(false);
 
-			if (entities.Any().IsFalse())
-				// TODO: NotFound
-				throw new InvalidOperationException();
+			if (documents.Any().IsFalse())
+				return DocumentServiceErrors.DeleteByIdsNotFound(ids);
 
-			await repositoryService.DocumentRepository.DeleteAsync(entities, token)
+			await repositoryService.DocumentRepository.DeleteAsync(documents, token)
 				.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)
@@ -140,8 +137,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		catch (Exception ex)
 		{
 			loggerService.Log(LogExceptionWithParams, string.Join(',', ids.Select(x => $"{x}")), ex);
-			// TODO: Failed
-			throw new InvalidDataException();
+			return DocumentServiceErrors.DeleteByIdsFailed(ids);
 		}
 	}
 
@@ -149,14 +145,14 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			Document? entity = await repositoryService.DocumentRepository
+			Document? document = await repositoryService.DocumentRepository
 				.GetByIdAsync(id, token: token, includeProperties: [nameof(Document.Data), nameof(Document.Extension)])
 				.ConfigureAwait(false);
 
-			if (entity is null)
+			if (document is null)
 				return DocumentServiceErrors.GetByIdNotFound(id);
 
-			DocumentResponse response = mapper.Map<DocumentResponse>(entity);
+			DocumentResponse response = mapper.Map<DocumentResponse>(document);
 
 			return response;
 		}
@@ -172,7 +168,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		throw new NotImplementedException();
 	}
 
-	public async Task<ErrorOr<Updated>> Update(DocumentUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateById(DocumentUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
@@ -181,8 +177,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				.ConfigureAwait(false);
 
 			if (document is null)
-				// TODO: NotFound
-				throw new InvalidDataException();
+				return DocumentServiceErrors.UpdateByIdNotFound(request.Id);
 
 			document = await PrepareDocumentForUpdate(document, request, token)
 				.ConfigureAwait(false);
@@ -195,12 +190,11 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		catch (Exception ex)
 		{
 			loggerService.Log(LogExceptionWithParams, $"{request.ToJson()}", ex);
-			// TODO: Failed
-			throw new InvalidDataException();
+			return DocumentServiceErrors.UpdateByIdFailed(request.Id);
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateByIds(Guid userId, IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
@@ -213,8 +207,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				.ConfigureAwait(false);
 
 			if (documents.Any().IsFalse())
-				// TODO: NotFound
-				throw new InvalidDataException();
+				return DocumentServiceErrors.UpdateByIdsNotFound(requests.Select(x => x.Id));
 
 			foreach (Document document in documents)
 			{
@@ -232,8 +225,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		catch (Exception ex)
 		{
 			loggerService.Log(LogExceptionWithParams, requests.ToJson(), ex);
-			// TODO: Failed
-			throw new InvalidDataException();
+			return DocumentServiceErrors.UpdateByIdsFailed(requests.Select(x => x.Id));
 		}
 	}
 

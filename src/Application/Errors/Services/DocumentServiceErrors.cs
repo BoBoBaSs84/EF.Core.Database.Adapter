@@ -2,6 +2,8 @@
 
 using BB84.Extensions;
 
+using RESX = Application.Properties.ServiceErrors;
+
 namespace Application.Errors.Services;
 
 /// <summary>
@@ -12,40 +14,96 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class DocumentServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(DocumentServiceErrors)}";
+	private const string ErrorPrefix = nameof(DocumentServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the document service.
 	/// </summary>
-	public static ApiError CreateDocumentFailed(string document)
-		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateDocumentFailed)}",
-			$"{string.Empty.FormatInvariant(document)}");
+	public static ApiError CreateFailed(string document)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateFailed)}",
+			RESX.DocumentService_Create_Failed.FormatInvariant(document));
 
 	/// <summary>
 	/// Error that indicates an exception during the document service.
 	/// </summary>
-	public static ApiError CreateMultipleDocumentFailed(IEnumerable<string> documents)
-		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateDocumentFailed)}",
-			$"{string.Empty.FormatInvariant(string.Join(',', documents))}");
+	public static ApiError CreateMultipleFailed(IEnumerable<string> documents)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(CreateMultipleFailed)}",
+			RESX.DocumentService_CreateMultiple_Failed.FormatInvariant(string.Join(',', documents)));
 
 	/// <summary>
 	/// Error that indicates an exception during the document service.
 	/// </summary>
-	public static ApiError CreateMultipleDocumentNotEmpty
-		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateMultipleDocumentNotEmpty)}",
-			$"{string.Empty}");
+	public static ApiError CreateMultipleBadRequest
+		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(CreateMultipleBadRequest)}",
+			RESX.DocumentService_CreateMultiple_BadRequest);
 
 	/// <summary>
 	/// Error that indicates an exception during the document service.
 	/// </summary>
 	public static ApiError GetByIdFailed(Guid id)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdFailed)}",
-			$"{string.Empty}".FormatInvariant(id));
+			RESX.DocumentService_DeleteById_Failed.FormatInvariant(id));
 
 	/// <summary>
 	/// Error that indicates an exception during the document service.
 	/// </summary>
 	public static ApiError GetByIdNotFound(Guid id)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetByIdNotFound)}",
-			$"{string.Empty}".FormatInvariant(id));
+			RESX.DocumentService_DeleteById_NotFound.FormatInvariant(id));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError DeleteByIdNotFound(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteByIdNotFound)}",
+			RESX.DocumentService_DeleteById_NotFound.FormatInvariant(id));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError DeleteByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteByIdFailed)}",
+			RESX.DocumentService_DeleteById_Failed.FormatInvariant(id));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError DeleteByIdsNotFound(IEnumerable<Guid> ids)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteByIdsNotFound)}",
+			RESX.DocumentService_DeleteByIds_NotFound.FormatInvariant(string.Join(',', ids.Select(id => id))));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError DeleteByIdsFailed(IEnumerable<Guid> ids)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteByIdsFailed)}",
+			RESX.DocumentService_DeleteByIds_Failed.FormatInvariant(string.Join(',', ids.Select(id => id))));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError UpdateByIdNotFound(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateByIdNotFound)}",
+			RESX.DocumentService_UpdateById_NotFound.FormatInvariant(id));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError UpdateByIdFailed(Guid id)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateByIdFailed)}",
+			RESX.DocumentService_UpdateById_Failed.FormatInvariant(id));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError UpdateByIdsNotFound(IEnumerable<Guid> ids)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateByIdsNotFound)}",
+			RESX.DocumentService_UpdateByIds_NotFound.FormatInvariant(string.Join(',', ids.Select(id => id))));
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
+	public static ApiError UpdateByIdsFailed(IEnumerable<Guid> ids)
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateByIdsFailed)}",
+			RESX.DocumentService_UpdateByIds_Failed.FormatInvariant(string.Join(',', ids.Select(id => id))));
 }

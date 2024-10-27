@@ -29,7 +29,7 @@ public interface IDocumentService
 	/// <param name="requests">The document create requests to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> CreateMultiple(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default);
 
 	/// <summary>
 	/// Deletes an existing document by the provided <paramref name="id"/>.
@@ -40,12 +40,13 @@ public interface IDocumentService
 	Task<ErrorOr<Deleted>> DeleteById(Guid id, CancellationToken token = default);
 
 	/// <summary>
-	/// Deletes an existing document collection by the provided <paramref name="ids"/>.
+	/// Deletes an existing document collection for the <paramref name="userId"/> by the provided <paramref name="ids"/>.
 	/// </summary>
+	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="ids">The document identifiers to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Deleted>> DeleteByIds(IEnumerable<Guid> ids, CancellationToken token = default);
+	Task<ErrorOr<Deleted>> DeleteByIds(Guid userId, IEnumerable<Guid> ids, CancellationToken token = default);
 
 	/// <summary>
 	/// Returns an existing document by the provided <paramref name="id"/>.
@@ -70,13 +71,14 @@ public interface IDocumentService
 	/// <param name="request">The document update request to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(DocumentUpdateRequest request, CancellationToken token = default);
+	Task<ErrorOr<Updated>> UpdateById(DocumentUpdateRequest request, CancellationToken token = default);
 
 	/// <summary>
-	/// Updates an existing document collection with the provided create <paramref name="requests"/>.
+	/// Updates an existing document collection for the <paramref name="userId"/> with the provided create <paramref name="requests"/>.
 	/// </summary>
+	/// <param name="userId">The identifier of the application user.</param>
 	/// <param name="requests">The document update requests to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> Update(IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Updated>> UpdateByIds(Guid userId, IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default);
 }

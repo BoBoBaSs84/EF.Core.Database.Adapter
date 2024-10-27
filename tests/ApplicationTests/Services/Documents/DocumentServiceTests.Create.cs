@@ -40,7 +40,7 @@ public sealed partial class DocumentServiceTests
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(DocumentServiceErrors.CreateDocumentFailed($"{request.Name}.{request.ExtensionName}"));
+			result.Errors.First().Should().Be(DocumentServiceErrors.CreateFailed($"{request.Name}.{request.ExtensionName}"));
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Once);
 		});
 	}

@@ -14,7 +14,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class AccountServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(AccountServiceErrors)}";
+	private const string ErrorPrefix = nameof(AccountServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the account service.

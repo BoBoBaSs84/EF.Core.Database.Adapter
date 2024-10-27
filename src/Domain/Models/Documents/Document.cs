@@ -12,22 +12,22 @@ public sealed class Document : AuditedModel
 	/// <summary>
 	/// The name of the document.
 	/// </summary>
-	public required string Name { get; set; }
+	public string Name { get; set; } = default!;
 
 	/// <summary>
 	/// The directory of the document.
 	/// </summary>
-	public required string Directory { get; set; }
+	public string Directory { get; set; } = default!;
 
 	/// <summary>
 	/// The flags the of the document.
 	/// </summary>
-	public required DocumentTypes Flags { get; set; }
+	public DocumentTypes Flags { get; set; }
 
 	/// <summary>
 	/// The creation date of the document.
 	/// </summary>
-	public required DateTime CreationTime { get; set; }
+	public DateTime CreationTime { get; set; }
 
 	/// <summary>
 	/// The last modification date of the document.

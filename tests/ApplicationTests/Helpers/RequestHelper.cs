@@ -102,7 +102,7 @@ internal static class RequestHelper
 		DocumentCreateRequest request = new()
 		{
 			Name = RandomHelper.GetString(18),
-			Extension = RandomHelper.GetString(3),
+			ExtensionName = RandomHelper.GetString(3),
 			Directory = @"C:\",
 			Flags = DocumentTypes.None,
 			CreationTime = DateTime.Today.AddDays(-2),

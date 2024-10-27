@@ -3,6 +3,7 @@
 /// <summary>
 /// Static class for MimeTypes mappings
 /// </summary>
+[ExcludeFromCodeCoverage(Justification = "Generated Content")]
 public static class MimeTypesMap
 {
 	private const string DefaultExtension = "bin";

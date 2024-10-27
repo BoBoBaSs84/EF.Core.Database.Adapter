@@ -16,10 +16,10 @@ public abstract class DocumentBaseRequest
 	public required string Name { get; init; }
 
 	/// <summary>
-	/// The extension of the document without the <b>dot</b>.
+	/// The extension name of the document without the <b>dot</b>.
 	/// </summary>
 	[Required]
-	public required string Extension { get; init; }
+	public required string ExtensionName { get; init; }
 
 	/// <summary>
 	/// The directory of the document.

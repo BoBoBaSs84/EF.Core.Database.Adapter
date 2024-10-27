@@ -2,6 +2,7 @@
 using Application.Contracts.Requests.Documents;
 using Application.Contracts.Requests.Documents.Base;
 using Application.Contracts.Responses.Documents;
+using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application.Documents;
@@ -47,8 +48,9 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		{
 			string[] parameters = [$"{userId}", $"{request.ToJson()}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			// TODO: Failed
-			throw new InvalidOperationException();
+
+			string document = $"{request.Name}.{request.ExtensionName}";
+			return DocumentServiceErrors.CreateDocumentFailed(document);
 		}
 	}
 
@@ -57,8 +59,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		try
 		{
 			if (requests.Any().IsFalse())
-				// TODO: BadRequest
-				throw new InvalidOperationException();
+				return DocumentServiceErrors.CreateMultipleDocumentNotEmpty;
 
 			List<Document> documents = [];
 
@@ -70,6 +71,9 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				documents.Add(document);
 			}
 
+			await repositoryService.DocumentRepository.CreateAsync(documents, token)
+				.ConfigureAwait(false);
+
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
@@ -79,8 +83,9 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		{
 			string[] parameters = [$"{userId}", $"{requests.ToJson()}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			// TODO: Failed
-			throw new InvalidOperationException();
+
+			IEnumerable<string> documents = requests.Select(x => $"{x.Name}.{x.ExtensionName}");
+			return DocumentServiceErrors.CreateMultipleDocumentFailed(documents);
 		}
 	}
 
@@ -325,18 +330,14 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	private async Task<Extension> PrepareDocumentExtension(DocumentBaseRequest request, CancellationToken token)
 	{
 		Extension? extension = await repositoryService.DocumentExtensionRepository
-			.GetByConditionAsync(x => x.Name == request.Extension, token: token)
+			.GetByConditionAsync(x => x.Name == request.ExtensionName, token: token)
 			.ConfigureAwait(false);
 
-		if (extension is null)
+		extension ??= new()
 		{
-			string fullFileName = $"{request.Name}.{request.Extension}";
-			extension = new()
-			{
-				Name = request.Extension,
-				MimeType = MimeTypesMap.GetMimeType(fullFileName)
-			};
-		}
+			Name = request.ExtensionName,
+			MimeType = MimeTypesMap.GetMimeType($"{request.Name}.{request.ExtensionName}")
+		};
 
 		return extension;
 	}
@@ -349,7 +350,12 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), token: token)
 			.ConfigureAwait(false);
 
-		data ??= new() { MD5Hash = md5Hash, Length = request.Data.LongLength, Content = request.Data };
+		data ??= new()
+		{
+			MD5Hash = md5Hash,
+			Length = request.Data.LongLength,
+			Content = request.Data
+		};
 
 		return data;
 	}

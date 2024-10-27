@@ -3,6 +3,7 @@ using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
 using Domain.Models.Documents;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Infrastructure.Common.InfrastructureConstants;
@@ -41,6 +42,12 @@ internal sealed class DocumentConfiguration : AuditedConfiguration<Document>
 		builder.Property(p => p.LastAccessTime)
 			.IsDateTimeColumn(true)
 			.IsRequired(false);
+
+		builder.HasOne(e => e.User)
+			.WithMany(e => e.Documents)
+			.HasForeignKey(fk => fk.UserId)
+			.OnDelete(DeleteBehavior.Cascade)
+			.IsRequired();
 
 		base.Configure(builder);
 	}

@@ -25,9 +25,6 @@ namespace Infrastructure.Persistence.Migrations
 					name: "attendance");
 
 			migrationBuilder.EnsureSchema(
-					name: "todo");
-
-			migrationBuilder.EnsureSchema(
 					name: "identity");
 
 			migrationBuilder.CreateTable(
@@ -97,71 +94,6 @@ namespace Infrastructure.Persistence.Migrations
 					})
 					.Annotation("SqlServer:IsTemporal", true)
 					.Annotation("SqlServer:TemporalHistoryTableName", "Account")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.CreateTable(
-					name: "List",
-					schema: "todo",
-					columns: table => new
-					{
-						Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()")
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						CreatedBy = table.Column<string>(type: "sysname", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						ModifiedBy = table.Column<string>(type: "sysname", nullable: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Title = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Color = table.Column<byte[]>(type: "binary(3)", nullable: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodStart = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "List")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart")
-					},
-					constraints: table =>
-					{
-						table.PrimaryKey("PK_List", x => x.Id)
-											.Annotation("SqlServer:Clustered", false);
-					})
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "List")
 					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
 					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
@@ -493,102 +425,6 @@ namespace Infrastructure.Persistence.Migrations
 					})
 					.Annotation("SqlServer:IsTemporal", true)
 					.Annotation("SqlServer:TemporalHistoryTableName", "User")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.CreateTable(
-					name: "Item",
-					schema: "todo",
-					columns: table => new
-					{
-						Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()")
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						CreatedBy = table.Column<string>(type: "sysname", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						ModifiedBy = table.Column<string>(type: "sysname", nullable: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						ListId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Title = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Note = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Priority = table.Column<byte>(type: "tinyint", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Reminder = table.Column<DateTime>(type: "datetime2", nullable: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						Done = table.Column<bool>(type: "bit", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodStart = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart")
-					},
-					constraints: table =>
-					{
-						table.PrimaryKey("PK_Item", x => x.Id)
-											.Annotation("SqlServer:Clustered", false);
-						table.ForeignKey(
-											name: "FK_Item_List_ListId",
-											column: x => x.ListId,
-											principalSchema: "todo",
-											principalTable: "List",
-											principalColumn: "Id",
-											onDelete: ReferentialAction.Cascade);
-					})
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "Item")
 					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
 					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
@@ -993,79 +829,6 @@ namespace Infrastructure.Persistence.Migrations
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
 
 			migrationBuilder.CreateTable(
-					name: "ListUser",
-					schema: "todo",
-					columns: table => new
-					{
-						Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						CreatedBy = table.Column<string>(type: "sysname", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						ModifiedBy = table.Column<string>(type: "sysname", nullable: true)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						ListId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-						PeriodStart = table.Column<DateTime>(type: "datetime2", nullable: false)
-									.Annotation("SqlServer:IsTemporal", true)
-									.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-									.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-									.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-									.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart")
-					},
-					constraints: table =>
-					{
-						table.PrimaryKey("PK_ListUser", x => new { x.ListId, x.UserId })
-											.Annotation("SqlServer:Clustered", false);
-						table.ForeignKey(
-											name: "FK_ListUser_List_ListId",
-											column: x => x.ListId,
-											principalSchema: "todo",
-											principalTable: "List",
-											principalColumn: "Id",
-											onDelete: ReferentialAction.Cascade);
-						table.ForeignKey(
-											name: "FK_ListUser_User_UserId",
-											column: x => x.UserId,
-											principalSchema: "identity",
-											principalTable: "User",
-											principalColumn: "Id",
-											onDelete: ReferentialAction.Cascade);
-					})
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.CreateTable(
 					name: "UserClaim",
 					schema: "identity",
 					columns: table => new
@@ -1436,18 +1199,6 @@ namespace Infrastructure.Persistence.Migrations
 					column: "TransactionId");
 
 			migrationBuilder.CreateIndex(
-					name: "IX_Item_ListId",
-					schema: "todo",
-					table: "Item",
-					column: "ListId");
-
-			migrationBuilder.CreateIndex(
-					name: "IX_ListUser_UserId",
-					schema: "todo",
-					table: "ListUser",
-					column: "UserId");
-
-			migrationBuilder.CreateIndex(
 					name: "RoleNameIndex",
 					schema: "identity",
 					table: "Role",
@@ -1534,24 +1285,6 @@ namespace Infrastructure.Persistence.Migrations
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
 
 			migrationBuilder.DropTable(
-					name: "Item",
-					schema: "todo")
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "Item")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.DropTable(
-					name: "ListUser",
-					schema: "todo")
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "ListUser")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.DropTable(
 					name: "RoleClaim",
 					schema: "identity")
 					.Annotation("SqlServer:IsTemporal", true)
@@ -1610,15 +1343,6 @@ namespace Infrastructure.Persistence.Migrations
 					schema: "finance")
 					.Annotation("SqlServer:IsTemporal", true)
 					.Annotation("SqlServer:TemporalHistoryTableName", "Transaction")
-					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
-					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
-
-			migrationBuilder.DropTable(
-					name: "List",
-					schema: "todo")
-					.Annotation("SqlServer:IsTemporal", true)
-					.Annotation("SqlServer:TemporalHistoryTableName", "List")
 					.Annotation("SqlServer:TemporalHistoryTableSchema", "history")
 					.Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
 					.Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");

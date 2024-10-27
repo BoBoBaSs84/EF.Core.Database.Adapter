@@ -31,7 +31,14 @@ internal sealed class ListConfiguration : AuditedConfiguration<List>
 		builder.HasMany(e => e.Items)
 			.WithOne(e => e.List)
 			.HasForeignKey(e => e.ListId)
-			.OnDelete(DeleteBehavior.Cascade);
+			.OnDelete(DeleteBehavior.Cascade)
+			.IsRequired();
+
+		builder.HasOne(e => e.User)
+			.WithMany(e => e.TodoLists)
+			.HasForeignKey(fk => fk.UserId)
+			.OnDelete(DeleteBehavior.Cascade)
+			.IsRequired();
 
 		base.Configure(builder);
 	}

@@ -42,25 +42,25 @@ public sealed class DocumentResponse : IdentityResponse
 	/// <summary>
 	/// The <b>Message-Digest Algorithm 5</b> of the data.
 	/// </summary>
-	public required byte[] MD5Hash { get; set; }
+	public byte[]? MD5Hash { get; init; }
 
 	/// <summary>
 	/// The length of the data content.
 	/// </summary>
-	public required long Length { get; set; }
+	public long? Length { get; init; }
 
 	/// <summary>
 	/// The actual content of the data.
 	/// </summary>
-	public required byte[] Content { get; set; }
+	public byte[]? Content { get; init; }
 
 	/// <summary>
 	/// The name of the document extenion.
 	/// </summary>
-	public required string ExtenionName { get; set; }
+	public required string ExtenionName { get; init; }
 
 	/// <summary>
 	/// The mime type of the document extenion.
 	/// </summary>
-	public string? MimeType { get; set; }
+	public string? MimeType { get; init; }
 }

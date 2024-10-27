@@ -22,13 +22,16 @@ public sealed partial class DocumentServiceTests : ApplicationTestBase
 		_repositoryServiceMock = new();
 
 		if (documentRepository is not null)
-			_repositoryServiceMock.Setup(x => x.DocumentRepository).Returns(documentRepository);
+			_repositoryServiceMock.Setup(x => x.DocumentRepository)
+				.Returns(documentRepository);
 
 		if (extensionRepository is not null)
-			_repositoryServiceMock.Setup(x => x.DocumentExtensionRepository).Returns(extensionRepository);
+			_repositoryServiceMock.Setup(x => x.DocumentExtensionRepository)
+				.Returns(extensionRepository);
 
 		if (dataRepository is not null)
-			_repositoryServiceMock.Setup(x => x.DocumentDataRepository).Returns(dataRepository);
+			_repositoryServiceMock.Setup(x => x.DocumentDataRepository)
+				.Returns(dataRepository);
 
 		return new(_loggerServiceMock.Object, _repositoryServiceMock.Object, _mapper);
 	}

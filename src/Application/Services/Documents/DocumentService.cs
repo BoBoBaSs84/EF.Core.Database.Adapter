@@ -195,8 +195,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				.ConfigureAwait(false);
 
 			if (entity is null)
-				// TODO: NotFound
-				throw new InvalidDataException();
+				return DocumentServiceErrors.GetByIdNotFound(documentId);
 
 			DocumentResponse response = mapper.Map<DocumentResponse>(entity);
 
@@ -206,8 +205,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		{
 			string[] parameters = [$"{userId}", $"{documentId}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
-			// TODO: Failed
-			throw new InvalidDataException();
+			return DocumentServiceErrors.GetByIdFailed(documentId);
 		}
 	}
 

@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Requests.Documents;
+﻿using Application.Common;
+using Application.Contracts.Requests.Documents;
 using Application.Contracts.Responses.Documents;
 using Application.Features.Requests;
 using Application.Features.Responses;
@@ -30,35 +31,11 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			//byte[] md5Hash = request.Data.GetMD5();
+			Document document = await PrepareDocumentForCreate(userId, request, token)
+				.ConfigureAwait(false);
 
-			//Document? entity = await repositoryService.DocumentRepository
-			//	.GetByConditionAsync(
-			//		expression: x => x.MD5Hash.SequenceEqual(md5Hash),
-			//		trackChanges: true,
-			//		token: token,
-			//		includeProperties: [nameof(Document.DocumentUsers)])
-			//	.ConfigureAwait(false);
-
-			//if (entity is not null)
-			//{
-			//	if (entity.DocumentUsers.Select(x => x.UserId).Contains(userId))
-			//		// TODO: Conflict
-			//		throw new InvalidOperationException();
-
-			//	entity.DocumentUsers.Add(new() { UserId = userId, DocumentId = entity.Id });
-
-			//	_ = await repositoryService.CommitChangesAsync(token)
-			//		.ConfigureAwait(false);
-
-			//	return Result.Created;
-			//}
-
-			//Document document = mapper.Map<Document>(request);
-			//document.DocumentUsers = [new() { UserId = userId, Document = document }];
-
-			//await repositoryService.DocumentRepository.CreateAsync(document, token)
-			//	.ConfigureAwait(false);
+			await repositoryService.DocumentRepository.CreateAsync(document, token)
+				.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -78,37 +55,19 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			//var md5Hashs = requests.Select(x => x.Data.GetMD5());
+			if (requests.Any().IsFalse())
+				// TODO: BadRequest
+				throw new InvalidOperationException();
 
-			//IEnumerable<Document> entities = await repositoryService.DocumentRepository
-			//	.GetManyByConditionAsync(
-			//		expression: x => md5Hashs.Contains(x.MD5Hash),
-			//		trackChanges: true,
-			//		token: token,
-			//		includeProperties: [nameof(Document.DocumentUsers)])
-			//	.ConfigureAwait(false);
+			List<Document> documents = [];
 
-			//if (entities.Any())
-			//{
-			//	if (entities.SelectMany(x => x.DocumentUsers).Select(x => x.UserId).Contains(userId))
-			//		// TODO: Conflict
-			//		throw new InvalidOperationException();
+			foreach (DocumentCreateRequest request in requests)
+			{
+				Document document = await PrepareDocumentForCreate(userId, request, token)
+					.ConfigureAwait(false);
 
-			//	foreach (Document entity in entities)
-			//		entity.DocumentUsers.Add(new() { UserId = userId, DocumentId = entity.Id });
-			//}
-
-			//IEnumerable<DocumentCreateRequest> leftOvers = requests
-			//	.Where(x => entities.Select(x => x.MD5Hash).Contains([]).IsFalse());
-
-			//foreach (DocumentCreateRequest leftOver in leftOvers)
-			//{
-			//	Document document = mapper.Map<Document>(leftOver);
-			//	document.DocumentUsers = [new() { UserId = userId, Document = document }];
-
-			//	await repositoryService.DocumentRepository.CreateAsync(document, token)
-			//		.ConfigureAwait(false);
-			//}
+				documents.Add(document);
+			}
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -312,5 +271,37 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			// TODO: Failed
 			throw new InvalidDataException();
 		}
+	}
+
+	private async Task<Document> PrepareDocumentForCreate(Guid userId, DocumentCreateRequest request, CancellationToken token)
+	{
+		byte[] md5Hash = request.Data.GetMD5();
+
+		Data? dataEntity = await repositoryService.DocumentDataRepository
+			.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), token: token)
+			.ConfigureAwait(false);
+
+		dataEntity ??= new() { MD5Hash = md5Hash, Length = request.Data.LongLength, Content = request.Data };
+
+		Extension? extensionEntity = await repositoryService.DocumentExtensionRepository
+			.GetByConditionAsync(x => x.Name == request.Extension, token: token)
+			.ConfigureAwait(false);
+
+		if (extensionEntity is null)
+		{
+			string fullFileName = $"{request.Name}.{request.Extension}";
+			extensionEntity = new()
+			{
+				Name = request.Extension,
+				MimeType = MimeTypesMap.GetMimeType(fullFileName)
+			};
+		}
+
+		Document document = mapper.Map<Document>(request);
+		document.Extension = extensionEntity;
+		document.DocumentDatas = [new() { Document = document, Data = dataEntity }];
+		document.DocumentUsers = [new() { Document = document, UserId = userId }];
+
+		return document;
 	}
 }

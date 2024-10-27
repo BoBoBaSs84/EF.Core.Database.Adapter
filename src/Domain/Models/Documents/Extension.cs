@@ -20,5 +20,5 @@ public sealed class Extension : AuditedModel
 	/// <summary>
 	/// The navigational <see cref="Documents"/> property.
 	/// </summary>
-	public required ICollection<Document> Documents { get; set; }
+	public ICollection<Document> Documents { get; set; } = default!;
 }

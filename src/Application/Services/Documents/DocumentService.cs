@@ -30,33 +30,35 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			Document? entity = await repositoryService.DocumentRepository
-				.GetByConditionAsync(
-					expression: x => x.MD5Hash.SequenceEqual(request.MD5Hash),
-					trackChanges: true,
-					token: token,
-					includeProperties: [nameof(Document.DocumentUsers)])
-				.ConfigureAwait(false);
+			//byte[] md5Hash = request.Data.GetMD5();
 
-			if (entity is not null)
-			{
-				if (entity.DocumentUsers.Select(x => x.UserId).Contains(userId))
-					// TODO: Conflict
-					throw new InvalidOperationException();
+			//Document? entity = await repositoryService.DocumentRepository
+			//	.GetByConditionAsync(
+			//		expression: x => x.MD5Hash.SequenceEqual(md5Hash),
+			//		trackChanges: true,
+			//		token: token,
+			//		includeProperties: [nameof(Document.DocumentUsers)])
+			//	.ConfigureAwait(false);
 
-				entity.DocumentUsers.Add(new() { UserId = userId, DocumentId = entity.Id });
+			//if (entity is not null)
+			//{
+			//	if (entity.DocumentUsers.Select(x => x.UserId).Contains(userId))
+			//		// TODO: Conflict
+			//		throw new InvalidOperationException();
 
-				_ = await repositoryService.CommitChangesAsync(token)
-					.ConfigureAwait(false);
+			//	entity.DocumentUsers.Add(new() { UserId = userId, DocumentId = entity.Id });
 
-				return Result.Created;
-			}
+			//	_ = await repositoryService.CommitChangesAsync(token)
+			//		.ConfigureAwait(false);
 
-			Document document = mapper.Map<Document>(request);
-			document.DocumentUsers = [new() { UserId = userId, Document = document }];
+			//	return Result.Created;
+			//}
 
-			await repositoryService.DocumentRepository.CreateAsync(document, token)
-				.ConfigureAwait(false);
+			//Document document = mapper.Map<Document>(request);
+			//document.DocumentUsers = [new() { UserId = userId, Document = document }];
+
+			//await repositoryService.DocumentRepository.CreateAsync(document, token)
+			//	.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -76,35 +78,37 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			IEnumerable<Document> entities = await repositoryService.DocumentRepository
-				.GetManyByConditionAsync(
-					expression: x => requests.Select(x => x.MD5Hash).Contains(x.MD5Hash),
-					trackChanges: true,
-					token: token,
-					includeProperties: [nameof(Document.DocumentUsers)])
-				.ConfigureAwait(false);
+			//var md5Hashs = requests.Select(x => x.Data.GetMD5());
 
-			if (entities.Any())
-			{
-				if (entities.SelectMany(x => x.DocumentUsers).Select(x => x.UserId).Contains(userId))
-					// TODO: Conflict
-					throw new InvalidOperationException();
+			//IEnumerable<Document> entities = await repositoryService.DocumentRepository
+			//	.GetManyByConditionAsync(
+			//		expression: x => md5Hashs.Contains(x.MD5Hash),
+			//		trackChanges: true,
+			//		token: token,
+			//		includeProperties: [nameof(Document.DocumentUsers)])
+			//	.ConfigureAwait(false);
 
-				foreach (Document entity in entities)
-					entity.DocumentUsers.Add(new() { UserId = userId, DocumentId = entity.Id });
-			}
+			//if (entities.Any())
+			//{
+			//	if (entities.SelectMany(x => x.DocumentUsers).Select(x => x.UserId).Contains(userId))
+			//		// TODO: Conflict
+			//		throw new InvalidOperationException();
 
-			IEnumerable<DocumentCreateRequest> leftOvers = requests
-				.Where(x => entities.Select(x => x.MD5Hash).Contains(x.MD5Hash).IsFalse());
+			//	foreach (Document entity in entities)
+			//		entity.DocumentUsers.Add(new() { UserId = userId, DocumentId = entity.Id });
+			//}
 
-			foreach (DocumentCreateRequest leftOver in leftOvers)
-			{
-				Document document = mapper.Map<Document>(leftOver);
-				document.DocumentUsers = [new() { UserId = userId, Document = document }];
+			//IEnumerable<DocumentCreateRequest> leftOvers = requests
+			//	.Where(x => entities.Select(x => x.MD5Hash).Contains([]).IsFalse());
 
-				await repositoryService.DocumentRepository.CreateAsync(document, token)
-					.ConfigureAwait(false);
-			}
+			//foreach (DocumentCreateRequest leftOver in leftOvers)
+			//{
+			//	Document document = mapper.Map<Document>(leftOver);
+			//	document.DocumentUsers = [new() { UserId = userId, Document = document }];
+
+			//	await repositoryService.DocumentRepository.CreateAsync(document, token)
+			//		.ConfigureAwait(false);
+			//}
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -222,7 +226,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				.GetByConditionAsync(
 					expression: x => x.Id.Equals(documentId) && x.DocumentUsers.Select(x => x.UserId).Contains(userId),
 					token: token,
-					includeProperties: [nameof(Document.Data), nameof(Document.Extension)])
+					includeProperties: [nameof(Document.DocumentDatas), nameof(DocumentData.Data), nameof(Document.Extension)])
 				.ConfigureAwait(false);
 
 			if (entity is null)

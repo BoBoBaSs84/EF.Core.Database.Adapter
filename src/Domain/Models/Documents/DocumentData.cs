@@ -1,23 +1,21 @@
 ﻿using BB84.EntityFrameworkCore.Models;
 
-using Domain.Models.Identity;
-
 namespace Domain.Models.Documents;
 
 /// <summary>
-/// The document to user entity.
+/// The document to data entity.
 /// </summary>
-public sealed class DocumentUser : AuditedModel
+public sealed class DocumentData : AuditedModel
 {
 	/// <summary>
 	/// The <see cref="DocumentId"/> property.
 	/// </summary>
-	public Guid DocumentId { get; set; }
+	public Guid DocumentId { get; set; } = default!;
 
 	/// <summary>
-	/// The <see cref="UserId"/> property.
+	/// The <see cref="DataId"/> property.
 	/// </summary>
-	public Guid UserId { get; set; }
+	public Guid DataId { get; set; } = default!;
 
 	/// <summary>
 	/// The navigational <see cref="Document"/> property.
@@ -25,7 +23,7 @@ public sealed class DocumentUser : AuditedModel
 	public Document Document { get; set; } = default!;
 
 	/// <summary>
-	/// The navigational <see cref="User"/> property.
+	/// The navigational <see cref="Data"/> property.
 	/// </summary>
-	public UserModel User { get; set; } = default!;
+	public Data Data { get; set; } = default!;
 }

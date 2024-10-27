@@ -8,17 +8,22 @@ namespace Domain.Models.Documents;
 public sealed class Data : AuditedModel
 {
 	/// <summary>
-	/// The actual data of the document.
+	/// The <b>Message-Digest Algorithm 5</b> of the data.
 	/// </summary>
-	public required byte[] RawData { get; set; }
+	public required byte[] MD5Hash { get; set; }
 
 	/// <summary>
-	/// The document identifier the data belongs to.
+	/// The length of the data content.
 	/// </summary>
-	public required Guid DocumentId { get; set; }
+	public required long Length { get; set; }
 
 	/// <summary>
-	/// The navigational <see cref="Document"/> property.
+	/// The actual content of the data.
 	/// </summary>
-	public required Document Document { get; set; }
+	public required byte[] Content { get; set; }
+
+	/// <summary>
+	/// The navigational <see cref="DocumentDatas"/> property.
+	/// </summary>
+	public ICollection<DocumentData> DocumentDatas { get; set; } = default!;
 }

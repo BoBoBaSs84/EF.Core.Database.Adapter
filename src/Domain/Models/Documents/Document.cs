@@ -1,7 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Models;
 
 using Domain.Enumerators.Documents;
-using Domain.Models.Todo;
 
 namespace Domain.Models.Documents;
 
@@ -19,11 +18,6 @@ public sealed class Document : AuditedModel
 	/// The directory of the document.
 	/// </summary>
 	public required string Directory { get; set; }
-
-	/// <summary>
-	/// The data length of the document.
-	/// </summary>
-	public required long Length { get; set; }
 
 	/// <summary>
 	/// The flags the of the document.
@@ -46,27 +40,22 @@ public sealed class Document : AuditedModel
 	public DateTime? LastAccessTime { get; set; }
 
 	/// <summary>
-	/// The <b>Message-Digest Algorithm 5</b> of the document.
-	/// </summary>
-	public required byte[] MD5Hash { get; set; }
-
-	/// <summary>
 	/// The extension identifier of the document.
 	/// </summary>
-	public required Guid ExtensionId { get; set; }
-
-	/// <summary>
-	/// The navigational <see cref="Data"/> property.
-	/// </summary>
-	public required Data Data { get; set; }
+	public Guid ExtensionId { get; set; } = default!;
 
 	/// <summary>
 	/// The navigational <see cref="Extension"/> property.
 	/// </summary>
-	public required Extension Extension { get; set; }
+	public Extension Extension { get; set; } = default!;
+
+	/// <summary>
+	/// The navigational <see cref="DocumentDatas"/> property.
+	/// </summary>
+	public ICollection<DocumentData> DocumentDatas { get; set; } = default!;
 
 	/// <summary>
 	/// The navigational <see cref="DocumentUsers"/> property.
 	/// </summary>
-	public required ICollection<DocumentUser> DocumentUsers { get; set; }
+	public ICollection<DocumentUser> DocumentUsers { get; set; } = default!;
 }

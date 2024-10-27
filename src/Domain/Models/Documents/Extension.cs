@@ -13,6 +13,11 @@ public sealed class Extension : AuditedModel
 	public required string Name { get; set; }
 
 	/// <summary>
+	/// The mime type of the document extenion.
+	/// </summary>
+	public string? MimeType { get; set; }
+
+	/// <summary>
 	/// The navigational <see cref="Documents"/> property.
 	/// </summary>
 	public required ICollection<Document> Documents { get; set; }

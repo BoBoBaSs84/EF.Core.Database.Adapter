@@ -29,7 +29,7 @@ public interface IDocumentService
 	/// <param name="requests">The document create requests to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Created>> CreateMultiple(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default);
 
 	/// <summary>
 	/// Deletes an existing document by the <paramref name="userId"/> and the provided <paramref name="documentId"/>.

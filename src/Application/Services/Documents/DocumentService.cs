@@ -1,5 +1,6 @@
 ﻿using Application.Common;
 using Application.Contracts.Requests.Documents;
+using Application.Contracts.Requests.Documents.Base;
 using Application.Contracts.Responses.Documents;
 using Application.Features.Requests;
 using Application.Features.Responses;
@@ -51,7 +52,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateMultiple(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
@@ -214,18 +215,21 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			Document? entity = await repositoryService.DocumentRepository
+			Document? document = await repositoryService.DocumentRepository
 				.GetByConditionAsync(
 					expression: x => x.Id.Equals(request.Id) && x.DocumentUsers.Select(x => x.UserId).Contains(userId),
 					trackChanges: true,
-					token: token)
+					token: token,
+					includeProperties: [nameof(Document.Extension), nameof(Document.DocumentDatas)]
+					)
 				.ConfigureAwait(false);
 
-			if (entity is null)
+			if (document is null)
 				// TODO: NotFound
 				throw new InvalidDataException();
 
-			_ = mapper.Map(request, entity);
+			document = await PrepareDocumentForUpdate(document, request, token)
+				.ConfigureAwait(false);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -245,19 +249,29 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
-			IEnumerable<Document> entities = await repositoryService.DocumentRepository
+			if (requests.Any().IsFalse())
+				// TODO: BadRequest
+				throw new InvalidOperationException();
+
+			IEnumerable<Document> documents = await repositoryService.DocumentRepository
 				.GetManyByConditionAsync(
 					expression: x => requests.Select(x => x.Id).Contains(x.Id) && x.DocumentUsers.Select(x => x.UserId).Contains(userId),
 					trackChanges: true,
-					token: token)
+					token: token,
+					includeProperties: [nameof(Document.Extension), nameof(Document.DocumentDatas)])
 				.ConfigureAwait(false);
 
-			if (entities.Any().IsFalse())
+			if (documents.Any().IsFalse())
 				// TODO: NotFound
 				throw new InvalidDataException();
 
-			foreach (Document entity in entities)
-				_ = mapper.Map(requests.Single(x => x.Id.Equals(entity.Id)), entity);
+			foreach (Document document in documents)
+			{
+				DocumentUpdateRequest request = requests.Single(x => x.Id.Equals(document.Id));
+
+				_ = await PrepareDocumentForUpdate(document, request, token)
+					.ConfigureAwait(false);
+			}
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -275,33 +289,68 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 
 	private async Task<Document> PrepareDocumentForCreate(Guid userId, DocumentCreateRequest request, CancellationToken token)
 	{
-		byte[] md5Hash = request.Data.GetMD5();
-
-		Data? dataEntity = await repositoryService.DocumentDataRepository
-			.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), token: token)
+		Data data = await PrepareDocumentData(request, token)
 			.ConfigureAwait(false);
 
-		dataEntity ??= new() { MD5Hash = md5Hash, Length = request.Data.LongLength, Content = request.Data };
+		Extension extensionEntity = await PrepareDocumentExtension(request, token)
+			.ConfigureAwait(false);
 
-		Extension? extensionEntity = await repositoryService.DocumentExtensionRepository
+		Document document = mapper.Map<Document>(request);
+		document.Extension = extensionEntity;
+		document.DocumentDatas = [new() { Document = document, Data = data }];
+		document.DocumentUsers = [new() { Document = document, UserId = userId }];
+
+		return document;
+	}
+
+	private async Task<Document> PrepareDocumentForUpdate(Document document, DocumentUpdateRequest request, CancellationToken token)
+	{
+		_ = mapper.Map(request, document);
+
+		Data data = await PrepareDocumentData(request, token)
+			.ConfigureAwait(false);
+
+		if (document.DocumentDatas.Select(x => x.DataId).Contains(data.Id).IsFalse())
+			document.DocumentDatas.Add(new() { Data = data, Document = document });
+
+		Extension extension = await PrepareDocumentExtension(request, token)
+			.ConfigureAwait(false);
+
+		if (document.Extension.Id.Equals(extension.Id).IsFalse())
+			document.Extension = extension;
+
+		return document;
+	}
+
+	private async Task<Extension> PrepareDocumentExtension(DocumentBaseRequest request, CancellationToken token)
+	{
+		Extension? extension = await repositoryService.DocumentExtensionRepository
 			.GetByConditionAsync(x => x.Name == request.Extension, token: token)
 			.ConfigureAwait(false);
 
-		if (extensionEntity is null)
+		if (extension is null)
 		{
 			string fullFileName = $"{request.Name}.{request.Extension}";
-			extensionEntity = new()
+			extension = new()
 			{
 				Name = request.Extension,
 				MimeType = MimeTypesMap.GetMimeType(fullFileName)
 			};
 		}
 
-		Document document = mapper.Map<Document>(request);
-		document.Extension = extensionEntity;
-		document.DocumentDatas = [new() { Document = document, Data = dataEntity }];
-		document.DocumentUsers = [new() { Document = document, UserId = userId }];
+		return extension;
+	}
 
-		return document;
+	private async Task<Data> PrepareDocumentData(DocumentBaseRequest request, CancellationToken token)
+	{
+		byte[] md5Hash = request.Data.GetMD5();
+
+		Data? data = await repositoryService.DocumentDataRepository
+			.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), token: token)
+			.ConfigureAwait(false);
+
+		data ??= new() { MD5Hash = md5Hash, Length = request.Data.LongLength, Content = request.Data };
+
+		return data;
 	}
 }

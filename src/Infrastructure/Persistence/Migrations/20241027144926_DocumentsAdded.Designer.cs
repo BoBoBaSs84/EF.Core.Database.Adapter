@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241024173102_DocumentsUpdate")]
-    partial class DocumentsUpdate
+    [Migration("20241027144926_DocumentsAdded")]
+    partial class DocumentsAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,13 +109,21 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnOrder(1)
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("sysname")
                         .HasColumnOrder(3);
 
-                    b.Property<Guid>("DocumentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("Length")
+                        .HasColumnType("bigint");
+
+                    b.Property<byte[]>("MD5Hash")
+                        .IsRequired()
+                        .HasColumnType("binary(16)");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("sysname")
@@ -131,10 +139,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
 
-                    b.Property<byte[]>("RawData")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
                         .IsRequired()
@@ -146,8 +150,10 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("DocumentId")
+                    b.HasIndex("MD5Hash")
                         .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("MD5Hash"), false);
 
                     b.ToTable("Data", "documents");
 
@@ -179,6 +185,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("smalldatetime");
 
+                    b.Property<Guid>("DataId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Directory")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -196,13 +205,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<DateTime?>("LastWriteTime")
                         .HasColumnType("smalldatetime");
-
-                    b.Property<long>("Length")
-                        .HasColumnType("bigint");
-
-                    b.Property<byte[]>("MD5Hash")
-                        .IsRequired()
-                        .HasColumnType("binary(16)");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("sysname")
@@ -235,12 +237,9 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
+                    b.HasIndex("DataId");
+
                     b.HasIndex("ExtensionId");
-
-                    b.HasIndex("MD5Hash")
-                        .IsUnique();
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("MD5Hash"), false);
 
                     b.ToTable("Document", "documents");
 
@@ -258,23 +257,20 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Documents.DocumentUser", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1)
-                        .HasDefaultValueSql("NEWID()");
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("sysname")
-                        .HasColumnOrder(3);
-
-                    b.Property<Guid>("DocumentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnOrder(4);
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("sysname")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -291,16 +287,11 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(3);
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("DocumentId", "UserId");
 
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.HasIndex("DocumentId");
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("DocumentId", "UserId"), false);
 
                     b.HasIndex("UserId");
 
@@ -331,6 +322,10 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("sysname")
                         .HasColumnOrder(3);
 
+                    b.Property<string>("MimeType")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("sysname")
                         .HasColumnOrder(4);
@@ -360,6 +355,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Name"), false);
 
                     b.ToTable("Extension", "documents");
 
@@ -886,21 +886,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6a66895e-d416-436c-b253-1dfea052da76"),
+                            Id = new Guid("6bf52be8-4f1a-45e9-a7dd-7fbff24ad721"),
                             Description = "This is the ultimate god role ... so to say.",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("9b4eb4e6-4146-40c1-9abb-4127bff643d8"),
+                            Id = new Guid("6aec2463-82ed-4f21-93e3-0d0822a24c1a"),
                             Description = "This is a normal user with normal user rights.",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("9925fa94-b7f2-4c64-97ec-7bd5104550fd"),
+                            Id = new Guid("ee9e53f7-b9a1-4748-8f67-e12ea12568f5"),
                             Description = "The user with extended user rights.",
                             Name = "Super user",
                             NormalizedName = "SUPERUSER"
@@ -1381,24 +1381,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.Documents.Data", b =>
+            modelBuilder.Entity("Domain.Models.Documents.Document", b =>
                 {
-                    b.HasOne("Domain.Models.Documents.Document", "Document")
-                        .WithOne("Data")
-                        .HasForeignKey("Domain.Models.Documents.Data", "DocumentId")
+                    b.HasOne("Domain.Models.Documents.Data", "Data")
+                        .WithMany("Documents")
+                        .HasForeignKey("DataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Document");
-                });
-
-            modelBuilder.Entity("Domain.Models.Documents.Document", b =>
-                {
                     b.HasOne("Domain.Models.Documents.Extension", "Extension")
                         .WithMany("Documents")
                         .HasForeignKey("ExtensionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Data");
 
                     b.Navigation("Extension");
                 });
@@ -1591,11 +1588,13 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Models.Documents.Data", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
             modelBuilder.Entity("Domain.Models.Documents.Document", b =>
                 {
-                    b.Navigation("Data")
-                        .IsRequired();
-
                     b.Navigation("DocumentUsers");
                 });
 

@@ -73,7 +73,7 @@ public sealed partial class DocumentServiceTests
 		Guid userId = Guid.NewGuid();
 		DocumentCreateRequest request = RequestHelper.GetDocumentCreateRequest();
 		IEnumerable<DocumentCreateRequest> requests = [request];
-		byte[] md5Hash = request.Data.GetMD5();
+		byte[] md5Hash = request.Content.GetMD5();
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
 		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, default))
 			.Returns(Task.FromResult<Extension?>(null));

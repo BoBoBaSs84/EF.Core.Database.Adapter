@@ -31,7 +31,7 @@ public sealed class DocumentBaseRequestValidator : AbstractValidator<DocumentBas
 		RuleFor(x => x.CreationTime)
 			.NotEmpty();
 
-		RuleFor(x => x.Data)
+		RuleFor(x => x.Content)
 			.NotEmpty();
 	}
 }

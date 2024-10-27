@@ -10,17 +10,17 @@ public sealed class Data : AuditedModel
 	/// <summary>
 	/// The <b>Message-Digest Algorithm 5</b> of the data.
 	/// </summary>
-	public required byte[] MD5Hash { get; set; }
+	public byte[] MD5Hash { get; set; } = default!;
 
 	/// <summary>
 	/// The length of the data content.
 	/// </summary>
-	public required long Length { get; set; }
+	public long Length { get; set; } = default!;
 
 	/// <summary>
 	/// The actual content of the data.
 	/// </summary>
-	public required byte[] Content { get; set; }
+	public byte[] Content { get; set; } = default!;
 
 	/// <summary>
 	/// The navigational <see cref="Documents"/> property.

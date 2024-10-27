@@ -53,5 +53,5 @@ public abstract class DocumentBaseRequest
 	/// The actual data of the document.
 	/// </summary>
 	[Required]
-	public required byte[] Data { get; init; }
+	public required byte[] Content { get; init; }
 }

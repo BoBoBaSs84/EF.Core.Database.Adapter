@@ -342,7 +342,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 
 	private async Task<Data> PrepareDocumentData(DocumentBaseRequest request, CancellationToken token)
 	{
-		byte[] md5Hash = request.Data.GetMD5();
+		byte[] md5Hash = request.Content.GetMD5();
 
 		Data? data = await repositoryService.DocumentDataRepository
 			.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), token: token)
@@ -351,8 +351,8 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		data ??= new()
 		{
 			MD5Hash = md5Hash,
-			Length = request.Data.LongLength,
-			Content = request.Data
+			Length = request.Content.LongLength,
+			Content = request.Content
 		};
 
 		return data;

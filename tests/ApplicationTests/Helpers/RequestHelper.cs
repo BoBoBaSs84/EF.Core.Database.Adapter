@@ -108,7 +108,7 @@ internal static class RequestHelper
 			CreationTime = DateTime.Today.AddDays(-2),
 			LastAccessTime = DateTime.Today,
 			LastWriteTime = DateTime.Today.AddDays(-1),
-			Data = [01, 12, 23, 34, 45, 56, 67, 78, 89, 90]
+			Content = [01, 12, 23, 34, 45, 56, 67, 78, 89, 90]
 		};
 
 		return request;

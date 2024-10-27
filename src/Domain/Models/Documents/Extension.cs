@@ -10,7 +10,7 @@ public sealed class Extension : AuditedModel
 	/// <summary>
 	/// The name of the document extenion.
 	/// </summary>
-	public required string Name { get; set; }
+	public string Name { get; set; } = default!;
 
 	/// <summary>
 	/// The mime type of the document extenion.

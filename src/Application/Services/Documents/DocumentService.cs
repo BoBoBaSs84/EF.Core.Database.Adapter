@@ -46,7 +46,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", $"{request.ToJson()}"];
+			string[] parameters = [$"{userId}", request.ToJson()];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 
 			string document = $"{request.Name}.{request.ExtensionName}";
@@ -81,7 +81,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", $"{requests.ToJson()}"];
+			string[] parameters = [$"{userId}", requests.ToJson()];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 
 			IEnumerable<string> documents = requests.Select(x => $"{x.Name}.{x.ExtensionName}");
@@ -189,7 +189,8 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogExceptionWithParams, $"{request.ToJson()}", ex);
+			string parameter = request.ToJson();
+			loggerService.Log(LogExceptionWithParams, parameter, ex);
 			return DocumentServiceErrors.UpdateByIdFailed(request.Id);
 		}
 	}
@@ -224,7 +225,8 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogExceptionWithParams, requests.ToJson(), ex);
+			string parameter = requests.ToJson();
+			loggerService.Log(LogExceptionWithParams, parameter, ex);
 			return DocumentServiceErrors.UpdateByIdsFailed(requests.Select(x => x.Id));
 		}
 	}

@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using Domain.Enumerators.Documents;
+
 using Application.Contracts.Requests.Attendance;
 using Application.Contracts.Requests.Documents;
 using Application.Contracts.Requests.Finance;
@@ -11,6 +11,7 @@ using BaseTests.Helpers;
 using BB84.Extensions;
 
 using Domain.Enumerators.Attendance;
+using Domain.Enumerators.Documents;
 using Domain.Enumerators.Finance;
 using Domain.Enumerators.Todo;
 
@@ -99,6 +100,7 @@ internal static class RequestHelper
 
 	internal static DocumentCreateRequest GetDocumentCreateRequest()
 	{
+		string content = RandomHelper.GetString(100);
 		DocumentCreateRequest request = new()
 		{
 			Name = RandomHelper.GetString(18),
@@ -108,7 +110,26 @@ internal static class RequestHelper
 			CreationTime = DateTime.Today.AddDays(-2),
 			LastAccessTime = DateTime.Today,
 			LastWriteTime = DateTime.Today.AddDays(-1),
-			Content = [01, 12, 23, 34, 45, 56, 67, 78, 89, 90]
+			Content = content.GetBytes()
+		};
+
+		return request;
+	}
+
+	internal static DocumentUpdateRequest GetDocumentUpdateRequest()
+	{
+		string content = RandomHelper.GetString(100);
+		DocumentUpdateRequest request = new()
+		{
+			Id = Guid.NewGuid(),
+			Name = RandomHelper.GetString(18),
+			ExtensionName = RandomHelper.GetString(3),
+			Directory = @"C:\",
+			Flags = DocumentTypes.None,
+			CreationTime = DateTime.Today.AddDays(-2),
+			LastAccessTime = DateTime.Today,
+			LastWriteTime = DateTime.Today.AddDays(-1),
+			Content = content.GetBytes()
 		};
 
 		return request;

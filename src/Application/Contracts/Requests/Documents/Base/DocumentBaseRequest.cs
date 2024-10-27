@@ -18,11 +18,6 @@ public abstract class DocumentBaseRequest
 	public required string Directory { get; init; }
 
 	/// <summary>
-	/// The data length of the document.
-	/// </summary>
-	public required long Length { get; init; }
-
-	/// <summary>
 	/// The flags the of the document.
 	/// </summary>
 	public required DocumentTypes Flags { get; init; }
@@ -41,16 +36,6 @@ public abstract class DocumentBaseRequest
 	/// The last acces date of the document.
 	/// </summary>
 	public DateTime? LastAccessTime { get; init; }
-
-	/// <summary>
-	/// The <b>Message-Digest Algorithm 5</b> of the document.
-	/// </summary>
-	public required byte[] MD5Hash { get; init; }
-
-	/// <summary>
-	/// The name of the document extenion.
-	/// </summary>
-	public required string ExtensionName { get; init; }
 
 	/// <summary>
 	/// The actual data of the document.

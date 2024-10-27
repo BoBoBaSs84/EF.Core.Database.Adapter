@@ -5,7 +5,7 @@ using Application.Contracts.Responses.Base;
 namespace Application.Contracts.Responses.Todo;
 
 /// <summary>
-/// The response fo the todo list.
+/// The response for the todo list.
 /// </summary>
 public sealed class ListResponse : IdentityResponse
 {

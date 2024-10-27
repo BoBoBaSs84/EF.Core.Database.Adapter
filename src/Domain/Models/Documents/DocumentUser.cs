@@ -7,7 +7,7 @@ namespace Domain.Models.Documents;
 /// <summary>
 /// The document to user entity.
 /// </summary>
-public sealed class DocumentUser : AuditedModel
+public sealed class DocumentUser : AuditedCompositeModel
 {
 	/// <summary>
 	/// The <see cref="DocumentId"/> property.

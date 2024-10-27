@@ -23,7 +23,7 @@ public sealed class Data : AuditedModel
 	public required byte[] Content { get; set; }
 
 	/// <summary>
-	/// The navigational <see cref="DocumentDatas"/> property.
+	/// The navigational <see cref="Documents"/> property.
 	/// </summary>
-	public ICollection<DocumentData> DocumentDatas { get; set; } = default!;
+	public ICollection<Document> Documents { get; set; } = default!;
 }

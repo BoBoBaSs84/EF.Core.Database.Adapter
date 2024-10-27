@@ -32,7 +32,7 @@ internal sealed class ExtensionConfiguration : AuditedConfiguration<Extension>
 
 		builder.HasMany(e => e.Documents)
 			.WithOne(e => e.Extension)
-			.HasForeignKey(e => e.ExtensionId)
+			.HasForeignKey(fk => fk.ExtensionId)
 			.OnDelete(DeleteBehavior.Cascade)
 			.IsRequired();
 

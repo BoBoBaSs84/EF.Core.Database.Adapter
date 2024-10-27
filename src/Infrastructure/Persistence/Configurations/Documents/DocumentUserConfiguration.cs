@@ -12,7 +12,7 @@ namespace Infrastructure.Persistence.Configurations.Documents;
 
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, entity type configuration.")]
-internal sealed class DocumentUserConfiguration : AuditedConfiguration<DocumentUser>
+internal sealed class DocumentUserConfiguration : AuditedCompositeConfiguration<DocumentUser>
 {
 	public override void Configure(EntityTypeBuilder<DocumentUser> builder)
 	{

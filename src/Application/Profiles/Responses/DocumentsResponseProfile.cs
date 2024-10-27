@@ -15,9 +15,9 @@ internal sealed class DocumentsResponseProfile : Profile
 	public DocumentsResponseProfile()
 	{
 		CreateMap<Document, DocumentResponse>()
-			.ForMember(dest => dest.MD5Hash, opt => opt.MapFrom(src => src.DocumentDatas.FirstOrDefault().Data.MD5Hash))
-			.ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.DocumentDatas.FirstOrDefault().Data.Length))
-			.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.DocumentDatas.FirstOrDefault().Data.Content))
+			.ForMember(dest => dest.MD5Hash, opt => opt.MapFrom(src => src.Data.MD5Hash))
+			.ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.Data.Length))
+			.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Data.Content))
 			.ForMember(dest => dest.ExtenionName, opt => opt.MapFrom(src => src.Extension.Name))
 			.ForMember(dest => dest.MimeType, opt => opt.MapFrom(src => src.Extension.MimeType));
 	}

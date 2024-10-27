@@ -32,6 +32,12 @@ internal sealed class DataConfiguration : AuditedConfiguration<Data>
 		builder.Property(p => p.Content)
 			.IsVarbinaryColumn();
 
+		builder.HasMany(e => e.Documents)
+			.WithOne(e => e.Data)
+			.HasForeignKey(fk => fk.DataId)
+			.OnDelete(DeleteBehavior.Cascade)
+			.IsRequired();
+
 		base.Configure(builder);
 	}
 }

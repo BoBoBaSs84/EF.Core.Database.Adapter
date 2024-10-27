@@ -191,7 +191,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				.GetByConditionAsync(
 					expression: x => x.Id.Equals(documentId) && x.DocumentUsers.Select(x => x.UserId).Contains(userId),
 					token: token,
-					includeProperties: [nameof(Document.DocumentDatas), nameof(DocumentData.Data), nameof(Document.Extension)])
+					includeProperties: [nameof(Document.Data), nameof(Document.Extension)])
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -223,7 +223,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 					expression: x => x.Id.Equals(request.Id) && x.DocumentUsers.Select(x => x.UserId).Contains(userId),
 					trackChanges: true,
 					token: token,
-					includeProperties: [nameof(Document.Extension), nameof(Document.DocumentDatas)]
+					includeProperties: [nameof(Document.Extension), nameof(Document.Data)]
 					)
 				.ConfigureAwait(false);
 
@@ -261,7 +261,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 					expression: x => requests.Select(x => x.Id).Contains(x.Id) && x.DocumentUsers.Select(x => x.UserId).Contains(userId),
 					trackChanges: true,
 					token: token,
-					includeProperties: [nameof(Document.Extension), nameof(Document.DocumentDatas)])
+					includeProperties: [nameof(Document.Extension), nameof(Document.Data)])
 				.ConfigureAwait(false);
 
 			if (documents.Any().IsFalse())
@@ -295,12 +295,12 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		Data data = await PrepareDocumentData(request, token)
 			.ConfigureAwait(false);
 
-		Extension extensionEntity = await PrepareDocumentExtension(request, token)
+		Extension extension = await PrepareDocumentExtension(request, token)
 			.ConfigureAwait(false);
 
 		Document document = mapper.Map<Document>(request);
-		document.Extension = extensionEntity;
-		document.DocumentDatas = [new() { Document = document, Data = data }];
+		document.Extension = extension;
+		document.Data = data;
 		document.DocumentUsers = [new() { Document = document, UserId = userId }];
 
 		return document;
@@ -313,8 +313,8 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		Data data = await PrepareDocumentData(request, token)
 			.ConfigureAwait(false);
 
-		if (document.DocumentDatas.Select(x => x.DataId).Contains(data.Id).IsFalse())
-			document.DocumentDatas.Add(new() { Data = data, Document = document });
+		if (document.Data.Id.Equals(data.Id).IsFalse())
+			document.Data = data;
 
 		Extension extension = await PrepareDocumentExtension(request, token)
 			.ConfigureAwait(false);

@@ -52,7 +52,7 @@ public sealed partial class DocumentServiceTests
 		Guid userId = Guid.NewGuid(), documentId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{documentId}"];
 		Mock<IDocumentRepository> docRepoMock = new();
-		string[] includes = [nameof(Document.DocumentDatas), nameof(DocumentData.Data), nameof(Document.Extension)];
+		string[] includes = [nameof(Document.Data), nameof(Document.Extension)];
 		docRepoMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(documentId) && x.DocumentUsers.Select(x => x.UserId).Contains(userId), default, default, default, default, includes))
 			.Returns(Task.FromResult<Document?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);

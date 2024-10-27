@@ -40,6 +40,11 @@ public sealed class Document : AuditedModel
 	public DateTime? LastAccessTime { get; set; }
 
 	/// <summary>
+	/// The data identifier of the document.
+	/// </summary>
+	public Guid DataId { get; set; }
+
+	/// <summary>
 	/// The extension identifier of the document.
 	/// </summary>
 	public Guid ExtensionId { get; set; } = default!;
@@ -50,9 +55,9 @@ public sealed class Document : AuditedModel
 	public Extension Extension { get; set; } = default!;
 
 	/// <summary>
-	/// The navigational <see cref="DocumentDatas"/> property.
+	/// The navigational <see cref="Data"/> property.
 	/// </summary>
-	public ICollection<DocumentData> DocumentDatas { get; set; } = default!;
+	public Data Data { get; set; } = default!;
 
 	/// <summary>
 	/// The navigational <see cref="DocumentUsers"/> property.

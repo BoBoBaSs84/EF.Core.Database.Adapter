@@ -12,25 +12,24 @@ namespace Infrastructure.Persistence.Configurations.Documents;
 
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, entity type configuration.")]
-internal sealed class DataConfiguration : AuditedConfiguration<Data>
+internal sealed class DocumentDataConfiguration : AuditedConfiguration<DocumentData>
 {
-	public override void Configure(EntityTypeBuilder<Data> builder)
+	public override void Configure(EntityTypeBuilder<DocumentData> builder)
 	{
-		builder.ToHistoryTable(nameof(Data), SqlSchema.Documents, SqlSchema.History);
+		builder.ToHistoryTable(nameof(DocumentData), SqlSchema.Documents, SqlSchema.History);
 
-		builder.Property(p => p.MD5Hash)
-			.IsBinaryColumn(16)
+		builder.HasKey(k => new { k.DocumentId, k.DataId })
+			.IsClustered(false);
+
+		builder.HasOne(e => e.Document)
+			.WithMany(e => e.DocumentDatas)
+			.OnDelete(DeleteBehavior.Cascade)
 			.IsRequired();
 
-		builder.HasIndex(i => i.MD5Hash)
-			.IsClustered(false)
-			.IsUnique(true);
-
-		builder.Property(p => p.Length)
+		builder.HasOne(e => e.Data)
+			.WithMany(e => e.DocumentDatas)
+			.OnDelete(DeleteBehavior.Cascade)
 			.IsRequired();
-
-		builder.Property(p => p.Content)
-			.IsVarbinaryColumn();
 
 		base.Configure(builder);
 	}

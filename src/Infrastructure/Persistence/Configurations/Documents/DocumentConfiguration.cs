@@ -3,7 +3,6 @@ using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
 using Domain.Models.Documents;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Infrastructure.Common.InfrastructureConstants;
@@ -28,9 +27,6 @@ internal sealed class DocumentConfiguration : AuditedConfiguration<Document>
 			.IsRequired()
 			.IsUnicode();
 
-		builder.Property(p => p.Length)
-			.IsRequired();
-
 		builder.Property(p => p.Flags)
 			.IsRequired();
 
@@ -46,14 +42,6 @@ internal sealed class DocumentConfiguration : AuditedConfiguration<Document>
 			.IsDateTimeColumn(true)
 			.IsRequired(false);
 
-		builder.Property(p => p.MD5Hash)
-			.IsBinaryColumn(16)
-			.IsRequired();
-
-		builder.HasIndex(i => i.MD5Hash)
-			.IsClustered(false)
-			.IsUnique(true);
-		
 		base.Configure(builder);
 	}
 }

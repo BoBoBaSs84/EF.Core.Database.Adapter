@@ -21,15 +21,15 @@ internal sealed class DocumentUserConfiguration : AuditedConfiguration<DocumentU
 		builder.HasKey(k => new { k.DocumentId, k.UserId })
 			.IsClustered(false);
 
-		builder.HasOne(e => e.User)
-			.WithMany(e => e.DocumentUsers)
-			.HasForeignKey(e => e.UserId)
-			.OnDelete(DeleteBehavior.Cascade)
-			.IsRequired();
-
 		builder.HasOne(e => e.Document)
 			.WithMany(e => e.DocumentUsers)
 			.HasForeignKey(e => e.DocumentId)
+			.OnDelete(DeleteBehavior.Cascade)
+			.IsRequired();
+
+		builder.HasOne(e => e.User)
+			.WithMany(e => e.DocumentUsers)
+			.HasForeignKey(e => e.UserId)
 			.OnDelete(DeleteBehavior.Cascade)
 			.IsRequired();
 

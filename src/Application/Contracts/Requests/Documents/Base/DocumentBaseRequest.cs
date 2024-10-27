@@ -1,4 +1,6 @@
-﻿using Domain.Enumerators.Documents;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Domain.Enumerators.Documents;
 
 namespace Application.Contracts.Requests.Documents.Base;
 
@@ -10,21 +12,25 @@ public abstract class DocumentBaseRequest
 	/// <summary>
 	/// The name of the document.
 	/// </summary>
+	[Required]
 	public required string Name { get; init; }
 
 	/// <summary>
 	/// The directory of the document.
 	/// </summary>
+	[Required]
 	public required string Directory { get; init; }
 
 	/// <summary>
 	/// The flags the of the document.
 	/// </summary>
+	[Required]
 	public required DocumentTypes Flags { get; init; }
 
 	/// <summary>
 	/// The creation date of the document.
 	/// </summary>
+	[Required]
 	public required DateTime CreationTime { get; init; }
 
 	/// <summary>
@@ -40,5 +46,6 @@ public abstract class DocumentBaseRequest
 	/// <summary>
 	/// The actual data of the document.
 	/// </summary>
+	[Required]
 	public required byte[] Data { get; init; }
 }

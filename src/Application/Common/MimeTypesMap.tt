@@ -1,0 +1,86 @@
+﻿﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Net" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ output extension=".cs" #>
+<# var mimeTypes = GetMimeTypeList(); #>
+namespace Application.Common;
+
+/// <summary>
+/// Static class for MimeTypes mappings
+/// </summary>
+public static class MimeTypesMap
+{
+	private const string DefaultExtension = "bin";
+	private const string DefaultMimeType = "application/octet-stream";
+
+	// http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+	private static readonly Lazy<Dictionary<string, string>> MimeTypeMap = new(() => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+	{
+<# foreach (var t in mimeTypes) { #>
+		["<#= t.Key #>"] = "<#= t.Value #>",
+<# } #>
+	});
+
+	/// <summary>
+	/// Gets the extension of a mime type
+	/// </summary>
+	public static string GetExtension(string mime)
+	{
+		return MimeTypeMap.Value.FirstOrDefault(x => x.Value.Contains(mime)) is KeyValuePair<string, string> extItem
+			? extItem.Key
+			: DefaultExtension;
+	}
+
+	/// <summary>
+	/// Gets the mime type from the filename (extension included)
+	/// </summary>
+	public static string GetMimeType(string fileName)
+	{
+		string ext = fileName;
+		int index = ext.LastIndexOf('.');
+
+		if (index != -1 && ext.Length > index + 1)
+			ext = fileName[(index + 1)..].ToLowerInvariant();
+
+		return MimeTypeMap.Value.TryGetValue(ext, out string? result)
+			? result
+			: DefaultMimeType;
+	}
+
+	/// <summary>
+	/// Adds or updates the mappings
+	/// </summary>
+	public static void AddOrUpdate(string mime, string extension)
+		=> MimeTypeMap.Value[extension] = mime;
+}
+<#+
+private static Dictionary<string, string> GetMimeTypeList()
+{
+	using (var client = new WebClient())
+	{
+		var res = client.DownloadString(new Uri("http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types"));
+		var tempDict = new Dictionary<string, string>();
+		using (var reader = new StringReader(res))
+		{
+			string line;
+			while ((line = reader.ReadLine()) != null)
+			{
+				if (line.Trim().StartsWith("#")) continue;
+				var parts = Regex.Split(line, @"\s+");
+				if (parts.Length < 2) continue;
+				for (int i = 1; i < parts.Length; i++)
+				{
+					if (tempDict.ContainsKey(parts[i])) continue;
+					tempDict.Add(parts[i], parts[0]);
+				}
+			}
+		}
+		return tempDict;
+	}
+}
+#>

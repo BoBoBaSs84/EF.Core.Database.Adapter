@@ -30,6 +30,11 @@ public interface IRepositoryService
 	IDocumentRepository DocumentRepository { get; }
 
 	/// <summary>
+	///  The document data repository instance.
+	/// </summary>
+	IDocumentDataRepository DocumentDataRepository { get; }
+
+	/// <summary>
 	/// The transaction repository instance.
 	/// </summary>
 	ITransactionRepository TransactionRepository { get; }

@@ -25,6 +25,7 @@ public sealed class RepositoryServiceTests : InfrastructureTestBase
 		service.AttendanceRepository.Should().NotBeNull();
 		service.CardRepository.Should().NotBeNull();
 		service.DocumentRepository.Should().NotBeNull();
+		service.DocumentDataRepository.Should().NotBeNull();
 		service.TodoItemRepository.Should().NotBeNull();
 		service.TodoListRepository.Should().NotBeNull();
 		service.TransactionRepository.Should().NotBeNull();

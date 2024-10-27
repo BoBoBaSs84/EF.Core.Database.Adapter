@@ -24,6 +24,7 @@ internal sealed class RepositoryService : IRepositoryService
 	private readonly Lazy<IAttendanceRepository> _lazyAttendanceRepository;
 	private readonly Lazy<ICardRepository> _lazyCardRepository;
 	private readonly Lazy<IDocumentRepository> _lazyDocumentRepository;
+	private readonly Lazy<IDocumentDataRepository> _lazyDocumentDataRepository;
 	private readonly Lazy<IItemRepository> _lazyTodoItemRepository;
 	private readonly Lazy<IListRepository> _lazyTodoListRepository;
 	private readonly Lazy<ITransactionRepository> _lazyTransactionRepository;
@@ -40,6 +41,7 @@ internal sealed class RepositoryService : IRepositoryService
 		_lazyAttendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(_context));
 		_lazyCardRepository = new Lazy<ICardRepository>(() => new CardRepository(_context));
 		_lazyDocumentRepository = new Lazy<IDocumentRepository>(() => new DocumentRepository(_context));
+		_lazyDocumentDataRepository = new Lazy<IDocumentDataRepository>(() => new DocumentDataRepository(_context));
 		_lazyTodoItemRepository = new Lazy<IItemRepository>(() => new ItemRepository(_context));
 		_lazyTodoListRepository = new Lazy<IListRepository>(() => new ListRepository(_context));
 		_lazyTransactionRepository = new Lazy<ITransactionRepository>(() => new TransactionRepository(_context));
@@ -49,6 +51,7 @@ internal sealed class RepositoryService : IRepositoryService
 	public IAttendanceRepository AttendanceRepository => _lazyAttendanceRepository.Value;
 	public ICardRepository CardRepository => _lazyCardRepository.Value;
 	public IDocumentRepository DocumentRepository => _lazyDocumentRepository.Value;
+	public IDocumentDataRepository DocumentDataRepository => _lazyDocumentDataRepository.Value;
 	public IItemRepository TodoItemRepository => _lazyTodoItemRepository.Value;
 	public IListRepository TodoListRepository => _lazyTodoListRepository.Value;
 	public ITransactionRepository TransactionRepository => _lazyTransactionRepository.Value;

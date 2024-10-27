@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Requests.Todo;
 using Application.Contracts.Responses.Todo;
-using Application.Interfaces.Application.Todo;
+using Application.Interfaces.Application.Services.Todo;
 using Application.Interfaces.Presentation.Services;
 
 using Asp.Versioning;

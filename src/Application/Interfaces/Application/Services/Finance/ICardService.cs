@@ -4,7 +4,7 @@ using Application.Contracts.Responses.Finance;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Application.Finance;
+namespace Application.Interfaces.Application.Services.Finance;
 
 /// <summary>
 /// The card service Guiderface.

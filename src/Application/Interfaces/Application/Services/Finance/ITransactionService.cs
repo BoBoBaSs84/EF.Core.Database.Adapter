@@ -6,7 +6,7 @@ using Application.Features.Responses;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Application.Finance;
+namespace Application.Interfaces.Application.Services.Finance;
 
 /// <summary>
 /// The transaction service interface.

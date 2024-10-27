@@ -2,8 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 
-using Application.Interfaces.Application.Common;
-using Application.Interfaces.Application.Identity;
+using Application.Interfaces.Application.Providers;
+using Application.Interfaces.Application.Services.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 
@@ -21,7 +21,7 @@ namespace Application.Services.Identity;
 /// <param name="options">The bearer option instance to use.</param>
 /// <param name="dateTimeService">The date time service instance to use.</param>
 /// <param name="userService">The user service instance to use.</param>
-internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeService dateTimeService, IUserService userService) : ITokenService
+internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeProvider dateTimeService, IUserService userService) : ITokenService
 {
 	private const string RefreshTokenName = "RefreshToken";
 	private readonly BearerSettings _bearerSettings = options.Value;

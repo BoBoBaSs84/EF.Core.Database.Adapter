@@ -1,12 +1,16 @@
 ﻿using Application.Common;
-using Application.Interfaces.Application.Attendance;
-using Application.Interfaces.Application.Common;
-using Application.Interfaces.Application.Finance;
-using Application.Interfaces.Application.Identity;
-using Application.Interfaces.Application.Todo;
+using Application.Interfaces.Application.Providers;
+using Application.Interfaces.Application.Services.Attendance;
+using Application.Interfaces.Application.Services.Common;
+using Application.Interfaces.Application.Services.Documents;
+using Application.Interfaces.Application.Services.Finance;
+using Application.Interfaces.Application.Services.Identity;
+using Application.Interfaces.Application.Services.Todo;
 using Application.Options;
+using Application.Providers;
 using Application.Services.Attendance;
 using Application.Services.Common;
+using Application.Services.Documents;
 using Application.Services.Finance;
 using Application.Services.Identity;
 using Application.Services.Todo;
@@ -36,9 +40,9 @@ internal static class ServiceCollectionExtensions
 		services.TryAddScoped<IAttendanceService, AttendanceService>();
 		services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 		services.TryAddScoped<ICardService, CardService>();
-		services.TryAddScoped<ITransactionService, TransactionService>();
+		services.TryAddScoped<IDocumentService, DocumentService>();
 		services.TryAddScoped<ITodoService, TodoService>();
-		services.TryAddScoped<ITokenService, TokenService>();
+		services.TryAddScoped<ITransactionService, TransactionService>();
 
 		return services;
 	}
@@ -51,8 +55,20 @@ internal static class ServiceCollectionExtensions
 	internal static IServiceCollection RegisterSingletonServices(this IServiceCollection services)
 	{
 		services.TryAddSingleton<ICalendarService, CalendarService>();
-		services.TryAddSingleton<IDateTimeService, DateTimeService>();
+		services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
 		services.TryAddSingleton<IEnumeratorService, EnumeratorService>();
+
+		return services;
+	}
+
+	/// <summary>
+	/// Registers the required transient services to the <paramref name="services"/> collection.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	internal static IServiceCollection RegisterTransientServices(this IServiceCollection services)
+	{
+		services.TryAddTransient<ITokenService, TokenService>();
 
 		return services;
 	}

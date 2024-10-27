@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Todo;
 using Application.Contracts.Responses.Todo;
 using Application.Errors.Services;
-using Application.Interfaces.Application.Todo;
+using Application.Interfaces.Application.Services.Todo;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;

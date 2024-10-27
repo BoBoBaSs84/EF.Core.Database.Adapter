@@ -5,7 +5,7 @@ using Application.Contracts.Responses.Documents;
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application.Documents;
+using Application.Interfaces.Application.Services.Documents;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;

@@ -1,9 +1,9 @@
-﻿namespace Application.Interfaces.Application.Common;
+﻿namespace Application.Interfaces.Application.Providers;
 
 /// <summary>
-/// The date time service interface.
+/// The interface for the date time provider.
 /// </summary>
-public interface IDateTimeService
+public interface IDateTimeProvider
 {
 	/// <summary>
 	/// The current date.

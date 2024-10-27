@@ -4,7 +4,7 @@ using Domain.Models.Identity;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.Interfaces.Application.Identity;
+namespace Application.Interfaces.Application.Services.Identity;
 
 /// <summary>
 /// The interface for the token service.

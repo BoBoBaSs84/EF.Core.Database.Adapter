@@ -2,7 +2,7 @@
 using Application.Errors.Services;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Providers;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Services.Common;
 
@@ -21,7 +21,7 @@ namespace ApplicationTests.Services.Common;
 public sealed class CalendarServiceTests : ApplicationTestBase
 {
 	private readonly IMapper _mapper = GetService<IMapper>();
-	private Mock<IDateTimeService> _dateTimeServiceMock = default!;
+	private Mock<IDateTimeProvider> _dateTimeServiceMock = default!;
 	private Mock<ILoggerService<CalendarService>> _loggerServiceMock = default!;
 
 	[TestMethod]

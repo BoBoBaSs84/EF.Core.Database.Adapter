@@ -3,7 +3,8 @@ using Application.Errors.Services;
 using Application.Extensions;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Providers;
+using Application.Interfaces.Application.Services.Common;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
@@ -22,7 +23,7 @@ namespace Application.Services.Common;
 /// <param name="dateTimeService">The date time service instance to use.</param>
 /// <param name="loggerService">The logger service instance to use.</param>
 /// <param name="mapper">The auto mapper instance to use.</param>
-internal sealed class CalendarService(IDateTimeService dateTimeService, ILoggerService<CalendarService> loggerService, IMapper mapper) : ICalendarService
+internal sealed class CalendarService(IDateTimeProvider dateTimeService, ILoggerService<CalendarService> loggerService, IMapper mapper) : ICalendarService
 {
 	private readonly IQueryable<DateTime> _dateTimes = GetPossibleDates();
 

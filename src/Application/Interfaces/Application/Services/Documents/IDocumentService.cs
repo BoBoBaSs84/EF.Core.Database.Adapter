@@ -6,7 +6,7 @@ using Application.Features.Responses;
 using Domain.Errors;
 using Domain.Results;
 
-namespace Application.Interfaces.Application.Documents;
+namespace Application.Interfaces.Application.Services.Documents;
 
 /// <summary>
 /// The interface for the document service.

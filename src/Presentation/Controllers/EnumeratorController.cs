@@ -1,5 +1,5 @@
 ﻿using Application.Contracts.Responses.Common;
-using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Services.Common;
 
 using Asp.Versioning;
 

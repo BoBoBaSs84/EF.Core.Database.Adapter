@@ -4,7 +4,7 @@ using Application.Features.Responses;
 
 using Domain.Errors;
 
-namespace Application.Interfaces.Application.Common;
+namespace Application.Interfaces.Application.Services.Common;
 
 /// <summary>
 /// The interface for the calendar service.

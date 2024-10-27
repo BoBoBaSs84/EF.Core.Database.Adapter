@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses.Common;
 using Application.Errors.Services;
-using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Services.Common;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;

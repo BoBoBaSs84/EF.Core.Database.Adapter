@@ -4,7 +4,7 @@ using Application.Errors.Services;
 using Application.Extensions;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application.Attendance;
+using Application.Interfaces.Application.Services.Attendance;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;

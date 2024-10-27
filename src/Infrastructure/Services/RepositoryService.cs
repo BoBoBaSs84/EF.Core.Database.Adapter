@@ -25,6 +25,7 @@ internal sealed class RepositoryService : IRepositoryService
 	private readonly Lazy<ICardRepository> _lazyCardRepository;
 	private readonly Lazy<IDocumentRepository> _lazyDocumentRepository;
 	private readonly Lazy<IDocumentDataRepository> _lazyDocumentDataRepository;
+	private readonly Lazy<IDocumentExtensionRepository> _lazyDocumentExtensionRepository;
 	private readonly Lazy<IItemRepository> _lazyTodoItemRepository;
 	private readonly Lazy<IListRepository> _lazyTodoListRepository;
 	private readonly Lazy<ITransactionRepository> _lazyTransactionRepository;
@@ -42,6 +43,7 @@ internal sealed class RepositoryService : IRepositoryService
 		_lazyCardRepository = new Lazy<ICardRepository>(() => new CardRepository(_context));
 		_lazyDocumentRepository = new Lazy<IDocumentRepository>(() => new DocumentRepository(_context));
 		_lazyDocumentDataRepository = new Lazy<IDocumentDataRepository>(() => new DocumentDataRepository(_context));
+		_lazyDocumentExtensionRepository = new Lazy<IDocumentExtensionRepository>(() => new DocumentExtensionRepository(_context));
 		_lazyTodoItemRepository = new Lazy<IItemRepository>(() => new ItemRepository(_context));
 		_lazyTodoListRepository = new Lazy<IListRepository>(() => new ListRepository(_context));
 		_lazyTransactionRepository = new Lazy<ITransactionRepository>(() => new TransactionRepository(_context));
@@ -52,6 +54,7 @@ internal sealed class RepositoryService : IRepositoryService
 	public ICardRepository CardRepository => _lazyCardRepository.Value;
 	public IDocumentRepository DocumentRepository => _lazyDocumentRepository.Value;
 	public IDocumentDataRepository DocumentDataRepository => _lazyDocumentDataRepository.Value;
+	public IDocumentExtensionRepository DocumentExtensionRepository => _lazyDocumentExtensionRepository.Value;
 	public IItemRepository TodoItemRepository => _lazyTodoItemRepository.Value;
 	public IListRepository TodoListRepository => _lazyTodoListRepository.Value;
 	public ITransactionRepository TransactionRepository => _lazyTransactionRepository.Value;

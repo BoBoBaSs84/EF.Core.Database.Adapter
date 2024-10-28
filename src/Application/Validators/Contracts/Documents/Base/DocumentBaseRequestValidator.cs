@@ -25,8 +25,7 @@ public sealed class DocumentBaseRequestValidator : AbstractValidator<DocumentBas
 			.NotEmpty();
 
 		RuleFor(x => x.Flags)
-			.IsInEnum()
-			.NotEmpty();
+			.IsInEnum();
 
 		RuleFor(x => x.CreationTime)
 			.NotEmpty();

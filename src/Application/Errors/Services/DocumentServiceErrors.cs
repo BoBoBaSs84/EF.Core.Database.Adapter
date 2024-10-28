@@ -96,6 +96,13 @@ public static class DocumentServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the document service.
 	/// </summary>
+	public static ApiError UpdateByIdsBadRequest
+		=> ApiError.CreateBadRequest($"{ErrorPrefix}.{nameof(UpdateByIdsBadRequest)}",
+			RESX.DocumentService_UpdateByIds_BadRequest);
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
 	public static ApiError UpdateByIdsNotFound(IEnumerable<Guid> ids)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(UpdateByIdsNotFound)}",
 			RESX.DocumentService_UpdateByIds_NotFound.FormatInvariant(string.Join(',', ids.Select(id => id))));

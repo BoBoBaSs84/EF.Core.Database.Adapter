@@ -781,6 +781,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To update documents, the content must not be empty..
+        /// </summary>
+        public static string DocumentService_UpdateByIds_BadRequest {
+            get {
+                return ResourceManager.GetString("DocumentService.UpdateByIds.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred when updating the documents with the identifiers &apos;{0}&apos;..
         /// </summary>
         public static string DocumentService_UpdateByIds_Failed {

@@ -357,6 +357,9 @@
   <data name="DocumentService.UpdateById.NotFound" xml:space="preserve">
     <value>No document with the identifier: '{0}' could be found to update.</value>
   </data>
+  <data name="DocumentService.UpdateByIds.BadRequest" xml:space="preserve">
+    <value>To update documents, the content must not be empty.</value>
+  </data>
   <data name="DocumentService.UpdateByIds.Failed" xml:space="preserve">
     <value>An error occurred when updating the documents with the identifiers '{0}'.</value>
   </data>

@@ -120,7 +120,9 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		try
 		{
 			IEnumerable<Document> documents = await repositoryService.DocumentRepository
-				.GetManyByConditionAsync(x => x.UserId.Equals(userId) && ids.Contains(x.Id), token: token)
+				.GetManyByConditionAsync(
+					expression: x => x.UserId.Equals(userId) && ids.Contains(x.Id),
+					token: token)
 				.ConfigureAwait(false);
 
 			if (documents.Any().IsFalse())
@@ -200,11 +202,14 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		try
 		{
 			if (requests.Any().IsFalse())
-				// TODO: BadRequest
-				throw new InvalidOperationException();
+				return DocumentServiceErrors.UpdateByIdsBadRequest;
 
 			IEnumerable<Document> documents = await repositoryService.DocumentRepository
-				.GetByIdsAsync(requests.Select(x => x.Id), default, true, token, [nameof(Document.Extension), nameof(Document.Data)])
+				.GetManyByConditionAsync(
+					expression: x => x.UserId.Equals(userId) && requests.Select(x => x.Id).Contains(x.Id),
+					trackChanges: true,
+					token: token,
+					includeProperties: [nameof(Document.Extension), nameof(Document.Data)])
 				.ConfigureAwait(false);
 
 			if (documents.Any().IsFalse())

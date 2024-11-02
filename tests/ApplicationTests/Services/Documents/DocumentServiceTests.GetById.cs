@@ -84,7 +84,7 @@ public sealed partial class DocumentServiceTests
 			result.Value.Content?.SequenceEqual(document.Data.Content).Should().BeTrue();
 			result.Value.CreationTime.Should().Be(document.CreationTime);
 			result.Value.Directory.Should().Be(document.Directory);
-			result.Value.ExtenionName.Should().Be(document.Extension.Name);
+			result.Value.ExtensionName.Should().Be(document.Extension.Name);
 			result.Value.Flags.Should().Be(document.Flags);
 			result.Value.Id.Should().Be(document.Id);
 			result.Value.LastAccessTime.Should().Be(document.LastAccessTime);

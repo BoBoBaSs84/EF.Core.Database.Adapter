@@ -18,7 +18,7 @@ internal sealed class DocumentsResponseProfile : Profile
 			.ForMember(dest => dest.MD5Hash, opt => opt.MapFrom(src => HasData(src) ? src.Data.MD5Hash : default))
 			.ForMember(dest => dest.Length, opt => opt.MapFrom(src => HasData(src) ? src.Data.Length : default))
 			.ForMember(dest => dest.Content, opt => opt.MapFrom(src => HasData(src) ? src.Data.Content : default))
-			.ForMember(dest => dest.ExtenionName, opt => opt.MapFrom(src => HasExtension(src) ? src.Extension.Name : default))
+			.ForMember(dest => dest.ExtensionName, opt => opt.MapFrom(src => HasExtension(src) ? src.Extension.Name : default))
 			.ForMember(dest => dest.MimeType, opt => opt.MapFrom(src => HasExtension(src) ? src.Extension.MimeType : default));
 	}
 

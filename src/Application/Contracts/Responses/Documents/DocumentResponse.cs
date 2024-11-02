@@ -55,9 +55,9 @@ public sealed class DocumentResponse : IdentityResponse
 	public byte[]? Content { get; init; }
 
 	/// <summary>
-	/// The name of the document extenion.
+	/// The name of the document extension.
 	/// </summary>
-	public required string ExtenionName { get; init; }
+	public string? ExtensionName { get; init; }
 
 	/// <summary>
 	/// The mime type of the document extenion.

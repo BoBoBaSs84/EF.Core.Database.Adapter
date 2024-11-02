@@ -520,6 +520,168 @@ namespace Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The document is relevant for certification..
+        /// </summary>
+        public static string DocumentTypes_Certificate_Description {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Certificate.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certificate.
+        /// </summary>
+        public static string DocumentTypes_Certificate_Name {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Certificate.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CE.
+        /// </summary>
+        public static string DocumentTypes_Certificate_ShortName {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Certificate.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document is relevant for education..
+        /// </summary>
+        public static string DocumentTypes_Eductation_Description {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Eductation.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eductation.
+        /// </summary>
+        public static string DocumentTypes_Eductation_Name {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Eductation.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ED.
+        /// </summary>
+        public static string DocumentTypes_Eductation_ShortName {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Eductation.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document is relevant for the healthcare system..
+        /// </summary>
+        public static string DocumentTypes_Healthcare_Description {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Healthcare.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Healthcare.
+        /// </summary>
+        public static string DocumentTypes_Healthcare_Name {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Healthcare.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HC.
+        /// </summary>
+        public static string DocumentTypes_Healthcare_ShortName {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Healthcare.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document is relevant for invoices..
+        /// </summary>
+        public static string DocumentTypes_Invoice_Description {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Invoice.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoice.
+        /// </summary>
+        public static string DocumentTypes_Invoice_Name {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Invoice.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IN.
+        /// </summary>
+        public static string DocumentTypes_Invoice_ShortName {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Invoice.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document has no flag..
+        /// </summary>
+        public static string DocumentTypes_None_Description {
+            get {
+                return ResourceManager.GetString("DocumentTypes.None.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string DocumentTypes_None_Name {
+            get {
+                return ResourceManager.GetString("DocumentTypes.None.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NO.
+        /// </summary>
+        public static string DocumentTypes_None_ShortName {
+            get {
+                return ResourceManager.GetString("DocumentTypes.None.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document is relevant for tax purposes..
+        /// </summary>
+        public static string DocumentTypes_Tax_Description {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Tax.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tax.
+        /// </summary>
+        public static string DocumentTypes_Tax_Name {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Tax.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TX.
+        /// </summary>
+        public static string DocumentTypes_Tax_ShortName {
+            get {
+                return ResourceManager.GetString("DocumentTypes.Tax.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error of multiple sources..
         /// </summary>
         public static string ErrorTypes_Composite_Description {

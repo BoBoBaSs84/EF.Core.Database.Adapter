@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Application.Common;
+﻿using Application.Interfaces.Application.Providers;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;
@@ -18,7 +18,7 @@ namespace ApplicationTests.Services.Identity;
 public sealed partial class TokenServiceTests : ApplicationTestBase
 {
 	private Mock<IOptions<BearerSettings>> _bearerSettingsMock = default!;
-	private Mock<IDateTimeService> _dateTimeServiceMock = default!;
+	private Mock<IDateTimeProvider> _dateTimeServiceMock = default!;
 	private Mock<IUserService> _userServiceMock = default!;
 
 	private TokenService CreateMockedInstance(BearerSettings? settings = null)

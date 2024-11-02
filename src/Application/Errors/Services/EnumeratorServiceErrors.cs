@@ -12,7 +12,21 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class EnumeratorServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(EnumeratorServiceErrors)}";
+	private const string ErrorPrefix = nameof(EnumeratorServiceErrors);
+
+	/// <summary>
+	/// Error that indicates an exception during the enumerator service.
+	/// </summary>
+	public static readonly ApiError GetAccountTypesFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAccountTypesFailed)}",
+			RESX.EnumeratorService_GetAccountTypes_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the enumerator service.
+	/// </summary>
+	public static readonly ApiError GetAttendanceTypesFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAttendanceTypesFailed)}",
+			RESX.EnumeratorService_GetAttendanceTypes_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the enumerator service.
@@ -24,9 +38,9 @@ public static class EnumeratorServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the enumerator service.
 	/// </summary>
-	public static readonly ApiError GetAttendanceTypesFailed =
-		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetAttendanceTypesFailed)}",
-			RESX.EnumeratorService_GetDayTypes_Failed);
+	public static readonly ApiError GetDocumentTypesFailed =
+		ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetDocumentTypesFailed)}",
+			RESX.EnumeratorService_GetDocumentTypes_Failed);
 
 	/// <summary>
 	/// Error that indicates an exception during the enumerator service.

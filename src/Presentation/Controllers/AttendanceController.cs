@@ -2,7 +2,7 @@
 using Application.Contracts.Responses.Attendance;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application.Attendance;
+using Application.Interfaces.Application.Services.Attendance;
 using Application.Interfaces.Presentation.Services;
 
 using Asp.Versioning;

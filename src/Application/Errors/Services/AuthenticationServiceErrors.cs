@@ -14,7 +14,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class AuthenticationServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(AuthenticationServiceErrors)}";
+	private const string ErrorPrefix = nameof(AuthenticationServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the authentication service.

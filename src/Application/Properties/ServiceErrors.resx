@@ -250,7 +250,7 @@
     <value>An error occurred while refreshing the access token.</value>
   </data>
   <data name="AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed" xml:space="preserve">
-    <value />
+    <value>An error occurred while validating the access token.</value>
   </data>
   <data name="AuthenticationServiceErrors.RevokeRefreshTokenFailed" xml:space="preserve">
     <value>An error occurred while revoking the refresh token.</value>
@@ -319,16 +319,67 @@
     <value>The bank card number: '{0}' is invalid.</value>
   </data>
   <data name="CardService.Update.Failed" xml:space="preserve">
-    <value>An error occurred when deleting the bank card with the identifier '{0}'.</value>
+    <value>An error occurred when updating the bank card with the identifier '{0}'.</value>
   </data>
   <data name="CardService.Update.NotFound" xml:space="preserve">
     <value>No bank card with the identifier: '{0}' could be found to update.</value>
+  </data>
+  <data name="DocumentService.Create.Failed" xml:space="preserve">
+    <value>An error occurred when creating the document with the name '{0}'.</value>
+  </data>
+  <data name="DocumentService.CreateMultiple.BadRequest" xml:space="preserve">
+    <value>To create documents, the content must not be empty.</value>
+  </data>
+  <data name="DocumentService.CreateMultiple.Failed" xml:space="preserve">
+    <value>An error occurred when creating the documents with the names '{0}'.</value>
+  </data>
+  <data name="DocumentService.DeleteById.Failed" xml:space="preserve">
+    <value>An error occurred when deleting the document with the identifier '{0}'.</value>
+  </data>
+  <data name="DocumentService.DeleteById.NotFound" xml:space="preserve">
+    <value>No document with the identifier: '{0}' could be found to delete.</value>
+  </data>
+  <data name="DocumentService.DeleteByIds.Failed" xml:space="preserve">
+    <value>An error occurred when deleting the documents with the identifiers '{0}'.</value>
+  </data>
+  <data name="DocumentService.DeleteByIds.NotFound" xml:space="preserve">
+    <value>No documents with the identifiers: '{0}' could be found to delete.</value>
+  </data>
+  <data name="DocumentService.GetById.Failed" xml:space="preserve">
+    <value>An error occurred while loading the document with the identifier: '{0}'.</value>
+  </data>
+  <data name="DocumentService.GetById.NotFound" xml:space="preserve">
+    <value>No document with the identifier: '{0}' could be found to load.</value>
+  </data>
+  <data name="DocumentService.UpdateById.Failed" xml:space="preserve">
+    <value>An error occurred when updating the document with the identifier '{0}'.</value>
+  </data>
+  <data name="DocumentService.UpdateById.NotFound" xml:space="preserve">
+    <value>No document with the identifier: '{0}' could be found to update.</value>
+  </data>
+  <data name="DocumentService.UpdateByIds.BadRequest" xml:space="preserve">
+    <value>To update documents, the content must not be empty.</value>
+  </data>
+  <data name="DocumentService.UpdateByIds.Failed" xml:space="preserve">
+    <value>An error occurred when updating the documents with the identifiers '{0}'.</value>
+  </data>
+  <data name="DocumentService.UpdateByIds.NotFound" xml:space="preserve">
+    <value>No documents with the identifiers: '{0}' could be found to update.</value>
+  </data>
+  <data name="EnumeratorService.GetAccountTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the account type enumerators.</value>
+  </data>
+  <data name="EnumeratorService.GetAttendanceTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the attendance type enumerators.</value>
   </data>
   <data name="EnumeratorService.GetCardTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the card type enumerators.</value>
   </data>
   <data name="EnumeratorService.GetDayTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the day type enumerators.</value>
+  </data>
+  <data name="EnumeratorService.GetDocumentTypes.Failed" xml:space="preserve">
+    <value>An error occurred while loading the document type enumerators.</value>
   </data>
   <data name="EnumeratorService.GetPriorityLevelTypes.Failed" xml:space="preserve">
     <value>An error occurred while loading the priority level type enumerators.</value>
@@ -410,5 +461,8 @@
   </data>
   <data name="TransactionServiceErrors.Update.NotFound" xml:space="preserve">
     <value>No bank transaction with the identifier: '{0}' could be found to delete.</value>
+  </data>
+  <data name="DocumentService.GetPagedByParameters.Failed" xml:space="preserve">
+    <value>An error occurred while loading the document entries based on the parameterization.</value>
   </data>
 </root>

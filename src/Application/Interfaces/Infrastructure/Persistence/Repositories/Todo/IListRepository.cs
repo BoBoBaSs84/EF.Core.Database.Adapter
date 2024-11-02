@@ -7,5 +7,6 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 /// <summary>
 /// Theinterface for the todo list repository.
 /// </summary>
+/// <inheritdoc/>
 public interface IListRepository : IIdentityRepository<List>
 { }

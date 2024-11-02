@@ -7,7 +7,7 @@ using Domain.Enumerators.Todo;
 namespace Application.Contracts.Responses.Todo;
 
 /// <summary>
-/// The response fo the todo list.
+/// The response for the todo item.
 /// </summary>
 public sealed class ItemResponse : IdentityResponse
 {

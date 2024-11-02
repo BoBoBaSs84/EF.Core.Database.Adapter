@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
-using Application.Interfaces.Application.Identity;
+using Application.Interfaces.Application.Services.Identity;
 using Application.Interfaces.Presentation.Services;
 
 using Asp.Versioning;

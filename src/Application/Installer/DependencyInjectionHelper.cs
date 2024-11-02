@@ -21,7 +21,8 @@ public static class DependencyInjectionHelper
 			.RegisterAutoMapper()
 			.RegisterFluentValidation()
 			.RegisterScopedServices()
-			.RegisterSingletonServices();
+			.RegisterSingletonServices()
+			.RegisterTransientServices();
 
 		return services;
 	}

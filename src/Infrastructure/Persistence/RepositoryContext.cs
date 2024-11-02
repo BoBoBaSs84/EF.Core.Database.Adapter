@@ -17,28 +17,16 @@ namespace Infrastructure.Persistence;
 /// <summary>
 /// The repository context for the application.
 /// </summary>
-internal sealed partial class RepositoryContext
-	: IdentityDbContext<UserModel, RoleModel, Guid, UserClaimModel, UserRoleModel, UserLoginModel, RoleClaimModel, UserTokenModel>, IRepositoryContext
+/// <remarks>
+/// Initializes a new instance of the <see cref="RepositoryContext"/> class.
+/// </remarks>
+/// <param name="dbContextOptions">The database context options.</param>
+/// <param name="auditingInterceptor">The auditing save changes interceptor.</param>
+/// <param name="softDeletableInterceptor">The soft deletable save changes interceptor.</param>
+[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, repository context.")]
+internal sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> dbContextOptions, AuditingInterceptor auditingInterceptor, SoftDeletableInterceptor softDeletableInterceptor)
+	: IdentityDbContext<UserModel, RoleModel, Guid, UserClaimModel, UserRoleModel, UserLoginModel, RoleClaimModel, UserTokenModel>(dbContextOptions), IRepositoryContext
 {
-	private readonly AuditingInterceptor _auditingInterceptor;
-	private readonly SoftDeletableInterceptor _softDeletableInterceptor;
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="RepositoryContext"/> class.
-	/// </summary>
-	/// <param name="dbContextOptions">The database context options.</param>
-	/// <param name="auditingInterceptor">The auditing save changes interceptor.</param>
-	/// <param name="softDeletableInterceptor">The soft deletable save changes interceptor.</param>
-	public RepositoryContext(DbContextOptions<RepositoryContext> dbContextOptions, AuditingInterceptor auditingInterceptor, SoftDeletableInterceptor softDeletableInterceptor)
-		: base(dbContextOptions)
-	{
-		_auditingInterceptor = auditingInterceptor;
-		_softDeletableInterceptor = softDeletableInterceptor;
-
-		ChangeTracker.LazyLoadingEnabled = false;
-	}
-
-	/// <inheritdoc/>
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);
@@ -47,12 +35,11 @@ internal sealed partial class RepositoryContext
 		builder.ApplyConfigurationsFromAssembly(typeof(IInfrastructureAssemblyMarker).Assembly);
 	}
 
-	/// <inheritdoc/>
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		base.OnConfiguring(optionsBuilder);
 
-		optionsBuilder.AddInterceptors(_auditingInterceptor, _softDeletableInterceptor);
-		optionsBuilder.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();		
+		optionsBuilder.AddInterceptors(auditingInterceptor, softDeletableInterceptor);
+		optionsBuilder.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();
 	}
 }

@@ -270,6 +270,60 @@
   <data name="CardType.Debit.ShortName" xml:space="preserve">
     <value>DC</value>
   </data>
+  <data name="DocumentTypes.Certificate.Description" xml:space="preserve">
+    <value>The document is relevant for certification.</value>
+  </data>
+  <data name="DocumentTypes.Certificate.Name" xml:space="preserve">
+    <value>Certificate</value>
+  </data>
+  <data name="DocumentTypes.Certificate.ShortName" xml:space="preserve">
+    <value>CE</value>
+  </data>
+  <data name="DocumentTypes.Eductation.Description" xml:space="preserve">
+    <value>The document is relevant for education.</value>
+  </data>
+  <data name="DocumentTypes.Eductation.Name" xml:space="preserve">
+    <value>Eductation</value>
+  </data>
+  <data name="DocumentTypes.Eductation.ShortName" xml:space="preserve">
+    <value>ED</value>
+  </data>
+  <data name="DocumentTypes.Healthcare.Description" xml:space="preserve">
+    <value>The document is relevant for the healthcare system.</value>
+  </data>
+  <data name="DocumentTypes.Healthcare.Name" xml:space="preserve">
+    <value>Healthcare</value>
+  </data>
+  <data name="DocumentTypes.Healthcare.ShortName" xml:space="preserve">
+    <value>HC</value>
+  </data>
+  <data name="DocumentTypes.Invoice.Description" xml:space="preserve">
+    <value>The document is relevant for invoices.</value>
+  </data>
+  <data name="DocumentTypes.Invoice.Name" xml:space="preserve">
+    <value>Invoice</value>
+  </data>
+  <data name="DocumentTypes.Invoice.ShortName" xml:space="preserve">
+    <value>IN</value>
+  </data>
+  <data name="DocumentTypes.None.Description" xml:space="preserve">
+    <value>The document has no flag.</value>
+  </data>
+  <data name="DocumentTypes.None.Name" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="DocumentTypes.None.ShortName" xml:space="preserve">
+    <value>NO</value>
+  </data>
+  <data name="DocumentTypes.Tax.Description" xml:space="preserve">
+    <value>The document is relevant for tax purposes.</value>
+  </data>
+  <data name="DocumentTypes.Tax.Name" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="DocumentTypes.Tax.ShortName" xml:space="preserve">
+    <value>NO</value>
+  </data>
   <data name="ErrorTypes.Composite.Description" xml:space="preserve">
     <value>Error of multiple sources.</value>
   </data>

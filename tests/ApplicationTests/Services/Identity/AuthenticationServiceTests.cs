@@ -2,7 +2,7 @@
 using System.Security.Principal;
 
 using Application.Contracts.Requests.Identity;
-using Application.Interfaces.Application.Identity;
+using Application.Interfaces.Application.Services.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 using Application.Services.Identity;

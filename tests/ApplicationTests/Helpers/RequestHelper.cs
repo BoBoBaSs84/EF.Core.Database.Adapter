@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 
 using Application.Contracts.Requests.Attendance;
+using Application.Contracts.Requests.Documents;
 using Application.Contracts.Requests.Finance;
 using Application.Contracts.Requests.Identity;
 using Application.Contracts.Requests.Todo;
@@ -10,6 +11,7 @@ using BaseTests.Helpers;
 using BB84.Extensions;
 
 using Domain.Enumerators.Attendance;
+using Domain.Enumerators.Documents;
 using Domain.Enumerators.Finance;
 using Domain.Enumerators.Todo;
 
@@ -91,6 +93,43 @@ internal static class RequestHelper
 			StartTime = new(6, 0, 0),
 			EndTime = new(16, 0, 0),
 			BreakTime = new(0, 45, 0)
+		};
+
+		return request;
+	}
+
+	internal static DocumentCreateRequest GetDocumentCreateRequest()
+	{
+		string content = RandomHelper.GetString(100);
+		DocumentCreateRequest request = new()
+		{
+			Name = RandomHelper.GetString(18),
+			ExtensionName = RandomHelper.GetString(3),
+			Directory = @"C:\",
+			Flags = DocumentTypes.None,
+			CreationTime = DateTime.Today.AddDays(-2),
+			LastAccessTime = DateTime.Today,
+			LastWriteTime = DateTime.Today.AddDays(-1),
+			Content = content.GetBytes()
+		};
+
+		return request;
+	}
+
+	internal static DocumentUpdateRequest GetDocumentUpdateRequest()
+	{
+		string content = RandomHelper.GetString(100);
+		DocumentUpdateRequest request = new()
+		{
+			Id = Guid.NewGuid(),
+			Name = RandomHelper.GetString(18),
+			ExtensionName = RandomHelper.GetString(3),
+			Directory = @"C:\",
+			Flags = DocumentTypes.None,
+			CreationTime = DateTime.Today.AddDays(-2),
+			LastAccessTime = DateTime.Today,
+			LastWriteTime = DateTime.Today.AddDays(-1),
+			Content = content.GetBytes()
 		};
 
 		return request;

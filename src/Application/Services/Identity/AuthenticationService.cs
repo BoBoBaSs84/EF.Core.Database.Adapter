@@ -3,7 +3,7 @@
 using Application.Contracts.Requests.Identity;
 using Application.Contracts.Responses.Identity;
 using Application.Errors.Services;
-using Application.Interfaces.Application.Identity;
+using Application.Interfaces.Application.Services.Identity;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;

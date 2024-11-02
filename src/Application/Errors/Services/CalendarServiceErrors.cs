@@ -12,7 +12,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class CalendarServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(CalendarServiceErrors)}";
+	private const string ErrorPrefix = nameof(CalendarServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the calendar service.

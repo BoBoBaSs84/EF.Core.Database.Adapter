@@ -14,7 +14,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class AttendanceServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(AttendanceServiceErrors)}";
+	private const string ErrorPrefix = nameof(AttendanceServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the attendance service.

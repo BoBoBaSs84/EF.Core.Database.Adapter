@@ -95,12 +95,29 @@ internal static class Endpoints
 	}
 
 	/// <summary>
+	/// The document route.
+	/// </summary>
+	internal static class Document
+	{
+		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Document);
+
+		internal const string DeleteById = "{id:guid}";
+		internal const string DeleteByIds = "Multiple";
+		internal const string GetById = "{id:guid}";
+		internal const string GetPagedByParameters = EmptySuffix;
+		internal const string Post = EmptySuffix;
+		internal const string PostMultiple = "Multiple";
+		internal const string Put = EmptySuffix;
+		internal const string PutMultiple = "Multiple";
+	}
+
+	/// <summary>
 	/// The enumerator route.
 	/// </summary>
 	internal static class Enumerator
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Enumerator);
-		
+
 		/// <summary>
 		/// The account type route.
 		/// </summary>
@@ -123,6 +140,14 @@ internal static class Endpoints
 		internal static class CardType
 		{
 			internal const string Get = nameof(CardType);
+		}
+
+		/// <summary>
+		/// The document types route.
+		/// </summary>
+		internal static class DocumentTypes
+		{
+			internal const string Get = nameof(DocumentTypes);
 		}
 
 		/// <summary>
@@ -197,6 +222,9 @@ internal static class Endpoints
 		}
 	}
 
+	/// <summary>
+	/// The user management route.
+	/// </summary>
 	internal static class UserManagement
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(UserManagement);

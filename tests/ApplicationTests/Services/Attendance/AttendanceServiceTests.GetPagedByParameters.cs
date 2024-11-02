@@ -52,8 +52,7 @@ public sealed partial class AttendanceServiceTests
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.CountAsync(
 			It.IsAny<Expression<Func<AttendanceModel, bool>>?>(),
-			It.IsAny<Func<IQueryable<AttendanceModel>,
-			IQueryable<AttendanceModel>>?>(), false, default)
+			It.IsAny<Func<IQueryable<AttendanceModel>, IQueryable<AttendanceModel>>?>(), false, default)
 		).Returns(Task.FromResult(10));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 

@@ -1,6 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
 using Domain.Models.Attendance;
+using Domain.Models.Documents;
 using Domain.Models.Finance;
 using Domain.Models.Todo;
 
@@ -13,34 +14,25 @@ namespace Application.Interfaces.Infrastructure.Persistence;
 /// </summary>
 public interface IRepositoryContext : IDbContext
 {
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AccountModel"/>.
-	/// </summary>
+	/// <inheritdoc cref="DbSet{TEntity}"/>
 	DbSet<AccountModel> Accounts { get; }
 
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="AttendanceModel"/>.
-	/// </summary>
+	/// <inheritdoc cref="DbSet{TEntity}"/>
 	DbSet<AttendanceModel> Attendances { get; }
 
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="CardModel"/>.
-	/// </summary>
+	/// <inheritdoc cref="DbSet{TEntity}"/>
 	DbSet<CardModel> Cards { get; }
 
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="TransactionModel"/>.
-	/// </summary>
+	/// <inheritdoc cref="DbSet{TEntity}"/>
+	DbSet<Document> Documents { get; }
+
+	/// <inheritdoc cref="DbSet{TEntity}"/>
 	DbSet<TransactionModel> Transactions { get; }
 
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="List"/>.
-	/// </summary>
+	/// <inheritdoc cref="DbSet{TEntity}"/>
 	DbSet<List> TodoLists { get; }
 
-	/// <summary>
-	/// The <see cref="DbSet{TEntity}"/> of type <see cref="Item"/>.
-	/// </summary>
+	/// <inheritdoc cref="DbSet{TEntity}"/>
 	DbSet<Item> TodoItems { get; }
 
 	/// <summary>

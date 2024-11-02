@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Todo;
 using Application.Contracts.Responses.Todo;
 using Application.Errors.Services;
-using Application.Interfaces.Application.Todo;
+using Application.Interfaces.Application.Services.Todo;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
@@ -30,8 +30,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			List list = MapFromRequest(request);
-
-			list.Users = [new() { TodoList = list, UserId = userId }];
+			list.UserId = userId;
 
 			await repositoryService.TodoListRepository.CreateAsync(list, token)
 				.ConfigureAwait(false);
@@ -158,7 +157,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		try
 		{
 			IEnumerable<List> todoLists = await repositoryService.TodoListRepository
-				.GetManyByConditionAsync(expression: x => x.Users.Select(x => x.UserId).Contains(userId), token: token)
+				.GetManyByConditionAsync(expression: x => x.UserId.Equals(userId), token: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<ListResponse> response = MapToResponse(todoLists);

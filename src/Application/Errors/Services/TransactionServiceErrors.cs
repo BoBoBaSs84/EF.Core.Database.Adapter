@@ -14,7 +14,7 @@ namespace Application.Errors.Services;
 /// </remarks>
 public static class TransactionServiceErrors
 {
-	private const string ErrorPrefix = $"{nameof(TransactionServiceErrors)}";
+	private const string ErrorPrefix = nameof(TransactionServiceErrors);
 
 	/// <summary>
 	/// Error that indicates an exception during the transaction service.

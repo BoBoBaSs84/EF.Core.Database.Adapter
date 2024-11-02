@@ -457,7 +457,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while verifying the refresh token..
+        ///   Looks up a localized string similar to An error occurred while validating the access token..
         /// </summary>
         public static string AuthenticationServiceErrors_RefreshAccessTokenVerificationFailed {
             get {
@@ -664,7 +664,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred when deleting the bank card with the identifier &apos;{0}&apos;..
+        ///   Looks up a localized string similar to An error occurred when updating the bank card with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string CardService_Update_Failed {
             get {
@@ -678,6 +678,159 @@ namespace Application.Properties {
         public static string CardService_Update_NotFound {
             get {
                 return ResourceManager.GetString("CardService.Update.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when creating the document with the name &apos;{0}&apos;..
+        /// </summary>
+        public static string DocumentService_Create_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.Create.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To create documents, the content must not be empty..
+        /// </summary>
+        public static string DocumentService_CreateMultiple_BadRequest {
+            get {
+                return ResourceManager.GetString("DocumentService.CreateMultiple.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when creating the documents with the names &apos;{0}&apos;..
+        /// </summary>
+        public static string DocumentService_CreateMultiple_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.CreateMultiple.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the document with the identifier &apos;{0}&apos;..
+        /// </summary>
+        public static string DocumentService_DeleteById_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.DeleteById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No document with the identifier: &apos;{0}&apos; could be found to delete..
+        /// </summary>
+        public static string DocumentService_DeleteById_NotFound {
+            get {
+                return ResourceManager.GetString("DocumentService.DeleteById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when deleting the documents with the identifiers &apos;{0}&apos;..
+        /// </summary>
+        public static string DocumentService_DeleteByIds_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.DeleteByIds.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No documents with the identifiers: &apos;{0}&apos; could be found to delete..
+        /// </summary>
+        public static string DocumentService_DeleteByIds_NotFound {
+            get {
+                return ResourceManager.GetString("DocumentService.DeleteByIds.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the document with the identifier: &apos;{0}&apos;..
+        /// </summary>
+        public static string DocumentService_GetById_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.GetById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No document with the identifier: &apos;{0}&apos; could be found to load..
+        /// </summary>
+        public static string DocumentService_GetById_NotFound {
+            get {
+                return ResourceManager.GetString("DocumentService.GetById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the document entries based on the parameterization..
+        /// </summary>
+        public static string DocumentService_GetPagedByParameters_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.GetPagedByParameters.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when updating the document with the identifier &apos;{0}&apos;..
+        /// </summary>
+        public static string DocumentService_UpdateById_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.UpdateById.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No document with the identifier: &apos;{0}&apos; could be found to update..
+        /// </summary>
+        public static string DocumentService_UpdateById_NotFound {
+            get {
+                return ResourceManager.GetString("DocumentService.UpdateById.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To update documents, the content must not be empty..
+        /// </summary>
+        public static string DocumentService_UpdateByIds_BadRequest {
+            get {
+                return ResourceManager.GetString("DocumentService.UpdateByIds.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when updating the documents with the identifiers &apos;{0}&apos;..
+        /// </summary>
+        public static string DocumentService_UpdateByIds_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.UpdateByIds.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No documents with the identifiers: &apos;{0}&apos; could be found to update..
+        /// </summary>
+        public static string DocumentService_UpdateByIds_NotFound {
+            get {
+                return ResourceManager.GetString("DocumentService.UpdateByIds.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the account type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetAccountTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetAccountTypes.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the attendance type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetAttendanceTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetAttendanceTypes.Failed", resourceCulture);
             }
         }
         
@@ -696,6 +849,15 @@ namespace Application.Properties {
         public static string EnumeratorService_GetDayTypes_Failed {
             get {
                 return ResourceManager.GetString("EnumeratorService.GetDayTypes.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the document type enumerators..
+        /// </summary>
+        public static string EnumeratorService_GetDocumentTypes_Failed {
+            get {
+                return ResourceManager.GetString("EnumeratorService.GetDocumentTypes.Failed", resourceCulture);
             }
         }
         

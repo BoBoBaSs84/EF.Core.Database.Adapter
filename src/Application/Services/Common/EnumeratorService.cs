@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses.Common;
 using Application.Errors.Services;
-using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Services.Common;
 using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
@@ -9,6 +9,7 @@ using BB84.Extensions;
 
 using Domain.Enumerators;
 using Domain.Enumerators.Attendance;
+using Domain.Enumerators.Documents;
 using Domain.Enumerators.Finance;
 using Domain.Enumerators.Todo;
 using Domain.Errors;
@@ -38,7 +39,22 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		catch (Exception ex)
 		{
 			loggerService.Log(LogException, ex);
-			return EnumeratorServiceErrors.GetCardTypesFailed;
+			return EnumeratorServiceErrors.GetAccountTypesFailed;
+		}
+	}
+
+	public ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes()
+	{
+		try
+		{
+			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.HOLIDAY.GetValues();
+
+			return mapper.Map<IEnumerable<AttendanceTypeResponse>>(attendanceTypes).ToList();
+		}
+		catch (Exception ex)
+		{
+			loggerService.Log(LogException, ex);
+			return EnumeratorServiceErrors.GetAttendanceTypesFailed;
 		}
 	}
 
@@ -57,18 +73,18 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 		}
 	}
 
-	public ErrorOr<IEnumerable<AttendanceTypeResponse>> GetAttendanceTypes()
+	public ErrorOr<IEnumerable<DocumentTypeResponse>> GetDocumentTypes()
 	{
 		try
 		{
-			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.HOLIDAY.GetValues();
+			IEnumerable<DocumentTypes> documentTypes = DocumentTypes.None.GetValues();
 
-			return mapper.Map<IEnumerable<AttendanceTypeResponse>>(attendanceTypes).ToList();
+			return mapper.Map<IEnumerable<DocumentTypeResponse>>(documentTypes).ToList();
 		}
 		catch (Exception ex)
 		{
 			loggerService.Log(LogException, ex);
-			return EnumeratorServiceErrors.GetAttendanceTypesFailed;
+			return EnumeratorServiceErrors.GetDocumentTypesFailed;
 		}
 	}
 

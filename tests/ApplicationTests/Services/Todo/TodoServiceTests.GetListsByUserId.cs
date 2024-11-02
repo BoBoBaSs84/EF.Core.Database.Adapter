@@ -49,7 +49,7 @@ public sealed partial class TodoServiceTests
 		Guid userId = Guid.NewGuid();
 		List list = new() { Title = "Hello", Color = Color.Red };
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetManyByConditionAsync(x => x.Users.Select(x => x.UserId).Contains(userId), null, false, null, null, null, false, default))
+		listMock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(userId), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult<IEnumerable<List>>([list]));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
@@ -64,6 +64,7 @@ public sealed partial class TodoServiceTests
 			result.Value.First().Title.Should().Be(list.Title);
 			result.Value.First().Color.Should().Be(list.Color?.ToRGBHexString());
 			result.Value.First().Items.Should().BeNull();
+			listMock.Verify(x => x.GetManyByConditionAsync(x => x.UserId.Equals(userId), null, false, null, null, null, false, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

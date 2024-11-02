@@ -3,7 +3,7 @@
 using Application.Contracts.Responses.Common;
 using Application.Features.Requests;
 using Application.Features.Responses;
-using Application.Interfaces.Application.Common;
+using Application.Interfaces.Application.Services.Common;
 
 using Asp.Versioning;
 

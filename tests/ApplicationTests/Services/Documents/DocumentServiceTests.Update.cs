@@ -25,14 +25,14 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.UpdateById))]
+	[TestCategory(nameof(DocumentService.Update))]
 	public async Task UpdateByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		DocumentUpdateRequest request = RequestHelper.GetDocumentUpdateRequest();
 		string parameter = request.ToJson();
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.UpdateById(request)
+		ErrorOr<Updated> result = await sut.Update(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -45,7 +45,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.UpdateById))]
+	[TestCategory(nameof(DocumentService.Update))]
 	public async Task UpdateByIdShouldReturnNotFoundWhenNotFound()
 	{
 		DocumentUpdateRequest request = RequestHelper.GetDocumentUpdateRequest();
@@ -55,7 +55,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<Document?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateById(request)
+		ErrorOr<Updated> result = await sut.Update(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -69,7 +69,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.UpdateById))]
+	[TestCategory(nameof(DocumentService.Update))]
 	public async Task UpdateByIdShouldReturnUpdatedWhenSuccessful()
 	{
 		DocumentUpdateRequest request = RequestHelper.GetDocumentUpdateRequest();
@@ -87,7 +87,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<Data?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateById(request)
+		ErrorOr<Updated> result = await sut.Update(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

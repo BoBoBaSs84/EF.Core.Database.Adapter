@@ -19,7 +19,7 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.DeleteById))]
+	[TestCategory(nameof(DocumentService.DeleteByIds))]
 	public async Task DeleteByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
@@ -38,7 +38,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.DeleteById))]
+	[TestCategory(nameof(DocumentService.DeleteByIds))]
 	public async Task DeleteByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -61,7 +61,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.DeleteById))]
+	[TestCategory(nameof(DocumentService.DeleteByIds))]
 	public async Task DeleteByIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();

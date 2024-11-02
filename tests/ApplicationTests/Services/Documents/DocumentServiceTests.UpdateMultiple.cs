@@ -25,7 +25,7 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.UpdateByIds))]
+	[TestCategory(nameof(DocumentService.Update))]
 	public async Task UpdateByIdsShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -33,7 +33,7 @@ public sealed partial class DocumentServiceTests
 		string parameter = requests.ToJson();
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.UpdateByIds(userId, requests)
+		ErrorOr<Updated> result = await sut.Update(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -46,14 +46,14 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.UpdateByIds))]
+	[TestCategory(nameof(DocumentService.Update))]
 	public async Task UpdateByIdsShouldReturnBadRequestWhenBodyIsEmpty()
 	{
 		Guid userId = Guid.NewGuid();
 		IEnumerable<DocumentUpdateRequest> requests = [];
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.UpdateByIds(userId, requests)
+		ErrorOr<Updated> result = await sut.Update(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -66,7 +66,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.UpdateByIds))]
+	[TestCategory(nameof(DocumentService.Update))]
 	public async Task UpdateByIdsShouldReturnNotFoundWhenNotFound()
 	{
 		Guid userId = Guid.NewGuid();
@@ -78,7 +78,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<IEnumerable<Document>>([]));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateByIds(userId, requests)
+		ErrorOr<Updated> result = await sut.Update(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -93,7 +93,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.UpdateByIds))]
+	[TestCategory(nameof(DocumentService.Update))]
 	public async Task UpdateByIdsShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
@@ -114,7 +114,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<Data?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateByIds(userId, requests)
+		ErrorOr<Updated> result = await sut.Update(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

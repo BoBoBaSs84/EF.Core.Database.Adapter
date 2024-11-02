@@ -71,7 +71,7 @@ public interface IDocumentService
 	/// <param name="request">The document update request to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> UpdateById(DocumentUpdateRequest request, CancellationToken token = default);
+	Task<ErrorOr<Updated>> Update(DocumentUpdateRequest request, CancellationToken token = default);
 
 	/// <summary>
 	/// Updates an existing document collection for the <paramref name="userId"/> with the provided create <paramref name="requests"/>.
@@ -80,5 +80,5 @@ public interface IDocumentService
 	/// <param name="requests">The document update requests to use.</param>
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <returns><see cref="ErrorOr{TValue}"/></returns>
-	Task<ErrorOr<Updated>> UpdateByIds(Guid userId, IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Updated>> Update(Guid userId, IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default);
 }

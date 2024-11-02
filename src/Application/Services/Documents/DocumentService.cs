@@ -199,7 +199,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateById(DocumentUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> Update(DocumentUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
@@ -226,7 +226,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateByIds(Guid userId, IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> Update(Guid userId, IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{

@@ -3,6 +3,7 @@ using Application.Contracts.Requests.Documents;
 using Application.Contracts.Requests.Documents.Base;
 using Application.Contracts.Responses.Documents;
 using Application.Errors.Services;
+using Application.Extensions;
 using Application.Features.Requests;
 using Application.Features.Responses;
 using Application.Interfaces.Application.Services.Documents;
@@ -165,9 +166,37 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public Task<ErrorOr<IPagedList<DocumentResponse>>> GetPagedByParameters(Guid userId, DocumentParameters parameters, CancellationToken token = default)
+	public async Task<ErrorOr<IPagedList<DocumentResponse>>> GetPagedByParameters(Guid userId, DocumentParameters parameters, CancellationToken token = default)
 	{
-		throw new NotImplementedException();
+		try
+		{
+			IEnumerable<Document> documents = await repositoryService.DocumentRepository
+				.GetManyByConditionAsync(
+					expression: x => x.UserId.Equals(userId),
+					queryFilter: x => x.FilterByParameters(parameters),
+					orderBy: x => x.OrderByDescending(x => x.CreationTime),
+					skip: (parameters.PageNumber - 1) * parameters.PageSize,
+					take: parameters.PageSize,
+					token: token)
+				.ConfigureAwait(false);
+
+			int totalCount = await repositoryService.DocumentRepository
+				.CountAsync(
+					expression: x => x.UserId.Equals(userId),
+					queryFilter: x => x.FilterByParameters(parameters),
+					token: token)
+				.ConfigureAwait(false);
+
+			IEnumerable<DocumentResponse> result = mapper.Map<IEnumerable<DocumentResponse>>(documents);
+
+			return new PagedList<DocumentResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
+		}
+		catch (Exception ex)
+		{
+			string[] parameter = [$"{userId}", parameters.ToJson()];
+			loggerService.Log(LogExceptionWithParams, parameter, ex);
+			return DocumentServiceErrors.GetPagedByParametersFailed;
+		}
 	}
 
 	public async Task<ErrorOr<Updated>> UpdateById(DocumentUpdateRequest request, CancellationToken token = default)

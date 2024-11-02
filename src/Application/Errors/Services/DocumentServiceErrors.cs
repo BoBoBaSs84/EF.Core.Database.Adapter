@@ -54,6 +54,13 @@ public static class DocumentServiceErrors
 	/// <summary>
 	/// Error that indicates an exception during the document service.
 	/// </summary>
+	public static ApiError GetPagedByParametersFailed
+		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(GetPagedByParametersFailed)}",
+			RESX.DocumentService_GetPagedByParameters_Failed);
+
+	/// <summary>
+	/// Error that indicates an exception during the document service.
+	/// </summary>
 	public static ApiError DeleteByIdNotFound(Guid id)
 		=> ApiError.CreateFailed($"{ErrorPrefix}.{nameof(DeleteByIdNotFound)}",
 			RESX.DocumentService_DeleteById_NotFound.FormatInvariant(id));

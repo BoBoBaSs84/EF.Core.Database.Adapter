@@ -462,4 +462,7 @@
   <data name="TransactionServiceErrors.Update.NotFound" xml:space="preserve">
     <value>No bank transaction with the identifier: '{0}' could be found to delete.</value>
   </data>
+  <data name="DocumentService.GetPagedByParameters.Failed" xml:space="preserve">
+    <value>An error occurred while loading the document entries based on the parameterization.</value>
+  </data>
 </root>

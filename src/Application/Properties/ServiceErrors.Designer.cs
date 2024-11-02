@@ -763,6 +763,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the document entries based on the parameterization..
+        /// </summary>
+        public static string DocumentService_GetPagedByParameters_Failed {
+            get {
+                return ResourceManager.GetString("DocumentService.GetPagedByParameters.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred when updating the document with the identifier &apos;{0}&apos;..
         /// </summary>
         public static string DocumentService_UpdateById_Failed {

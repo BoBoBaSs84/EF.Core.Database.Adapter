@@ -52,6 +52,20 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	}
 
 	/// <summary>
+	/// Returns all document types enumerators.
+	/// </summary>
+	/// <response code="200">If the response was successfully returned.</response>
+	/// <response code="500">Something internal went terribly wrong.</response>
+	[HttpGet(Endpoints.Enumerator.DocumentTypes.Get)]
+	[ProducesResponseType(typeof(IEnumerable<DocumentTypeResponse>), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+	public IActionResult GetDocumentTypes()
+	{
+		ErrorOr<IEnumerable<DocumentTypeResponse>> result = enumeratorService.GetDocumentTypes();
+		return Get(result);
+	}
+
+	/// <summary>
 	/// Returns all attendance type enumerators.
 	/// </summary>
 	/// <response code="200">If the response was successfully returned.</response>

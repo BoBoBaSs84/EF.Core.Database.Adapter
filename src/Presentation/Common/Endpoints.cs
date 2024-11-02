@@ -117,7 +117,7 @@ internal static class Endpoints
 	internal static class Enumerator
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Enumerator);
-		
+
 		/// <summary>
 		/// The account type route.
 		/// </summary>
@@ -140,6 +140,14 @@ internal static class Endpoints
 		internal static class CardType
 		{
 			internal const string Get = nameof(CardType);
+		}
+
+		/// <summary>
+		/// The document types route.
+		/// </summary>
+		internal static class DocumentTypes
+		{
+			internal const string Get = nameof(DocumentTypes);
 		}
 
 		/// <summary>
@@ -214,6 +222,9 @@ internal static class Endpoints
 		}
 	}
 
+	/// <summary>
+	/// The user management route.
+	/// </summary>
 	internal static class UserManagement
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(UserManagement);

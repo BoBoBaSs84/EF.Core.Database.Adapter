@@ -2,6 +2,7 @@
 
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 
+using Domain.Entities.Identity;
 using Domain.Models.Identity;
 
 using Infrastructure.Common;
@@ -21,10 +22,10 @@ namespace Infrastructure.Persistence;
 /// Initializes a new instance of the <see cref="RepositoryContext"/> class.
 /// </remarks>
 /// <param name="dbContextOptions">The database context options.</param>
-/// <param name="auditingInterceptor">The auditing save changes interceptor.</param>
+/// <param name="userAuditingInterceptor">The auditing save changes interceptor.</param>
 /// <param name="softDeletableInterceptor">The soft deletable save changes interceptor.</param>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, repository context.")]
-internal sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> dbContextOptions, AuditingInterceptor auditingInterceptor, SoftDeletableInterceptor softDeletableInterceptor)
+internal sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> dbContextOptions, UserAuditingInterceptor userAuditingInterceptor, SoftDeletableInterceptor softDeletableInterceptor)
 	: IdentityDbContext<UserModel, RoleModel, Guid, UserClaimModel, UserRoleModel, UserLoginModel, RoleClaimModel, UserTokenModel>(dbContextOptions), IRepositoryContext
 {
 	protected override void OnModelCreating(ModelBuilder builder)
@@ -39,7 +40,7 @@ internal sealed partial class RepositoryContext(DbContextOptions<RepositoryConte
 	{
 		base.OnConfiguring(optionsBuilder);
 
-		optionsBuilder.AddInterceptors(auditingInterceptor, softDeletableInterceptor);
+		optionsBuilder.AddInterceptors(userAuditingInterceptor, softDeletableInterceptor);
 		optionsBuilder.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();
 	}
 }

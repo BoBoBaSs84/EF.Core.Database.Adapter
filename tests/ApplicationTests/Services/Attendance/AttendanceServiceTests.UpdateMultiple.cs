@@ -7,9 +7,9 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Attendance;
 using Domain.Enumerators.Attendance;
 using Domain.Errors;
-using Domain.Models.Attendance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -30,7 +30,7 @@ public sealed partial class AttendanceServiceTests
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
-			.Returns(Task.FromResult<IEnumerable<AttendanceModel>>([]));
+			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateMultiple(requests)
@@ -50,7 +50,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task UpdateMultipleShouldReturnCreatedWhenSuccessful()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
-		IEnumerable<AttendanceModel> models = [new() { Id = requests.First().Id, Type = AttendanceType.VACATION }];
+		IEnumerable<AttendanceEntity> models = [new() { Id = requests.First().Id, Type = AttendanceType.VACATION }];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
 			.Returns(Task.FromResult(models));

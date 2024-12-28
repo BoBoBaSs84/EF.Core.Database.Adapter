@@ -7,9 +7,9 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Attendance;
 using Domain.Enumerators.Attendance;
 using Domain.Errors;
-using Domain.Models.Attendance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -30,7 +30,7 @@ public sealed partial class AttendanceServiceTests
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
-			.Returns(Task.FromResult<AttendanceModel?>(null));
+			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Updated> result = await sut.Update(request)
@@ -50,10 +50,10 @@ public sealed partial class AttendanceServiceTests
 	public async Task UpdateShouldReturnCreatedWhenSuccessful()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
-		AttendanceModel model = new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
+		AttendanceEntity model = new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
-			.Returns(Task.FromResult<AttendanceModel?>(model));
+			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Updated> result = await sut.Update(request)

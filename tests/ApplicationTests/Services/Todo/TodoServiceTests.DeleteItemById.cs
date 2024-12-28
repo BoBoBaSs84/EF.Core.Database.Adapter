@@ -4,8 +4,8 @@ using Application.Services.Todo;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Todo;
 using Domain.Errors;
-using Domain.Models.Todo;
 using Domain.Results;
 
 using FluentAssertions;
@@ -45,7 +45,7 @@ public sealed partial class TodoServiceTests
 		Guid id = Guid.NewGuid();
 		Mock<IItemRepository> itemMock = new();
 		itemMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<Item?>(null));
+			.Returns(Task.FromResult<ItemEntity?>(null));
 		TodoService sut = CreateMockedInstance(itemRepository: itemMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteItemById(id)
@@ -66,10 +66,10 @@ public sealed partial class TodoServiceTests
 	public async Task DeleteItemByIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		Item item = new();
+		ItemEntity item = new();
 		Mock<IItemRepository> itemMock = new();
 		itemMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<Item?>(item));
+			.Returns(Task.FromResult<ItemEntity?>(item));
 		itemMock.Setup(x => x.DeleteAsync(item, default))
 			.Returns(Task.CompletedTask);
 		TodoService sut = CreateMockedInstance(itemRepository: itemMock.Object);

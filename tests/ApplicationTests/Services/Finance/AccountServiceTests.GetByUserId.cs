@@ -7,8 +7,8 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 
 using FluentAssertions;
 
@@ -44,9 +44,9 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByUserIdShouldReturnResponseWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		IEnumerable<AccountModel> accounts = [new(), new(), new()];
+		IEnumerable<AccountEntity> accounts = [new(), new(), new()];
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<AccountModel, bool>>>(), null, false, null, null, null, false, default))
+		accountMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<AccountEntity, bool>>>(), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult(accounts));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 

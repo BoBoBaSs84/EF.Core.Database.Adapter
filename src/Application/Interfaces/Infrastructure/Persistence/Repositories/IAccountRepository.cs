@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Finance;
+using Domain.Entities.Finance;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 
@@ -8,5 +8,5 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 /// The account repository interface.
 /// </summary>
 /// <inheritdoc/>
-public interface IAccountRepository : IIdentityRepository<AccountModel>
+public interface IAccountRepository : IIdentityRepository<AccountEntity>
 { }

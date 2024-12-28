@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Models.Documents;
+using Domain.Entities.Documents;
 
 namespace Application.Profiles.Requests;
 
@@ -14,7 +14,7 @@ internal sealed class DocumentsRequestProfile : Profile
 {
 	public DocumentsRequestProfile()
 	{
-		CreateMap<DocumentCreateRequest, Document>();
-		CreateMap<DocumentUpdateRequest, Document>();
+		CreateMap<DocumentCreateRequest, DocumentEntity>();
+		CreateMap<DocumentUpdateRequest, DocumentEntity>();
 	}
 }

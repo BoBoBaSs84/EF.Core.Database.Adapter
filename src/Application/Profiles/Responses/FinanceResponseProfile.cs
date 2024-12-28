@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Models.Finance;
+using Domain.Entities.Finance;
 
 namespace Application.Profiles.Responses;
 
@@ -14,8 +14,8 @@ internal sealed class FinanceResponseProfile : Profile
 {
 	public FinanceResponseProfile()
 	{
-		CreateMap<AccountModel, AccountResponse>();
-		CreateMap<CardModel, CardResponse>();
-		CreateMap<TransactionModel, TransactionResponse>();
+		CreateMap<AccountEntity, AccountResponse>();
+		CreateMap<CardEntity, CardResponse>();
+		CreateMap<TransactionEntity, TransactionResponse>();
 	}
 }

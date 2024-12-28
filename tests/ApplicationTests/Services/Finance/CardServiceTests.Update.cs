@@ -7,8 +7,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -49,7 +49,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, default, true, default))
-			.Returns(Task.FromResult<CardModel?>(null));
+			.Returns(Task.FromResult<CardEntity?>(null));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<Updated> result = await sut.Update(id, request);
@@ -69,11 +69,11 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		CardModel card = new();
+		CardEntity card = new();
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, default, true, default))
-			.Returns(Task.FromResult<CardModel?>(card));
+			.Returns(Task.FromResult<CardEntity?>(card));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));

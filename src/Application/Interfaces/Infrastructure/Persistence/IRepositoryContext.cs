@@ -1,9 +1,9 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Attendance;
-using Domain.Models.Documents;
-using Domain.Models.Finance;
-using Domain.Models.Todo;
+using Domain.Entities.Attendance;
+using Domain.Entities.Documents;
+using Domain.Entities.Finance;
+using Domain.Entities.Todo;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -15,25 +15,25 @@ namespace Application.Interfaces.Infrastructure.Persistence;
 public interface IRepositoryContext : IDbContext
 {
 	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<AccountModel> Accounts { get; }
+	DbSet<AccountEntity> Accounts { get; }
 
 	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<AttendanceModel> Attendances { get; }
+	DbSet<AttendanceEntity> Attendances { get; }
 
 	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<CardModel> Cards { get; }
+	DbSet<CardEntity> Cards { get; }
 
 	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<Document> Documents { get; }
+	DbSet<DocumentEntity> Documents { get; }
 
 	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<TransactionModel> Transactions { get; }
+	DbSet<TransactionEntity> Transactions { get; }
 
 	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<List> TodoLists { get; }
+	DbSet<ListEntity> TodoLists { get; }
 
 	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<Item> TodoItems { get; }
+	DbSet<ItemEntity> TodoItems { get; }
 
 	/// <summary>
 	/// This function returns the last day of the month containing a specified date.

@@ -3,9 +3,9 @@ using Application.Features.Requests;
 
 using BB84.Extensions;
 
+using Domain.Entities.Attendance;
+using Domain.Entities.Finance;
 using Domain.Enumerators.Attendance;
-using Domain.Models.Attendance;
-using Domain.Models.Finance;
 
 using FluentAssertions;
 
@@ -25,7 +25,7 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	{
 		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
 		AttendanceType type = AttendanceType.HOLIDAY;
-		IQueryable<AttendanceModel> models = GetAttendances(minDate, maxDate, type);
+		IQueryable<AttendanceEntity> models = GetAttendances(minDate, maxDate, type);
 		AttendanceParameters parameters = new()
 		{
 			Year = minDate.Year,
@@ -37,7 +37,7 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 			PageSize = maxDate.Day
 		};
 
-		IQueryable<AttendanceModel> filteredModels = models.FilterByParameters(parameters);
+		IQueryable<AttendanceEntity> filteredModels = models.FilterByParameters(parameters);
 
 		filteredModels.Should().HaveCount(parameters.PageSize);
 	}
@@ -48,10 +48,10 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	{
 		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
 		AttendanceType type = AttendanceType.HOLIDAY;
-		IQueryable<AttendanceModel> models = GetAttendances(minDate, maxDate, type);
+		IQueryable<AttendanceEntity> models = GetAttendances(minDate, maxDate, type);
 		AttendanceParameters parameters = new();
 
-		IQueryable<AttendanceModel> filteredModels = models.FilterByParameters(parameters);
+		IQueryable<AttendanceEntity> filteredModels = models.FilterByParameters(parameters);
 
 		filteredModels.Should().HaveCount(maxDate.Day);
 	}
@@ -61,7 +61,7 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	public void FilterByParametersWithTransactionParametersValues()
 	{
 		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
-		IQueryable<TransactionModel> models = GetTransactions(minDate, maxDate);
+		IQueryable<TransactionEntity> models = GetTransactions(minDate, maxDate);
 		TransactionParameters parameters = new()
 		{
 			Beneficiary = GetString(250),
@@ -73,7 +73,7 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 			PageSize = maxDate.Day
 		};
 
-		IQueryable<TransactionModel> filteredModels = models.FilterByParameters(parameters);
+		IQueryable<TransactionEntity> filteredModels = models.FilterByParameters(parameters);
 
 		filteredModels.Should().HaveCount(0);
 	}
@@ -83,21 +83,21 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	public void FilterByParametersWithoutTransactionParametersValues()
 	{
 		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
-		IQueryable<TransactionModel> models = GetTransactions(minDate, maxDate);
+		IQueryable<TransactionEntity> models = GetTransactions(minDate, maxDate);
 		TransactionParameters parameters = new();
 
-		IQueryable<TransactionModel> filteredModels = models.FilterByParameters(parameters);
+		IQueryable<TransactionEntity> filteredModels = models.FilterByParameters(parameters);
 
 		filteredModels.Should().HaveCount(maxDate.Day);
 	}
 
-	private static IQueryable<AttendanceModel> GetAttendances(DateTime minDate, DateTime maxDate, AttendanceType type)
+	private static IQueryable<AttendanceEntity> GetAttendances(DateTime minDate, DateTime maxDate, AttendanceType type)
 	{
 		DateTime currentDate = minDate;
-		List<AttendanceModel> models = [];
+		List<AttendanceEntity> models = [];
 		while (currentDate <= maxDate)
 		{
-			AttendanceModel attendance = new()
+			AttendanceEntity attendance = new()
 			{
 				Id = Guid.NewGuid(),
 				Date = currentDate,
@@ -110,17 +110,17 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 		return models.AsQueryable();
 	}
 
-	private static IQueryable<TransactionModel> GetTransactions(DateTime minDate, DateTime maxDate)
+	private static IQueryable<TransactionEntity> GetTransactions(DateTime minDate, DateTime maxDate)
 	{
 		DateTime currentDate = minDate;
-		List<TransactionModel> models = [];
+		List<TransactionEntity> models = [];
 		while (currentDate <= maxDate)
 		{
-			TransactionModel transaction = new()
+			TransactionEntity transaction = new()
 			{
 				Id = Guid.NewGuid(),
-				CreatedBy = GetString(50),
-				ModifiedBy = GetString(50),
+				Creator = GetString(50),
+				Editor = GetString(50),
 				BookingDate = currentDate,
 				ValueDate = currentDate.AddDays(1),
 				PostingText = GetString(100),

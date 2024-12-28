@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Models.Documents;
+using Domain.Entities.Documents;
 
 namespace Application.Profiles.Responses;
 
@@ -14,7 +14,7 @@ internal sealed class DocumentsResponseProfile : Profile
 {
 	public DocumentsResponseProfile()
 	{
-		CreateMap<Document, DocumentResponse>()
+		CreateMap<DocumentEntity, DocumentResponse>()
 			.ForMember(dest => dest.MD5Hash, opt => opt.MapFrom(src => HasData(src) ? src.Data.MD5Hash : default))
 			.ForMember(dest => dest.Length, opt => opt.MapFrom(src => HasData(src) ? src.Data.Length : default))
 			.ForMember(dest => dest.Content, opt => opt.MapFrom(src => HasData(src) ? src.Data.Content : default))
@@ -22,9 +22,9 @@ internal sealed class DocumentsResponseProfile : Profile
 			.ForMember(dest => dest.MimeType, opt => opt.MapFrom(src => HasExtension(src) ? src.Extension.MimeType : default));
 	}
 
-	private static bool HasData(Document document)
+	private static bool HasData(DocumentEntity document)
 		=> document.Data is not null;
 
-	private static bool HasExtension(Document document)
+	private static bool HasExtension(DocumentEntity document)
 		=> document.Extension is not null;
 }

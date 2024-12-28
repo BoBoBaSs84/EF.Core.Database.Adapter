@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Todo;
+using Domain.Entities.Todo;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 
@@ -8,5 +8,5 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 /// The interface for the todo item repository.
 /// </summary>
 /// <inheritdoc/>
-public interface IItemRepository : IIdentityRepository<Item>
+public interface IItemRepository : IIdentityRepository<ItemEntity>
 { }

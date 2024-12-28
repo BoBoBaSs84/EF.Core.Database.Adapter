@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Attendance;
+using Domain.Entities.Attendance;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 
@@ -8,5 +8,5 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 /// The attendance repository interface.
 /// </summary>
 /// <inheritdoc/>
-public interface IAttendanceRepository : IIdentityRepository<AttendanceModel>
+public interface IAttendanceRepository : IIdentityRepository<AttendanceEntity>
 { }

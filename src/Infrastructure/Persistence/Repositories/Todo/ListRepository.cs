@@ -1,15 +1,15 @@
-﻿using Application.Interfaces.Infrastructure.Persistence;
-using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
+﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 
 using BB84.EntityFrameworkCore.Repositories;
+using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Todo;
+using Domain.Entities.Todo;
 
 namespace Infrastructure.Persistence.Repositories.Todo;
 
 /// <summary>
 /// The list repository class.
 /// </summary>
-/// <param name="repositoryContext">The repository context to use.</param>
-internal sealed class ListRepository(IRepositoryContext repositoryContext) : IdentityRepository<List>(repositoryContext), IListRepository
+/// <inheritdoc/>
+internal sealed class ListRepository(IDbContext dbContext) : IdentityRepository<ListEntity>(dbContext), IListRepository
 { }

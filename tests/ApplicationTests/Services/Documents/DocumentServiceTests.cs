@@ -8,10 +8,9 @@ using AutoMapper;
 using BB84.Extensions;
 using BaseTests.Helpers;
 
-using Domain.Models.Documents;
-
 using Moq;
 using System;
+using Domain.Entities.Documents;
 
 namespace ApplicationTests.Services.Documents;
 
@@ -43,14 +42,14 @@ public sealed partial class DocumentServiceTests : ApplicationTestBase
 		return new(_loggerServiceMock.Object, _repositoryServiceMock.Object, _mapper);
 	}
 
-	private static Document CreateDocument(Guid? id = null)
+	private static DocumentEntity CreateDocument(Guid? id = null)
 	{
 		Guid dataId = Guid.NewGuid(),
 			extensionId = Guid.NewGuid();
 
 		string radomContent = RandomHelper.GetString(100);
 
-		Document document = new()
+		DocumentEntity document = new()
 		{
 			CreationTime = RandomHelper.GetDateTime(),
 			Data = new()

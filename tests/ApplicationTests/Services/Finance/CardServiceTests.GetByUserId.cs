@@ -7,8 +7,8 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 
 using FluentAssertions;
 
@@ -44,9 +44,9 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task GetByUserIdShouldReturnResponseWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		IEnumerable<CardModel> cards = [new(), new(), new()];
+		IEnumerable<CardEntity> cards = [new(), new(), new()];
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, null, null, null, false, default))
+		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult(cards));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 

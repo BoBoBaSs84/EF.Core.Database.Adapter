@@ -9,8 +9,8 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 
 using FluentAssertions;
 
@@ -60,8 +60,8 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().HaveCount(0);
-			mock.Verify(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), It.IsAny<Func<IQueryable<TransactionModel>, IQueryable<TransactionModel>>>(), false, It.IsAny<Func<IQueryable<TransactionModel>, IOrderedQueryable<TransactionModel>>>(), (parameters.PageNumber - 1) * parameters.PageSize, parameters.PageSize, false, default), Times.Once);
-			mock.Verify(x => x.CountAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), It.IsAny<Func<IQueryable<TransactionModel>, IQueryable<TransactionModel>>>(), false, default), Times.Once);
+			mock.Verify(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), It.IsAny<Func<IQueryable<TransactionEntity>, IQueryable<TransactionEntity>>>(), false, It.IsAny<Func<IQueryable<TransactionEntity>, IOrderedQueryable<TransactionEntity>>>(), (parameters.PageNumber - 1) * parameters.PageSize, parameters.PageSize, false, default), Times.Once);
+			mock.Verify(x => x.CountAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), It.IsAny<Func<IQueryable<TransactionEntity>, IQueryable<TransactionEntity>>>(), false, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

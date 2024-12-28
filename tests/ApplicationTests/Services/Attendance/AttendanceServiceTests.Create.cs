@@ -7,8 +7,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Attendance;
 using Domain.Errors;
-using Domain.Models.Attendance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -28,11 +28,11 @@ public sealed partial class AttendanceServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
-		AttendanceModel model = new() { Date = DateTime.Today };
+		AttendanceEntity model = new() { Date = DateTime.Today };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(id) && x.Date.Equals(request.Date), null, false, false, default))
-			.Returns(Task.FromResult<AttendanceModel?>(model));
+			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Created> result = await sut.Create(id, request)
@@ -56,7 +56,7 @@ public sealed partial class AttendanceServiceTests
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(id) && x.Date.Equals(request.Date), null, false, false, default))
-			.Returns(Task.FromResult<AttendanceModel?>(null));
+			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Created> result = await sut.Create(id, request)
@@ -68,7 +68,7 @@ public sealed partial class AttendanceServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			mock.Verify(x => x.CreateAsync(It.IsAny<AttendanceModel>(), default), Times.Once);
+			mock.Verify(x => x.CreateAsync(It.IsAny<AttendanceEntity>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);
 		});

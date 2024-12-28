@@ -1,6 +1,6 @@
-﻿using Domain.Enumerators.Attendance;
+﻿using Domain.Entities.Attendance;
+using Domain.Enumerators.Attendance;
 using Domain.Extensions;
-using Domain.Models.Attendance;
 
 namespace DomainTests.Extensions;
 
@@ -10,7 +10,7 @@ public class ModelExtensionsTests : DomainTestBase
 	[TestMethod]
 	public void GetResultingWorkingHoursValueTest()
 	{
-		AttendanceModel attendance = new()
+		AttendanceEntity attendance = new()
 		{
 			Type = AttendanceType.WORKDAY,
 			StartTime = new(6, 0, 0),
@@ -26,7 +26,7 @@ public class ModelExtensionsTests : DomainTestBase
 	[TestMethod]
 	public void GetResultingWorkingHoursNotRelevantTest()
 	{
-		AttendanceModel attendance = new()
+		AttendanceEntity attendance = new()
 		{
 			Type = AttendanceType.SICKNESS
 		};
@@ -39,7 +39,7 @@ public class ModelExtensionsTests : DomainTestBase
 	[TestMethod]
 	public void GetResultingWorkingHoursNoEndTimeTest()
 	{
-		AttendanceModel attendance = new()
+		AttendanceEntity attendance = new()
 		{
 			Type = AttendanceType.WORKDAY,
 			StartTime = new(6, 0, 0)
@@ -53,7 +53,7 @@ public class ModelExtensionsTests : DomainTestBase
 	[TestMethod]
 	public void GetResultingWorkingHoursNoStartTimeTest()
 	{
-		AttendanceModel attendance = new()
+		AttendanceEntity attendance = new()
 		{
 			Type = AttendanceType.WORKDAY,
 			EndTime = new(15, 0, 0)

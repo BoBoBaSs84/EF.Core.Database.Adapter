@@ -5,9 +5,9 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Enumerators.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 
 using FluentAssertions;
 
@@ -45,7 +45,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
-			.Returns(Task.FromResult<CardModel?>(null));
+			.Returns(Task.FromResult<CardEntity?>(null));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<CardResponse> result = await sut.GetById(id);
@@ -65,10 +65,10 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task GetByIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CardModel cardModel = new() { Id = id, Type = CardType.DEBIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
+		CardEntity cardModel = new() { Id = id, Type = CardType.DEBIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
-			.Returns(Task.FromResult<CardModel?>(cardModel));
+			.Returns(Task.FromResult<CardEntity?>(cardModel));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<CardResponse> result = await sut.GetById(id);

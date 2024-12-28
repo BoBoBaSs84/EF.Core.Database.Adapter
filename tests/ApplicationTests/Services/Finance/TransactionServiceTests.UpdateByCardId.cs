@@ -9,8 +9,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -53,8 +53,8 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		TransactionUpdateRequest request = RequestHelper.GetTransactionUpdateRequest();
 		string[] parameters = [$"{cardId}", $"{id}"];
 		Mock<ITransactionRepository> mock = new();
-		mock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), null, false, true, default))
-			.Returns(Task.FromResult<TransactionModel?>(null));
+		mock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, true, default))
+			.Returns(Task.FromResult<TransactionEntity?>(null));
 		TransactionService sut = CreateMockedInstance(transactionRepository: mock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateByCardId(cardId, id, request)
@@ -65,7 +65,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TransactionServiceErrors.UpdateByCardIdNotFound(id));
-			mock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), null, false, true, default), Times.Once);
+			mock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, true, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -76,11 +76,11 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	{
 		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
 		TransactionUpdateRequest request = RequestHelper.GetTransactionUpdateRequest();
-		TransactionModel model = new() { Id = id };
+		TransactionEntity model = new() { Id = id };
 		string[] parameters = [$"{cardId}", $"{id}"];
 		Mock<ITransactionRepository> mock = new();
-		mock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), null, false, true, default))
-			.Returns(Task.FromResult<TransactionModel?>(model));
+		mock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, true, default))
+			.Returns(Task.FromResult<TransactionEntity?>(model));
 		TransactionService sut = CreateMockedInstance(transactionRepository: mock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateByCardId(cardId, id, request)
@@ -103,7 +103,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			model.CreditorId.Should().Be(request.CreditorId);
 			model.MandateReference.Should().Be(request.MandateReference);
 			model.CustomerReference.Should().Be(request.CustomerReference);
-			mock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionModel, bool>>>(), null, false, true, default), Times.Once);
+			mock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, true, default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);
 		});

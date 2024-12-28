@@ -1,15 +1,15 @@
-﻿using Application.Interfaces.Infrastructure.Persistence;
-using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
+﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 
 using BB84.EntityFrameworkCore.Repositories;
+using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Todo;
+using Domain.Entities.Todo;
 
 namespace Infrastructure.Persistence.Repositories.Todo;
 
 /// <summary>
 /// The item repository class.
 /// </summary>
-/// <param name="repositoryContext">The repository context to use.</param>
-internal sealed class ItemRepository(IRepositoryContext repositoryContext) : IdentityRepository<Item>(repositoryContext), IItemRepository
+/// <inheritdoc/>
+internal sealed class ItemRepository(IDbContext dbContext) : IdentityRepository<ItemEntity>(dbContext), IItemRepository
 { }

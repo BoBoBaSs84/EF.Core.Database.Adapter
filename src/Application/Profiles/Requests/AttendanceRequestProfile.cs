@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Models.Attendance;
+using Domain.Entities.Attendance;
 
 namespace Application.Profiles.Requests;
 
@@ -14,7 +14,7 @@ internal sealed class AttendanceRequestProfile : Profile
 {
 	public AttendanceRequestProfile()
 	{
-		CreateMap<AttendanceCreateRequest, AttendanceModel>();
-		CreateMap<AttendanceUpdateRequest, AttendanceModel>();
+		CreateMap<AttendanceCreateRequest, AttendanceEntity>();
+		CreateMap<AttendanceUpdateRequest, AttendanceEntity>();
 	}
 }

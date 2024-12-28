@@ -7,8 +7,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -50,7 +50,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
-			.Returns(Task.FromResult<CardModel?>(null));
+			.Returns(Task.FromResult<CardEntity?>(null));
 		TransactionService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<Created> result = await sut.CreateByCardId(id, request)
@@ -72,10 +72,10 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	{
 		Guid id = Guid.NewGuid();
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
-		CardModel model = new();
+		CardEntity model = new();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
-			.Returns(Task.FromResult<CardModel?>(model));
+			.Returns(Task.FromResult<CardEntity?>(model));
 		Mock<ITransactionRepository> transactionMock = new();
 		TransactionService sut = CreateMockedInstance(null, cardMock.Object, transactionMock.Object);
 
@@ -89,7 +89,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
 			cardMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
-			transactionMock.Verify(x => x.CreateAsync(It.IsAny<TransactionModel>(), default));
+			transactionMock.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>(), default));
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

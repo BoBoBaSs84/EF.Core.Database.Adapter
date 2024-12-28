@@ -4,8 +4,8 @@ using Application.Services.Documents;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Documents;
 using Domain.Errors;
-using Domain.Models.Documents;
 using Domain.Results;
 
 using FluentAssertions;
@@ -47,7 +47,7 @@ public sealed partial class DocumentServiceTests
 		IEnumerable<Guid> ids = [Guid.NewGuid()];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(userId) && ids.Contains(x.Id), default, default, default, default, default, default, default))
-			.Returns(Task.FromResult<IEnumerable<Document>>([]));
+			.Returns(Task.FromResult<IEnumerable<DocumentEntity>>([]));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteByIds(userId, ids)
@@ -69,7 +69,7 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid userId = Guid.NewGuid();
 		IEnumerable<Guid> ids = [Guid.NewGuid()];
-		IEnumerable<Document> documents = [CreateDocument()];
+		IEnumerable<DocumentEntity> documents = [CreateDocument()];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(userId) && ids.Contains(x.Id), default, default, default, default, default, default, default))
 			.Returns(Task.FromResult(documents));

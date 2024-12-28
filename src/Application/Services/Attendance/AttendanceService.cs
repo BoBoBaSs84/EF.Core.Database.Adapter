@@ -11,8 +11,8 @@ using AutoMapper;
 
 using BB84.Extensions;
 
+using Domain.Entities.Attendance;
 using Domain.Errors;
-using Domain.Models.Attendance;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -34,14 +34,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			AttendanceModel? entity = await repositoryService.AttendanceRepository
+			AttendanceEntity? entity = await repositoryService.AttendanceRepository
 				.GetByConditionAsync(expression: x => x.UserId.Equals(id) && x.Date.Equals(request.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entity is not null)
 				return AttendanceServiceErrors.CreateConflict(request.Date);
 
-			AttendanceModel newEntity = mapper.Map<AttendanceModel>(request);
+			AttendanceEntity newEntity = mapper.Map<AttendanceEntity>(request);
 			newEntity.UserId = id;
 
 			await repositoryService.AttendanceRepository.CreateAsync(newEntity, token)
@@ -64,18 +64,18 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
+			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(expression: x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entities.Any())
 				return AttendanceServiceErrors.CreateMultipleConflict(entities.Select(x => x.Date));
 
-			List<AttendanceModel> newEntities = [];
+			List<AttendanceEntity> newEntities = [];
 
 			foreach (AttendanceCreateRequest request in requests)
 			{
-				AttendanceModel newAttendance = mapper.Map<AttendanceModel>(request);
+				AttendanceEntity newAttendance = mapper.Map<AttendanceEntity>(request);
 				newAttendance.UserId = id;
 				newEntities.Add(newAttendance);
 			}
@@ -100,7 +100,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			AttendanceModel? entity = await repositoryService.AttendanceRepository
+			AttendanceEntity? entity = await repositoryService.AttendanceRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
@@ -127,7 +127,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
+			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
 				.GetByIdsAsync(ids, token: token)
 				.ConfigureAwait(false);
 
@@ -155,7 +155,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> attendances = await repositoryService.AttendanceRepository
+			IEnumerable<AttendanceEntity> attendances = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(
 					expression: x => x.UserId.Equals(userId),
 					queryFilter: x => x.FilterByParameters(parameters),
@@ -187,7 +187,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			AttendanceModel? attendanceEntry = await repositoryService.AttendanceRepository
+			AttendanceEntity? attendanceEntry = await repositoryService.AttendanceRepository
 				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), token: token)
 				.ConfigureAwait(false);
 
@@ -210,7 +210,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			AttendanceModel? entity = await repositoryService.AttendanceRepository
+			AttendanceEntity? entity = await repositoryService.AttendanceRepository
 				.GetByIdAsync(request.Id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
@@ -235,14 +235,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceModel> entities = await repositoryService.AttendanceRepository
+			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
 				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
 			if (entities.Any().IsFalse())
 				return AttendanceServiceErrors.GetByIdsNotFound(requests.Select(x => x.Id));
 
-			foreach (AttendanceModel entity in entities)
+			foreach (AttendanceEntity entity in entities)
 				_ = mapper.Map(requests.Single(x => x.Id.Equals(entity.Id)), entity);
 
 			_ = await repositoryService.CommitChangesAsync(token)

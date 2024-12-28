@@ -6,8 +6,8 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using Domain.Entities.Todo;
 using Domain.Errors;
-using Domain.Models.Todo;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -29,7 +29,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List list = MapFromRequest(request);
+			ListEntity list = MapFromRequest(request);
 			list.UserId = userId;
 
 			await repositoryService.TodoListRepository.CreateAsync(list, token)
@@ -51,14 +51,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? list = await repositoryService.TodoListRepository
+			ListEntity? list = await repositoryService.TodoListRepository
 				.GetByIdAsync(listId, token: token)
 				.ConfigureAwait(false);
 
 			if (list is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			Item item = MapFromRequest(request);
+			ItemEntity item = MapFromRequest(request);
 			item.ListId = listId;
 
 			await repositoryService.TodoItemRepository.CreateAsync(item, token)
@@ -80,7 +80,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? listEntity = await repositoryService.TodoListRepository
+			ListEntity? listEntity = await repositoryService.TodoListRepository
 				.GetByIdAsync(listId, token: token)
 				.ConfigureAwait(false);
 
@@ -107,7 +107,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			Item? itemEntity = await repositoryService.TodoItemRepository
+			ItemEntity? itemEntity = await repositoryService.TodoItemRepository
 				.GetByIdAsync(itemId, token: token)
 				.ConfigureAwait(false);
 
@@ -134,8 +134,8 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? todoList = await repositoryService.TodoListRepository
-				.GetByIdAsync(listId, token: token, includeProperties: nameof(List.Items))
+			ListEntity? todoList = await repositoryService.TodoListRepository
+				.GetByIdAsync(listId, token: token, includeProperties: nameof(ListEntity.Items))
 				.ConfigureAwait(false);
 
 			if (todoList is null)
@@ -156,7 +156,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			IEnumerable<List> todoLists = await repositoryService.TodoListRepository
+			IEnumerable<ListEntity> todoLists = await repositoryService.TodoListRepository
 				.GetManyByConditionAsync(expression: x => x.UserId.Equals(userId), token: token)
 				.ConfigureAwait(false);
 
@@ -175,7 +175,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			List? list = await repositoryService.TodoListRepository
+			ListEntity? list = await repositoryService.TodoListRepository
 				.GetByIdAsync(listId, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
@@ -200,7 +200,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 	{
 		try
 		{
-			Item? item = await repositoryService.TodoItemRepository
+			ItemEntity? item = await repositoryService.TodoItemRepository
 				.GetByIdAsync(itemId, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
@@ -221,21 +221,21 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, IRe
 		}
 	}
 
-	private List MapFromRequest(ListCreateRequest request)
-		=> mapper.Map<List>(request);
+	private ListEntity MapFromRequest(ListCreateRequest request)
+		=> mapper.Map<ListEntity>(request);
 
-	private Item MapFromRequest(ItemCreateRequest request)
-		=> mapper.Map<Item>(request);
+	private ItemEntity MapFromRequest(ItemCreateRequest request)
+		=> mapper.Map<ItemEntity>(request);
 
-	private ListResponse MapToResponse(List list)
+	private ListResponse MapToResponse(ListEntity list)
 		=> mapper.Map<ListResponse>(list);
 
-	private IEnumerable<ListResponse> MapToResponse(IEnumerable<List> lists)
+	private IEnumerable<ListResponse> MapToResponse(IEnumerable<ListEntity> lists)
 		=> lists.Select(MapToResponse);
 
-	private List MapFromRequest(ListUpdateRequest request, List list)
+	private ListEntity MapFromRequest(ListUpdateRequest request, ListEntity list)
 		=> mapper.Map(request, list);
 
-	private Item MapFromRequest(ItemUpdateRequest request, Item item)
+	private ItemEntity MapFromRequest(ItemUpdateRequest request, ItemEntity item)
 		=> mapper.Map(request, item);
 }

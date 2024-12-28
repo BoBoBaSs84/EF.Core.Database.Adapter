@@ -1,9 +1,9 @@
 ﻿using Application.Features.Requests;
 
+using Domain.Entities.Attendance;
+using Domain.Entities.Documents;
+using Domain.Entities.Finance;
 using Domain.Enumerators.Attendance;
-using Domain.Models.Attendance;
-using Domain.Models.Documents;
-using Domain.Models.Finance;
 
 namespace Application.Extensions;
 
@@ -36,9 +36,9 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="parameters">The parameters to filter by.</param>
 	/// <returns>The filtered <paramref name="query"/>.</returns>
-	public static IQueryable<AttendanceModel> FilterByParameters(this IQueryable<AttendanceModel> query, AttendanceParameters parameters)
+	public static IQueryable<AttendanceEntity> FilterByParameters(this IQueryable<AttendanceEntity> query, AttendanceParameters parameters)
 	{
-		IQueryable<AttendanceModel> filteredQuery = query
+		IQueryable<AttendanceEntity> filteredQuery = query
 			.FilterByYear(parameters.Year)
 			.FilterByMonth(parameters.Month)
 			.FilterByDateRange(parameters.MinDate, parameters.MaxDate)
@@ -53,9 +53,9 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="parameters">The parameters to filter by.</param>
 	/// <returns>The filtered <paramref name="query"/>.</returns>
-	public static IQueryable<Document> FilterByParameters(this IQueryable<Document> query, DocumentParameters parameters)
+	public static IQueryable<DocumentEntity> FilterByParameters(this IQueryable<DocumentEntity> query, DocumentParameters parameters)
 	{
-		IQueryable<Document> filteredQuery = query
+		IQueryable<DocumentEntity> filteredQuery = query
 			.FilterByDirectory(parameters.Directory)
 			.FilterByExtension(parameters.ExtensionName)
 			.FilterByName(parameters.Name);
@@ -69,9 +69,9 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="parameters">The parameters to filter by.</param>
 	/// <returns>The filtered <paramref name="query"/>.</returns>
-	public static IQueryable<TransactionModel> FilterByParameters(this IQueryable<TransactionModel> query, TransactionParameters parameters)
+	public static IQueryable<TransactionEntity> FilterByParameters(this IQueryable<TransactionEntity> query, TransactionParameters parameters)
 	{
-		IQueryable<TransactionModel> filteredQuery = query
+		IQueryable<TransactionEntity> filteredQuery = query
 			.FilterByBookingDate(parameters.BookingDate)
 			.FilterByValueDate(parameters.ValueDate)
 			.FilterByBeneficiary(parameters.Beneficiary)
@@ -90,7 +90,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="name">The name to search for.</param>
 	/// <returns>The filtered <paramref name="query"/>.</returns>
-	private static IQueryable<Document> FilterByName(this IQueryable<Document> query, string? name)
+	private static IQueryable<DocumentEntity> FilterByName(this IQueryable<DocumentEntity> query, string? name)
 		=> name is not null ? query.Where(x => x.Name.Contains(name)) : query;
 
 	/// <summary>
@@ -99,7 +99,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="directory">The directory to search for.</param>
 	/// <returns>The filtered <paramref name="query"/>.</returns>
-	private static IQueryable<Document> FilterByDirectory(this IQueryable<Document> query, string? directory)
+	private static IQueryable<DocumentEntity> FilterByDirectory(this IQueryable<DocumentEntity> query, string? directory)
 		=> directory is not null ? query.Where(x => x.Directory.Contains(directory)) : query;
 
 	/// <summary>
@@ -108,7 +108,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="extension">The extension to search for.</param>
 	/// <returns>The filtered <paramref name="query"/>.</returns>
-	private static IQueryable<Document> FilterByExtension(this IQueryable<Document> query, string? extension)
+	private static IQueryable<DocumentEntity> FilterByExtension(this IQueryable<DocumentEntity> query, string? extension)
 		=> extension is not null ? query.Where(x => x.Extension.Name.Contains(extension)) : query;
 
 	/// <summary>
@@ -150,7 +150,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="year">The year to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<AttendanceModel> FilterByYear(this IQueryable<AttendanceModel> query, int? year)
+	private static IQueryable<AttendanceEntity> FilterByYear(this IQueryable<AttendanceEntity> query, int? year)
 		=> year.HasValue ? query.Where(x => x.Date.Year.Equals(year)) : query;
 
 	/// <summary>
@@ -159,7 +159,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="month">The month to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<AttendanceModel> FilterByMonth(this IQueryable<AttendanceModel> query, int? month)
+	private static IQueryable<AttendanceEntity> FilterByMonth(this IQueryable<AttendanceEntity> query, int? month)
 		=> month.HasValue ? query.Where(x => x.Date.Month.Equals(month)) : query;
 
 	/// <summary>
@@ -169,7 +169,7 @@ public static class QueryableExtensions
 	/// <param name="minDate">The minimum date.</param>
 	/// <param name="maxDate">The maximum date.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<AttendanceModel> FilterByDateRange(this IQueryable<AttendanceModel> query, DateTime? minDate, DateTime? maxDate)
+	private static IQueryable<AttendanceEntity> FilterByDateRange(this IQueryable<AttendanceEntity> query, DateTime? minDate, DateTime? maxDate)
 	{
 		query = minDate.HasValue ? query.Where(x => x.Date >= minDate.Value.Date) : query;
 		query = maxDate.HasValue ? query.Where(x => x.Date <= maxDate.Value.Date) : query;
@@ -183,7 +183,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="type">The attendance type to be filtered.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<AttendanceModel> FilterByType(this IQueryable<AttendanceModel> query, AttendanceType? type)
+	private static IQueryable<AttendanceEntity> FilterByType(this IQueryable<AttendanceEntity> query, AttendanceType? type)
 		=> type.HasValue ? query.Where(x => x.Type.Equals(type)) : query;
 
 	/// <summary>
@@ -192,7 +192,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="dateTime">The date to be filtered by.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<TransactionModel> FilterByBookingDate(this IQueryable<TransactionModel> query, DateTime? dateTime)
+	private static IQueryable<TransactionEntity> FilterByBookingDate(this IQueryable<TransactionEntity> query, DateTime? dateTime)
 		=> dateTime.HasValue ? query.Where(x => x.BookingDate.Equals(dateTime.Value.Date)) : query;
 
 	/// <summary>
@@ -201,7 +201,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="dateTime">The date to be filtered by.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<TransactionModel> FilterByValueDate(this IQueryable<TransactionModel> query, DateTime? dateTime)
+	private static IQueryable<TransactionEntity> FilterByValueDate(this IQueryable<TransactionEntity> query, DateTime? dateTime)
 		=> dateTime.HasValue ? query.Where(x => x.ValueDate.Equals(dateTime.Value.Date)) : query;
 
 	/// <summary>
@@ -210,7 +210,7 @@ public static class QueryableExtensions
 	/// <param name="query">The query to filter.</param>
 	/// <param name="beneficiary">The client beneficiary to be filtered by.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<TransactionModel> FilterByBeneficiary(this IQueryable<TransactionModel> query, string? beneficiary)
+	private static IQueryable<TransactionEntity> FilterByBeneficiary(this IQueryable<TransactionEntity> query, string? beneficiary)
 		=> beneficiary is not null ? query.Where(x => x.ClientBeneficiary.Contains(beneficiary)) : query;
 
 	/// <summary>
@@ -220,7 +220,7 @@ public static class QueryableExtensions
 	/// <param name="minValue">The minimum value to be filtered by.</param>
 	/// <param name="maxValue">The maximum value to be filtered by.</param>
 	/// <returns><see cref="IQueryable{T}"/></returns>
-	private static IQueryable<TransactionModel> FilterByAmountRange(this IQueryable<TransactionModel> query, decimal? minValue, decimal? maxValue)
+	private static IQueryable<TransactionEntity> FilterByAmountRange(this IQueryable<TransactionEntity> query, decimal? minValue, decimal? maxValue)
 	{
 		query = minValue.HasValue ? query.Where(x => x.AmountEur >= minValue) : query;
 		query = maxValue.HasValue ? query.Where(x => x.AmountEur <= maxValue) : query;

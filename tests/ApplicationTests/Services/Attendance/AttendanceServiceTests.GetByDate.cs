@@ -5,9 +5,9 @@ using Application.Services.Attendance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Attendance;
 using Domain.Enumerators.Attendance;
 using Domain.Errors;
-using Domain.Models.Attendance;
 
 using FluentAssertions;
 
@@ -49,7 +49,7 @@ public sealed partial class AttendanceServiceTests
 		DateTime date = DateTime.Today;
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), null, false, false, default))
-			.Returns(Task.FromResult<AttendanceModel?>(null));
+			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<AttendanceResponse> result = await sut.GetByDate(userId, date)
@@ -70,10 +70,10 @@ public sealed partial class AttendanceServiceTests
 	{
 		Guid userId = Guid.NewGuid();
 		DateTime date = DateTime.Today;
-		AttendanceModel model = new() { Id = userId, Date = date.Date, Type = AttendanceType.WORKDAY, StartTime = TimeSpan.MinValue, EndTime = TimeSpan.MinValue, BreakTime = TimeSpan.MinValue };
+		AttendanceEntity model = new() { Id = userId, Date = date.Date, Type = AttendanceType.WORKDAY, StartTime = TimeSpan.MinValue, EndTime = TimeSpan.MinValue, BreakTime = TimeSpan.MinValue };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), null, false, false, default))
-			.Returns(Task.FromResult<AttendanceModel?>(model));
+			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<AttendanceResponse> result = await sut.GetByDate(userId, date)

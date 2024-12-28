@@ -6,6 +6,7 @@ using Application.Interfaces.Infrastructure.Services;
 
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Documents;
+using Infrastructure.Persistence.Repositories.Finance;
 using Infrastructure.Persistence.Repositories.Todo;
 
 namespace Infrastructure.Services;

@@ -39,7 +39,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection RegisterScopedServices(this IServiceCollection services)
 	{
-		services.TryAddScoped<AuditingInterceptor>();
+		services.TryAddScoped<UserAuditingInterceptor>();
 		services.TryAddScoped<SoftDeletableInterceptor>();
 		services.TryAddScoped<IRepositoryService, RepositoryService>();
 		services.TryAddScoped<IUserService, UserService>();

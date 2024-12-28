@@ -6,7 +6,7 @@ using AutoMapper;
 
 using BB84.Extensions;
 
-using Domain.Models.Todo;
+using Domain.Entities.Todo;
 
 namespace Application.Profiles.Responses;
 
@@ -18,8 +18,8 @@ internal sealed class TodoResponseProfile : Profile
 {
 	public TodoResponseProfile()
 	{
-		CreateMap<Item, ItemResponse>();
-		CreateMap<List, ListResponse>()
+		CreateMap<ItemEntity, ItemResponse>();
+		CreateMap<ListEntity, ListResponse>()
 			.ForMember(t => t.Color, o => o.MapFrom(s => MapColor(s.Color)));
 	}
 

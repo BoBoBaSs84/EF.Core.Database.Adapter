@@ -7,8 +7,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Todo;
 using Domain.Errors;
-using Domain.Models.Todo;
 using Domain.Results;
 
 using FluentAssertions;
@@ -50,7 +50,7 @@ public sealed partial class TodoServiceTests
 		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		Mock<IItemRepository> itemMock = new();
 		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, default))
-			.Returns(Task.FromResult<Item?>(null));
+			.Returns(Task.FromResult<ItemEntity?>(null));
 		TodoService sut = CreateMockedInstance(itemRepository: itemMock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateItemById(itemId, request)
@@ -72,10 +72,10 @@ public sealed partial class TodoServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
-		Item model = new();
+		ItemEntity model = new();
 		Mock<IItemRepository> itemMock = new();
 		itemMock.Setup(x => x.GetByIdAsync(id, false, true, default))
-			.Returns(Task.FromResult<Item?>(model));
+			.Returns(Task.FromResult<ItemEntity?>(model));
 		TodoService sut = CreateMockedInstance(itemRepository: itemMock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateItemById(id, request)

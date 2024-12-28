@@ -6,8 +6,8 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -29,21 +29,21 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			AccountModel? accountEntity = await repositoryService.AccountRepository
+			AccountEntity? accountEntity = await repositoryService.AccountRepository
 				.GetByIdAsync(accountId, token: token)
 				.ConfigureAwait(false);
 
 			if (accountEntity is null)
 				return CardServiceErrors.CreateAccountIdNotFound(accountId);
 
-			CardModel? cardEntity = await repositoryService.CardRepository
+			CardEntity? cardEntity = await repositoryService.CardRepository
 				.GetByConditionAsync(x => x.PAN == request.PAN, token: token)
 				.ConfigureAwait(false);
 
 			if (cardEntity is not null)
 				return CardServiceErrors.CreateNumberConflict(request.PAN);
 
-			CardModel newCard = mapper.Map<CardModel>(request);
+			CardEntity newCard = mapper.Map<CardEntity>(request);
 
 			newCard.UserId = userId;
 			newCard.AccountId = accountId;
@@ -68,7 +68,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			CardModel? cardEntity = await repositoryService.CardRepository
+			CardEntity? cardEntity = await repositoryService.CardRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
@@ -94,7 +94,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			CardModel? cardEntity = await repositoryService.CardRepository
+			CardEntity? cardEntity = await repositoryService.CardRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
@@ -116,7 +116,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			IEnumerable<CardModel> cardEntries = await repositoryService.CardRepository
+			IEnumerable<CardEntity> cardEntries = await repositoryService.CardRepository
 				.GetManyByConditionAsync(x => x.UserId.Equals(id), token: token)
 				.ConfigureAwait(false);
 
@@ -135,7 +135,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 	{
 		try
 		{
-			CardModel? cardEntity = await repositoryService.CardRepository
+			CardEntity? cardEntity = await repositoryService.CardRepository
 				.GetByIdAsync(id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 

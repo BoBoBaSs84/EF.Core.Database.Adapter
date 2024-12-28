@@ -4,8 +4,8 @@ using Application.Services.Attendance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Attendance;
 using Domain.Errors;
-using Domain.Models.Attendance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -45,7 +45,7 @@ public sealed partial class AttendanceServiceTests
 		Guid id = Guid.NewGuid();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<AttendanceModel?>(null));
+			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteById(id, default)
@@ -66,10 +66,10 @@ public sealed partial class AttendanceServiceTests
 	public async Task DeleteByIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceModel model = new();
+		AttendanceEntity model = new();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<AttendanceModel?>(model));
+			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		mock.Setup(x => x.DeleteAsync(model, default))
 			.Returns(Task.CompletedTask);
 		AttendanceService sut = CreateMockedInstance(mock.Object);

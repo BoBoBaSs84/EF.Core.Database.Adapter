@@ -1,4 +1,4 @@
-﻿using Domain.Models.Attendance;
+﻿using Domain.Entities.Attendance;
 
 namespace Domain.Extensions;
 
@@ -12,7 +12,7 @@ public static partial class ModelExtensions
 	/// </summary>
 	/// <param name="model">The attendance model to work with.</param>
 	/// <returns>The resulting working hours.</returns>
-	public static float GetResultingWorkingHours(this AttendanceModel model)
+	public static float GetResultingWorkingHours(this AttendanceEntity model)
 	{
 		if (model.Type.IsWorkingHoursRelevant().Equals(false))
 			return default;

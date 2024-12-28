@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Finance;
+using Domain.Entities.Finance;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 
@@ -8,5 +8,5 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 /// The card repository interface.
 /// </summary>
 /// <inheritdoc/>
-public interface ICardRepository : IIdentityRepository<CardModel>
+public interface ICardRepository : IIdentityRepository<CardEntity>
 { }

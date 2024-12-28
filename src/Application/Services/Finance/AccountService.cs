@@ -6,8 +6,8 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using Microsoft.Extensions.Logging;
@@ -29,7 +29,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			AccountModel? accountEntity = await repositoryService.AccountRepository
+			AccountEntity? accountEntity = await repositoryService.AccountRepository
 				.GetByConditionAsync(expression: x => x.IBAN == request.IBAN, token: token)
 				.ConfigureAwait(false);
 
@@ -40,7 +40,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			{
 				foreach (CardCreateRequest cardRequest in request.Cards)
 				{
-					CardModel? cardEntity = await repositoryService.CardRepository
+					CardEntity? cardEntity = await repositoryService.CardRepository
 						.GetByConditionAsync(expression: x => x.PAN == cardRequest.PAN, token: token)
 						.ConfigureAwait(false);
 
@@ -49,11 +49,11 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 				}
 			}
 
-			AccountModel account = mapper.Map<AccountModel>(request);
+			AccountEntity account = mapper.Map<AccountEntity>(request);
 
 			if (account.Cards is not null && account.Cards.Count > 0)
 			{
-				foreach (CardModel card in account.Cards)
+				foreach (CardEntity card in account.Cards)
 					card.UserId = id;
 			}
 
@@ -78,7 +78,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			AccountModel? accountEntity = await repositoryService.AccountRepository
+			AccountEntity? accountEntity = await repositoryService.AccountRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
@@ -105,8 +105,8 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			AccountModel? accountEntity = await repositoryService.AccountRepository
-				.GetByIdAsync(id, token: token, includeProperties: nameof(AccountModel.Cards))
+			AccountEntity? accountEntity = await repositoryService.AccountRepository
+				.GetByIdAsync(id, token: token, includeProperties: nameof(AccountEntity.Cards))
 				.ConfigureAwait(false);
 
 			if (accountEntity is null)
@@ -127,7 +127,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			IEnumerable<AccountModel> accountEntities = await repositoryService.AccountRepository
+			IEnumerable<AccountEntity> accountEntities = await repositoryService.AccountRepository
 				.GetManyByConditionAsync(x => x.AccountUsers.Select(x => x.UserId).Contains(id), token: token)
 				.ConfigureAwait(false);
 
@@ -146,7 +146,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			AccountModel? account = await repositoryService.AccountRepository
+			AccountEntity? account = await repositoryService.AccountRepository
 				.GetByIdAsync(id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 

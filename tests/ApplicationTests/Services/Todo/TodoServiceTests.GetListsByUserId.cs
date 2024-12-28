@@ -9,8 +9,8 @@ using BaseTests.Helpers;
 
 using BB84.Extensions;
 
+using Domain.Entities.Todo;
 using Domain.Errors;
-using Domain.Models.Todo;
 
 using FluentAssertions;
 
@@ -47,10 +47,10 @@ public sealed partial class TodoServiceTests
 	public async Task GetListsByUserIdShouldReturnValidResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		List list = new() { Title = "Hello", Color = Color.Red };
+		ListEntity list = new() { Title = "Hello", Color = Color.Red };
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(userId), null, false, null, null, null, false, default))
-			.Returns(Task.FromResult<IEnumerable<List>>([list]));
+			.Returns(Task.FromResult<IEnumerable<ListEntity>>([list]));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<IEnumerable<ListResponse>> result = await sut.GetListsByUserId(userId)

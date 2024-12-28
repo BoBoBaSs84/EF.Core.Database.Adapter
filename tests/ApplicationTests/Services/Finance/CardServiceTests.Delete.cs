@@ -4,8 +4,8 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -44,7 +44,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<CardModel?>(null));
+			.Returns(Task.FromResult<CardEntity?>(null));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
 		ErrorOr<Deleted> result = await sut.Delete(id);
@@ -64,10 +64,10 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task DeleteShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		CardModel card = new();
+		CardEntity card = new();
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<CardModel?>(card));
+			.Returns(Task.FromResult<CardEntity?>(card));
 		cardMock.Setup(x => x.DeleteAsync(card, default))
 			.Returns(Task.CompletedTask);
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);

@@ -7,8 +7,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -49,7 +49,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, default, true, default))
-			.Returns(Task.FromResult<AccountModel?>(null));
+			.Returns(Task.FromResult<AccountEntity?>(null));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 
 		ErrorOr<Updated> result = await sut.Update(id, request);
@@ -69,11 +69,11 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		AccountModel account = new();
+		AccountEntity account = new();
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, default, true, default))
-			.Returns(Task.FromResult<AccountModel?>(account));
+			.Returns(Task.FromResult<AccountEntity?>(account));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));

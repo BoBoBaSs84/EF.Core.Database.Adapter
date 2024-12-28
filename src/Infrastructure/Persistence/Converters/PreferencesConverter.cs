@@ -1,6 +1,6 @@
 ﻿using BB84.Extensions.Serialization;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 

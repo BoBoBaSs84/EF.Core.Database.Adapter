@@ -10,8 +10,8 @@ using BaseTests.Helpers;
 using BB84.Extensions;
 using BB84.Extensions.Serialization;
 
+using Domain.Entities.Documents;
 using Domain.Errors;
-using Domain.Models.Documents;
 using Domain.Results;
 
 using FluentAssertions;
@@ -54,10 +54,10 @@ public sealed partial class DocumentServiceTests
 		byte[] md5Hash = request.Content.GetMD5();
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
 		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, default))
-			.Returns(Task.FromResult<Extension?>(null));
+			.Returns(Task.FromResult<ExtensionEntity?>(null));
 		Mock<IDocumentDataRepository> dataRepoMock = new();
 		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default))
-			.Returns(Task.FromResult<Data?>(null));
+			.Returns(Task.FromResult<DataEntity?>(null));
 		Mock<IDocumentRepository> docRepoMock = new();
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
@@ -72,7 +72,7 @@ public sealed partial class DocumentServiceTests
 			result.Value.Should().Be(Result.Created);
 			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, default), Times.Once());
 			//dataRepoMock.Verify(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default), Times.Once());
-			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<Document>(), default), Times.Once());
+			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<DocumentEntity>(), default), Times.Once());
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});

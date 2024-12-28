@@ -7,8 +7,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Todo;
 using Domain.Errors;
-using Domain.Models.Todo;
 using Domain.Results;
 
 using FluentAssertions;
@@ -50,7 +50,7 @@ public sealed partial class TodoServiceTests
 		ItemCreateRequest request = RequestHelper.GetItemCreateRequest();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, false, false, default))
-			.Returns(Task.FromResult<List?>(null));
+			.Returns(Task.FromResult<ListEntity?>(null));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
@@ -75,7 +75,7 @@ public sealed partial class TodoServiceTests
 		Mock<IListRepository> listMock = new();
 		Mock<IItemRepository> itemMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, false, false, default))
-			.Returns(Task.FromResult<List?>(new()));
+			.Returns(Task.FromResult<ListEntity?>(new()));
 		TodoService sut = CreateMockedInstance(listMock.Object, itemMock.Object);
 
 		ErrorOr<Created> result = await sut.CreateItemByListId(listId, request)
@@ -88,7 +88,7 @@ public sealed partial class TodoServiceTests
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
 			listMock.Verify(x => x.GetByIdAsync(listId, false, false, default), Times.Once);
-			itemMock.Verify(x => x.CreateAsync(It.IsAny<Item>(), default), Times.Once);
+			itemMock.Verify(x => x.CreateAsync(It.IsAny<ItemEntity>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
 		});

@@ -7,8 +7,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -50,7 +50,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
-			.Returns(Task.FromResult<AccountModel?>(null));
+			.Returns(Task.FromResult<AccountEntity?>(null));
 		TransactionService sut = CreateMockedInstance(accountMock.Object);
 
 		ErrorOr<Created> result = await sut.CreateByAccountId(id, request)
@@ -72,10 +72,10 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	{
 		Guid id = Guid.NewGuid();
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
-		AccountModel model = new();
+		AccountEntity model = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
-			.Returns(Task.FromResult<AccountModel?>(model));
+			.Returns(Task.FromResult<AccountEntity?>(model));
 		Mock<ITransactionRepository> transactionMock = new();
 		TransactionService sut = CreateMockedInstance(accountMock.Object, null, transactionMock.Object);
 
@@ -89,7 +89,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
 			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
-			transactionMock.Verify(x => x.CreateAsync(It.IsAny<TransactionModel>(), default));
+			transactionMock.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>(), default));
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

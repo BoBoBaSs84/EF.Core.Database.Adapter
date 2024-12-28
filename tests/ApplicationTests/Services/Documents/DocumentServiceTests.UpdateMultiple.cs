@@ -10,8 +10,8 @@ using BaseTests.Helpers;
 using BB84.Extensions;
 using BB84.Extensions.Serialization;
 
+using Domain.Entities.Documents;
 using Domain.Errors;
-using Domain.Models.Documents;
 using Domain.Results;
 
 using FluentAssertions;
@@ -71,11 +71,11 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid userId = Guid.NewGuid();
 		IEnumerable<DocumentUpdateRequest> requests = [RequestHelper.GetDocumentUpdateRequest()];
-		string[] includes = [nameof(Document.Extension), nameof(Document.Data)];
+		string[] includes = [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(x =>
 			x.UserId.Equals(userId) && requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, default, includes))
-			.Returns(Task.FromResult<IEnumerable<Document>>([]));
+			.Returns(Task.FromResult<IEnumerable<DocumentEntity>>([]));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
 		ErrorOr<Updated> result = await sut.Update(userId, requests)
@@ -98,20 +98,20 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid userId = Guid.NewGuid();
 		DocumentUpdateRequest request = RequestHelper.GetDocumentUpdateRequest();
-		Document document = CreateDocument(request.Id);
+		DocumentEntity document = CreateDocument(request.Id);
 		IEnumerable<DocumentUpdateRequest> requests = [request];
-		string[] includes = [nameof(Document.Extension), nameof(Document.Data)];
+		string[] includes = [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(x =>
 			x.UserId.Equals(userId) && requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, default, includes))
-			.Returns(Task.FromResult<IEnumerable<Document>>([document]));
+			.Returns(Task.FromResult<IEnumerable<DocumentEntity>>([document]));
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
 		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, default))
-			.Returns(Task.FromResult<Extension?>(null));
+			.Returns(Task.FromResult<ExtensionEntity?>(null));
 		byte[] md5Hash = request.Content.GetMD5();
 		Mock<IDocumentDataRepository> dataRepoMock = new();
 		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default))
-			.Returns(Task.FromResult<Data?>(null));
+			.Returns(Task.FromResult<DataEntity?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
 		ErrorOr<Updated> result = await sut.Update(userId, requests)

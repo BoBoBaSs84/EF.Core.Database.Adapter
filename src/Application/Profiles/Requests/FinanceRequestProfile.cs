@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Models.Finance;
+using Domain.Entities.Finance;
 
 namespace Application.Profiles.Requests;
 
@@ -14,13 +14,13 @@ internal sealed class FinanceRequestProfile : Profile
 {
 	public FinanceRequestProfile()
 	{
-		CreateMap<AccountCreateRequest, AccountModel>();
-		CreateMap<AccountUpdateRequest, AccountModel>();
+		CreateMap<AccountCreateRequest, AccountEntity>();
+		CreateMap<AccountUpdateRequest, AccountEntity>();
 
-		CreateMap<CardCreateRequest, CardModel>();
-		CreateMap<CardUpdateRequest, CardModel>();
+		CreateMap<CardCreateRequest, CardEntity>();
+		CreateMap<CardUpdateRequest, CardEntity>();
 
-		CreateMap<TransactionCreateRequest, TransactionModel>();
-		CreateMap<TransactionUpdateRequest, TransactionModel>();
+		CreateMap<TransactionCreateRequest, TransactionEntity>();
+		CreateMap<TransactionUpdateRequest, TransactionEntity>();
 	}
 }

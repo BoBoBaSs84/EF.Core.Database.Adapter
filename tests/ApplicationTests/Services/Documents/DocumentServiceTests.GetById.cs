@@ -5,8 +5,8 @@ using Application.Services.Documents;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Documents;
 using Domain.Errors;
-using Domain.Models.Documents;
 
 using FluentAssertions;
 
@@ -43,9 +43,9 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IDocumentRepository> docRepoMock = new();
-		string[] includes = [nameof(Document.Data), nameof(Document.Extension)];
+		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
 		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, default, includes))
-			.Returns(Task.FromResult<Document?>(null));
+			.Returns(Task.FromResult<DocumentEntity?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
 		ErrorOr<DocumentResponse> result = await sut.GetById(id)
@@ -67,10 +67,10 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IDocumentRepository> docRepoMock = new();
-		string[] includes = [nameof(Document.Data), nameof(Document.Extension)];
-		Document document = CreateDocument(id);
+		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
+		DocumentEntity document = CreateDocument(id);
 		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, default, includes))
-			.Returns(Task.FromResult<Document?>(document));
+			.Returns(Task.FromResult<DocumentEntity?>(document));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
 		ErrorOr<DocumentResponse> result = await sut.GetById(id)

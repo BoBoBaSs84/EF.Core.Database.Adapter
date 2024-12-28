@@ -1,7 +1,7 @@
-﻿using Domain.Models.Attendance;
-using Domain.Models.Documents;
-using Domain.Models.Finance;
-using Domain.Models.Todo;
+﻿using Domain.Entities.Attendance;
+using Domain.Entities.Documents;
+using Domain.Entities.Finance;
+using Domain.Entities.Todo;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -9,11 +9,11 @@ namespace Infrastructure.Persistence;
 
 internal sealed partial class RepositoryContext
 {
-	public required DbSet<AttendanceModel> Attendances { get; init; }
-	public required DbSet<AccountModel> Accounts { get; init; }
-	public required DbSet<CardModel> Cards { get; init; }
-	public required DbSet<Document> Documents { get; init; }
-	public required DbSet<TransactionModel> Transactions { get; init; }
-	public required DbSet<List> TodoLists { get; init; }
-	public required DbSet<Item> TodoItems { get; init; }
+	public required DbSet<AttendanceEntity> Attendances { get; init; }
+	public required DbSet<AccountEntity> Accounts { get; init; }
+	public required DbSet<CardEntity> Cards { get; init; }
+	public required DbSet<DocumentEntity> Documents { get; init; }
+	public required DbSet<TransactionEntity> Transactions { get; init; }
+	public required DbSet<ListEntity> TodoLists { get; init; }
+	public required DbSet<ItemEntity> TodoItems { get; init; }
 }

@@ -9,8 +9,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -52,7 +52,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
-			.Returns(Task.FromResult<AccountModel?>(null));
+			.Returns(Task.FromResult<AccountEntity?>(null));
 		CardService sut = CreateMockedInstance(accountMock.Object);
 
 		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
@@ -73,14 +73,14 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
 		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
-		AccountModel accountModel = new();
+		AccountEntity accountModel = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
-			.Returns(Task.FromResult<AccountModel?>(accountModel));
-		CardModel cardModel = new() { PAN = request.PAN };
+			.Returns(Task.FromResult<AccountEntity?>(accountModel));
+		CardEntity cardModel = new() { PAN = request.PAN };
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default))
-			.Returns(Task.FromResult<CardModel?>(cardModel));
+		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default))
+			.Returns(Task.FromResult<CardEntity?>(cardModel));
 		CardService sut = CreateMockedInstance(accountMock.Object, cardMock.Object);
 
 		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
@@ -91,7 +91,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.CreateNumberConflict(request.PAN));
 			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, default), Times.Once);
-			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default), Times.Once);
+			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -102,13 +102,13 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
 		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
-		AccountModel accountModel = new();
+		AccountEntity accountModel = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
-			.Returns(Task.FromResult<AccountModel?>(accountModel));
+			.Returns(Task.FromResult<AccountEntity?>(accountModel));
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default))
-			.Returns(Task.FromResult<CardModel?>(null));
+		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default))
+			.Returns(Task.FromResult<CardEntity?>(null));
 		CardService sut = CreateMockedInstance(accountMock.Object, cardMock.Object);
 
 		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
@@ -120,8 +120,8 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
 			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, default), Times.Once);
-			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardModel, bool>>>(), null, false, false, default), Times.Once);
-			cardMock.Verify(x => x.CreateAsync(It.IsAny<CardModel>(), default), Times.Once);
+			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default), Times.Once);
+			cardMock.Verify(x => x.CreateAsync(It.IsAny<CardEntity>(), default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});

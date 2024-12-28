@@ -8,7 +8,6 @@ using Application.Services.Todo;
 using BaseTests.Helpers;
 
 using Domain.Errors;
-using Domain.Models.Todo;
 using Domain.Results;
 
 using FluentAssertions;
@@ -17,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 using ApplicationTests.Helpers;
+using Domain.Entities.Todo;
 
 namespace ApplicationTests.Services.Todo;
 
@@ -51,7 +51,7 @@ public sealed partial class TodoServiceTests
 		ListUpdateRequest request = RequestHelper.GetListUpdateRequest();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, false, true, default))
-			.Returns(Task.FromResult<List?>(null));
+			.Returns(Task.FromResult<ListEntity?>(null));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateListById(listId, request)
@@ -73,10 +73,10 @@ public sealed partial class TodoServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		ListUpdateRequest request = RequestHelper.GetListUpdateRequest();
-		List model = new();
+		ListEntity model = new();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(id, false, true, default))
-			.Returns(Task.FromResult<List?>(model));
+			.Returns(Task.FromResult<ListEntity?>(model));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<Updated> result = await sut.UpdateListById(id, request)

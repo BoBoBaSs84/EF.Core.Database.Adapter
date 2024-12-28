@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

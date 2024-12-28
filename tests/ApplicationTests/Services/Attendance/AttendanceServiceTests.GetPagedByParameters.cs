@@ -9,8 +9,8 @@ using Application.Services.Attendance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Attendance;
 using Domain.Errors;
-using Domain.Models.Attendance;
 
 using FluentAssertions;
 
@@ -51,8 +51,8 @@ public sealed partial class AttendanceServiceTests
 		AttendanceParameters parameters = new();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.CountAsync(
-			It.IsAny<Expression<Func<AttendanceModel, bool>>?>(),
-			It.IsAny<Func<IQueryable<AttendanceModel>, IQueryable<AttendanceModel>>?>(), false, default)
+			It.IsAny<Expression<Func<AttendanceEntity, bool>>?>(),
+			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>?>(), false, default)
 		).Returns(Task.FromResult(10));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 

@@ -4,8 +4,8 @@ using Application.Services.Documents;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Documents;
 using Domain.Errors;
-using Domain.Models.Documents;
 using Domain.Results;
 
 using FluentAssertions;
@@ -44,7 +44,7 @@ public sealed partial class DocumentServiceTests
 		Guid id = Guid.NewGuid();
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<Document?>(null));
+			.Returns(Task.FromResult<DocumentEntity?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteById(id)
@@ -65,10 +65,10 @@ public sealed partial class DocumentServiceTests
 	public async Task DeleteByIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		Document document = CreateDocument(id);
+		DocumentEntity document = CreateDocument(id);
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<Document?>(document));
+			.Returns(Task.FromResult<DocumentEntity?>(document));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteById(id)

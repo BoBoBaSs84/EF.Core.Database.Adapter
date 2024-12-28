@@ -1,9 +1,9 @@
 ﻿using BB84.Extensions;
 
+using Domain.Entities.Attendance;
+using Domain.Entities.Finance;
 using Domain.Enumerators.Attendance;
 using Domain.Enumerators.Finance;
-using Domain.Models.Attendance;
-using Domain.Models.Finance;
 using Domain.Models.Identity;
 
 using static BaseTests.Helpers.RandomHelper;
@@ -12,11 +12,11 @@ namespace InfrastructureTests.Helpers;
 
 public static class ModelHelper
 {
-	public static ICollection<AttendanceModel> GetNewAttendances(UserModel user, IList<DateTime> calendar, int entries = 10)
+	public static ICollection<AttendanceEntity> GetNewAttendances(UserModel user, IList<DateTime> calendar, int entries = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(entries, 1);
 
-		List<AttendanceModel> attendances = [];
+		List<AttendanceEntity> attendances = [];
 		for (int i = 1; i <= entries; i++)
 		{
 			DateTime calendarDate = calendar[GetInt(0, calendar.Count)];
@@ -30,14 +30,14 @@ public static class ModelHelper
 		return attendances;
 	}
 
-	public static ICollection<AccountUserModel> GetNewAccountUsers(UserModel user, int accounts = 2, int accountTransactions = 10, int cards = 2, int cardTransactions = 10)
+	public static ICollection<AccountUserEntity> GetNewAccountUsers(UserModel user, int accounts = 2, int accountTransactions = 10, int cards = 2, int cardTransactions = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(accounts, 1);
 
-		List<AccountUserModel> accountUsers = [];
+		List<AccountUserEntity> accountUsers = [];
 		for (int i = 1; i <= accounts; i++)
 		{
-			AccountModel newAccount = GetNewAccount();
+			AccountEntity newAccount = GetNewAccount();
 			newAccount.Transactions = GetNewAccountTransactions(newAccount, accountTransactions);
 			newAccount.Cards = GetNewCards(user, newAccount, cards, cardTransactions);
 			accountUsers.Add(new() { User = user, Account = newAccount });
@@ -45,9 +45,9 @@ public static class ModelHelper
 		return accountUsers;
 	}
 
-	private static AccountModel GetNewAccount(string? iban = null, ICollection<AccountTransactionModel>? accountTransactions = null)
+	private static AccountEntity GetNewAccount(string? iban = null, ICollection<AccountTransactionEntity>? accountTransactions = null)
 	{
-		AccountModel accountToReturn = new()
+		AccountEntity accountToReturn = new()
 		{
 			IBAN = iban ?? GetString(20),
 			Provider = GetString(128),
@@ -56,19 +56,19 @@ public static class ModelHelper
 		return accountToReturn;
 	}
 
-	private static ICollection<AccountTransactionModel> GetNewAccountTransactions(AccountModel account, int amount = 10)
+	private static ICollection<AccountTransactionEntity> GetNewAccountTransactions(AccountEntity account, int amount = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
 
-		List<AccountTransactionModel> accountTransactions = [];
+		List<AccountTransactionEntity> accountTransactions = [];
 		for (int i = 1; i <= amount; i++)
 			accountTransactions.Add(new() { Account = account, Transaction = GetNewTransaction() });
 		return accountTransactions;
 	}
 
-	private static CardModel GetNewCard(UserModel user, AccountModel account, string? cardNumber = null, ICollection<CardTransactionModel>? cardTransactions = null)
+	private static CardEntity GetNewCard(UserModel user, AccountEntity account, string? cardNumber = null, ICollection<CardTransactionEntity>? cardTransactions = null)
 	{
-		CardModel cardToReturn = new()
+		CardEntity cardToReturn = new()
 		{
 			Account = account,
 			Type = (CardType)GetInt(1, 2),
@@ -79,33 +79,33 @@ public static class ModelHelper
 		return cardToReturn;
 	}
 
-	private static ICollection<CardModel> GetNewCards(UserModel user, AccountModel account, int cardsAmount = 2, int transactionAmount = 10)
+	private static ICollection<CardEntity> GetNewCards(UserModel user, AccountEntity account, int cardsAmount = 2, int transactionAmount = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(cardsAmount, 1);
 
-		List<CardModel> cardsToReturn = [];
+		List<CardEntity> cardsToReturn = [];
 		for (int i = 1; i <= cardsAmount; i++)
 		{
-			CardModel newCard = GetNewCard(user, account);
+			CardEntity newCard = GetNewCard(user, account);
 			newCard.Transactions = GetNewCardTransactions(newCard, transactionAmount);
 			cardsToReturn.Add(newCard);
 		}
 		return cardsToReturn;
 	}
 
-	private static ICollection<CardTransactionModel> GetNewCardTransactions(CardModel card, int amount = 10)
+	private static ICollection<CardTransactionEntity> GetNewCardTransactions(CardEntity card, int amount = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(amount, 1);
 
-		List<CardTransactionModel> cardTransactions = [];
+		List<CardTransactionEntity> cardTransactions = [];
 		for (int i = 1; i <= amount; i++)
 			cardTransactions.Add(new() { Card = card, Transaction = GetNewTransaction() });
 		return cardTransactions;
 	}
 
-	private static TransactionModel GetNewTransaction()
+	private static TransactionEntity GetNewTransaction()
 	{
-		TransactionModel transactionToReturn = new()
+		TransactionEntity transactionToReturn = new()
 		{
 			BookingDate = GetDateTime(),
 			ValueDate = GetDateTime(),

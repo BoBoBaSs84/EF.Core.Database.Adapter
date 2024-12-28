@@ -9,9 +9,9 @@ using BaseTests.Helpers;
 
 using BB84.Extensions;
 
+using Domain.Entities.Todo;
 using Domain.Enumerators.Todo;
 using Domain.Errors;
-using Domain.Models.Todo;
 
 using FluentAssertions;
 
@@ -49,8 +49,8 @@ public sealed partial class TodoServiceTests
 	{
 		Guid listId = Guid.NewGuid();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)))
-			.Returns(Task.FromResult<List?>(null));
+		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(ListEntity.Items)))
+			.Returns(Task.FromResult<ListEntity?>(null));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<ListResponse> result = await sut.GetListById(listId)
@@ -61,7 +61,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
-			listMock.Verify(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)), Times.Once);
+			listMock.Verify(x => x.GetByIdAsync(listId, default, default, default, nameof(ListEntity.Items)), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -71,11 +71,11 @@ public sealed partial class TodoServiceTests
 	public async Task GetListByIdShouldReturnValidResultWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
-		Item item = new() { Id = Guid.NewGuid(), Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.MEDIUM, Reminder = DateTime.Today, Done = true };
-		List list = new() { Id = listId, Title = "UnitTest", Color = Color.Black, Items = [item] };
+		ItemEntity item = new() { Id = Guid.NewGuid(), Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.MEDIUM, Reminder = DateTime.Today, Done = true };
+		ListEntity list = new() { Id = listId, Title = "UnitTest", Color = Color.Black, Items = [item] };
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)))
-			.Returns(Task.FromResult<List?>(list));
+		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(ListEntity.Items)))
+			.Returns(Task.FromResult<ListEntity?>(list));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
 		ErrorOr<ListResponse> result = await sut.GetListById(listId)
@@ -95,7 +95,7 @@ public sealed partial class TodoServiceTests
 			result.Value.Items?.First().Priority.Should().Be(item.Priority);
 			result.Value.Items?.First().Reminder.Should().Be(item.Reminder);
 			result.Value.Items?.First().Done.Should().Be(item.Done);
-			listMock.Verify(x => x.GetByIdAsync(listId, default, default, default, nameof(List.Items)), Times.Once);
+			listMock.Verify(x => x.GetByIdAsync(listId, default, default, default, nameof(ListEntity.Items)), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), listId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

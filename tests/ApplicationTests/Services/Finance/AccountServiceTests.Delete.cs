@@ -4,8 +4,8 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -44,7 +44,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<AccountModel?>(null));
+			.Returns(Task.FromResult<AccountEntity?>(null));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 
 		ErrorOr<Deleted> result = await sut.Delete(id);
@@ -64,10 +64,10 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task DeleteShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		AccountModel account = new();
+		AccountEntity account = new();
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<AccountModel?>(account));
+			.Returns(Task.FromResult<AccountEntity?>(account));
 		accountMock.Setup(x => x.DeleteAsync(account, default))
 			.Returns(Task.CompletedTask);
 		AccountService sut = CreateMockedInstance(accountMock.Object);

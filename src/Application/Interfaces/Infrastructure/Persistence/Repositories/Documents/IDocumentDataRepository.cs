@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 
-using Domain.Models.Documents;
+using Domain.Entities.Documents;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
 
@@ -8,5 +8,5 @@ namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Documen
 /// The interface for the document data entity.
 /// </summary>
 /// <inheritdoc/>
-public interface IDocumentDataRepository : IIdentityRepository<Data>
+public interface IDocumentDataRepository : IIdentityRepository<DataEntity>
 { }

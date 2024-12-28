@@ -11,8 +11,8 @@ using BaseTests.Helpers;
 
 using BB84.Extensions.Serialization;
 
+using Domain.Entities.Documents;
 using Domain.Errors;
-using Domain.Models.Documents;
 
 using FluentAssertions;
 
@@ -51,15 +51,15 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid userId = Guid.NewGuid();
 		DocumentParameters parameters = new();
-		IEnumerable<Document> documents = [CreateDocument(), CreateDocument()];
+		IEnumerable<DocumentEntity> documents = [CreateDocument(), CreateDocument()];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(
-			It.IsAny<Expression<Func<Document, bool>>?>(), It.IsAny<Func<IQueryable<Document>, IQueryable<Document>>?>(), default,
-			It.IsAny<Func<IQueryable<Document>, IOrderedQueryable<Document>>?>(), (parameters.PageNumber - 1) * parameters.PageSize,
+			It.IsAny<Expression<Func<DocumentEntity, bool>>?>(), It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default,
+			It.IsAny<Func<IQueryable<DocumentEntity>, IOrderedQueryable<DocumentEntity>>?>(), (parameters.PageNumber - 1) * parameters.PageSize,
 			parameters.PageSize, default, default))
 			.Returns(Task.FromResult(documents));
 		docRepoMock.Setup(x => x.CountAsync(
-			It.IsAny<Expression<Func<Document, bool>>?>(), It.IsAny<Func<IQueryable<Document>, IQueryable<Document>>?>(), default, default))
+			It.IsAny<Expression<Func<DocumentEntity, bool>>?>(), It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default, default))
 			.Returns(Task.FromResult(2));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 

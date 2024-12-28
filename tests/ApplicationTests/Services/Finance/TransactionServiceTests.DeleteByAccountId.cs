@@ -4,8 +4,8 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Finance;
 using Domain.Errors;
-using Domain.Models.Finance;
 using Domain.Results;
 
 using FluentAssertions;
@@ -46,7 +46,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		Guid accountId = Guid.NewGuid(), id = Guid.NewGuid();
 		Mock<ITransactionRepository> transactionMock = new();
 		transactionMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId), default, default, default, default))
-			.Returns(Task.FromResult<TransactionModel?>(null));
+			.Returns(Task.FromResult<TransactionEntity?>(null));
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
 
 		ErrorOr<Deleted> result = await sut.DeleteByAccountId(accountId, id)
@@ -67,10 +67,10 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	public async Task DeleteByAccountIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid accountId = Guid.NewGuid(), id = Guid.NewGuid();
-		TransactionModel transaction = new();
+		TransactionEntity transaction = new();
 		Mock<ITransactionRepository> transactionMock = new();
 		transactionMock.Setup(x => x.GetByConditionAsync(x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId), default, default, default, default))
-			.Returns(Task.FromResult<TransactionModel?>(transaction));
+			.Returns(Task.FromResult<TransactionEntity?>(transaction));
 		transactionMock.Setup(x => x.DeleteAsync(transaction, default))
 			.Returns(Task.CompletedTask);
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);

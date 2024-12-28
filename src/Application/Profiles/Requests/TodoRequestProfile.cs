@@ -6,7 +6,7 @@ using AutoMapper;
 
 using BB84.Extensions;
 
-using Domain.Models.Todo;
+using Domain.Entities.Todo;
 
 namespace Application.Profiles.Requests;
 
@@ -18,12 +18,12 @@ internal sealed class TodoRequestProfile : Profile
 {
 	public TodoRequestProfile()
 	{
-		CreateMap<ListCreateRequest, List>()
+		CreateMap<ListCreateRequest, ListEntity>()
 			.ForMember(t => t.Color, o => o.MapFrom(s => MapColor(s.Color)));
-		CreateMap<ListUpdateRequest, List>()
+		CreateMap<ListUpdateRequest, ListEntity>()
 			.ForMember(t => t.Color, o => o.MapFrom(s => MapColor(s.Color)));
-		CreateMap<ItemCreateRequest, Item>();
-		CreateMap<ItemUpdateRequest, Item>();
+		CreateMap<ItemCreateRequest, ItemEntity>();
+		CreateMap<ItemUpdateRequest, ItemEntity>();
 	}
 
 	private static Color? MapColor(string? color)

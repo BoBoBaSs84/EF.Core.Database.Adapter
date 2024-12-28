@@ -2,8 +2,8 @@
 
 using AutoMapper;
 
+using Domain.Entities.Attendance;
 using Domain.Extensions;
-using Domain.Models.Attendance;
 
 namespace Application.Profiles.Responses;
 
@@ -15,7 +15,7 @@ internal sealed class AttendanceResponseProfile : Profile
 {
 	public AttendanceResponseProfile()
 	{
-		CreateMap<AttendanceModel, AttendanceResponse>()
+		CreateMap<AttendanceEntity, AttendanceResponse>()
 			.ForMember(dest => dest.WorkingHours, opt => opt.MapFrom(src => src.GetResultingWorkingHours()));
 	}
 }

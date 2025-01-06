@@ -18,7 +18,7 @@ public class ModelExtensionsTests : DomainTestBase
 			BreakTime = new(1, 0, 0),
 		};
 
-		float workingHours = attendance.GetResultingWorkingHours();
+		float? workingHours = attendance.GetResultingWorkingHours();
 
 		Assert.AreEqual(8, workingHours);
 	}
@@ -31,9 +31,9 @@ public class ModelExtensionsTests : DomainTestBase
 			Type = AttendanceType.SICKNESS
 		};
 
-		float workingHours = attendance.GetResultingWorkingHours();
+		float? workingHours = attendance.GetResultingWorkingHours();
 
-		Assert.AreEqual(0, workingHours);
+		Assert.IsNull(workingHours);
 	}
 
 	[TestMethod]
@@ -45,9 +45,9 @@ public class ModelExtensionsTests : DomainTestBase
 			StartTime = new(6, 0, 0)
 		};
 
-		float workingHours = attendance.GetResultingWorkingHours();
+		float? workingHours = attendance.GetResultingWorkingHours();
 
-		Assert.AreEqual(0, workingHours);
+		Assert.IsNull(workingHours);
 	}
 
 	[TestMethod]
@@ -59,8 +59,8 @@ public class ModelExtensionsTests : DomainTestBase
 			EndTime = new(15, 0, 0)
 		};
 
-		float workingHours = attendance.GetResultingWorkingHours();
+		float? workingHours = attendance.GetResultingWorkingHours();
 
-		Assert.AreEqual(0, workingHours);
+		Assert.IsNull(workingHours);
 	}
 }

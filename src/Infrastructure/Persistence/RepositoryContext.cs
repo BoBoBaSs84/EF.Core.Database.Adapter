@@ -11,6 +11,7 @@ using Infrastructure.Persistence.Interceptors;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Persistence;
@@ -42,5 +43,6 @@ internal sealed partial class RepositoryContext(DbContextOptions<RepositoryConte
 
 		optionsBuilder.AddInterceptors(userAuditingInterceptor, softDeletableInterceptor);
 		optionsBuilder.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>();
+		optionsBuilder.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
 	}
 }

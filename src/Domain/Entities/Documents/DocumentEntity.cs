@@ -1,7 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
 
+using Domain.Entities.Identity;
 using Domain.Enumerators.Documents;
-using Domain.Models.Identity;
 
 namespace Domain.Entities.Documents;
 
@@ -68,5 +68,5 @@ public sealed class DocumentEntity : AuditedEntity
 	/// <summary>
 	/// The navigational <see cref="User"/> property.
 	/// </summary>
-	public UserModel User { get; set; } = default!;
+	public UserEntity User { get; set; } = default!;
 }

@@ -3,13 +3,8 @@
 namespace Domain.Entities.Identity;
 
 /// <inheritdoc/>
-public sealed class UserRoleEntity : IdentityUserRole<Guid>
+public sealed class RoleClaimEntity : IdentityRoleClaim<Guid>
 {
-	/// <summary>
-	/// The navigational property to the <see cref="UserEntity"/>.
-	/// </summary>
-	public UserEntity User { get; set; } = default!;
-
 	/// <summary>
 	/// The navigational property to the <see cref="RoleEntity"/>.
 	/// </summary>

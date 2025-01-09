@@ -7,8 +7,8 @@ using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Identity;
 using Domain.Errors;
-using Domain.Models.Identity;
 
 using FluentAssertions;
 
@@ -53,7 +53,7 @@ public sealed partial class AuthenticationServiceTests
 		_tokenServiceMock.Setup(x => x.GetPrincipalFromExpiredToken(request.AccessToken))
 			.Returns(principal);
 		_userServiceMock.Setup(x => x.FindByNameAsync(It.IsAny<string>()))
-			.Returns(Task.FromResult<UserModel?>(null));
+			.Returns(Task.FromResult<UserEntity?>(null));
 
 		ErrorOr<AuthenticationResponse> result = await sut.RefreshAccessToken(request)
 			.ConfigureAwait(false);
@@ -78,9 +78,9 @@ public sealed partial class AuthenticationServiceTests
 		AuthenticationService sut = CreateMockedInstance();
 		_tokenServiceMock.Setup(x => x.GetPrincipalFromExpiredToken(request.AccessToken))
 			.Returns(principal);
-		UserModel user = CreateUser();
+		UserEntity user = CreateUser();
 		_userServiceMock.Setup(x => x.FindByNameAsync(It.IsAny<string>()))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_tokenServiceMock.Setup(x => x.VerifyRefreshTokenAsync(user, request.RefreshToken))
 			.Returns(Task.FromResult(false));
 
@@ -108,9 +108,9 @@ public sealed partial class AuthenticationServiceTests
 		AuthenticationService sut = CreateMockedInstance();
 		_tokenServiceMock.Setup(x => x.GetPrincipalFromExpiredToken(request.AccessToken))
 			.Returns(principal);
-		UserModel user = CreateUser();
+		UserEntity user = CreateUser();
 		_userServiceMock.Setup(x => x.FindByNameAsync(It.IsAny<string>()))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_tokenServiceMock.Setup(x => x.VerifyRefreshTokenAsync(user, request.RefreshToken))
 			.Returns(Task.FromResult(true));
 		string newAccessToken = RandomHelper.GetString(64);

@@ -89,7 +89,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 				.DeleteAsync(accountEntity, token)
 				.ConfigureAwait(false);
 
-			await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Deleted;

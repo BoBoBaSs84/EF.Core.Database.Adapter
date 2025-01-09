@@ -5,7 +5,7 @@ using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Microsoft.Extensions.Options;
 
@@ -49,9 +49,9 @@ public sealed partial class TokenServiceTests : ApplicationTestBase
 		return tokenService;
 	}
 
-	private static UserModel CreateUser(Guid? userId = null)
+	private static UserEntity CreateUser(Guid? userId = null)
 	{
-		UserModel user = new()
+		UserEntity user = new()
 		{
 			Id = userId ?? Guid.NewGuid(),
 			FirstName = "UnitTest",

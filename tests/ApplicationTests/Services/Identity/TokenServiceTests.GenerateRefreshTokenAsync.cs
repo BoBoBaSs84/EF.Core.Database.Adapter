@@ -2,7 +2,7 @@
 
 using BaseTests.Helpers;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using FluentAssertions;
 
@@ -16,7 +16,7 @@ public sealed partial class TokenServiceTests
 	[TestCategory(nameof(TokenService.GenerateRefreshTokenAsync))]
 	public async Task GenerateRefreshTokenAsyncShouldReturnResult()
 	{
-		UserModel user = CreateUser();
+		UserEntity user = CreateUser();
 		string token = RandomHelper.GetString(40);
 		TokenService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.GenerateUserTokenAsync(user, It.IsAny<string>(), It.IsAny<string>()))

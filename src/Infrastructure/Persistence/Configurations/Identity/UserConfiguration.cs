@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Infrastructure.Persistence.Converters;
 
@@ -12,13 +12,13 @@ using static Infrastructure.Common.InfrastructureConstants;
 namespace Infrastructure.Persistence.Configurations.Identity;
 
 /// <summary>
-/// The configuration for the <see cref="UserModel"/> entity.
+/// The configuration for the <see cref="UserEntity"/> entity.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-internal sealed class UserConfiguration : IEntityTypeConfiguration<UserModel>
+internal sealed class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
 	/// <inheritdoc/>
-	public void Configure(EntityTypeBuilder<UserModel> builder)
+	public void Configure(EntityTypeBuilder<UserEntity> builder)
 	{
 		builder.ToHistoryTable("User", SqlSchema.Identity, SqlSchema.History);
 

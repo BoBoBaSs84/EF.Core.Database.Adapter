@@ -5,7 +5,6 @@ namespace Domain.Common;
 /// <summary>
 /// The constants class.
 /// </summary>
-[SuppressMessage("Naming", "CA1720", Justification = "Constants.")]
 public static class DomainConstants
 {
 	/// <summary>

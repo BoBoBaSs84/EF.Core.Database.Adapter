@@ -10,11 +10,11 @@ using static Infrastructure.Common.InfrastructureConstants;
 namespace Infrastructure.Persistence.Configurations.Identity;
 
 /// <summary>
-/// The configuration for the <see cref="RoleClaimModel"/> entity.
+/// The configuration for the <see cref="RoleClaimEntity"/> entity.
 /// </summary>
-internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaimModel>
+internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaimEntity>
 {
 	/// <inheritdoc/>
-	public void Configure(EntityTypeBuilder<RoleClaimModel> builder) =>
+	public void Configure(EntityTypeBuilder<RoleClaimEntity> builder) =>
 		builder.ToHistoryTable("RoleClaim", SqlSchema.Identity, SqlSchema.History);
 }

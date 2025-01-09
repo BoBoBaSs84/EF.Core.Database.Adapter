@@ -3,7 +3,6 @@
 /// <summary>
 /// A discriminated union of errors or a value.
 /// </summary>
-[SuppressMessage("Design", "CA1000:Do not declare static members on generic types")]
 public readonly record struct ErrorOr<TValue> : IErrorOr
 {
 	private static readonly Error NoFirstError = Error.Unexpected(

@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Requests.Finance;
 
 using Application.Validators.Contracts.Finance.Base;
+
 using FluentValidation;
 
 namespace Application.Validators.Contracts.Finance;

@@ -10,10 +10,10 @@ using AutoMapper;
 
 using BB84.Extensions;
 
+using Domain.Entities.Identity;
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
-using Domain.Models.Identity;
 using Domain.Results;
 
 using Microsoft.AspNetCore.Identity;
@@ -41,13 +41,13 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}")
+			UserEntity? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await roleService.FindByIdAsync($"{roleId}")
+			RoleEntity? role = await roleService.FindByIdAsync($"{roleId}")
 				.ConfigureAwait(false);
 
 			if (role is null)
@@ -78,7 +78,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByNameAsync(request.UserName)
+			UserEntity? user = await userService.FindByNameAsync(request.UserName)
 				.ConfigureAwait(false);
 
 			if (user is null)
@@ -129,7 +129,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel user = mapper.Map<UserModel>(request);
+			UserEntity user = mapper.Map<UserEntity>(request);
 
 			IdentityResult result = await userService.CreateAsync(user, request.Password)
 				.ConfigureAwait(false);
@@ -166,7 +166,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			IList<UserModel> userEntities = await userService.GetUsersInRoleAsync(RoleType.USER.GetName())
+			IList<UserEntity> userEntities = await userService.GetUsersInRoleAsync(RoleType.USER.GetName())
 				.ConfigureAwait(false);
 
 			IEnumerable<UserResponse> response = mapper.Map<IEnumerable<UserResponse>>(userEntities);
@@ -184,7 +184,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}")
+			UserEntity? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false); ;
 
 			if (user is null)
@@ -206,7 +206,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByNameAsync(userName)
+			UserEntity? user = await userService.FindByNameAsync(userName)
 				.ConfigureAwait(false);
 
 			if (user is null)
@@ -227,13 +227,13 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}")
+			UserEntity? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			RoleModel? role = await roleService.FindByIdAsync($"{roleId}")
+			RoleEntity? role = await roleService.FindByIdAsync($"{roleId}")
 				.ConfigureAwait(false);
 
 			if (role is null)
@@ -267,7 +267,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			ClaimsPrincipal principal = tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
 			string userName = principal.Identity!.Name!;
 
-			UserModel? user = await userService.FindByNameAsync(userName)
+			UserEntity? user = await userService.FindByNameAsync(userName)
 				.ConfigureAwait(false);
 
 			if (user is null)
@@ -302,7 +302,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}")
+			UserEntity? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
@@ -332,7 +332,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserModel? user = await userService.FindByIdAsync($"{userId}")
+			UserEntity? user = await userService.FindByIdAsync($"{userId}")
 				.ConfigureAwait(false);
 
 			if (user is null)
@@ -360,7 +360,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 		}
 	}
 
-	private static List<Claim> GetClaims(UserModel user, IList<string> roles)
+	private static List<Claim> GetClaims(UserEntity user, IList<string> roles)
 	{
 		List<Claim> claims = [
 			new(ClaimTypes.NameIdentifier, $"{user.Id}"),

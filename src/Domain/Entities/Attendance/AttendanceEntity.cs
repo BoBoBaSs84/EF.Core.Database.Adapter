@@ -1,7 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
 
+using Domain.Entities.Identity;
 using Domain.Enumerators.Attendance;
-using Domain.Models.Identity;
 
 namespace Domain.Entities.Attendance;
 
@@ -43,5 +43,5 @@ public sealed class AttendanceEntity : AuditedEntity
 	/// <summary>
 	/// The <see cref="User"/> property.
 	/// </summary>
-	public UserModel User { get; set; } = default!;
+	public UserEntity User { get; set; } = default!;
 }

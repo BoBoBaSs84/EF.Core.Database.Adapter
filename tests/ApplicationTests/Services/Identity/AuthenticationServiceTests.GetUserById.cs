@@ -4,8 +4,8 @@ using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Identity;
 using Domain.Errors;
-using Domain.Models.Identity;
 
 using FluentAssertions;
 
@@ -46,7 +46,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		Guid userId = Guid.NewGuid();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(null));
+			.Returns(Task.FromResult<UserEntity?>(null));
 
 		ErrorOr<UserResponse> result = await sut.GetUserById(userId)
 			.ConfigureAwait(false);
@@ -66,10 +66,10 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task GetUserByIdShouldReturnResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		UserModel user = CreateUser(userId);
+		UserEntity user = CreateUser(userId);
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 
 		ErrorOr<UserResponse> result = await sut.GetUserById(userId)
 			.ConfigureAwait(false);

@@ -6,10 +6,10 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Identity;
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
-using Domain.Models.Identity;
 using Domain.Results;
 
 using FluentAssertions;
@@ -30,7 +30,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		AuthenticationService sut = CreateMockedInstance();
-		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
+		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password))
 			.Throws(new InvalidOperationException());
 
 		ErrorOr<Created> result = await sut.CreateUser(request)
@@ -52,7 +52,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
-		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
+		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password))
 			.Returns(Task.FromResult(IdentityResult.Failed(error)));
 
 		ErrorOr<Created> result = await sut.CreateUser(request)
@@ -63,7 +63,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.CreateUserFailed);
-			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password), Times.Once);
+			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), $"{error.Code} - {error.Description}", It.IsAny<Exception>()), Times.Once);
 		});
 	}
@@ -75,9 +75,9 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
-		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
+		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password))
 			.Returns(Task.FromResult(IdentityResult.Success));
-		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserModel>(), RoleType.USER.GetName()))
+		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()))
 			.Returns(Task.FromResult(IdentityResult.Failed(error)));
 
 		ErrorOr<Created> result = await sut.CreateUser(request)
@@ -88,8 +88,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.AddUserToRoleFailed);
-			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password), Times.Once);
-			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserModel>(), RoleType.USER.GetName()), Times.Once);
+			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password), Times.Once);
+			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), $"{error.Code} - {error.Description}", It.IsAny<Exception>()), Times.Once);
 		});
 	}
@@ -100,9 +100,9 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		UserCreateRequest request = RequestHelper.GetUserCreateRequest();
 		AuthenticationService sut = CreateMockedInstance();
-		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password))
+		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password))
 			.Returns(Task.FromResult(IdentityResult.Success));
-		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserModel>(), RoleType.USER.GetName()))
+		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()))
 			.Returns(Task.FromResult(IdentityResult.Success));
 
 		ErrorOr<Created> result = await sut.CreateUser(request)
@@ -114,8 +114,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserModel>(), request.Password), Times.Once);
-			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserModel>(), RoleType.USER.GetName()), Times.Once);
+			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password), Times.Once);
+			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

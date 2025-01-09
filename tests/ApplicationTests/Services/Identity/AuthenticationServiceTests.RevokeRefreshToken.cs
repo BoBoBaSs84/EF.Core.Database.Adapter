@@ -3,8 +3,8 @@ using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Identity;
 using Domain.Errors;
-using Domain.Models.Identity;
 using Domain.Results;
 
 using FluentAssertions;
@@ -47,7 +47,7 @@ public sealed partial class AuthenticationServiceTests
 		Guid userId = Guid.NewGuid();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(null));
+			.Returns(Task.FromResult<UserEntity?>(null));
 
 		ErrorOr<Deleted> result = await sut.RevokeRefreshToken(userId)
 			.ConfigureAwait(false);
@@ -67,11 +67,11 @@ public sealed partial class AuthenticationServiceTests
 	public async Task RevokeRefreshTokenShouldReturnFailedWhenNotSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		UserModel user = CreateUser(userId);
+		UserEntity user = CreateUser(userId);
 		IdentityError error = new() { Code = "Error", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_tokenServiceMock.Setup(x => x.RemoveRefreshTokenAsync(user))
 			.Returns(Task.FromResult(IdentityResult.Failed(error)));
 
@@ -94,10 +94,10 @@ public sealed partial class AuthenticationServiceTests
 	public async Task RevokeRefreshTokenShouldReturnDeletedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		UserModel user = CreateUser(userId);
+		UserEntity user = CreateUser(userId);
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_tokenServiceMock.Setup(x => x.RemoveRefreshTokenAsync(user))
 			.Returns(Task.FromResult(IdentityResult.Success));
 

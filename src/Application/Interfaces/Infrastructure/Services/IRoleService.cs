@@ -1,4 +1,4 @@
-﻿using Domain.Models.Identity;
+﻿using Domain.Entities.Identity;
 
 using Microsoft.AspNetCore.Identity;
 
@@ -10,5 +10,5 @@ namespace Application.Interfaces.Infrastructure.Services;
 public interface IRoleService
 {
 	/// <inheritdoc cref="RoleManager{TRole}.FindByIdAsync(string)"/>
-	Task<RoleModel?> FindByIdAsync(string roleId);
+	Task<RoleEntity?> FindByIdAsync(string roleId);
 }

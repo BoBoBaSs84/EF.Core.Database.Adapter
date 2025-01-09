@@ -6,7 +6,7 @@ using Application.Options;
 
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Infrastructure.Common;
 using Infrastructure.Persistence;
@@ -105,7 +105,7 @@ internal static class ServiceCollectionExtensions
 		BearerSettings settings = services.BuildServiceProvider()
 			.GetRequiredService<IOptions<BearerSettings>>().Value;
 
-		services.AddIdentity<UserModel, RoleModel>(options =>
+		services.AddIdentity<UserEntity, RoleEntity>(options =>
 		{
 			options.SignIn.RequireConfirmedAccount = true;
 			options.SignIn.RequireConfirmedEmail = true;
@@ -116,11 +116,11 @@ internal static class ServiceCollectionExtensions
 			options.Lockout.MaxFailedAccessAttempts = 3;
 			options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 			options.User.RequireUniqueEmail = true;
-		})
-			.AddEntityFrameworkStores<RepositoryContext>()
-			.AddTokenProvider(settings.Issuer, typeof(DataProtectorTokenProvider<UserModel>))
-			.AddUserManager<UserService>()
-			.AddRoleManager<RoleService>();
+		}
+		).AddEntityFrameworkStores<RepositoryContext>()
+		.AddTokenProvider<DataProtectorTokenProvider<UserEntity>>(settings.Issuer)
+		.AddUserManager<UserService>()
+		.AddRoleManager<RoleService>();
 
 		return services;
 	}
@@ -129,9 +129,8 @@ internal static class ServiceCollectionExtensions
 	/// Registers the required jwt bearer configuration to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
-	/// <param name="configuration">The current configuration.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection RegisterJwtBearerConfiguration(this IServiceCollection services, IConfiguration configuration)
+	internal static IServiceCollection RegisterJwtBearerConfiguration(this IServiceCollection services)
 	{
 		BearerSettings settings = services.BuildServiceProvider()
 			.GetRequiredService<IOptions<BearerSettings>>().Value;
@@ -140,32 +139,30 @@ internal static class ServiceCollectionExtensions
 		{
 			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-		}).AddJwtBearer(options =>
+		}).AddJwtBearer(options => options.TokenValidationParameters = new()
 		{
-			options.TokenValidationParameters = new()
-			{
-				ValidateIssuer = true,
-				ValidateAudience = true,
-				ValidateLifetime = true,
-				ValidateIssuerSigningKey = true,
-				ValidIssuer = settings.Issuer,
-				ValidAudience = settings.Audience,
-				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey))
-			};
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateLifetime = true,
+			ValidateIssuerSigningKey = true,
+			ValidIssuer = settings.Issuer,
+			ValidAudience = settings.Audience,
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey))
 		});
 
 		return services;
 	}
 
-	internal static IServiceCollection RegisterCors(this IServiceCollection services, IConfiguration configuration)
+	/// <summary>
+	/// Registers the required cross-origin resource sharing services to the <paramref name="services"/> collection.
+	/// </summary>
+	/// <param name="services">The service collection to enrich.</param>
+	/// <returns>The enriched service collection.</returns>
+	internal static IServiceCollection RegisterCors(this IServiceCollection services)
 	{
-		services.AddCors(options =>
-		{
-			options.AddPolicy("EnableCors", policy =>
-			{
-				policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-			});
-		});
+		services.AddCors(options
+			=> options.AddPolicy("EnableCors", policy
+				=> policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 		return services;
 	}

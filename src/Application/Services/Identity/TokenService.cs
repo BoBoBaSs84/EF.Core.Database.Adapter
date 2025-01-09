@@ -7,7 +7,7 @@ using Application.Interfaces.Application.Services.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -59,7 +59,7 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimePr
 			: principal;
 	}
 
-	public async Task<IdentityResult> SetRefreshTokenAsync(UserModel user, string token)
+	public async Task<IdentityResult> SetRefreshTokenAsync(UserEntity user, string token)
 	{
 		IdentityResult result = await userService
 			.SetAuthenticationTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName, token)
@@ -68,7 +68,7 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimePr
 		return result;
 	}
 
-	public async Task<string> GenerateRefreshTokenAsync(UserModel user)
+	public async Task<string> GenerateRefreshTokenAsync(UserEntity user)
 	{
 		string token = await userService
 			.GenerateUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName)
@@ -77,7 +77,7 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimePr
 		return token;
 	}
 
-	public async Task<IdentityResult> RemoveRefreshTokenAsync(UserModel user)
+	public async Task<IdentityResult> RemoveRefreshTokenAsync(UserEntity user)
 	{
 		IdentityResult result = await userService
 			.RemoveAuthenticationTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName)
@@ -86,7 +86,7 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimePr
 		return result;
 	}
 
-	public async Task<bool> VerifyRefreshTokenAsync(UserModel user, string token)
+	public async Task<bool> VerifyRefreshTokenAsync(UserEntity user, string token)
 	{
 		bool isValid = await userService
 			.VerifyUserTokenAsync(user, _bearerSettings.Issuer, RefreshTokenName, token)

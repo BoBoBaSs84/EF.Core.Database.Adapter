@@ -3,7 +3,6 @@
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 
 using Domain.Entities.Identity;
-using Domain.Models.Identity;
 
 using Infrastructure.Common;
 using Infrastructure.Persistence.Generators;
@@ -27,7 +26,7 @@ namespace Infrastructure.Persistence;
 /// <param name="softDeletableInterceptor">The soft deletable save changes interceptor.</param>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, repository context.")]
 internal sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> dbContextOptions, UserAuditingInterceptor userAuditingInterceptor, SoftDeletableInterceptor softDeletableInterceptor)
-	: IdentityDbContext<UserModel, RoleModel, Guid, UserClaimModel, UserRoleModel, UserLoginModel, RoleClaimModel, UserTokenModel>(dbContextOptions), IRepositoryContext
+	: IdentityDbContext<UserEntity, RoleEntity, Guid, UserClaimEntity, UserRoleEntity, UserLoginModel, RoleClaimEntity, UserTokenModel>(dbContextOptions), IRepositoryContext
 {
 	protected override void OnModelCreating(ModelBuilder builder)
 	{

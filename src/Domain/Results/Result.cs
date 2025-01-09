@@ -3,7 +3,6 @@
 /// <summary>
 /// The result class.
 /// </summary>
-[SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
 public static class Result
 {
 	/// <summary>

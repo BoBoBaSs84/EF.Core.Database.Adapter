@@ -3,8 +3,8 @@ using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Identity;
 using Domain.Errors;
-using Domain.Models.Identity;
 using Domain.Results;
 
 using FluentAssertions;
@@ -49,7 +49,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		string[] parameters = [$"{userId}", $"{roleId}"];
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(null));
+			.Returns(Task.FromResult<UserEntity?>(null));
 
 		ErrorOr<Deleted> result = await sut.RemoveUserFromRole(userId, roleId)
 			.ConfigureAwait(false);
@@ -70,12 +70,12 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{roleId}"];
-		UserModel model = CreateUser();
+		UserEntity model = CreateUser();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(model));
+			.Returns(Task.FromResult<UserEntity?>(model));
 		_roleServiceMock.Setup(x => x.FindByIdAsync($"{roleId}"))
-			.Returns(Task.FromResult<RoleModel?>(null));
+			.Returns(Task.FromResult<RoleEntity?>(null));
 
 		ErrorOr<Deleted> result = await sut.RemoveUserFromRole(userId, roleId)
 			.ConfigureAwait(false);
@@ -97,14 +97,14 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{roleId}"];
-		UserModel user = CreateUser();
-		RoleModel role = new();
+		UserEntity user = CreateUser();
+		RoleEntity role = new();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_roleServiceMock.Setup(x => x.FindByIdAsync($"{roleId}"))
-			.Returns(Task.FromResult<RoleModel?>(role));
+			.Returns(Task.FromResult<RoleEntity?>(role));
 		_userServiceMock.Setup(x => x.RemoveFromRoleAsync(user, role.Name!))
 			.Returns(Task.FromResult(IdentityResult.Failed(error)));
 
@@ -129,13 +129,13 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{roleId}"];
-		UserModel user = CreateUser(userId);
-		RoleModel role = new();
+		UserEntity user = CreateUser(userId);
+		RoleEntity role = new();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_roleServiceMock.Setup(x => x.FindByIdAsync($"{roleId}"))
-			.Returns(Task.FromResult<RoleModel?>(role));
+			.Returns(Task.FromResult<RoleEntity?>(role));
 		_userServiceMock.Setup(x => x.RemoveFromRoleAsync(user, role.Name!))
 			.Returns(Task.FromResult(IdentityResult.Success));
 

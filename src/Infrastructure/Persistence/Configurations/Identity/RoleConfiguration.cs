@@ -1,9 +1,9 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
 using BB84.Extensions;
 
+using Domain.Entities.Identity;
 using Domain.Enumerators;
 using Domain.Extensions;
-using Domain.Models.Identity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -13,12 +13,12 @@ using static Infrastructure.Common.InfrastructureConstants;
 namespace Infrastructure.Persistence.Configurations.Identity;
 
 /// <summary>
-/// The configuration for the <see cref="RoleModel"/> entity.
+/// The configuration for the <see cref="RoleEntity"/> entity.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-internal sealed class RoleConfiguration : IEntityTypeConfiguration<RoleModel>
+internal sealed class RoleConfiguration : IEntityTypeConfiguration<RoleEntity>
 {
-	public void Configure(EntityTypeBuilder<RoleModel> builder)
+	public void Configure(EntityTypeBuilder<RoleEntity> builder)
 	{
 		builder.ToHistoryTable("Role", SqlSchema.Identity, SqlSchema.History);
 
@@ -39,13 +39,13 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<RoleModel>
 		builder.HasData(GetRoleTypes());
 	}
 
-	private static ICollection<RoleModel> GetRoleTypes()
+	private static ICollection<RoleEntity> GetRoleTypes()
 	{
 		List<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetValues().ToList();
-		ICollection<RoleModel> listToReturn = [];
+		ICollection<RoleEntity> listToReturn = [];
 
 		foreach (RoleType roleType in roleTypes)
-			listToReturn.Add(new RoleModel()
+			listToReturn.Add(new RoleEntity()
 			{
 				Id = Guid.NewGuid(),
 				Name = roleType.GetName(),

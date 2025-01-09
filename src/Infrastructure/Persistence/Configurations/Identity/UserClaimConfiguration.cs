@@ -10,11 +10,11 @@ using static Infrastructure.Common.InfrastructureConstants;
 namespace Infrastructure.Persistence.Configurations.Identity;
 
 /// <summary>
-/// The configuration for the <see cref="UserClaimModel"/> entity.
+/// The configuration for the <see cref="UserClaimEntity"/> entity.
 /// </summary>
-internal sealed class UserClaimConfiguration : IEntityTypeConfiguration<UserClaimModel>
+internal sealed class UserClaimConfiguration : IEntityTypeConfiguration<UserClaimEntity>
 {
 	/// <inheritdoc/>
-	public void Configure(EntityTypeBuilder<UserClaimModel> builder) =>
+	public void Configure(EntityTypeBuilder<UserClaimEntity> builder) =>
 		builder.ToHistoryTable("UserClaim", SqlSchema.Identity, SqlSchema.History);
 }

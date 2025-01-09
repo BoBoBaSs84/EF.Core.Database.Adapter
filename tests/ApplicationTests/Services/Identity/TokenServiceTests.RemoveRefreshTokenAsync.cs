@@ -1,6 +1,6 @@
 ﻿using Application.Services.Identity;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using FluentAssertions;
 
@@ -16,7 +16,7 @@ public sealed partial class TokenServiceTests
 	[TestCategory(nameof(TokenService.RemoveRefreshTokenAsync))]
 	public async Task RemoveRefreshTokenAsyncShouldReturnResult()
 	{
-		UserModel user = CreateUser();
+		UserEntity user = CreateUser();
 		TokenService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.RemoveAuthenticationTokenAsync(user, It.IsAny<string>(), It.IsAny<string>()))
 			.Returns(Task.FromResult(IdentityResult.Success));

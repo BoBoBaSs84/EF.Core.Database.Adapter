@@ -25,7 +25,8 @@ public static class DependencyInjectionHelper
 			.RegisterSingletonServices()
 			.RegisterRepositoryContext(configuration, environment)
 			.RegisterIdentityService()
-			.RegisterJwtBearerConfiguration(configuration);
+			.RegisterJwtBearerConfiguration()
+			.RegisterCors();
 
 		return services;
 	}

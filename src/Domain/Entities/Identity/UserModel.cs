@@ -10,7 +10,7 @@ public partial class UserModel : IdentityUser<Guid>
 	/// <summary>
 	/// The <see cref="FirstName"/> property.
 	/// </summary>
-	public string FirstName { get; set; } = default!;
+	public required string FirstName { get; set; }
 
 	/// <summary>
 	/// The <see cref="MiddleName"/> property.
@@ -20,7 +20,7 @@ public partial class UserModel : IdentityUser<Guid>
 	/// <summary>
 	/// The <see cref="LastName"/> property.
 	/// </summary>
-	public string LastName { get; set; } = default!;
+	public required string LastName { get; set; }
 
 	/// <summary>
 	/// The <see cref="DateOfBirth"/> property.

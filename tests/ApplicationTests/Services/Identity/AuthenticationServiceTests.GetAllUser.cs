@@ -44,7 +44,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.GetAllUser))]
 	public async Task GetAllUserShouldReturnResultWhenSuccessful()
 	{
-		List<UserModel> users = [new(), new()];
+		List<UserModel> users = [CreateUser(), CreateUser()];
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.GetUsersInRoleAsync(RoleType.USER.GetName()))
 			.Returns(Task.FromResult<IList<UserModel>>(users));

@@ -6,8 +6,6 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
-using BB84.Extensions;
-
 using Domain.Errors;
 using Domain.Models.Identity;
 using Domain.Results;
@@ -75,7 +73,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid();
 		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
-		UserModel user = new();
+		UserModel user = CreateUser();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
@@ -103,7 +101,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid();
 		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
-		UserModel user = new() { Id = userId };
+		UserModel user = CreateUser(userId);
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
 			.Returns(Task.FromResult<UserModel?>(user));

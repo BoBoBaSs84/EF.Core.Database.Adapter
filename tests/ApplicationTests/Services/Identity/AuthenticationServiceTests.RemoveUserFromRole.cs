@@ -70,7 +70,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{roleId}"];
-		UserModel model = new();
+		UserModel model = CreateUser();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
 			.Returns(Task.FromResult<UserModel?>(model));
@@ -97,7 +97,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{roleId}"];
-		UserModel user = new();
+		UserModel user = CreateUser();
 		RoleModel role = new();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
@@ -129,7 +129,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid(), roleId = Guid.NewGuid();
 		string[] parameters = [$"{userId}", $"{roleId}"];
-		UserModel user = new();
+		UserModel user = CreateUser(userId);
 		RoleModel role = new();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))

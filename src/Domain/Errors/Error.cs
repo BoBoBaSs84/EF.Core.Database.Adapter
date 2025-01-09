@@ -5,7 +5,6 @@ namespace Domain.Errors;
 /// <summary>
 /// Represents an error.
 /// </summary>
-[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords")]
 public record class Error
 {
 	/// <summary>

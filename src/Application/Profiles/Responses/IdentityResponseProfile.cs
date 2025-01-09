@@ -3,7 +3,6 @@
 using AutoMapper;
 
 using Domain.Entities.Identity;
-using Domain.Models.Identity;
 
 namespace Application.Profiles.Responses;
 
@@ -15,7 +14,7 @@ internal sealed class IdentityResponseProfile : Profile
 {
 	public IdentityResponseProfile()
 	{
-		CreateMap<UserModel, UserResponse>();
+		CreateMap<UserEntity, UserResponse>();
 
 		CreateMap<PreferencesModel, PreferencesResponse>();
 		CreateMap<AttendancePreferencesModel, AttendancePreferencesResponse>();

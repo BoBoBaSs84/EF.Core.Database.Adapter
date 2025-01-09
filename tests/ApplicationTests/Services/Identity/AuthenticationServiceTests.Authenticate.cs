@@ -7,8 +7,8 @@ using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Identity;
 using Domain.Errors;
-using Domain.Models.Identity;
 
 using FluentAssertions;
 
@@ -50,7 +50,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		AuthenticationRequest request = CreateAuthenticationRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
-			.Returns(Task.FromResult<UserModel?>(null));
+			.Returns(Task.FromResult<UserEntity?>(null));
 
 		ErrorOr<AuthenticationResponse> result = await sut.Authenticate(request)
 			.ConfigureAwait(false);
@@ -70,10 +70,10 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task AuthenticateShouldReturnUnauthorizedWhenPasswordCheckIsFalse()
 	{
 		AuthenticationRequest request = CreateAuthenticationRequest();
-		UserModel user = CreateUser();
+		UserEntity user = CreateUser();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_userServiceMock.Setup(x => x.CheckPasswordAsync(user, request.Password))
 			.Returns(Task.FromResult(false));
 
@@ -99,10 +99,10 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		string refreshToken = RandomHelper.GetString(64);
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationRequest request = CreateAuthenticationRequest();
-		UserModel user = CreateUser();
+		UserEntity user = CreateUser();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_userServiceMock.Setup(x => x.CheckPasswordAsync(user, request.Password))
 			.Returns(Task.FromResult(true));
 		_userServiceMock.Setup(x => x.GetRolesAsync(user))
@@ -139,10 +139,10 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		string accessToken = RandomHelper.GetString(64);
 		string refreshToken = RandomHelper.GetString(64);
 		AuthenticationRequest request = CreateAuthenticationRequest();
-		UserModel user = CreateUser();
+		UserEntity user = CreateUser();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByNameAsync(request.UserName))
-			.Returns(Task.FromResult<UserModel?>(user));
+			.Returns(Task.FromResult<UserEntity?>(user));
 		_userServiceMock.Setup(x => x.CheckPasswordAsync(user, request.Password))
 			.Returns(Task.FromResult(true));
 		_userServiceMock.Setup(x => x.GetRolesAsync(user))

@@ -1,8 +1,8 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
 using BB84.Extensions;
 
+using Domain.Entities.Identity;
 using Domain.Enumerators.Finance;
-using Domain.Models.Identity;
 
 namespace Domain.Entities.Finance;
 
@@ -52,7 +52,7 @@ public sealed class CardEntity : AuditedEntity
 	/// <summary>
 	/// The <see cref="User"/> property.
 	/// </summary>
-	public UserModel User { get; set; } = default!;
+	public UserEntity User { get; set; } = default!;
 
 	/// <summary>
 	/// The <see cref="Account"/> property.

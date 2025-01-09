@@ -2,9 +2,9 @@
 
 using Domain.Entities.Attendance;
 using Domain.Entities.Finance;
+using Domain.Entities.Identity;
 using Domain.Enumerators.Attendance;
 using Domain.Enumerators.Finance;
-using Domain.Models.Identity;
 
 using static BaseTests.Helpers.RandomHelper;
 
@@ -12,7 +12,7 @@ namespace InfrastructureTests.Helpers;
 
 public static class ModelHelper
 {
-	public static ICollection<AttendanceEntity> GetNewAttendances(UserModel user, IList<DateTime> calendar, int entries = 10)
+	public static ICollection<AttendanceEntity> GetNewAttendances(UserEntity user, IList<DateTime> calendar, int entries = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(entries, 1);
 
@@ -30,7 +30,7 @@ public static class ModelHelper
 		return attendances;
 	}
 
-	public static ICollection<AccountUserEntity> GetNewAccountUsers(UserModel user, int accounts = 2, int accountTransactions = 10, int cards = 2, int cardTransactions = 10)
+	public static ICollection<AccountUserEntity> GetNewAccountUsers(UserEntity user, int accounts = 2, int accountTransactions = 10, int cards = 2, int cardTransactions = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(accounts, 1);
 
@@ -66,7 +66,7 @@ public static class ModelHelper
 		return accountTransactions;
 	}
 
-	private static CardEntity GetNewCard(UserModel user, AccountEntity account, string? cardNumber = null, ICollection<CardTransactionEntity>? cardTransactions = null)
+	private static CardEntity GetNewCard(UserEntity user, AccountEntity account, string? cardNumber = null, ICollection<CardTransactionEntity>? cardTransactions = null)
 	{
 		CardEntity cardToReturn = new()
 		{
@@ -79,7 +79,7 @@ public static class ModelHelper
 		return cardToReturn;
 	}
 
-	private static ICollection<CardEntity> GetNewCards(UserModel user, AccountEntity account, int cardsAmount = 2, int transactionAmount = 10)
+	private static ICollection<CardEntity> GetNewCards(UserEntity user, AccountEntity account, int cardsAmount = 2, int transactionAmount = 10)
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThan(cardsAmount, 1);
 

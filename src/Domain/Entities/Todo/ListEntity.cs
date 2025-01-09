@@ -2,7 +2,7 @@
 
 using BB84.EntityFrameworkCore.Entities;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 namespace Domain.Entities.Todo;
 
@@ -34,5 +34,5 @@ public class ListEntity : AuditedEntity
 	/// <summary>
 	/// The navigational <see cref="User"/> property.
 	/// </summary>
-	public virtual UserModel User { get; set; } = default!;
+	public virtual UserEntity User { get; set; } = default!;
 }

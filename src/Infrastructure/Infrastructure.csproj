@@ -1,12 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<Compile Remove="Persistence\Configurations\Identity\**" />
-		<EmbeddedResource Remove="Persistence\Configurations\Identity\**" />
-		<None Remove="Persistence\Configurations\Identity\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="BB84.EntityFrameworkCore.Repositories" />
 		<PackageReference Include="BB84.EntityFrameworkCore.Repositories.SqlServer" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />

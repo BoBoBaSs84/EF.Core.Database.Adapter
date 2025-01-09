@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Services;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -18,5 +18,5 @@ namespace Infrastructure.Services;
 /// </remarks>
 /// <inheritdoc/>
 [ExcludeFromCodeCoverage(Justification = "Wrapper class.")]
-internal sealed class RoleService(IRoleStore<RoleModel> store, IEnumerable<IRoleValidator<RoleModel>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<RoleModel>> logger) : RoleManager<RoleModel>(store, roleValidators, keyNormalizer, errors, logger), IRoleService
+internal sealed class RoleService(IRoleStore<RoleEntity> store, IEnumerable<IRoleValidator<RoleEntity>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<RoleEntity>> logger) : RoleManager<RoleEntity>(store, roleValidators, keyNormalizer, errors, logger), IRoleService
 { }

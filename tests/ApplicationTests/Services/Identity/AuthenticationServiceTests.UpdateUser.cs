@@ -6,10 +6,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
-using BB84.Extensions;
-
+using Domain.Entities.Identity;
 using Domain.Errors;
-using Domain.Models.Identity;
 using Domain.Results;
 
 using FluentAssertions;
@@ -54,7 +52,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(null));
+			.Returns(Task.FromResult<UserEntity?>(null));
 
 		ErrorOr<Updated> result = await sut.UpdateUser(userId, request)
 			.ConfigureAwait(false);
@@ -75,12 +73,12 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid();
 		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
-		UserModel user = new();
+		UserEntity user = CreateUser();
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(user));
-		_userServiceMock.Setup(x => x.UpdateAsync(It.IsAny<UserModel>()))
+			.Returns(Task.FromResult<UserEntity?>(user));
+		_userServiceMock.Setup(x => x.UpdateAsync(It.IsAny<UserEntity>()))
 			.Returns(Task.FromResult(IdentityResult.Failed(error)));
 
 		ErrorOr<Updated> result = await sut.UpdateUser(userId, request)
@@ -92,7 +90,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.UpdateUserFailed);
 			_userServiceMock.Verify(x => x.FindByIdAsync($"{userId}"), Times.Once);
-			_userServiceMock.Verify(x => x.UpdateAsync(It.IsAny<UserModel>()), Times.Once);
+			_userServiceMock.Verify(x => x.UpdateAsync(It.IsAny<UserEntity>()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), $"{error.Code} - {error.Description}", It.IsAny<Exception>()), Times.Once);
 		});
 	}
@@ -103,11 +101,11 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid();
 		UserUpdateRequest request = RequestHelper.GetUserUpdateRequest();
-		UserModel user = new() { Id = userId };
+		UserEntity user = CreateUser(userId);
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.FindByIdAsync($"{userId}"))
-			.Returns(Task.FromResult<UserModel?>(user));
-		_userServiceMock.Setup(x => x.UpdateAsync(It.IsAny<UserModel>()))
+			.Returns(Task.FromResult<UserEntity?>(user));
+		_userServiceMock.Setup(x => x.UpdateAsync(It.IsAny<UserEntity>()))
 			.Returns(Task.FromResult(IdentityResult.Success));
 
 		ErrorOr<Updated> result = await sut.UpdateUser(userId, request)
@@ -129,7 +127,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			user.Picture.Should().BeNull();
 			user.Preferences.Should().BeNull();
 			_userServiceMock.Verify(x => x.FindByIdAsync($"{userId}"), Times.Once);
-			_userServiceMock.Verify(x => x.UpdateAsync(It.IsAny<UserModel>()), Times.Once);
+			_userServiceMock.Verify(x => x.UpdateAsync(It.IsAny<UserEntity>()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

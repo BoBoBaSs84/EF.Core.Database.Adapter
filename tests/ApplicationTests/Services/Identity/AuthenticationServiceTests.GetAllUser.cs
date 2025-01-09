@@ -4,10 +4,10 @@ using Application.Services.Identity;
 
 using BaseTests.Helpers;
 
+using Domain.Entities.Identity;
 using Domain.Enumerators;
 using Domain.Errors;
 using Domain.Extensions;
-using Domain.Models.Identity;
 
 using FluentAssertions;
 
@@ -44,10 +44,10 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	[TestCategory(nameof(AuthenticationService.GetAllUser))]
 	public async Task GetAllUserShouldReturnResultWhenSuccessful()
 	{
-		List<UserModel> users = [new(), new()];
+		List<UserEntity> users = [CreateUser(), CreateUser()];
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.GetUsersInRoleAsync(RoleType.USER.GetName()))
-			.Returns(Task.FromResult<IList<UserModel>>(users));
+			.Returns(Task.FromResult<IList<UserEntity>>(users));
 
 		ErrorOr<IEnumerable<UserResponse>> result = await sut.GetAllUser()
 			.ConfigureAwait(false);

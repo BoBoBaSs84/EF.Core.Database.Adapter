@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 namespace Domain.Entities.Finance;
 
@@ -27,5 +27,5 @@ public sealed class AccountUserEntity : AuditedCompositeEntity
 	/// <summary>
 	/// The <see cref="User"/> property.
 	/// </summary>
-	public UserModel User { get; set; } = default!;
+	public UserEntity User { get; set; } = default!;
 }

@@ -3,7 +3,7 @@
 namespace Domain.Entities.Identity;
 
 /// <inheritdoc/>
-public sealed class UserTokenModel : IdentityUserToken<Guid>
+public sealed class UserClaimEntity : IdentityUserClaim<Guid>
 {
 	/// <summary>
 	/// The navigational property to the <see cref="UserEntity"/>.

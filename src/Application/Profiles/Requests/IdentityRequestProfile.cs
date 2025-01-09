@@ -3,7 +3,6 @@
 using AutoMapper;
 
 using Domain.Entities.Identity;
-using Domain.Models.Identity;
 
 namespace Application.Profiles.Requests;
 
@@ -15,8 +14,8 @@ internal sealed class IdentityRequestProfile : Profile
 {
 	public IdentityRequestProfile()
 	{
-		CreateMap<UserCreateRequest, UserModel>();
-		CreateMap<UserUpdateRequest, UserModel>();
+		CreateMap<UserCreateRequest, UserEntity>();
+		CreateMap<UserUpdateRequest, UserEntity>();
 
 		CreateMap<PreferencesRequest, PreferencesModel>();
 		CreateMap<AttendancePreferencesRequest, AttendancePreferencesModel>();

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-using Domain.Models.Identity;
+using Domain.Entities.Identity;
 
 using Microsoft.AspNetCore.Identity;
 
@@ -23,7 +23,7 @@ public interface ITokenService
 	/// </summary>
 	/// <param name="user">The user to instance to use.</param>
 	/// <returns>Whether a token was removed.</returns>
-	Task<IdentityResult> RemoveRefreshTokenAsync(UserModel user);
+	Task<IdentityResult> RemoveRefreshTokenAsync(UserEntity user);
 
 	/// <summary>
 	/// Sets an refresh <paramref name="token"/> for a <paramref name="user"/>.
@@ -31,7 +31,7 @@ public interface ITokenService
 	/// <param name="user">The user to instance to use.</param>
 	/// <param name="token">The token to set.</param>
 	/// <returns>Whether the user was successfully updated.</returns>
-	Task<IdentityResult> SetRefreshTokenAsync(UserModel user, string token);
+	Task<IdentityResult> SetRefreshTokenAsync(UserEntity user, string token);
 
 	/// <summary>
 	/// Indicates whether the specified refresh <paramref name="token"/> is valid
@@ -40,14 +40,14 @@ public interface ITokenService
 	/// <param name="user">The user to instance to use.</param>
 	/// <param name="token">The token to validate.</param>
 	/// <returns>True if the token is valid, otherwise false.</returns>
-	Task<bool> VerifyRefreshTokenAsync(UserModel user, string token);
+	Task<bool> VerifyRefreshTokenAsync(UserEntity user, string token);
 
 	/// <summary>
 	/// Generates a new refresh token for the provided <paramref name="user"/>.
 	/// </summary>
 	/// <param name="user">The user to instance to use.</param>
 	/// <returns>A new refresh token.</returns>
-	Task<string> GenerateRefreshTokenAsync(UserModel user);
+	Task<string> GenerateRefreshTokenAsync(UserEntity user);
 
 	/// <summary>
 	/// Generates a new access token with the provied <paramref name="claims"/>.

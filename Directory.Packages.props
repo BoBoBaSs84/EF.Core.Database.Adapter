@@ -19,10 +19,10 @@
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />

@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
 
-namespace Domain.Entities.Documents;
+namespace BB84.Home.Domain.Entities.Documents;
 
 /// <summary>
 /// The document extension entity.

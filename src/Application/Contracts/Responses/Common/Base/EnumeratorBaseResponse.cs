@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Extensions;
+using BB84.Home.Domain.Extensions;
 
 namespace Application.Contracts.Responses.Common.Base;
 

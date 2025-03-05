@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-using Domain.Errors;
+using BB84.Home.Domain.Errors;
 
 namespace Application.Errors.Base;
 

@@ -4,9 +4,9 @@ using Application.Services.Documents;
 
 using BaseTests.Helpers;
 
-using Domain.Entities.Documents;
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Entities.Documents;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 using FluentAssertions;
 

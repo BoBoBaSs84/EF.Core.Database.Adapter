@@ -1,6 +1,6 @@
-﻿using Domain.Entities.Attendance;
+﻿using BB84.Home.Domain.Entities.Attendance;
 
-namespace Domain.Extensions;
+namespace BB84.Home.Domain.Extensions;
 
 /// <summary>
 /// The model extensions class.

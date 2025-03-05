@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using RESX = Domain.Properties.EnumeratorResources;
+using RESX = BB84.Home.Domain.Properties.EnumeratorResources;
 
-namespace Domain.Enumerators.Documents;
+namespace BB84.Home.Domain.Enumerators.Documents;
 
 /// <summary>
 /// The document flags enumerator.

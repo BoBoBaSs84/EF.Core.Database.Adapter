@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses.Common;
 
-using Domain.Errors;
+using BB84.Home.Domain.Errors;
 
 namespace Application.Interfaces.Application.Services.Common;
 

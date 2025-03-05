@@ -11,7 +11,7 @@ using AutoMapper;
 
 using BaseTests.Helpers;
 
-using Domain.Entities.Identity;
+using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.Extensions.Options;
 

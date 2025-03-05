@@ -1,5 +1,5 @@
-﻿using Domain.Enumerators;
-using Domain.Extensions;
+﻿using BB84.Home.Domain.Enumerators;
+using BB84.Home.Domain.Extensions;
 
 using Microsoft.AspNetCore.Authorization;
 

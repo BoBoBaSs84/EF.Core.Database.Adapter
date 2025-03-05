@@ -1,8 +1,6 @@
-﻿using BB84.Home.Domain.Tests;
-
-using Domain.Entities.Attendance;
-using Domain.Enumerators.Attendance;
-using Domain.Extensions;
+﻿using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Extensions;
 
 namespace BB84.Home.Domain.Tests.Extensions;
 

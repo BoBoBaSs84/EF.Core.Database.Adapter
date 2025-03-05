@@ -1,6 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
 
-namespace Domain.Entities.Finance;
+namespace BB84.Home.Domain.Entities.Finance;
 
 /// <summary>
 /// The account transaction model class.

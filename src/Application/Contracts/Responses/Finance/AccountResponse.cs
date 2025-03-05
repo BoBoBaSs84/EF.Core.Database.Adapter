@@ -2,7 +2,7 @@
 
 using Application.Contracts.Responses.Base;
 
-using Domain.Enumerators.Finance;
+using BB84.Home.Domain.Enumerators.Finance;
 
 namespace Application.Contracts.Responses.Finance;
 

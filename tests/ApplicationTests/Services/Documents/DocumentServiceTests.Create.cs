@@ -9,10 +9,9 @@ using BaseTests.Helpers;
 
 using BB84.Extensions;
 using BB84.Extensions.Serialization;
-
-using Domain.Entities.Documents;
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Entities.Documents;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 using FluentAssertions;
 

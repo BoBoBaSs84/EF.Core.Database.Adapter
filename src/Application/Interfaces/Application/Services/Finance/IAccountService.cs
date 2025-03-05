@@ -1,8 +1,8 @@
 ﻿using Application.Contracts.Requests.Finance;
 using Application.Contracts.Responses.Finance;
 
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 namespace Application.Interfaces.Application.Services.Finance;
 

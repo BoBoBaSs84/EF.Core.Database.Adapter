@@ -2,8 +2,7 @@
 
 using BB84.EntityFrameworkCore.Repositories;
 using BB84.EntityFrameworkCore.Repositories.Abstractions;
-
-using Domain.Entities.Finance;
+using BB84.Home.Domain.Entities.Finance;
 
 namespace Infrastructure.Persistence.Repositories.Finance;
 

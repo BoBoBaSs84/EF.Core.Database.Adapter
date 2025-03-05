@@ -7,7 +7,7 @@ using Application.Interfaces.Application.Services.Common;
 
 using Asp.Versioning;
 
-using Domain.Errors;
+using BB84.Home.Domain.Errors;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

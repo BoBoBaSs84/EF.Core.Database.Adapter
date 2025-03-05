@@ -1,5 +1,4 @@
-﻿using Domain.Enumerators.Finance;
-using Application.Contracts.Requests.Finance;
+﻿using Application.Contracts.Requests.Finance;
 
 using ApplicationTests.Helpers;
 
@@ -9,6 +8,7 @@ using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
+using BB84.Home.Domain.Enumerators.Finance;
 
 namespace ApplicationTests.Validators.Contracts.Finance;
 

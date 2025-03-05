@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Requests.Attendance;
 using Application.Contracts.Requests.Attendance.Base;
 
-using Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
 

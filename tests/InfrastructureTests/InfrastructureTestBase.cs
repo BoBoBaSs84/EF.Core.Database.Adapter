@@ -2,7 +2,7 @@
 using Application.Interfaces.Infrastructure.Persistence;
 using Application.Interfaces.Presentation.Services;
 
-using Domain.Common;
+using BB84.Home.Domain.Common;
 
 using Infrastructure.Extensions;
 using Infrastructure.Installer;

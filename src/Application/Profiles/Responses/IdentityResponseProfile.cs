@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Entities.Identity;
+using BB84.Home.Domain.Entities.Identity;
 
 namespace Application.Profiles.Responses;
 

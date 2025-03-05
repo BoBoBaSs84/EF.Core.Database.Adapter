@@ -5,9 +5,9 @@ using Application.Services.Attendance;
 
 using BaseTests.Helpers;
 
-using Domain.Entities.Attendance;
-using Domain.Enumerators.Attendance;
-using Domain.Errors;
+using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 

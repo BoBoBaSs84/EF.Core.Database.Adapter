@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Enumerators.Finance;
+using BB84.Home.Domain.Enumerators.Finance;
 
 namespace Application.Contracts.Requests.Finance.Base;
 

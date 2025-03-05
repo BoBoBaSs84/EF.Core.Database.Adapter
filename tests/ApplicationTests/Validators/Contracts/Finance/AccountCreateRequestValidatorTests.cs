@@ -5,7 +5,7 @@ using ApplicationTests.Helpers;
 using BaseTests.Constants;
 using BaseTests.Helpers;
 
-using Domain.Enumerators.Finance;
+using BB84.Home.Domain.Enumerators.Finance;
 
 using FluentAssertions;
 

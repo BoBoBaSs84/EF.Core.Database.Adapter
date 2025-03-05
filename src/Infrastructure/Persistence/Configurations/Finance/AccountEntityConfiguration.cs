@@ -1,7 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
-
-using Domain.Entities.Finance;
+using BB84.Home.Domain.Entities.Finance;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

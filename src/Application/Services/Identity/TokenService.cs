@@ -7,7 +7,7 @@ using Application.Interfaces.Application.Services.Identity;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Options;
 
-using Domain.Entities.Identity;
+using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

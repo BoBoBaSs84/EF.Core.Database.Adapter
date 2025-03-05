@@ -1,9 +1,8 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
-
-using Domain.Entities.Attendance;
-using Domain.Entities.Documents;
-using Domain.Entities.Finance;
-using Domain.Entities.Todo;
+using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Entities.Documents;
+using BB84.Home.Domain.Entities.Finance;
+using BB84.Home.Domain.Entities.Todo;
 
 using Microsoft.EntityFrameworkCore;
 

@@ -2,8 +2,7 @@
 
 using BB84.EntityFrameworkCore.Repositories;
 using BB84.EntityFrameworkCore.Repositories.Abstractions;
-
-using Domain.Entities.Todo;
+using BB84.Home.Domain.Entities.Todo;
 
 namespace Infrastructure.Persistence.Repositories.Todo;
 

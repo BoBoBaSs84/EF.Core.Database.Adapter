@@ -1,10 +1,9 @@
 ﻿using BB84.Extensions;
-
-using Domain.Entities.Attendance;
-using Domain.Entities.Finance;
-using Domain.Entities.Identity;
-using Domain.Enumerators.Attendance;
-using Domain.Enumerators.Finance;
+using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Entities.Finance;
+using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Finance;
 
 using static BaseTests.Helpers.RandomHelper;
 

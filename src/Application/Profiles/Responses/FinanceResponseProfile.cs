@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Entities.Finance;
+using BB84.Home.Domain.Entities.Finance;
 
 namespace Application.Profiles.Responses;
 

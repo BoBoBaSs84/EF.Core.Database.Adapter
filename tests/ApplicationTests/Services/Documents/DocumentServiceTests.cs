@@ -1,8 +1,6 @@
 ﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
 using Application.Interfaces.Infrastructure.Services;
 using Application.Services.Documents;
-
-using Domain.Enumerators.Documents;
 using AutoMapper;
 
 using BB84.Extensions;
@@ -10,7 +8,8 @@ using BaseTests.Helpers;
 
 using Moq;
 using System;
-using Domain.Entities.Documents;
+using BB84.Home.Domain.Entities.Documents;
+using BB84.Home.Domain.Enumerators.Documents;
 
 namespace ApplicationTests.Services.Documents;
 

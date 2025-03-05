@@ -1,9 +1,8 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
 using BB84.Extensions;
+using BB84.Home.Domain.Enumerators.Finance;
 
-using Domain.Enumerators.Finance;
-
-namespace Domain.Entities.Finance;
+namespace BB84.Home.Domain.Entities.Finance;
 
 /// <summary>
 /// The account entity class.

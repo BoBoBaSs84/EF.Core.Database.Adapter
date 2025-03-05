@@ -2,16 +2,15 @@
 using Application.Features.Requests;
 
 using BB84.Extensions;
-
-using Domain.Entities.Attendance;
-using Domain.Entities.Finance;
-using Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Entities.Finance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
 
 using static Application.Common.ApplicationConstants;
 using static BaseTests.Helpers.RandomHelper;
-using static Domain.Common.DomainConstants;
+using static BB84.Home.Domain.Common.DomainConstants;
 
 namespace ApplicationTests.Extensions;
 

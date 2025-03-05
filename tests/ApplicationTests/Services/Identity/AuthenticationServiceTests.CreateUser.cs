@@ -6,11 +6,11 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
-using Domain.Entities.Identity;
-using Domain.Enumerators;
-using Domain.Errors;
-using Domain.Extensions;
-using Domain.Results;
+using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Domain.Enumerators;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Extensions;
+using BB84.Home.Domain.Results;
 
 using FluentAssertions;
 

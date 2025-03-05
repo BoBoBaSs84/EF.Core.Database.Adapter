@@ -7,9 +7,9 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
-using Domain.Entities.Todo;
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Entities.Todo;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 using FluentAssertions;
 

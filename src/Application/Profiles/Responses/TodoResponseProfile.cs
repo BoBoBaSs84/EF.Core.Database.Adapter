@@ -5,8 +5,7 @@ using Application.Contracts.Responses.Todo;
 using AutoMapper;
 
 using BB84.Extensions;
-
-using Domain.Entities.Todo;
+using BB84.Home.Domain.Entities.Todo;
 
 namespace Application.Profiles.Responses;
 

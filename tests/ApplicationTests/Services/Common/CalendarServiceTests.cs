@@ -8,7 +8,7 @@ using Application.Services.Common;
 
 using AutoMapper;
 
-using Domain.Errors;
+using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 

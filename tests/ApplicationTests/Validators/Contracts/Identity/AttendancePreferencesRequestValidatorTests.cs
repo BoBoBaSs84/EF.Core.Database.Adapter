@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Requests.Identity;
 
-using Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
 

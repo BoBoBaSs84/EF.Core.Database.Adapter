@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using Application.Converters;
 
-using Domain.Enumerators.Finance;
+using BB84.Home.Domain.Enumerators.Finance;
 
 namespace Application.Contracts.Requests.Finance.Base;
 

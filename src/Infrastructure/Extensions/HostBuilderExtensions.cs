@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-using Environment = Domain.Common.DomainConstants.Environment;
+using Environment = BB84.Home.Domain.Common.DomainConstants.Environment;
 
 namespace Infrastructure.Extensions;
 

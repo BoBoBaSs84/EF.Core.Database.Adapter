@@ -1,9 +1,8 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
+using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Domain.Enumerators.Attendance;
 
-using Domain.Entities.Identity;
-using Domain.Enumerators.Attendance;
-
-namespace Domain.Entities.Attendance;
+namespace BB84.Home.Domain.Entities.Attendance;
 
 /// <summary>
 /// The attendance entity class.

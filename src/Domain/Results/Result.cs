@@ -1,4 +1,4 @@
-﻿namespace Domain.Results;
+﻿namespace BB84.Home.Domain.Results;
 
 /// <summary>
 /// The result class.

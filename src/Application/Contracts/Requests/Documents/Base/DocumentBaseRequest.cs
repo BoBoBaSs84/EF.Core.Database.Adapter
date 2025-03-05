@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Enumerators.Documents;
+using BB84.Home.Domain.Enumerators.Documents;
 
 namespace Application.Contracts.Requests.Documents.Base;
 

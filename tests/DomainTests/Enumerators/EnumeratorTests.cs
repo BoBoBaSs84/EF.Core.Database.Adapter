@@ -4,9 +4,7 @@ using System.Reflection;
 using BaseTests.Helpers;
 
 using BB84.Extensions;
-using BB84.Home.Domain.Tests;
-
-using Domain.Common;
+using BB84.Home.Domain.Common;
 
 using FluentAssertions;
 

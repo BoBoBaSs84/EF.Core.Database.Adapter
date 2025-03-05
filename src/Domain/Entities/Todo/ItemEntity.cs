@@ -1,8 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
+using BB84.Home.Domain.Enumerators.Todo;
 
-using Domain.Enumerators.Todo;
-
-namespace Domain.Entities.Todo;
+namespace BB84.Home.Domain.Entities.Todo;
 
 /// <summary>
 /// The todo item entity class.

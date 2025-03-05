@@ -2,7 +2,7 @@
 using Application.Features.Requests;
 using Application.Features.Responses;
 
-using Domain.Errors;
+using BB84.Home.Domain.Errors;
 
 namespace Application.Interfaces.Application.Services.Common;
 

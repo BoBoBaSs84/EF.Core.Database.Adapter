@@ -1,4 +1,4 @@
-﻿namespace Domain.Errors;
+﻿namespace BB84.Home.Domain.Errors;
 
 /// <summary>
 /// A discriminated union of errors or a value.

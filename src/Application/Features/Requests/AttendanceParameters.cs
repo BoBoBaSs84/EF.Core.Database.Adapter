@@ -1,6 +1,6 @@
 ﻿using Application.Features.Requests.Base;
 
-using Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 namespace Application.Features.Requests;
 

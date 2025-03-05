@@ -1,6 +1,5 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
-
-using Domain.Entities.Attendance;
+using BB84.Home.Domain.Entities.Attendance;
 
 namespace Application.Interfaces.Infrastructure.Persistence.Repositories;
 

@@ -9,7 +9,7 @@ using Application.Interfaces.Infrastructure.Services;
 
 using AutoMapper;
 
-using Domain.Errors;
+using BB84.Home.Domain.Errors;
 
 using Microsoft.Extensions.Logging;
 

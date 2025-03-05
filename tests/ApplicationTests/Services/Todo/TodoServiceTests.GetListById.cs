@@ -8,10 +8,9 @@ using Application.Services.Todo;
 using BaseTests.Helpers;
 
 using BB84.Extensions;
-
-using Domain.Entities.Todo;
-using Domain.Enumerators.Todo;
-using Domain.Errors;
+using BB84.Home.Domain.Entities.Todo;
+using BB84.Home.Domain.Enumerators.Todo;
+using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 

@@ -1,8 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
+using BB84.Home.Domain.Entities.Identity;
 
-using Domain.Entities.Identity;
-
-namespace Domain.Entities.Finance;
+namespace BB84.Home.Domain.Entities.Finance;
 
 /// <summary>
 /// The account user entity class.

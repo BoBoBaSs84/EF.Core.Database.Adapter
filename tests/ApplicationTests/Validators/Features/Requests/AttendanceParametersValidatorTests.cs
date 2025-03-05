@@ -1,6 +1,6 @@
 ﻿using Application.Features.Requests;
 
-using Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
 

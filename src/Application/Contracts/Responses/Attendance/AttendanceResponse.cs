@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using Application.Contracts.Responses.Base;
 using Application.Converters;
 
-using Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 namespace Application.Contracts.Responses.Attendance;
 

@@ -1,4 +1,4 @@
-﻿namespace Domain.Errors;
+﻿namespace BB84.Home.Domain.Errors;
 
 public interface IErrorOr
 {

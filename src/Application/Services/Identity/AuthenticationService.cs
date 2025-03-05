@@ -9,12 +9,11 @@ using Application.Interfaces.Infrastructure.Services;
 using AutoMapper;
 
 using BB84.Extensions;
-
-using Domain.Entities.Identity;
-using Domain.Enumerators;
-using Domain.Errors;
-using Domain.Extensions;
-using Domain.Results;
+using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Domain.Enumerators;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Extensions;
+using BB84.Home.Domain.Results;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

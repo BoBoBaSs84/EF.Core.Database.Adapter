@@ -1,6 +1,6 @@
 ﻿using Application.Contracts.Responses.Common.Base;
 
-using Domain.Enumerators;
+using BB84.Home.Domain.Enumerators;
 
 namespace Application.Contracts.Responses.Common;
 

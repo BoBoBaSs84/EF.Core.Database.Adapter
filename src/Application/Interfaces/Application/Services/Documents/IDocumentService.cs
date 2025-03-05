@@ -3,8 +3,8 @@ using Application.Contracts.Responses.Documents;
 using Application.Features.Requests;
 using Application.Features.Responses;
 
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 namespace Application.Interfaces.Application.Services.Documents;
 

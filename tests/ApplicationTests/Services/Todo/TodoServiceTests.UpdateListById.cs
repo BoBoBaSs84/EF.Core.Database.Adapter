@@ -7,16 +7,15 @@ using Application.Services.Todo;
 
 using BaseTests.Helpers;
 
-using Domain.Errors;
-using Domain.Results;
-
 using FluentAssertions;
 
 using Microsoft.Extensions.Logging;
 
 using Moq;
 using ApplicationTests.Helpers;
-using Domain.Entities.Todo;
+using BB84.Home.Domain.Results;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Entities.Todo;
 
 namespace ApplicationTests.Services.Todo;
 

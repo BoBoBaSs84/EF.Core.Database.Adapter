@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using BB84.Home.Domain.Tests;
-
-using Domain.Enumerators.Attendance;
-using Domain.Extensions;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Extensions;
 
 using FluentAssertions;
 

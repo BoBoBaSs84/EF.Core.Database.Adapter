@@ -1,8 +1,8 @@
 ﻿using Application.Contracts.Requests.Todo;
 using Application.Contracts.Responses.Todo;
 
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 namespace Application.Interfaces.Application.Services.Todo;
 

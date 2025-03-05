@@ -2,9 +2,8 @@
 using Application.Features.Responses;
 
 using BB84.Extensions.Serialization;
-
-using Domain.Enumerators;
-using Domain.Errors;
+using BB84.Home.Domain.Enumerators;
+using BB84.Home.Domain.Errors;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

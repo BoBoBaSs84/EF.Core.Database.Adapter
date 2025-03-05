@@ -1,4 +1,4 @@
-﻿using Domain.Enumerators.Attendance;
+﻿using BB84.Home.Domain.Enumerators.Attendance;
 
 namespace Application.Contracts.Responses.Identity;
 

@@ -3,8 +3,8 @@ using Application.Contracts.Responses.Finance;
 using Application.Features.Requests;
 using Application.Features.Responses;
 
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

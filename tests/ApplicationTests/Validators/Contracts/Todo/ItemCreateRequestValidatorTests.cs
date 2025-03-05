@@ -4,6 +4,8 @@ using ApplicationTests.Helpers;
 
 using BaseTests.Helpers;
 
+using BB84.Home.Domain.Enumerators.Todo;
+
 using FluentAssertions;
 
 using FluentValidation;
@@ -37,7 +39,7 @@ public sealed class ItemCreateRequestValidatorTests : ApplicationTestBase
 		ItemCreateRequest request = new()
 		{
 			Title = RandomHelper.GetString(300),
-			Priority = (Domain.Enumerators.Todo.PriorityLevelType)12,
+			Priority = (PriorityLevelType)12,
 			Note = RandomHelper.GetString(4000),
 			Reminder = DateTime.MaxValue
 		};

@@ -9,11 +9,10 @@ using Application.Contracts.Requests.Todo;
 using BaseTests.Helpers;
 
 using BB84.Extensions;
-
-using Domain.Enumerators.Attendance;
-using Domain.Enumerators.Documents;
-using Domain.Enumerators.Finance;
-using Domain.Enumerators.Todo;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Documents;
+using BB84.Home.Domain.Enumerators.Finance;
+using BB84.Home.Domain.Enumerators.Todo;
 
 using static Application.Common.ApplicationConstants;
 

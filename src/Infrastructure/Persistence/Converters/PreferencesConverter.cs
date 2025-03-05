@@ -1,10 +1,9 @@
 ﻿using BB84.Extensions.Serialization;
-
-using Domain.Entities.Identity;
+using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using XmlConstants = Domain.Common.DomainConstants.Xml;
+using XmlConstants = BB84.Home.Domain.Common.DomainConstants.Xml;
 
 namespace Infrastructure.Persistence.Converters;
 

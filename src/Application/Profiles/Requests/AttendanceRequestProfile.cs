@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using Domain.Entities.Attendance;
+using BB84.Home.Domain.Entities.Attendance;
 
 namespace Application.Profiles.Requests;
 

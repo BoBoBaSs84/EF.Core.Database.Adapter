@@ -4,7 +4,7 @@ using Application.Services.Common;
 
 using BaseTests.Helpers;
 
-using Domain.Errors;
+using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 

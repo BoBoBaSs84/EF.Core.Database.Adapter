@@ -2,8 +2,7 @@
 
 using BB84.EntityFrameworkCore.Repositories;
 using BB84.EntityFrameworkCore.Repositories.Abstractions;
-
-using Domain.Entities.Attendance;
+using BB84.Home.Domain.Entities.Attendance;
 
 namespace Infrastructure.Persistence.Repositories;
 

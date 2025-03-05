@@ -1,7 +1,6 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
-
-using Domain.Entities.Todo;
+using BB84.Home.Domain.Entities.Todo;
 
 using Infrastructure.Persistence.Converters;
 

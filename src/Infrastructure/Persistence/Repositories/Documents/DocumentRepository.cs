@@ -2,8 +2,7 @@
 
 using BB84.EntityFrameworkCore.Repositories;
 using BB84.EntityFrameworkCore.Repositories.Abstractions;
-
-using Domain.Entities.Documents;
+using BB84.Home.Domain.Entities.Documents;
 
 namespace Infrastructure.Persistence.Repositories.Documents;
 

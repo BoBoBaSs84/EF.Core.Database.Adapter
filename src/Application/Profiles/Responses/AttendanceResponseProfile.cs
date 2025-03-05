@@ -2,8 +2,8 @@
 
 using AutoMapper;
 
-using Domain.Entities.Attendance;
-using Domain.Extensions;
+using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Extensions;
 
 namespace Application.Profiles.Responses;
 

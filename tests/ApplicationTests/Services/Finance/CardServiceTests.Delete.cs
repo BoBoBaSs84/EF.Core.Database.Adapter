@@ -4,9 +4,9 @@ using Application.Services.Finance;
 
 using BaseTests.Helpers;
 
-using Domain.Entities.Finance;
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Domain.Entities.Finance;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 using FluentAssertions;
 

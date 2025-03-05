@@ -6,10 +6,9 @@ using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Options;
 using BB84.Home.Domain.Entities.Identity;
 using BB84.Home.Infrastructure.Common;
+using BB84.Home.Infrastructure.Persistence;
 using BB84.Home.Infrastructure.Persistence.Interceptors;
 using BB84.Home.Infrastructure.Services;
-
-using BB84.Home.Infrastructure.Persistence;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

@@ -7,8 +7,8 @@ using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
 
-using static BB84.Home.BaseTests.Helpers.RandomHelper;
 using static BB84.Home.Application.Common.ApplicationConstants;
+using static BB84.Home.BaseTests.Helpers.RandomHelper;
 
 namespace BB84.Home.Application.Tests.Extensions;
 

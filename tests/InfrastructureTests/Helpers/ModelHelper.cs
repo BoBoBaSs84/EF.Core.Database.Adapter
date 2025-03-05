@@ -5,8 +5,6 @@ using BB84.Home.Domain.Entities.Identity;
 using BB84.Home.Domain.Enumerators.Attendance;
 using BB84.Home.Domain.Enumerators.Finance;
 
-using static BaseTests.Helpers.RandomHelper;
-
 namespace BB84.Home.Infrastructure.Tests.Helpers;
 
 public static class ModelHelper

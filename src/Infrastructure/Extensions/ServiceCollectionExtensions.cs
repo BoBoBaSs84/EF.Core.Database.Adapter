@@ -1,17 +1,14 @@
 ﻿using System.Text;
 
-using Application.Interfaces.Infrastructure.Persistence;
-using Application.Interfaces.Infrastructure.Services;
-using Application.Options;
-
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
-
-using Domain.Entities.Identity;
-
-using Infrastructure.Common;
-using Infrastructure.Persistence;
-using Infrastructure.Persistence.Interceptors;
-using Infrastructure.Services;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Options;
+using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Infrastructure.Common;
+using BB84.Home.Infrastructure.Persistence;
+using BB84.Home.Infrastructure.Persistence.Interceptors;
+using BB84.Home.Infrastructure.Services;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -24,7 +21,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Extensions;
+namespace BB84.Home.Infrastructure.Extensions;
 
 /// <summary>
 /// The <see cref="IServiceCollection"/> extensions class.

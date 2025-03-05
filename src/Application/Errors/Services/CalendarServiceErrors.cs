@@ -1,8 +1,8 @@
-﻿using Application.Errors.Base;
+﻿using BB84.Home.Application.Errors.Base;
 
-using RESX = Application.Properties.ServiceErrors;
+using RESX = BB84.Home.Application.Properties.ServiceErrors;
 
-namespace Application.Errors.Services;
+namespace BB84.Home.Application.Errors.Services;
 
 /// <summary>
 /// The static calendar service errors class.

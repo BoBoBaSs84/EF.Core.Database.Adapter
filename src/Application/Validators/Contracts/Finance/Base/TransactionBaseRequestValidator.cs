@@ -1,11 +1,11 @@
-﻿using Application.Contracts.Requests.Finance.Base;
-using Application.Extensions;
+﻿using BB84.Home.Application.Contracts.Requests.Finance.Base;
+using BB84.Home.Application.Extensions;
 
 using FluentValidation;
 
-using DateStatics = Application.Common.ApplicationStatics.DateStatics;
+using DateStatics = BB84.Home.Application.Common.ApplicationStatics.DateStatics;
 
-namespace Application.Validators.Contracts.Finance.Base;
+namespace BB84.Home.Application.Validators.Contracts.Finance.Base;
 
 /// <summary>
 /// The validator for the transaction base request.

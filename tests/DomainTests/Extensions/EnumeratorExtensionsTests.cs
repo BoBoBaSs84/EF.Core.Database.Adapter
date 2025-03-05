@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Enumerators.Attendance;
-using Domain.Extensions;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Extensions;
 
 using FluentAssertions;
 
-using static BaseTests.Constants.TestConstants;
+using static BB84.Home.BaseTests.Constants.TestConstants;
 
-namespace DomainTests.Extensions;
+namespace BB84.Home.Domain.Tests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

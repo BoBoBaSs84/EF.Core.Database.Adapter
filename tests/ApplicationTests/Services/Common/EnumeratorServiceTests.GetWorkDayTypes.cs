@@ -1,10 +1,8 @@
-﻿using Application.Contracts.Responses.Common;
-using Application.Errors.Services;
-using Application.Services.Common;
-
-using BaseTests.Helpers;
-
-using Domain.Errors;
+﻿using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Services.Common;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 

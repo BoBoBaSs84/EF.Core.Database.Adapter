@@ -1,6 +1,6 @@
-﻿using Domain.Enumerators.Attendance;
+﻿using BB84.Home.Domain.Enumerators.Attendance;
 
-namespace Domain.Extensions;
+namespace BB84.Home.Domain.Extensions;
 
 /// <summary>
 /// The attendance type extensions class.

@@ -1,10 +1,9 @@
 ﻿using System.Drawing;
 
 using BB84.EntityFrameworkCore.Entities;
+using BB84.Home.Domain.Entities.Identity;
 
-using Domain.Entities.Identity;
-
-namespace Domain.Entities.Todo;
+namespace BB84.Home.Domain.Entities.Todo;
 
 /// <summary>
 /// The todo list entity class.

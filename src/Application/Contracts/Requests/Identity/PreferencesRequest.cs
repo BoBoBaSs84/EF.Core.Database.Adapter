@@ -1,6 +1,6 @@
-﻿using Domain.Enumerators.Attendance;
+﻿using BB84.Home.Domain.Enumerators.Attendance;
 
-namespace Application.Contracts.Requests.Identity;
+namespace BB84.Home.Application.Contracts.Requests.Identity;
 
 /// <summary>
 /// The preferences request class.

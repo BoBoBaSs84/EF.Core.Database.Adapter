@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Converters;
+using BB84.Home.Application.Converters;
 
-namespace Application.Contracts.Requests.Finance.Base;
+namespace BB84.Home.Application.Contracts.Requests.Finance.Base;
 
 /// <summary>
 /// The base request for creating and updating a transaction.

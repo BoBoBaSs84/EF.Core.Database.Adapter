@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
-namespace Infrastructure.Persistence.Generators.Operations;
+namespace BB84.Home.Infrastructure.Persistence.Generators.Operations;
 
 /// <summary>
 /// The create database log operation class.

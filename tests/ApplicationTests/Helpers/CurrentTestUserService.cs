@@ -1,6 +1,6 @@
-﻿using Application.Interfaces.Presentation.Services;
+﻿using BB84.Home.Application.Interfaces.Presentation.Services;
 
-namespace ApplicationTests.Helpers;
+namespace BB84.Home.Application.Tests.Helpers;
 
 public sealed class CurrentTestUserService : ICurrentUserService
 {

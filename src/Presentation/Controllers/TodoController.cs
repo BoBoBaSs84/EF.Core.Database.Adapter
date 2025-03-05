@@ -1,21 +1,19 @@
-﻿using Application.Contracts.Requests.Todo;
-using Application.Contracts.Responses.Todo;
-using Application.Interfaces.Application.Services.Todo;
-using Application.Interfaces.Presentation.Services;
+﻿using Asp.Versioning;
 
-using Asp.Versioning;
-
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.Application.Contracts.Responses.Todo;
+using BB84.Home.Application.Interfaces.Application.Services.Todo;
+using BB84.Home.Application.Interfaces.Presentation.Services;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
+using BB84.Home.Presentation.Common;
+using BB84.Home.Presentation.Controllers.Base;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Presentation.Common;
-using Presentation.Controllers.Base;
-
-namespace Presentation.Controllers;
+namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
 /// The todo list and item api controller.

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Contracts.Responses.Base;
+namespace BB84.Home.Application.Contracts.Responses.Base;
 
 /// <summary>
 /// The <see langword="abstract"/> identity response class.

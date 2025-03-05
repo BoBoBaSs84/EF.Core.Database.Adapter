@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domain.Properties {
+namespace BB84.Home.Domain.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Domain.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Domain.Properties.EnumeratorResources", typeof(EnumeratorResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BB84.Home.Domain.Properties.EnumeratorResources", typeof(EnumeratorResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -673,7 +673,7 @@ namespace Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TX.
+        ///   Looks up a localized string similar to NO.
         /// </summary>
         public static string DocumentTypes_Tax_ShortName {
             get {

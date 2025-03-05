@@ -1,15 +1,15 @@
-﻿using Application.Interfaces.Infrastructure.Persistence;
-using Application.Interfaces.Infrastructure.Persistence.Repositories;
-using Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
-using Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
-using Application.Interfaces.Infrastructure.Services;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
 
-using Infrastructure.Persistence.Repositories;
-using Infrastructure.Persistence.Repositories.Documents;
-using Infrastructure.Persistence.Repositories.Finance;
-using Infrastructure.Persistence.Repositories.Todo;
+using BB84.Home.Infrastructure.Persistence.Repositories;
+using BB84.Home.Infrastructure.Persistence.Repositories.Documents;
+using BB84.Home.Infrastructure.Persistence.Repositories.Finance;
+using BB84.Home.Infrastructure.Persistence.Repositories.Todo;
 
-namespace Infrastructure.Services;
+namespace BB84.Home.Infrastructure.Services;
 
 /// <summary>
 /// The repository service class.

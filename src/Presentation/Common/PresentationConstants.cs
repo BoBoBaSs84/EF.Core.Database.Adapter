@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Presentation.Common;
+namespace BB84.Home.Presentation.Common;
 
 /// <summary>
 /// Class with some constants for web

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Application.Converters;
+namespace BB84.Home.Application.Converters;
 
 /// <summary>
 /// The <see cref="TimeSpan"/> json converter class.

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Entities.Identity;
+namespace BB84.Home.Domain.Entities.Identity;
 
 /// <inheritdoc/>
 public sealed class UserTokenModel : IdentityUserToken<Guid>

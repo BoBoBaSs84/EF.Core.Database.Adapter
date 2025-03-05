@@ -1,17 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-using BaseTests.Helpers;
-
 using BB84.Extensions;
-
-using Domain.Common;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Common;
 
 using FluentAssertions;
 
-using static BaseTests.Constants.TestConstants;
+using static BB84.Home.BaseTests.Constants.TestConstants;
 
-namespace DomainTests.Enumerators;
+namespace BB84.Home.Domain.Tests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

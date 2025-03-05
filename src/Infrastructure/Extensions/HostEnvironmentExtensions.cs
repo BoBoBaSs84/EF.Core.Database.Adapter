@@ -1,8 +1,8 @@
-﻿using Domain.Common;
+﻿using BB84.Home.Domain.Common;
 
 using Microsoft.Extensions.Hosting;
 
-namespace Infrastructure.Extensions;
+namespace BB84.Home.Infrastructure.Extensions;
 
 /// <summary>
 /// The host environment extensions class.

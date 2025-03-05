@@ -1,6 +1,6 @@
-﻿using Application.Services.Identity;
+﻿using BB84.Home.Application.Services.Identity;
 
-using Domain.Entities.Identity;
+using BB84.Home.Domain.Entities.Identity;
 
 using FluentAssertions;
 

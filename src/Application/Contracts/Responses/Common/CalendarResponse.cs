@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Converters;
+using BB84.Home.Application.Converters;
 
-namespace Application.Contracts.Responses.Common;
+namespace BB84.Home.Application.Contracts.Responses.Common;
 
 /// <summary>
 /// The calendar response class.

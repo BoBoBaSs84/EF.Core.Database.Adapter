@@ -1,8 +1,8 @@
-﻿using Presentation.Common;
+﻿using BB84.Home.Presentation.Common;
 
-using Swagger = Presentation.Common.PresentationConstants.Swagger;
+using Swagger = BB84.Home.Presentation.Common.PresentationConstants.Swagger;
 
-namespace WebAPI.Extensions;
+namespace BB84.Home.API.Extensions;
 
 /// <summary>
 /// The web application extensions class.

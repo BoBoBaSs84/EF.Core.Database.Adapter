@@ -1,25 +1,22 @@
 ﻿using System.Drawing;
 
-using Application.Contracts.Requests.Attendance;
-using Application.Contracts.Requests.Documents;
-using Application.Contracts.Requests.Finance;
-using Application.Contracts.Requests.Identity;
-using Application.Contracts.Requests.Todo;
-
-using BaseTests.Helpers;
-
 using BB84.Extensions;
+using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Application.Contracts.Requests.Documents;
+using BB84.Home.Application.Contracts.Requests.Finance;
+using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Documents;
+using BB84.Home.Domain.Enumerators.Finance;
+using BB84.Home.Domain.Enumerators.Todo;
 
-using Domain.Enumerators.Attendance;
-using Domain.Enumerators.Documents;
-using Domain.Enumerators.Finance;
-using Domain.Enumerators.Todo;
+using static BB84.Home.Application.Common.ApplicationConstants;
 
-using static Application.Common.ApplicationConstants;
+using DateStatics = BB84.Home.Application.Common.ApplicationStatics.DateStatics;
 
-using DateStatics = Application.Common.ApplicationStatics.DateStatics;
-
-namespace ApplicationTests.Helpers;
+namespace BB84.Home.Application.Tests.Helpers;
 
 internal static class RequestHelper
 {

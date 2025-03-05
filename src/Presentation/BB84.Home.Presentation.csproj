@@ -5,7 +5,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Application\Application.csproj" />
+		<ProjectReference Include="..\Application\BB84.Home.Application.csproj" />
 	</ItemGroup>
 
 </Project>

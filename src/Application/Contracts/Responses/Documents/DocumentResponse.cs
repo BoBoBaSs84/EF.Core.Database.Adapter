@@ -1,8 +1,7 @@
-﻿using Application.Contracts.Responses.Base;
+﻿using BB84.Home.Application.Contracts.Responses.Base;
+using BB84.Home.Domain.Enumerators.Documents;
 
-using Domain.Enumerators.Documents;
-
-namespace Application.Contracts.Responses.Documents;
+namespace BB84.Home.Application.Contracts.Responses.Documents;
 
 /// <summary>
 /// The response for the document.

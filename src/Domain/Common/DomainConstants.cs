@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Domain.Common;
+namespace BB84.Home.Domain.Common;
 
 /// <summary>
 /// The constants class.

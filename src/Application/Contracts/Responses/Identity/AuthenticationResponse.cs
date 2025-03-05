@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Contracts.Responses.Identity;
+namespace BB84.Home.Application.Contracts.Responses.Identity;
 
 /// <summary>
 /// The authentication response class.

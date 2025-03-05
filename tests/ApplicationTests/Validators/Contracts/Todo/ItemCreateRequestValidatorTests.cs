@@ -1,15 +1,14 @@
-﻿using Application.Contracts.Requests.Todo;
-
-using ApplicationTests.Helpers;
-
-using BaseTests.Helpers;
+﻿using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.Application.Tests.Helpers;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Enumerators.Todo;
 
 using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Contracts.Todo;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Todo;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]
@@ -37,7 +36,7 @@ public sealed class ItemCreateRequestValidatorTests : ApplicationTestBase
 		ItemCreateRequest request = new()
 		{
 			Title = RandomHelper.GetString(300),
-			Priority = (Domain.Enumerators.Todo.PriorityLevelType)12,
+			Priority = (PriorityLevelType)12,
 			Note = RandomHelper.GetString(4000),
 			Reminder = DateTime.MaxValue
 		};

@@ -1,12 +1,11 @@
-﻿using Application.Contracts.Requests.Attendance;
-using Application.Contracts.Responses.Attendance;
-using Application.Features.Requests;
-using Application.Features.Responses;
+﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Application.Contracts.Responses.Attendance;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
-using Domain.Errors;
-using Domain.Results;
-
-namespace Application.Interfaces.Application.Services.Attendance;
+namespace BB84.Home.Application.Interfaces.Application.Services.Attendance;
 
 /// <summary>
 /// The interface for the attendance service.

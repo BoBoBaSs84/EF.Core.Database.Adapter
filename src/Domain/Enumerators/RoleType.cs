@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using RESX = Domain.Properties.EnumeratorResources;
+using RESX = BB84.Home.Domain.Properties.EnumeratorResources;
 
-namespace Domain.Enumerators;
+namespace BB84.Home.Domain.Enumerators;
 
 /// <summary>
 /// The role type enumerator.

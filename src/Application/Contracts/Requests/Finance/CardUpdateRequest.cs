@@ -1,6 +1,6 @@
-﻿using Application.Contracts.Requests.Finance.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Finance.Base;
 
-namespace Application.Contracts.Requests.Finance;
+namespace BB84.Home.Application.Contracts.Requests.Finance;
 
 /// <summary>
 /// The request for updating a bank card.

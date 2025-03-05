@@ -1,6 +1,6 @@
-﻿using Domain.Enumerators;
+﻿using BB84.Home.Domain.Enumerators;
 
-namespace Domain.Errors;
+namespace BB84.Home.Domain.Errors;
 
 /// <summary>
 /// Represents an error.

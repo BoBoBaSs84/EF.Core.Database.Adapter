@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Responses.Common;
-using Application.Features.Requests;
-using Application.Features.Responses;
+﻿using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Domain.Errors;
 
-using Domain.Errors;
-
-namespace Application.Interfaces.Application.Services.Common;
+namespace BB84.Home.Application.Interfaces.Application.Services.Common;
 
 /// <summary>
 /// The interface for the calendar service.

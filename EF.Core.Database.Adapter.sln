@@ -3,27 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{187A1942-05D8-4147-8BDA-B4A641596446}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Domain", "src\Domain\BB84.Home.Domain.csproj", "{187A1942-05D8-4147-8BDA-B4A641596446}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{4B5976EC-9822-4143-8C18-09FDEDD2E7B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Infrastructure", "src\Infrastructure\BB84.Home.Infrastructure.csproj", "{4B5976EC-9822-4143-8C18-09FDEDD2E7B4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{0A3C0C71-8047-451A-8932-EF10256B7837}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Application", "src\Application\BB84.Home.Application.csproj", "{0A3C0C71-8047-451A-8932-EF10256B7837}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FED0B12F-4C5D-4628-BDCE-B84F4285CB69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\WebAPI\WebAPI.csproj", "{0B9E3D0C-40AA-49B1-87B1-A913FC0A0C06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.API", "src\WebAPI\BB84.Home.API.csproj", "{0B9E3D0C-40AA-49B1-87B1-A913FC0A0C06}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainTests", "tests\DomainTests\DomainTests.csproj", "{5C390D15-25DD-4C1B-9D54-98B1452D35FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Domain.Tests", "tests\DomainTests\BB84.Home.Domain.Tests.csproj", "{5C390D15-25DD-4C1B-9D54-98B1452D35FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{98B824A8-BA26-4E8E-A8F4-2BFF5E0B6DB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseTests", "tests\BaseTests\BaseTests.csproj", "{68496148-7E67-43C3-9839-2ECBB6A6B938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.BaseTests", "tests\BaseTests\BB84.Home.BaseTests.csproj", "{68496148-7E67-43C3-9839-2ECBB6A6B938}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfrastructureTests", "tests\InfrastructureTests\InfrastructureTests.csproj", "{F72A3033-C730-421F-A2E5-4D0AEFDC5D54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Infrastructure.Tests", "tests\InfrastructureTests\BB84.Home.Infrastructure.Tests.csproj", "{F72A3033-C730-421F-A2E5-4D0AEFDC5D54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "src\Presentation\Presentation.csproj", "{6703DCD5-B475-4F53-BC7F-214780735F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Presentation", "src\Presentation\BB84.Home.Presentation.csproj", "{6703DCD5-B475-4F53-BC7F-214780735F88}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationTests", "tests\ApplicationTests\ApplicationTests.csproj", "{AE0855E2-9F01-466D-BAFD-59C4DD9A27D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Application.Tests", "tests\ApplicationTests\BB84.Home.Application.Tests.csproj", "{AE0855E2-9F01-466D-BAFD-59C4DD9A27D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4EB18460-A99F-45E9-9C34-1AA858F3B9D5}"
 	ProjectSection(SolutionItems) = preProject
@@ -94,8 +94,8 @@ Global
 		{AE0855E2-9F01-466D-BAFD-59C4DD9A27D7} = {98B824A8-BA26-4E8E-A8F4-2BFF5E0B6DB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SaveFilesImmediatelyUponChange = True
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {8C2C98A4-09CD-4243-9E78-870E54AF080A}
+		RESX_SortFileContentOnSave = True
+		RESX_SaveFilesImmediatelyUponChange = True
 	EndGlobalSection
 EndGlobal

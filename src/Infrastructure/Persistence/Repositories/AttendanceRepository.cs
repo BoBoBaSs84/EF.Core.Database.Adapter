@@ -1,11 +1,9 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
-
-using BB84.EntityFrameworkCore.Repositories;
+﻿using BB84.EntityFrameworkCore.Repositories;
 using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Domain.Entities.Attendance;
 
-using Domain.Entities.Attendance;
-
-namespace Infrastructure.Persistence.Repositories;
+namespace BB84.Home.Infrastructure.Persistence.Repositories;
 
 /// <summary>
 /// The attendance repository class.

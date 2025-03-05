@@ -1,14 +1,13 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Configurations;
 using BB84.EntityFrameworkCore.Repositories.SqlServer.Extensions;
-
-using Domain.Entities.Documents;
+using BB84.Home.Domain.Entities.Documents;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using static Infrastructure.Common.InfrastructureConstants;
+using static BB84.Home.Infrastructure.Common.InfrastructureConstants;
 
-namespace Infrastructure.Persistence.Configurations.Documents;
+namespace BB84.Home.Infrastructure.Persistence.Configurations.Documents;
 
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, entity type configuration.")]

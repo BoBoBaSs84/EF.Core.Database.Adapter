@@ -1,9 +1,9 @@
-﻿using Application.Contracts.Requests.Todo.Base;
-using Application.Extensions;
+﻿using BB84.Home.Application.Contracts.Requests.Todo.Base;
+using BB84.Home.Application.Extensions;
 
 using FluentValidation;
 
-namespace Application.Validators.Contracts.Todo.Base;
+namespace BB84.Home.Application.Validators.Contracts.Todo.Base;
 
 /// <summary>
 /// The validator for the todo list base request.

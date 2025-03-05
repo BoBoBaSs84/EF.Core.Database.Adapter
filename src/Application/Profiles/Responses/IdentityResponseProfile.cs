@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Responses.Identity;
+﻿using AutoMapper;
 
-using AutoMapper;
+using BB84.Home.Application.Contracts.Responses.Identity;
+using BB84.Home.Domain.Entities.Identity;
 
-using Domain.Entities.Identity;
-
-namespace Application.Profiles.Responses;
+namespace BB84.Home.Application.Profiles.Responses;
 
 /// <summary>
 /// The identity response profile class.

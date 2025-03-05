@@ -1,24 +1,22 @@
-﻿using Application.Contracts.Requests.Identity;
-using Application.Contracts.Responses.Identity;
-using Application.Interfaces.Application.Services.Identity;
-using Application.Interfaces.Presentation.Services;
+﻿using Asp.Versioning;
 
-using Asp.Versioning;
-
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.Application.Contracts.Responses.Identity;
+using BB84.Home.Application.Interfaces.Application.Services.Identity;
+using BB84.Home.Application.Interfaces.Presentation.Services;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
+using BB84.Home.Presentation.Attributes;
+using BB84.Home.Presentation.Common;
+using BB84.Home.Presentation.Controllers.Base;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Presentation.Attributes;
-using Presentation.Common;
-using Presentation.Controllers.Base;
+using Roles = BB84.Home.Domain.Enumerators.RoleType;
 
-using Roles = Domain.Enumerators.RoleType;
-
-namespace Presentation.Controllers;
+namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
 /// The <see cref="UserManagementController"/> class.

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Extensions;
+using BB84.Home.Domain.Extensions;
 
-namespace Application.Contracts.Responses.Common.Base;
+namespace BB84.Home.Application.Contracts.Responses.Common.Base;
 
 /// <summary>
 /// The base class for enumerator responses.

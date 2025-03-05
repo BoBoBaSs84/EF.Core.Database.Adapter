@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BB84.Home.Presentation.Extensions;
 
-using Presentation.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Presentation.Installer;
+namespace BB84.Home.Presentation.Installer;
 
 /// <summary>
 /// The dependency injection helper class.

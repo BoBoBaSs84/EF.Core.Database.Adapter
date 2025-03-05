@@ -1,4 +1,4 @@
-﻿namespace Presentation.Common;
+﻿namespace BB84.Home.Presentation.Common;
 
 /// <summary>
 /// The presentation assembly marker interface.

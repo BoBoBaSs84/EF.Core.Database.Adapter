@@ -1,4 +1,4 @@
-﻿namespace Application.Interfaces.Presentation.Services;
+﻿namespace BB84.Home.Application.Interfaces.Presentation.Services;
 
 /// <summary>
 /// The current user service interface.

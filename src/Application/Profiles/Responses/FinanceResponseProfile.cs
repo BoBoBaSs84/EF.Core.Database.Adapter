@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Responses.Finance;
+﻿using AutoMapper;
 
-using AutoMapper;
+using BB84.Home.Application.Contracts.Responses.Finance;
+using BB84.Home.Domain.Entities.Finance;
 
-using Domain.Entities.Finance;
-
-namespace Application.Profiles.Responses;
+namespace BB84.Home.Application.Profiles.Responses;
 
 /// <summary>
 /// The finance response class.

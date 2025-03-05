@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Caches;
+using BB84.Home.Domain.Caches;
 
-namespace Domain.Extensions;
+namespace BB84.Home.Domain.Extensions;
 
 /// <summary>
 /// The enumerator extensions class.

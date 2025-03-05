@@ -1,16 +1,14 @@
-﻿using Domain.Enumerators.Finance;
-using Application.Contracts.Requests.Finance;
-
-using ApplicationTests.Helpers;
-
-using BaseTests.Helpers;
+﻿using BB84.Home.Application.Contracts.Requests.Finance;
+using BB84.Home.Application.Tests.Helpers;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Enumerators.Finance;
 
 using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Contracts.Finance;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Finance;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

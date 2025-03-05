@@ -1,10 +1,10 @@
-﻿using Infrastructure.Extensions;
+﻿using BB84.Home.Infrastructure.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Infrastructure.Installer;
+namespace BB84.Home.Infrastructure.Installer;
 
 /// <summary>
 /// The dependency injection helper class.

@@ -1,12 +1,11 @@
-﻿using Application.Interfaces.Infrastructure.Persistence;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
+using BB84.Home.Infrastructure.Services;
 
 using FluentAssertions;
 
-using Infrastructure.Services;
-
 using Moq;
 
-namespace InfrastructureTests.Services;
+namespace BB84.Home.Infrastructure.Tests.Services;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]

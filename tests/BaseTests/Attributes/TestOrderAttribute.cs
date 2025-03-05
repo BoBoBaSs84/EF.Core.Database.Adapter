@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BaseTests.Attributes;
+namespace BB84.Home.BaseTests.Attributes;
 
 /// <summary>
 /// The test order attribute class.

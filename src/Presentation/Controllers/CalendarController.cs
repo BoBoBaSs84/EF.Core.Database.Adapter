@@ -1,21 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Application.Contracts.Responses.Common;
-using Application.Features.Requests;
-using Application.Features.Responses;
-using Application.Interfaces.Application.Services.Common;
-
 using Asp.Versioning;
 
-using Domain.Errors;
+using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Application.Interfaces.Application.Services.Common;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Presentation.Common;
+using BB84.Home.Presentation.Controllers.Base;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Presentation.Common;
-using Presentation.Controllers.Base;
-
-namespace Presentation.Controllers;
+namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
 /// The calendar controller class.

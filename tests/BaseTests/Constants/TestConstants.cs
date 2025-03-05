@@ -1,4 +1,4 @@
-﻿namespace BaseTests.Constants;
+﻿namespace BB84.Home.BaseTests.Constants;
 
 public static class TestConstants
 {

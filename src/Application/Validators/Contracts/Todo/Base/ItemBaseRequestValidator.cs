@@ -1,10 +1,10 @@
-﻿using Application.Contracts.Requests.Todo.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Todo.Base;
 
 using FluentValidation;
 
-using static Application.Common.ApplicationStatics;
+using static BB84.Home.Application.Common.ApplicationStatics;
 
-namespace Application.Validators.Contracts.Todo.Base;
+namespace BB84.Home.Application.Validators.Contracts.Todo.Base;
 
 /// <summary>
 /// The validator for the todo item base request.

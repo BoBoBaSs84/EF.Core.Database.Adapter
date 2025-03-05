@@ -1,12 +1,12 @@
 ﻿using System.Xml.Serialization;
 
-using Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
-using XmlDataType = Domain.Common.DomainConstants.Xml.DataType;
-using XmlElements = Domain.Common.DomainConstants.Xml.Elements;
-using XmlNameSpaces = Domain.Common.DomainConstants.Xml.NameSpaces;
+using XmlDataType = BB84.Home.Domain.Common.DomainConstants.Xml.DataType;
+using XmlElements = BB84.Home.Domain.Common.DomainConstants.Xml.Elements;
+using XmlNameSpaces = BB84.Home.Domain.Common.DomainConstants.Xml.NameSpaces;
 
-namespace Domain.Entities.Identity;
+namespace BB84.Home.Domain.Entities.Identity;
 
 /// <summary>
 /// The preferences model class.

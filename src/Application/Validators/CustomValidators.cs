@@ -3,9 +3,9 @@
 using FluentValidation;
 using FluentValidation.Validators;
 
-using static Application.Common.ApplicationStatics;
+using static BB84.Home.Application.Common.ApplicationStatics;
 
-namespace Application.Validators;
+namespace BB84.Home.Application.Validators;
 
 /// <summary>
 /// The static class for custom validators.

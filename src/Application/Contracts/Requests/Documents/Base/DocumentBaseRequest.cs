@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Domain.Enumerators.Documents;
+using BB84.Home.Domain.Enumerators.Documents;
 
-namespace Application.Contracts.Requests.Documents.Base;
+namespace BB84.Home.Application.Contracts.Requests.Documents.Base;
 
 /// <summary>
 /// The base request for creating or updating a document.

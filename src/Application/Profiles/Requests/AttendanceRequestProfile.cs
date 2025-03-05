@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Requests.Attendance;
+﻿using AutoMapper;
 
-using AutoMapper;
+using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Domain.Entities.Attendance;
 
-using Domain.Entities.Attendance;
-
-namespace Application.Profiles.Requests;
+namespace BB84.Home.Application.Profiles.Requests;
 
 /// <summary>
 /// The attendance request profile class.

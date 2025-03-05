@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Responses;
+﻿namespace BB84.Home.Application.Features.Responses;
 
 /// <summary>
 /// The meta data class.

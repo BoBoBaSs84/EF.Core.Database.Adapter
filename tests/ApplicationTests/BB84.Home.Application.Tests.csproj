@@ -4,16 +4,11 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="MSTest" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
-		<ProjectReference Include="..\BaseTests\BaseTests.csproj" />
+		<ProjectReference Include="..\..\src\Application\BB84.Home.Application.csproj" />
+		<ProjectReference Include="..\BaseTests\BB84.Home.BaseTests.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="appsettings.json">

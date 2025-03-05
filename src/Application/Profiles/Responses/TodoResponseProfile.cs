@@ -1,14 +1,12 @@
 ﻿using System.Drawing;
 
-using Application.Contracts.Responses.Todo;
-
 using AutoMapper;
 
 using BB84.Extensions;
+using BB84.Home.Application.Contracts.Responses.Todo;
+using BB84.Home.Domain.Entities.Todo;
 
-using Domain.Entities.Todo;
-
-namespace Application.Profiles.Responses;
+namespace BB84.Home.Application.Profiles.Responses;
 
 /// <summary>
 /// The todo response profile class.

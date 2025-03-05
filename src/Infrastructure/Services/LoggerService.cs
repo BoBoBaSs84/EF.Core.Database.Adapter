@@ -1,8 +1,8 @@
-﻿using Application.Interfaces.Infrastructure.Services;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Services;
 
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Services;
+namespace BB84.Home.Infrastructure.Services;
 
 /// <summary>
 /// The logger service class.

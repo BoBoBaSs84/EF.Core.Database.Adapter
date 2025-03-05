@@ -1,23 +1,21 @@
-﻿using Application.Contracts.Requests.Finance;
-using Application.Contracts.Responses.Finance;
-using Application.Interfaces.Application.Services.Finance;
-using Application.Interfaces.Presentation.Services;
+﻿using Asp.Versioning;
 
-using Asp.Versioning;
-
-using Domain.Enumerators;
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Application.Contracts.Requests.Finance;
+using BB84.Home.Application.Contracts.Responses.Finance;
+using BB84.Home.Application.Interfaces.Application.Services.Finance;
+using BB84.Home.Application.Interfaces.Presentation.Services;
+using BB84.Home.Domain.Enumerators;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
+using BB84.Home.Presentation.Attributes;
+using BB84.Home.Presentation.Common;
+using BB84.Home.Presentation.Controllers.Base;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Presentation.Attributes;
-using Presentation.Common;
-using Presentation.Controllers.Base;
-
-namespace Presentation.Controllers;
+namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
 /// The bank account controller class.

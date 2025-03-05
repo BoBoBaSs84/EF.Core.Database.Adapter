@@ -1,17 +1,16 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Application.Interfaces.Presentation.Services;
-
 using Asp.Versioning;
+
+using BB84.Home.Application.Interfaces.Presentation.Services;
+using BB84.Home.Presentation.Common;
+using BB84.Home.Presentation.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-using Presentation.Common;
-using Presentation.Services;
-
-namespace Presentation.Extensions;
+namespace BB84.Home.Presentation.Extensions;
 
 /// <summary>
 /// The <see cref="IServiceCollection"/> extensions class.
@@ -44,7 +43,7 @@ internal static class ServiceCollectionExtensions
 			{
 				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 				options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-				options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;				
+				options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
 			});
 
 		return services;

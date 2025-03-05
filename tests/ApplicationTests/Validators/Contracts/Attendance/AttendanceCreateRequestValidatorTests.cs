@@ -1,15 +1,14 @@
-﻿using Application.Contracts.Requests.Attendance;
-
-using Domain.Enumerators.Attendance;
+﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
 
-using DateStatics = Application.Common.ApplicationStatics.DateStatics;
+using DateStatics = BB84.Home.Application.Common.ApplicationStatics.DateStatics;
 
-namespace ApplicationTests.Validators.Contracts.Attendance;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Attendance;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

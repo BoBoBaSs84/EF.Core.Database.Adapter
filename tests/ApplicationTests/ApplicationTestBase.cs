@@ -1,11 +1,10 @@
-﻿using Application.Installer;
-
-using Domain.Common;
+﻿using BB84.Home.Application.Installer;
+using BB84.Home.Domain.Common;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace ApplicationTests;
+namespace BB84.Home.Application.Tests;
 
 [TestClass]
 public abstract class ApplicationTestBase

@@ -1,13 +1,11 @@
-﻿using Application.Contracts.Responses.Attendance;
-using Application.Errors.Services;
-using Application.Interfaces.Infrastructure.Persistence.Repositories;
-using Application.Services.Attendance;
-
-using BaseTests.Helpers;
-
-using Domain.Entities.Attendance;
-using Domain.Enumerators.Attendance;
-using Domain.Errors;
+﻿using BB84.Home.Application.Contracts.Responses.Attendance;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Services.Attendance;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 

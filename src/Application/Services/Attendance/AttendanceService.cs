@@ -1,23 +1,21 @@
-﻿using Application.Contracts.Requests.Attendance;
-using Application.Contracts.Responses.Attendance;
-using Application.Errors.Services;
-using Application.Extensions;
-using Application.Features.Requests;
-using Application.Features.Responses;
-using Application.Interfaces.Application.Services.Attendance;
-using Application.Interfaces.Infrastructure.Services;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using BB84.Extensions;
-
-using Domain.Entities.Attendance;
-using Domain.Errors;
-using Domain.Results;
+using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Application.Contracts.Responses.Attendance;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Application.Interfaces.Application.Services.Attendance;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Domain.Entities.Attendance;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Attendance;
+namespace BB84.Home.Application.Services.Attendance;
 
 /// <summary>
 /// The attendance service class.

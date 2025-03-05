@@ -1,21 +1,20 @@
-﻿using Application.Contracts.Responses.Common;
-using Application.Errors.Services;
-using Application.Extensions;
-using Application.Features.Requests;
-using Application.Features.Responses;
-using Application.Interfaces.Application.Providers;
-using Application.Interfaces.Application.Services.Common;
-using Application.Interfaces.Infrastructure.Services;
+﻿using AutoMapper;
 
-using AutoMapper;
-
-using Domain.Errors;
+using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Application.Interfaces.Application.Providers;
+using BB84.Home.Application.Interfaces.Application.Services.Common;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Domain.Errors;
 
 using Microsoft.Extensions.Logging;
 
-using DateStatics = Application.Common.ApplicationStatics.DateStatics;
+using DateStatics = BB84.Home.Application.Common.ApplicationStatics.DateStatics;
 
-namespace Application.Services.Common;
+namespace BB84.Home.Application.Services.Common;
 
 /// <summary>
 /// The implementation of the calendar service.

@@ -1,10 +1,10 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Persistence.Generators.Operations;
+﻿using BB84.Home.Infrastructure.Common;
+using BB84.Home.Infrastructure.Persistence.Generators.Operations;
 
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 
-namespace Infrastructure.Extensions;
+namespace BB84.Home.Infrastructure.Extensions;
 
 /// <summary>
 /// The migration builder extensions class.

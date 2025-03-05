@@ -1,11 +1,10 @@
-﻿using Application.Contracts.Responses.Identity;
-using Application.Errors.Services;
-using Application.Services.Identity;
-
-using BaseTests.Helpers;
-
-using Domain.Entities.Identity;
-using Domain.Errors;
+﻿using BB84.Home.Application.Contracts.Responses.Identity;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Services.Identity;
+using BB84.Home.Application.Tests;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 

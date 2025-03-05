@@ -1,13 +1,12 @@
-﻿using Application.Contracts.Requests.Identity;
-
-using BaseTests.Helpers;
+﻿using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.BaseTests.Helpers;
 
 using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Contracts.Identity;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Identity;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

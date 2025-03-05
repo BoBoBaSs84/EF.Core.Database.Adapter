@@ -1,8 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Domain.Entities.Todo;
 
-using Domain.Entities.Todo;
-
-namespace Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
+namespace BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 
 /// <summary>
 /// Theinterface for the todo list repository.

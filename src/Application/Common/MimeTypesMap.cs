@@ -1,4 +1,4 @@
-﻿namespace Application.Common;
+﻿namespace BB84.Home.Application.Common;
 
 /// <summary>
 /// Static class for MimeTypes mappings

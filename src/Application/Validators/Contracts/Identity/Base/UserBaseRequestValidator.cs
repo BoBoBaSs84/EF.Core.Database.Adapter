@@ -1,8 +1,8 @@
-﻿using Application.Contracts.Requests.Identity.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Identity.Base;
 
 using FluentValidation;
 
-namespace Application.Validators.Contracts.Identity.Base;
+namespace BB84.Home.Application.Validators.Contracts.Identity.Base;
 
 /// <summary>
 /// The validator for the user base request.

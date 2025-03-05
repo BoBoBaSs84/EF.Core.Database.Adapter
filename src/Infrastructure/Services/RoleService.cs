@@ -1,11 +1,10 @@
-﻿using Application.Interfaces.Infrastructure.Services;
-
-using Domain.Entities.Identity;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Services;
+namespace BB84.Home.Infrastructure.Services;
 
 /// <summary>
 /// The role service class.

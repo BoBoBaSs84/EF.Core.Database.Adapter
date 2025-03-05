@@ -1,15 +1,13 @@
-﻿using Application.Contracts.Requests.Finance;
-using Application.Errors.Services;
-using Application.Interfaces.Infrastructure.Persistence.Repositories;
-using Application.Services.Finance;
-
-using ApplicationTests.Helpers;
-
-using BaseTests.Helpers;
-
-using Domain.Entities.Finance;
-using Domain.Errors;
-using Domain.Results;
+﻿using BB84.Home.Application.Contracts.Requests.Finance;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Services.Finance;
+using BB84.Home.Application.Tests;
+using BB84.Home.Application.Tests.Helpers;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Entities.Finance;
+using BB84.Home.Domain.Errors;
+using BB84.Home.Domain.Results;
 
 using FluentAssertions;
 

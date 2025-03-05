@@ -1,8 +1,6 @@
-﻿using Application.Services.Identity;
-
-using BaseTests.Helpers;
-
-using Domain.Entities.Identity;
+﻿using BB84.Home.Application.Services.Identity;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Entities.Identity;
 
 using FluentAssertions;
 

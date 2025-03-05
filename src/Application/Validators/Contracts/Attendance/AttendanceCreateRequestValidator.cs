@@ -1,11 +1,11 @@
-﻿using Application.Contracts.Requests.Attendance;
-using Application.Validators.Contracts.Attendance.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Application.Validators.Contracts.Attendance.Base;
 
 using FluentValidation;
 
-using DateStatics = Application.Common.ApplicationStatics.DateStatics;
+using DateStatics = BB84.Home.Application.Common.ApplicationStatics.DateStatics;
 
-namespace Application.Validators.Contracts.Attendance;
+namespace BB84.Home.Application.Validators.Contracts.Attendance;
 
 /// <summary>
 /// The validator for the attendance create request.

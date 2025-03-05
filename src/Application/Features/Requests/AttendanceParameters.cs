@@ -1,8 +1,7 @@
-﻿using Application.Features.Requests.Base;
+﻿using BB84.Home.Application.Features.Requests.Base;
+using BB84.Home.Domain.Enumerators.Attendance;
 
-using Domain.Enumerators.Attendance;
-
-namespace Application.Features.Requests;
+namespace BB84.Home.Application.Features.Requests;
 
 /// <summary>
 /// The parameters for the attendance request.

@@ -1,17 +1,16 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 
-using Application.Contracts.Requests.Identity;
-using Application.Interfaces.Application.Services.Identity;
-using Application.Interfaces.Infrastructure.Services;
-using Application.Options;
-using Application.Services.Identity;
-
 using AutoMapper;
 
-using BaseTests.Helpers;
-
-using Domain.Entities.Identity;
+using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.Application.Interfaces.Application.Services.Identity;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Options;
+using BB84.Home.Application.Services.Identity;
+using BB84.Home.Application.Tests;
+using BB84.Home.BaseTests.Helpers;
+using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.Extensions.Options;
 

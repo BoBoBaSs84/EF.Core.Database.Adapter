@@ -1,9 +1,9 @@
-﻿using Application.Contracts.Requests.Attendance;
-using Application.Validators.Contracts.Attendance.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Application.Validators.Contracts.Attendance.Base;
 
 using FluentValidation;
 
-namespace Application.Validators.Contracts.Attendance;
+namespace BB84.Home.Application.Validators.Contracts.Attendance;
 
 /// <summary>
 /// The validator for the attendance update request.

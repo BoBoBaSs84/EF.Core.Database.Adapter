@@ -1,9 +1,8 @@
 ﻿using BB84.EntityFrameworkCore.Entities;
+using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Domain.Enumerators.Documents;
 
-using Domain.Entities.Identity;
-using Domain.Enumerators.Documents;
-
-namespace Domain.Entities.Documents;
+namespace BB84.Home.Domain.Entities.Documents;
 
 /// <summary>
 /// The document entity class.

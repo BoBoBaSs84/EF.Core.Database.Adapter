@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace BaseTests.Helpers;
+namespace BB84.Home.BaseTests.Helpers;
 
 public static class TypeHelper
 {

@@ -1,11 +1,11 @@
-﻿using Application.Features.Requests;
-using Application.Validators.Features.Requests.Base;
+﻿using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Validators.Features.Requests.Base;
 
 using FluentValidation;
 
-using DRS = Application.Common.ApplicationStatics.DateStatics;
+using DRS = BB84.Home.Application.Common.ApplicationStatics.DateStatics;
 
-namespace Application.Validators.Features.Requests;
+namespace BB84.Home.Application.Validators.Features.Requests;
 
 /// <summary>
 /// The validator for the transaction parameters.

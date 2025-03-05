@@ -1,16 +1,14 @@
-﻿using Application.Contracts.Responses.Common;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using BB84.Extensions;
+using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Domain.Enumerators;
+using BB84.Home.Domain.Enumerators.Attendance;
+using BB84.Home.Domain.Enumerators.Documents;
+using BB84.Home.Domain.Enumerators.Finance;
+using BB84.Home.Domain.Enumerators.Todo;
 
-using Domain.Enumerators;
-using Domain.Enumerators.Attendance;
-using Domain.Enumerators.Documents;
-using Domain.Enumerators.Finance;
-using Domain.Enumerators.Todo;
-
-namespace Application.Profiles.Responses;
+namespace BB84.Home.Application.Profiles.Responses;
 
 /// <summary>
 /// The common response profile class

@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Converters;
+using BB84.Home.Application.Converters;
+using BB84.Home.Domain.Enumerators.Finance;
 
-using Domain.Enumerators.Finance;
-
-namespace Application.Contracts.Requests.Finance.Base;
+namespace BB84.Home.Application.Contracts.Requests.Finance.Base;
 
 /// <summary>
 /// The base request for creating or updating a bank card.

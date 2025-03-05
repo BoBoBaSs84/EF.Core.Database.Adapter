@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Contracts.Requests.Identity.Base;
-using Application.Converters;
+using BB84.Home.Application.Contracts.Requests.Identity.Base;
+using BB84.Home.Application.Converters;
 
-namespace Application.Contracts.Requests.Identity;
+namespace BB84.Home.Application.Contracts.Requests.Identity;
 
 /// <summary>
 /// The user update request class.

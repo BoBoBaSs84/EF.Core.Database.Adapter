@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Domain.Caches;
+namespace BB84.Home.Domain.Caches;
 
 /// <summary>
 /// The display attribute cache class.

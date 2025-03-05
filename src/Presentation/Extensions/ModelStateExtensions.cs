@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Presentation.Extensions;
+namespace BB84.Home.Presentation.Extensions;
 
 /// <summary>
 /// Extensions methods for <see cref="ModelStateDictionary"/>

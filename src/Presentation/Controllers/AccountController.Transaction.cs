@@ -4,13 +4,12 @@ using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
+using BB84.Home.Presentation.Common;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Presentation.Common;
-
-namespace Presentation.Controllers;
+namespace BB84.Home.Presentation.Controllers;
 
 public sealed partial class AccountController
 {

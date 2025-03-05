@@ -3,17 +3,16 @@ using BB84.Home.Application.Errors.Base;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Domain.Enumerators;
 using BB84.Home.Domain.Errors;
+using BB84.Home.Presentation.Common;
+using BB84.Home.Presentation.Extensions;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-using Presentation.Common;
-using Presentation.Extensions;
+using HttpHeaders = BB84.Home.Presentation.Common.PresentationConstants.HttpHeaders;
 
-using HttpHeaders = Presentation.Common.PresentationConstants.HttpHeaders;
-
-namespace Presentation.Controllers.Base;
+namespace BB84.Home.Presentation.Controllers.Base;
 
 /// <summary>
 /// Base api controller

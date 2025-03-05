@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 
-namespace Presentation.Common;
+namespace BB84.Home.Presentation.Common;
 
 /// <summary>
 /// Static class with versioning information.

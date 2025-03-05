@@ -8,15 +8,14 @@ using BB84.Home.Application.Interfaces.Application.Services.Documents;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
+using BB84.Home.Presentation.Common;
+using BB84.Home.Presentation.Controllers.Base;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Presentation.Common;
-using Presentation.Controllers.Base;
-
-namespace Presentation.Controllers;
+namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
 /// The document controller class.

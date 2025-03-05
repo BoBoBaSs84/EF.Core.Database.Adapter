@@ -3,7 +3,7 @@ using BB84.Home.Domain.Extensions;
 
 using Microsoft.AspNetCore.Authorization;
 
-namespace Presentation.Attributes;
+namespace BB84.Home.Presentation.Attributes;
 
 /// <summary>
 /// The authorize roles attribute class.

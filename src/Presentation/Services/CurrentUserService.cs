@@ -4,7 +4,7 @@ using BB84.Home.Application.Interfaces.Presentation.Services;
 
 using Microsoft.AspNetCore.Http;
 
-namespace Presentation.Services;
+namespace BB84.Home.Presentation.Services;
 
 /// <summary>
 /// The current user service class.

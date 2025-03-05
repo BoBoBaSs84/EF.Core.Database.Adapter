@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseTests", "tests\BaseTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Infrastructure.Tests", "tests\InfrastructureTests\BB84.Home.Infrastructure.Tests.csproj", "{F72A3033-C730-421F-A2E5-4D0AEFDC5D54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "src\Presentation\Presentation.csproj", "{6703DCD5-B475-4F53-BC7F-214780735F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Presentation", "src\Presentation\BB84.Home.Presentation.csproj", "{6703DCD5-B475-4F53-BC7F-214780735F88}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BB84.Home.Application.Tests", "tests\ApplicationTests\BB84.Home.Application.Tests.csproj", "{AE0855E2-9F01-466D-BAFD-59C4DD9A27D7}"
 EndProject

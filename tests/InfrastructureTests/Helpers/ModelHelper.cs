@@ -1,4 +1,5 @@
 ﻿using BB84.Extensions;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Entities.Finance;
 using BB84.Home.Domain.Entities.Identity;
@@ -16,12 +17,12 @@ public static class ModelHelper
 		List<AttendanceEntity> attendances = [];
 		for (int i = 1; i <= entries; i++)
 		{
-			DateTime calendarDate = calendar[GetInt(0, calendar.Count)];
+			DateTime calendarDate = calendar[RandomHelper.GetInt(0, calendar.Count)];
 
 			while (attendances.Exists(x => x.Date.Equals(calendarDate)))
-				calendarDate = calendar[GetInt(0, calendar.Count)];
+				calendarDate = calendar[RandomHelper.GetInt(0, calendar.Count)];
 
-			attendances.Add(new() { User = user, Date = calendarDate, Type = (AttendanceType)GetInt(4, 13) });
+			attendances.Add(new() { User = user, Date = calendarDate, Type = (AttendanceType)RandomHelper.GetInt(4, 13) });
 		}
 
 		return attendances;
@@ -46,8 +47,8 @@ public static class ModelHelper
 	{
 		AccountEntity accountToReturn = new()
 		{
-			IBAN = iban ?? GetString(20),
-			Provider = GetString(128),
+			IBAN = iban ?? RandomHelper.GetString(20),
+			Provider = RandomHelper.GetString(128),
 			Transactions = accountTransactions ?? default!
 		};
 		return accountToReturn;
@@ -68,9 +69,9 @@ public static class ModelHelper
 		CardEntity cardToReturn = new()
 		{
 			Account = account,
-			Type = (CardType)GetInt(1, 2),
+			Type = (CardType)RandomHelper.GetInt(1, 2),
 			Transactions = cardTransactions ?? default!,
-			PAN = cardNumber ?? GetString(20),
+			PAN = cardNumber ?? RandomHelper.GetString(20),
 			User = user
 		};
 		return cardToReturn;
@@ -104,17 +105,17 @@ public static class ModelHelper
 	{
 		TransactionEntity transactionToReturn = new()
 		{
-			BookingDate = GetDateTime(),
-			ValueDate = GetDateTime(),
-			PostingText = GetString(50),
-			ClientBeneficiary = GetString(150),
-			Purpose = GetString(1000),
-			AccountNumber = GetString(20).RemoveWhitespace(),
-			BankCode = GetString(25),
-			AmountEur = GetInt(-100, 250),
-			CreditorId = GetString(25),
-			MandateReference = GetString(50),
-			CustomerReference = GetString(50)
+			BookingDate = RandomHelper.GetDateTime(),
+			ValueDate = RandomHelper.GetDateTime(),
+			PostingText = RandomHelper.GetString(50),
+			ClientBeneficiary = RandomHelper.GetString(150),
+			Purpose = RandomHelper.GetString(1000),
+			AccountNumber = RandomHelper.GetString(20).RemoveWhitespace(),
+			BankCode = RandomHelper.GetString(25),
+			AmountEur = RandomHelper.GetInt(-100, 250),
+			CreditorId = RandomHelper.GetString(25),
+			MandateReference = RandomHelper.GetString(50),
+			CustomerReference = RandomHelper.GetString(50)
 		};
 		return transactionToReturn;
 	}

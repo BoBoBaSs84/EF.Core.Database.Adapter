@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Infrastructure.Common;
 
 using FluentAssertions;

@@ -13,13 +13,13 @@
 	<PropertyGroup>
 		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
 		<AnalysisLevel>latest</AnalysisLevel>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
 		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
 		<DebugType>none</DebugType>
 		<Deterministic>True</Deterministic>
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
@@ -49,6 +49,7 @@
 
 	<PropertyGroup Condition="$(Configuration.Equals('Debug'))">
 		<DebugType>full</DebugType>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">

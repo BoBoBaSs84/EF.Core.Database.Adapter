@@ -4,6 +4,7 @@ using System.Reflection;
 using BaseTests.Helpers;
 
 using BB84.Extensions;
+using BB84.Home.Domain.Tests;
 
 using Domain.Common;
 
@@ -11,7 +12,7 @@ using FluentAssertions;
 
 using static BaseTests.Constants.TestConstants;
 
-namespace DomainTests.Enumerators;
+namespace BB84.Home.Domain.Tests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

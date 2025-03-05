@@ -1,8 +1,10 @@
-﻿using Domain.Entities.Attendance;
+﻿using BB84.Home.Domain.Tests;
+
+using Domain.Entities.Attendance;
 using Domain.Enumerators.Attendance;
 using Domain.Extensions;
 
-namespace DomainTests.Extensions;
+namespace BB84.Home.Domain.Tests.Extensions;
 
 [TestClass]
 public class ModelExtensionsTests : DomainTestBase

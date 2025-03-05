@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using BB84.Home.Domain.Tests;
+
 using Domain.Enumerators.Attendance;
 using Domain.Extensions;
 
@@ -7,7 +9,7 @@ using FluentAssertions;
 
 using static BaseTests.Constants.TestConstants;
 
-namespace DomainTests.Extensions;
+namespace BB84.Home.Domain.Tests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

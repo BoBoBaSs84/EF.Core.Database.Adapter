@@ -4,7 +4,7 @@ using BB84.Extensions;
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Persistence.Converters;
+namespace BB84.Home.Infrastructure.Persistence.Converters;
 
 /// <summary>
 /// The <see cref="Color"/> converter.

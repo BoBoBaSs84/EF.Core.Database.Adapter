@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Common;
+﻿namespace BB84.Home.Infrastructure.Common;
 
 /// <summary>
 /// The constants for the infrastructure layer.

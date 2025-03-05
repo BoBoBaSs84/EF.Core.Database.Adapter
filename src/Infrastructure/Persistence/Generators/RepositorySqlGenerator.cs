@@ -1,11 +1,11 @@
-﻿using Infrastructure.Persistence.Generators.Operations;
+﻿using BB84.Home.Infrastructure.Persistence.Generators.Operations;
 
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.EntityFrameworkCore.Update;
 
-namespace Infrastructure.Persistence.Generators;
+namespace BB84.Home.Infrastructure.Persistence.Generators;
 
 
 /// <summary>

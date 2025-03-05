@@ -5,7 +5,7 @@ using BB84.Home.Domain.Entities.Todo;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence;
+namespace BB84.Home.Infrastructure.Persistence;
 
 internal sealed partial class RepositoryContext
 {

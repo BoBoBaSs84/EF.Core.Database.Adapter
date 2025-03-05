@@ -5,9 +5,9 @@ using BB84.Home.Domain.Entities.Attendance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using static Infrastructure.Common.InfrastructureConstants;
+using static BB84.Home.Infrastructure.Common.InfrastructureConstants;
 
-namespace Infrastructure.Persistence.Configurations.Attendance;
+namespace BB84.Home.Infrastructure.Persistence.Configurations.Attendance;
 
 /// <inheritdoc/>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]

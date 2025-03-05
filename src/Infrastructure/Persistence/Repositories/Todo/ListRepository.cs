@@ -3,7 +3,7 @@ using BB84.EntityFrameworkCore.Repositories.Abstractions;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using BB84.Home.Domain.Entities.Todo;
 
-namespace Infrastructure.Persistence.Repositories.Todo;
+namespace BB84.Home.Infrastructure.Persistence.Repositories.Todo;
 
 /// <summary>
 /// The list repository class.

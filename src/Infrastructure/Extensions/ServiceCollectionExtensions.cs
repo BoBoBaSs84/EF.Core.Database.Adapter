@@ -5,11 +5,11 @@ using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Options;
 using BB84.Home.Domain.Entities.Identity;
+using BB84.Home.Infrastructure.Common;
+using BB84.Home.Infrastructure.Persistence.Interceptors;
+using BB84.Home.Infrastructure.Services;
 
-using Infrastructure.Common;
-using Infrastructure.Persistence;
-using Infrastructure.Persistence.Interceptors;
-using Infrastructure.Services;
+using BB84.Home.Infrastructure.Persistence;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +22,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Extensions;
+namespace BB84.Home.Infrastructure.Extensions;
 
 /// <summary>
 /// The <see cref="IServiceCollection"/> extensions class.

@@ -2,17 +2,15 @@
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Common;
-
-using Infrastructure.Extensions;
-using Infrastructure.Installer;
-
-using InfrastructureTests.Helpers;
+using BB84.Home.Infrastructure.Extensions;
+using BB84.Home.Infrastructure.Installer;
+using BB84.Home.Infrastructure.Tests.Helpers;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
-namespace InfrastructureTests;
+namespace BB84.Home.Infrastructure.Tests;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]

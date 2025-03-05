@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using static Infrastructure.Common.InfrastructureConstants;
+using static BB84.Home.Infrastructure.Common.InfrastructureConstants;
 
-namespace Infrastructure.Persistence;
+namespace BB84.Home.Infrastructure.Persistence;
 
 internal sealed partial class RepositoryContext
 {

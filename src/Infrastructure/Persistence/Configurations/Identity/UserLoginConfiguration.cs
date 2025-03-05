@@ -4,9 +4,9 @@ using BB84.Home.Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using static Infrastructure.Common.InfrastructureConstants;
+using static BB84.Home.Infrastructure.Common.InfrastructureConstants;
 
-namespace Infrastructure.Persistence.Configurations.Identity;
+namespace BB84.Home.Infrastructure.Persistence.Configurations.Identity;
 
 /// <summary>
 /// The configuration for the <see cref="UserLoginModel"/> entity.

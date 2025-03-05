@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Infrastructure.Persistence.Interceptors;
+namespace BB84.Home.Infrastructure.Persistence.Interceptors;
 
 /// <summary>
 /// The user auditing save changes interceptor.

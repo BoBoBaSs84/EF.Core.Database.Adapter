@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Infrastructure.Services;
+namespace BB84.Home.Infrastructure.Services;
 
 /// <summary>
 /// The user service class.

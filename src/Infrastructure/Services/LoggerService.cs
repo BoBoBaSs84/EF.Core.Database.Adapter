@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Services;
+namespace BB84.Home.Infrastructure.Services;
 
 /// <summary>
 /// The logger service class.

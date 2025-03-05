@@ -7,7 +7,7 @@ using BB84.Home.Domain.Enumerators.Finance;
 
 using static BaseTests.Helpers.RandomHelper;
 
-namespace InfrastructureTests.Helpers;
+namespace BB84.Home.Infrastructure.Tests.Helpers;
 
 public static class ModelHelper
 {

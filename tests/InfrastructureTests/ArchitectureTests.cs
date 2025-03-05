@@ -2,11 +2,11 @@
 
 using BaseTests.Helpers;
 
+using BB84.Home.Infrastructure.Common;
+
 using FluentAssertions;
 
-using Infrastructure.Common;
-
-namespace InfrastructureTests;
+namespace BB84.Home.Infrastructure.Tests;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

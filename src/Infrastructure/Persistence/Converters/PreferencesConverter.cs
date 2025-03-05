@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using XmlConstants = BB84.Home.Domain.Common.DomainConstants.Xml;
 
-namespace Infrastructure.Persistence.Converters;
+namespace BB84.Home.Infrastructure.Persistence.Converters;
 
 /// <summary>
 /// The preferences value converter.

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 using Environment = BB84.Home.Domain.Common.DomainConstants.Environment;
 
-namespace Infrastructure.Extensions;
+namespace BB84.Home.Infrastructure.Extensions;
 
 /// <summary>
 /// The host builder extensions class.

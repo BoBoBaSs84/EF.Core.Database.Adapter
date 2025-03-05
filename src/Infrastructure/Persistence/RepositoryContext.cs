@@ -1,17 +1,16 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 using BB84.Home.Domain.Entities.Identity;
-
-using Infrastructure.Common;
-using Infrastructure.Persistence.Generators;
-using Infrastructure.Persistence.Interceptors;
+using BB84.Home.Infrastructure.Common;
+using BB84.Home.Infrastructure.Persistence.Generators;
+using BB84.Home.Infrastructure.Persistence.Interceptors;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Infrastructure.Persistence;
+namespace BB84.Home.Infrastructure.Persistence;
 
 /// <summary>
 /// The repository context for the application.

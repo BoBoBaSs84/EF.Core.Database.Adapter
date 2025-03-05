@@ -1,6 +1,6 @@
 ﻿using FluentAssertions.Execution;
 
-namespace BaseTests.Helpers;
+namespace BB84.Home.BaseTests.Helpers;
 
 public static class AssertionHelper
 {

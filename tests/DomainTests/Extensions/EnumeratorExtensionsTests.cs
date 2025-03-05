@@ -5,7 +5,7 @@ using BB84.Home.Domain.Extensions;
 
 using FluentAssertions;
 
-using static BaseTests.Constants.TestConstants;
+using static BB84.Home.BaseTests.Constants.TestConstants;
 
 namespace BB84.Home.Domain.Tests.Extensions;
 

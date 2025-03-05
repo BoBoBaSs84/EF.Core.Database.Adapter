@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 
-using BaseTests.Helpers;
-
 using BB84.Extensions;
 using BB84.Home.Application.Common;
+using BB84.Home.BaseTests.Helpers;
 
 using FluentAssertions;
 

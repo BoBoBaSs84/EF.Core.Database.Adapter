@@ -3,14 +3,13 @@ using System.Security.Principal;
 
 using AutoMapper;
 
-using BaseTests.Helpers;
-
 using BB84.Home.Application.Contracts.Requests.Identity;
 using BB84.Home.Application.Interfaces.Application.Services.Identity;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Options;
 using BB84.Home.Application.Services.Identity;
 using BB84.Home.Application.Tests;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.Extensions.Options;

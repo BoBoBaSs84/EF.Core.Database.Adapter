@@ -1,8 +1,7 @@
 ﻿using System.Security.Claims;
 
-using BaseTests.Helpers;
-
 using BB84.Home.Application.Services.Identity;
+using BB84.Home.BaseTests.Helpers;
 
 using FluentAssertions;
 

@@ -1,13 +1,12 @@
 ﻿using System.Drawing;
 
-using BaseTests.Helpers;
-
 using BB84.Extensions;
 using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Contracts.Requests.Documents;
 using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Contracts.Requests.Identity;
 using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Enumerators.Attendance;
 using BB84.Home.Domain.Enumerators.Documents;
 using BB84.Home.Domain.Enumerators.Finance;

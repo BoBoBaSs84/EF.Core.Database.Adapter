@@ -1,10 +1,9 @@
-﻿using BaseTests.Helpers;
-
-using BB84.Home.Application.Contracts.Requests.Attendance;
+﻿using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Application.Tests.Helpers;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;

@@ -8,6 +8,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Domain\BB84.Home.Domain.csproj" />
-		<ProjectReference Include="..\BaseTests\BaseTests.csproj" />
+		<ProjectReference Include="..\BaseTests\BB84.Home.BaseTests.csproj" />
 	</ItemGroup>
 </Project>

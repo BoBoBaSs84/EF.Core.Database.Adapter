@@ -1,12 +1,11 @@
 ﻿using System.Security.Claims;
 
-using BaseTests.Helpers;
-
 using BB84.Home.Application.Contracts.Requests.Identity;
 using BB84.Home.Application.Contracts.Responses.Identity;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Services.Identity;
 using BB84.Home.Application.Tests;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Entities.Identity;
 using BB84.Home.Domain.Errors;
 

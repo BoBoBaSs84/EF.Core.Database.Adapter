@@ -2,9 +2,9 @@
 
 using Fare;
 
-using static BaseTests.Constants.TestConstants;
+using static BB84.Home.BaseTests.Constants.TestConstants;
 
-namespace BaseTests.Helpers;
+namespace BB84.Home.BaseTests.Helpers;
 
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTestHelper")]
 public static class RandomHelper

@@ -1,7 +1,5 @@
 ﻿using System.Linq.Expressions;
 
-using BaseTests.Helpers;
-
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Features.Requests;
@@ -9,6 +7,7 @@ using BB84.Home.Application.Features.Responses;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Finance;
 using BB84.Home.Application.Tests;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Entities.Finance;
 using BB84.Home.Domain.Errors;
 

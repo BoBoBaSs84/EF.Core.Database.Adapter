@@ -1,7 +1,6 @@
-﻿using BaseTests.Helpers;
-
-using BB84.Home.Application.Contracts.Requests.Identity;
+﻿using BB84.Home.Application.Contracts.Requests.Identity;
 using BB84.Home.Application.Contracts.Requests.Identity.Base;
+using BB84.Home.BaseTests.Helpers;
 
 using FluentAssertions;
 

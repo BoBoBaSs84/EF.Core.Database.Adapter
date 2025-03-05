@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 
-using BaseTests.Helpers;
-
 using BB84.Extensions;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Services.Documents;
 using BB84.Home.Application.Tests;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Enumerators.Documents;
 

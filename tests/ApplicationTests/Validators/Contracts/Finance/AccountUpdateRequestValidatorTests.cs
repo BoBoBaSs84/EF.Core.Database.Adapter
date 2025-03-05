@@ -1,7 +1,6 @@
-﻿using BaseTests.Helpers;
-
-using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Tests.Helpers;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Enumerators.Finance;
 
 using FluentAssertions;

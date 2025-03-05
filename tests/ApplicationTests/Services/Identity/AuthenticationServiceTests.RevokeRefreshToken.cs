@@ -1,7 +1,6 @@
-﻿using BaseTests.Helpers;
-
-using BB84.Home.Application.Errors.Services;
+﻿using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Services.Identity;
+using BB84.Home.BaseTests.Helpers;
 using BB84.Home.Domain.Entities.Identity;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;

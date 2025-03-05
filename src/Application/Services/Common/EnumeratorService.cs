@@ -1,11 +1,10 @@
-﻿using Application.Contracts.Responses.Common;
-using Application.Errors.Services;
-using Application.Interfaces.Application.Services.Common;
-using Application.Interfaces.Infrastructure.Services;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using BB84.Extensions;
+using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Interfaces.Application.Services.Common;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Domain.Enumerators;
 using BB84.Home.Domain.Enumerators.Attendance;
 using BB84.Home.Domain.Enumerators.Documents;
@@ -15,7 +14,7 @@ using BB84.Home.Domain.Errors;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Common;
+namespace BB84.Home.Application.Services.Common;
 
 /// <summary>
 /// The enumerator service class.

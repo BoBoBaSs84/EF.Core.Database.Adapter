@@ -1,25 +1,24 @@
-﻿using Application.Common;
-using Application.Contracts.Requests.Documents;
-using Application.Contracts.Requests.Documents.Base;
-using Application.Contracts.Responses.Documents;
-using Application.Errors.Services;
-using Application.Extensions;
-using Application.Features.Requests;
-using Application.Features.Responses;
-using Application.Interfaces.Application.Services.Documents;
-using Application.Interfaces.Infrastructure.Services;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using BB84.Extensions;
 using BB84.Extensions.Serialization;
+using BB84.Home.Application.Common;
+using BB84.Home.Application.Contracts.Requests.Documents;
+using BB84.Home.Application.Contracts.Requests.Documents.Base;
+using BB84.Home.Application.Contracts.Responses.Documents;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Application.Interfaces.Application.Services.Documents;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Documents;
+namespace BB84.Home.Application.Services.Documents;
 
 /// <summary>
 /// The document service class.

@@ -6,7 +6,7 @@ using BB84.Home.Domain.Entities.Todo;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Interfaces.Infrastructure.Persistence;
+namespace BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 
 /// <summary>
 /// The application context interface.

@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Requests.Base;
+﻿namespace BB84.Home.Application.Features.Requests.Base;
 
 /// <summary>
 /// The base request parameter class.

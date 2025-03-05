@@ -1,13 +1,12 @@
 ﻿using System.Drawing;
 
-using Application.Contracts.Requests.Todo;
-
 using AutoMapper;
 
 using BB84.Extensions;
+using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Domain.Entities.Todo;
 
-namespace Application.Profiles.Requests;
+namespace BB84.Home.Application.Profiles.Requests;
 
 /// <summary>
 /// The todo request profile class.

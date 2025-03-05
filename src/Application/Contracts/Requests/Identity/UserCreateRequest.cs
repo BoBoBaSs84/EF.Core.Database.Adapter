@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Application.Contracts.Requests.Identity.Base;
+using BB84.Home.Application.Contracts.Requests.Identity.Base;
 
-namespace Application.Contracts.Requests.Identity;
+namespace BB84.Home.Application.Contracts.Requests.Identity;
 
 /// <summary>
 /// The user create request class.

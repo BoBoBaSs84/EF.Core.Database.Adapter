@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Application.Contracts.Requests.Documents.Base;
+using BB84.Home.Application.Contracts.Requests.Documents.Base;
 
-namespace Application.Contracts.Requests.Documents;
+namespace BB84.Home.Application.Contracts.Requests.Documents;
 
 /// <summary>
 /// The request for updating a document.

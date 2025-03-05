@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Requests.Todo;
-using Application.Contracts.Responses.Todo;
-
+﻿using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
-namespace Application.Interfaces.Application.Services.Todo;
+namespace BB84.Home.Application.Interfaces.Application.Services.Todo;
 
 /// <summary>
 /// The interface fo the todo service

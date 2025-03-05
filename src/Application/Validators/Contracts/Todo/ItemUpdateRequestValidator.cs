@@ -1,9 +1,9 @@
-﻿using Application.Contracts.Requests.Todo;
-using Application.Validators.Contracts.Todo.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.Application.Validators.Contracts.Todo.Base;
 
 using FluentValidation;
 
-namespace Application.Validators.Contracts.Todo;
+namespace BB84.Home.Application.Validators.Contracts.Todo;
 
 /// <summary>
 /// The validator for the todo item update request.

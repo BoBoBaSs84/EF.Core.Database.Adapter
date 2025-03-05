@@ -1,18 +1,16 @@
-﻿using Application.Extensions;
-using Application.Features.Requests;
-
-using BB84.Extensions;
+﻿using BB84.Extensions;
+using BB84.Home.Application.Extensions;
+using BB84.Home.Application.Features.Requests;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Entities.Finance;
 using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
 
-using static Application.Common.ApplicationConstants;
 using static BaseTests.Helpers.RandomHelper;
-using static BB84.Home.Domain.Common.DomainConstants;
+using static BB84.Home.Application.Common.ApplicationConstants;
 
-namespace ApplicationTests.Extensions;
+namespace BB84.Home.Application.Tests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]

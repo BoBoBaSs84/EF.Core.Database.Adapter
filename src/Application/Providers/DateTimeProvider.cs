@@ -1,6 +1,6 @@
-﻿using Application.Interfaces.Application.Providers;
+﻿using BB84.Home.Application.Interfaces.Application.Providers;
 
-namespace Application.Providers;
+namespace BB84.Home.Application.Providers;
 
 /// <summary>
 /// The date time provider class.

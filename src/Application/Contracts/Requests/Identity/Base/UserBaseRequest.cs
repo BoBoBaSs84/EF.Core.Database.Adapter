@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Contracts.Requests.Identity.Base;
+namespace BB84.Home.Application.Contracts.Requests.Identity.Base;
 
 /// <summary>
 /// The user base request class.

@@ -1,10 +1,10 @@
-﻿using Application.Contracts.Requests.Finance.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Finance.Base;
 
 using FluentValidation;
 
-using static Application.Common.ApplicationStatics;
+using static BB84.Home.Application.Common.ApplicationStatics;
 
-namespace Application.Validators.Contracts.Finance.Base;
+namespace BB84.Home.Application.Validators.Contracts.Finance.Base;
 
 /// <summary>
 /// The validator for the card base request.

@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Requests.Finance;
+﻿using AutoMapper;
 
-using AutoMapper;
-
+using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Domain.Entities.Finance;
 
-namespace Application.Profiles.Requests;
+namespace BB84.Home.Application.Profiles.Requests;
 
 /// <summary>
 /// The finance request profile class.

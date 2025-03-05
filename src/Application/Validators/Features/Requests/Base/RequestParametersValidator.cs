@@ -1,8 +1,8 @@
-﻿using Application.Features.Requests.Base;
+﻿using BB84.Home.Application.Features.Requests.Base;
 
 using FluentValidation;
 
-namespace Application.Validators.Features.Requests.Base;
+namespace BB84.Home.Application.Validators.Features.Requests.Base;
 
 /// <summary>
 /// The validator for the request parameters.

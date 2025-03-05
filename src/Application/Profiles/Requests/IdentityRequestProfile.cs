@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Requests.Identity;
+﻿using AutoMapper;
 
-using AutoMapper;
-
+using BB84.Home.Application.Contracts.Requests.Identity;
 using BB84.Home.Domain.Entities.Identity;
 
-namespace Application.Profiles.Requests;
+namespace BB84.Home.Application.Profiles.Requests;
 
 /// <summary>
 /// The identity request profile class.

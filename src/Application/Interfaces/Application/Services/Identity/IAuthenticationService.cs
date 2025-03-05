@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Requests.Identity;
-using Application.Contracts.Responses.Identity;
-
+﻿using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.Application.Contracts.Responses.Identity;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
-namespace Application.Interfaces.Application.Services.Identity;
+namespace BB84.Home.Application.Interfaces.Application.Services.Identity;
 
 /// <summary>
 /// The authentication service interface.

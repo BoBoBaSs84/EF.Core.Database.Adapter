@@ -1,14 +1,13 @@
 ﻿using System.Security.Claims;
 
-using Application.Contracts.Requests.Identity;
-using Application.Contracts.Responses.Identity;
-using Application.Errors.Services;
-using Application.Interfaces.Application.Services.Identity;
-using Application.Interfaces.Infrastructure.Services;
-
 using AutoMapper;
 
 using BB84.Extensions;
+using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.Application.Contracts.Responses.Identity;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Interfaces.Application.Services.Identity;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Domain.Entities.Identity;
 using BB84.Home.Domain.Enumerators;
 using BB84.Home.Domain.Errors;
@@ -18,7 +17,7 @@ using BB84.Home.Domain.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Identity;
+namespace BB84.Home.Application.Services.Identity;
 
 /// <summary>
 /// The authentication service class.

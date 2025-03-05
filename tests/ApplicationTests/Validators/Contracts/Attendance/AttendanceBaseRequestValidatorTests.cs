@@ -1,6 +1,5 @@
-﻿using Application.Contracts.Requests.Attendance;
-using Application.Contracts.Requests.Attendance.Base;
-
+﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+using BB84.Home.Application.Contracts.Requests.Attendance.Base;
 using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
@@ -8,9 +7,9 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 
-using static Application.Common.ApplicationStatics;
+using static BB84.Home.Application.Common.ApplicationStatics;
 
-namespace ApplicationTests.Validators.Contracts.Attendance;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Attendance;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

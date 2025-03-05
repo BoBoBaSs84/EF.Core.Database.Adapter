@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Responses.Documents;
-using Application.Errors.Services;
-using Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
-using Application.Services.Documents;
+﻿using BaseTests.Helpers;
 
-using BaseTests.Helpers;
-
+using BB84.Home.Application.Contracts.Responses.Documents;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
+using BB84.Home.Application.Services.Documents;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Errors;
 

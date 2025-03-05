@@ -1,7 +1,8 @@
-﻿using Application.Interfaces.Infrastructure.Services;
-using Application.Services.Common;
+﻿using AutoMapper;
 
-using AutoMapper;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Services.Common;
+using BB84.Home.Application.Tests;
 
 using Moq;
 

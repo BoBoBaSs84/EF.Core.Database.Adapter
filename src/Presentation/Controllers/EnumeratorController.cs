@@ -1,8 +1,7 @@
-﻿using Application.Contracts.Responses.Common;
-using Application.Interfaces.Application.Services.Common;
+﻿using Asp.Versioning;
 
-using Asp.Versioning;
-
+using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Interfaces.Application.Services.Common;
 using BB84.Home.Domain.Enumerators;
 using BB84.Home.Domain.Errors;
 

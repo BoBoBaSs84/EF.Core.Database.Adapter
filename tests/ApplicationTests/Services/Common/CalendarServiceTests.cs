@@ -1,20 +1,19 @@
-﻿using Application.Contracts.Responses.Common;
-using Application.Errors.Services;
-using Application.Features.Requests;
-using Application.Features.Responses;
-using Application.Interfaces.Application.Providers;
-using Application.Interfaces.Infrastructure.Services;
-using Application.Services.Common;
+﻿using AutoMapper;
 
-using AutoMapper;
-
+using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Application.Interfaces.Application.Providers;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Services.Common;
 using BB84.Home.Domain.Errors;
 
 using FluentAssertions;
 
 using Moq;
 
-namespace ApplicationTests.Services.Common;
+namespace BB84.Home.Application.Tests.Services.Common;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]

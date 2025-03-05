@@ -1,18 +1,17 @@
-﻿using Application.Contracts.Requests.Finance;
-using Application.Contracts.Responses.Finance;
-using Application.Errors.Services;
-using Application.Interfaces.Application.Services.Finance;
-using Application.Interfaces.Infrastructure.Services;
+﻿using AutoMapper;
 
-using AutoMapper;
-
+using BB84.Home.Application.Contracts.Requests.Finance;
+using BB84.Home.Application.Contracts.Responses.Finance;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Interfaces.Application.Services.Finance;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Domain.Entities.Finance;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Finance;
+namespace BB84.Home.Application.Services.Finance;
 
 /// <summary>
 /// The account service class.

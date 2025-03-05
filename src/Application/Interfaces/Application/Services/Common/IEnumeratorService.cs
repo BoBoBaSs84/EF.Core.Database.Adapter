@@ -1,8 +1,7 @@
-﻿using Application.Contracts.Responses.Common;
-
+﻿using BB84.Home.Application.Contracts.Responses.Common;
 using BB84.Home.Domain.Errors;
 
-namespace Application.Interfaces.Application.Services.Common;
+namespace BB84.Home.Application.Interfaces.Application.Services.Common;
 
 /// <summary>
 /// The enumerator service interface.

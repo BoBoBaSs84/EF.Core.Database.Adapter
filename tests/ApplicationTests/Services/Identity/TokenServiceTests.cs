@@ -1,10 +1,10 @@
-﻿using Application.Interfaces.Application.Providers;
-using Application.Interfaces.Infrastructure.Services;
-using Application.Options;
-using Application.Services.Identity;
+﻿using BaseTests.Helpers;
 
-using BaseTests.Helpers;
-
+using BB84.Home.Application.Interfaces.Application.Providers;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Options;
+using BB84.Home.Application.Services.Identity;
+using BB84.Home.Application.Tests;
 using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.Extensions.Options;

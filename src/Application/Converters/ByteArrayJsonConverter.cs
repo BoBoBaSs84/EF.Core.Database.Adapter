@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using BB84.Extensions;
 
-namespace Application.Converters;
+namespace BB84.Home.Application.Converters;
 
 /// <summary>
 /// The <see cref="byte"/> array json converter class.

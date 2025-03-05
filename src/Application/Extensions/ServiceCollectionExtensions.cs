@@ -1,19 +1,19 @@
-﻿using Application.Common;
-using Application.Interfaces.Application.Providers;
-using Application.Interfaces.Application.Services.Attendance;
-using Application.Interfaces.Application.Services.Common;
-using Application.Interfaces.Application.Services.Documents;
-using Application.Interfaces.Application.Services.Finance;
-using Application.Interfaces.Application.Services.Identity;
-using Application.Interfaces.Application.Services.Todo;
-using Application.Options;
-using Application.Providers;
-using Application.Services.Attendance;
-using Application.Services.Common;
-using Application.Services.Documents;
-using Application.Services.Finance;
-using Application.Services.Identity;
-using Application.Services.Todo;
+﻿using BB84.Home.Application.Common;
+using BB84.Home.Application.Interfaces.Application.Providers;
+using BB84.Home.Application.Interfaces.Application.Services.Attendance;
+using BB84.Home.Application.Interfaces.Application.Services.Common;
+using BB84.Home.Application.Interfaces.Application.Services.Documents;
+using BB84.Home.Application.Interfaces.Application.Services.Finance;
+using BB84.Home.Application.Interfaces.Application.Services.Identity;
+using BB84.Home.Application.Interfaces.Application.Services.Todo;
+using BB84.Home.Application.Options;
+using BB84.Home.Application.Providers;
+using BB84.Home.Application.Services.Attendance;
+using BB84.Home.Application.Services.Common;
+using BB84.Home.Application.Services.Documents;
+using BB84.Home.Application.Services.Finance;
+using BB84.Home.Application.Services.Identity;
+using BB84.Home.Application.Services.Todo;
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -21,7 +21,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Application.Extensions;
+namespace BB84.Home.Application.Extensions;
 
 /// <summary>
 /// The <see cref="IServiceCollection"/> extensions class.

@@ -1,7 +1,6 @@
-﻿using Application.Installer;
-using Application.Interfaces.Infrastructure.Persistence;
-using Application.Interfaces.Presentation.Services;
-
+﻿using BB84.Home.Application.Installer;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Common;
 
 using Infrastructure.Extensions;

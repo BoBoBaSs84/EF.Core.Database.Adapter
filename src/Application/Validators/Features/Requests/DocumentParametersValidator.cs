@@ -1,9 +1,9 @@
-﻿using Application.Features.Requests;
-using Application.Validators.Features.Requests.Base;
+﻿using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Validators.Features.Requests.Base;
 
 using FluentValidation;
 
-namespace Application.Validators.Features.Requests;
+namespace BB84.Home.Application.Validators.Features.Requests;
 
 /// <summary>
 /// The validator for the document parameters.

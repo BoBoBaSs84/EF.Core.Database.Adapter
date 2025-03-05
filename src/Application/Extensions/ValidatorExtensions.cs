@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
 
-using static Application.Validators.CustomValidators;
+using static BB84.Home.Application.Validators.CustomValidators;
 
-namespace Application.Extensions;
+namespace BB84.Home.Application.Extensions;
 
 /// <summary>
 /// The <see cref="PropertyValidator{T, TProperty}"/> extension class.

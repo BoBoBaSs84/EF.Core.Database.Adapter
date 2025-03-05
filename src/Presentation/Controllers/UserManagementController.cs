@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Requests.Identity;
-using Application.Contracts.Responses.Identity;
-using Application.Interfaces.Application.Services.Identity;
-using Application.Interfaces.Presentation.Services;
+﻿using Asp.Versioning;
 
-using Asp.Versioning;
-
+using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.Application.Contracts.Responses.Identity;
+using BB84.Home.Application.Interfaces.Application.Services.Identity;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 

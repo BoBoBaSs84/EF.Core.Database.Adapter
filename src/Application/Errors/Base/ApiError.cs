@@ -2,7 +2,7 @@
 
 using BB84.Home.Domain.Errors;
 
-namespace Application.Errors.Base;
+namespace BB84.Home.Application.Errors.Base;
 
 /// <summary>
 /// Error class for http responses

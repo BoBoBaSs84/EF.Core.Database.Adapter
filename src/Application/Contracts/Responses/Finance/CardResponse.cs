@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Contracts.Responses.Base;
-using Application.Converters;
-
+using BB84.Home.Application.Contracts.Responses.Base;
+using BB84.Home.Application.Converters;
 using BB84.Home.Domain.Enumerators.Finance;
 
-namespace Application.Contracts.Responses.Finance;
+namespace BB84.Home.Application.Contracts.Responses.Finance;
 
 /// <summary>
 /// The bank card response class.

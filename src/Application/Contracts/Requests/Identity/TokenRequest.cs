@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Contracts.Requests.Identity;
+namespace BB84.Home.Application.Contracts.Requests.Identity;
 
 /// <summary>
 /// The token request class.

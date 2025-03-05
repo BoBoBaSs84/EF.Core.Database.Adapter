@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Contracts.Requests.Attendance.Base;
-using Application.Converters;
+using BB84.Home.Application.Contracts.Requests.Attendance.Base;
+using BB84.Home.Application.Converters;
 
-namespace Application.Contracts.Requests.Attendance;
+namespace BB84.Home.Application.Contracts.Requests.Attendance;
 
 /// <summary>
 /// The request for creating a attendance.

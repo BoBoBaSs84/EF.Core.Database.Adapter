@@ -1,14 +1,13 @@
 ﻿using System.Linq.Expressions;
 
-using Application.Contracts.Responses.Attendance;
-using Application.Errors.Services;
-using Application.Features.Requests;
-using Application.Features.Responses;
-using Application.Interfaces.Infrastructure.Persistence.Repositories;
-using Application.Services.Attendance;
-
 using BaseTests.Helpers;
 
+using BB84.Home.Application.Contracts.Responses.Attendance;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Errors;
 

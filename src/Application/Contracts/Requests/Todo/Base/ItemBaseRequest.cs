@@ -2,7 +2,7 @@
 
 using BB84.Home.Domain.Enumerators.Todo;
 
-namespace Application.Contracts.Requests.Todo.Base;
+namespace BB84.Home.Application.Contracts.Requests.Todo.Base;
 
 /// <summary>
 /// The base request class for a todo item.

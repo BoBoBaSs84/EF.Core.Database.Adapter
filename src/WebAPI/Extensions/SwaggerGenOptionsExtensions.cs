@@ -1,6 +1,5 @@
-﻿using Application.Common;
-
-using BB84.Home.API.Common;
+﻿using BB84.Home.API.Common;
+using BB84.Home.Application.Common;
 
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;

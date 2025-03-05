@@ -1,10 +1,9 @@
-﻿using Application.Contracts.Requests.Documents;
+﻿using AutoMapper;
 
-using AutoMapper;
-
+using BB84.Home.Application.Contracts.Requests.Documents;
 using BB84.Home.Domain.Entities.Documents;
 
-namespace Application.Profiles.Requests;
+namespace BB84.Home.Application.Profiles.Requests;
 
 /// <summary>
 /// The documents request profile class.

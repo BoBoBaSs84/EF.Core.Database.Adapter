@@ -1,10 +1,9 @@
-﻿using Application.Errors.Base;
+﻿using BB84.Extensions;
+using BB84.Home.Application.Errors.Base;
 
-using BB84.Extensions;
+using RESX = BB84.Home.Application.Properties.ServiceErrors;
 
-using RESX = Application.Properties.ServiceErrors;
-
-namespace Application.Errors.Services;
+namespace BB84.Home.Application.Errors.Services;
 
 /// <summary>
 /// The static card service errors class.

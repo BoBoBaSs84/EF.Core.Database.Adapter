@@ -1,5 +1,4 @@
-﻿using Application.Features.Requests;
-
+﻿using BB84.Home.Application.Features.Requests;
 using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentAssertions;
@@ -7,10 +6,10 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 
-using DRC = Application.Common.ApplicationConstants.DateRanges;
-using DRS = Application.Common.ApplicationStatics.DateStatics;
+using DRC = BB84.Home.Application.Common.ApplicationConstants.DateRanges;
+using DRS = BB84.Home.Application.Common.ApplicationStatics.DateStatics;
 
-namespace ApplicationTests.Validators.Features.Requests;
+namespace BB84.Home.Application.Tests.Validators.Features.Requests;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

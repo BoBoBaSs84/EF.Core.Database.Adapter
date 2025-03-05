@@ -1,11 +1,10 @@
-﻿using Application.Features.Requests;
-
+﻿using BB84.Home.Application.Features.Requests;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Entities.Finance;
 using BB84.Home.Domain.Enumerators.Attendance;
 
-namespace Application.Extensions;
+namespace BB84.Home.Application.Extensions;
 
 /// <summary>
 /// Contains extension for the <see cref="IQueryable{T}"/> interface.

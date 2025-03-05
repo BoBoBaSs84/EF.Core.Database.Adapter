@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Properties {
+namespace BB84.Home.Application.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Application.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Application.Properties.ServiceErrors", typeof(ServiceErrors).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BB84.Home.Application.Properties.ServiceErrors", typeof(ServiceErrors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -1,12 +1,11 @@
-﻿using Application.Contracts.Requests.Finance;
-using Application.Contracts.Responses.Finance;
-using Application.Features.Requests;
-using Application.Features.Responses;
-
+﻿using BB84.Home.Application.Contracts.Requests.Finance;
+using BB84.Home.Application.Contracts.Responses.Finance;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
-namespace Application.Interfaces.Application.Services.Finance;
+namespace BB84.Home.Application.Interfaces.Application.Services.Finance;
 
 /// <summary>
 /// The transaction service interface.

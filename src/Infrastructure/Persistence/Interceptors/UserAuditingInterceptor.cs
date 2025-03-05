@@ -1,6 +1,5 @@
-﻿using Application.Interfaces.Presentation.Services;
-
-using BB84.EntityFrameworkCore.Entities.Abstractions.Components;
+﻿using BB84.EntityFrameworkCore.Entities.Abstractions.Components;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

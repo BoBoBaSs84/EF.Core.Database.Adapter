@@ -1,7 +1,6 @@
-﻿using Application.Errors.Base;
-using Application.Features.Responses;
-
-using BB84.Extensions.Serialization;
+﻿using BB84.Extensions.Serialization;
+using BB84.Home.Application.Errors.Base;
+using BB84.Home.Application.Features.Responses;
 using BB84.Home.Domain.Enumerators;
 using BB84.Home.Domain.Errors;
 

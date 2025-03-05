@@ -1,14 +1,13 @@
-﻿using Application.Contracts.Requests.Documents;
-using Application.Validators.Contracts.Documents;
-
-using ApplicationTests.Helpers;
+﻿using BB84.Home.Application.Contracts.Requests.Documents;
+using BB84.Home.Application.Tests.Helpers;
+using BB84.Home.Application.Validators.Contracts.Documents;
 
 using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Contracts.Documents;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Documents;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

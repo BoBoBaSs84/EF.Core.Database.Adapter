@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
 
-using Application.Common;
-
 using BaseTests.Helpers;
 
 using BB84.Extensions;
+using BB84.Home.Application.Common;
 
 using FluentAssertions;
 
-namespace ApplicationTests;
+namespace BB84.Home.Application.Tests;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]

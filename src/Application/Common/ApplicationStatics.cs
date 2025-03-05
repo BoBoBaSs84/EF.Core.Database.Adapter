@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 
-using static Application.Common.ApplicationConstants;
+using static BB84.Home.Application.Common.ApplicationConstants;
 
-namespace Application.Common;
+namespace BB84.Home.Application.Common;
 
 /// <summary>
 /// The Application statics class.

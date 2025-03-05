@@ -1,4 +1,4 @@
-﻿namespace Application.Interfaces.Application.Providers;
+﻿namespace BB84.Home.Application.Interfaces.Application.Providers;
 
 /// <summary>
 /// The interface for the date time provider.

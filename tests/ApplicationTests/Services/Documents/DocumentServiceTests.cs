@@ -1,15 +1,16 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
-using Application.Interfaces.Infrastructure.Services;
-using Application.Services.Documents;
-using AutoMapper;
+﻿using AutoMapper;
 
-using BB84.Extensions;
 using BaseTests.Helpers;
 
-using Moq;
-using System;
+using BB84.Extensions;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Services.Documents;
+using BB84.Home.Application.Tests;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Enumerators.Documents;
+
+using Moq;
 
 namespace ApplicationTests.Services.Documents;
 

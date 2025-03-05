@@ -1,8 +1,9 @@
-﻿using Application.Interfaces.Infrastructure.Persistence.Repositories;
-using Application.Interfaces.Infrastructure.Services;
-using Application.Services.Attendance;
+﻿using AutoMapper;
 
-using AutoMapper;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Services.Attendance;
+using BB84.Home.Application.Tests;
 
 using Moq;
 

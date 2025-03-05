@@ -1,8 +1,8 @@
-﻿using Application.Contracts.Requests.Finance.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Finance.Base;
 
 using FluentValidation;
 
-namespace Application.Validators.Contracts.Finance.Base;
+namespace BB84.Home.Application.Validators.Contracts.Finance.Base;
 
 /// <summary>
 /// The validator for the account base request.

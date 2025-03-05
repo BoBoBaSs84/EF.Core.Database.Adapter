@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Application.Contracts.Responses.Base;
-
+using BB84.Home.Application.Contracts.Responses.Base;
 using BB84.Home.Domain.Enumerators.Todo;
 
-namespace Application.Contracts.Responses.Todo;
+namespace BB84.Home.Application.Contracts.Responses.Todo;
 
 /// <summary>
 /// The response for the todo item.

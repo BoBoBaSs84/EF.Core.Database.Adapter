@@ -1,15 +1,14 @@
-﻿using Application.Contracts.Requests.Todo;
+﻿using BaseTests.Helpers;
 
-using ApplicationTests.Helpers;
-
-using BaseTests.Helpers;
+using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.Application.Tests.Helpers;
 
 using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Contracts.Todo;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Todo;
 
 [TestClass]
 

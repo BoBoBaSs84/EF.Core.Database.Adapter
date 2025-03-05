@@ -1,12 +1,11 @@
-﻿using Application.Contracts.Requests.Documents;
-using Application.Contracts.Responses.Documents;
-using Application.Features.Requests;
-using Application.Features.Responses;
-
+﻿using BB84.Home.Application.Contracts.Requests.Documents;
+using BB84.Home.Application.Contracts.Responses.Documents;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
-namespace Application.Interfaces.Application.Services.Documents;
+namespace BB84.Home.Application.Interfaces.Application.Services.Documents;
 
 /// <summary>
 /// The interface for the document service.

@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Application.Contracts.Responses.Common;
-using Application.Features.Requests;
-using Application.Features.Responses;
-using Application.Interfaces.Application.Services.Common;
-
 using Asp.Versioning;
 
+using BB84.Home.Application.Contracts.Responses.Common;
+using BB84.Home.Application.Features.Requests;
+using BB84.Home.Application.Features.Responses;
+using BB84.Home.Application.Interfaces.Application.Services.Common;
 using BB84.Home.Domain.Errors;
 
 using Microsoft.AspNetCore.Http;

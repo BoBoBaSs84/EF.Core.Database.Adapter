@@ -1,7 +1,6 @@
-using Application.Installer;
-
 using BB84.Extensions;
 using BB84.Home.API.Extensions;
+using BB84.Home.Application.Installer;
 
 using Infrastructure.Installer;
 

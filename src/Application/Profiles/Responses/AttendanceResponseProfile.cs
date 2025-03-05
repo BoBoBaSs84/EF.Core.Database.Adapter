@@ -1,11 +1,10 @@
-﻿using Application.Contracts.Responses.Attendance;
+﻿using AutoMapper;
 
-using AutoMapper;
-
+using BB84.Home.Application.Contracts.Responses.Attendance;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Extensions;
 
-namespace Application.Profiles.Responses;
+namespace BB84.Home.Application.Profiles.Responses;
 
 /// <summary>
 /// The attendance response profile class.

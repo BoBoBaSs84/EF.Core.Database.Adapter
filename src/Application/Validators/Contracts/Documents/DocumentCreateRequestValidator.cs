@@ -1,9 +1,9 @@
-﻿using Application.Contracts.Requests.Documents;
-using Application.Validators.Contracts.Documents.Base;
+﻿using BB84.Home.Application.Contracts.Requests.Documents;
+using BB84.Home.Application.Validators.Contracts.Documents.Base;
 
 using FluentValidation;
 
-namespace Application.Validators.Contracts.Documents;
+namespace BB84.Home.Application.Validators.Contracts.Documents;
 
 /// <summary>
 /// The validator for the document create request.

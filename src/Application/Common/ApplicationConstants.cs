@@ -1,4 +1,4 @@
-﻿namespace Application.Common;
+﻿namespace BB84.Home.Application.Common;
 
 /// <summary>
 /// The constants for the application layer.

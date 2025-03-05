@@ -1,9 +1,7 @@
-﻿using Application.Contracts.Requests.Todo;
+﻿using BaseTests.Helpers;
 
-using ApplicationTests.Helpers;
-
-using BaseTests.Helpers;
-
+using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Domain.Enumerators.Todo;
 
 using FluentAssertions;
@@ -11,7 +9,7 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Contracts.Todo;
+namespace BB84.Home.Application.Tests.Validators.Contracts.Todo;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

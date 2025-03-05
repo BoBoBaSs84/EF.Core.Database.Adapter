@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-using Application.Contracts.Responses.Base;
-using Application.Converters;
+using BB84.Home.Application.Contracts.Responses.Base;
+using BB84.Home.Application.Converters;
 
-namespace Application.Contracts.Responses.Identity;
+namespace BB84.Home.Application.Contracts.Responses.Identity;
 
 /// <summary>
 /// The user response class.

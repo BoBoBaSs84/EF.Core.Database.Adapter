@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Application.Contracts.Requests.Attendance.Base;
+using BB84.Home.Application.Contracts.Requests.Attendance.Base;
 
-namespace Application.Contracts.Requests.Attendance;
+namespace BB84.Home.Application.Contracts.Requests.Attendance;
 
 /// <summary>
 /// The request for updating a attendance.

@@ -1,8 +1,7 @@
-﻿using Application.Contracts.Responses.Common.Base;
-
+﻿using BB84.Home.Application.Contracts.Responses.Common.Base;
 using BB84.Home.Domain.Enumerators.Attendance;
 
-namespace Application.Contracts.Responses.Common;
+namespace BB84.Home.Application.Contracts.Responses.Common;
 
 /// <summary>
 /// The attendance type response.

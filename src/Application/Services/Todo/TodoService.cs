@@ -1,18 +1,17 @@
-﻿using Application.Contracts.Requests.Todo;
-using Application.Contracts.Responses.Todo;
-using Application.Errors.Services;
-using Application.Interfaces.Application.Services.Todo;
-using Application.Interfaces.Infrastructure.Services;
+﻿using AutoMapper;
 
-using AutoMapper;
-
+using BB84.Home.Application.Contracts.Requests.Todo;
+using BB84.Home.Application.Contracts.Responses.Todo;
+using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Interfaces.Application.Services.Todo;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Domain.Entities.Todo;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Todo;
+namespace BB84.Home.Application.Services.Todo;
 
 /// <summary>
 /// The todo service implementation.

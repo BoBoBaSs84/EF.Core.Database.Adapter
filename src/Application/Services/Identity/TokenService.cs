@@ -2,18 +2,17 @@
 using System.Security.Claims;
 using System.Text;
 
-using Application.Interfaces.Application.Providers;
-using Application.Interfaces.Application.Services.Identity;
-using Application.Interfaces.Infrastructure.Services;
-using Application.Options;
-
+using BB84.Home.Application.Interfaces.Application.Providers;
+using BB84.Home.Application.Interfaces.Application.Services.Identity;
+using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Options;
 using BB84.Home.Domain.Entities.Identity;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Services.Identity;
+namespace BB84.Home.Application.Services.Identity;
 
 /// <summary>
 /// The token service class.

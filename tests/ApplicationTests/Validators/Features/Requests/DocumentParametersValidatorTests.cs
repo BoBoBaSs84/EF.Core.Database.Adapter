@@ -1,13 +1,13 @@
-﻿using Application.Features.Requests;
+﻿using BaseTests.Helpers;
 
-using BaseTests.Helpers;
+using BB84.Home.Application.Features.Requests;
 
 using FluentAssertions;
 
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ApplicationTests.Validators.Features.Requests;
+namespace BB84.Home.Application.Tests.Validators.Features.Requests;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]

@@ -13,7 +13,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Infrastructure\BB84.Home.Infrastructure.csproj" />
-		<ProjectReference Include="..\BaseTests\BaseTests.csproj" />
+		<ProjectReference Include="..\BaseTests\BB84.Home.BaseTests.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="appsettings.json">

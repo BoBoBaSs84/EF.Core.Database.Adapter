@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Extensions;
+﻿namespace BB84.Home.API.Extensions;
 
 /// <summary>
 /// The service collection extensions class.

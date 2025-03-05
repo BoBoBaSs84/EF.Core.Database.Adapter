@@ -1,5 +1,7 @@
 ﻿using Application.Common;
 
+using BB84.Home.API.Common;
+
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
@@ -7,9 +9,7 @@ using Presentation.Common;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-using WebAPI.Common;
-
-namespace WebAPI.Extensions;
+namespace BB84.Home.API.Extensions;
 
 /// <summary>
 /// The swagger gen options extensions class

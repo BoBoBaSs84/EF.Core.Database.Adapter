@@ -2,7 +2,7 @@
 
 using Swagger = Presentation.Common.PresentationConstants.Swagger;
 
-namespace WebAPI.Extensions;
+namespace BB84.Home.API.Extensions;
 
 /// <summary>
 /// The web application extensions class.

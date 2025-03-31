@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Mvc" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BB84.Home.Application\BB84.Home.Application.csproj" />
+	</ItemGroup>
+
+</Project>

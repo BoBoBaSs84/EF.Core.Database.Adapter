@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="MSTest" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\BB84.Home.Domain\BB84.Home.Domain.csproj" />
+	  <ProjectReference Include="..\BB84.Home.Base.Tests\BB84.Home.Base.Tests.csproj" />
+	</ItemGroup>
+</Project>

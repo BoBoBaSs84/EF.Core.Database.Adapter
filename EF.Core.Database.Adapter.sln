@@ -105,8 +105,8 @@ Global
 		{AA9521C0-B8BB-468F-922F-9923A1D311D6} = {FED0B12F-4C5D-4628-BDCE-B84F4285CB69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SaveFilesImmediatelyUponChange = True
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {8C2C98A4-09CD-4243-9E78-870E54AF080A}
+		RESX_SortFileContentOnSave = True
+		RESX_SaveFilesImmediatelyUponChange = True
 	EndGlobalSection
 EndGlobal

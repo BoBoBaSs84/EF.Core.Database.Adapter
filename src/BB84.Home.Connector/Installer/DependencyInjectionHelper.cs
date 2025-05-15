@@ -1,9 +1,10 @@
-﻿using BB84.Extensions;
-using BB84.Home.Connector.Abstractions;
+﻿using BB84.Home.Connector.Abstractions;
 using BB84.Home.Connector.Handlers;
+using BB84.Home.Connector.Options;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 using Refit;
 
@@ -18,18 +19,21 @@ public static class DependencyInjectionHelper
 	/// Registers the connector services in the dependency injection container.
 	/// </summary>
 	/// <param name="services">The services collection to register the services in.</param>
-	/// <param name="baseAddress">The base address of the API.</param>
+	/// <param name="options">The options for the API client.</param>
 	/// <returns>The same service collection instance, so that multiple calls can be chained.</returns>
-	public static IServiceCollection RegisterConnector(this IServiceCollection services, string baseAddress)
+	public static IServiceCollection RegisterConnector(this IServiceCollection services, IOptions<ApiSettings> options)
 	{
-		services.TryAddTransient<AuthorizationHandler>();
+		var apiSettings = options.Value;
 
 		services.AddRefitClient<IBB84HomeAPI>()
-			.ConfigureHttpClient(c => c.WithBaseAdress(baseAddress)
-				.WithMediaType("application/json")
-				.WithTimeout(TimeSpan.FromSeconds(30))
-				)
+			.ConfigureHttpClient(c =>
+			{
+				c.BaseAddress = new Uri(apiSettings.BaseAddress);
+				c.Timeout = TimeSpan.FromSeconds(apiSettings.Timeout);
+			})
 			.AddHttpMessageHandler<AuthorizationHandler>();
+
+		services.TryAddTransient<AuthorizationHandler>();
 
 		return services;
 	}

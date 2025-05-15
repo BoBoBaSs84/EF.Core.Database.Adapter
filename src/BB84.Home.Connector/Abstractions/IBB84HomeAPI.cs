@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using BB84.Home.Conector.Contracts;
 
 #nullable enable annotations
 
-namespace BB84.Home.Connector
+namespace BB84.Home.Connector.Abstractions
 {
     [System.CodeDom.Compiler.GeneratedCode("Refitter", "1.5.5.0")]
     public partial interface IBB84HomeAPI

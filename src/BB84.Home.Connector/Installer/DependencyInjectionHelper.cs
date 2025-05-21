@@ -23,17 +23,17 @@ public static class DependencyInjectionHelper
 	/// <returns>The same service collection instance, so that multiple calls can be chained.</returns>
 	public static IServiceCollection RegisterConnector(this IServiceCollection services, IOptions<ApiSettings> options)
 	{
-		var apiSettings = options.Value;
-
-		services.AddRefitClient<IBB84HomeAPI>()
-			.ConfigureHttpClient(c =>
-			{
-				c.BaseAddress = new Uri(apiSettings.BaseAddress);
-				c.Timeout = TimeSpan.FromSeconds(apiSettings.Timeout);
-			})
-			.AddHttpMessageHandler<AuthorizationHandler>();
+		ApiSettings apiSettings = options.Value;
 
 		services.TryAddTransient<AuthorizationHandler>();
+
+		services.AddRefitClient<IBB84HomeAPI>()
+			.ConfigureHttpClient(client =>
+			{
+				client.BaseAddress = new Uri(apiSettings.BaseAddress);
+				client.Timeout = TimeSpan.FromSeconds(apiSettings.Timeout);
+			})
+			.AddHttpMessageHandler<AuthorizationHandler>();
 
 		return services;
 	}

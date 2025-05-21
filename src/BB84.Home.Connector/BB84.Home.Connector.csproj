@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
+  <PropertyGroup>
+		<IsPackable>True</IsPackable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<ItemGroup>
     <PackageReference Include="Refit.HttpClientFactory" />
   </ItemGroup>
 </Project>

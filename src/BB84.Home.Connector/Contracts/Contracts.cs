@@ -2015,13 +2015,15 @@ namespace BB84.Home.Connector.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public AuthenticationResponse(string @accessToken, string @refreshToken)
+        public AuthenticationResponse(string @accessToken, System.DateTimeOffset @accessTokenExpiration, string @refreshToken)
 
         {
 
             this.AccessToken = @accessToken;
 
             this.RefreshToken = @refreshToken;
+
+            this.AccessTokenExpiration = @accessTokenExpiration;
 
         }    /// <summary>
         /// The application user access token.
@@ -2038,6 +2040,14 @@ namespace BB84.Home.Connector.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("refreshToken")]
         [System.ComponentModel.DataAnnotations.Required]
         public string RefreshToken { get; init; }
+
+        /// <summary>
+        /// The application user access token expiration date.
+        /// </summary>
+
+        [System.Text.Json.Serialization.JsonPropertyName("accessTokenExpiration")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset AccessTokenExpiration { get; init; }
 
     }
 

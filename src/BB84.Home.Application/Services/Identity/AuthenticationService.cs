@@ -92,7 +92,8 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 				.ConfigureAwait(false);
 
 			List<Claim> claims = GetClaims(user, roles);
-			string token = tokenService.GenerateAccessToken(claims);
+
+			(string accessToken, DateTime accessTokenExpiration) = tokenService.GenerateAccessToken(claims);
 
 			string refreshToken = await tokenService.GenerateRefreshTokenAsync(user)
 				.ConfigureAwait(false);
@@ -110,8 +111,9 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 
 			AuthenticationResponse response = new()
 			{
-				AccessToken = token,
-				RefreshToken = refreshToken
+				AccessToken = accessToken,
+				RefreshToken = refreshToken,
+				AccessTokenExpiration = accessTokenExpiration
 			};
 
 			return response;
@@ -277,14 +279,16 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			if (result.IsFalse())
 				return AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed;
 
-			string newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
+			(string accessToken, DateTime accessTokenExpiration) = tokenService.GenerateAccessToken(principal.Claims);
+
 			string newRefreshToken = await tokenService.GenerateRefreshTokenAsync(user)
 				.ConfigureAwait(false);
 
 			AuthenticationResponse response = new()
 			{
-				AccessToken = newAccessToken,
-				RefreshToken = newRefreshToken
+				AccessToken = accessToken,
+				RefreshToken = newRefreshToken,
+				AccessTokenExpiration = accessTokenExpiration
 			};
 
 			return response;

@@ -53,6 +53,6 @@ public interface ITokenService
 	/// Generates a new access token with the provied <paramref name="claims"/>.
 	/// </summary>
 	/// <param name="claims">The claimes to use.</param>
-	/// <returns>A new access token.</returns>
-	string GenerateAccessToken(IEnumerable<Claim> claims);
+	/// <returns>A new access token and its expiration date.</returns>
+	(string AccessToken, DateTime AccessTokenExpiration) GenerateAccessToken(IEnumerable<Claim> claims);
 }

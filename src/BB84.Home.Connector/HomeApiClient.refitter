@@ -1,0 +1,18 @@
+{
+    "openApiPath": "https://localhost:7235/swagger/1.0/swagger.json",
+    "namespace": "BB84.Home.Connector.Abstractions",
+    "contractsNamespace": "BB84.Home.Connector.Contracts",
+    "naming": {
+        "useOpenApiTitle": false,
+        "interfaceName": "HomeApiClient"
+    },
+    "useCancellationTokens": true,
+    "useIsoDateFormat": true,
+    "multipleInterfaces": "ByTag",
+    "operationNameTemplate": "{operationName}Async",
+    "outputFolder": "./Abstractions",
+    "outputFilename": "IHomeApiClient.cs",
+    "contractsOutputFolder": "./Contracts",
+    "generateMultipleFiles": true,
+    "immutableRecords": true
+}

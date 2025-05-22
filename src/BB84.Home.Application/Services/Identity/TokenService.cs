@@ -112,7 +112,7 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimePr
 			issuer: _bearerSettings.Issuer,
 			audience: _bearerSettings.Audience,
 			claims: claims,
-			expires: dateTimeService.Now.AddMinutes(_bearerSettings.ExpiryInMinutes),
+			expires: dateTimeService.UtcNow.AddMinutes(_bearerSettings.ExpiryInMinutes),
 			signingCredentials: signingCredentials
 			);
 

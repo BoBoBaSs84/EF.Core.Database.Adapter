@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using BB84.Home.Conector.Contracts;
+using BB84.Home.Connector.Contracts;
 
 #nullable enable annotations
 
 namespace BB84.Home.Connector.Abstractions
 {
     [System.CodeDom.Compiler.GeneratedCode("Refitter", "1.5.5.0")]
-    public partial interface IBB84HomeAPI
+    public partial interface IHomeApiClient
     {
         /// <summary>Deletes an existing bank account for the application user by the bank account identifier.</summary>
         /// <param name="id">The identifier of the bank account.</param>
@@ -47,7 +47,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Account/{id}")]
-        Task<Deleted> AccountDELETEAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiAccountDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a bank account by the bank account identifier.</summary>
         /// <param name="id">The identifier of the bank account.</param>
@@ -75,7 +75,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Account/{id}")]
-        Task<AccountResponse> AccountGETAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<AccountResponse> ApiAccountGetAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing bank account by the bank account identifier.</summary>
         /// <param name="id">The identifier of the bank account.</param>
@@ -108,7 +108,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Account/{id}")]
-        Task<Updated> AccountPUTAsync(System.Guid id, [Body] AccountUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiAccountPutAsync(System.Guid id, [Body] AccountUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a collection of bank accounts for for the application user.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -131,7 +131,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Account")]
-        Task<ICollection<AccountResponse>> AccountAllAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<AccountResponse>> ApiAccountGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new bank account for the application user.</summary>
         /// <param name="body">The account create request.</param>
@@ -163,7 +163,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Account")]
-        Task<Created> AccountPOSTAsync([Body] AccountCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiAccountPostAsync([Body] AccountCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
@@ -192,7 +192,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Account/{accountId}/Transaction/{id}")]
-        Task<Deleted> TransactionDELETEAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiAccountTransactionDeleteAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns an existing transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
@@ -221,7 +221,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Account/{accountId}/Transaction/{id}")]
-        Task<TransactionResponse> TransactionGETAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<TransactionResponse> ApiAccountTransactionGetAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns multiple transaction entries as a paged list for a bank account filtered by the transaction query parameters.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
@@ -256,7 +256,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Account/{accountId}/Transaction")]
-        Task<ICollection<TransactionResponse>> TransactionAllAsync(System.Guid accountId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<ICollection<TransactionResponse>> ApiAccountTransactionGetAsync(System.Guid accountId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
@@ -285,7 +285,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Account/{accountId}/Transaction")]
-        Task<Created> TransactionPOSTAsync(System.Guid accountId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiAccountTransactionPostAsync(System.Guid accountId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
@@ -315,7 +315,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Account/{accountId}/Transaction")]
-        Task<Updated> TransactionPUTAsync(System.Guid accountId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiAccountTransactionPutAsync(System.Guid accountId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an attendance entry by the provided id.</summary>
         /// <param name="id">The attendance entry identifier to use.</param>
@@ -343,7 +343,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Attendance/{id}")]
-        Task<Deleted> AttendanceDELETEAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiAttendanceDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes multiple attendance entries by the provided ids.</summary>
         /// <param name="body">The attendance entry identifiers to use.</param>
@@ -371,7 +371,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Delete("/api/Attendance/Multiple")]
-        Task<Deleted> MultipleDELETEAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiAttendanceMultipleDeleteAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
 
         /// <summary>Creates multiple new attendance entries.</summary>
         /// <param name="body">The attendances create request.</param>
@@ -407,7 +407,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Attendance/Multiple")]
-        Task<Created> MultiplePOSTAsync([Body] IEnumerable<AttendanceCreateRequest> body, CancellationToken cancellationToken = default);
+        Task<Created> ApiAttendanceMultiplePostAsync([Body] IEnumerable<AttendanceCreateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates multiple existing attendance entries.</summary>
         /// <param name="body">The attendance update requests to use.</param>
@@ -439,7 +439,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Attendance/Multiple")]
-        Task<Updated> MultiplePUTAsync([Body] IEnumerable<AttendanceUpdateRequest> body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiAttendanceMultiplePutAsync([Body] IEnumerable<AttendanceUpdateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns multiple attendances as a paged list for the application user filtered by the parameters.</summary>
         /// <param name="year">Filter option by the year.</param>
@@ -469,7 +469,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Attendance")]
-        Task<ICollection<AttendanceResponse>> AttendanceAllAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("Type")] AttendanceType? type, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<ICollection<AttendanceResponse>> ApiAttendanceGetAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("Type")] AttendanceType? type, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new attendance entry</summary>
         /// <param name="body">The attendance create request.</param>
@@ -505,7 +505,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Attendance")]
-        Task<Created> AttendancePOSTAsync([Body] AttendanceCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiAttendancePostAsync([Body] AttendanceCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates a existing attendance entry.</summary>
         /// <param name="body">The attendance update request to use.</param>
@@ -537,7 +537,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Attendance")]
-        Task<Updated> AttendancePUTAsync([Body] AttendanceUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiAttendancePutAsync([Body] AttendanceUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns the attendance entry by the calendar entry date.</summary>
         /// <param name="date">The attendance date to use.</param>
@@ -565,7 +565,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Attendance/{date}")]
-        Task<AttendanceResponse> AttendanceGETAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
+        Task<AttendanceResponse> ApiAttendanceGetAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
 
         /// <summary>Authenticates an existing application user.</summary>
         /// <param name="body">The authentication request to use.</param>
@@ -593,7 +593,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Authentication")]
-        Task<AuthenticationResponse> AuthenticationAsync([Body] AuthenticationRequest body, CancellationToken cancellationToken = default);
+        Task<AuthenticationResponse> ApiAuthenticationAsync([Body] AuthenticationRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Refreshes the user's access and refresh token.</summary>
         /// <param name="body">The token request to use.</param>
@@ -621,7 +621,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Authentication/Token")]
-        Task<AuthenticationResponse> TokenPOSTAsync([Body] TokenRequest body, CancellationToken cancellationToken = default);
+        Task<AuthenticationResponse> ApiAuthenticationTokenPostAsync([Body] TokenRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Revokes the current user's refresh token.</summary>
         /// <returns>The resource was successfully deleted.</returns>
@@ -644,7 +644,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Authentication/Token")]
-        Task<Deleted> TokenDELETEAsync(CancellationToken cancellationToken = default);
+        Task<Deleted> ApiAuthenticationTokenDeleteAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns calendar entries as a paged list, filtered by the parameters.</summary>
         /// <param name="year">Filter option by the year.</param>
@@ -669,7 +669,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Calendar")]
-        Task<ICollection<CalendarResponse>> CalendarAllAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<ICollection<CalendarResponse>> ApiCalendarGetAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Returns the calendar entry by its date.</summary>
         /// <param name="date">The date of the calendar entry.</param>
@@ -689,7 +689,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Calendar/{date}")]
-        Task<CalendarResponse> CalendarAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
+        Task<CalendarResponse> ApiCalendarGetAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
 
         /// <summary>Returns the current calendar entry.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -708,7 +708,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Calendar/Current")]
-        Task<CalendarResponse> CurrentGETAsync(CancellationToken cancellationToken = default);
+        Task<CalendarResponse> ApiCalendarCurrentAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing bank card by the bank card identifier.</summary>
         /// <param name="id">The identifier of the bank card.</param>
@@ -740,7 +740,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Card/{id}")]
-        Task<Deleted> CardDELETEAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiCardDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a bank card by the bank card identifier.</summary>
         /// <param name="id">The identifier of the bank card.</param>
@@ -768,7 +768,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Card/{id}")]
-        Task<CardResponse> CardGETAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<CardResponse> ApiCardGetAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a bank card for the application user and bank account.</summary>
         /// <param name="id">The identifier of the bank account.</param>
@@ -805,7 +805,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Card/{id}")]
-        Task<Created> CardPOSTAsync(System.Guid id, [Body] CardCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiCardPostAsync(System.Guid id, [Body] CardCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing bank card by the bank card identifier.</summary>
         /// <param name="id">The identifier of the bank card.</param>
@@ -838,7 +838,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Card/{id}")]
-        Task<Updated> CardPUTAsync(System.Guid id, [Body] CardUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiCardPutAsync(System.Guid id, [Body] CardUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a collection of bank cards for for the application user.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -861,7 +861,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Card")]
-        Task<ICollection<CardResponse>> CardAllAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<CardResponse>> ApiCardGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing transaction for the bank card.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
@@ -890,7 +890,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Card/{cardId}/Transaction/{id}")]
-        Task<Deleted> TransactionDELETE2Async(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiCardTransactionDeleteAsync(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns an existing transaction for the bank card.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
@@ -919,7 +919,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Card/{cardId}/Transaction/{id}")]
-        Task<TransactionResponse> TransactionGET2Async(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<TransactionResponse> ApiCardTransactionGetAsync(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns multiple transaction entries as a paged list for a bank card filtered by the transaction query parameters.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
@@ -954,7 +954,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Card/{cardId}/Transaction")]
-        Task<ICollection<TransactionResponse>> TransactionAll2Async(System.Guid cardId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<ICollection<TransactionResponse>> ApiCardTransactionGetAsync(System.Guid cardId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new transaction for the bank card.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
@@ -983,7 +983,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Card/{cardId}/Transaction")]
-        Task<Created> TransactionPOST2Async(System.Guid cardId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiCardTransactionPostAsync(System.Guid cardId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing transaction for the card account.</summary>
         /// <param name="cardId">The identifier of the bank account.</param>
@@ -1013,7 +1013,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Card/{cardId}/Transaction")]
-        Task<Updated> TransactionPUT2Async(System.Guid cardId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiCardTransactionPutAsync(System.Guid cardId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing document by the provided id.</summary>
         /// <param name="id">The document identifier to use.</param>
@@ -1041,7 +1041,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Document/{id}")]
-        Task<Deleted> DocumentDELETEAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiDocumentDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns an existing document by the provided id.</summary>
         /// <param name="id">The document identifier to use.</param>
@@ -1069,7 +1069,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Document/{id}")]
-        Task<DocumentResponse> DocumentGETAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<DocumentResponse> ApiDocumentGetAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing document collection by the provided ids.</summary>
         /// <param name="body">The document identifiers to use.</param>
@@ -1097,7 +1097,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Delete("/api/Document/Multiple")]
-        Task<Deleted> MultipleDELETE2Async([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiDocumentMultipleDeleteAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new document collection with the provided create requests.</summary>
         /// <param name="body">The document create requests to use.</param>
@@ -1125,7 +1125,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Document/Multiple")]
-        Task<Created> MultiplePOST2Async([Body] IEnumerable<DocumentCreateRequest> body, CancellationToken cancellationToken = default);
+        Task<Created> ApiDocumentMultiplePostAsync([Body] IEnumerable<DocumentCreateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing document collection with the provided create requests.</summary>
         /// <param name="body">The document update requests to use.</param>
@@ -1157,7 +1157,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Document/Multiple")]
-        Task<Updated> MultiplePUT2Async([Body] IEnumerable<DocumentUpdateRequest> body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiDocumentMultiplePutAsync([Body] IEnumerable<DocumentUpdateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a document collection as a paged list filtered by the document parameters.</summary>
         /// <param name="name">The name of the document to filter the search by.</param>
@@ -1185,7 +1185,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Document")]
-        Task<ICollection<DocumentResponse>> DocumentAllAsync([Query, AliasAs("Name")] string name, [Query, AliasAs("ExtensionName")] string extensionName, [Query, AliasAs("Directory")] string directory, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<ICollection<DocumentResponse>> ApiDocumentGetAsync([Query, AliasAs("Name")] string name, [Query, AliasAs("ExtensionName")] string extensionName, [Query, AliasAs("Directory")] string directory, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new document with the provided create request.</summary>
         /// <param name="body">The document create request to use.</param>
@@ -1213,7 +1213,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Document")]
-        Task<Created> DocumentPOSTAsync([Body] DocumentCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiDocumentPostAsync([Body] DocumentCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing document with the provided create request.</summary>
         /// <param name="body">The document update request to use.</param>
@@ -1245,7 +1245,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Document")]
-        Task<Updated> DocumentPUTAsync([Body] DocumentUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiDocumentPutAsync([Body] DocumentUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns all bank account type enumerators.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1264,7 +1264,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Enumerator/AccountType")]
-        Task<ICollection<CardTypeResponse>> AccountTypeAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<CardTypeResponse>> ApiEnumeratorAccountTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all bank card type enumerators.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1283,7 +1283,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Enumerator/CardType")]
-        Task<ICollection<CardTypeResponse>> CardTypeAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<CardTypeResponse>> ApiEnumeratorCardTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all document types enumerators.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1302,7 +1302,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Enumerator/DocumentTypes")]
-        Task<ICollection<DocumentTypeResponse>> DocumentTypesAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<DocumentTypeResponse>> ApiEnumeratorDocumentTypesAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all attendance type enumerators.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1321,7 +1321,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Enumerator/AttendanceType")]
-        Task<ICollection<AttendanceTypeResponse>> AttendanceTypeAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<AttendanceTypeResponse>> ApiEnumeratorAttendanceTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all priority level type enumerators.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1340,7 +1340,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Enumerator/PriorityLevelType")]
-        Task<ICollection<AttendanceTypeResponse>> PriorityLevelTypeAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<AttendanceTypeResponse>> ApiEnumeratorPriorityLevelTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all role type enumerators.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1367,7 +1367,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Enumerator/RoleType")]
-        Task<ICollection<RoleTypeResponse>> RoleTypeAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<RoleTypeResponse>> ApiEnumeratorRoleTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all work day type enumerators.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1386,7 +1386,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Enumerator/WorkDayType")]
-        Task<ICollection<WorkDayTypeResponse>> WorkDayTypeAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<WorkDayTypeResponse>> ApiEnumeratorWorkDayTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing todo item.</summary>
         /// <param name="itemId">The todo item identifier to use.</param>
@@ -1414,7 +1414,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Todo/Items/{itemId}")]
-        Task<Deleted> ItemsDELETEAsync(System.Guid itemId, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiTodoItemsDeleteAsync(System.Guid itemId, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing todo item for the provied itemId.</summary>
         /// <param name="itemId">The todo item identifier to use.</param>
@@ -1447,7 +1447,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Todo/Items/{itemId}")]
-        Task<Created> ItemsPUTAsync(System.Guid itemId, [Body] ItemUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiTodoItemsPutAsync(System.Guid itemId, [Body] ItemUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing todo list.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
@@ -1475,7 +1475,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/Todo/{listId}")]
-        Task<Deleted> TodoDELETEAsync(System.Guid listId, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiTodoDeleteAsync(System.Guid listId, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a todo list for the current user by the provided listId.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
@@ -1503,7 +1503,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Todo/{listId}")]
-        Task<ListResponse> TodoGETAsync(System.Guid listId, CancellationToken cancellationToken = default);
+        Task<ListResponse> ApiTodoGetAsync(System.Guid listId, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new todo item for the provied listId.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
@@ -1536,7 +1536,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Todo/{listId}")]
-        Task<Created> TodoPOSTAsync(System.Guid listId, [Body] ItemCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiTodoPostAsync(System.Guid listId, [Body] ItemCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing todo list for the provied listId.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
@@ -1569,7 +1569,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/Todo/{listId}")]
-        Task<Updated> TodoPUTAsync(System.Guid listId, [Body] ListUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiTodoPutAsync(System.Guid listId, [Body] ListUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a collection of todo lists for the current user.</summary>
         /// <returns>If the response was successfully returned.</returns>
@@ -1592,7 +1592,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/Todo")]
-        Task<ICollection<ListResponse>> TodoAllAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<ListResponse>> ApiTodoGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new todo list for the current user.</summary>
         /// <param name="body">The list create request to use.</param>
@@ -1620,7 +1620,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/Todo")]
-        Task<Created> TodoPOST2Async([Body] ListCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiTodoPostAsync([Body] ListCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Adds the user with the userId to the role with the roleId.</summary>
         /// <param name="userId">The identifier of the user.</param>
@@ -1657,7 +1657,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Post("/api/UserManagement/Users/{userId}/Roles/{roleId}")]
-        Task<Created> RolesPOSTAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
+        Task<Created> ApiUserManagementUsersRolesPostAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
 
         /// <summary>Removes the user with the userId to the role with the roleId.</summary>
         /// <param name="userId">The identifier of the user.</param>
@@ -1694,7 +1694,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/api/UserManagement/Users/{userId}/Roles/{roleId}")]
-        Task<Deleted> RolesDELETEAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
+        Task<Deleted> ApiUserManagementUsersRolesDeleteAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new application user.</summary>
         /// <param name="body">The user create request.</param>
@@ -1718,7 +1718,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/api/UserManagement")]
-        Task<Created> UserManagementPOSTAsync([Body] UserCreateRequest body, CancellationToken cancellationToken = default);
+        Task<Created> ApiUserManagementPostAsync([Body] UserCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns all apllication users.</summary>
         /// <returns>The successful response.</returns>
@@ -1745,7 +1745,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/UserManagement")]
-        Task<ICollection<UserResponse>> UserManagementAllAsync(CancellationToken cancellationToken = default);
+        Task<ICollection<UserResponse>> ApiUserManagementGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns the application user by its user name.</summary>
         /// <param name="userName">The user name of the user.</param>
@@ -1777,7 +1777,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/UserManagement/{userName}")]
-        Task<UserResponse> UserManagementGETAsync(string userName, CancellationToken cancellationToken = default);
+        Task<UserResponse> ApiUserManagementGetAsync(string userName, CancellationToken cancellationToken = default);
 
         /// <summary>Returns the current application user.</summary>
         /// <returns>The successful response.</returns>
@@ -1800,7 +1800,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/api/UserManagement/Current")]
-        Task<UserResponse> CurrentGET2Async(CancellationToken cancellationToken = default);
+        Task<UserResponse> ApiUserManagementCurrentGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Updates the current application user.</summary>
         /// <param name="body">The user update request.</param>
@@ -1832,7 +1832,7 @@ namespace BB84.Home.Connector.Abstractions
         /// </exception>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/api/UserManagement/Current")]
-        Task<Updated> CurrentPUTAsync([Body] UserUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<Updated> ApiUserManagementCurrentPutAsync([Body] UserUpdateRequest body, CancellationToken cancellationToken = default);
 
 
     }

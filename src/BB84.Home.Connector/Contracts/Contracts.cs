@@ -20,7 +20,7 @@
 #pragma warning disable 8625 // Disable "CS8625 Cannot convert null literal to non-nullable reference type"
 #pragma warning disable 8765 // Disable "CS8765 Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes)."
 
-namespace BB84.Home.Conector.Contracts
+namespace BB84.Home.Connector.Contracts
 {
     using System = global::System;
 
@@ -2015,13 +2015,15 @@ namespace BB84.Home.Conector.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public AuthenticationResponse(string @accessToken, string @refreshToken)
+        public AuthenticationResponse(string @accessToken, System.DateTimeOffset @accessTokenExpiration, string @refreshToken)
 
         {
 
             this.AccessToken = @accessToken;
 
             this.RefreshToken = @refreshToken;
+
+            this.AccessTokenExpiration = @accessTokenExpiration;
 
         }    /// <summary>
         /// The application user access token.
@@ -2038,6 +2040,14 @@ namespace BB84.Home.Conector.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("refreshToken")]
         [System.ComponentModel.DataAnnotations.Required]
         public string RefreshToken { get; init; }
+
+        /// <summary>
+        /// The application user access token expiration date.
+        /// </summary>
+
+        [System.Text.Json.Serialization.JsonPropertyName("accessTokenExpiration")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset AccessTokenExpiration { get; init; }
 
     }
 

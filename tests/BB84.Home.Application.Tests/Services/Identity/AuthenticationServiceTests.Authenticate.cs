@@ -96,6 +96,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		string accessToken = RandomHelper.GetString(64);
 		string refreshToken = RandomHelper.GetString(64);
+		DateTime accessTokenExpiration = DateTime.UtcNow.AddMinutes(30);
 		IdentityError error = new() { Code = "UnitTest", Description = "UnitTest" };
 		AuthenticationRequest request = CreateAuthenticationRequest();
 		UserEntity user = CreateUser();
@@ -107,7 +108,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		_userServiceMock.Setup(x => x.GetRolesAsync(user))
 			.Returns(Task.FromResult<IList<string>>(["Tester"]));
 		_tokenServiceMock.Setup(x => x.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>()))
-			.Returns(accessToken);
+			.Returns((accessToken, accessTokenExpiration));
 		_tokenServiceMock.Setup(x => x.GenerateRefreshTokenAsync(user))
 			.Returns(Task.FromResult(refreshToken));
 		_tokenServiceMock.Setup(x => x.SetRefreshTokenAsync(user, refreshToken))
@@ -137,6 +138,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		string accessToken = RandomHelper.GetString(64);
 		string refreshToken = RandomHelper.GetString(64);
+		DateTime accessTokenExpiration = DateTime.UtcNow.AddMinutes(30);
 		AuthenticationRequest request = CreateAuthenticationRequest();
 		UserEntity user = CreateUser();
 		AuthenticationService sut = CreateMockedInstance();
@@ -147,7 +149,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		_userServiceMock.Setup(x => x.GetRolesAsync(user))
 			.Returns(Task.FromResult<IList<string>>(["Tester"]));
 		_tokenServiceMock.Setup(x => x.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>()))
-			.Returns(accessToken);
+			.Returns((accessToken, accessTokenExpiration));
 		_tokenServiceMock.Setup(x => x.GenerateRefreshTokenAsync(user))
 			.Returns(Task.FromResult(refreshToken));
 		_tokenServiceMock.Setup(x => x.SetRefreshTokenAsync(user, refreshToken))

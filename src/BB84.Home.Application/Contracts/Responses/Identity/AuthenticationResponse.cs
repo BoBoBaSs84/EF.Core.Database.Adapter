@@ -18,4 +18,9 @@ public sealed class AuthenticationResponse
 	/// </summary>
 	[Required]
 	public required string RefreshToken { get; init; }
+
+	/// <summary>
+	/// The application user access token expiration date.
+	/// </summary>
+	public required DateTimeOffset AccessTokenExpiration { get; init; }
 }

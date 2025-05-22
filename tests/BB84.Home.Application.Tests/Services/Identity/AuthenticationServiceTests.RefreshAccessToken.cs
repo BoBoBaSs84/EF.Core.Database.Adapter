@@ -112,8 +112,9 @@ public sealed partial class AuthenticationServiceTests
 		_tokenServiceMock.Setup(x => x.VerifyRefreshTokenAsync(user, request.RefreshToken))
 			.Returns(Task.FromResult(true));
 		string newAccessToken = RandomHelper.GetString(64);
+		DateTime newAccessTokenExpiration = DateTime.UtcNow.AddMinutes(30);
 		_tokenServiceMock.Setup(x => x.GenerateAccessToken(principal.Claims))
-			.Returns(newAccessToken);
+			.Returns((newAccessToken, newAccessTokenExpiration));
 		string newRefreshToken = RandomHelper.GetString(64);
 		_tokenServiceMock.Setup(x => x.GenerateRefreshTokenAsync(user))
 			.Returns(Task.FromResult(newRefreshToken));

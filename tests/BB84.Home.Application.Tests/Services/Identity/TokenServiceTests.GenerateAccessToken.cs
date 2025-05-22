@@ -12,8 +12,9 @@ public sealed partial class TokenServiceTests
 	{
 		TokenService sut = CreateMockedInstance();
 
-		string token = sut.GenerateAccessToken([]);
+		(string accessToken, DateTime accessTokenExpiration) = sut.GenerateAccessToken([]);
 
-		token.Should().NotBeNull();
+		accessToken.Should().NotBeNull();
+		accessTokenExpiration.Should().NotBe(default(DateTime));
 	}
 }

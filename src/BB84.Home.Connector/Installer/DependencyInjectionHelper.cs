@@ -16,18 +16,18 @@ namespace BB84.Home.Connector.Installer;
 public static class DependencyInjectionHelper
 {
 	/// <summary>
-	/// Registers the connector services in the dependency injection container.
+	/// Registers the <see cref="IHomeApiClient"/> in the dependency injection container.
 	/// </summary>
 	/// <param name="services">The services collection to register the services in.</param>
 	/// <param name="options">The options for the API client.</param>
 	/// <returns>The same service collection instance, so that multiple calls can be chained.</returns>
-	public static IServiceCollection RegisterConnector(this IServiceCollection services, IOptions<ApiSettings> options)
+	public static IServiceCollection RegisterHomeApiClient(this IServiceCollection services, IOptions<ApiSettings> options)
 	{
 		ApiSettings apiSettings = options.Value;
 
 		services.TryAddTransient<AuthorizationHandler>();
 
-		services.AddRefitClient<IBB84HomeAPI>()
+		services.AddRefitClient<IHomeApiClient>()
 			.ConfigureHttpClient(client =>
 			{
 				client.BaseAddress = new Uri(apiSettings.BaseAddress);

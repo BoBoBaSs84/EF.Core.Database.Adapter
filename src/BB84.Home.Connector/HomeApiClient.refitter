@@ -8,11 +8,10 @@
     },
     "useCancellationTokens": true,
     "useIsoDateFormat": true,
-    "multipleInterfaces": "ByTag",
     "operationNameTemplate": "{operationName}Async",
     "outputFolder": "./Abstractions",
     "outputFilename": "IHomeApiClient.cs",
     "contractsOutputFolder": "./Contracts",
-    "generateMultipleFiles": true,
+    "operationNameGenerator": "SingleClientFromPathSegments",
     "immutableRecords": true
 }

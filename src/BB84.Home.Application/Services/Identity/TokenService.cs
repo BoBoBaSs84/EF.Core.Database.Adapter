@@ -25,7 +25,7 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimePr
 	private const string RefreshTokenName = "RefreshToken";
 	private readonly BearerSettings _bearerSettings = options.Value;
 
-	public (string AccessToken, DateTime AccessTokenExpiration) GenerateAccessToken(IEnumerable<Claim> claims)
+	public (string AccessToken, DateTimeOffset AccessTokenExpiration) GenerateAccessToken(IEnumerable<Claim> claims)
 	{
 		SigningCredentials signingCredentials = GetSigningCredentials();
 		JwtSecurityToken tokenOptions = GetSecurityToken(signingCredentials, claims);
@@ -33,7 +33,7 @@ internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimePr
 		JwtSecurityTokenHandler tokenHandler = new();
 		string token = tokenHandler.WriteToken(tokenOptions);
 
-		return (token, tokenOptions.ValidTo);
+		return (token, DateTime.SpecifyKind(tokenOptions.ValidTo, DateTimeKind.Utc));
 	}
 
 	public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)

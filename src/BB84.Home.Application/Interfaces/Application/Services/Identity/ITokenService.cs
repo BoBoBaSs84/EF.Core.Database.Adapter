@@ -54,5 +54,5 @@ public interface ITokenService
 	/// </summary>
 	/// <param name="claims">The claimes to use.</param>
 	/// <returns>A new access token and its expiration date.</returns>
-	(string AccessToken, DateTime AccessTokenExpiration) GenerateAccessToken(IEnumerable<Claim> claims);
+	(string AccessToken, DateTimeOffset AccessTokenExpiration) GenerateAccessToken(IEnumerable<Claim> claims);
 }

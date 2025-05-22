@@ -93,7 +93,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 
 			List<Claim> claims = GetClaims(user, roles);
 
-			(string accessToken, DateTime accessTokenExpiration) = tokenService.GenerateAccessToken(claims);
+			(string accessToken, DateTimeOffset accessTokenExpiration) = tokenService.GenerateAccessToken(claims);
 
 			string refreshToken = await tokenService.GenerateRefreshTokenAsync(user)
 				.ConfigureAwait(false);
@@ -279,7 +279,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			if (result.IsFalse())
 				return AuthenticationServiceErrors.RefreshAccessTokenVerificationFailed;
 
-			(string accessToken, DateTime accessTokenExpiration) = tokenService.GenerateAccessToken(principal.Claims);
+			(string accessToken, DateTimeOffset accessTokenExpiration) = tokenService.GenerateAccessToken(principal.Claims);
 
 			string newRefreshToken = await tokenService.GenerateRefreshTokenAsync(user)
 				.ConfigureAwait(false);

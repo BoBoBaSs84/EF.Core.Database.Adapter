@@ -1,5 +1,5 @@
-﻿using BB84.Home.Connector.Abstractions.Handlers;
-using BB84.Home.Connector.Extensions;
+﻿using BB84.Extensions;
+using BB84.Home.Connector.Abstractions.Handlers;
 
 namespace BB84.Home.Connector.Handlers;
 
@@ -9,21 +9,23 @@ namespace BB84.Home.Connector.Handlers;
 /// <param name="tokenHandler">The token handler to use for handling tokens.</param>
 internal sealed class AuthorizationHandler(ITokenHandler tokenHandler) : DelegatingHandler
 {
+#if NET6_0_OR_GREATER
 	protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
 		string token = tokenHandler.GetToken();
 
-		request.AddBearerToken(token);
+		request.WithBearerToken(token);
 
 		return base.Send(request, cancellationToken);
 	}
+#endif
 
 	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
 		string token = await tokenHandler.GetTokenAsync(cancellationToken)
 			.ConfigureAwait(false);
 
-		request.AddBearerToken(token);
+		request.WithBearerToken(token);
 
 		return await base.SendAsync(request, cancellationToken)
 			.ConfigureAwait(false);

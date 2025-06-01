@@ -24,7 +24,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	public async Task GetAllUserShouldReturnFailedWhenExceptionIsThrown()
 	{
 		AuthenticationService sut = CreateMockedInstance();
-		_userServiceMock.Setup(x => x.GetUsersInRoleAsync(RoleType.USER.GetName()))
+		_userServiceMock.Setup(x => x.GetUsersInRoleAsync(RoleType.User.GetName()))
 			.Throws(new InvalidOperationException());
 
 		ErrorOr<IEnumerable<UserResponse>> result = await sut.GetAllUser()
@@ -45,7 +45,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 	{
 		List<UserEntity> users = [CreateUser(), CreateUser()];
 		AuthenticationService sut = CreateMockedInstance();
-		_userServiceMock.Setup(x => x.GetUsersInRoleAsync(RoleType.USER.GetName()))
+		_userServiceMock.Setup(x => x.GetUsersInRoleAsync(RoleType.User.GetName()))
 			.Returns(Task.FromResult<IList<UserEntity>>(users));
 
 		ErrorOr<IEnumerable<UserResponse>> result = await sut.GetAllUser()
@@ -57,7 +57,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().HaveCount(users.Count);
-			_userServiceMock.Verify(x => x.GetUsersInRoleAsync(RoleType.USER.GetName()), Times.Once);
+			_userServiceMock.Verify(x => x.GetUsersInRoleAsync(RoleType.User.GetName()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, Exception?>>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

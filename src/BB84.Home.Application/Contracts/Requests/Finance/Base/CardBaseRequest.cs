@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
-using BB84.Home.Application.Converters;
 using BB84.Home.Domain.Enumerators.Finance;
 
 namespace BB84.Home.Application.Contracts.Requests.Finance.Base;
@@ -21,6 +19,5 @@ public abstract class CardBaseRequest
 	/// The valid until property.
 	/// </summary>
 	[Required]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public required DateTime ValidUntil { get; init; }
 }

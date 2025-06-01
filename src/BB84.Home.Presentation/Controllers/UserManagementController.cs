@@ -38,7 +38,7 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the user or the role was not found.</response>
 	/// <response code="500">If the something went wrong.</response>
-	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[AuthorizeRoles(Roles.Administrator)]
 	[HttpPost(Endpoints.UserManagement.AddUserToRole)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -79,7 +79,7 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="500">If the something went wrong.</response>
-	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[AuthorizeRoles(Roles.Administrator)]
 	[HttpGet(Endpoints.UserManagement.GetAll)]
 	[ProducesResponseType(typeof(IEnumerable<UserResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -104,7 +104,7 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the user was not found.</response>
 	/// <response code="500">If the something went wrong.</response>
-	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[AuthorizeRoles(Roles.Administrator)]
 	[HttpGet(Endpoints.UserManagement.GetByName)]
 	[ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -149,7 +149,7 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="404">If the user or the role was not found.</response>
 	/// <response code="500">If the something went wrong.</response>
-	[AuthorizeRoles(Roles.ADMINISTRATOR)]
+	[AuthorizeRoles(Roles.Administrator)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]

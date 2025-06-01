@@ -142,7 +142,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 				return AuthenticationServiceErrors.CreateUserFailed;
 			}
 
-			result = await userService.AddToRoleAsync(user, RoleType.USER.GetName())
+			result = await userService.AddToRoleAsync(user, RoleType.User.GetName())
 				.ConfigureAwait(false);
 
 			if (result.Succeeded.IsFalse())
@@ -166,7 +166,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			IList<UserEntity> userEntities = await userService.GetUsersInRoleAsync(RoleType.USER.GetName())
+			IList<UserEntity> userEntities = await userService.GetUsersInRoleAsync(RoleType.User.GetName())
 				.ConfigureAwait(false);
 
 			IEnumerable<UserResponse> response = mapper.Map<IEnumerable<UserResponse>>(userEntities);

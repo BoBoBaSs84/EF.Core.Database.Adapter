@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 using BB84.Home.Application.Contracts.Requests.Attendance.Base;
-using BB84.Home.Application.Converters;
 
 namespace BB84.Home.Application.Contracts.Requests.Attendance;
 
@@ -15,6 +13,5 @@ public sealed class AttendanceCreateRequest : AttendanceBaseRequest
 	/// The date of the attendance.
 	/// </summary>
 	[Required]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public required DateTime Date { get; init; }
 }

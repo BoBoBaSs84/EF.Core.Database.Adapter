@@ -5,7 +5,7 @@
 /// </summary>
 internal static class Endpoints
 {
-	private const string SiteRoot = "api";
+	private const string SiteRoot = "";
 
 	internal const string BaseUri = SiteRoot;
 

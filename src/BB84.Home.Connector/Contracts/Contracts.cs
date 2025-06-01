@@ -50,6 +50,8 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public AttendanceType Type { get; init; }
 
         /// <summary>
@@ -107,6 +109,8 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public AttendanceType Type { get; init; }
 
         /// <summary>
@@ -193,6 +197,8 @@ namespace BB84.Home.Connector.Contracts
         public string Directory { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("flags")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public DocumentTypes Flags { get; init; }
 
         /// <summary>
@@ -282,6 +288,8 @@ namespace BB84.Home.Connector.Contracts
         public string Directory { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("flags")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public DocumentTypes Flags { get; init; }
 
         /// <summary>
@@ -346,6 +354,8 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public AccountType Type { get; init; }
 
         /// <summary>
@@ -392,6 +402,8 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public AccountType Type { get; init; }
 
         /// <summary>
@@ -425,6 +437,8 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public CardType Type { get; init; }
 
         /// <summary>
@@ -463,6 +477,8 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public CardType Type { get; init; }
 
         /// <summary>
@@ -747,6 +763,8 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("workDays")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public WorkDayTypes WorkDays { get; init; }
 
         /// <summary>
@@ -1045,6 +1063,8 @@ namespace BB84.Home.Connector.Contracts
         public string Note { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("priority")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public PriorityLevelType Priority { get; init; }
 
         /// <summary>
@@ -1096,6 +1116,8 @@ namespace BB84.Home.Connector.Contracts
         public string Note { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("priority")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public PriorityLevelType Priority { get; init; }
 
         /// <summary>
@@ -1230,6 +1252,8 @@ namespace BB84.Home.Connector.Contracts
         public System.DateTimeOffset Date { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public AttendanceType Type { get; init; }
 
         /// <summary>
@@ -1284,6 +1308,7 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("value")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public AttendanceType Value { get; init; }
 
         /// <summary>
@@ -1445,6 +1470,7 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("value")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public CardType Value { get; init; }
 
         /// <summary>
@@ -1492,6 +1518,7 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("value")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public DocumentTypes Value { get; init; }
 
         /// <summary>
@@ -1539,6 +1566,7 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("value")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public RoleType Value { get; init; }
 
         /// <summary>
@@ -1586,6 +1614,7 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("value")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public WorkDayTypes Value { get; init; }
 
         /// <summary>
@@ -1670,6 +1699,8 @@ namespace BB84.Home.Connector.Contracts
         public string Directory { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("flags")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public DocumentTypes Flags { get; init; }
 
         /// <summary>
@@ -1770,6 +1801,8 @@ namespace BB84.Home.Connector.Contracts
         public string Iban { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public AccountType Type { get; init; }
 
         /// <summary>
@@ -1826,6 +1859,8 @@ namespace BB84.Home.Connector.Contracts
         public string Pan { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public CardType Type { get; init; }
 
         /// <summary>
@@ -1989,6 +2024,7 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("workDays")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public WorkDayTypes WorkDays { get; init; }
 
         /// <summary>
@@ -2079,7 +2115,7 @@ namespace BB84.Home.Connector.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public UserResponse(System.DateTimeOffset? @dateOfBirth, string @email, string @firstName, System.Guid @id, string @lastName, string @middleName, string @phoneNumber, byte[] @picture, PreferencesResponse @preferences, string @userName)
+        public UserResponse(System.DateTimeOffset? @dateOfBirth, string @email, string @firstName, System.Guid @id, string @lastName, string @middleName, string @phoneNumber, string @picture, PreferencesResponse @preferences, string @userName)
 
         {
 
@@ -2170,7 +2206,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("picture")]
-        public byte[] Picture { get; init; }
+        public string Picture { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("preferences")]
         public PreferencesResponse Preferences { get; init; }
@@ -2225,6 +2261,8 @@ namespace BB84.Home.Connector.Contracts
         public string Note { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("priority")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public PriorityLevelType Priority { get; init; }
 
         /// <summary>
@@ -2299,29 +2337,41 @@ namespace BB84.Home.Connector.Contracts
     public enum AttendanceType
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Holiday")]
+        Holiday = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"Workday")]
+        Workday = 1,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"Absence")]
+        Absence = 2,
 
-        _4 = 4,
+        [System.Runtime.Serialization.EnumMember(Value = @"BuisnessTrip")]
+        BuisnessTrip = 3,
 
-        _5 = 5,
+        [System.Runtime.Serialization.EnumMember(Value = @"Suspension")]
+        Suspension = 4,
 
-        _6 = 6,
+        [System.Runtime.Serialization.EnumMember(Value = @"MobileWorking")]
+        MobileWorking = 5,
 
-        _7 = 7,
+        [System.Runtime.Serialization.EnumMember(Value = @"PlannedVacation")]
+        PlannedVacation = 6,
 
-        _8 = 8,
+        [System.Runtime.Serialization.EnumMember(Value = @"ShortTimeWork")]
+        ShortTimeWork = 7,
 
-        _9 = 9,
+        [System.Runtime.Serialization.EnumMember(Value = @"Sickness")]
+        Sickness = 8,
 
-        _10 = 10,
+        [System.Runtime.Serialization.EnumMember(Value = @"VACATION")]
+        VACATION = 9,
 
-        _11 = 11,
+        [System.Runtime.Serialization.EnumMember(Value = @"VacationBlock")]
+        VacationBlock = 10,
 
-        _12 = 12,
+        [System.Runtime.Serialization.EnumMember(Value = @"Training")]
+        Training = 11,
 
     }
 
@@ -2329,37 +2379,50 @@ namespace BB84.Home.Connector.Contracts
     public enum WorkDayTypes
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Monday")]
+        Monday = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"Tuesday")]
+        Tuesday = 1,
 
-        _4 = 4,
+        [System.Runtime.Serialization.EnumMember(Value = @"Wednesday")]
+        Wednesday = 2,
 
-        _8 = 8,
+        [System.Runtime.Serialization.EnumMember(Value = @"Thursday")]
+        Thursday = 3,
 
-        _16 = 16,
+        [System.Runtime.Serialization.EnumMember(Value = @"Friday")]
+        Friday = 4,
 
-        _32 = 32,
+        [System.Runtime.Serialization.EnumMember(Value = @"Saturday")]
+        Saturday = 5,
 
-        _64 = 64,
+        [System.Runtime.Serialization.EnumMember(Value = @"Sunday")]
+        Sunday = 6,
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum DocumentTypes : long
+    public enum DocumentTypes
     {
 
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"None")]
+        None = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"Invoice")]
+        Invoice = 1,
 
-        _4 = 4,
+        [System.Runtime.Serialization.EnumMember(Value = @"Eductation")]
+        Eductation = 2,
 
-        _8 = 8,
+        [System.Runtime.Serialization.EnumMember(Value = @"Certificate")]
+        Certificate = 3,
 
-        _16 = 16,
+        [System.Runtime.Serialization.EnumMember(Value = @"Healthcare")]
+        Healthcare = 4,
 
-        _32 = 32,
+        [System.Runtime.Serialization.EnumMember(Value = @"Tax")]
+        Tax = 5,
 
     }
 
@@ -2367,11 +2430,14 @@ namespace BB84.Home.Connector.Contracts
     public enum AccountType
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Checking")]
+        Checking = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"Savings")]
+        Savings = 1,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"Community")]
+        Community = 2,
 
     }
 
@@ -2379,9 +2445,11 @@ namespace BB84.Home.Connector.Contracts
     public enum CardType
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Credit")]
+        Credit = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"Debit")]
+        Debit = 1,
 
     }
 
@@ -2389,11 +2457,14 @@ namespace BB84.Home.Connector.Contracts
     public enum RoleType
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Administrator")]
+        Administrator = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"User")]
+        User = 1,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"SuperUser")]
+        SuperUser = 2,
 
     }
 
@@ -2401,13 +2472,17 @@ namespace BB84.Home.Connector.Contracts
     public enum PriorityLevelType
     {
 
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"None")]
+        None = 0,
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Low")]
+        Low = 1,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"Medium")]
+        Medium = 2,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"High")]
+        High = 3,
 
     }
 

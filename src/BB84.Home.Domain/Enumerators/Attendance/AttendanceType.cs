@@ -16,7 +16,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_Holiday_Name),
 		ShortName = nameof(RESX.AttendanceType_Holiday_ShortName),
 		Description = nameof(RESX.AttendanceType_Holiday_Description))]
-	HOLIDAY = 1,
+	Holiday = 1,
 	/// <summary>
 	/// The work day attendance type.
 	/// </summary>	
@@ -24,7 +24,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_Workday_Name),
 		ShortName = nameof(RESX.AttendanceType_Workday_ShortName),
 		Description = nameof(RESX.AttendanceType_Workday_Description))]
-	WORKDAY,
+	Workday,
 	/// <summary>
 	/// The absence attendance type.
 	/// </summary>
@@ -32,7 +32,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_Absence_Name),
 		ShortName = nameof(RESX.AttendanceType_Absence_ShortName),
 		Description = nameof(RESX.AttendanceType_Absence_Description))]
-	ABSENCE,
+	Absence,
 	/// <summary>
 	/// The buisness trip attendance type.
 	/// </summary>
@@ -40,7 +40,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_BuisnessTrip_Name),
 		ShortName = nameof(RESX.AttendanceType_BuisnessTrip_ShortName),
 		Description = nameof(RESX.AttendanceType_BuisnessTrip_Description))]
-	BUISNESSTRIP,
+	BuisnessTrip,
 	/// <summary>
 	/// The suspension attendance type.
 	/// </summary>
@@ -48,7 +48,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_Suspension_Name),
 		ShortName = nameof(RESX.AttendanceType_Suspension_ShortName),
 		Description = nameof(RESX.AttendanceType_Suspension_Description))]
-	SUSPENSION,
+	Suspension,
 	/// <summary>
 	/// The mobile working attendance type.
 	/// </summary>
@@ -56,7 +56,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_MobileWorking_Name),
 		ShortName = nameof(RESX.AttendanceType_MobileWorking_ShortName),
 		Description = nameof(RESX.AttendanceType_MobileWorking_Description))]
-	MOBILEWORKING,
+	MobileWorking,
 	/// <summary>
 	/// The planned vacation attendance type.
 	/// </summary>
@@ -64,7 +64,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_PlannedVacation_Name),
 		ShortName = nameof(RESX.AttendanceType_PlannedVacation_ShortName),
 		Description = nameof(RESX.AttendanceType_PlannedVacation_Description))]
-	PLANNEDVACATION,
+	PlannedVacation,
 	/// <summary>
 	/// The short time work attendance type.
 	/// </summary>
@@ -72,7 +72,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_ShortTimeWork_Name),
 		ShortName = nameof(RESX.AttendanceType_ShortTimeWork_ShortName),
 		Description = nameof(RESX.AttendanceType_ShortTimeWork_Description))]
-	SHORTTIMEWORK,
+	ShortTimeWork,
 	/// <summary>
 	/// The sickness attendance type.
 	/// </summary>
@@ -80,7 +80,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_Sickness_Name),
 		ShortName = nameof(RESX.AttendanceType_Sickness_ShortName),
 		Description = nameof(RESX.AttendanceType_Sickness_Description))]
-	SICKNESS,
+	Sickness,
 	/// <summary>
 	/// The vacation attendance type.
 	/// </summary>
@@ -96,7 +96,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_VacationBlock_Name),
 		ShortName = nameof(RESX.AttendanceType_VacationBlock_ShortName),
 		Description = nameof(RESX.AttendanceType_VacationBlock_Description))]
-	VACATIONBLOCK,
+	VacationBlock,
 	/// <summary>
 	/// The training attendance type.
 	/// </summary>
@@ -104,5 +104,5 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_Training_Name),
 		ShortName = nameof(RESX.AttendanceType_Training_ShortName),
 		Description = nameof(RESX.AttendanceType_Training_Description))]
-	TRAINING
+	Training
 }

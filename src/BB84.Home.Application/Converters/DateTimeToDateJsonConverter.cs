@@ -7,7 +7,7 @@ namespace BB84.Home.Application.Converters;
 /// <summary>
 /// The <see cref="DateTime"/> json converter class.
 /// </summary>
-internal sealed class DateTimeJsonConverter : JsonConverter<DateTime>
+public sealed class DateTimeJsonConverter : JsonConverter<DateTime>
 {
 	/// <inheritdoc/>
 	public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -24,14 +24,16 @@ internal sealed class DateTimeJsonConverter : JsonConverter<DateTime>
 /// <summary>
 /// The nullable <see cref="DateTime"/> json converter class.
 /// </summary>
-internal sealed class NullableDateTimeJsonConverter : JsonConverter<DateTime?>
+public sealed class NullableDateTimeJsonConverter : JsonConverter<DateTime?>
 {
+	/// <inheritdoc/>
 	public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
 		string? value = reader.GetString();
 		return string.IsNullOrWhiteSpace(value) ? null : DateTime.Parse(value, CultureInfo.InvariantCulture);
 	}
 
+	/// <inheritdoc/>
 	public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
 	{
 		if (value is not null)

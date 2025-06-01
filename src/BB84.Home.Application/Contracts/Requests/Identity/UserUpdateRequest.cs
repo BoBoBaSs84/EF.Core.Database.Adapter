@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 using BB84.Home.Application.Contracts.Requests.Identity.Base;
-using BB84.Home.Application.Converters;
 
 namespace BB84.Home.Application.Contracts.Requests.Identity;
 
@@ -20,7 +18,6 @@ public sealed class UserUpdateRequest : UserBaseRequest
 	/// <summary>
 	/// The date of birth of the user.
 	/// </summary>	
-	[JsonConverter(typeof(NullableDateTimeJsonConverter))]
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
@@ -32,7 +29,6 @@ public sealed class UserUpdateRequest : UserBaseRequest
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	[JsonConverter(typeof(NullableByteArrayJsonConverter))]
 	public byte[]? Picture { get; set; }
 
 	/// <summary>

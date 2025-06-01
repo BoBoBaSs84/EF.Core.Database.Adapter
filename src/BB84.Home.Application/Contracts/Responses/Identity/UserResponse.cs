@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 using BB84.Home.Application.Contracts.Responses.Base;
-using BB84.Home.Application.Converters;
 
 namespace BB84.Home.Application.Contracts.Responses.Identity;
 
@@ -36,7 +34,6 @@ public sealed class UserResponse : IdentityResponse
 	/// The date of birth of the user.
 	/// </summary>
 	[DataType(DataType.Date)]
-	[JsonConverter(typeof(NullableDateTimeJsonConverter))]
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
@@ -60,7 +57,7 @@ public sealed class UserResponse : IdentityResponse
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
-	[JsonConverter(typeof(NullableByteArrayJsonConverter))]
+	[DataType(DataType.Text)]
 	public byte[]? Picture { get; set; }
 
 	/// <summary>

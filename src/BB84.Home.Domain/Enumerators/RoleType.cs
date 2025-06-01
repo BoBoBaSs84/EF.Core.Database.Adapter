@@ -10,27 +10,27 @@ namespace BB84.Home.Domain.Enumerators;
 public enum RoleType : byte
 {
 	/// <summary>
-	/// The <see cref="ADMINISTRATOR"/> role type.
+	/// The <see cref="Administrator"/> role type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.RoleType_Administrator_Name),
 		ShortName = nameof(RESX.RoleType_Administrator_ShortName),
 		Description = nameof(RESX.RoleType_Administrator_Description))]
-	ADMINISTRATOR = 1,
+	Administrator = 1,
 	/// <summary>
-	/// The <see cref="USER"/> role type.
+	/// The <see cref="User"/> role type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.RoleType_User_Name),
 		ShortName = nameof(RESX.RoleType_User_ShortName),
 		Description = nameof(RESX.RoleType_User_Description))]
-	USER,
+	User,
 	/// <summary>
-	/// The <see cref="SUPERUSER"/> role type.
+	/// The <see cref="SuperUser"/> role type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 	Name = nameof(RESX.RoleType_SuperUser_Name),
 	ShortName = nameof(RESX.RoleType_SuperUser_ShortName),
 	Description = nameof(RESX.RoleType_SuperUser_Description))]
-	SUPERUSER
+	SuperUser
 }

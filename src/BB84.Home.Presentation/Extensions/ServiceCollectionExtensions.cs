@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 
 using Asp.Versioning;
 
+using BB84.Home.Application.Converters;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Presentation.Common;
 using BB84.Home.Presentation.Services;
@@ -44,6 +45,13 @@ internal static class ServiceCollectionExtensions
 				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 				options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 				options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				options.JsonSerializerOptions.Converters.Add(new ByteArrayJsonConverter());
+				options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+				options.JsonSerializerOptions.Converters.Add(new TimeSpanJsonConverter());
+				options.JsonSerializerOptions.Converters.Add(new NullableByteArrayJsonConverter());
+				options.JsonSerializerOptions.Converters.Add(new NullableDateTimeJsonConverter());
+				options.JsonSerializerOptions.Converters.Add(new NullableTimeSpanJsonConverter());
 			});
 
 		return services;

@@ -26,7 +26,7 @@ internal static class RequestHelper
 		{
 			IBAN = RandomHelper.GetString(RegexPatterns.IBAN).RemoveWhitespace(),
 			Provider = RandomHelper.GetString(25),
-			Type = AccountType.SAVINGS,
+			Type = AccountType.Savings,
 			Cards = [GetCardCreateRequest()]
 		};
 
@@ -38,7 +38,7 @@ internal static class RequestHelper
 		AccountUpdateRequest request = new()
 		{
 			Provider = RandomHelper.GetString(25),
-			Type = AccountType.CHECKING
+			Type = AccountType.Checking
 		};
 
 		return request;
@@ -49,7 +49,7 @@ internal static class RequestHelper
 		CardCreateRequest request = new()
 		{
 			PAN = RandomHelper.GetString(RegexPatterns.PAN).RemoveWhitespace(),
-			Type = CardType.CREDIT,
+			Type = CardType.Credit,
 			ValidUntil = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate)
 		};
 
@@ -60,7 +60,7 @@ internal static class RequestHelper
 	{
 		CardUpdateRequest request = new()
 		{
-			Type = CardType.DEBIT,
+			Type = CardType.Debit,
 			ValidUntil = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate)
 		};
 
@@ -72,7 +72,7 @@ internal static class RequestHelper
 		AttendanceCreateRequest request = new()
 		{
 			Date = DateTime.Today,
-			Type = AttendanceType.WORKDAY,
+			Type = AttendanceType.Workday,
 			StartTime = new(6, 0, 0),
 			EndTime = new(16, 0, 0),
 			BreakTime = new(0, 45, 0)
@@ -86,7 +86,7 @@ internal static class RequestHelper
 		AttendanceUpdateRequest request = new()
 		{
 			Id = Guid.NewGuid(),
-			Type = AttendanceType.WORKDAY,
+			Type = AttendanceType.Workday,
 			StartTime = new(6, 0, 0),
 			EndTime = new(16, 0, 0),
 			BreakTime = new(0, 45, 0)
@@ -188,7 +188,7 @@ internal static class RequestHelper
 		ItemCreateRequest request = new()
 		{
 			Title = RandomHelper.GetString(128),
-			Priority = PriorityLevelType.NONE,
+			Priority = PriorityLevelType.None,
 			Reminder = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate),
 			Note = RandomHelper.GetString(1024)
 		};
@@ -201,7 +201,7 @@ internal static class RequestHelper
 		ItemUpdateRequest request = new()
 		{
 			Title = RandomHelper.GetString(128),
-			Priority = PriorityLevelType.NONE,
+			Priority = PriorityLevelType.None,
 			Reminder = RandomHelper.GetDateTime(DateStatics.MinDate, DateStatics.MaxDate),
 			Note = RandomHelper.GetString(1024),
 			Done = true

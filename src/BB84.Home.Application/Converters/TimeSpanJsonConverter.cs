@@ -7,7 +7,7 @@ namespace BB84.Home.Application.Converters;
 /// <summary>
 /// The <see cref="TimeSpan"/> json converter class.
 /// </summary>
-internal sealed class TimeSpanJsonConverter : JsonConverter<TimeSpan>
+public sealed class TimeSpanJsonConverter : JsonConverter<TimeSpan>
 {
 	/// <inheritdoc/>
 	public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -24,7 +24,7 @@ internal sealed class TimeSpanJsonConverter : JsonConverter<TimeSpan>
 /// <summary>
 /// The nullable <see cref="TimeSpan"/> json converter class.
 /// </summary>
-internal sealed class NullableTimeSpanJsonConverter : JsonConverter<TimeSpan?>
+public sealed class NullableTimeSpanJsonConverter : JsonConverter<TimeSpan?>
 {
 	/// <inheritdoc/>
 	public override TimeSpan? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

@@ -12,7 +12,7 @@ public class ModelExtensionsTests : DomainTestBase
 	{
 		AttendanceEntity attendance = new()
 		{
-			Type = AttendanceType.WORKDAY,
+			Type = AttendanceType.Workday,
 			StartTime = new(6, 0, 0),
 			EndTime = new(15, 0, 0),
 			BreakTime = new(1, 0, 0),
@@ -28,7 +28,7 @@ public class ModelExtensionsTests : DomainTestBase
 	{
 		AttendanceEntity attendance = new()
 		{
-			Type = AttendanceType.SICKNESS
+			Type = AttendanceType.Sickness
 		};
 
 		float? workingHours = attendance.GetResultingWorkingHours();
@@ -41,7 +41,7 @@ public class ModelExtensionsTests : DomainTestBase
 	{
 		AttendanceEntity attendance = new()
 		{
-			Type = AttendanceType.WORKDAY,
+			Type = AttendanceType.Workday,
 			StartTime = new(6, 0, 0)
 		};
 
@@ -55,7 +55,7 @@ public class ModelExtensionsTests : DomainTestBase
 	{
 		AttendanceEntity attendance = new()
 		{
-			Type = AttendanceType.WORKDAY,
+			Type = AttendanceType.Workday,
 			EndTime = new(15, 0, 0)
 		};
 

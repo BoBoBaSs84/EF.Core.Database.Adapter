@@ -68,7 +68,7 @@ public sealed partial class AttendanceServiceTests
 	{
 		Guid userId = Guid.NewGuid();
 		DateTime date = DateTime.Today;
-		AttendanceEntity model = new() { Id = userId, Date = date.Date, Type = AttendanceType.WORKDAY, StartTime = TimeSpan.MinValue, EndTime = TimeSpan.MinValue, BreakTime = TimeSpan.MinValue };
+		AttendanceEntity model = new() { Id = userId, Date = date.Date, Type = AttendanceType.Workday, StartTime = TimeSpan.MinValue, EndTime = TimeSpan.MinValue, BreakTime = TimeSpan.MinValue };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), null, false, false, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));

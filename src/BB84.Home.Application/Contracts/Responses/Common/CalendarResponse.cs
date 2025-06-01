@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-using BB84.Home.Application.Converters;
 
 namespace BB84.Home.Application.Contracts.Responses.Common;
 
@@ -14,7 +11,6 @@ public sealed class CalendarResponse
 	/// The date property.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime Date { get; set; }
 
 	/// <summary>
@@ -51,27 +47,23 @@ public sealed class CalendarResponse
 	/// The start of week property.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime StartOfWeek { get; set; }
 
 	/// <summary>
 	/// The end of Week property.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime EndOfWeek { get; set; }
 
 	/// <summary>
 	/// The start of month property.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime StartOfMonth { get; set; }
 
 	/// <summary>
 	/// The end of month property.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public DateTime EndOfMonth { get; set; }
 }

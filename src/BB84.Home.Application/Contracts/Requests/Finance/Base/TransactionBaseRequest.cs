@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-using BB84.Home.Application.Converters;
 
 namespace BB84.Home.Application.Contracts.Requests.Finance.Base;
 
@@ -14,13 +11,11 @@ public abstract class TransactionBaseRequest
 	/// The booking date of the bank transaction.
 	/// </summary>
 	[Required]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
 	public required DateTime BookingDate { get; init; }
 
 	/// <summary>
 	/// The value date of the bank transaction.
 	/// </summary>	
-	[JsonConverter(typeof(NullableDateTimeJsonConverter))]
 	public DateTime? ValueDate { get; init; }
 
 	/// <summary>

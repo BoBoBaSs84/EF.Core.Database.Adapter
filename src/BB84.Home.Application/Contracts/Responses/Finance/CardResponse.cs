@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 using BB84.Home.Application.Contracts.Responses.Base;
-using BB84.Home.Application.Converters;
 using BB84.Home.Domain.Enumerators.Finance;
 
 namespace BB84.Home.Application.Contracts.Responses.Finance;
@@ -19,18 +17,17 @@ public sealed class CardResponse : IdentityResponse
 	/// The payment card number.
 	/// </summary>
 	[Required, DataType(DataType.CreditCard)]
-	public string PAN { get; set; } = string.Empty;
+	public required string PAN { get; init; }
 
 	/// <summary>
 	/// The card type.
 	/// </summary>
 	[Required]
-	public CardType Type { get; set; }
+	public required CardType Type { get; init; }
 
 	/// <summary>
 	/// The valid until property.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	[JsonConverter(typeof(DateTimeJsonConverter))]
-	public DateTime ValidUntil { get; set; }
+	public required DateTime ValidUntil { get; init; }
 }

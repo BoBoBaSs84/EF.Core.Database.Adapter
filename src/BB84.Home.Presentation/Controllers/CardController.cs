@@ -45,7 +45,7 @@ public sealed partial class CardController(ICardService cardService, ICurrentUse
 	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpDelete(Endpoints.Card.Delete), AuthorizeRoles(RoleType.ADMINISTRATOR)]
+	[HttpDelete(Endpoints.Card.Delete), AuthorizeRoles(RoleType.Administrator)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]

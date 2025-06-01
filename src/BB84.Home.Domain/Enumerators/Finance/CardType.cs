@@ -10,19 +10,19 @@ namespace BB84.Home.Domain.Enumerators.Finance;
 public enum CardType : byte
 {
 	/// <summary>
-	/// The <see cref="CREDIT"/> card type.
+	/// The <see cref="Credit"/> card type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.CardType_Credit_Name),
 		ShortName = nameof(RESX.CardType_Credit_ShortName),
 		Description = nameof(RESX.CardType_Credit_Description))]
-	CREDIT = 1,
+	Credit = 1,
 	/// <summary>
-	/// The <see cref="DEBIT"/> card type.
+	/// The <see cref="Debit"/> card type.
 	/// </summary>
 	[Display(ResourceType = typeof(RESX),
 		Name = nameof(RESX.CardType_Debit_Name),
 		ShortName = nameof(RESX.CardType_Debit_ShortName),
 		Description = nameof(RESX.CardType_Debit_Description))]
-	DEBIT
+	Debit
 }

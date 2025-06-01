@@ -41,7 +41,7 @@ public sealed class AttendanceCreateRequestValidatorTests : ApplicationTestBase
 		AttendanceCreateRequest request = new()
 		{
 			Date = DateStatics.MinDate.AddDays(-1),
-			Type = AttendanceType.ABSENCE
+			Type = AttendanceType.Absence
 		};
 
 		ValidationResult result = _validator.Validate(request);

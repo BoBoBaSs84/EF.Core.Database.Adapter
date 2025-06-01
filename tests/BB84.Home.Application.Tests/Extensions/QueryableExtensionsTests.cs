@@ -21,7 +21,7 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	public void FilterByParametersWithAttendanceParametersValues()
 	{
 		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
-		AttendanceType type = AttendanceType.HOLIDAY;
+		AttendanceType type = AttendanceType.Holiday;
 		IQueryable<AttendanceEntity> models = GetAttendances(minDate, maxDate, type);
 		AttendanceParameters parameters = new()
 		{
@@ -29,7 +29,7 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 			Month = minDate.Month,
 			MinDate = minDate,
 			MaxDate = maxDate,
-			Type = AttendanceType.HOLIDAY,
+			Type = AttendanceType.Holiday,
 			PageNumber = minDate.Day,
 			PageSize = maxDate.Day
 		};
@@ -44,7 +44,7 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 	public void FilterByParametersWithoutAttendanceParametersValues()
 	{
 		DateTime minDate = new(2000, 1, 1), maxDate = new(2000, 1, 31);
-		AttendanceType type = AttendanceType.HOLIDAY;
+		AttendanceType type = AttendanceType.Holiday;
 		IQueryable<AttendanceEntity> models = GetAttendances(minDate, maxDate, type);
 		AttendanceParameters parameters = new();
 

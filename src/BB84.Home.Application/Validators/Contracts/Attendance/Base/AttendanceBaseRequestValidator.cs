@@ -35,18 +35,18 @@ public sealed class AttendanceBaseRequestValidator : AbstractValidator<Attendanc
 
 	private static bool IsTimeRelevant(AttendanceType type) => type switch
 	{
-		AttendanceType.HOLIDAY => false,
-		AttendanceType.WORKDAY => true,
-		AttendanceType.ABSENCE => false,
-		AttendanceType.BUISNESSTRIP => true,
-		AttendanceType.SUSPENSION => false,
-		AttendanceType.MOBILEWORKING => true,
-		AttendanceType.PLANNEDVACATION => false,
-		AttendanceType.SHORTTIMEWORK => false,
-		AttendanceType.SICKNESS => false,
+		AttendanceType.Holiday => false,
+		AttendanceType.Workday => true,
+		AttendanceType.Absence => false,
+		AttendanceType.BuisnessTrip => true,
+		AttendanceType.Suspension => false,
+		AttendanceType.MobileWorking => true,
+		AttendanceType.PlannedVacation => false,
+		AttendanceType.ShortTimeWork => false,
+		AttendanceType.Sickness => false,
 		AttendanceType.VACATION => false,
-		AttendanceType.VACATIONBLOCK => false,
-		AttendanceType.TRAINING => true,
+		AttendanceType.VacationBlock => false,
+		AttendanceType.Training => true,
 		_ => false
 	};
 }

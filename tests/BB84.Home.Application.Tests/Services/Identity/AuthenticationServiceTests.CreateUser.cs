@@ -75,7 +75,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password))
 			.Returns(Task.FromResult(IdentityResult.Success));
-		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()))
+		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.User.GetName()))
 			.Returns(Task.FromResult(IdentityResult.Failed(error)));
 
 		ErrorOr<Created> result = await sut.CreateUser(request)
@@ -87,7 +87,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AuthenticationServiceErrors.AddUserToRoleFailed);
 			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password), Times.Once);
-			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()), Times.Once);
+			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.User.GetName()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), $"{error.Code} - {error.Description}", It.IsAny<Exception>()), Times.Once);
 		});
 	}
@@ -100,7 +100,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 		AuthenticationService sut = CreateMockedInstance();
 		_userServiceMock.Setup(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password))
 			.Returns(Task.FromResult(IdentityResult.Success));
-		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()))
+		_userServiceMock.Setup(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.User.GetName()))
 			.Returns(Task.FromResult(IdentityResult.Success));
 
 		ErrorOr<Created> result = await sut.CreateUser(request)
@@ -113,7 +113,7 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
 			_userServiceMock.Verify(x => x.CreateAsync(It.IsAny<UserEntity>(), request.Password), Times.Once);
-			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.USER.GetName()), Times.Once);
+			_userServiceMock.Verify(x => x.AddToRoleAsync(It.IsAny<UserEntity>(), RoleType.User.GetName()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

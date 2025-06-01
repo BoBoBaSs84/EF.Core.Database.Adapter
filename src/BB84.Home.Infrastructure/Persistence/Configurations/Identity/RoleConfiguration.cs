@@ -40,7 +40,7 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<RoleEntity>
 
 	private static ICollection<RoleEntity> GetRoleTypes()
 	{
-		List<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetValues().ToList();
+		List<RoleType> roleTypes = RoleType.Administrator.GetValues().ToList();
 		ICollection<RoleEntity> listToReturn = [];
 
 		foreach (RoleType roleType in roleTypes)

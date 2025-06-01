@@ -18,10 +18,10 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 	private IValidator<AttendanceBaseRequest> _validator = default!;
 
 	[DataTestMethod]
-	[DataRow(AttendanceType.WORKDAY)]
-	[DataRow(AttendanceType.BUISNESSTRIP)]
-	[DataRow(AttendanceType.MOBILEWORKING)]
-	[DataRow(AttendanceType.TRAINING)]
+	[DataRow(AttendanceType.Workday)]
+	[DataRow(AttendanceType.BuisnessTrip)]
+	[DataRow(AttendanceType.MobileWorking)]
+	[DataRow(AttendanceType.Training)]
 	public void RequestShouldOnlyHaveTimesWhenTimeRelevantTypes(AttendanceType type)
 	{
 		_validator = CreateValidatorInstance();
@@ -42,14 +42,14 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 	}
 
 	[DataTestMethod]
-	[DataRow(AttendanceType.HOLIDAY)]
-	[DataRow(AttendanceType.ABSENCE)]
-	[DataRow(AttendanceType.SUSPENSION)]
-	[DataRow(AttendanceType.PLANNEDVACATION)]
-	[DataRow(AttendanceType.SHORTTIMEWORK)]
-	[DataRow(AttendanceType.SICKNESS)]
+	[DataRow(AttendanceType.Holiday)]
+	[DataRow(AttendanceType.Absence)]
+	[DataRow(AttendanceType.Suspension)]
+	[DataRow(AttendanceType.PlannedVacation)]
+	[DataRow(AttendanceType.ShortTimeWork)]
+	[DataRow(AttendanceType.Sickness)]
 	[DataRow(AttendanceType.VACATION)]
-	[DataRow(AttendanceType.VACATIONBLOCK)]
+	[DataRow(AttendanceType.VacationBlock)]
 	public void RequestShouldNotHaveTimesWhenNotTimeRelevantTypes(AttendanceType type)
 	{
 		_validator = CreateValidatorInstance();
@@ -73,7 +73,7 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 		AttendanceCreateRequest request = new()
 		{
 			Date = new(2000, 1, 1),
-			Type = AttendanceType.WORKDAY
+			Type = AttendanceType.Workday
 		};
 
 		ValidationResult result = _validator.Validate(request);
@@ -91,7 +91,7 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 		AttendanceUpdateRequest request = new()
 		{
 			Id = Guid.NewGuid(),
-			Type = AttendanceType.HOLIDAY,
+			Type = AttendanceType.Holiday,
 			StartTime = new(6, 0, 0),
 			EndTime = new(16, 0, 0),
 			BreakTime = new(1, 0, 0)
@@ -112,7 +112,7 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 		AttendanceCreateRequest request = new()
 		{
 			Date = DateStatics.MaxDate,
-			Type = AttendanceType.MOBILEWORKING,
+			Type = AttendanceType.MobileWorking,
 			StartTime = new(16, 0, 0),
 			EndTime = new(6, 0, 0),
 			BreakTime = new(1, 0, 0)

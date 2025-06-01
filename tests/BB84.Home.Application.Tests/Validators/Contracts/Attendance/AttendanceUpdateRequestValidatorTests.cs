@@ -21,7 +21,7 @@ public sealed class AttendanceUpdateRequestValidatorTests : ApplicationTestBase
 		AttendanceUpdateRequest request = new()
 		{
 			Id = Guid.Empty,
-			Type = AttendanceType.SHORTTIMEWORK
+			Type = AttendanceType.ShortTimeWork
 		};
 
 		ValidationResult result = _validator.Validate(request);

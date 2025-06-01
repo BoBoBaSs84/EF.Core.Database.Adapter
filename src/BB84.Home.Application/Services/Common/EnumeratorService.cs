@@ -30,7 +30,7 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 	{
 		try
 		{
-			IEnumerable<AccountType> accountTypes = AccountType.CHECKING.GetValues();
+			IEnumerable<AccountType> accountTypes = AccountType.Checking.GetValues();
 
 			return mapper.Map<IEnumerable<AccountTypeResponse>>(accountTypes).ToList();
 		}
@@ -45,7 +45,7 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.HOLIDAY.GetValues();
+			IEnumerable<AttendanceType> attendanceTypes = AttendanceType.Holiday.GetValues();
 
 			return mapper.Map<IEnumerable<AttendanceTypeResponse>>(attendanceTypes).ToList();
 		}
@@ -60,7 +60,7 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 	{
 		try
 		{
-			IEnumerable<CardType> cardTypes = CardType.CREDIT.GetValues();
+			IEnumerable<CardType> cardTypes = CardType.Credit.GetValues();
 
 			return mapper.Map<IEnumerable<CardTypeResponse>>(cardTypes).ToList();
 		}
@@ -90,7 +90,7 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 	{
 		try
 		{
-			IEnumerable<PriorityLevelType> priorityLevelTypes = PriorityLevelType.NONE.GetValues();
+			IEnumerable<PriorityLevelType> priorityLevelTypes = PriorityLevelType.None.GetValues();
 
 			return mapper.Map<IEnumerable<PriorityLevelTypeResponse>>(priorityLevelTypes).ToList();
 		}
@@ -105,7 +105,7 @@ internal sealed class EnumeratorService(ILoggerService<EnumeratorService> logger
 	{
 		try
 		{
-			IEnumerable<RoleType> roleTypes = RoleType.ADMINISTRATOR.GetValues();
+			IEnumerable<RoleType> roleTypes = RoleType.Administrator.GetValues();
 
 			return mapper.Map<IEnumerable<RoleTypeResponse>>(roleTypes).ToList();
 		}

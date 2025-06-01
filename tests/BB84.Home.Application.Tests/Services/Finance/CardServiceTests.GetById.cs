@@ -64,7 +64,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public async Task GetByIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CardEntity cardModel = new() { Id = id, Type = CardType.DEBIT, PAN = "UnitTest", ValidUntil = DateTime.Today };
+		CardEntity cardModel = new() { Id = id, Type = CardType.Debit, PAN = "UnitTest", ValidUntil = DateTime.Today };
 		Mock<ICardRepository> cardMock = new();
 		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
 			.Returns(Task.FromResult<CardEntity?>(cardModel));

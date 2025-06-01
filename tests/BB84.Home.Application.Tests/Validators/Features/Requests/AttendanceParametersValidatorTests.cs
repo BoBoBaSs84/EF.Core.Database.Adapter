@@ -27,7 +27,7 @@ public sealed class AttendanceParametersValidatorTests : ApplicationTestBase
 			Month = DRC.MinMonth,
 			MinDate = DRS.MinDate,
 			MaxDate = DRS.MaxDate,
-			Type = AttendanceType.HOLIDAY
+			Type = AttendanceType.Holiday
 		};
 
 		ValidationResult result = _validator.Validate(parameters);
@@ -47,7 +47,7 @@ public sealed class AttendanceParametersValidatorTests : ApplicationTestBase
 			Month = DRC.MinMonth,
 			MinDate = DRS.MaxDate,
 			MaxDate = DRS.MinDate,
-			Type = AttendanceType.HOLIDAY
+			Type = AttendanceType.Holiday
 		};
 
 		ValidationResult result = _validator.Validate(parameters);

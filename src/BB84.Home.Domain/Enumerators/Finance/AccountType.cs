@@ -16,7 +16,7 @@ public enum AccountType : byte
 		Name = nameof(RESX.AccountType_Checking_Name),
 		ShortName = nameof(RESX.AccountType_Checking_ShortName),
 		Description = nameof(RESX.AccountType_Checking_Description))]
-	CHECKING = 1,
+	Checking = 1,
 	/// <summary>
 	/// The savings account type.
 	/// </summary>
@@ -24,7 +24,7 @@ public enum AccountType : byte
 		Name = nameof(RESX.AccountType_Savings_Name),
 		ShortName = nameof(RESX.AccountType_Savings_ShortName),
 		Description = nameof(RESX.AccountType_Savings_Description))]
-	SAVINGS,
+	Savings,
 	/// <summary>
 	/// The community account type.
 	/// </summary>
@@ -32,5 +32,5 @@ public enum AccountType : byte
 		Name = nameof(RESX.AccountType_Community_Name),
 		ShortName = nameof(RESX.AccountType_Community_ShortName),
 		Description = nameof(RESX.AccountType_Community_Description))]
-	COMMUNITY
+	Community
 }

@@ -98,7 +98,7 @@ public sealed class EnumeratorController(IEnumeratorService enumeratorService) :
 	/// <response code="401">No credentials or invalid credentials.</response>
 	/// <response code="403">Not enough privileges to perform an action.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpGet(Endpoints.Enumerator.RoleType.Get), AuthorizeRoles(RoleType.ADMINISTRATOR)]
+	[HttpGet(Endpoints.Enumerator.RoleType.Get), AuthorizeRoles(RoleType.Administrator)]
 	[ProducesResponseType(typeof(IEnumerable<RoleTypeResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(StatusCodes.Status403Forbidden)]

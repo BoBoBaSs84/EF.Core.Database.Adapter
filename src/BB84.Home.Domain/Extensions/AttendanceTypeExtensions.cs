@@ -17,13 +17,13 @@ public static class AttendanceTypeExtensions
 	public static bool IsWorkingHoursRelevant(this AttendanceType type)
 		=> type switch
 		{
-			AttendanceType.WORKDAY => true,
-			AttendanceType.ABSENCE => true,
-			AttendanceType.BUISNESSTRIP => true,
-			AttendanceType.MOBILEWORKING => true,
-			AttendanceType.SHORTTIMEWORK => true,
-			AttendanceType.VACATIONBLOCK => true,
-			AttendanceType.PLANNEDVACATION => true,
+			AttendanceType.Workday => true,
+			AttendanceType.Absence => true,
+			AttendanceType.BuisnessTrip => true,
+			AttendanceType.MobileWorking => true,
+			AttendanceType.ShortTimeWork => true,
+			AttendanceType.VacationBlock => true,
+			AttendanceType.PlannedVacation => true,
 			_ => false,
 		};
 }

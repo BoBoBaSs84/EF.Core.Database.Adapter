@@ -8,7 +8,7 @@ namespace BB84.Home.Application.Converters;
 /// <summary>
 /// The <see cref="byte"/> array json converter class.
 /// </summary>
-internal sealed class ByteArrayJsonConverter : JsonConverter<byte[]>
+public sealed class ByteArrayJsonConverter : JsonConverter<byte[]>
 {
 	/// <inheritdoc/>
 	public override byte[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -25,7 +25,7 @@ internal sealed class ByteArrayJsonConverter : JsonConverter<byte[]>
 /// <summary>
 /// The nullable <see cref="byte"/> array json converter class.
 /// </summary>
-internal sealed class NullableByteArrayJsonConverter : JsonConverter<byte[]?>
+public sealed class NullableByteArrayJsonConverter : JsonConverter<byte[]?>
 {
 	/// <inheritdoc/>
 	public override byte[]? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

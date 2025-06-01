@@ -68,7 +68,7 @@ public sealed partial class TodoServiceTests
 	public async Task GetListByIdShouldReturnValidResultWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
-		ItemEntity item = new() { Id = Guid.NewGuid(), Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.MEDIUM, Reminder = DateTime.Today, Done = true };
+		ItemEntity item = new() { Id = Guid.NewGuid(), Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.Medium, Reminder = DateTime.Today, Done = true };
 		ListEntity list = new() { Id = listId, Title = "UnitTest", Color = Color.Black, Items = [item] };
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(ListEntity.Items)))

@@ -15,6 +15,6 @@ public sealed partial class TokenServiceTests
 		(string accessToken, DateTimeOffset accessTokenExpiration) = sut.GenerateAccessToken([]);
 
 		accessToken.Should().NotBeNull();
-		accessTokenExpiration.Should().NotBe(default(DateTime));
+		accessTokenExpiration.Should().NotBe(DateTimeOffset.MaxValue);
 	}
 }

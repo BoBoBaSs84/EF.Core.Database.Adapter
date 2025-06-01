@@ -47,7 +47,7 @@ public sealed partial class AttendanceServiceTests
 	public async Task UpdateShouldReturnCreatedWhenSuccessful()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
-		AttendanceEntity model = new() { Type = AttendanceType.WORKDAY, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
+		AttendanceEntity model = new() { Type = AttendanceType.Workday, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));

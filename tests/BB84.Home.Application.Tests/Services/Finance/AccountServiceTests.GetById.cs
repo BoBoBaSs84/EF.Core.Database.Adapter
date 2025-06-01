@@ -66,7 +66,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		AccountEntity accountModel = new() { Id = id, IBAN = "UnitTest", Type = AccountType.CHECKING, Provider = "UnitTest" };
+		AccountEntity accountModel = new() { Id = id, IBAN = "UnitTest", Type = AccountType.Checking, Provider = "UnitTest" };
 		Mock<IAccountRepository> accountMock = new();
 		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default, nameof(AccountEntity.Cards)))
 			.Returns(Task.FromResult<AccountEntity?>(accountModel));

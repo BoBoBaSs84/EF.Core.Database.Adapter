@@ -1,4 +1,7 @@
-﻿using BB84.Home.Domain.Enumerators.Attendance;
+﻿using System.Text.Json.Serialization;
+
+using BB84.Home.Application.Converters;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 namespace BB84.Home.Application.Contracts.Requests.Identity;
 
@@ -21,6 +24,7 @@ public sealed class AttendancePreferencesRequest
 	/// <summary>
 	/// The work days per week property.
 	/// </summary>
+	[JsonConverter(typeof(FlagsJsonConverterFactory))]
 	public required WorkDayTypes WorkDays { get; init; }
 
 	/// <summary>

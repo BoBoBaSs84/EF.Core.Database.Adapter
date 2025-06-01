@@ -8,7 +8,7 @@ namespace BB84.Home.Domain.Enumerators.Attendance;
 /// The work day type flags.
 /// </summary>
 [Flags]
-public enum WorkDayTypes : byte
+public enum WorkDayTypes
 {
 	/// <summary>
 	/// Indicates Monday as a work day.

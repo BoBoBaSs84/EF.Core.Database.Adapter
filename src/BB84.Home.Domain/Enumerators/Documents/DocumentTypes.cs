@@ -8,7 +8,7 @@ namespace BB84.Home.Domain.Enumerators.Documents;
 /// The document flags enumerator.
 /// </summary>
 [Flags]
-public enum DocumentTypes : long
+public enum DocumentTypes
 {
 	/// <summary>
 	/// The document has no flag.

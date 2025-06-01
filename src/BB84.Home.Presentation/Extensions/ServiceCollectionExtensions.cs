@@ -45,13 +45,14 @@ internal static class ServiceCollectionExtensions
 				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 				options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 				options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 				options.JsonSerializerOptions.Converters.Add(new ByteArrayJsonConverter());
 				options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
-				options.JsonSerializerOptions.Converters.Add(new TimeSpanJsonConverter());
+				//options.JsonSerializerOptions.Converters.Add(new FlagsJsonConverterFactory());
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 				options.JsonSerializerOptions.Converters.Add(new NullableByteArrayJsonConverter());
 				options.JsonSerializerOptions.Converters.Add(new NullableDateTimeJsonConverter());
 				options.JsonSerializerOptions.Converters.Add(new NullableTimeSpanJsonConverter());
+				options.JsonSerializerOptions.Converters.Add(new TimeSpanJsonConverter());
 			});
 
 		return services;

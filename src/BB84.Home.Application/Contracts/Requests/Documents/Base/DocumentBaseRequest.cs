@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
+using BB84.Home.Application.Converters;
 using BB84.Home.Domain.Enumerators.Documents;
 
 namespace BB84.Home.Application.Contracts.Requests.Documents.Base;
@@ -31,6 +33,7 @@ public abstract class DocumentBaseRequest
 	/// The flags the of the document.
 	/// </summary>
 	[Required]
+	[JsonConverter(typeof(FlagsJsonConverterFactory))]
 	public required DocumentTypes Flags { get; init; }
 
 	/// <summary>

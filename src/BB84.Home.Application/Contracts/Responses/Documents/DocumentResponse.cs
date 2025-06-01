@@ -1,4 +1,7 @@
-﻿using BB84.Home.Application.Contracts.Responses.Base;
+﻿using System.Text.Json.Serialization;
+
+using BB84.Home.Application.Contracts.Responses.Base;
+using BB84.Home.Application.Converters;
 using BB84.Home.Domain.Enumerators.Documents;
 
 namespace BB84.Home.Application.Contracts.Responses.Documents;
@@ -21,6 +24,7 @@ public sealed class DocumentResponse : IdentityResponse
 	/// <summary>
 	/// The flags the of the document.
 	/// </summary>
+	[JsonConverter(typeof(FlagsJsonConverterFactory))]
 	public required DocumentTypes Flags { get; init; }
 
 	/// <summary>

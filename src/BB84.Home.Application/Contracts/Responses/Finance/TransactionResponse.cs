@@ -16,65 +16,65 @@ public sealed class TransactionResponse : IdentityResponse
 	/// The booking date of the bank transaction.
 	/// </summary>
 	[Required, DataType(DataType.Date)]
-	public DateTime BookingDate { get; set; }
+	public required DateTime BookingDate { get; init; }
 
 	/// <summary>
 	/// The value date of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Date)]
-	public DateTime? ValueDate { get; set; }
+	public required DateTime? ValueDate { get; init; }
 
 	/// <summary>
 	/// The posting text of the bank transaction.
 	/// </summary>
 	[Required, DataType(DataType.Text)]
-	public string PostingText { get; set; } = string.Empty;
+	public required string PostingText { get; init; }
 
 	/// <summary>
 	/// The client beneficiary of the bank transaction.
 	/// </summary>
 	[Required, DataType(DataType.Text)]
-	public string ClientBeneficiary { get; set; } = string.Empty;
+	public required string ClientBeneficiary { get; init; }
 
 	/// <summary>
 	/// The purpose of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string? Purpose { get; set; }
+	public string? Purpose { get; init; }
 
 	/// <summary>
 	/// The bank account number of the transaction.
 	/// </summary>
 	[Required, DataType(DataType.Text)]
-	public string AccountNumber { get; set; } = string.Empty;
+	public required string AccountNumber { get; init; }
 
 	/// <summary>
 	/// The bank code of the transaction.
 	/// </summary>
 	[Required, DataType(DataType.Text)]
-	public string BankCode { get; set; } = string.Empty;
+	public required string BankCode { get; init; }
 
 	/// <summary>
 	/// The amount in EUR of the bank transaction.
 	/// </summary>
 	[Required, DataType(DataType.Currency)]
-	public decimal AmountEur { get; set; }
+	public required decimal AmountEur { get; init; }
 
 	/// <summary>
 	/// The creditor identifier of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string? CreditorId { get; set; }
+	public string? CreditorId { get; init; }
 
 	/// <summary>
 	/// The mandate reference of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string? MandateReference { get; set; }
+	public string? MandateReference { get; init; }
 
 	/// <summary>
 	/// The customer reference of the bank transaction.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string? CustomerReference { get; set; }
+	public string? CustomerReference { get; init; }
 }

@@ -16,52 +16,52 @@ public sealed class UserResponse : IdentityResponse
 	/// The first name of the user.
 	/// </summary>
 	[Required, DataType(DataType.Text)]
-	public string FirstName { get; set; } = string.Empty;
+	public required string FirstName { get; init; }
 
 	/// <summary>
 	/// The middle name of the user.
 	/// </summary>	
 	[DataType(DataType.Text)]
-	public string? MiddleName { get; set; }
+	public string? MiddleName { get; init; }
 
 	/// <summary>
 	/// The last name of the user.
 	/// </summary>
 	[Required, DataType(DataType.Text)]
-	public string LastName { get; set; } = string.Empty;
+	public required string LastName { get; init; }
 
 	/// <summary>
 	/// The date of birth of the user.
 	/// </summary>
 	[DataType(DataType.Date)]
-	public DateTime? DateOfBirth { get; set; }
+	public DateTime? DateOfBirth { get; init; }
 
 	/// <summary>
 	/// The user name of the user.
 	/// </summary>
 	[Required, DataType(DataType.Text)]
-	public string UserName { get; set; } = string.Empty;
+	public required string UserName { get; init; }
 
 	/// <summary>
 	/// The email of the user.
 	/// </summary>
 	[Required, EmailAddress, DataType(DataType.EmailAddress)]
-	public string Email { get; set; } = string.Empty;
+	public required string Email { get; init; }
 
 	/// <summary>
 	/// The phone number of the user.
 	/// </summary>	
 	[Phone, DataType(DataType.PhoneNumber)]
-	public string? PhoneNumber { get; set; }
+	public string? PhoneNumber { get; init; }
 
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public byte[]? Picture { get; set; }
+	public byte[]? Picture { get; init; }
 
 	/// <summary>
 	/// The application preferences of the user.
 	/// </summary>
-	public PreferencesResponse? Preferences { get; set; }
+	public PreferencesResponse? Preferences { get; init; }
 }

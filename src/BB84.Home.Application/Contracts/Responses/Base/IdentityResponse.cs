@@ -11,5 +11,5 @@ public abstract class IdentityResponse
 	/// The globally unique identifier property.
 	/// </summary>	
 	[Required]
-	public Guid Id { get; set; }
+	public required Guid Id { get; init; }
 }

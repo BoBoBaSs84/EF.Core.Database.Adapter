@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using BB84.Home.Application.Converters;
 using BB84.Home.Domain.Enumerators.Attendance;
@@ -13,7 +14,7 @@ public sealed class PreferencesResponse
 	/// <summary>
 	/// The attendance preferences.
 	/// </summary>
-	public AttendancePreferencesResponse? AttendancePreferences { get; set; }
+	public AttendancePreferencesResponse? AttendancePreferences { get; init; }
 }
 
 /// <summary>
@@ -24,16 +25,19 @@ public sealed class AttendancePreferencesResponse
 	/// <summary>
 	/// The work days per week property.
 	/// </summary>
+	[Required]
 	[JsonConverter(typeof(FlagsJsonConverterFactory))]
-	public WorkDayTypes WorkDays { get; set; }
+	public required WorkDayTypes WorkDays { get; init; }
 
 	/// <summary>
 	/// The work hours per week property.
 	/// </summary>
-	public float WorkHours { get; set; }
+	[Required]
+	public required float WorkHours { get; init; }
 
 	/// <summary>
 	/// The vacation days per year.
 	/// </summary>
-	public int VacationDays { get; set; }
+	[Required]
+	public required int VacationDays { get; init; }
 }

@@ -30,5 +30,6 @@ public abstract class ItemBaseRequest
 	/// <summary>
 	/// The reminder date for the new todo item.
 	/// </summary>
+	[DataType(DataType.DateTime)]
 	public DateTime? Reminder { get; init; }
 }

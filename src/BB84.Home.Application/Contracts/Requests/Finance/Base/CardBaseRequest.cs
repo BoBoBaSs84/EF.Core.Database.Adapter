@@ -19,5 +19,6 @@ public abstract class CardBaseRequest
 	/// The valid until property.
 	/// </summary>
 	[Required]
+	[DataType(DataType.Date)]
 	public required DateTime ValidUntil { get; init; }
 }

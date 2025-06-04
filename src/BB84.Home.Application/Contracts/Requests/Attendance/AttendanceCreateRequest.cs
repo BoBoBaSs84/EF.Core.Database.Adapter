@@ -13,5 +13,6 @@ public sealed class AttendanceCreateRequest : AttendanceBaseRequest
 	/// The date of the attendance.
 	/// </summary>
 	[Required]
+	[DataType(DataType.Date)]
 	public required DateTime Date { get; init; }
 }

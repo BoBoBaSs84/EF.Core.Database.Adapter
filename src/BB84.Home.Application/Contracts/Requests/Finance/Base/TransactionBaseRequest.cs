@@ -11,11 +11,13 @@ public abstract class TransactionBaseRequest
 	/// The booking date of the bank transaction.
 	/// </summary>
 	[Required]
+	[DataType(DataType.Date)]
 	public required DateTime BookingDate { get; init; }
 
 	/// <summary>
 	/// The value date of the bank transaction.
 	/// </summary>	
+	[DataType(DataType.Date)]
 	public DateTime? ValueDate { get; init; }
 
 	/// <summary>

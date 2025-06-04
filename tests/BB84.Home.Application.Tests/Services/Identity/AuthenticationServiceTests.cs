@@ -23,14 +23,14 @@ namespace ApplicationTests.Services.Identity;
 public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 {
 	private readonly IMapper _mapper = GetService<IMapper>();
-	private Mock<IOptions<BearerSettings>> _bearerSettingsMock = default!;
+	private Mock<IOptions<BearerSettingsOption>> _bearerSettingsMock = default!;
 	private Mock<ITokenService> _tokenServiceMock = default!;
 	private Mock<ILoggerService<AuthenticationService>> _loggerServiceMock = default!;
 	private Mock<IRoleService> _roleServiceMock = default!;
 	private Mock<IUserService> _userServiceMock = default!;
 	private Mock<IIdentity> _identityMock = default!;
 
-	private AuthenticationService CreateMockedInstance(BearerSettings? settings = null)
+	private AuthenticationService CreateMockedInstance(BearerSettingsOption? settings = null)
 	{
 		_bearerSettingsMock = new();
 

@@ -21,11 +21,11 @@ namespace BB84.Home.Presentation.Controllers;
 /// The document controller class.
 /// </summary>
 /// <param name="documentService">The document service instance to use.</param>
-/// <param name="currentUserService">The current user service instance to use.</param>
+/// <param name="userService">The current user service instance to use.</param>
 [Authorize]
 [Route(Endpoints.Document.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class DocumentController(IDocumentService documentService, ICurrentUserService currentUserService) : ApiControllerBase
+public sealed class DocumentController(IDocumentService documentService, ICurrentUserService userService) : ApiControllerBase
 {
 	/// <summary>
 	/// Deletes an existing document by the provided <paramref name="id"/>.
@@ -34,11 +34,13 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpDelete(Endpoints.Document.DeleteById)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> DeleteById(Guid id, CancellationToken token)
@@ -57,17 +59,19 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpDelete(Endpoints.Document.DeleteByIds)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> DeleteByIds([FromBody] IEnumerable<Guid> ids, CancellationToken token)
 	{
 		ErrorOr<Deleted> result = await documentService
-			.DeleteByIds(currentUserService.UserId, ids, token)
+			.DeleteByIds(userService.UserId, ids, token)
 			.ConfigureAwait(false);
 
 		return Delete(result);
@@ -80,11 +84,13 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>	
 	[HttpGet(Endpoints.Document.GetById)]
 	[ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetById(Guid id, CancellationToken token)
@@ -103,15 +109,17 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>	
 	[HttpGet(Endpoints.Document.GetPagedByParameters)]
 	[ProducesResponseType(typeof(IPagedList<DocumentResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] DocumentParameters parameters, CancellationToken token)
 	{
 		ErrorOr<IPagedList<DocumentResponse>> result = await documentService
-			.GetPagedByParameters(currentUserService.UserId, parameters, token)
+			.GetPagedByParameters(userService.UserId, parameters, token)
 			.ConfigureAwait(false);
 
 		return Get(result, result.Value.MetaData);
@@ -125,16 +133,18 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <response code="201">The resource was successfully created.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPost(Endpoints.Document.Post)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Post([FromBody] DocumentCreateRequest request, CancellationToken token)
 	{
 		ErrorOr<Created> result = await documentService
-			.Create(currentUserService.UserId, request, token)
+			.Create(userService.UserId, request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
@@ -148,16 +158,18 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <response code="201">The resource was successfully created.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPost(Endpoints.Document.PostMultiple)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<DocumentCreateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Created> result = await documentService
-			.Create(currentUserService.UserId, requests, token)
+			.Create(userService.UserId, requests, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
@@ -171,12 +183,14 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <response code="200">The resource was successfully updated.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPut(Endpoints.Document.Put)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Put([FromBody] DocumentUpdateRequest request, CancellationToken token)
@@ -196,18 +210,20 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	/// <response code="200">The resource was successfully updated.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPut(Endpoints.Document.PutMultiple)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<DocumentUpdateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Updated> result = await documentService
-			.Update(currentUserService.UserId, requests, token)
+			.Update(userService.UserId, requests, token)
 			.ConfigureAwait(false);
 
 		return Put(result);

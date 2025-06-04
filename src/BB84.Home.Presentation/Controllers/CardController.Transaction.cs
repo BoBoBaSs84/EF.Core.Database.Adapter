@@ -21,14 +21,16 @@ public sealed partial class CardController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpDelete(Endpoints.Card.Transaction.Delete)]
+	[HttpDelete(Endpoints.Card.Transaction.DeleteByCardId)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(Guid cardId, Guid id, CancellationToken token)
+	public async Task<IActionResult> DeleteByCardId(Guid cardId, Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> response = await _transactionService
 			.DeleteByCardId(cardId, id, token)
@@ -45,11 +47,13 @@ public sealed partial class CardController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no transaction record to get were found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpGet(Endpoints.Card.Transaction.GetByCardId)]
 	[ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetByCardId(Guid cardId, Guid id, CancellationToken token)
@@ -69,11 +73,13 @@ public sealed partial class CardController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no record was found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpGet(Endpoints.Card.Transaction.GetPagedByCardId)]
 	[ProducesResponseType(typeof(IPagedList<TransactionResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetPagedByCardId(Guid cardId, [FromQuery] TransactionParameters parameters, CancellationToken token)
@@ -93,11 +99,13 @@ public sealed partial class CardController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="201">The created response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no record was found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpPost(Endpoints.Card.Transaction.Post)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Post(Guid cardId, [FromBody] TransactionCreateRequest request, CancellationToken token)
@@ -118,11 +126,13 @@ public sealed partial class CardController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no transaction record to update were found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpPut(Endpoints.Card.Transaction.Put)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Put(Guid cardId, Guid id, [FromBody] TransactionUpdateRequest request, CancellationToken token)

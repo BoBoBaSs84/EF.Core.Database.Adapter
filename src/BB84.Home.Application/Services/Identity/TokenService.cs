@@ -20,10 +20,10 @@ namespace BB84.Home.Application.Services.Identity;
 /// <param name="options">The bearer option instance to use.</param>
 /// <param name="dateTimeService">The date time service instance to use.</param>
 /// <param name="userService">The user service instance to use.</param>
-internal sealed class TokenService(IOptions<BearerSettings> options, IDateTimeProvider dateTimeService, IUserService userService) : ITokenService
+internal sealed class TokenService(IOptions<BearerSettingsOption> options, IDateTimeProvider dateTimeService, IUserService userService) : ITokenService
 {
 	private const string RefreshTokenName = "RefreshToken";
-	private readonly BearerSettings _bearerSettings = options.Value;
+	private readonly BearerSettingsOption _bearerSettings = options.Value;
 
 	public (string AccessToken, DateTimeOffset AccessTokenExpiration) GenerateAccessToken(IEnumerable<Claim> claims)
 	{

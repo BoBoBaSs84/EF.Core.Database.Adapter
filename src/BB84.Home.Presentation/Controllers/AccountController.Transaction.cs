@@ -21,14 +21,16 @@ public sealed partial class AccountController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The deleted response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If the bank account to delete was not found.</response>
 	/// <response code="500">If the something internal went wrong.</response>		
-	[HttpDelete(Endpoints.Account.Transaction.Delete)]
+	[HttpDelete(Endpoints.Account.Transaction.DeleteByAccountId)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(Guid accountId, Guid id, CancellationToken token)
+	public async Task<IActionResult> DeleteByAccountId(Guid accountId, Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> response = await _transactionService
 			.DeleteByAccountId(accountId, id, token)
@@ -45,11 +47,13 @@ public sealed partial class AccountController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no transaction record to get were found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpGet(Endpoints.Account.Transaction.GetByAccountId)]
 	[ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetByAccountId(Guid accountId, Guid id, CancellationToken token)
@@ -69,11 +73,13 @@ public sealed partial class AccountController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The successful response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no record was found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpGet(Endpoints.Account.Transaction.GetPagedByAccountId)]
 	[ProducesResponseType(typeof(IPagedList<TransactionResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetPagedByAccountId(Guid accountId, [FromQuery] TransactionParameters parameters, CancellationToken token)
@@ -93,11 +99,13 @@ public sealed partial class AccountController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="201">The created response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no record was found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpPost(Endpoints.Account.Transaction.Post)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Post(Guid accountId, [FromBody] TransactionCreateRequest request, CancellationToken token)
@@ -118,11 +126,13 @@ public sealed partial class AccountController
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The updated response.</response>
 	/// <response code="401">No credentials or invalid credentials.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">If no transaction record to update were found.</response>
 	/// <response code="500">If the something internal went wrong.</response>
 	[HttpPut(Endpoints.Account.Transaction.Put)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Put(Guid accountId, Guid id, [FromBody] TransactionUpdateRequest request, CancellationToken token)

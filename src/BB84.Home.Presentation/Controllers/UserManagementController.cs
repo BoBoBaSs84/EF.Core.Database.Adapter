@@ -22,10 +22,10 @@ namespace BB84.Home.Presentation.Controllers;
 /// The <see cref="UserManagementController"/> class.
 /// </summary>
 /// <param name="authenticationService">The authentication service.</param>
-/// <param name="currentUserService">The current user service.</param>
+/// <param name="userService">The current user service.</param>
 [Route(Endpoints.UserManagement.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class UserManagementController(IAuthenticationService authenticationService, ICurrentUserService currentUserService) : ApiControllerBase
+public sealed class UserManagementController(IAuthenticationService authenticationService, ICurrentUserService userService) : ApiControllerBase
 {
 	/// <summary>
 	/// Adds the user with the <paramref name="userId"/> to the role with the <paramref name="roleId"/>.
@@ -47,8 +47,9 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> AddUserToRole(Guid userId, Guid roleId)
 	{
-		ErrorOr<Created> result =
-			await authenticationService.AddUserToRole(userId, roleId);
+		ErrorOr<Created> result = await authenticationService
+			.AddUserToRole(userId, roleId)
+			.ConfigureAwait(false);
 
 		return Put(result);
 	}
@@ -66,8 +67,9 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> Create([FromBody] UserCreateRequest createRequest)
 	{
-		ErrorOr<Created> result =
-			await authenticationService.CreateUser(createRequest);
+		ErrorOr<Created> result = await authenticationService
+			.CreateUser(createRequest)
+			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
 	}
@@ -132,8 +134,9 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetCurrent()
 	{
-		ErrorOr<UserResponse> result =
-			await authenticationService.GetUserById(currentUserService.UserId);
+		ErrorOr<UserResponse> result = await authenticationService
+			.GetUserById(userService.UserId)
+			.ConfigureAwait(false);
 
 		return Get(result);
 	}
@@ -158,8 +161,9 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	[HttpDelete(Endpoints.UserManagement.RemoveUserToRole)]
 	public async Task<IActionResult> RemoveUserFromRole(Guid userId, Guid roleId)
 	{
-		ErrorOr<Deleted> result =
-			await authenticationService.RemoveUserFromRole(userId, roleId);
+		ErrorOr<Deleted> result = await authenticationService
+			.RemoveUserFromRole(userId, roleId)
+			.ConfigureAwait(false);
 
 		return Delete(result);
 	}
@@ -182,8 +186,9 @@ public sealed class UserManagementController(IAuthenticationService authenticati
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> UpdateCurrent([FromBody] UserUpdateRequest updateRequest)
 	{
-		ErrorOr<Updated> result =
-			await authenticationService.UpdateUser(currentUserService.UserId, updateRequest);
+		ErrorOr<Updated> result = await authenticationService
+			.UpdateUser(userService.UserId, updateRequest)
+			.ConfigureAwait(false);
 
 		return Put(result);
 	}

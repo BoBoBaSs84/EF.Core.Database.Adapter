@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using BB84.Home.Application.Contracts.Responses.Base;
 using BB84.Home.Application.Converters;
@@ -30,16 +31,19 @@ public sealed class DocumentResponse : IdentityResponse
 	/// <summary>
 	/// The creation date of the document.
 	/// </summary>
+	[DataType(DataType.DateTime)]
 	public required DateTime CreationTime { get; init; }
 
 	/// <summary>
 	/// The last modification date of the document.
 	/// </summary>
+	[DataType(DataType.DateTime)]
 	public DateTime? LastWriteTime { get; init; }
 
 	/// <summary>
 	/// The last acces date of the document.
 	/// </summary>
+	[DataType(DataType.DateTime)]
 	public DateTime? LastAccessTime { get; init; }
 
 	/// <summary>

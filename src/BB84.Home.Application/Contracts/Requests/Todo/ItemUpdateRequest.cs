@@ -1,4 +1,6 @@
-﻿using BB84.Home.Application.Contracts.Requests.Todo.Base;
+﻿using System.ComponentModel.DataAnnotations;
+
+using BB84.Home.Application.Contracts.Requests.Todo.Base;
 
 namespace BB84.Home.Application.Contracts.Requests.Todo;
 
@@ -10,5 +12,6 @@ public sealed class ItemUpdateRequest : ItemBaseRequest
 	/// <summary>
 	/// Indicates if the todo item is done.
 	/// </summary>
+	[Required]
 	public required bool Done { get; init; }
 }

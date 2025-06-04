@@ -14,23 +14,23 @@ public abstract class EnumeratorBaseResponse<T>(T enumValue) where T : struct, I
 	/// <summary>
 	/// The enumerator value.
 	/// </summary>	
-	public T Value { get; } = enumValue;
+	public T Value => enumValue;
 
 	/// <summary>
 	/// The name of the enumerator.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string Name { get; } = enumValue.GetName();
+	public string Name => enumValue.GetName();
 
 	/// <summary>
 	/// The short name of the enumerator.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string ShortName { get; } = enumValue.GetShortName();
+	public string ShortName => enumValue.GetShortName();
 
 	/// <summary>
 	/// The description of the enumerator.
 	/// </summary>
 	[DataType(DataType.Text)]
-	public string Description { get; } = enumValue.GetDescription();
+	public string Description => enumValue.GetDescription();
 }

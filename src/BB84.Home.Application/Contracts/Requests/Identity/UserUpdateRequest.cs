@@ -18,6 +18,7 @@ public sealed class UserUpdateRequest : UserBaseRequest
 	/// <summary>
 	/// The date of birth of the user.
 	/// </summary>	
+	[DataType(DataType.Date)]
 	public DateTime? DateOfBirth { get; set; }
 
 	/// <summary>
@@ -29,6 +30,7 @@ public sealed class UserUpdateRequest : UserBaseRequest
 	/// <summary>
 	/// The picture of the user.
 	/// </summary>
+	[DataType(DataType.Upload)]
 	public byte[]? Picture { get; set; }
 
 	/// <summary>

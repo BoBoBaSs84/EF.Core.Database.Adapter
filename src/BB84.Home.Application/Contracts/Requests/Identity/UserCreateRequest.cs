@@ -12,12 +12,12 @@ public sealed class UserCreateRequest : UserBaseRequest
 	/// <summary>
 	/// The user name of the user.
 	/// </summary>
-	[Required]
+	[Required, DataType(DataType.Text)]
 	public required string UserName { get; init; }
 
 	/// <summary>
 	/// The password of the user.
 	/// </summary>
-	[Required]
+	[Required, DataType(DataType.Text)]
 	public required string Password { get; init; }
 }

@@ -24,15 +24,15 @@ namespace BB84.Home.Presentation.Controllers;
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
 /// <param name="accountService">The bank account service to use.</param>
-/// <param name="currentUserService">The current user service to use.</param>
+/// <param name="userService">The current user service to use.</param>
 /// <param name="transactionService">The transaction service to use.</param>
 [Authorize]
 [Route(Endpoints.Account.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed partial class AccountController(IAccountService accountService, ICurrentUserService currentUserService, ITransactionService transactionService) : ApiControllerBase
+public sealed partial class AccountController(IAccountService accountService, ICurrentUserService userService, ITransactionService transactionService) : ApiControllerBase
 {
 	private readonly IAccountService _accountService = accountService;
-	private readonly ICurrentUserService _currentUserService = currentUserService;
+	private readonly ICurrentUserService _currentUserService = userService;
 	private readonly ITransactionService _transactionService = transactionService;
 
 	/// <summary>
@@ -45,13 +45,13 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpDelete(Endpoints.Account.Delete), AuthorizeRoles(RoleType.Administrator)]
+	[HttpDelete(Endpoints.Account.DeleteById), AuthorizeRoles(RoleType.Administrator)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> Delete(Guid id, CancellationToken token)
+	public async Task<IActionResult> DeleteById(Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> response = await _accountService
 			.Delete(id, token)

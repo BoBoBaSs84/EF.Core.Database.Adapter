@@ -107,10 +107,7 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection RegisterApplicationOptions(this IServiceCollection services)
 	{
-		services.AddOptions<BearerSettings>()
-			.BindConfiguration(nameof(BearerSettings))
-			.ValidateDataAnnotations()
-			.ValidateOnStart();
+		_ = BearerSettingsOption.Bind(services);
 
 		return services;
 	}

@@ -73,10 +73,12 @@ public sealed class AuthenticationController(IAuthenticationService authenticati
 	/// </summary>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>	
 	[Authorize, HttpDelete(Endpoints.Authentication.Token.Revoke)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> RevokeRefreshToken()
 	{

@@ -16,11 +16,11 @@ namespace ApplicationTests.Services.Identity;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class TokenServiceTests : ApplicationTestBase
 {
-	private Mock<IOptions<BearerSettings>> _bearerSettingsMock = default!;
+	private Mock<IOptions<BearerSettingsOption>> _bearerSettingsMock = default!;
 	private Mock<IDateTimeProvider> _dateTimeServiceMock = default!;
 	private Mock<IUserService> _userServiceMock = default!;
 
-	private TokenService CreateMockedInstance(BearerSettings? settings = null)
+	private TokenService CreateMockedInstance(BearerSettingsOption? settings = null)
 	{
 		_bearerSettingsMock = new();
 

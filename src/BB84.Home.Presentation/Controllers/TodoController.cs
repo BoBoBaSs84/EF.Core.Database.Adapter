@@ -32,14 +32,16 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpDelete(Endpoints.Todo.DeleteItem)]
+	[HttpDelete(Endpoints.Todo.DeleteItemById)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> DeleteItem(Guid itemId, CancellationToken token = default)
+	public async Task<IActionResult> DeleteItemById(Guid itemId, CancellationToken token = default)
 	{
 		ErrorOr<Deleted> response = await todoService
 			.DeleteItemById(itemId, token)
@@ -55,14 +57,16 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
-	[HttpDelete(Endpoints.Todo.DeleteList)]
+	[HttpDelete(Endpoints.Todo.DeleteListById)]
 	[ProducesResponseType(typeof(Deleted), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-	public async Task<IActionResult> DeleteList(Guid listId, CancellationToken token = default)
+	public async Task<IActionResult> DeleteListById(Guid listId, CancellationToken token = default)
 	{
 		ErrorOr<Deleted> response = await todoService
 			.DeleteListById(listId, token)
@@ -77,10 +81,12 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Todo.GetAllLists)]
 	[ProducesResponseType(typeof(IEnumerable<ListResponse>), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetAllLists(CancellationToken token = default)
 	{
@@ -98,11 +104,13 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <param name="token">The cancellation token to cancel the request.</param>
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpGet(Endpoints.Todo.GetListById)]
 	[ProducesResponseType(typeof(ListResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetListById(Guid listId, CancellationToken token = default)
@@ -122,11 +130,13 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <response code="201">The resource was successfully created.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPost(Endpoints.Todo.PostList)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PostList([FromBody] ListCreateRequest request, CancellationToken token = default)
 	{
@@ -146,12 +156,14 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <response code="201">The resource was successfully created.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPost(Endpoints.Todo.PostItem)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PostItem(Guid listId, [FromBody] ItemCreateRequest request, CancellationToken token = default)
@@ -172,12 +184,14 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <response code="200">The resource was successfully updated.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPut(Endpoints.Todo.PutItem)]
 	[ProducesResponseType(typeof(Created), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PutItem(Guid itemId, [FromBody] ItemUpdateRequest request, CancellationToken token = default)
@@ -198,12 +212,14 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	/// <response code="200">The resource was successfully updated.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
+	/// <response code="403">Insufficient permissions to access the resource or action.</response>
 	/// <response code="404">The requested resource could not be found.</response>
 	/// <response code="500">Something internal went terribly wrong.</response>
 	[HttpPut(Endpoints.Todo.PutList)]
 	[ProducesResponseType(typeof(Updated), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> PutList(Guid listId, [FromBody] ListUpdateRequest request, CancellationToken token = default)

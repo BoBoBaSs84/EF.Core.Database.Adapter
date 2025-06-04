@@ -14,9 +14,18 @@ using HttpHeaders = BB84.Home.Presentation.Common.PresentationConstants.HttpHead
 
 namespace BB84.Home.Presentation.Controllers.Base;
 
+
 /// <summary>
-/// Base api controller
+/// Provides a base class for API controllers, offering common functionality for handling API responses, including
+/// standardized methods for returning results for various HTTP actions (GET, POST, PUT, DELETE), handling errors, and
+/// generating problem details.
 /// </summary>
+/// <remarks>
+/// This class is designed to simplify the implementation of API controllers by providing reusable methods for
+/// common response patterns. It includes methods for handling success and error cases, generating appropriate
+/// HTTP responses, and managing metadata for paginated results.  Derived controllers can use these methods
+/// to ensure consistent behavior and response formatting across the API.
+/// </remarks>
 [ApiController]
 public abstract class ApiControllerBase : ControllerBase
 {
@@ -33,8 +42,6 @@ public abstract class ApiControllerBase : ControllerBase
 			? ValidationProblem(errors)
 			: errors.Count > 1 ? MultiProblem(errors) : SingleProblem(errors[0]);
 	}
-
-	#region HttpMethods
 
 	/// <summary>
 	/// Returns a <see cref="FileContentResult"/> response
@@ -116,8 +123,23 @@ public abstract class ApiControllerBase : ControllerBase
 	protected IActionResult Delete<T>(ErrorOr<T> result) =>
 		result.Match(success => Ok(result.Value), Problem);
 
-	private CreatedAtActionResult CreatePostResult(string actionName, string controllerName,
-		object? routeValues, object? createdObject)
+	/// <summary>
+	/// Creates a <see cref="CreatedAtActionResult"/> that specifies the location of a newly created resource.
+	/// </summary>
+	/// <param name="actionName">The name of the action to use in the generated URL.</param>
+	/// <param name="controllerName">
+	/// The name of the controller to use in the generated URL. The "Controller" suffix is automatically removed if present.
+	/// </param>
+	/// <param name="routeValues">
+	/// An object containing the route values to include in the generated URL. Can be <see langword="null"/>.
+	/// </param>
+	/// <param name="createdObject">
+	/// The object representing the newly created resource. Can be <see langword="null"/>.
+	/// </param>
+	/// <returns>
+	/// A <see cref="CreatedAtActionResult"/> that specifies the action, controller, route values, and the created resource.
+	/// </returns>
+	private CreatedAtActionResult CreatePostResult(string actionName, string controllerName, object? routeValues, object? createdObject)
 	{
 		int controllerIndex = controllerName.LastIndexOf("Controller", StringComparison.Ordinal);
 
@@ -127,9 +149,22 @@ public abstract class ApiControllerBase : ControllerBase
 		return CreatedAtAction(actionName, controllerName, routeValues, createdObject);
 	}
 
-	#endregion HttpMethods
-
-	private IActionResult ValidationProblem(IList<Error> errors)
+	/// <summary>
+	/// Creates a <see cref="ActionResult"/> based on the provided list of validation errors.
+	/// </summary>
+	/// <remarks>
+	/// This method populates a <see cref="ModelStateDictionary"/> with the provided errors and generates
+	/// a validation problem response. The response conforms to the standard problem details format for HTTP
+	/// validation errors.
+	/// </remarks>
+	/// <param name="errors">A collection of <see cref="Error"/> objects representing validation errors.
+	/// Each error must have a non-null <see cref="Error.Code"/> and <see cref="Error.Description"/>.
+	/// </param>
+	/// <returns>
+	/// An <see cref="ActionResult"/> representing a validation problem response, including the error
+	/// details in the response body.
+	/// </returns>
+	private ActionResult ValidationProblem(IList<Error> errors)
 	{
 		ModelStateDictionary modelStateDictionary = new();
 
@@ -139,7 +174,17 @@ public abstract class ApiControllerBase : ControllerBase
 		return ValidationProblem(modelStateDictionary.GetErrors(), modelStateDictionary: modelStateDictionary);
 	}
 
-	private static IActionResult MultiProblem(IList<Error> errors)
+	/// <summary>
+	/// Creates an <see cref="ObjectResult"/> representing a composite error response with detailed problem information.
+	/// </summary>
+	/// <param name="errors">
+	/// A collection of <see cref="Error"/> objects that provide additional details about the errors encountered.
+	/// </param>
+	/// <returns>
+	/// An <see cref="ObjectResult"/> containing a <see cref="ProblemDetails"/> object with information
+	/// about the composite error, including its type, status, title, and description.
+	/// </returns>
+	private static ObjectResult MultiProblem(IList<Error> errors)
 	{
 		ApiError error = ApiErrors.CompositeError;
 
@@ -155,7 +200,22 @@ public abstract class ApiControllerBase : ControllerBase
 		return new ObjectResult(problemDetails);
 	}
 
-	private IActionResult SingleProblem(Error error)
+	/// <summary>
+	/// Creates an <see cref="ObjectResult"/> representing a standardized HTTP response for the specified error.
+	/// </summary>
+	/// <remarks>
+	/// If the <paramref name="error"/> is of type <see cref="ApiError"/>, the response will include additional
+	/// details such as the error title and description. For other error types, the status code is determined 
+	/// based on the <see cref="ErrorType"/>.
+	/// </remarks>
+	/// <param name="error">
+	/// The <see cref="Error"/> object containing details about the error to be represented in the response.
+	/// </param>
+	/// <returns>
+	/// An <see cref="ObjectResult"/> that represents the HTTP response for the given error.
+	/// The response includes an appropriate HTTP status code and optional error details.
+	/// </returns>
+	private ObjectResult SingleProblem(Error error)
 	{
 		if (error is ApiError apiError)
 			return Problem(

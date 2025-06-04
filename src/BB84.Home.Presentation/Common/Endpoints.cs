@@ -18,7 +18,7 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Account);
 
-		internal const string Delete = "{id:guid}";
+		internal const string DeleteById = "{id:guid}";
 		internal const string GetByUserId = EmptySuffix;
 		internal const string GetById = "{id:guid}";
 		internal const string Post = EmptySuffix;
@@ -29,7 +29,7 @@ internal static class Endpoints
 		/// </summary>
 		internal static class Transaction
 		{
-			internal const string Delete = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string DeleteByAccountId = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
 			internal const string GetPagedByAccountId = "{accountId:guid}" + "/" + nameof(Transaction);
 			internal const string GetByAccountId = "{accountId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
 			internal const string Post = "{accountId:guid}" + "/" + nameof(Transaction);
@@ -63,7 +63,7 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Card);
 
-		internal const string Delete = "{id:guid}";
+		internal const string DeleteById = "{id:guid}";
 		internal const string GetByUserId = EmptySuffix;
 		internal const string GetByCardId = "{id:guid}";
 		internal const string Post = "{id:guid}";
@@ -74,7 +74,7 @@ internal static class Endpoints
 		/// </summary>
 		internal static class Transaction
 		{
-			internal const string Delete = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
+			internal const string DeleteByCardId = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
 			internal const string GetPagedByCardId = "{cardId:guid}" + "/" + nameof(Transaction);
 			internal const string GetByCardId = "{cardId:guid}" + "/" + nameof(Transaction) + "/" + "{id:guid}";
 			internal const string Post = "{cardId:guid}" + "/" + nameof(Transaction);
@@ -182,8 +182,8 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Todo);
 
-		internal const string DeleteList = "{listId:guid}";
-		internal const string DeleteItem = "Items/{itemId:Guid}";
+		internal const string DeleteListById = "{listId:guid}";
+		internal const string DeleteItemById = "Items/{itemId:Guid}";
 		internal const string GetAllLists = EmptySuffix;
 		internal const string GetListById = "{listId:guid}";
 		internal const string PostList = EmptySuffix;

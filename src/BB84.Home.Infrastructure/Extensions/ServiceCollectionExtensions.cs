@@ -99,8 +99,8 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection RegisterIdentityService(this IServiceCollection services)
 	{
-		BearerSettings settings = services.BuildServiceProvider()
-			.GetRequiredService<IOptions<BearerSettings>>().Value;
+		BearerSettingsOption settings = services.BuildServiceProvider()
+			.GetRequiredService<IOptions<BearerSettingsOption>>().Value;
 
 		services.AddIdentity<UserEntity, RoleEntity>(options =>
 		{
@@ -129,8 +129,8 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The enriched service collection.</returns>
 	internal static IServiceCollection RegisterJwtBearerConfiguration(this IServiceCollection services)
 	{
-		BearerSettings settings = services.BuildServiceProvider()
-			.GetRequiredService<IOptions<BearerSettings>>().Value;
+		BearerSettingsOption settings = services.BuildServiceProvider()
+			.GetRequiredService<IOptions<BearerSettingsOption>>().Value;
 
 		services.AddAuthentication(options =>
 		{

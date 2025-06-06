@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 using BB84.Home.Application.Contracts.Responses.Base;
-using BB84.Home.Application.Converters;
 using BB84.Home.Domain.Enumerators.Documents;
 
 namespace BB84.Home.Application.Contracts.Responses.Documents;
@@ -15,23 +13,25 @@ public sealed class DocumentResponse : IdentityResponse
 	/// <summary>
 	/// The name of the document.
 	/// </summary>
+	[Required, DataType(DataType.Text)]
 	public required string Name { get; init; }
 
 	/// <summary>
 	/// The directory of the document.
 	/// </summary>
+	[Required, DataType(DataType.Text)]
 	public required string Directory { get; init; }
 
 	/// <summary>
 	/// The flags the of the document.
 	/// </summary>
-	[JsonConverter(typeof(FlagsJsonConverterFactory))]
+	[Required]
 	public required DocumentTypes Flags { get; init; }
 
 	/// <summary>
 	/// The creation date of the document.
 	/// </summary>
-	[DataType(DataType.DateTime)]
+	[Required, DataType(DataType.DateTime)]
 	public required DateTime CreationTime { get; init; }
 
 	/// <summary>
@@ -48,7 +48,7 @@ public sealed class DocumentResponse : IdentityResponse
 
 	/// <summary>
 	/// The <b>Message-Digest Algorithm 5</b> of the data.
-	/// </summary>
+	/// </summary>	
 	public byte[]? MD5Hash { get; init; }
 
 	/// <summary>
@@ -64,10 +64,12 @@ public sealed class DocumentResponse : IdentityResponse
 	/// <summary>
 	/// The name of the document extension.
 	/// </summary>
+	[DataType(DataType.Text)]
 	public string? ExtensionName { get; init; }
 
 	/// <summary>
 	/// The mime type of the document extenion.
 	/// </summary>
+	[DataType(DataType.Text)]
 	public string? MimeType { get; init; }
 }

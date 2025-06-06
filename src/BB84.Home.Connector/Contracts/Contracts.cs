@@ -34,7 +34,7 @@ namespace BB84.Home.Connector.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public AttendanceCreateRequest(string @breakTime, System.DateTimeOffset @date, string @endTime, string @startTime, AttendanceType @type)
+        public AttendanceCreateRequest(System.TimeSpan? @breakTime, System.DateTimeOffset @date, System.TimeSpan? @endTime, System.TimeSpan? @startTime, AttendanceType @type)
 
         {
 
@@ -59,21 +59,21 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("startTime")]
-        public string StartTime { get; init; }
+        public System.TimeSpan? StartTime { get; init; }
 
         /// <summary>
         /// The end time of the attendance.
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("endTime")]
-        public string EndTime { get; init; }
+        public System.TimeSpan? EndTime { get; init; }
 
         /// <summary>
         /// The break time of the attendance.
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("breakTime")]
-        public string BreakTime { get; init; }
+        public System.TimeSpan? BreakTime { get; init; }
 
         /// <summary>
         /// The date of the attendance.
@@ -81,6 +81,7 @@ namespace BB84.Home.Connector.Contracts
 
         [System.Text.Json.Serialization.JsonPropertyName("date")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset Date { get; init; }
 
     }
@@ -93,7 +94,7 @@ namespace BB84.Home.Connector.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public AttendanceUpdateRequest(string @breakTime, string @endTime, System.Guid @id, string @startTime, AttendanceType @type)
+        public AttendanceUpdateRequest(System.TimeSpan? @breakTime, System.TimeSpan? @endTime, System.Guid @id, System.TimeSpan? @startTime, AttendanceType @type)
 
         {
 
@@ -118,21 +119,21 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("startTime")]
-        public string StartTime { get; init; }
+        public System.TimeSpan? StartTime { get; init; }
 
         /// <summary>
         /// The end time of the attendance.
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("endTime")]
-        public string EndTime { get; init; }
+        public System.TimeSpan? EndTime { get; init; }
 
         /// <summary>
         /// The break time of the attendance.
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("breakTime")]
-        public string BreakTime { get; init; }
+        public System.TimeSpan? BreakTime { get; init; }
 
         /// <summary>
         /// The unique identifier of the attendance.
@@ -447,6 +448,7 @@ namespace BB84.Home.Connector.Contracts
 
         [System.Text.Json.Serialization.JsonPropertyName("validUntil")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset ValidUntil { get; init; }
 
         /// <summary>
@@ -487,6 +489,7 @@ namespace BB84.Home.Connector.Contracts
 
         [System.Text.Json.Serialization.JsonPropertyName("validUntil")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset ValidUntil { get; init; }
 
     }
@@ -531,6 +534,7 @@ namespace BB84.Home.Connector.Contracts
 
         [System.Text.Json.Serialization.JsonPropertyName("bookingDate")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset BookingDate { get; init; }
 
         /// <summary>
@@ -538,6 +542,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("valueDate")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset? ValueDate { get; init; }
 
         /// <summary>
@@ -657,6 +662,7 @@ namespace BB84.Home.Connector.Contracts
 
         [System.Text.Json.Serialization.JsonPropertyName("bookingDate")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset BookingDate { get; init; }
 
         /// <summary>
@@ -664,6 +670,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("valueDate")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset? ValueDate { get; init; }
 
         /// <summary>
@@ -772,6 +779,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("workHours")]
+        [System.ComponentModel.DataAnnotations.Range(0F, 168F)]
         public float WorkHours { get; init; }
 
         /// <summary>
@@ -779,6 +787,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("vacationDays")]
+        [System.ComponentModel.DataAnnotations.Range(0, 365)]
         public int VacationDays { get; init; }
 
     }
@@ -1004,6 +1013,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("dateOfBirth")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset? DateOfBirth { get; init; }
 
         /// <summary>
@@ -1689,6 +1699,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; init; }
 
         /// <summary>
@@ -1696,6 +1707,7 @@ namespace BB84.Home.Connector.Contracts
         /// </summary>
 
         [System.Text.Json.Serialization.JsonPropertyName("directory")]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Directory { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("flags")]
@@ -2024,6 +2036,7 @@ namespace BB84.Home.Connector.Contracts
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("workDays")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public WorkDayTypes WorkDays { get; init; }
 
@@ -2586,6 +2599,33 @@ namespace BB84.Home.Connector.Contracts
         {
             writer.WriteStringValue(value.ToString("yyyy-MM-dd"));
         }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FileParameter
+    {
+        public FileParameter(System.IO.Stream data)
+            : this (data, null, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName)
+            : this (data, fileName, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName, string contentType)
+        {
+            Data = data;
+            FileName = fileName;
+            ContentType = contentType;
+        }
+
+        public System.IO.Stream Data { get; private set; }
+
+        public string FileName { get; private set; }
+
+        public string ContentType { get; private set; }
     }
 
 

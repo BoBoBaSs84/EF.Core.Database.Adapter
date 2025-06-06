@@ -181,6 +181,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>If the bank account to delete was not found.</description>
         /// </item>
@@ -208,6 +212,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -245,6 +253,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>If no record was found.</description>
         /// </item>
@@ -272,6 +284,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -304,6 +320,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>If no transaction record to update were found.</description>
         /// </item>
@@ -332,6 +352,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -358,6 +382,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -390,6 +418,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -428,6 +460,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -462,6 +498,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
@@ -488,6 +528,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -526,6 +570,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -552,6 +600,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>The user is not allowed to access the resource.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -635,6 +687,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>500</term>
@@ -879,6 +935,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -906,6 +966,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -943,6 +1007,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>If no record was found.</description>
         /// </item>
@@ -970,6 +1038,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -1002,6 +1074,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>If no transaction record to update were found.</description>
         /// </item>
@@ -1028,6 +1104,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -1058,6 +1138,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -1084,6 +1168,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -1118,6 +1206,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
@@ -1144,6 +1236,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -1178,6 +1274,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
@@ -1206,6 +1306,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
@@ -1232,6 +1336,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -1403,6 +1511,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -1436,6 +1548,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -1464,6 +1580,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -1490,6 +1610,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>404</term>
@@ -1525,6 +1649,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -1558,6 +1686,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>No credentials or invalid credentials were supplied.</description>
         /// </item>
         /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
+        /// </item>
+        /// <item>
         /// <term>404</term>
         /// <description>The requested resource could not be found.</description>
         /// </item>
@@ -1583,6 +1715,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>500</term>
@@ -1611,6 +1747,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
+        /// </item>
+        /// <item>
+        /// <term>403</term>
+        /// <description>Insufficient permissions to access the resource or action.</description>
         /// </item>
         /// <item>
         /// <term>500</term>

@@ -26,7 +26,6 @@ public sealed class AttendancePreferencesResponse
 	/// The work days per week property.
 	/// </summary>
 	[Required]
-	[JsonConverter(typeof(FlagsJsonConverterFactory))]
 	public required WorkDayTypes WorkDays { get; init; }
 
 	/// <summary>

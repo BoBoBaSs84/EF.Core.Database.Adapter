@@ -14,12 +14,5 @@ public sealed partial class RepositoryContextTests
 		context = GetService<IRepositoryContext>();
 
 		context.Should().NotBeNull();
-		context.Accounts.Should().NotBeNull();
-		context.Attendances.Should().NotBeNull();
-		context.Cards.Should().NotBeNull();
-		context.Documents.Should().NotBeNull();
-		context.Transactions.Should().NotBeNull();
-		context.TodoLists.Should().NotBeNull();
-		context.TodoItems.Should().NotBeNull();
 	}
 }

@@ -1,10 +1,4 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
-using BB84.Home.Domain.Entities.Attendance;
-using BB84.Home.Domain.Entities.Documents;
-using BB84.Home.Domain.Entities.Finance;
-using BB84.Home.Domain.Entities.Todo;
-
-using Microsoft.EntityFrameworkCore;
 
 namespace BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 
@@ -13,65 +7,101 @@ namespace BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 /// </summary>
 public interface IRepositoryContext : IDbContext
 {
-	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<AccountEntity> Accounts { get; }
-
-	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<AttendanceEntity> Attendances { get; }
-
-	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<CardEntity> Cards { get; }
-
-	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<DocumentEntity> Documents { get; }
-
-	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<TransactionEntity> Transactions { get; }
-
-	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<ListEntity> TodoLists { get; }
-
-	/// <inheritdoc cref="DbSet{TEntity}"/>
-	DbSet<ItemEntity> TodoItems { get; }
-
 	/// <summary>
-	/// This function returns the last day of the month containing a specified date.
-	/// </summary>
-	/// <param name="inputValue">A date expression that specifies the date for which to return the last day of the month.</param>
-	DateTime EndOfMonth(DateTime inputValue);
-
-	/// <summary>
-	/// This function returns a Unicode string with the delimiters added to make the
-	/// input string a valid SQL Server delimited identifier.
+	/// Returns the last day of the month for the specified date.
 	/// </summary>
 	/// <remarks>
-	/// Returns <see langword="null"/> if <paramref name="inputValue"/> is greater than 128 characters.
+	/// This method is intended for use in database queries and is mapped to the SQL function <c>EOMONTH</c>.
+	/// It cannot be invoked directly in application code.
 	/// </remarks>
-	/// <param name="inputValue">Is a string of Unicode character data.</param>
+	/// <param name="inputDate">The date for which the last day of the month is calculated.</param>
+	/// <returns>
+	/// A <see cref="DateTime"/> representing the last day of the month for the given <paramref name="inputDate"/>.
+	/// </returns>
+	/// <exception cref="InvalidOperationException">
+	/// Thrown if the method is invoked directly in application code.
+	/// This method is intended for use in LINQ queries with Entity Framework.
+	/// </exception>
+	DateTime EndOfMonth(DateTime inputDate);
+
+	/// <summary>
+	/// Returns a string with the specified input value enclosed in delimiters,
+	/// making it suitable for use as a SQL identifier.
+	/// </summary>
+	/// <remarks>
+	/// This method corresponds to the SQL <c>QUOTENAME</c> function, which adds delimiters
+	/// to a string to ensure it is treated as a valid SQL identifier.
+	/// </remarks>
+	/// <param name="inputValue">
+	/// The input string to be quoted. Typically, this represents a SQL identifier such as a table or column name.
+	/// </param>
+	/// <returns>
+	/// A string containing the input value enclosed in delimiters, or <see langword="null"/>
+	/// if the input value is <see langword="null"/>.
+	/// </returns>
+	/// <exception cref="InvalidOperationException">
+	/// Thrown if the method is invoked directly in application code.
+	/// This method is intended for use in LINQ queries with Entity Framework.
+	/// </exception>
 	string? QuoteName(string inputValue);
 
 	/// <summary>
-	/// Converts an alphanumeric string to a four-character code that is based on how the string
-	/// sounds when spoken in English.
+	/// Returns the Soundex code for the specified string.
 	/// </summary>
-	/// <param name="inputValue">Is an alphanumeric expression of character data.</param>
+	/// <remarks>
+	/// The Soundex algorithm is used to encode words based on their phonetic similarity.
+	/// This method is mapped to the SQL Server SOUNDEX function and should be used in LINQ-to-Entities queries.
+	/// </remarks>
+	/// <param name="inputValue">The input string for which the Soundex code is calculated. Must not be null.</param>
+	/// <returns>A string representing the Soundex code of the input value.</returns>
+	/// <exception cref="InvalidOperationException">
+	/// Thrown if the method is invoked directly in application code.
+	/// This method is intended for use in LINQ queries with Entity Framework.
+	/// </exception>
 	string Soundex(string inputValue);
 
 	/// <summary>
-	/// Returns an integer value measuring the difference between the <see cref="Soundex(string)"/> values
-	/// of two different character expressions.
+	/// Calculates the difference between the phonetic representations of two strings using the
+	/// SQL Server <c>DIFFERENCE</c> function.
 	/// </summary>
-	/// <param name="inputValue">An alphanumeric expression of character data.</param>
-	/// <param name="valueToCompare">An alphanumeric expression of character data.</param>
-	/// <returns></returns>
+	/// <remarks>
+	/// This method maps to the SQL Server <c>DIFFERENCE</c> function, which compares the
+	/// <c>SOUNDEX</c> values of two strings. It is intended for use in LINQ queries to execute
+	/// database-side logic.
+	/// </remarks>
+	/// <param name="inputValue">The first string to compare. Cannot be null.</param>
+	/// <param name="valueToCompare">The second string to compare. Cannot be null.</param>
+	/// <returns>
+	/// An integer value representing the similarity between the phonetic representations of the two strings.
+	/// Higher values indicate greater similarity, with a maximum value of 4.
+	/// </returns>
+	/// <exception cref="InvalidOperationException">
+	/// Thrown if the method is invoked directly in application code.
+	/// This method is intended for use in LINQ queries with Entity Framework.
+	/// </exception>
 	int Difference(string inputValue, string valueToCompare);
 
 	/// <summary>
-	/// Returns the string provided as a first argument, after some characters specified in the second argument
-	/// are translated guido a destination set of characters, specified in the third argument.
+	/// Replaces characters in the specified input string with corresponding characters from a translation string.
 	/// </summary>
-	/// <param name="inputValue">The string expression to be searched.</param>
-	/// <param name="characters">A string expression containing characters that should be replaced.</param>
-	/// <param name="translations">A string expression containing the replacement characters.</param>
+	/// <remarks>
+	/// The <c>Translate</c> function is typically used to perform character-by-character substitutions in a string.
+	/// The lengths of <paramref name="characters"/> and <paramref name="translations"/> must match; otherwise, the
+	/// behavior is undefined.
+	/// </remarks>
+	/// <param name="inputValue">The input string to be processed. Cannot be null.</param>
+	/// <param name="characters">A string containing the characters to be replaced. Each character in this string
+	/// is mapped to the corresponding character in <paramref name="translations"/>. Cannot be null.</param>
+	/// <param name="translations">A string containing the replacement characters. Each character in this string
+	/// corresponds to the character at the same position in <paramref name="characters"/>. Cannot be null.</param>
+	/// <returns>
+	/// A new string where each character in <paramref name="inputValue"/> that matches a character in
+	/// <paramref name="characters"/> is replaced by the corresponding character in <paramref name="translations"/>.
+	/// If no matches are found, the original string is returned unchanged.
+	/// </returns>
+	/// <exception cref="InvalidOperationException">
+	/// Thrown if the method is invoked directly in application code.
+	/// This method is intended for use in LINQ queries with Entity Framework.
+	/// </exception>
 	string Translate(string inputValue, string characters, string translations);
 }

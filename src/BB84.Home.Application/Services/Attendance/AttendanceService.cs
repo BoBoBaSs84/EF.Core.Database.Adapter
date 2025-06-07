@@ -18,29 +18,29 @@ using Microsoft.Extensions.Logging;
 namespace BB84.Home.Application.Services.Attendance;
 
 /// <summary>
-/// The attendance service class.
+/// Provides functionality for managing attendance records, including creation, retrieval, updating, and deletion.
 /// </summary>
-/// <param name="loggerService">The logger service to use.</param>
-/// <param name="repositoryService">The repository service to use.</param>
-/// <param name="mapper">The auto mapper to use.</param>
+/// <param name="loggerService">The logger service for logging errors and information.</param>
+/// <param name="repositoryService">The repository service for accessing data repositories.</param>
+/// <param name="mapper">The mapper for converting between domain entities and data transfer objects.</param>
 internal sealed class AttendanceService(ILoggerService<AttendanceService> loggerService, IRepositoryService repositoryService, IMapper mapper) : IAttendanceService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid id, AttendanceCreateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateByUserId(Guid userId, AttendanceCreateRequest request, CancellationToken token = default)
 	{
 		try
 		{
 			AttendanceEntity? entity = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.UserId.Equals(id) && x.Date.Equals(request.Date), token: token)
+				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(request.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entity is not null)
 				return AttendanceServiceErrors.CreateConflict(request.Date);
 
 			AttendanceEntity newEntity = mapper.Map<AttendanceEntity>(request);
-			newEntity.UserId = id;
+			newEntity.UserId = userId;
 
 			await repositoryService.AttendanceRepository.CreateAsync(newEntity, token)
 				.ConfigureAwait(false);
@@ -52,18 +52,18 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{id}", $"{request.Date}"];
+			string[] parameters = [$"{userId}", $"{request.Date}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.CreateFailed(request.Date);
 		}
 	}
 
-	public async Task<ErrorOr<Created>> CreateMultiple(Guid id, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateMultipleByUserId(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
-				.GetManyByConditionAsync(expression: x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), token: token)
+				.GetManyByConditionAsync(expression: x => x.UserId.Equals(userId) && requests.Select(x => x.Date).Contains(x.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entities.Any())
@@ -74,7 +74,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			foreach (AttendanceCreateRequest request in requests)
 			{
 				AttendanceEntity newAttendance = mapper.Map<AttendanceEntity>(request);
-				newAttendance.UserId = id;
+				newAttendance.UserId = userId;
 				newEntities.Add(newAttendance);
 			}
 
@@ -88,7 +88,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{id}", string.Join(',', requests.Select(x => x.Date))];
+			string[] parameters = [$"{userId}", string.Join(',', requests.Select(x => x.Date))];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.CreateMultipleFailed(requests.Select(x => x.Date));
 		}
@@ -181,7 +181,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<AttendanceResponse>> GetByDate(Guid userId, DateTime date, CancellationToken token = default)
+	public async Task<ErrorOr<AttendanceResponse>> GetByUserIdAndDate(Guid userId, DateTime date, CancellationToken token = default)
 	{
 		try
 		{

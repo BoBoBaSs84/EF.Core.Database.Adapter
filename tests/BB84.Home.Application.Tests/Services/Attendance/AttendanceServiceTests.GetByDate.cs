@@ -27,7 +27,7 @@ public sealed partial class AttendanceServiceTests
 		string[] parameters = [$"{userId}", $"{date}"];
 		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<AttendanceResponse> result = await sut.GetByDate(userId, date)
+		ErrorOr<AttendanceResponse> result = await sut.GetByUserIdAndDate(userId, date)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -50,7 +50,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<AttendanceResponse> result = await sut.GetByDate(userId, date)
+		ErrorOr<AttendanceResponse> result = await sut.GetByUserIdAndDate(userId, date)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -74,7 +74,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<AttendanceResponse> result = await sut.GetByDate(userId, date)
+		ErrorOr<AttendanceResponse> result = await sut.GetByUserIdAndDate(userId, date)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

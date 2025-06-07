@@ -18,20 +18,29 @@ using Microsoft.AspNetCore.Mvc;
 namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
-/// The attendance controller class.
+/// Provides endpoints for managing attendance records, including creation, retrieval, updating, and deletion.
 /// </summary>
-/// <param name="attendanceService">The attendance service to use.</param>
-/// <param name="userService">The current user service to use.</param>
+/// <remarks>
+/// This controller is responsible for handling attendance-related operations for the application user.
+/// It includes methods for managing individual and multiple attendance entries, as well as retrieving
+/// attendance data based on specific criteria such as date or query parameters.
+/// </remarks>
+/// <param name="attendanceService">The service for managing attendance records.</param>
+/// <param name="userService">The service for accessing the current user's information.</param>
 [Authorize]
 [Route(Endpoints.Attendance.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
 public sealed class AttendanceController(IAttendanceService attendanceService, ICurrentUserService userService) : ApiControllerBase
 {
 	/// <summary>
-	/// Deletes an attendance entry by the provided <paramref name="id"/>.
+	/// Deletes an attendance record by its unique identifier.
 	/// </summary>
-	/// <param name="id">The attendance entry identifier to use.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// If the specified attendance record does not exist, an error is returned.
+	/// In the event of an exception during the operation, an error is logged and returned.
+	/// </remarks>
+	/// <param name="id">The unique identifier of the attendance record to delete.</param>
+	/// <param name="token">An optional <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="403">The user is not allowed to access the resource.</response>
@@ -53,10 +62,15 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	}
 
 	/// <summary>
-	/// Deletes multiple attendance entries by the provided <paramref name="ids"/>.
+	/// Deletes attendance records corresponding to the specified IDs.
 	/// </summary>
-	/// <param name="ids">The attendance entry identifiers to use.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// This method retrieves the attendance records associated with the provided IDs and deletes them.
+	/// If no records are found for the given IDs, an error is returned.
+	/// The operation is transactional,  ensuring that changes are committed only if the deletion succeeds.
+	/// </remarks>
+	/// <param name="ids">A collection of unique identifiers representing the attendance records to delete.</param>
+	/// <param name="token">An optional <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
 	/// <response code="200">The resource was successfully deleted.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="403">The user is not allowed to access the resource.</response>
@@ -78,10 +92,18 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	}
 
 	/// <summary>
-	/// Returns multiple attendances as a paged list for the application user filtered by the <paramref name="parameters"/>.
+	/// Retrieves a paginated list of attendance records for a specified user based on the provided filtering parameters.
 	/// </summary>
-	/// <param name="parameters">The attendance query parameters.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// This method retrieves attendance records for the specified user, applying the provided filters and pagination
+	/// settings. The results are ordered by the attendance date in ascending order. If the operation fails, an error
+	/// is returned instead of the paginated list.
+	/// </remarks>
+	/// <param name="parameters">
+	/// The filtering and pagination parameters used to refine the attendance records.
+	/// This includes page number, page size, and any additional filters.
+	/// </param>
+	/// <param name="token">A cancellation token that can be used to cancel the operation.</param>
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="403">The user is not allowed to access the resource.</response>
@@ -101,10 +123,15 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	}
 
 	/// <summary>
-	/// Returns the attendance entry by the calendar entry date.
+	/// Retrieves the attendance record for a specific user on a given date.
 	/// </summary>
-	/// <param name="date">The attendance date to use.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// This method queries the attendance repository for a record matching the specified user ID and date.
+	/// If the record is found, it is mapped to an <see cref="AttendanceResponse"/> and returned.
+	/// If no record is found, an error is returned.
+	/// </remarks>
+	/// <param name="date">The date for which the attendance record is requested. Only the date component is considered.</param>
+	/// <param name="token">An optional <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
 	/// <response code="200">If the response was successfully returned.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
 	/// <response code="403">The user is not allowed to access the resource.</response>
@@ -119,17 +146,20 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> GetByDate(DateTime date, CancellationToken token)
 	{
 		ErrorOr<AttendanceResponse> result = await attendanceService
-			.GetByDate(userService.UserId, date, token)
+			.GetByUserIdAndDate(userService.UserId, date, token)
 			.ConfigureAwait(false);
 
 		return Get(result);
 	}
 
 	/// <summary>
-	/// Creates a new attendance entry
+	/// Creates a new attendance record for the specified user.
 	/// </summary>
-	/// <param name="request">The attendance create request.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// If an attendance record already exists for the specified user and date, the operation will fail with a conflict error.
+	/// </remarks>
+	/// <param name="request">The details of the attendance record to be created, including the date and other relevant information.</param>
+	/// <param name="token">A cancellation token that can be used to cancel the operation.</param>
 	/// <response code="201">The resource was successfully created.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
@@ -148,17 +178,21 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> Post([FromBody] AttendanceCreateRequest request, CancellationToken token)
 	{
 		ErrorOr<Created> result = await attendanceService
-			.Create(userService.UserId, request, token)
+			.CreateByUserId(userService.UserId, request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
 	}
 
 	/// <summary>
-	/// Creates multiple new attendance entries.
+	/// Creates multiple attendance records for a specified user.
 	/// </summary>
-	/// <param name="requests">The attendances create request.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// This method ensures that no duplicate attendance records are created for the specified user and dates.
+	/// If any attendance records already exist for the given dates, the operation will fail with a conflict error.
+	/// </remarks>
+	/// <param name="requests">A collection of <see cref="AttendanceCreateRequest"/> objects representing the attendance records to be created.</param>
+	/// <param name="token">An optional <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
 	/// <response code="201">The resource was successfully created.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
@@ -177,17 +211,21 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Created> result = await attendanceService
-			.CreateMultiple(userService.UserId, requests, token)
+			.CreateMultipleByUserId(userService.UserId, requests, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
 	}
 
 	/// <summary>
-	/// Updates a existing attendance entry.
+	/// Updates an existing attendance record with the provided data.
 	/// </summary>
-	/// <param name="request">The attendance update request to use.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// This method performs the update operation by mapping the provided request data to the existing attendance record.
+	/// Changes are committed to the repository, and any errors during the process are logged.
+	/// </remarks>
+	/// <param name="request">The request containing the updated attendance data.</param>
+	/// <param name="token">A cancellation token that can be used to cancel the operation.</param>
 	/// <response code="200">The resource was successfully updated.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>
@@ -211,10 +249,18 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	}
 
 	/// <summary>
-	/// Updates multiple existing attendance entries.
+	/// Updates multiple attendance records based on the provided update requests.
 	/// </summary>
-	/// <param name="requests">The attendance update requests to use.</param>
-	/// <param name="token">The cancellation token to cancel the request.</param>
+	/// <remarks>
+	/// This method attempts to update multiple attendance records in a single operation.
+	/// If any of the specified records are not found, an error is returned.
+	/// The method uses the provided update requests to map new values onto the corresponding attendance entities.
+	/// Changes are committed to the database upon successful completion.
+	/// </remarks>
+	/// <param name="requests">
+	/// A collection of <see cref="AttendanceUpdateRequest"/> objects containing the updated data for each attendance record.
+	/// </param>
+	/// <param name="token">An optional <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
 	/// <response code="200">The resource was successfully updated.</response>
 	/// <response code="400">The provided request contained errors.</response>
 	/// <response code="401">No credentials or invalid credentials were supplied.</response>

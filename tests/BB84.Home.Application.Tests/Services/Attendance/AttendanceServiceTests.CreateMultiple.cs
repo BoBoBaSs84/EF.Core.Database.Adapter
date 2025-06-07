@@ -31,7 +31,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult(models));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Created> result = await sut.CreateMultiple(id, requests)
+		ErrorOr<Created> result = await sut.CreateMultipleByUserId(id, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -54,7 +54,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Created> result = await sut.CreateMultiple(id, requests)
+		ErrorOr<Created> result = await sut.CreateMultipleByUserId(id, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -78,7 +78,7 @@ public sealed partial class AttendanceServiceTests
 		string[] parameters = [$"{id}", string.Join(',', requests.Select(x => x.Date))];
 		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateMultiple(id, requests)
+		ErrorOr<Created> result = await sut.CreateMultipleByUserId(id, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

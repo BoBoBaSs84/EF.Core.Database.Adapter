@@ -5,27 +5,27 @@
   <ItemGroup>
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageVersion Include="AutoMapper" Version="14.0.0" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="3.1.409" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="3.1.409" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="3.1.409" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="3.1.409" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="3.1.518" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="3.1.518" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="3.1.518" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="3.1.518" />
     <PackageVersion Include="BB84.Extensions" Version="2.13.530" />
     <PackageVersion Include="Fare" Version="2.2.1" />
-    <PackageVersion Include="FluentAssertions" Version="8.2.0" />
-    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageVersion Include="MSTest" Version="3.8.3" />
+    <PackageVersion Include="FluentAssertions" Version="8.3.0" />
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageVersion Include="MSTest" Version="3.9.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="[8.0.15, 9.0)" />
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="[8.0.15, 9.0)" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="[8.0.15, 9.0)" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.5" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="8.0.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.1.4" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="Tynamix.ObjectFiller" Version="1.5.9" />
     <PackageVersion Include="Tynamix.ObjectFiller.RegEx" Version="1.0.0" />

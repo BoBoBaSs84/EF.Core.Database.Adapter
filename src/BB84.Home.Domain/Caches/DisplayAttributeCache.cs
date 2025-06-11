@@ -4,8 +4,16 @@ using System.Reflection;
 namespace BB84.Home.Domain.Caches;
 
 /// <summary>
-/// The display attribute cache class.
+/// Provides a cached mechanism for retrieving display-related attributes, such as descriptions, names,
+/// and short names, for enum values of type <typeparamref name="T"/>.
 /// </summary>
+/// <remarks>
+/// This class is designed to improve performance by caching the display attributes of enum values.
+/// It uses the <see cref="DisplayAttribute"/> applied to the enum members to populate the cache.
+/// If an enum member does not have a <see cref="DisplayAttribute"/>, its name is used as the fallback
+/// for descriptions, names, and short names.
+/// </remarks>
+/// <typeparam name="T">The enum type for which display attributes are cached.</typeparam>
 internal static class DisplayAttributeCache<T> where T : struct, IComparable, IFormattable, IConvertible
 {
 	private static readonly Dictionary<T, string> Descriptions = [];
@@ -13,7 +21,7 @@ internal static class DisplayAttributeCache<T> where T : struct, IComparable, IF
 	private static readonly Dictionary<T, string> ShortNames = [];
 
 	/// <summary>
-	/// Initializes a instance of the display attribute cache class.
+	/// Initializes the static cache for the enum type <typeparamref name="T"/>.
 	/// </summary>
 	static DisplayAttributeCache()
 	{

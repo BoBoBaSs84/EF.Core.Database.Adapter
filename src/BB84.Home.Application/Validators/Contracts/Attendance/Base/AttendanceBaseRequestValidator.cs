@@ -33,6 +33,18 @@ public sealed class AttendanceBaseRequestValidator : AbstractValidator<Attendanc
 		});
 	}
 
+	/// <summary>
+	/// Determines whether the specified attendance type is relevant to time tracking.
+	/// </summary>
+	/// <remarks>
+	/// Time relevance indicates whether the attendance type should be considered in scenarios
+	/// involving time tracking or scheduling.
+	/// </remarks>
+	/// <param name="type">The attendance type to evaluate.</param>
+	/// <returns>
+	/// <see langword="true"/> if the specified attendance <paramref name="type"/> is relevant
+	/// to time tracking; otherwise, <see langword="false"/>.
+	/// </returns>
 	private static bool IsTimeRelevant(AttendanceType type) => type switch
 	{
 		AttendanceType.Holiday => false,
@@ -44,7 +56,7 @@ public sealed class AttendanceBaseRequestValidator : AbstractValidator<Attendanc
 		AttendanceType.PlannedVacation => false,
 		AttendanceType.ShortTimeWork => false,
 		AttendanceType.Sickness => false,
-		AttendanceType.VACATION => false,
+		AttendanceType.Vacation => false,
 		AttendanceType.VacationBlock => false,
 		AttendanceType.Training => true,
 		_ => false

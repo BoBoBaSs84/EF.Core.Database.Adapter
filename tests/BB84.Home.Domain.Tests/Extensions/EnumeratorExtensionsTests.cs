@@ -110,6 +110,6 @@ public class EnumeratorExtensionsTests : DomainTestBase
 			new object[]{ AttendanceType.Holiday },
 			[AttendanceType.Suspension],
 			[AttendanceType.Sickness],
-			[AttendanceType.VACATION],
+			[AttendanceType.Vacation],
 		};
 }

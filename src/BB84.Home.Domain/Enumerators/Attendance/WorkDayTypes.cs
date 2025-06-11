@@ -5,11 +5,23 @@ using RESX = BB84.Home.Domain.Properties.EnumeratorResources;
 namespace BB84.Home.Domain.Enumerators.Attendance;
 
 /// <summary>
-/// The work day type flags.
+/// Represents the days of the week that can be designated as work days.
 /// </summary>
+/// <remarks>
+/// This enumeration is marked with the <see cref="FlagsAttribute"/>, allowing bitwise operations
+/// to combine multiple values. Each value corresponds to a specific day of the week.
+/// </remarks>
 [Flags]
-public enum WorkDayTypes
+public enum WorkDayTypes : byte
 {
+	/// <summary>
+	/// Represents the absence of a specific value or state.
+	/// </summary>
+	[Display(ResourceType = typeof(RESX),
+		Name = nameof(RESX.WorkDayTypes_None_Name),
+		ShortName = nameof(RESX.WorkDayTypes_None_ShortName),
+		Description = nameof(RESX.WorkDayTypes_None_Description))]
+	None = 0,
 	/// <summary>
 	/// Indicates Monday as a work day.
 	/// </summary>

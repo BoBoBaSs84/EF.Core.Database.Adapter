@@ -1168,6 +1168,33 @@ namespace BB84.Home.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Represents the absence of a specific value or state..
+        /// </summary>
+        public static string WorkDayTypes_None_Description {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.None.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string WorkDayTypes_None_Name {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.None.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NA.
+        /// </summary>
+        public static string WorkDayTypes_None_ShortName {
+            get {
+                return ResourceManager.GetString("WorkDayTypes.None.ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saturday is the day of the week between Friday and Sunday..
         /// </summary>
         public static string WorkDayTypes_Saturday_Description {

@@ -486,6 +486,15 @@
   <data name="WorkDayTypes.Monday.ShortName" xml:space="preserve">
     <value>MON</value>
   </data>
+  <data name="WorkDayTypes.None.Description" xml:space="preserve">
+    <value>Represents the absence of a specific value or state.</value>
+  </data>
+  <data name="WorkDayTypes.None.Name" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="WorkDayTypes.None.ShortName" xml:space="preserve">
+    <value>NA</value>
+  </data>
   <data name="WorkDayTypes.Saturday.Description" xml:space="preserve">
     <value>Saturday is the day of the week between Friday and Sunday.</value>
   </data>

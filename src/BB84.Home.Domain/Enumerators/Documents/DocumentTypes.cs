@@ -5,8 +5,13 @@ using RESX = BB84.Home.Domain.Properties.EnumeratorResources;
 namespace BB84.Home.Domain.Enumerators.Documents;
 
 /// <summary>
-/// The document flags enumerator.
+/// Represents the types of documents that can be categorized using flags.
 /// </summary>
+/// <remarks>
+/// This enumeration is marked with the <see cref="FlagsAttribute"/>, allowing bitwise combinations
+/// of its values. Use this type to specify one or more categories for a document, such as invoices,
+/// certifications, or healthcare-related documents.
+/// </remarks>
 [Flags]
 public enum DocumentTypes
 {

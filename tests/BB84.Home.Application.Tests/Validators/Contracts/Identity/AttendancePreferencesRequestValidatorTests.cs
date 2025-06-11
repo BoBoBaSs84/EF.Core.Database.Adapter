@@ -12,12 +12,14 @@ namespace BB84.Home.Application.Tests.Validators.Contracts.Identity;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, fluent assertions.")]
 public sealed class AttendancePreferencesRequestValidatorTests : ApplicationTestBase
 {
-	private IValidator<AttendancePreferencesRequest> _validator = default!;
+	private readonly IValidator<AttendancePreferencesRequest> _validator;
+
+	public AttendancePreferencesRequestValidatorTests()
+		=> _validator = GetService<IValidator<AttendancePreferencesRequest>>();
 
 	[TestMethod]
 	public void RequestShouldBeInvalidWhenPropertiesAreEmpty()
 	{
-		_validator = CreateValidatorInstance();
 		AttendancePreferencesRequest request = new()
 		{
 			WorkDays = default,
@@ -39,11 +41,10 @@ public sealed class AttendancePreferencesRequestValidatorTests : ApplicationTest
 	[TestMethod]
 	public void RequestShouldBeValidWhenPropertiesAreCorrect()
 	{
-		_validator = CreateValidatorInstance();
 		AttendancePreferencesRequest request = new()
 		{
 			WorkDays = WorkDayTypes.Monday | WorkDayTypes.Tuesday | WorkDayTypes.Wednesday | WorkDayTypes.Thursday,
-			WorkHours = 30,
+			WorkHours = 28,
 			VacationDays = 20
 		};
 
@@ -53,7 +54,4 @@ public sealed class AttendancePreferencesRequestValidatorTests : ApplicationTest
 		result.IsValid.Should().BeTrue();
 		result.Errors.Should().BeEmpty();
 	}
-
-	private static IValidator<AttendancePreferencesRequest> CreateValidatorInstance()
-		=> GetService<IValidator<AttendancePreferencesRequest>>();
 }

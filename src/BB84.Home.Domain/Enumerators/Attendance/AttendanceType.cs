@@ -5,8 +5,13 @@ using RESX = BB84.Home.Domain.Properties.EnumeratorResources;
 namespace BB84.Home.Domain.Enumerators.Attendance;
 
 /// <summary>
-/// The attendance type enumerator.
+/// Represents the various types of attendance that can be assigned to an individual.
 /// </summary>
+/// <remarks>
+/// This enumeration defines distinct attendance types, such as holidays, workdays, absences, and others.
+/// Each attendance type is associated with metadata for display purposes, including localized names, short
+/// names, and descriptions. These metadata values are retrieved from the specified resource file.
+/// </remarks>
 public enum AttendanceType : byte
 {
 	/// <summary>
@@ -88,7 +93,7 @@ public enum AttendanceType : byte
 		Name = nameof(RESX.AttendanceType_Vacation_Name),
 		ShortName = nameof(RESX.AttendanceType_Vacation_ShortName),
 		Description = nameof(RESX.AttendanceType_Vacation_Description))]
-	VACATION,
+	Vacation,
 	/// <summary>
 	/// The vacation block attendance type.
 	/// </summary>

@@ -48,7 +48,7 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 	[DataRow(AttendanceType.PlannedVacation)]
 	[DataRow(AttendanceType.ShortTimeWork)]
 	[DataRow(AttendanceType.Sickness)]
-	[DataRow(AttendanceType.VACATION)]
+	[DataRow(AttendanceType.Vacation)]
 	[DataRow(AttendanceType.VacationBlock)]
 	public void RequestShouldNotHaveTimesWhenNotTimeRelevantTypes(AttendanceType type)
 	{

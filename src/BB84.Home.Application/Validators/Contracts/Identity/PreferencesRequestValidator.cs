@@ -1,4 +1,5 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Identity;
+using BB84.Home.Domain.Enumerators.Attendance;
 
 using FluentValidation;
 
@@ -32,7 +33,8 @@ public sealed class AttendancePreferencesRequestValidator : AbstractValidator<At
 	public AttendancePreferencesRequestValidator()
 	{
 		RuleFor(x => x.WorkDays)
-			.IsInEnum();
+			.IsInEnum()
+			.NotEqual(WorkDayTypes.None);
 
 		RuleFor(x => x.WorkHours)
 			.NotEmpty();

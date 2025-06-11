@@ -23,7 +23,7 @@ public sealed class AttendanceCreateRequestValidatorTests : ApplicationTestBase
 		AttendanceCreateRequest request = new()
 		{
 			Date = DateStatics.MaxDate.AddDays(1),
-			Type = AttendanceType.VACATION
+			Type = AttendanceType.Vacation
 		};
 
 		ValidationResult result = _validator.Validate(request);

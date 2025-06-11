@@ -2377,8 +2377,8 @@ namespace BB84.Home.Connector.Contracts
         [System.Runtime.Serialization.EnumMember(Value = @"Sickness")]
         Sickness = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"VACATION")]
-        VACATION = 9,
+        [System.Runtime.Serialization.EnumMember(Value = @"Vacation")]
+        Vacation = 9,
 
         [System.Runtime.Serialization.EnumMember(Value = @"VacationBlock")]
         VacationBlock = 10,
@@ -2392,26 +2392,29 @@ namespace BB84.Home.Connector.Contracts
     public enum WorkDayTypes
     {
 
+        [System.Runtime.Serialization.EnumMember(Value = @"None")]
+        None = 0,
+
         [System.Runtime.Serialization.EnumMember(Value = @"Monday")]
-        Monday = 0,
+        Monday = 1,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Tuesday")]
-        Tuesday = 1,
+        Tuesday = 2,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Wednesday")]
-        Wednesday = 2,
+        Wednesday = 3,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Thursday")]
-        Thursday = 3,
+        Thursday = 4,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Friday")]
-        Friday = 4,
+        Friday = 5,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Saturday")]
-        Saturday = 5,
+        Saturday = 6,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Sunday")]
-        Sunday = 6,
+        Sunday = 7,
 
     }
 

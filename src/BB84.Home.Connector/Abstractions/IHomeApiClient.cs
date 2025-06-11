@@ -337,8 +337,12 @@ namespace BB84.Home.Connector.Abstractions
         [Put("/Account/{accountId}/Transaction")]
         Task<Updated> AccountTransactionPutAsync(System.Guid accountId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
 
-        /// <summary>Deletes an attendance entry by the provided id.</summary>
-        /// <param name="id">The attendance entry identifier to use.</param>
+        /// <summary>Deletes an attendance record by its unique identifier.</summary>
+        /// <remarks>
+        /// If the specified attendance record does not exist, an error is returned.
+        /// In the event of an exception during the operation, an error is logged and returned.
+        /// </remarks>
+        /// <param name="id">The unique identifier of the attendance record to delete.</param>
         /// <returns>The resource was successfully deleted.</returns>
         /// <exception cref="ApiException">
         /// Thrown when the request returns a non-success status code:
@@ -369,8 +373,13 @@ namespace BB84.Home.Connector.Abstractions
         [Delete("/Attendance/{id}")]
         Task<Deleted> AttendanceDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
-        /// <summary>Deletes multiple attendance entries by the provided ids.</summary>
-        /// <param name="body">The attendance entry identifiers to use.</param>
+        /// <summary>Deletes attendance records corresponding to the specified IDs.</summary>
+        /// <remarks>
+        /// This method retrieves the attendance records associated with the provided IDs and deletes them.
+        /// If no records are found for the given IDs, an error is returned.
+        /// The operation is transactional,  ensuring that changes are committed only if the deletion succeeds.
+        /// </remarks>
+        /// <param name="body">A collection of unique identifiers representing the attendance records to delete.</param>
         /// <returns>The resource was successfully deleted.</returns>
         /// <exception cref="ApiException">
         /// Thrown when the request returns a non-success status code:
@@ -401,8 +410,12 @@ namespace BB84.Home.Connector.Abstractions
         [Delete("/Attendance/Multiple")]
         Task<Deleted> AttendanceMultipleDeleteAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
 
-        /// <summary>Creates multiple new attendance entries.</summary>
-        /// <param name="body">The attendances create request.</param>
+        /// <summary>Creates multiple attendance records for a specified user.</summary>
+        /// <remarks>
+        /// This method ensures that no duplicate attendance records are created for the specified user and dates.
+        /// If any attendance records already exist for the given dates, the operation will fail with a conflict error.
+        /// </remarks>
+        /// <param name="body">A collection of BB84.Home.Application.Contracts.Requests.Attendance.AttendanceCreateRequest objects representing the attendance records to be created.</param>
         /// <returns>The resource was successfully created.</returns>
         /// <exception cref="ApiException">
         /// Thrown when the request returns a non-success status code:
@@ -441,8 +454,14 @@ namespace BB84.Home.Connector.Abstractions
         [Post("/Attendance/Multiple")]
         Task<Created> AttendanceMultiplePostAsync([Body] IEnumerable<AttendanceCreateRequest> body, CancellationToken cancellationToken = default);
 
-        /// <summary>Updates multiple existing attendance entries.</summary>
-        /// <param name="body">The attendance update requests to use.</param>
+        /// <summary>Updates multiple attendance records based on the provided update requests.</summary>
+        /// <remarks>
+        /// This method attempts to update multiple attendance records in a single operation.
+        /// If any of the specified records are not found, an error is returned.
+        /// The method uses the provided update requests to map new values onto the corresponding attendance entities.
+        /// Changes are committed to the database upon successful completion.
+        /// </remarks>
+        /// <param name="body">A collection of BB84.Home.Application.Contracts.Requests.Attendance.AttendanceUpdateRequest objects containing the updated data for each attendance record.</param>
         /// <returns>The resource was successfully updated.</returns>
         /// <exception cref="ApiException">
         /// Thrown when the request returns a non-success status code:
@@ -477,7 +496,12 @@ namespace BB84.Home.Connector.Abstractions
         [Put("/Attendance/Multiple")]
         Task<Updated> AttendanceMultiplePutAsync([Body] IEnumerable<AttendanceUpdateRequest> body, CancellationToken cancellationToken = default);
 
-        /// <summary>Returns multiple attendances as a paged list for the application user filtered by the parameters.</summary>
+        /// <summary>Retrieves a paginated list of attendance records for a specified user based on the provided filtering parameters.</summary>
+        /// <remarks>
+        /// This method retrieves attendance records for the specified user, applying the provided filters and pagination
+        /// settings. The results are ordered by the attendance date in ascending order. If the operation fails, an error
+        /// is returned instead of the paginated list.
+        /// </remarks>
         /// <param name="year">Filter option by the year.</param>
         /// <param name="month">Filter option by the month.</param>
         /// <param name="minDate">Filter option by the minimum date.</param>
@@ -511,8 +535,9 @@ namespace BB84.Home.Connector.Abstractions
         [Get("/Attendance")]
         Task<ICollection<AttendanceResponse>> AttendanceGetAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("Type")] AttendanceType? type, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
-        /// <summary>Creates a new attendance entry</summary>
-        /// <param name="body">The attendance create request.</param>
+        /// <summary>Creates a new attendance record for the specified user.</summary>
+        /// <remarks>If an attendance record already exists for the specified user and date, the operation will fail with a conflict error.</remarks>
+        /// <param name="body">The details of the attendance record to be created, including the date and other relevant information.</param>
         /// <returns>The resource was successfully created.</returns>
         /// <exception cref="ApiException">
         /// Thrown when the request returns a non-success status code:
@@ -551,8 +576,12 @@ namespace BB84.Home.Connector.Abstractions
         [Post("/Attendance")]
         Task<Created> AttendancePostAsync([Body] AttendanceCreateRequest body, CancellationToken cancellationToken = default);
 
-        /// <summary>Updates a existing attendance entry.</summary>
-        /// <param name="body">The attendance update request to use.</param>
+        /// <summary>Updates an existing attendance record with the provided data.</summary>
+        /// <remarks>
+        /// This method performs the update operation by mapping the provided request data to the existing attendance record.
+        /// Changes are committed to the repository, and any errors during the process are logged.
+        /// </remarks>
+        /// <param name="body">The request containing the updated attendance data.</param>
         /// <returns>The resource was successfully updated.</returns>
         /// <exception cref="ApiException">
         /// Thrown when the request returns a non-success status code:
@@ -587,8 +616,13 @@ namespace BB84.Home.Connector.Abstractions
         [Put("/Attendance")]
         Task<Updated> AttendancePutAsync([Body] AttendanceUpdateRequest body, CancellationToken cancellationToken = default);
 
-        /// <summary>Returns the attendance entry by the calendar entry date.</summary>
-        /// <param name="date">The attendance date to use.</param>
+        /// <summary>Retrieves the attendance record for a specific user on a given date.</summary>
+        /// <remarks>
+        /// This method queries the attendance repository for a record matching the specified user ID and date.
+        /// If the record is found, it is mapped to an BB84.Home.Application.Contracts.Responses.Attendance.AttendanceResponse and returned.
+        /// If no record is found, an error is returned.
+        /// </remarks>
+        /// <param name="date">The date for which the attendance record is requested. Only the date component is considered.</param>
         /// <returns>If the response was successfully returned.</returns>
         /// <exception cref="ApiException">
         /// Thrown when the request returns a non-success status code:

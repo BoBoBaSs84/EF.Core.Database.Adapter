@@ -11,8 +11,6 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "03:00"
-    assignees:
-      - "BoBoBaSs84"
     groups:
       bb84-dependencies:
         patterns:
@@ -20,15 +18,9 @@ updates:
       test-dependencies:
         patterns:
           - "MSTest*"
-      microsoft-entityframeworkcore-dependencies:
+      microsoft-dependencies:
         patterns:
-          - "Microsoft.EntityFrameworkCore*"
-      microsoft-aspnetcore-dependencies:
-        patterns:
-          - "Microsoft.AspNetCore*"
-      microsoft-extensions-dependencies:
-        patterns:
-          - "Microsoft.Extensions*"
+          - "Microsoft*"
       
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -36,5 +28,10 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "03:00"
-    assignees:
-      - "BoBoBaSs84"
+
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"

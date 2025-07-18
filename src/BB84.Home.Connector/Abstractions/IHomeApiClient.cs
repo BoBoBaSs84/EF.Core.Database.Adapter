@@ -19,14 +19,17 @@ namespace BB84.Home.Connector.Abstractions
     {
         /// <summary>Deletes an existing bank account for the application user by the bank account identifier.</summary>
         /// <param name="id">The identifier of the bank account.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -44,21 +47,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Account/{id}")]
-        Task<Deleted> AccountDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> AccountDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a bank account by the bank account identifier.</summary>
         /// <param name="id">The identifier of the bank account.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -72,22 +78,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Account/{id}")]
-        Task<AccountResponse> AccountGetAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<AccountResponse>> AccountGetAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing bank account by the bank account identifier.</summary>
         /// <param name="id">The identifier of the bank account.</param>
         /// <param name="body">The account update request.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -105,20 +114,23 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Account/{id}")]
-        Task<Updated> AccountPutAsync(System.Guid id, [Body] AccountUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> AccountPutAsync(System.Guid id, [Body] AccountUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a collection of bank accounts for for the application user.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -128,21 +140,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Account")]
-        Task<ICollection<AccountResponse>> AccountGetAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<AccountResponse>>> AccountGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new bank account for the application user.</summary>
         /// <param name="body">The account create request.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -160,22 +175,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Account")]
-        Task<Created> AccountPostAsync([Body] AccountCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> AccountPostAsync([Body] AccountCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
         /// <param name="id">The identifier of the transaction.</param>
-        /// <returns>The deleted response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The deleted response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -193,22 +211,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Account/{accountId}/Transaction/{id}")]
-        Task<Deleted> AccountTransactionDeleteAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> AccountTransactionDeleteAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns an existing transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
         /// <param name="id">The identifier of the bank transaction.</param>
-        /// <returns>The successful response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The successful response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -226,10 +247,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Account/{accountId}/Transaction/{id}")]
-        Task<TransactionResponse> AccountTransactionGetAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<TransactionResponse>> AccountTransactionGetAsync(System.Guid accountId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns multiple transaction entries as a paged list for a bank account filtered by the transaction query parameters.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
@@ -240,14 +261,17 @@ namespace BB84.Home.Connector.Abstractions
         /// <param name="maxValue">The maximum amount value filter option.</param>
         /// <param name="pageNumber">The page number property.</param>
         /// <param name="pageSize">The desired page size.</param>
-        /// <returns>The successful response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The successful response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -265,22 +289,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Account/{accountId}/Transaction")]
-        Task<ICollection<TransactionResponse>> AccountTransactionGetAsync(System.Guid accountId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<TransactionResponse>>> AccountTransactionGetAsync(System.Guid accountId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
         /// <param name="body">The transaction create request.</param>
-        /// <returns>The created response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The created response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -298,23 +325,26 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Account/{accountId}/Transaction")]
-        Task<Created> AccountTransactionPostAsync(System.Guid accountId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> AccountTransactionPostAsync(System.Guid accountId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing transaction for the bank account.</summary>
         /// <param name="accountId">The identifier of the bank account.</param>
         /// <param name="id">The identifier of the bank transaction to update.</param>
         /// <param name="body">The transaction update request.</param>
-        /// <returns>The updated response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The updated response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -332,10 +362,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Account/{accountId}/Transaction")]
-        Task<Updated> AccountTransactionPutAsync(System.Guid accountId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> AccountTransactionPutAsync(System.Guid accountId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an attendance record by its unique identifier.</summary>
         /// <remarks>
@@ -343,14 +373,17 @@ namespace BB84.Home.Connector.Abstractions
         /// In the event of an exception during the operation, an error is logged and returned.
         /// </remarks>
         /// <param name="id">The unique identifier of the attendance record to delete.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -368,10 +401,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Attendance/{id}")]
-        Task<Deleted> AttendanceDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> AttendanceDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes attendance records corresponding to the specified IDs.</summary>
         /// <remarks>
@@ -380,14 +413,17 @@ namespace BB84.Home.Connector.Abstractions
         /// The operation is transactional,  ensuring that changes are committed only if the deletion succeeds.
         /// </remarks>
         /// <param name="body">A collection of unique identifiers representing the attendance records to delete.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -405,10 +441,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Delete("/Attendance/Multiple")]
-        Task<Deleted> AttendanceMultipleDeleteAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> AttendanceMultipleDeleteAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
 
         /// <summary>Creates multiple attendance records for a specified user.</summary>
         /// <remarks>
@@ -416,14 +452,17 @@ namespace BB84.Home.Connector.Abstractions
         /// If any attendance records already exist for the given dates, the operation will fail with a conflict error.
         /// </remarks>
         /// <param name="body">A collection of BB84.Home.Application.Contracts.Requests.Attendance.AttendanceCreateRequest objects representing the attendance records to be created.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -449,10 +488,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Attendance/Multiple")]
-        Task<Created> AttendanceMultiplePostAsync([Body] IEnumerable<AttendanceCreateRequest> body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> AttendanceMultiplePostAsync([Body] IEnumerable<AttendanceCreateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates multiple attendance records based on the provided update requests.</summary>
         /// <remarks>
@@ -462,14 +501,17 @@ namespace BB84.Home.Connector.Abstractions
         /// Changes are committed to the database upon successful completion.
         /// </remarks>
         /// <param name="body">A collection of BB84.Home.Application.Contracts.Requests.Attendance.AttendanceUpdateRequest objects containing the updated data for each attendance record.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -491,10 +533,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Attendance/Multiple")]
-        Task<Updated> AttendanceMultiplePutAsync([Body] IEnumerable<AttendanceUpdateRequest> body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> AttendanceMultiplePutAsync([Body] IEnumerable<AttendanceUpdateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Retrieves a paginated list of attendance records for a specified user based on the provided filtering parameters.</summary>
         /// <remarks>
@@ -509,14 +551,17 @@ namespace BB84.Home.Connector.Abstractions
         /// <param name="type">Filter option by the attendance type.</param>
         /// <param name="pageNumber">The page number property.</param>
         /// <param name="pageSize">The desired page size.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -530,22 +575,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Attendance")]
-        Task<ICollection<AttendanceResponse>> AttendanceGetAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("Type")] AttendanceType? type, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<AttendanceResponse>>> AttendanceGetAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("Type")] AttendanceType? type, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new attendance record for the specified user.</summary>
         /// <remarks>If an attendance record already exists for the specified user and date, the operation will fail with a conflict error.</remarks>
         /// <param name="body">The details of the attendance record to be created, including the date and other relevant information.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -571,10 +619,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Attendance")]
-        Task<Created> AttendancePostAsync([Body] AttendanceCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> AttendancePostAsync([Body] AttendanceCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing attendance record with the provided data.</summary>
         /// <remarks>
@@ -582,14 +630,17 @@ namespace BB84.Home.Connector.Abstractions
         /// Changes are committed to the repository, and any errors during the process are logged.
         /// </remarks>
         /// <param name="body">The request containing the updated attendance data.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -611,10 +662,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Attendance")]
-        Task<Updated> AttendancePutAsync([Body] AttendanceUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> AttendancePutAsync([Body] AttendanceUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Retrieves the attendance record for a specific user on a given date.</summary>
         /// <remarks>
@@ -623,14 +674,17 @@ namespace BB84.Home.Connector.Abstractions
         /// If no record is found, an error is returned.
         /// </remarks>
         /// <param name="date">The date for which the attendance record is requested. Only the date component is considered.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -648,21 +702,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Attendance/{date}")]
-        Task<AttendanceResponse> AttendanceGetAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
+        Task<IApiResponse<AttendanceResponse>> AttendanceGetAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
 
         /// <summary>Authenticates an existing application user.</summary>
         /// <param name="body">The authentication request to use.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -676,21 +733,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Authentication")]
-        Task<AuthenticationResponse> AuthenticationAsync([Body] AuthenticationRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<AuthenticationResponse>> AuthenticationAsync([Body] AuthenticationRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Refreshes the user's access and refresh token.</summary>
         /// <param name="body">The token request to use.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -704,20 +764,23 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Authentication/Token")]
-        Task<AuthenticationResponse> AuthenticationTokenPostAsync([Body] TokenRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<AuthenticationResponse>> AuthenticationTokenPostAsync([Body] TokenRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Revokes the current user's refresh token.</summary>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -731,10 +794,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Authentication/Token")]
-        Task<Deleted> AuthenticationTokenDeleteAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> AuthenticationTokenDeleteAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns calendar entries as a paged list, filtered by the parameters.</summary>
         /// <param name="year">Filter option by the year.</param>
@@ -743,73 +806,85 @@ namespace BB84.Home.Connector.Abstractions
         /// <param name="maxDate">Filter option by the maximum date.</param>
         /// <param name="pageNumber">The page number property.</param>
         /// <param name="pageSize">The desired page size.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Calendar")]
-        Task<ICollection<CalendarResponse>> CalendarGetAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<CalendarResponse>>> CalendarGetAsync([Query, AliasAs("Year")] int? year, [Query, AliasAs("Month")] int? month, [Query, AliasAs("MinDate")] System.DateTimeOffset? minDate, [Query, AliasAs("MaxDate")] System.DateTimeOffset? maxDate, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Returns the calendar entry by its date.</summary>
         /// <param name="date">The date of the calendar entry.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Calendar/{date}")]
-        Task<CalendarResponse> CalendarGetAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
+        Task<IApiResponse<CalendarResponse>> CalendarGetAsync(System.DateTimeOffset date, CancellationToken cancellationToken = default);
 
         /// <summary>Returns the current calendar entry.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Calendar/Current")]
-        Task<CalendarResponse> CalendarCurrentAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<CalendarResponse>> CalendarCurrentAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing bank card by the bank card identifier.</summary>
         /// <param name="id">The identifier of the bank card.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -827,21 +902,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Card/{id}")]
-        Task<Deleted> CardDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> CardDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a bank card by the bank card identifier.</summary>
         /// <param name="id">The identifier of the bank card.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -855,22 +933,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Card/{id}")]
-        Task<CardResponse> CardGetAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<CardResponse>> CardGetAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a bank card for the application user and bank account.</summary>
         /// <param name="id">The identifier of the bank account.</param>
         /// <param name="body">The bank card create request.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -892,22 +973,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Card/{id}")]
-        Task<Created> CardPostAsync(System.Guid id, [Body] CardCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> CardPostAsync(System.Guid id, [Body] CardCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing bank card by the bank card identifier.</summary>
         /// <param name="id">The identifier of the bank card.</param>
         /// <param name="body">The bank card update request.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -925,20 +1009,23 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Card/{id}")]
-        Task<Updated> CardPutAsync(System.Guid id, [Body] CardUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> CardPutAsync(System.Guid id, [Body] CardUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a collection of bank cards for for the application user.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -948,22 +1035,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Card")]
-        Task<ICollection<CardResponse>> CardGetAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<CardResponse>>> CardGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing transaction for the bank card.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
         /// <param name="id">The identifier of the transaction.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -981,22 +1071,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Card/{cardId}/Transaction/{id}")]
-        Task<Deleted> CardTransactionDeleteAsync(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> CardTransactionDeleteAsync(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns an existing transaction for the bank card.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
         /// <param name="id">The identifier of the bank transaction.</param>
-        /// <returns>The successful response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The successful response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1014,10 +1107,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Card/{cardId}/Transaction/{id}")]
-        Task<TransactionResponse> CardTransactionGetAsync(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<TransactionResponse>> CardTransactionGetAsync(System.Guid cardId, System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns multiple transaction entries as a paged list for a bank card filtered by the transaction query parameters.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
@@ -1028,14 +1121,17 @@ namespace BB84.Home.Connector.Abstractions
         /// <param name="maxValue">The maximum amount value filter option.</param>
         /// <param name="pageNumber">The page number property.</param>
         /// <param name="pageSize">The desired page size.</param>
-        /// <returns>The successful response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The successful response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1053,22 +1149,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Card/{cardId}/Transaction")]
-        Task<ICollection<TransactionResponse>> CardTransactionGetAsync(System.Guid cardId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<TransactionResponse>>> CardTransactionGetAsync(System.Guid cardId, [Query, AliasAs("BookingDate")] System.DateTimeOffset? bookingDate, [Query, AliasAs("ValueDate")] System.DateTimeOffset? valueDate, [Query, AliasAs("Beneficiary")] string beneficiary, [Query, AliasAs("MinValue")] double? minValue, [Query, AliasAs("MaxValue")] double? maxValue, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new transaction for the bank card.</summary>
         /// <param name="cardId">The identifier of the bank card.</param>
         /// <param name="body">The transaction create request.</param>
-        /// <returns>The created response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The created response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1086,23 +1185,26 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Card/{cardId}/Transaction")]
-        Task<Created> CardTransactionPostAsync(System.Guid cardId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> CardTransactionPostAsync(System.Guid cardId, [Body] TransactionCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing transaction for the card account.</summary>
         /// <param name="cardId">The identifier of the bank account.</param>
         /// <param name="id">The identifier of the bank transaction to update.</param>
         /// <param name="body">The transaction update request.</param>
-        /// <returns>The updated response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The updated response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1120,21 +1222,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something internal went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Card/{cardId}/Transaction")]
-        Task<Updated> CardTransactionPutAsync(System.Guid cardId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> CardTransactionPutAsync(System.Guid cardId, [Query] System.Guid? id, [Body] TransactionUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing document by the provided id.</summary>
         /// <param name="id">The document identifier to use.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1152,21 +1257,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Document/{id}")]
-        Task<Deleted> DocumentDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> DocumentDeleteAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Returns an existing document by the provided id.</summary>
         /// <param name="id">The document identifier to use.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1184,21 +1292,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Document/{id}")]
-        Task<DocumentResponse> DocumentGetAsync(System.Guid id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<DocumentResponse>> DocumentGetAsync(System.Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing document collection by the provided ids.</summary>
         /// <param name="body">The document identifiers to use.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1216,21 +1327,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Delete("/Document/Multiple")]
-        Task<Deleted> DocumentMultipleDeleteAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> DocumentMultipleDeleteAsync([Body] IEnumerable<System.Guid> body, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new document collection with the provided create requests.</summary>
         /// <param name="body">The document create requests to use.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1248,21 +1362,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Document/Multiple")]
-        Task<Created> DocumentMultiplePostAsync([Body] IEnumerable<DocumentCreateRequest> body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> DocumentMultiplePostAsync([Body] IEnumerable<DocumentCreateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing document collection with the provided create requests.</summary>
         /// <param name="body">The document update requests to use.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1284,10 +1401,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Document/Multiple")]
-        Task<Updated> DocumentMultiplePutAsync([Body] IEnumerable<DocumentUpdateRequest> body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> DocumentMultiplePutAsync([Body] IEnumerable<DocumentUpdateRequest> body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a document collection as a paged list filtered by the document parameters.</summary>
         /// <param name="name">The name of the document to filter the search by.</param>
@@ -1295,14 +1412,17 @@ namespace BB84.Home.Connector.Abstractions
         /// <param name="directory">The directory of the document to filter the search by.</param>
         /// <param name="pageNumber">The page number property.</param>
         /// <param name="pageSize">The desired page size.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1316,21 +1436,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Document")]
-        Task<ICollection<DocumentResponse>> DocumentGetAsync([Query, AliasAs("Name")] string name, [Query, AliasAs("ExtensionName")] string extensionName, [Query, AliasAs("Directory")] string directory, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<DocumentResponse>>> DocumentGetAsync([Query, AliasAs("Name")] string name, [Query, AliasAs("ExtensionName")] string extensionName, [Query, AliasAs("Directory")] string directory, [Query, AliasAs("PageNumber")] int? pageNumber, [Query, AliasAs("PageSize")] int? pageSize, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new document with the provided create request.</summary>
         /// <param name="body">The document create request to use.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1348,21 +1471,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Document")]
-        Task<Created> DocumentPostAsync([Body] DocumentCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> DocumentPostAsync([Body] DocumentCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing document with the provided create request.</summary>
         /// <param name="body">The document update request to use.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1384,115 +1510,133 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Document")]
-        Task<Updated> DocumentPutAsync([Body] DocumentUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> DocumentPutAsync([Body] DocumentUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns all bank account type enumerators.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Enumerator/AccountType")]
-        Task<ICollection<CardTypeResponse>> EnumeratorAccountTypeAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<CardTypeResponse>>> EnumeratorAccountTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all bank card type enumerators.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Enumerator/CardType")]
-        Task<ICollection<CardTypeResponse>> EnumeratorCardTypeAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<CardTypeResponse>>> EnumeratorCardTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all document types enumerators.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Enumerator/DocumentTypes")]
-        Task<ICollection<DocumentTypeResponse>> EnumeratorDocumentTypesAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<DocumentTypeResponse>>> EnumeratorDocumentTypesAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all attendance type enumerators.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Enumerator/AttendanceType")]
-        Task<ICollection<AttendanceTypeResponse>> EnumeratorAttendanceTypeAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<AttendanceTypeResponse>>> EnumeratorAttendanceTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all priority level type enumerators.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Enumerator/PriorityLevelType")]
-        Task<ICollection<AttendanceTypeResponse>> EnumeratorPriorityLevelTypeAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<AttendanceTypeResponse>>> EnumeratorPriorityLevelTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all role type enumerators.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1506,40 +1650,46 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Enumerator/RoleType")]
-        Task<ICollection<RoleTypeResponse>> EnumeratorRoleTypeAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<RoleTypeResponse>>> EnumeratorRoleTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns all work day type enumerators.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
         /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
+        /// <item>
         /// <term>500</term>
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Enumerator/WorkDayType")]
-        Task<ICollection<WorkDayTypeResponse>> EnumeratorWorkDayTypeAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<WorkDayTypeResponse>>> EnumeratorWorkDayTypeAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing todo item.</summary>
         /// <param name="itemId">The todo item identifier to use.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1557,22 +1707,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Todo/Items/{itemId}")]
-        Task<Deleted> TodoItemsDeleteAsync(System.Guid itemId, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> TodoItemsDeleteAsync(System.Guid itemId, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing todo item for the provied itemId.</summary>
         /// <param name="itemId">The todo item identifier to use.</param>
         /// <param name="body">The todo item update request to use.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1594,21 +1747,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Todo/Items/{itemId}")]
-        Task<Created> TodoItemsPutAsync(System.Guid itemId, [Body] ItemUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> TodoItemsPutAsync(System.Guid itemId, [Body] ItemUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Deletes an existing todo list.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
-        /// <returns>The resource was successfully deleted.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully deleted.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1626,21 +1782,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/Todo/{listId}")]
-        Task<Deleted> TodoDeleteAsync(System.Guid listId, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> TodoDeleteAsync(System.Guid listId, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a todo list for the current user by the provided listId.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1658,22 +1817,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Todo/{listId}")]
-        Task<ListResponse> TodoGetAsync(System.Guid listId, CancellationToken cancellationToken = default);
+        Task<IApiResponse<ListResponse>> TodoGetAsync(System.Guid listId, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new todo item for the provied listId.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
         /// <param name="body">The item create request to use.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1695,22 +1857,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Todo/{listId}")]
-        Task<Created> TodoPostAsync(System.Guid listId, [Body] ItemCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> TodoPostAsync(System.Guid listId, [Body] ItemCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Updates an existing todo list for the provied listId.</summary>
         /// <param name="listId">The todo list identifier to use.</param>
         /// <param name="body">The todo list update request to use.</param>
-        /// <returns>The resource was successfully updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The resource was successfully updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1732,20 +1897,23 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/Todo/{listId}")]
-        Task<Updated> TodoPutAsync(System.Guid listId, [Body] ListUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> TodoPutAsync(System.Guid listId, [Body] ListUpdateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns a collection of todo lists for the current user.</summary>
-        /// <returns>If the response was successfully returned.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the response was successfully returned.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials were supplied.</description>
@@ -1759,21 +1927,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/Todo")]
-        Task<ICollection<ListResponse>> TodoGetAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<ListResponse>>> TodoGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new todo list for the current user.</summary>
         /// <param name="body">The list create request to use.</param>
-        /// <returns>The resource was successfully created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>The resource was successfully created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>The provided request contained errors.</description>
@@ -1791,22 +1962,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Something internal went terribly wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/Todo")]
-        Task<Created> TodoPostAsync([Body] ListCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> TodoPostAsync([Body] ListCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Adds the user with the userId to the role with the roleId.</summary>
         /// <param name="userId">The identifier of the user.</param>
         /// <param name="roleId">The identifier of the role.</param>
-        /// <returns>If the user was added to the role.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the user was added to the role.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1828,22 +2002,25 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If something is wrong with the request.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Post("/UserManagement/Users/{userId}/Roles/{roleId}")]
-        Task<Created> UserManagementUsersRolesPostAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> UserManagementUsersRolesPostAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
 
         /// <summary>Removes the user with the userId to the role with the roleId.</summary>
         /// <param name="userId">The identifier of the user.</param>
         /// <param name="roleId">The identifier of the role.</param>
-        /// <returns>If the user was added to the role.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the user was added to the role.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1865,21 +2042,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If something is wrong with the request.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Delete("/UserManagement/Users/{userId}/Roles/{roleId}")]
-        Task<Deleted> UserManagementUsersRolesDeleteAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Deleted>> UserManagementUsersRolesDeleteAsync(System.Guid userId, System.Guid roleId, CancellationToken cancellationToken = default);
 
         /// <summary>Creates a new application user.</summary>
         /// <param name="body">The user create request.</param>
-        /// <returns>If the new user was created.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>201</term>
+        /// <description>If the new user was created.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>If something is wrong with the request.</description>
@@ -1889,20 +2069,23 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Post("/UserManagement")]
-        Task<Created> UserManagementPostAsync([Body] UserCreateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Created>> UserManagementPostAsync([Body] UserCreateRequest body, CancellationToken cancellationToken = default);
 
         /// <summary>Returns all apllication users.</summary>
-        /// <returns>The successful response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The successful response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1916,21 +2099,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/UserManagement")]
-        Task<ICollection<UserResponse>> UserManagementGetAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<ICollection<UserResponse>>> UserManagementGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Returns the application user by its user name.</summary>
         /// <param name="userName">The user name of the user.</param>
-        /// <returns>The successful response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The successful response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1948,20 +2134,23 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the user was not found.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/UserManagement/{userName}")]
-        Task<UserResponse> UserManagementGetAsync(string userName, CancellationToken cancellationToken = default);
+        Task<IApiResponse<UserResponse>> UserManagementGetAsync(string userName, CancellationToken cancellationToken = default);
 
         /// <summary>Returns the current application user.</summary>
-        /// <returns>The successful response.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>The successful response.</description>
+        /// </item>
         /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
@@ -1971,21 +2160,24 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json")]
         [Get("/UserManagement/Current")]
-        Task<UserResponse> UserManagementCurrentGetAsync(CancellationToken cancellationToken = default);
+        Task<IApiResponse<UserResponse>> UserManagementCurrentGetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>Updates the current application user.</summary>
         /// <param name="body">The user update request.</param>
-        /// <returns>If the user was updated.</returns>
-        /// <exception cref="ApiException">
-        /// Thrown when the request returns a non-success status code:
+        /// <returns>
+        /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
         /// <listheader>
         /// <term>Status</term>
         /// <description>Description</description>
         /// </listheader>
+        /// <item>
+        /// <term>200</term>
+        /// <description>If the user was updated.</description>
+        /// </item>
         /// <item>
         /// <term>400</term>
         /// <description>If something is wrong with the request.</description>
@@ -2003,10 +2195,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the something went wrong.</description>
         /// </item>
         /// </list>
-        /// </exception>
+        /// </returns>
         [Headers("Accept: text/plain, application/json, text/json", "Content-Type: application/json")]
         [Put("/UserManagement/Current")]
-        Task<Updated> UserManagementCurrentPutAsync([Body] UserUpdateRequest body, CancellationToken cancellationToken = default);
+        Task<IApiResponse<Updated>> UserManagementCurrentPutAsync([Body] UserUpdateRequest body, CancellationToken cancellationToken = default);
 
 
     }

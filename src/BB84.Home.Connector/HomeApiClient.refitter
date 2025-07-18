@@ -6,6 +6,7 @@
 		"useOpenApiTitle": false,
 		"interfaceName": "HomeApiClient"
 	},
+	"returnIApiResponse": true,
 	"useCancellationTokens": true,
 	"useIsoDateFormat": true,
 	"operationNameTemplate": "{operationName}Async",

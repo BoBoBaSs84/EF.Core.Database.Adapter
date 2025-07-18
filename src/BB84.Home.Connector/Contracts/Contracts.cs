@@ -2389,6 +2389,7 @@ namespace BB84.Home.Connector.Contracts
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+		[Flags]
     public enum WorkDayTypes
     {
 
@@ -2402,24 +2403,25 @@ namespace BB84.Home.Connector.Contracts
         Tuesday = 2,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Wednesday")]
-        Wednesday = 3,
+        Wednesday = 4,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Thursday")]
-        Thursday = 4,
+        Thursday = 8,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Friday")]
-        Friday = 5,
+        Friday = 16,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Saturday")]
-        Saturday = 6,
+        Saturday = 32,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Sunday")]
-        Sunday = 7,
+        Sunday = 64,
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum DocumentTypes
+		[Flags]
+		public enum DocumentTypes
     {
 
         [System.Runtime.Serialization.EnumMember(Value = @"None")]
@@ -2432,13 +2434,13 @@ namespace BB84.Home.Connector.Contracts
         Eductation = 2,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Certificate")]
-        Certificate = 3,
+        Certificate = 4,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Healthcare")]
-        Healthcare = 4,
+        Healthcare = 8,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Tax")]
-        Tax = 5,
+        Tax = 16,
 
     }
 

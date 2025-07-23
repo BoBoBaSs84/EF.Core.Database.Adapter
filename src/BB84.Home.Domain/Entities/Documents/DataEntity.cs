@@ -10,20 +10,20 @@ public sealed class DataEntity : AuditedEntity
 	/// <summary>
 	/// The <b>Message-Digest Algorithm 5</b> of the data.
 	/// </summary>
-	public byte[] MD5Hash { get; set; } = default!;
+	public required byte[] MD5Hash { get; set; }
 
 	/// <summary>
 	/// The length of the data content.
 	/// </summary>
-	public long Length { get; set; } = default!;
+	public required long Length { get; set; }
 
 	/// <summary>
 	/// The actual content of the data.
 	/// </summary>
-	public byte[] Content { get; set; } = default!;
+	public required byte[] Content { get; set; }
 
 	/// <summary>
 	/// The navigational <see cref="Documents"/> property.
 	/// </summary>
-	public ICollection<DocumentEntity> Documents { get; set; } = default!;
+	public ICollection<DocumentEntity> Documents { get; } = [];
 }

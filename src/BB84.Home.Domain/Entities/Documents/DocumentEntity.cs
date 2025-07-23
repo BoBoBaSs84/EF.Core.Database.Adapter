@@ -12,12 +12,12 @@ public sealed class DocumentEntity : AuditedEntity
 	/// <summary>
 	/// The name of the document.
 	/// </summary>
-	public string Name { get; set; } = default!;
+	public required string Name { get; set; }
 
 	/// <summary>
 	/// The directory of the document.
 	/// </summary>
-	public string Directory { get; set; } = default!;
+	public required string Directory { get; set; }
 
 	/// <summary>
 	/// The flags the of the document.
@@ -27,7 +27,7 @@ public sealed class DocumentEntity : AuditedEntity
 	/// <summary>
 	/// The creation date of the document.
 	/// </summary>
-	public DateTime CreationTime { get; set; }
+	public required DateTime CreationTime { get; set; }
 
 	/// <summary>
 	/// The last modification date of the document.

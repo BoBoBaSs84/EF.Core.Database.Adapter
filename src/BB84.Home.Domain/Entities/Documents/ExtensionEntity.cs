@@ -10,7 +10,7 @@ public sealed class ExtensionEntity : AuditedEntity
 	/// <summary>
 	/// The name of the document extenion.
 	/// </summary>
-	public string Name { get; set; } = default!;
+	public required string Name { get; set; }
 
 	/// <summary>
 	/// The mime type of the document extenion.
@@ -20,5 +20,5 @@ public sealed class ExtensionEntity : AuditedEntity
 	/// <summary>
 	/// The navigational <see cref="Documents"/> property.
 	/// </summary>
-	public ICollection<DocumentEntity> Documents { get; set; } = default!;
+	public ICollection<DocumentEntity> Documents { get; } = [];
 }

@@ -21,7 +21,7 @@ jobs:
       uses: actions/setup-dotnet@v4
 
     - name: Setup MSSQL
-      uses: potatoqualitee/mssqlsuite@v1.8
+      uses: potatoqualitee/mssqlsuite@v1.10
       with:
         install: localdb
     

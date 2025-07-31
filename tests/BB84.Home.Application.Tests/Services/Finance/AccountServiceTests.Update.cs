@@ -21,14 +21,14 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Update))]
+	[TestCategory(nameof(AccountService.UpdateAsync))]
 	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		AccountService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.Update(id, request);
+		ErrorOr<Updated> result = await sut.UpdateAsync(id, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -40,7 +40,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Update))]
+	[TestCategory(nameof(AccountService.UpdateAsync))]
 	public async Task UpdateShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -50,7 +50,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<AccountEntity?>(null));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 
-		ErrorOr<Updated> result = await sut.Update(id, request);
+		ErrorOr<Updated> result = await sut.UpdateAsync(id, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -63,7 +63,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Update))]
+	[TestCategory(nameof(AccountService.UpdateAsync))]
 	public async Task UpdateShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -76,7 +76,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Updated> result = await sut.Update(id, request);
+		ErrorOr<Updated> result = await sut.UpdateAsync(id, request);
 
 		AssertionHelper.AssertInScope(() =>
 		{

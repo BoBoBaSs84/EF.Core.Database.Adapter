@@ -21,7 +21,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.Update))]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateShouldReturnNotFoundWhenNotFound()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
@@ -30,7 +30,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Updated> result = await sut.Update(request)
+		ErrorOr<Updated> result = await sut.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,7 +43,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.Update))]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateShouldReturnCreatedWhenSuccessful()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
@@ -53,7 +53,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Updated> result = await sut.Update(request)
+		ErrorOr<Updated> result = await sut.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -72,13 +72,13 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.Update))]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.Update(request)
+		ErrorOr<Updated> result = await sut.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

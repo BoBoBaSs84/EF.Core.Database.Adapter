@@ -28,7 +28,7 @@ public sealed partial class DocumentServiceTests
 		string parameter = request.ToJson();
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.Update(request)
+		ErrorOr<Updated> result = await sut.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -51,7 +51,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<DocumentEntity?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
-		ErrorOr<Updated> result = await sut.Update(request)
+		ErrorOr<Updated> result = await sut.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -83,7 +83,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<DataEntity?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
-		ErrorOr<Updated> result = await sut.Update(request)
+		ErrorOr<Updated> result = await sut.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

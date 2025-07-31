@@ -21,13 +21,13 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(CardService.GetByUserId))]
+	[TestCategory(nameof(CardService.GetAllAsync))]
 	public async Task GetByUserIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		CardService sut = CreateMockedInstance();
 
-		ErrorOr<IEnumerable<CardResponse>> result = await sut.GetByUserId(id);
+		ErrorOr<IEnumerable<CardResponse>> result = await sut.GetAll(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -39,7 +39,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.GetByUserId))]
+	[TestCategory(nameof(CardService.GetAllAsync))]
 	public async Task GetByUserIdShouldReturnResponseWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -49,7 +49,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult(cards));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
-		ErrorOr<IEnumerable<CardResponse>> result = await sut.GetByUserId(id);
+		ErrorOr<IEnumerable<CardResponse>> result = await sut.GetAll(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{

@@ -21,7 +21,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateMultipleShouldReturnNotFoundWhenNotFound()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
@@ -30,7 +30,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateMultiple(requests)
+		ErrorOr<Updated> result = await sut.UpdateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,7 +43,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateMultipleShouldReturnCreatedWhenSuccessful()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
@@ -53,7 +53,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult(models));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateMultiple(requests)
+		ErrorOr<Updated> result = await sut.UpdateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -72,14 +72,14 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateMultiple))]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateMultipleShouldReturnFailedWhenExceptionIsThrown()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		string[] parameters = [string.Join(',', requests.Select(x => x.Id))];
 		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.UpdateMultiple(requests)
+		ErrorOr<Updated> result = await sut.UpdateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

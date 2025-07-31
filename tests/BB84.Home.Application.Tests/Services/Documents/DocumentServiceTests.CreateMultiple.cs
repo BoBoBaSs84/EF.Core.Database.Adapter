@@ -21,7 +21,7 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.Create))]
+	[TestCategory(nameof(DocumentService.CreateAsync))]
 	public async Task CreateMultipleShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -30,7 +30,7 @@ public sealed partial class DocumentServiceTests
 		IEnumerable<string> documents = requests.Select(x => $"{x.Name}.{x.ExtensionName}");
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.Create(userId, requests)
+		ErrorOr<Created> result = await sut.CreateAsync(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,14 +43,14 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.Create))]
+	[TestCategory(nameof(DocumentService.CreateAsync))]
 	public async Task CreateMultipleShouldReturnBadRequestWhenBodyIsEmpty()
 	{
 		Guid userId = Guid.NewGuid();
 		IEnumerable<DocumentCreateRequest> requests = [];
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.Create(userId, requests)
+		ErrorOr<Created> result = await sut.CreateAsync(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -63,7 +63,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.Create))]
+	[TestCategory(nameof(DocumentService.CreateAsync))]
 	public async Task CreateMultipleShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
@@ -79,7 +79,7 @@ public sealed partial class DocumentServiceTests
 		Mock<IDocumentRepository> docRepoMock = new();
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
-		ErrorOr<Created> result = await sut.Create(userId, requests)
+		ErrorOr<Created> result = await sut.CreateAsync(userId, requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

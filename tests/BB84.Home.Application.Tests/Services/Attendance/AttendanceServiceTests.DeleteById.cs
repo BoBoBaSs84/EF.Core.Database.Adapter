@@ -24,7 +24,7 @@ public sealed partial class AttendanceServiceTests
 		Guid id = Guid.NewGuid();
 		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id, default)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -46,7 +46,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id, default)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -74,7 +74,7 @@ public sealed partial class AttendanceServiceTests
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(0));
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id, default)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

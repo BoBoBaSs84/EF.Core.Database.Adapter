@@ -17,13 +17,13 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.GetById))]
+	[TestCategory(nameof(DocumentService.GetByIdAsync))]
 	public async Task GetByIdShouldReturnFailedWhenExcpetionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<DocumentResponse> result = await sut.GetById(id)
+		ErrorOr<DocumentResponse> result = await sut.GetByIdAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -36,7 +36,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.GetById))]
+	[TestCategory(nameof(DocumentService.GetByIdAsync))]
 	public async Task GetByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -46,7 +46,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<DocumentEntity?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
-		ErrorOr<DocumentResponse> result = await sut.GetById(id)
+		ErrorOr<DocumentResponse> result = await sut.GetByIdAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -60,7 +60,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.GetById))]
+	[TestCategory(nameof(DocumentService.GetByIdAsync))]
 	public async Task GetByIdShouldReturnResultWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -71,7 +71,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<DocumentEntity?>(document));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
-		ErrorOr<DocumentResponse> result = await sut.GetById(id)
+		ErrorOr<DocumentResponse> result = await sut.GetByIdAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

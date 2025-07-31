@@ -19,13 +19,13 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Delete))]
+	[TestCategory(nameof(AccountService.DeleteAsync))]
 	public async Task DeleteShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		AccountService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.Delete(id);
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -37,7 +37,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Delete))]
+	[TestCategory(nameof(AccountService.DeleteAsync))]
 	public async Task DeleteShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -46,7 +46,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<AccountEntity?>(null));
 		AccountService sut = CreateMockedInstance(accountMock.Object);
 
-		ErrorOr<Deleted> result = await sut.Delete(id);
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -59,7 +59,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Delete))]
+	[TestCategory(nameof(AccountService.DeleteAsync))]
 	public async Task DeleteShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -73,7 +73,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.Delete(id);
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{

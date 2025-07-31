@@ -25,7 +25,7 @@ public sealed partial class AttendanceServiceTests
 		string[] parameters = [$"{string.Join(',', ids)}"];
 		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(ids)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -47,7 +47,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
 		AttendanceService sut = CreateMockedInstance(mock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(ids)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -75,7 +75,7 @@ public sealed partial class AttendanceServiceTests
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(2));
 
-		ErrorOr<Deleted> result = await sut.DeleteByIds(ids)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(ids)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

@@ -5,6 +5,7 @@ using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Application.Services.Finance;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Entities.Finance;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
@@ -18,13 +19,14 @@ namespace BB84.Home.Application.Services.Finance;
 /// </summary>
 /// <param name="loggerService">The logger service to use.</param>
 /// <param name="repositoryService">The repository service to use.</param>
+/// <param name="userService">The service providing information about the current user.</param>
 /// <param name="mapper">The auto mapper to use.</param>
-internal sealed class CardService(ILoggerService<CardService> loggerService, IRepositoryService repositoryService, IMapper mapper) : ICardService
+internal sealed class CardService(ILoggerService<CardService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : ICardService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, Guid accountId, CardCreateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateAsync(Guid accountId, CardCreateRequest request, CancellationToken token = default)
 	{
 		try
 		{
@@ -44,7 +46,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 
 			CardEntity newCard = mapper.Map<CardEntity>(request);
 
-			newCard.UserId = userId;
+			newCard.UserId = userService.UserId;
 			newCard.AccountId = accountId;
 
 			await repositoryService.CardRepository.CreateAsync(newCard, token)
@@ -57,13 +59,13 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", $"{accountId}"];
+			string[] parameters = [$"{userService.UserId}", $"{accountId}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return CardServiceErrors.CreateFailed(accountId);
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteAsync(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -89,7 +91,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<CardResponse>> GetById(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<CardResponse>> GetByIdAsync(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -111,12 +113,12 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<CardResponse>>> GetByUserId(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<IEnumerable<CardResponse>>> GetAllAsync(CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<CardEntity> cardEntries = await repositoryService.CardRepository
-				.GetManyByConditionAsync(x => x.UserId.Equals(id), token: token)
+				.GetAllAsync(token: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<CardResponse> response = mapper.Map<IEnumerable<CardResponse>>(cardEntries);
@@ -125,12 +127,12 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, IRe
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogExceptionWithParams, id, ex);
-			return CardServiceErrors.GetByUserIdFailed(id);
+			loggerService.Log(LogExceptionWithParams, userService.UserId, ex);
+			return CardServiceErrors.GetByUserIdFailed(userService.UserId);
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid id, CardUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateAsync(Guid id, CardUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{

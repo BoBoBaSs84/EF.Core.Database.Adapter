@@ -24,12 +24,11 @@ namespace BB84.Home.Application.Interfaces.Application.Services.Attendance;
 public interface IAttendanceService
 {
 	/// <summary>
-	/// Creates a new attendance record for the specified user.
+	/// Creates a new attendance record.
 	/// </summary>
 	/// <remarks>
 	/// If an attendance record already exists for the specified user and date, the operation will fail with a conflict error.
 	/// </remarks>
-	/// <param name="userId">The unique identifier of the user for whom the attendance record is being created.</param>
 	/// <param name="request">The details of the attendance record to be created, including the date and other relevant information.</param>
 	/// <param name="token">A cancellation token that can be used to cancel the operation.</param>
 	/// <returns>
@@ -37,16 +36,15 @@ public interface IAttendanceService
 	/// Returns <see cref="Created"/> if the attendance record is successfully created;
 	/// otherwise, returns an error indicating the reason for failure, such as a conflict or an unexpected error.
 	/// </returns>
-	Task<ErrorOr<Created>> CreateByUserId(Guid userId, AttendanceCreateRequest request, CancellationToken token = default);
+	Task<ErrorOr<Created>> CreateAsync(AttendanceCreateRequest request, CancellationToken token = default);
 
 	/// <summary>
-	/// Creates multiple attendance records for a specified user.
+	/// Creates multiple attendance records.
 	/// </summary>
 	/// <remarks>
 	/// This method ensures that no duplicate attendance records are created for the specified user and dates.
 	/// If any attendance records already exist for the given dates, the operation will fail with a conflict error.
 	/// </remarks>
-	/// <param name="userId">The unique identifier of the user for whom the attendance records are being created.</param>
 	/// <param name="requests">A collection of <see cref="AttendanceCreateRequest"/> objects representing the attendance records to be created.</param>
 	/// <param name="token">An optional <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
 	/// <returns>
@@ -55,7 +53,7 @@ public interface IAttendanceService
 	/// If conflicts are detected (e.g., attendance records already exist for the specified dates),
 	/// an error containing the conflicting dates is returned.
 	/// </returns>
-	Task<ErrorOr<Created>> CreateMultipleByUserId(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Created>> CreateAsync(IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default);
 
 	/// <summary>
 	/// Deletes an attendance record by its unique identifier.
@@ -70,7 +68,7 @@ public interface IAttendanceService
 	/// An <see cref="ErrorOr{T}"/> result containing <see cref="Deleted"/> if the operation succeeds,
 	/// or an error indicating the failure reason.
 	/// </returns>
-	Task<ErrorOr<Deleted>> DeleteById(Guid id, CancellationToken token = default);
+	Task<ErrorOr<Deleted>> DeleteAsync(Guid id, CancellationToken token = default);
 
 	/// <summary>
 	/// Deletes attendance records corresponding to the specified IDs.
@@ -86,17 +84,16 @@ public interface IAttendanceService
 	/// An <see cref="ErrorOr{T}"/> result containing <see cref="Deleted"/> if the operation succeeds,
 	/// or an error if the specified IDs are not found or the deletion fails.
 	/// </returns>
-	Task<ErrorOr<Deleted>> DeleteByIds(IEnumerable<Guid> ids, CancellationToken token = default);
+	Task<ErrorOr<Deleted>> DeleteAsync(IEnumerable<Guid> ids, CancellationToken token = default);
 
 	/// <summary>
-	/// Retrieves a paginated list of attendance records for a specified user based on the provided filtering parameters.
+	/// Retrieves a paginated list of attendance records based on the provided filtering parameters.
 	/// </summary>
 	/// <remarks>
 	/// This method retrieves attendance records for the specified user, applying the provided filters and pagination
 	/// settings. The results are ordered by the attendance date in ascending order. If the operation fails, an error
 	/// is returned instead of the paginated list.
 	/// </remarks>
-	/// <param name="userId">The unique identifier of the user whose attendance records are being retrieved.</param>
 	/// <param name="parameters">
 	/// The filtering and pagination parameters used to refine the attendance records.
 	/// This includes page number, page size, and any additional filters.
@@ -106,24 +103,23 @@ public interface IAttendanceService
 	/// An <see cref="ErrorOr{T}"/> containing either a paginated list of attendance records (<see cref="IPagedList{T}"/>
 	/// of <see cref="AttendanceResponse"/>) or an error indicating the failure reason.
 	/// </returns>
-	Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default);
+	Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParametersAsync(AttendanceParameters parameters, CancellationToken token = default);
 
 	/// <summary>
-	/// Retrieves the attendance record for a specific user on a given date.
+	/// Retrieves the attendance record for a given date.
 	/// </summary>
 	/// <remarks>
 	/// This method queries the attendance repository for a record matching the specified user ID and date.
 	/// If the record is found, it is mapped to an <see cref="AttendanceResponse"/> and returned.
 	/// If no record is found, an error is returned.
 	/// </remarks>
-	/// <param name="userId">The unique identifier of the user whose attendance record is being retrieved.</param>
 	/// <param name="date">The date for which the attendance record is requested. Only the date component is considered.</param>
 	/// <param name="token">An optional <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
 	/// <returns>
 	/// An <see cref="ErrorOr{T}"/> containing the attendance record as an <see cref="AttendanceResponse"/> if found.
 	/// If no record exists for the specified user and date, returns an error indicating the record was not found.
 	/// </returns>
-	Task<ErrorOr<AttendanceResponse>> GetByUserIdAndDate(Guid userId, DateTime date, CancellationToken token = default);
+	Task<ErrorOr<AttendanceResponse>> GetByDateAsync(DateTime date, CancellationToken token = default);
 
 	/// <summary>
 	/// Updates an existing attendance record with the provided data.
@@ -139,7 +135,7 @@ public interface IAttendanceService
 	/// If the attendance record is not found, returns an error indicating the record could not be located.
 	/// If the update fails due to an exception, returns an error indicating the failure.
 	/// </returns>
-	Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest request, CancellationToken token = default);
+	Task<ErrorOr<Updated>> UpdateAsync(AttendanceUpdateRequest request, CancellationToken token = default);
 
 	/// <summary>
 	/// Updates multiple attendance records based on the provided update requests.
@@ -157,5 +153,5 @@ public interface IAttendanceService
 	/// An <see cref="ErrorOr{Updated}"/> result indicating the outcome of the operation.
 	/// Returns <see cref="Updated"/> if the update is successful; otherwise, returns an error indicating the failure reason.
 	/// </returns>
-	Task<ErrorOr<Updated>> UpdateMultiple(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default);
+	Task<ErrorOr<Updated>> UpdateAsync(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default);
 }

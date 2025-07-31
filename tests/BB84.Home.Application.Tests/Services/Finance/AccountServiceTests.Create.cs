@@ -23,7 +23,7 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Create))]
+	[TestCategory(nameof(AccountService.CreateAsync))]
 	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -42,7 +42,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Create))]
+	[TestCategory(nameof(AccountService.CreateAsync))]
 	public async Task CreateShouldReturnConflictWhenAccountNumberAlreadyExists()
 	{
 		Guid userId = Guid.NewGuid();
@@ -66,7 +66,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Create))]
+	[TestCategory(nameof(AccountService.CreateAsync))]
 	public async Task CreateShouldReturnConflictWhenCardNumberAlreadyExists()
 	{
 		Guid userId = Guid.NewGuid();
@@ -95,7 +95,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.Create))]
+	[TestCategory(nameof(AccountService.CreateAsync))]
 	public async Task CreateShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();

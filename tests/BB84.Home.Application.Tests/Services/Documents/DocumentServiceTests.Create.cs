@@ -21,7 +21,7 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.Create))]
+	[TestCategory(nameof(DocumentService.CreateAsync))]
 	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -29,7 +29,7 @@ public sealed partial class DocumentServiceTests
 		string[] parameters = [$"{userId}", $"{request.ToJson()}"];
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.Create(userId, request)
+		ErrorOr<Created> result = await sut.CreateAsync(userId, request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -42,7 +42,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.Create))]
+	[TestCategory(nameof(DocumentService.CreateAsync))]
 	public async Task CreateShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
@@ -57,7 +57,7 @@ public sealed partial class DocumentServiceTests
 		Mock<IDocumentRepository> docRepoMock = new();
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
 
-		ErrorOr<Created> result = await sut.Create(userId, request)
+		ErrorOr<Created> result = await sut.CreateAsync(userId, request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

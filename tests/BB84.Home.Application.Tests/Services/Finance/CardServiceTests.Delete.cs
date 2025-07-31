@@ -19,13 +19,13 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(CardService.Delete))]
+	[TestCategory(nameof(CardService.DeleteAsync))]
 	public async Task DeleteShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		CardService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.Delete(id);
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -37,7 +37,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.Delete))]
+	[TestCategory(nameof(CardService.DeleteAsync))]
 	public async Task DeleteShouldReturnNotFoundWhenCardNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -46,7 +46,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<CardEntity?>(null));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
-		ErrorOr<Deleted> result = await sut.Delete(id);
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -59,7 +59,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.Delete))]
+	[TestCategory(nameof(CardService.DeleteAsync))]
 	public async Task DeleteShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -73,7 +73,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.Delete(id);
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{

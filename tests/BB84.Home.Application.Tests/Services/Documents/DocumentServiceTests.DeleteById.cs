@@ -17,13 +17,13 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.DeleteByIds))]
+	[TestCategory(nameof(DocumentService.DeleteAsync))]
 	public async Task DeleteByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -36,7 +36,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.DeleteByIds))]
+	[TestCategory(nameof(DocumentService.DeleteAsync))]
 	public async Task DeleteByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -45,7 +45,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<DocumentEntity?>(null));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -59,7 +59,7 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.DeleteByIds))]
+	[TestCategory(nameof(DocumentService.DeleteAsync))]
 	public async Task DeleteByIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -69,7 +69,7 @@ public sealed partial class DocumentServiceTests
 			.Returns(Task.FromResult<DocumentEntity?>(document));
 		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteById(id)
+		ErrorOr<Deleted> result = await sut.DeleteAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

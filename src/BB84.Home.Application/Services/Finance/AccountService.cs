@@ -5,6 +5,7 @@ using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Application.Services.Finance;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Entities.Finance;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
@@ -18,13 +19,14 @@ namespace BB84.Home.Application.Services.Finance;
 /// </summary>
 /// <param name="loggerService">The logger service to use.</param>
 /// <param name="repositoryService">The repository service to use.</param>
+/// <param name="userService">The service providing information about the current user.</param>
 /// <param name="mapper">The auto mapper to use.</param>
-internal sealed class AccountService(ILoggerService<AccountService> loggerService, IRepositoryService repositoryService, IMapper mapper) : IAccountService
+internal sealed class AccountService(ILoggerService<AccountService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : IAccountService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid id, AccountCreateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateAsync(AccountCreateRequest request, CancellationToken token = default)
 	{
 		try
 		{
@@ -53,10 +55,10 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 			if (account.Cards is not null && account.Cards.Count > 0)
 			{
 				foreach (CardEntity card in account.Cards)
-					card.UserId = id;
+					card.UserId = userService.UserId;
 			}
 
-			account.AccountUsers = [new() { UserId = id, Account = account }];
+			account.AccountUsers = [new() { UserId = userService.UserId, Account = account }];
 
 			await repositoryService.AccountRepository.CreateAsync(account, token)
 				.ConfigureAwait(false);
@@ -73,7 +75,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> Delete(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteAsync(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -100,7 +102,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<AccountResponse>> GetById(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<AccountResponse>> GetByIdAsync(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -122,12 +124,12 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 	}
 
-	public async Task<ErrorOr<IEnumerable<AccountResponse>>> GetByUserId(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<IEnumerable<AccountResponse>>> GetAllAsync(CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<AccountEntity> accountEntities = await repositoryService.AccountRepository
-				.GetManyByConditionAsync(x => x.AccountUsers.Select(x => x.UserId).Contains(id), token: token)
+				.GetAllAsync(token: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<AccountResponse> result = mapper.Map<IEnumerable<AccountResponse>>(accountEntities);
@@ -136,12 +138,12 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		}
 		catch (Exception ex)
 		{
-			loggerService.Log(LogExceptionWithParams, id, ex);
-			return AccountServiceErrors.GetByUserIdFailed(id);
+			loggerService.Log(LogExceptionWithParams, userService.UserId, ex);
+			return AccountServiceErrors.GetByUserIdFailed(userService.UserId);
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid id, AccountUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateAsync(Guid id, AccountUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{

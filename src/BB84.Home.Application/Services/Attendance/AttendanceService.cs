@@ -9,6 +9,7 @@ using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Application.Interfaces.Application.Services.Attendance;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
@@ -21,26 +22,27 @@ namespace BB84.Home.Application.Services.Attendance;
 /// Provides functionality for managing attendance records, including creation, retrieval, updating, and deletion.
 /// </summary>
 /// <param name="loggerService">The logger service for logging errors and information.</param>
+/// <param name="userService"> The service providing information about the current user.</param>
 /// <param name="repositoryService">The repository service for accessing data repositories.</param>
 /// <param name="mapper">The mapper for converting between domain entities and data transfer objects.</param>
-internal sealed class AttendanceService(ILoggerService<AttendanceService> loggerService, IRepositoryService repositoryService, IMapper mapper) : IAttendanceService
+internal sealed class AttendanceService(ILoggerService<AttendanceService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : IAttendanceService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> CreateByUserId(Guid userId, AttendanceCreateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateAsync(AttendanceCreateRequest request, CancellationToken token = default)
 	{
 		try
 		{
 			AttendanceEntity? entity = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(request.Date), token: token)
+				.GetByConditionAsync(expression: x => x.Date.Equals(request.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entity is not null)
 				return AttendanceServiceErrors.CreateConflict(request.Date);
 
 			AttendanceEntity newEntity = mapper.Map<AttendanceEntity>(request);
-			newEntity.UserId = userId;
+			newEntity.UserId = userService.UserId;
 
 			await repositoryService.AttendanceRepository.CreateAsync(newEntity, token)
 				.ConfigureAwait(false);
@@ -52,18 +54,18 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", $"{request.Date}"];
+			string[] parameters = [$"{userService.UserId}", $"{request.Date}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.CreateFailed(request.Date);
 		}
 	}
 
-	public async Task<ErrorOr<Created>> CreateMultipleByUserId(Guid userId, IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateAsync(IEnumerable<AttendanceCreateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
-				.GetManyByConditionAsync(expression: x => x.UserId.Equals(userId) && requests.Select(x => x.Date).Contains(x.Date), token: token)
+				.GetManyByConditionAsync(expression: x => requests.Select(x => x.Date).Contains(x.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (entities.Any())
@@ -74,7 +76,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			foreach (AttendanceCreateRequest request in requests)
 			{
 				AttendanceEntity newAttendance = mapper.Map<AttendanceEntity>(request);
-				newAttendance.UserId = userId;
+				newAttendance.UserId = userService.UserId;
 				newEntities.Add(newAttendance);
 			}
 
@@ -88,13 +90,13 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", string.Join(',', requests.Select(x => x.Date))];
+			string[] parameters = [$"{userService.UserId}", string.Join(',', requests.Select(x => x.Date))];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.CreateMultipleFailed(requests.Select(x => x.Date));
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteById(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteAsync(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -121,7 +123,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteByIds(IEnumerable<Guid> ids, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteAsync(IEnumerable<Guid> ids, CancellationToken token = default)
 	{
 		try
 		{
@@ -149,13 +151,12 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParameters(Guid userId, AttendanceParameters parameters, CancellationToken token = default)
+	public async Task<ErrorOr<IPagedList<AttendanceResponse>>> GetPagedByParametersAsync(AttendanceParameters parameters, CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<AttendanceEntity> attendances = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(
-					expression: x => x.UserId.Equals(userId),
 					queryFilter: x => x.FilterByParameters(parameters),
 					orderBy: x => x.OrderBy(x => x.Date),
 					skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -165,7 +166,6 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 
 			int totalCount = await repositoryService.AttendanceRepository
 				.CountAsync(
-					expression: x => x.UserId.Equals(userId),
 					queryFilter: x => x.FilterByParameters(parameters),
 					token: token)
 				.ConfigureAwait(false);
@@ -181,12 +181,12 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<AttendanceResponse>> GetByUserIdAndDate(Guid userId, DateTime date, CancellationToken token = default)
+	public async Task<ErrorOr<AttendanceResponse>> GetByDateAsync(DateTime date, CancellationToken token = default)
 	{
 		try
 		{
 			AttendanceEntity? attendanceEntry = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), token: token)
+				.GetByConditionAsync(expression: x => x.Date.Equals(date.Date), token: token)
 				.ConfigureAwait(false);
 
 			if (attendanceEntry is null)
@@ -198,13 +198,13 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", $"{date}"];
+			string[] parameters = [$"{userService.UserId}", $"{date}"];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 			return AttendanceServiceErrors.GetByDateFailed(date);
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(AttendanceUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateAsync(AttendanceUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
@@ -229,7 +229,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> UpdateMultiple(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateAsync(IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{

@@ -5,7 +5,6 @@ using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Errors;
@@ -22,14 +21,13 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task GetPagedByParametersShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
 		AttendanceParameters parameters = new();
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<IPagedList<AttendanceResponse>> result = await sut.GetPagedByParameters(userId, parameters)
+		ErrorOr<IPagedList<AttendanceResponse>> result = await _sut
+			.GetPagedByParametersAsync(parameters)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -42,7 +40,6 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task GetPagedByParametersShouldReturnResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
@@ -52,9 +49,11 @@ public sealed partial class AttendanceServiceTests
 			It.IsAny<Expression<Func<AttendanceEntity, bool>>?>(),
 			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>?>(), false, default)
 		).Returns(Task.FromResult(10));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<IPagedList<AttendanceResponse>> result = await sut.GetPagedByParameters(userId, parameters)
+		ErrorOr<IPagedList<AttendanceResponse>> result = await _sut
+			.GetPagedByParametersAsync(parameters)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

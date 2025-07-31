@@ -1,6 +1,5 @@
 ﻿using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
-using BB84.Home.Application.Services.Todo;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Todo;
 using BB84.Home.Domain.Errors;
@@ -18,63 +17,64 @@ namespace ApplicationTests.Services.Todo;
 public sealed partial class TodoServiceTests
 {
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task DeleteItemByIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task DeleteListAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteItemAsync(id)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteListAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(TodoServiceErrors.DeleteItemByIdFailed(id));
+			result.Errors.First().Should().Be(TodoServiceErrors.DeleteListByIdFailed(id));
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task DeleteItemByIdShouldReturnNotFoundWhenNotFound()
+	public async Task DeleteListAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<ItemEntity?>(null));
-		TodoService sut = CreateMockedInstance(itemRepository: itemMock.Object);
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+			.Returns(Task.FromResult<ListEntity?>(null));
+		_repositoryServiceMock.Setup(x => x.TodoListRepository)
+			.Returns(listMock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteItemAsync(id)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteListAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(TodoServiceErrors.GetItemByIdNotFound(id));
-			itemMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(id));
+			listMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task DeleteItemByIdShouldReturnDeletedWhenSuccessful()
+	public async Task DeleteListAsyncShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		ItemEntity item = new();
-		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(id, default, default, default))
-			.Returns(Task.FromResult<ItemEntity?>(item));
-		itemMock.Setup(x => x.DeleteAsync(item, default))
+		ListEntity list = new();
+		Mock<IListRepository> listMock = new();
+		listMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+			.Returns(Task.FromResult<ListEntity?>(list));
+		listMock.Setup(x => x.DeleteAsync(list, default))
 			.Returns(Task.CompletedTask);
-		TodoService sut = CreateMockedInstance(itemRepository: itemMock.Object);
+		_repositoryServiceMock.Setup(x => x.TodoListRepository)
+			.Returns(listMock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.DeleteItemAsync(id)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteListAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -83,8 +83,8 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			itemMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
-			itemMock.Verify(x => x.DeleteAsync(item, default), Times.Once);
+			listMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			listMock.Verify(x => x.DeleteAsync(list, default), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

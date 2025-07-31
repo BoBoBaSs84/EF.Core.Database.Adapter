@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
@@ -21,16 +20,17 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateAsync))]
-	public async Task UpdateMultipleShouldReturnNotFoundWhenNotFound()
+	public async Task UpdateMultipleAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
 			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(requests)
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,17 +43,18 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateAsync))]
-	public async Task UpdateMultipleShouldReturnCreatedWhenSuccessful()
+	public async Task UpdateMultipleAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		IEnumerable<AttendanceEntity> models = [new() { Id = requests.First().Id, Type = AttendanceType.Vacation }];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
 			.Returns(Task.FromResult(models));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(requests)
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -72,14 +73,13 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateAsync))]
-	public async Task UpdateMultipleShouldReturnFailedWhenExceptionIsThrown()
+	public async Task UpdateMultipleAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		string[] parameters = [string.Join(',', requests.Select(x => x.Id))];
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(requests)
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

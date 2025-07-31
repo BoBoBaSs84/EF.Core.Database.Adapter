@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
@@ -20,8 +19,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task CreateMultipleShouldReturnConflictWhenExistingEntriesFound()
+	public async Task CreateMultipleAsyncShouldReturnConflictWhenExistingEntriesFound()
 	{
 		Guid id = Guid.NewGuid();
 		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
@@ -29,9 +27,10 @@ public sealed partial class AttendanceServiceTests
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult(models));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Created> result = await sut.CreateMultipleByUserId(id, requests)
+		ErrorOr<Created> result = await _sut.CreateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -44,17 +43,17 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task CreateMultipleShouldReturnCreatedWhenSuccessful()
+	public async Task CreateMultipleAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
 		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(id) && requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, default))
 			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Created> result = await sut.CreateMultipleByUserId(id, requests)
+		ErrorOr<Created> result = await _sut.CreateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -70,15 +69,13 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task CreateMultipleShouldReturnFailedWhenExceptionIsThrown()
+	public async Task CreateMultipleAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		string[] parameters = [$"{id}", string.Join(',', requests.Select(x => x.Date))];
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateMultipleByUserId(id, requests)
+		ErrorOr<Created> result = await _sut.CreateAsync(requests)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

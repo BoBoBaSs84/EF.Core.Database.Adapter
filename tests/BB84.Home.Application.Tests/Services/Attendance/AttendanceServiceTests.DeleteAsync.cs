@@ -1,6 +1,5 @@
 ﻿using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Errors;
@@ -18,13 +17,11 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task DeleteByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(id, default)
+		ErrorOr<Deleted> result = await _sut.DeleteAsync(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -37,16 +34,16 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task DeleteByIdShouldReturnNotFoundWhenNotFound()
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(id, default, default, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(id, default)
+		ErrorOr<Deleted> result = await _sut.DeleteAsync(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -60,7 +57,6 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task DeleteByIdShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
@@ -70,11 +66,12 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		mock.Setup(x => x.DeleteAsync(model, default))
 			.Returns(Task.CompletedTask);
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(0));
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(id, default)
+		ErrorOr<Deleted> result = await _sut.DeleteAsync(id, default)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

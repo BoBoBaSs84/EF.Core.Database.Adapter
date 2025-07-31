@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
@@ -21,16 +20,17 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateAsync))]
-	public async Task UpdateShouldReturnNotFoundWhenNotFound()
+	public async Task UpdateAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(request)
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,17 +43,18 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateAsync))]
-	public async Task UpdateShouldReturnCreatedWhenSuccessful()
+	public async Task UpdateAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		AttendanceEntity model = new() { Type = AttendanceType.Workday, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(request)
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -72,13 +73,12 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AttendanceService.UpdateAsync))]
-	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
+	public async Task UpdateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(request)
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

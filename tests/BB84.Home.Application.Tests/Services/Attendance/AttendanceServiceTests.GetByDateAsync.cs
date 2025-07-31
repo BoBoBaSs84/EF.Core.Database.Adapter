@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Responses.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Enumerators.Attendance;
@@ -19,15 +18,14 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task GetByDateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
 		DateTime date = DateTime.Today;
 		string[] parameters = [$"{userId}", $"{date}"];
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<AttendanceResponse> result = await sut.GetByUserIdAndDate(userId, date)
+		ErrorOr<AttendanceResponse> result = await _sut
+			.GetByDateAsync(date)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -40,7 +38,6 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task GetByDateShouldReturnNotFoundWhenNotFound()
 	{
 		Guid userId = Guid.NewGuid();
@@ -48,9 +45,11 @@ public sealed partial class AttendanceServiceTests
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), null, false, false, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<AttendanceResponse> result = await sut.GetByUserIdAndDate(userId, date)
+		ErrorOr<AttendanceResponse> result = await _sut
+			.GetByDateAsync(date)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -63,7 +62,6 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
 	public async Task GetByDateShouldReturnValidResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
@@ -72,9 +70,11 @@ public sealed partial class AttendanceServiceTests
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(userId) && x.Date.Equals(date.Date), null, false, false, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<AttendanceResponse> result = await sut.GetByUserIdAndDate(userId, date)
+		ErrorOr<AttendanceResponse> result = await _sut
+			.GetByDateAsync(date)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

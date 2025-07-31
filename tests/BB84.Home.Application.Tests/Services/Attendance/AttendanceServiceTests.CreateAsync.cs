@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
@@ -20,8 +19,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task CreateShouldReturnConflictWhenExistingEntryFound()
+	public async Task CreateAsyncShouldReturnConflictWhenExistingEntryFound()
 	{
 		Guid id = Guid.NewGuid();
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
@@ -30,9 +28,10 @@ public sealed partial class AttendanceServiceTests
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(id) && x.Date.Equals(request.Date), null, false, false, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Created> result = await sut.Create(id, request)
+		ErrorOr<Created> result = await _sut.CreateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -45,8 +44,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task CreateShouldReturnCreatedWhenSuccessful()
+	public async Task CreateAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
@@ -54,9 +52,10 @@ public sealed partial class AttendanceServiceTests
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByConditionAsync(x => x.UserId.Equals(id) && x.Date.Equals(request.Date), null, false, false, default))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Created> result = await sut.Create(id, request)
+		ErrorOr<Created> result = await _sut.CreateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -72,15 +71,13 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
+	public async Task CreateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		string[] parameters = [$"{id}", $"{request.Date}"];
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.Create(id, request)
+		ErrorOr<Created> result = await _sut.CreateAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

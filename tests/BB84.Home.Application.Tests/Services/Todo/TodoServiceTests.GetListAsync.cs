@@ -4,7 +4,6 @@ using BB84.Extensions;
 using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
-using BB84.Home.Application.Services.Todo;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Todo;
 using BB84.Home.Domain.Enumerators.Todo;
@@ -22,13 +21,12 @@ namespace ApplicationTests.Services.Todo;
 public sealed partial class TodoServiceTests
 {
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task GetListByIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task GetListAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid listId = Guid.NewGuid();
-		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<ListResponse> result = await sut.GetListAsync(listId)
+		ErrorOr<ListResponse> result = await _sut
+			.GetListAsync(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -41,16 +39,17 @@ public sealed partial class TodoServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task GetListByIdShouldReturnNotFoundWhenNotFound()
+	public async Task GetListAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(ListEntity.Items)))
 			.Returns(Task.FromResult<ListEntity?>(null));
-		TodoService sut = CreateMockedInstance(listMock.Object);
+		_repositoryServiceMock.Setup(x => x.TodoListRepository)
+			.Returns(listMock.Object);
 
-		ErrorOr<ListResponse> result = await sut.GetListAsync(listId)
+		ErrorOr<ListResponse> result = await _sut
+			.GetListAsync(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -64,8 +63,7 @@ public sealed partial class TodoServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task GetListByIdShouldReturnValidResultWhenSuccessful()
+	public async Task GetListAsyncShouldReturnValidResultWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();
 		ItemEntity item = new() { Id = Guid.NewGuid(), Title = "UnitTest", Note = "UnitTest", Priority = PriorityLevelType.Medium, Reminder = DateTime.Today, Done = true };
@@ -73,9 +71,11 @@ public sealed partial class TodoServiceTests
 		Mock<IListRepository> listMock = new();
 		listMock.Setup(x => x.GetByIdAsync(listId, default, default, default, nameof(ListEntity.Items)))
 			.Returns(Task.FromResult<ListEntity?>(list));
-		TodoService sut = CreateMockedInstance(listMock.Object);
+		_repositoryServiceMock.Setup(x => x.TodoListRepository)
+			.Returns(listMock.Object);
 
-		ErrorOr<ListResponse> result = await sut.GetListAsync(listId)
+		ErrorOr<ListResponse> result = await _sut
+			.GetListAsync(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

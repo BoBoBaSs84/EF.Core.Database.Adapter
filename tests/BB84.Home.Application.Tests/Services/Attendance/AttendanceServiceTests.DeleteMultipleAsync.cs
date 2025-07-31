@@ -1,6 +1,5 @@
 ﻿using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Errors;
@@ -18,14 +17,12 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task DeleteByIdsShouldReturnFailedWhenExceptionIsThrown()
+	public async Task DeleteMultipleAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		string[] parameters = [$"{string.Join(',', ids)}"];
-		AttendanceService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(ids)
+		ErrorOr<Deleted> result = await _sut.DeleteAsync(ids)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -38,16 +35,16 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task DeleteByIdsShouldReturnNotFoundWhenNotFound()
+	public async Task DeleteMultipleAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(ids, default, default, default))
 			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(ids)
+		ErrorOr<Deleted> result = await _sut.DeleteAsync(ids)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -61,8 +58,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Method")]
-	public async Task DeleteByIdsShouldReturnDeletedWhenSuccessful()
+	public async Task DeleteMultipleAsyncShouldReturnDeletedWhenSuccessful()
 	{
 		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		IEnumerable<AttendanceEntity> attendances = [new(), new()];
@@ -71,11 +67,12 @@ public sealed partial class AttendanceServiceTests
 			.Returns(Task.FromResult(attendances));
 		mock.Setup(x => x.DeleteAsync(attendances, default))
 			.Returns(Task.CompletedTask);
-		AttendanceService sut = CreateMockedInstance(mock.Object);
+		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
+			.Returns(mock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(2));
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(ids)
+		ErrorOr<Deleted> result = await _sut.DeleteAsync(ids)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

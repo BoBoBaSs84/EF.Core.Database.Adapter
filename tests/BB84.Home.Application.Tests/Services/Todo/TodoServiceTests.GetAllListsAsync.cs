@@ -4,7 +4,6 @@ using BB84.Extensions;
 using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
-using BB84.Home.Application.Services.Todo;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Todo;
 using BB84.Home.Domain.Errors;
@@ -22,12 +21,15 @@ public sealed partial class TodoServiceTests
 {
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task GetListsByUserIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task GetAllListsAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		TodoService sut = CreateMockedInstance();
+		CancellationToken token = CancellationToken.None;
+		_currentUserServiceMock.Setup(x => x.UserId)
+			.Returns(userId);
 
-		ErrorOr<IEnumerable<ListResponse>> result = await sut.GetAllListsAsync(userId)
+		ErrorOr<IEnumerable<ListResponse>> result = await _sut
+			.GetAllListsAsync(token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -41,16 +43,21 @@ public sealed partial class TodoServiceTests
 
 	[TestMethod]
 	[TestCategory("Methods")]
-	public async Task GetListsByUserIdShouldReturnValidResultWhenSuccessful()
+	public async Task GetAllListsAsyncShouldReturnValidResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
+		_currentUserServiceMock.Setup(x => x.UserId)
+			.Returns(userId);
 		ListEntity list = new() { Title = "Hello", Color = Color.Red };
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetManyByConditionAsync(x => x.UserId.Equals(userId), null, false, null, null, null, false, default))
+		listMock.Setup(x => x.GetAllAsync(false, false, token))
 			.Returns(Task.FromResult<IEnumerable<ListEntity>>([list]));
-		TodoService sut = CreateMockedInstance(listMock.Object);
+		_repositoryServiceMock.Setup(x => x.TodoListRepository)
+			.Returns(listMock.Object);
 
-		ErrorOr<IEnumerable<ListResponse>> result = await sut.GetAllListsAsync(userId)
+		ErrorOr<IEnumerable<ListResponse>> result = await _sut
+			.GetAllListsAsync(token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -61,7 +68,7 @@ public sealed partial class TodoServiceTests
 			result.Value.First().Title.Should().Be(list.Title);
 			result.Value.First().Color.Should().Be(list.Color?.ToRGBHexString());
 			result.Value.First().Items.Should().BeNull();
-			listMock.Verify(x => x.GetManyByConditionAsync(x => x.UserId.Equals(userId), null, false, null, null, null, false, default), Times.Once);
+			listMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

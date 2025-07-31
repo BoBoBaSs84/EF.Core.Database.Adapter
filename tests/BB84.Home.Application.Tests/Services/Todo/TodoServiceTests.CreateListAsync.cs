@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
-using BB84.Home.Application.Services.Todo;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Todo;
@@ -20,14 +19,13 @@ namespace ApplicationTests.Services.Todo;
 public sealed partial class TodoServiceTests
 {
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task CreateListByUserIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task CreateListAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
 		ListCreateRequest request = RequestHelper.GetListCreateRequest();
-		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateListAsync(userId, request)
+		ErrorOr<Created> result = await _sut
+			.CreateListAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -40,15 +38,16 @@ public sealed partial class TodoServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory("Methods")]
-	public async Task CreateListByUserIdShouldReturnCreatedWhenSuccessful()
+	public async Task CreateListAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
 		ListCreateRequest request = RequestHelper.GetListCreateRequest();
 		Mock<IListRepository> listMock = new();
-		TodoService sut = CreateMockedInstance(listMock.Object);
+		_repositoryServiceMock.Setup(x => x.TodoListRepository)
+			.Returns(listMock.Object);
 
-		ErrorOr<Created> result = await sut.CreateListAsync(userId, request)
+		ErrorOr<Created> result = await _sut
+			.CreateListAsync(request)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

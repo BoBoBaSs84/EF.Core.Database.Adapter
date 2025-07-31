@@ -3,7 +3,6 @@ using BB84.Extensions.Serialization;
 using BB84.Home.Application.Contracts.Requests.Documents;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
-using BB84.Home.Application.Services.Documents;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Documents;
@@ -21,15 +20,15 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.CreateAsync))]
-	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
+	public async Task CreateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		DocumentCreateRequest request = RequestHelper.GetDocumentCreateRequest();
 		string[] parameters = [$"{userId}", $"{request.ToJson()}"];
-		DocumentService sut = CreateMockedInstance();
 
-		ErrorOr<Created> result = await sut.CreateAsync(userId, request)
+		ErrorOr<Created> result = await _sut
+			.CreateAsync(request, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -42,22 +41,28 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.CreateAsync))]
-	public async Task CreateShouldReturnCreatedWhenSuccessful()
+	public async Task CreateAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		DocumentCreateRequest request = RequestHelper.GetDocumentCreateRequest();
 		byte[] md5Hash = request.Content.GetMD5();
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
-		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, default))
+		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, token))
 			.Returns(Task.FromResult<ExtensionEntity?>(null));
 		Mock<IDocumentDataRepository> dataRepoMock = new();
-		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default))
+		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, token))
 			.Returns(Task.FromResult<DataEntity?>(null));
 		Mock<IDocumentRepository> docRepoMock = new();
-		DocumentService sut = CreateMockedInstance(docRepoMock.Object, extRepoMock.Object, dataRepoMock.Object);
+		_repositoryServiceMock.Setup(x => x.DocumentExtensionRepository)
+			.Returns(extRepoMock.Object);
+		_repositoryServiceMock.Setup(x => x.DocumentDataRepository)
+			.Returns(dataRepoMock.Object);
+		_repositoryServiceMock.Setup(x => x.DocumentRepository)
+			.Returns(docRepoMock.Object);
 
-		ErrorOr<Created> result = await sut.CreateAsync(userId, request)
+		ErrorOr<Created> result = await _sut
+			.CreateAsync(request, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -66,9 +71,9 @@ public sealed partial class DocumentServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, default), Times.Once());
+			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, token), Times.Once());
 			//dataRepoMock.Verify(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default), Times.Once());
-			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<DocumentEntity>(), default), Times.Once());
+			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<DocumentEntity>(), token), Times.Once());
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});

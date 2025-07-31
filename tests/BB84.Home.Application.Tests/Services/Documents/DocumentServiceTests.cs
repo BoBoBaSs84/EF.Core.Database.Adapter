@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 
 using BB84.Extensions;
-using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Application.Services.Documents;
 using BB84.Home.Application.Tests;
 using BB84.Home.Base.Tests.Helpers;
@@ -17,29 +17,14 @@ namespace ApplicationTests.Services.Documents;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class DocumentServiceTests : ApplicationTestBase
 {
+	private readonly DocumentService _sut;
+	private readonly Mock<ILoggerService<DocumentService>> _loggerServiceMock = new();
+	private readonly Mock<ICurrentUserService> _currentUserService = new();
+	private readonly Mock<IRepositoryService> _repositoryServiceMock = new();
 	private readonly IMapper _mapper = GetService<IMapper>();
-	private Mock<ILoggerService<DocumentService>> _loggerServiceMock = default!;
-	private Mock<IRepositoryService> _repositoryServiceMock = default!;
 
-	private DocumentService CreateMockedInstance(IDocumentRepository? documentRepository = null, IDocumentExtensionRepository? extensionRepository = null, IDocumentDataRepository? dataRepository = null)
-	{
-		_loggerServiceMock = new();
-		_repositoryServiceMock = new();
-
-		if (documentRepository is not null)
-			_repositoryServiceMock.Setup(x => x.DocumentRepository)
-				.Returns(documentRepository);
-
-		if (extensionRepository is not null)
-			_repositoryServiceMock.Setup(x => x.DocumentExtensionRepository)
-				.Returns(extensionRepository);
-
-		if (dataRepository is not null)
-			_repositoryServiceMock.Setup(x => x.DocumentDataRepository)
-				.Returns(dataRepository);
-
-		return new(_loggerServiceMock.Object, _repositoryServiceMock.Object, _mapper);
-	}
+	public DocumentServiceTests()
+		=> _sut = new(_loggerServiceMock.Object, _currentUserService.Object, _repositoryServiceMock.Object, _mapper);
 
 	private static DocumentEntity CreateDocument(Guid? id = null)
 	{

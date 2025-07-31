@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Responses.Documents;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
-using BB84.Home.Application.Services.Documents;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Errors;
@@ -17,13 +16,13 @@ namespace ApplicationTests.Services.Documents;
 public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.GetByIdAsync))]
-	public async Task GetByIdShouldReturnFailedWhenExcpetionIsThrown()
+	public async Task GetByIdAsyncShouldReturnFailedWhenExcpetionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		DocumentService sut = CreateMockedInstance();
+		CancellationToken token = CancellationToken.None;
 
-		ErrorOr<DocumentResponse> result = await sut.GetByIdAsync(id)
+		ErrorOr<DocumentResponse> result = await _sut
+			.GetByIdAsync(id, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -36,17 +35,19 @@ public sealed partial class DocumentServiceTests
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.GetByIdAsync))]
-	public async Task GetByIdShouldReturnNotFoundWhenNotFound()
+	public async Task GetByIdAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		Mock<IDocumentRepository> docRepoMock = new();
 		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, default, includes))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, token, includes))
 			.Returns(Task.FromResult<DocumentEntity?>(null));
-		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
+		_repositoryServiceMock.Setup(x => x.DocumentRepository)
+			.Returns(docRepoMock.Object);
 
-		ErrorOr<DocumentResponse> result = await sut.GetByIdAsync(id)
+		ErrorOr<DocumentResponse> result = await _sut
+			.GetByIdAsync(id, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -54,24 +55,26 @@ public sealed partial class DocumentServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(DocumentServiceErrors.GetByIdNotFound(id));
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, default, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, token, includes), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(DocumentService.GetByIdAsync))]
-	public async Task GetByIdShouldReturnResultWhenSuccessful()
+	public async Task GetByIdAsyncShouldReturnResultWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		Mock<IDocumentRepository> docRepoMock = new();
 		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
 		DocumentEntity document = CreateDocument(id);
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, default, includes))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, token, includes))
 			.Returns(Task.FromResult<DocumentEntity?>(document));
-		DocumentService sut = CreateMockedInstance(docRepoMock.Object);
+		_repositoryServiceMock.Setup(x => x.DocumentRepository)
+			.Returns(docRepoMock.Object);
 
-		ErrorOr<DocumentResponse> result = await sut.GetByIdAsync(id)
+		ErrorOr<DocumentResponse> result = await _sut
+			.GetByIdAsync(id, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -91,7 +94,7 @@ public sealed partial class DocumentServiceTests
 			result.Value.MD5Hash?.SequenceEqual(document.Data.MD5Hash).Should().BeTrue();
 			result.Value.MimeType.Should().Be(document.Extension.MimeType);
 			result.Value.Name.Should().Be(document.Name);
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, default, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, token, includes), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

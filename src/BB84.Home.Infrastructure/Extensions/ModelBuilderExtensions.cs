@@ -2,6 +2,7 @@
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Entities.Finance;
+using BB84.Home.Domain.Entities.Todo;
 using BB84.Home.Infrastructure.Common;
 
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,9 @@ internal static class ModelBuilderExtensions
 			.HasQueryFilter(x => x.UserId == userService.UserId);
 
 		builder.Entity<DocumentEntity>()
+			.HasQueryFilter(x => x.UserId == userService.UserId);
+
+		builder.Entity<ListEntity>()
 			.HasQueryFilter(x => x.UserId == userService.UserId);
 
 		return builder;

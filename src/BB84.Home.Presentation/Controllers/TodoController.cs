@@ -3,7 +3,6 @@
 using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Application.Interfaces.Application.Services.Todo;
-using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 using BB84.Home.Presentation.Common;
@@ -16,14 +15,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
-/// The todo list and item api controller.
+/// Provides functionality for managing todo list and item records, including creation,
+/// retrieval, updating, and deletion.
 /// </summary>
 /// <param name="todoService">The todo service instance to use.</param>
-/// <param name="userService">The current user service instance to use.</param>
 [Authorize]
 [Route(Endpoints.Todo.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class TodoController(ITodoService todoService, ICurrentUserService userService) : ApiControllerBase
+public sealed class TodoController(ITodoService todoService) : ApiControllerBase
 {
 	/// <summary>
 	/// Deletes an existing todo item.
@@ -44,7 +43,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> DeleteItemById(Guid itemId, CancellationToken token = default)
 	{
 		ErrorOr<Deleted> response = await todoService
-			.DeleteItemById(itemId, token)
+			.DeleteItemAsync(itemId, token)
 			.ConfigureAwait(false);
 
 		return Delete(response);
@@ -69,7 +68,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> DeleteListById(Guid listId, CancellationToken token = default)
 	{
 		ErrorOr<Deleted> response = await todoService
-			.DeleteListById(listId, token)
+			.DeleteListAsync(listId, token)
 			.ConfigureAwait(false);
 
 		return Delete(response);
@@ -91,7 +90,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> GetAllLists(CancellationToken token = default)
 	{
 		ErrorOr<IEnumerable<ListResponse>> response = await todoService
-			.GetListsByUserId(userService.UserId, token)
+			.GetAllListsAsync(token)
 			.ConfigureAwait(false);
 
 		return Get(response);
@@ -116,7 +115,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> GetListById(Guid listId, CancellationToken token = default)
 	{
 		ErrorOr<ListResponse> response = await todoService
-			.GetListById(listId, token)
+			.GetListAsync(listId, token)
 			.ConfigureAwait(false);
 
 		return Get(response);
@@ -141,7 +140,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> PostList([FromBody] ListCreateRequest request, CancellationToken token = default)
 	{
 		ErrorOr<Created> response = await todoService
-			.CreateListByUserId(userService.UserId, request, token)
+			.CreateListAsync(request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(response);
@@ -169,7 +168,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> PostItem(Guid listId, [FromBody] ItemCreateRequest request, CancellationToken token = default)
 	{
 		ErrorOr<Created> response = await todoService
-			.CreateItemByListId(listId, request, token)
+			.CreateItemAsync(listId, request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(response);
@@ -197,7 +196,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> PutItem(Guid itemId, [FromBody] ItemUpdateRequest request, CancellationToken token = default)
 	{
 		ErrorOr<Updated> response = await todoService
-			.UpdateItemById(itemId, request, token)
+			.UpdateItemAsync(itemId, request, token)
 			.ConfigureAwait(false);
 
 		return Put(response);
@@ -225,7 +224,7 @@ public sealed class TodoController(ITodoService todoService, ICurrentUserService
 	public async Task<IActionResult> PutList(Guid listId, [FromBody] ListUpdateRequest request, CancellationToken token = default)
 	{
 		ErrorOr<Updated> response = await todoService
-			.UpdateListById(listId, request, token)
+			.UpdateListAsync(listId, request, token)
 			.ConfigureAwait(false);
 
 		return Put(response);

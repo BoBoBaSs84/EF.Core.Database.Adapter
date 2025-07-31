@@ -24,7 +24,7 @@ public sealed partial class TodoServiceTests
 		Guid id = Guid.NewGuid();
 		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteListById(id)
+		ErrorOr<Deleted> result = await sut.DeleteListAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -46,7 +46,7 @@ public sealed partial class TodoServiceTests
 			.Returns(Task.FromResult<ListEntity?>(null));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteListById(id)
+		ErrorOr<Deleted> result = await sut.DeleteListAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -74,7 +74,7 @@ public sealed partial class TodoServiceTests
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.DeleteListById(id)
+		ErrorOr<Deleted> result = await sut.DeleteListAsync(id)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

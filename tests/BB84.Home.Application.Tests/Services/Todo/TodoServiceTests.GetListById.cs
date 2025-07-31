@@ -28,7 +28,7 @@ public sealed partial class TodoServiceTests
 		Guid listId = Guid.NewGuid();
 		TodoService sut = CreateMockedInstance();
 
-		ErrorOr<ListResponse> result = await sut.GetListById(listId)
+		ErrorOr<ListResponse> result = await sut.GetListAsync(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -50,7 +50,7 @@ public sealed partial class TodoServiceTests
 			.Returns(Task.FromResult<ListEntity?>(null));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
-		ErrorOr<ListResponse> result = await sut.GetListById(listId)
+		ErrorOr<ListResponse> result = await sut.GetListAsync(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -75,7 +75,7 @@ public sealed partial class TodoServiceTests
 			.Returns(Task.FromResult<ListEntity?>(list));
 		TodoService sut = CreateMockedInstance(listMock.Object);
 
-		ErrorOr<ListResponse> result = await sut.GetListById(listId)
+		ErrorOr<ListResponse> result = await sut.GetListAsync(listId)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

@@ -3,7 +3,6 @@
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Finance;
 using BB84.Home.Application.Tests;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Finance;
@@ -21,35 +20,39 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetAllAsync))]
-	public async Task GetByUserIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task GetAllAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
-		Guid id = Guid.NewGuid();
-		AccountService sut = CreateMockedInstance();
+		Guid userId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 
-		ErrorOr<IEnumerable<AccountResponse>> result = await sut.GetAll(id);
+		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
+			.GetAllAsync(token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(AccountServiceErrors.GetByUserIdFailed(id));
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Once);
+			result.Errors.First().Should().Be(AccountServiceErrors.GetByUserIdFailed(userId));
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Once);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.GetAllAsync))]
-	public async Task GetByUserIdShouldReturnResponseWhenSuccessful()
+	public async Task GetAllAsyncShouldReturnResponseWhenSuccessful()
 	{
-		Guid id = Guid.NewGuid();
+		Guid userId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		IEnumerable<AccountEntity> accounts = [new(), new(), new()];
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<AccountEntity, bool>>>(), null, false, null, null, null, false, default))
+		accountMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<AccountEntity, bool>>>(), null, false, null, null, null, false, token))
 			.Returns(Task.FromResult(accounts));
-		AccountService sut = CreateMockedInstance(accountMock.Object);
+		_repositoryServiceMock.Setup(x => x.AccountRepository)
+			.Returns(accountMock.Object);
 
-		ErrorOr<IEnumerable<AccountResponse>> result = await sut.GetAll(id);
+		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
+			.GetAllAsync(token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -57,7 +60,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Count().Should().Be(accounts.Count());
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 }

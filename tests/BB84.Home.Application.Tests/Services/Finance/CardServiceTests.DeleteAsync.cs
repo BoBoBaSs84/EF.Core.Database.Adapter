@@ -1,6 +1,5 @@
 ﻿using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Finance;
 using BB84.Home.Application.Tests;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Finance;
@@ -19,13 +18,14 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(CardService.DeleteAsync))]
-	public async Task DeleteShouldReturnFailedWhenExceptionIsThrown()
+	public async Task DeleteAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		CardService sut = CreateMockedInstance();
+		CancellationToken token = CancellationToken.None;
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(id, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -37,43 +37,49 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.DeleteAsync))]
-	public async Task DeleteShouldReturnNotFoundWhenCardNotFound()
+	public async Task DeleteAsyncShouldReturnNotFoundWhenCardNotFound()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+		cardMock.Setup(x => x.GetByIdAsync(id, default, default, token))
 			.Returns(Task.FromResult<CardEntity?>(null));
-		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.CardRepository)
+			.Returns(cardMock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(id, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.DeleteNotFound(id));
-			cardMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, default, default, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.DeleteAsync))]
-	public async Task DeleteShouldReturnDeletedWhenSuccessful()
+	public async Task DeleteAsyncShouldReturnDeletedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardEntity card = new();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+		cardMock.Setup(x => x.GetByIdAsync(id, default, default, token))
 			.Returns(Task.FromResult<CardEntity?>(card));
 		cardMock.Setup(x => x.DeleteAsync(card, default))
 			.Returns(Task.CompletedTask);
-		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+		_repositoryServiceMock.Setup(x => x.CardRepository)
+			.Returns(cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.DeleteAsync(id);
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(id, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -81,9 +87,9 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			cardMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
-			cardMock.Verify(x => x.DeleteAsync(card, default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, default, default, token), Times.Once);
+			cardMock.Verify(x => x.DeleteAsync(card, token), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -23,15 +23,19 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(CardService.CreateAsync))]
-	public async Task CreateShouldReturnFailedWhenExceptionIsThrown()
+	public async Task CreateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		string[] parameters = [$"{userId}", $"{accountId}"];
 		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		CardService sut = CreateMockedInstance();
+		_currentUserServiceMock.Setup(x => x.UserId)
+			.Returns(userId);
 
-		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
+		ErrorOr<Created> result = await _sut
+			.CreateAsync(accountId, request, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -43,73 +47,88 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.CreateAsync))]
-	public async Task CreateShouldReturnNotFoundWhenAccountIsNotFound()
+	public async Task CreateAsyncShouldReturnNotFoundWhenAccountIsNotFound()
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
+		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, token))
 			.Returns(Task.FromResult<AccountEntity?>(null));
-		CardService sut = CreateMockedInstance(accountMock.Object);
+		_repositoryServiceMock.Setup(x => x.AccountRepository)
+			.Returns(accountMock.Object);
 
-		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
+		ErrorOr<Created> result = await _sut
+			.CreateAsync(accountId, request, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.CreateAccountIdNotFound(accountId));
-			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, default), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.CreateAsync))]
-	public async Task CreateShouldReturnConflictWhenCardNumberIsFound()
+	public async Task CreateAsyncShouldReturnConflictWhenCardNumberIsFound()
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		AccountEntity accountModel = new();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
+		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, token))
 			.Returns(Task.FromResult<AccountEntity?>(accountModel));
 		CardEntity cardModel = new() { PAN = request.PAN };
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default))
+		cardMock.Setup(x => x.GetByConditionAsync(x => x.PAN == request.PAN, null, false, false, token))
 			.Returns(Task.FromResult<CardEntity?>(cardModel));
-		CardService sut = CreateMockedInstance(accountMock.Object, cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.AccountRepository)
+			.Returns(accountMock.Object);
+		_repositoryServiceMock.Setup(x => x.CardRepository)
+			.Returns(cardMock.Object);
 
-		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
+		ErrorOr<Created> result = await _sut
+			.CreateAsync(accountId, request, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.CreateNumberConflict(request.PAN));
-			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, default), Times.Once);
-			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, token), Times.Once);
+			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(AccountService.CreateAsync))]
-	public async Task CreateShouldReturnCreatedWhenCreateIsSuccessful()
+	public async Task CreateAsyncShouldReturnCreatedWhenCreateIsSuccessful()
 	{
 		Guid userId = Guid.NewGuid(), accountId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardCreateRequest request = RequestHelper.GetCardCreateRequest();
 		AccountEntity accountModel = new();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, default))
+		accountMock.Setup(x => x.GetByIdAsync(accountId, false, false, token))
 			.Returns(Task.FromResult<AccountEntity?>(accountModel));
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default))
+		cardMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, token))
 			.Returns(Task.FromResult<CardEntity?>(null));
-		CardService sut = CreateMockedInstance(accountMock.Object, cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.AccountRepository)
+			.Returns(accountMock.Object);
+		_repositoryServiceMock.Setup(x => x.CardRepository)
+			.Returns(cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+			.Returns(Task.FromResult(1));
 
-		ErrorOr<Created> result = await sut.Create(userId, accountId, request);
+		ErrorOr<Created> result = await _sut
+			.CreateAsync(accountId, request, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -117,10 +136,10 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, default), Times.Once);
-			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, default), Times.Once);
-			cardMock.Verify(x => x.CreateAsync(It.IsAny<CardEntity>(), default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(accountId, false, false, token), Times.Once);
+			cardMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, false, token), Times.Once);
+			cardMock.Verify(x => x.CreateAsync(It.IsAny<CardEntity>(), token), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -1,7 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
-using BB84.Home.Application.Services.Finance;
 using BB84.Home.Application.Tests;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
@@ -21,14 +20,15 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(CardService.UpdateAsync))]
-	public async Task UpdateShouldReturnFailedWhenExceptionIsThrown()
+	public async Task UpdateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
-		CardService sut = CreateMockedInstance();
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(id, request);
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(id, request, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -40,43 +40,49 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.UpdateAsync))]
-	public async Task UpdateShouldReturnNotFoundWhenAccountNotFound()
+	public async Task UpdateAsyncShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, true, default))
+		cardMock.Setup(x => x.GetByIdAsync(id, default, true, token))
 			.Returns(Task.FromResult<CardEntity?>(null));
-		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.CardRepository)
+			.Returns(cardMock.Object);
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(id, request);
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(id, request, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.UpdateNotFound(id));
-			cardMock.Verify(x => x.GetByIdAsync(id, default, true, default), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.UpdateAsync))]
-	public async Task UpdateShouldReturnUpdatedWhenSuccessful()
+	public async Task UpdateAsyncShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardEntity card = new();
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, true, default))
+		cardMock.Setup(x => x.GetByIdAsync(id, default, true, token))
 			.Returns(Task.FromResult<CardEntity?>(card));
-		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+		_repositoryServiceMock.Setup(x => x.CardRepository)
+			.Returns(cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Updated> result = await sut.UpdateAsync(id, request);
+		ErrorOr<Updated> result = await _sut
+			.UpdateAsync(id, request, token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -86,8 +92,9 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Value.Should().Be(Result.Updated);
 			card.Type.Should().Be(request.Type);
 			card.ValidUntil.Should().Be(request.ValidUntil);
-			cardMock.Verify(x => x.GetByIdAsync(id, default, true, default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
+			cardMock.Verify(x => x.UpdateAsync(card, token), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

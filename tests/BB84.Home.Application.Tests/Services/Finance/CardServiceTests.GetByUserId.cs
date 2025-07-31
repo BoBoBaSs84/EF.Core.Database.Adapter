@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using BB84.Home.Application.Contracts.Responses.Finance;
+﻿using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Finance;
@@ -21,13 +19,15 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(CardService.GetAllAsync))]
-	public async Task GetByUserIdShouldReturnFailedWhenExceptionIsThrown()
+	public async Task GetAllAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		CardService sut = CreateMockedInstance();
 
-		ErrorOr<IEnumerable<CardResponse>> result = await sut.GetAll(id);
+		ErrorOr<IEnumerable<CardResponse>> result = await _sut
+			.GetAllAsync(token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -39,17 +39,20 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.GetAllAsync))]
-	public async Task GetByUserIdShouldReturnResponseWhenSuccessful()
+	public async Task GetAllAsyncShouldReturnResponseWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		IEnumerable<CardEntity> cards = [new(), new(), new()];
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, null, null, null, false, default))
+		cardMock.Setup(x => x.GetAllAsync(false, false, token))
 			.Returns(Task.FromResult(cards));
-		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
+		_repositoryServiceMock.Setup(x => x.CardRepository)
+			.Returns(cardMock.Object);
 
-		ErrorOr<IEnumerable<CardResponse>> result = await sut.GetAll(id);
+		ErrorOr<IEnumerable<CardResponse>> result = await _sut
+			.GetAllAsync(token)
+			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -57,6 +60,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Count().Should().Be(cards.Count());
+			cardMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

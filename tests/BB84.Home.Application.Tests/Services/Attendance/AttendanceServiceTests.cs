@@ -17,8 +17,8 @@ public sealed partial class AttendanceServiceTests : ApplicationTestBase
 	private readonly IMapper _mapper = GetService<IMapper>();
 	private readonly Mock<ILoggerService<AttendanceService>> _loggerServiceMock = new();
 	private readonly Mock<IRepositoryService> _repositoryServiceMock = new();
-	private readonly Mock<ICurrentUserService> _currentUserService = new();
+	private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
 
 	public AttendanceServiceTests()
-		=> _sut = new(_loggerServiceMock.Object, _currentUserService.Object, _repositoryServiceMock.Object, _mapper);
+		=> _sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
 }

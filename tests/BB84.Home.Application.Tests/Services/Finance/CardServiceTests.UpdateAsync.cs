@@ -45,11 +45,11 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		CancellationToken token = CancellationToken.None;
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
-		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, true, token))
+		Mock<ICardRepository> cardRepoMock = new();
+		cardRepoMock.Setup(x => x.GetByIdAsync(id, default, true, token))
 			.Returns(Task.FromResult<CardEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.CardRepository)
-			.Returns(cardMock.Object);
+			.Returns(cardRepoMock.Object);
 
 		ErrorOr<Updated> result = await _sut
 			.UpdateAsync(id, request, token)
@@ -60,7 +60,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.UpdateNotFound(id));
-			cardMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
+			cardRepoMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -72,11 +72,11 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		CancellationToken token = CancellationToken.None;
 		CardEntity card = new();
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
-		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, true, token))
+		Mock<ICardRepository> cardRepoMock = new();
+		cardRepoMock.Setup(x => x.GetByIdAsync(id, default, true, token))
 			.Returns(Task.FromResult<CardEntity?>(card));
 		_repositoryServiceMock.Setup(x => x.CardRepository)
-			.Returns(cardMock.Object);
+			.Returns(cardRepoMock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
 			.Returns(Task.FromResult(1));
 
@@ -92,8 +92,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Value.Should().Be(Result.Updated);
 			card.Type.Should().Be(request.Type);
 			card.ValidUntil.Should().Be(request.ValidUntil);
-			cardMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
-			cardMock.Verify(x => x.UpdateAsync(card, token), Times.Once);
+			cardRepoMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

@@ -22,10 +22,11 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateItemAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid itemId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateItemAsync(itemId, request)
+			.UpdateItemAsync(itemId, request, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -41,15 +42,16 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateItemAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		Guid itemId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, default))
+		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, token))
 			.Returns(Task.FromResult<ItemEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.TodoItemRepository)
 			.Returns(itemMock.Object);
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateItemAsync(itemId, request)
+			.UpdateItemAsync(itemId, request, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -57,7 +59,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetItemByIdNotFound(itemId));
-			itemMock.Verify(x => x.GetByIdAsync(itemId, false, true, default), Times.Once);
+			itemMock.Verify(x => x.GetByIdAsync(itemId, false, true, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), itemId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -66,16 +68,19 @@ public sealed partial class TodoServiceTests
 	public async Task UpdateItemAsyncShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid itemId = Guid.NewGuid();
+		CancellationToken token = CancellationToken.None;
 		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		ItemEntity model = new();
 		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, default))
+		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, token))
 			.Returns(Task.FromResult<ItemEntity?>(model));
 		_repositoryServiceMock.Setup(x => x.TodoItemRepository)
 			.Returns(itemMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+			.Returns(Task.FromResult(1));
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateItemAsync(itemId, request)
+			.UpdateItemAsync(itemId, request, token)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -89,8 +94,8 @@ public sealed partial class TodoServiceTests
 			model.Priority.Should().Be(request.Priority);
 			model.Reminder.Should().Be(request.Reminder);
 			model.Done.Should().Be(request.Done);
-			itemMock.Verify(x => x.GetByIdAsync(itemId, false, true, default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			itemMock.Verify(x => x.GetByIdAsync(itemId, false, true, token), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), itemId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -14,7 +14,8 @@ using BB84.Home.Connector.Contracts;
 
 namespace BB84.Home.Connector.Abstractions
 {
-    [System.CodeDom.Compiler.GeneratedCode("Refitter", "1.5.5.0")]
+    /// <summary>BB84.Home.API</summary>
+    [System.CodeDom.Compiler.GeneratedCode("Refitter", "1.6.1.0")]
     public partial interface IHomeApiClient
     {
         /// <summary>Deletes an existing bank account for the application user by the bank account identifier.</summary>
@@ -1677,8 +1678,13 @@ namespace BB84.Home.Connector.Abstractions
         [Get("/Enumerator/WorkDayType")]
         Task<IApiResponse<ICollection<WorkDayTypeResponse>>> EnumeratorWorkDayTypeAsync(CancellationToken cancellationToken = default);
 
-        /// <summary>Deletes an existing todo item.</summary>
-        /// <param name="itemId">The todo item identifier to use.</param>
+        /// <summary>Deletes a to-do item identified by its unique identifier.</summary>
+        /// <remarks>
+        /// This method attempts to delete the specified item from the repository. If the item does
+        /// not exist, an error is returned. If the deletion succeeds, the changes are committed to
+        /// the repository.
+        /// </remarks>
+        /// <param name="itemId">The unique identifier of the item to delete.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
@@ -1712,9 +1718,14 @@ namespace BB84.Home.Connector.Abstractions
         [Delete("/Todo/Items/{itemId}")]
         Task<IApiResponse<Deleted>> TodoItemsDeleteAsync(System.Guid itemId, CancellationToken cancellationToken = default);
 
-        /// <summary>Updates an existing todo item for the provied itemId.</summary>
-        /// <param name="itemId">The todo item identifier to use.</param>
-        /// <param name="body">The todo item update request to use.</param>
+        /// <summary>Updates an existing to-do item with the specified changes.</summary>
+        /// <remarks>
+        /// This method retrieves the to-do item by its identifier, applies the updates specified in the
+        /// request, and commits the changes to the repository. If the to-do item does
+        /// not exist, an error is returned.
+        /// </remarks>
+        /// <param name="itemId">The unique identifier of the to-do item to update.</param>
+        /// <param name="body">The object containing the updated properties for the to-do item.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
@@ -1752,8 +1763,13 @@ namespace BB84.Home.Connector.Abstractions
         [Put("/Todo/Items/{itemId}")]
         Task<IApiResponse<Created>> TodoItemsPutAsync(System.Guid itemId, [Body] ItemUpdateRequest body, CancellationToken cancellationToken = default);
 
-        /// <summary>Deletes an existing todo list.</summary>
-        /// <param name="listId">The todo list identifier to use.</param>
+        /// <summary>Deletes a to-do list identified by its unique ID.</summary>
+        /// <remarks>
+        /// This method retrieves the to-do list by its ID, deletes it from the repository, and commits the
+        /// changes. If the to-do list does not exist, an error is returned. If an exception occurs during
+        /// the operation, an error is logged and returned.
+        /// </remarks>
+        /// <param name="listId">The unique identifier of the to-do list to delete.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
@@ -1787,8 +1803,12 @@ namespace BB84.Home.Connector.Abstractions
         [Delete("/Todo/{listId}")]
         Task<IApiResponse<Deleted>> TodoDeleteAsync(System.Guid listId, CancellationToken cancellationToken = default);
 
-        /// <summary>Returns a todo list for the current user by the provided listId.</summary>
-        /// <param name="listId">The todo list identifier to use.</param>
+        /// <summary>Retrieves a to-do list by its unique identifier.</summary>
+        /// <remarks>
+        /// This method attempts to retrieve a to-do list from the repository, including its
+        /// associated items. If the list is not found, an error is returned.
+        /// </remarks>
+        /// <param name="listId">The unique identifier of the to-do list to retrieve.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
@@ -1822,9 +1842,14 @@ namespace BB84.Home.Connector.Abstractions
         [Get("/Todo/{listId}")]
         Task<IApiResponse<ListResponse>> TodoGetAsync(System.Guid listId, CancellationToken cancellationToken = default);
 
-        /// <summary>Creates a new todo item for the provied listId.</summary>
-        /// <param name="listId">The todo list identifier to use.</param>
-        /// <param name="body">The item create request to use.</param>
+        /// <summary>Creates a new item within the specified to-do list.</summary>
+        /// <remarks>
+        /// This method attempts to create a new item in the specified to-do list. If the list does not exist,
+        /// an error is returned. If the operation fails due to an exception, an appropriate error is logged
+        /// and returned.
+        /// </remarks>
+        /// <param name="listId">The unique identifier of the to-do list where the item will be created.</param>
+        /// <param name="body">The details of the item to be created, including its name and other properties.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
@@ -1862,9 +1887,14 @@ namespace BB84.Home.Connector.Abstractions
         [Post("/Todo/{listId}")]
         Task<IApiResponse<Created>> TodoPostAsync(System.Guid listId, [Body] ItemCreateRequest body, CancellationToken cancellationToken = default);
 
-        /// <summary>Updates an existing todo list for the provied listId.</summary>
-        /// <param name="listId">The todo list identifier to use.</param>
-        /// <param name="body">The todo list update request to use.</param>
+        /// <summary>Updates an existing to-do list with the specified changes.</summary>
+        /// <remarks>
+        /// This method retrieves the to-do list by its identifier, applies the updates specified in the
+        /// request, and commits the changes to the repository. If the to-do list does
+        /// not exist, an error is returned.
+        /// </remarks>
+        /// <param name="listId">The unique identifier of the to-do list to update.</param>
+        /// <param name="body">The object containing the updated properties for the to-do list.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
@@ -1902,7 +1932,11 @@ namespace BB84.Home.Connector.Abstractions
         [Put("/Todo/{listId}")]
         Task<IApiResponse<Updated>> TodoPutAsync(System.Guid listId, [Body] ListUpdateRequest body, CancellationToken cancellationToken = default);
 
-        /// <summary>Returns a collection of todo lists for the current user.</summary>
+        /// <summary>Retrieves all to-do lists asynchronously.</summary>
+        /// <remarks>
+        /// This method fetches all to-do lists from the repository and maps them to response
+        /// objects. If an error occurs during the operation, an appropriate error is returned.
+        /// </remarks>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">
@@ -1932,8 +1966,12 @@ namespace BB84.Home.Connector.Abstractions
         [Get("/Todo")]
         Task<IApiResponse<ICollection<ListResponse>>> TodoGetAsync(CancellationToken cancellationToken = default);
 
-        /// <summary>Creates a new todo list for the current user.</summary>
-        /// <param name="body">The list create request to use.</param>
+        /// <summary>Creates a new to-do list based on the provided request.</summary>
+        /// <remarks>
+        /// This method maps the provided request to a list entity, associates it with the current user,
+        /// and persists it to the repository. If the operation fails, an error is returned.
+        /// </remarks>
+        /// <param name="body">The request containing the details of the to-do list to be created.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
         /// <list type="table">

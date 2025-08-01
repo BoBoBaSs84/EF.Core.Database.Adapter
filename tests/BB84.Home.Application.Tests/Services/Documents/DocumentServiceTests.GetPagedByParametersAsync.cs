@@ -47,21 +47,18 @@ public sealed partial class DocumentServiceTests
 
 	public async Task GetPagedByParametersAsyncShouldReturnResultWhenSuccessful()
 	{
-		Guid userId = Guid.NewGuid();
 		CancellationToken token = CancellationToken.None;
 		DocumentParameters parameters = new();
 		IEnumerable<DocumentEntity> documents = [CreateDocument(), CreateDocument()];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(
-			It.IsAny<Expression<Func<DocumentEntity, bool>>?>(), It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default,
+			null, It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default,
 			It.IsAny<Func<IQueryable<DocumentEntity>, IOrderedQueryable<DocumentEntity>>?>(), (parameters.PageNumber - 1) * parameters.PageSize,
 			parameters.PageSize, default, token))
 			.Returns(Task.FromResult(documents));
 		docRepoMock.Setup(x => x.CountAsync(
-			It.IsAny<Expression<Func<DocumentEntity, bool>>?>(), It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default, token))
+			null, It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default, token))
 			.Returns(Task.FromResult(2));
-		_currentUserService.Setup(x => x.UserId)
-			.Returns(userId);
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
 

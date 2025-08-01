@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using BB84.Home.Application.Contracts.Responses.Finance;
+﻿using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Tests;
@@ -24,6 +22,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	{
 		Guid userId = Guid.NewGuid();
 		CancellationToken token = CancellationToken.None;
+		_currentUserServiceMock.Setup(x => x.UserId)
+			.Returns(userId);
 
 		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
 			.GetAllAsync(token)
@@ -44,11 +44,11 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		Guid userId = Guid.NewGuid();
 		CancellationToken token = CancellationToken.None;
 		IEnumerable<AccountEntity> accounts = [new(), new(), new()];
-		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<AccountEntity, bool>>>(), null, false, null, null, null, false, token))
+		Mock<IAccountRepository> accountRepoMock = new();
+		accountRepoMock.Setup(x => x.GetAllAsync(false, false, token))
 			.Returns(Task.FromResult(accounts));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
-			.Returns(accountMock.Object);
+			.Returns(accountRepoMock.Object);
 
 		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
 			.GetAllAsync(token)
@@ -60,6 +60,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Count().Should().Be(accounts.Count());
+			accountRepoMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

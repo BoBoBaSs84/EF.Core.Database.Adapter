@@ -25,6 +25,9 @@ internal static class ModelBuilderExtensions
 		builder.Entity<AccountEntity>()
 			.HasQueryFilter(x => x.AccountUsers.Select(x => x.UserId).Contains(userService.UserId));
 
+		builder.Entity<AccountTransactionEntity>()
+			.HasQueryFilter(x => x.Account.AccountUsers.Select(x => x.UserId).Contains(userService.UserId));
+
 		builder.Entity<AccountUserEntity>()
 			.HasQueryFilter(x => x.UserId == userService.UserId);
 
@@ -34,11 +37,17 @@ internal static class ModelBuilderExtensions
 		builder.Entity<CardEntity>()
 			.HasQueryFilter(x => x.UserId == userService.UserId);
 
+		builder.Entity<CardTransactionEntity>()
+			.HasQueryFilter(x => x.Card.UserId == userService.UserId);
+
 		builder.Entity<DocumentEntity>()
 			.HasQueryFilter(x => x.UserId == userService.UserId);
 
 		builder.Entity<ListEntity>()
 			.HasQueryFilter(x => x.UserId == userService.UserId);
+
+		builder.Entity<ItemEntity>()
+			.HasQueryFilter(x => x.List.UserId == userService.UserId);
 
 		return builder;
 	}

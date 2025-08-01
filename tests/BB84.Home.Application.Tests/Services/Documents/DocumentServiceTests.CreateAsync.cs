@@ -26,6 +26,8 @@ public sealed partial class DocumentServiceTests
 		CancellationToken token = CancellationToken.None;
 		DocumentCreateRequest request = RequestHelper.GetDocumentCreateRequest();
 		string[] parameters = [$"{userId}", $"{request.ToJson()}"];
+		_currentUserService.Setup(x => x.UserId)
+			.Returns(userId);
 
 		ErrorOr<Created> result = await _sut
 			.CreateAsync(request, token)
@@ -60,6 +62,8 @@ public sealed partial class DocumentServiceTests
 			.Returns(dataRepoMock.Object);
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+			.Returns(Task.FromResult(1));
 
 		ErrorOr<Created> result = await _sut
 			.CreateAsync(request, token)
@@ -74,7 +78,7 @@ public sealed partial class DocumentServiceTests
 			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, token), Times.Once());
 			//dataRepoMock.Verify(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default), Times.Once());
 			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<DocumentEntity>(), token), Times.Once());
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once());
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

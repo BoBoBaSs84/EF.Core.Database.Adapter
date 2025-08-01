@@ -21,9 +21,8 @@ public sealed partial class DocumentServiceTests
 {
 	[TestMethod]
 	public async Task UpdateMultipleAsyncShouldReturnFailedWhenExceptionIsThrown()
-	{
+	{		
 		CancellationToken token = CancellationToken.None;
-		Guid userId = Guid.NewGuid();
 		IEnumerable<DocumentUpdateRequest> requests = [RequestHelper.GetDocumentUpdateRequest()];
 		string parameter = requests.ToJson();
 
@@ -44,7 +43,6 @@ public sealed partial class DocumentServiceTests
 	public async Task UpdateMultipleAsyncShouldReturnBadRequestWhenBodyIsEmpty()
 	{
 		CancellationToken token = CancellationToken.None;
-		Guid userId = Guid.NewGuid();
 		IEnumerable<DocumentUpdateRequest> requests = [];
 
 		ErrorOr<Updated> result = await _sut
@@ -64,7 +62,6 @@ public sealed partial class DocumentServiceTests
 	public async Task UpdateMultipleAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		CancellationToken token = CancellationToken.None;
-		Guid userId = Guid.NewGuid();
 		IEnumerable<DocumentUpdateRequest> requests = [RequestHelper.GetDocumentUpdateRequest()];
 		string[] includes = [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)];
 		Mock<IDocumentRepository> docRepoMock = new();
@@ -82,8 +79,7 @@ public sealed partial class DocumentServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(DocumentServiceErrors.UpdateByIdsNotFound(requests.Select(x => x.Id)));
-			docRepoMock.Verify(x => x.GetManyByConditionAsync(x =>
-				x.UserId.Equals(userId) && requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, token, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, token, includes), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -92,14 +88,12 @@ public sealed partial class DocumentServiceTests
 	public async Task UpdateMultipleAsyncShouldReturnUpdatedWhenSuccessful()
 	{
 		CancellationToken token = CancellationToken.None;
-		Guid userId = Guid.NewGuid();
 		DocumentUpdateRequest request = RequestHelper.GetDocumentUpdateRequest();
 		DocumentEntity document = CreateDocument(request.Id);
 		IEnumerable<DocumentUpdateRequest> requests = [request];
 		string[] includes = [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)];
 		Mock<IDocumentRepository> docRepoMock = new();
-		docRepoMock.Setup(x => x.GetManyByConditionAsync(x =>
-			x.UserId.Equals(userId) && requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, token, includes))
+		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, token, includes))
 			.Returns(Task.FromResult<IEnumerable<DocumentEntity>>([document]));
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
 		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, token))
@@ -114,6 +108,8 @@ public sealed partial class DocumentServiceTests
 			.Returns(extRepoMock.Object);
 		_repositoryServiceMock.Setup(x => x.DocumentDataRepository)
 			.Returns(dataRepoMock.Object);
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+			.Returns(Task.FromResult(1));
 
 		ErrorOr<Updated> result = await _sut
 			.UpdateAsync(requests, token)
@@ -125,8 +121,7 @@ public sealed partial class DocumentServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
-			docRepoMock.Verify(x => x.GetManyByConditionAsync(x =>
-				x.UserId.Equals(userId) && requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, token, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, token, includes), Times.Once);
 			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, token), Times.Once());
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);

@@ -182,14 +182,14 @@ internal static class Endpoints
 	{
 		internal const string BaseUri = Endpoints.BaseUri + "/" + nameof(Todo);
 
-		internal const string DeleteListById = "{listId:guid}";
-		internal const string DeleteItemById = "Items/{itemId:Guid}";
+		internal const string DeleteList = "{listId:guid}";
+		internal const string DeleteItem = "Items/{itemId:Guid}";
 		internal const string GetAllLists = EmptySuffix;
-		internal const string GetListById = "{listId:guid}";
-		internal const string PostList = EmptySuffix;
-		internal const string PostItem = "{listId:guid}";
-		internal const string PutList = "{listId:guid}";
-		internal const string PutItem = "Items/{itemId:Guid}";
+		internal const string GetList = "{listId:guid}";
+		internal const string CreateList = EmptySuffix;
+		internal const string CreateItem = "{listId:guid}";
+		internal const string UpdateList = "{listId:guid}";
+		internal const string UpdateItem = "Items/{itemId:Guid}";
 	}
 
 	/// <summary>

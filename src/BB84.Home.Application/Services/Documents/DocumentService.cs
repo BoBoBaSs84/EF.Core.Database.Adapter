@@ -12,6 +12,7 @@ using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Application.Interfaces.Application.Services.Documents;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
+using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Entities.Documents;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
@@ -21,18 +22,22 @@ using Microsoft.Extensions.Logging;
 namespace BB84.Home.Application.Services.Documents;
 
 /// <summary>
-/// The document service class.
+/// Provides functionality for managing document records, including creation, retrieval, updating, and deletion.
 /// </summary>
-internal sealed class DocumentService(ILoggerService<DocumentService> loggerService, IRepositoryService repositoryService, IMapper mapper) : IDocumentService
+/// <param name="loggerService">The logger service for logging errors and information.</param>
+/// <param name="userService"> The service providing information about the current user.</param>
+/// <param name="repositoryService">The repository service for accessing data repositories.</param>
+/// <param name="mapper">The mapper for converting between domain entities and data transfer objects.</param>
+internal sealed class DocumentService(ILoggerService<DocumentService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : IDocumentService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, DocumentCreateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateAsync(DocumentCreateRequest request, CancellationToken token = default)
 	{
 		try
 		{
-			DocumentEntity document = await PrepareDocumentForCreate(userId, request, token)
+			DocumentEntity document = await PrepareDocumentForCreate(request, token)
 				.ConfigureAwait(false);
 
 			await repositoryService.DocumentRepository.CreateAsync(document, token)
@@ -45,7 +50,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", request.ToJson()];
+			string[] parameters = [$"{userService.UserId}", request.ToJson()];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 
 			string document = $"{request.Name}.{request.ExtensionName}";
@@ -53,7 +58,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<Created>> Create(Guid userId, IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Created>> CreateAsync(IEnumerable<DocumentCreateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
@@ -64,7 +69,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 
 			foreach (DocumentCreateRequest request in requests)
 			{
-				DocumentEntity document = await PrepareDocumentForCreate(userId, request, token)
+				DocumentEntity document = await PrepareDocumentForCreate(request, token)
 					.ConfigureAwait(false);
 
 				documents.Add(document);
@@ -80,7 +85,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 		catch (Exception ex)
 		{
-			string[] parameters = [$"{userId}", requests.ToJson()];
+			string[] parameters = [$"{userService.UserId}", requests.ToJson()];
 			loggerService.Log(LogExceptionWithParams, parameters, ex);
 
 			IEnumerable<string> documents = requests.Select(x => $"{x.Name}.{x.ExtensionName}");
@@ -88,7 +93,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteById(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteAsync(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -114,13 +119,13 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<Deleted>> DeleteByIds(Guid userId, IEnumerable<Guid> ids, CancellationToken token = default)
+	public async Task<ErrorOr<Deleted>> DeleteAsync(IEnumerable<Guid> ids, CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<DocumentEntity> documents = await repositoryService.DocumentRepository
 				.GetManyByConditionAsync(
-					expression: x => x.UserId.Equals(userId) && ids.Contains(x.Id),
+					expression: x => ids.Contains(x.Id),
 					token: token)
 				.ConfigureAwait(false);
 
@@ -142,7 +147,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<DocumentResponse>> GetById(Guid id, CancellationToken token = default)
+	public async Task<ErrorOr<DocumentResponse>> GetByIdAsync(Guid id, CancellationToken token = default)
 	{
 		try
 		{
@@ -164,13 +169,12 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<IPagedList<DocumentResponse>>> GetPagedByParameters(Guid userId, DocumentParameters parameters, CancellationToken token = default)
+	public async Task<ErrorOr<IPagedList<DocumentResponse>>> GetPagedByParametersAsync(DocumentParameters parameters, CancellationToken token = default)
 	{
 		try
 		{
 			IEnumerable<DocumentEntity> documents = await repositoryService.DocumentRepository
 				.GetManyByConditionAsync(
-					expression: x => x.UserId.Equals(userId),
 					queryFilter: x => x.FilterByParameters(parameters),
 					orderBy: x => x.OrderByDescending(x => x.CreationTime),
 					skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -180,7 +184,6 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 
 			int totalCount = await repositoryService.DocumentRepository
 				.CountAsync(
-					expression: x => x.UserId.Equals(userId),
 					queryFilter: x => x.FilterByParameters(parameters),
 					token: token)
 				.ConfigureAwait(false);
@@ -191,13 +194,13 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 		catch (Exception ex)
 		{
-			string[] parameter = [$"{userId}", parameters.ToJson()];
+			string[] parameter = [$"{userService.UserId}", parameters.ToJson()];
 			loggerService.Log(LogExceptionWithParams, parameter, ex);
 			return DocumentServiceErrors.GetPagedByParametersFailed;
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(DocumentUpdateRequest request, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateAsync(DocumentUpdateRequest request, CancellationToken token = default)
 	{
 		try
 		{
@@ -224,7 +227,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	public async Task<ErrorOr<Updated>> Update(Guid userId, IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default)
+	public async Task<ErrorOr<Updated>> UpdateAsync(IEnumerable<DocumentUpdateRequest> requests, CancellationToken token = default)
 	{
 		try
 		{
@@ -233,7 +236,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 
 			IEnumerable<DocumentEntity> documents = await repositoryService.DocumentRepository
 				.GetManyByConditionAsync(
-					expression: x => x.UserId.Equals(userId) && requests.Select(x => x.Id).Contains(x.Id),
+					expression: x => requests.Select(x => x.Id).Contains(x.Id),
 					trackChanges: true,
 					token: token,
 					includeProperties: [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)])
@@ -263,7 +266,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		}
 	}
 
-	private async Task<DocumentEntity> PrepareDocumentForCreate(Guid userId, DocumentCreateRequest request, CancellationToken token)
+	private async Task<DocumentEntity> PrepareDocumentForCreate(DocumentCreateRequest request, CancellationToken token)
 	{
 		DataEntity data = await PrepareDocumentData(request, token)
 			.ConfigureAwait(false);
@@ -272,7 +275,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			.ConfigureAwait(false);
 
 		DocumentEntity document = mapper.Map<DocumentEntity>(request);
-		document.UserId = userId;
+		document.UserId = userService.UserId;
 		document.Extension = extension;
 		document.Data = data;
 

@@ -5,7 +5,6 @@ using BB84.Home.Application.Contracts.Responses.Documents;
 using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Application.Interfaces.Application.Services.Documents;
-using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 using BB84.Home.Presentation.Common;
@@ -18,14 +17,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace BB84.Home.Presentation.Controllers;
 
 /// <summary>
-/// The document controller class.
+/// Provides functionality for managing document records, including creation, retrieval, updating, and deletion.
 /// </summary>
 /// <param name="documentService">The document service instance to use.</param>
-/// <param name="userService">The current user service instance to use.</param>
 [Authorize]
 [Route(Endpoints.Document.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class DocumentController(IDocumentService documentService, ICurrentUserService userService) : ApiControllerBase
+public sealed class DocumentController(IDocumentService documentService) : ApiControllerBase
 {
 	/// <summary>
 	/// Deletes an existing document by the provided <paramref name="id"/>.
@@ -46,7 +44,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> DeleteById(Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> result = await documentService
-			.DeleteById(id, token)
+			.DeleteAsync(id, token)
 			.ConfigureAwait(false);
 
 		return Delete(result);
@@ -71,7 +69,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> DeleteByIds([FromBody] IEnumerable<Guid> ids, CancellationToken token)
 	{
 		ErrorOr<Deleted> result = await documentService
-			.DeleteByIds(userService.UserId, ids, token)
+			.DeleteAsync(ids, token)
 			.ConfigureAwait(false);
 
 		return Delete(result);
@@ -96,7 +94,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> GetById(Guid id, CancellationToken token)
 	{
 		ErrorOr<DocumentResponse> result = await documentService
-			.GetById(id, token)
+			.GetByIdAsync(id, token)
 			.ConfigureAwait(false);
 
 		return Get(result);
@@ -119,7 +117,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] DocumentParameters parameters, CancellationToken token)
 	{
 		ErrorOr<IPagedList<DocumentResponse>> result = await documentService
-			.GetPagedByParameters(userService.UserId, parameters, token)
+			.GetPagedByParametersAsync(parameters, token)
 			.ConfigureAwait(false);
 
 		return Get(result, result.Value.MetaData);
@@ -144,7 +142,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> Post([FromBody] DocumentCreateRequest request, CancellationToken token)
 	{
 		ErrorOr<Created> result = await documentService
-			.Create(userService.UserId, request, token)
+			.CreateAsync(request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
@@ -169,7 +167,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<DocumentCreateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Created> result = await documentService
-			.Create(userService.UserId, requests, token)
+			.CreateAsync(requests, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
@@ -196,7 +194,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> Put([FromBody] DocumentUpdateRequest request, CancellationToken token)
 	{
 		ErrorOr<Updated> result = await documentService
-			.Update(request, token)
+			.UpdateAsync(request, token)
 			.ConfigureAwait(false);
 
 		return Put(result);
@@ -223,7 +221,7 @@ public sealed class DocumentController(IDocumentService documentService, ICurren
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<DocumentUpdateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Updated> result = await documentService
-			.Update(userService.UserId, requests, token)
+			.UpdateAsync(requests, token)
 			.ConfigureAwait(false);
 
 		return Put(result);

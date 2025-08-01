@@ -5,7 +5,6 @@ using BB84.Home.Application.Contracts.Responses.Attendance;
 using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Application.Interfaces.Application.Services.Attendance;
-using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 using BB84.Home.Presentation.Common;
@@ -26,11 +25,10 @@ namespace BB84.Home.Presentation.Controllers;
 /// attendance data based on specific criteria such as date or query parameters.
 /// </remarks>
 /// <param name="attendanceService">The service for managing attendance records.</param>
-/// <param name="userService">The service for accessing the current user's information.</param>
 [Authorize]
 [Route(Endpoints.Attendance.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed class AttendanceController(IAttendanceService attendanceService, ICurrentUserService userService) : ApiControllerBase
+public sealed class AttendanceController(IAttendanceService attendanceService) : ApiControllerBase
 {
 	/// <summary>
 	/// Deletes an attendance record by its unique identifier.
@@ -55,7 +53,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> DeleteById(Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> result = await attendanceService
-			.DeleteById(id, token)
+			.DeleteAsync(id, token)
 			.ConfigureAwait(false);
 
 		return Delete(result);
@@ -85,7 +83,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> DeleteByIds([FromBody] IEnumerable<Guid> ids, CancellationToken token)
 	{
 		ErrorOr<Deleted> result = await attendanceService
-			.DeleteByIds(ids, token)
+			.DeleteAsync(ids, token)
 			.ConfigureAwait(false);
 
 		return Delete(result);
@@ -116,7 +114,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> GetPagedByParameters([FromQuery] AttendanceParameters parameters, CancellationToken token)
 	{
 		ErrorOr<IPagedList<AttendanceResponse>> result = await attendanceService
-			.GetPagedByParameters(userService.UserId, parameters, token)
+			.GetPagedByParametersAsync(parameters, token)
 			.ConfigureAwait(false);
 
 		return Get(result, result.Value.MetaData);
@@ -146,7 +144,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> GetByDate(DateTime date, CancellationToken token)
 	{
 		ErrorOr<AttendanceResponse> result = await attendanceService
-			.GetByUserIdAndDate(userService.UserId, date, token)
+			.GetByDateAsync(date, token)
 			.ConfigureAwait(false);
 
 		return Get(result);
@@ -178,7 +176,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> Post([FromBody] AttendanceCreateRequest request, CancellationToken token)
 	{
 		ErrorOr<Created> result = await attendanceService
-			.CreateByUserId(userService.UserId, request, token)
+			.CreateAsync(request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
@@ -211,7 +209,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> PostMultiple([FromBody] IEnumerable<AttendanceCreateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Created> result = await attendanceService
-			.CreateMultipleByUserId(userService.UserId, requests, token)
+			.CreateAsync(requests, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(result);
@@ -242,7 +240,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> Put([FromBody] AttendanceUpdateRequest request, CancellationToken token)
 	{
 		ErrorOr<Updated> result = await attendanceService
-			.Update(request, token)
+			.UpdateAsync(request, token)
 			.ConfigureAwait(false);
 
 		return Put(result);
@@ -277,7 +275,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService, I
 	public async Task<IActionResult> PutMultiple([FromBody] IEnumerable<AttendanceUpdateRequest> requests, CancellationToken token)
 	{
 		ErrorOr<Updated> result = await attendanceService
-			.UpdateMultiple(requests, token)
+			.UpdateAsync(requests, token)
 			.ConfigureAwait(false);
 
 		return Put(result);

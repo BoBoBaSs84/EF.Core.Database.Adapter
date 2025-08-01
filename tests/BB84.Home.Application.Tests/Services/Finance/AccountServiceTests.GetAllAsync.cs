@@ -15,7 +15,7 @@ using Moq;
 namespace ApplicationTests.Services.Finance;
 
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
-public sealed partial class CardServiceTests : ApplicationTestBase
+public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	[TestMethod]
 	public async Task GetAllAsyncShouldReturnFailedWhenExceptionIsThrown()
@@ -25,7 +25,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		_currentUserServiceMock.Setup(x => x.UserId)
 			.Returns(userId);
 
-		ErrorOr<IEnumerable<CardResponse>> result = await _sut
+		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
 			.GetAllAsync(token)
 			.ConfigureAwait(false);
 
@@ -33,7 +33,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		{
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(CardServiceErrors.GetByUserIdFailed(userId));
+			result.Errors.First().Should().Be(AccountServiceErrors.GetByUserIdFailed(userId));
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Once);
 		});
 	}
@@ -41,16 +41,16 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	[TestMethod]
 	public async Task GetAllAsyncShouldReturnResponseWhenSuccessful()
 	{
-		Guid id = Guid.NewGuid();
+		Guid userId = Guid.NewGuid();
 		CancellationToken token = CancellationToken.None;
-		IEnumerable<CardEntity> cards = [new(), new(), new()];
-		Mock<ICardRepository> cardRepoMock = new();
-		cardRepoMock.Setup(x => x.GetAllAsync(false, false, token))
-			.Returns(Task.FromResult(cards));
-		_repositoryServiceMock.Setup(x => x.CardRepository)
-			.Returns(cardRepoMock.Object);
+		IEnumerable<AccountEntity> accounts = [new(), new(), new()];
+		Mock<IAccountRepository> accountRepoMock = new();
+		accountRepoMock.Setup(x => x.GetAllAsync(false, false, token))
+			.Returns(Task.FromResult(accounts));
+		_repositoryServiceMock.Setup(x => x.AccountRepository)
+			.Returns(accountRepoMock.Object);
 
-		ErrorOr<IEnumerable<CardResponse>> result = await _sut
+		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
 			.GetAllAsync(token)
 			.ConfigureAwait(false);
 
@@ -59,9 +59,9 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Count().Should().Be(cards.Count());
-			cardRepoMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
-			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
+			result.Value.Count().Should().Be(accounts.Count());
+			accountRepoMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
+			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
 }

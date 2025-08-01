@@ -54,7 +54,7 @@ public sealed partial class CardController(ICardService cardService, ICurrentUse
 	public async Task<IActionResult> DeleteById(Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> response = await _cardService
-			.Delete(id, token)
+			.DeleteAsync(id, token)
 			.ConfigureAwait(false);
 
 		return Delete(response);
@@ -74,7 +74,7 @@ public sealed partial class CardController(ICardService cardService, ICurrentUse
 	public async Task<IActionResult> GetByUserId(CancellationToken token)
 	{
 		ErrorOr<IEnumerable<CardResponse>> response = await _cardService
-			.GetByUserId(_currentUserService.UserId, token)
+			.GetAllAsync(token)
 			.ConfigureAwait(false);
 
 		return Get(response);
@@ -97,7 +97,7 @@ public sealed partial class CardController(ICardService cardService, ICurrentUse
 	public async Task<IActionResult> GetByCardId(Guid id, CancellationToken token)
 	{
 		ErrorOr<CardResponse> response = await _cardService
-			.GetById(id, token)
+			.GetByIdAsync(id, token)
 			.ConfigureAwait(false);
 
 		return Get(response);
@@ -125,7 +125,7 @@ public sealed partial class CardController(ICardService cardService, ICurrentUse
 	public async Task<IActionResult> Post(Guid id, CardCreateRequest request, CancellationToken token)
 	{
 		ErrorOr<Created> response = await _cardService
-			.Create(_currentUserService.UserId, id, request, token)
+			.CreateAsync(id, request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(response);
@@ -151,7 +151,7 @@ public sealed partial class CardController(ICardService cardService, ICurrentUse
 	public async Task<IActionResult> Put(Guid id, CardUpdateRequest request, CancellationToken token)
 	{
 		ErrorOr<Updated> response = await _cardService
-			.Update(id, request, token)
+			.UpdateAsync(id, request, token)
 			.ConfigureAwait(false);
 
 		return Put(response);

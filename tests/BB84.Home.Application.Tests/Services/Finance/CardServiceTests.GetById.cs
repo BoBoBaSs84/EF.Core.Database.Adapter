@@ -20,13 +20,13 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	[TestMethod]
-	[TestCategory(nameof(CardService.GetById))]
+	[TestCategory(nameof(CardService.GetByIdAsync))]
 	public async Task GetByIdShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
 		CardService sut = CreateMockedInstance();
 
-		ErrorOr<CardResponse> result = await sut.GetById(id);
+		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -38,7 +38,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.GetById))]
+	[TestCategory(nameof(CardService.GetByIdAsync))]
 	public async Task GetByIdShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -47,7 +47,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<CardEntity?>(null));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
-		ErrorOr<CardResponse> result = await sut.GetById(id);
+		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -60,7 +60,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	}
 
 	[TestMethod]
-	[TestCategory(nameof(CardService.GetById))]
+	[TestCategory(nameof(CardService.GetByIdAsync))]
 	public async Task GetByIdShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
@@ -70,7 +70,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<CardEntity?>(cardModel));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
-		ErrorOr<CardResponse> result = await sut.GetById(id);
+		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id);
 
 		AssertionHelper.AssertInScope(() =>
 		{

@@ -3,7 +3,6 @@
 using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Interfaces.Application.Services.Finance;
-using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Enumerators;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
@@ -24,15 +23,13 @@ namespace BB84.Home.Presentation.Controllers;
 /// Inherits from <see cref="ApiControllerBase"/>.
 /// </remarks>
 /// <param name="accountService">The bank account service to use.</param>
-/// <param name="userService">The current user service to use.</param>
 /// <param name="transactionService">The transaction service to use.</param>
 [Authorize]
 [Route(Endpoints.Account.BaseUri)]
 [ApiVersion(Versioning.CurrentVersion)]
-public sealed partial class AccountController(IAccountService accountService, ICurrentUserService userService, ITransactionService transactionService) : ApiControllerBase
+public sealed partial class AccountController(IAccountService accountService, ITransactionService transactionService) : ApiControllerBase
 {
 	private readonly IAccountService _accountService = accountService;
-	private readonly ICurrentUserService _currentUserService = userService;
 	private readonly ITransactionService _transactionService = transactionService;
 
 	/// <summary>
@@ -54,7 +51,7 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	public async Task<IActionResult> DeleteById(Guid id, CancellationToken token)
 	{
 		ErrorOr<Deleted> response = await _accountService
-			.Delete(id, token)
+			.DeleteAsync(id, token)
 			.ConfigureAwait(false);
 
 		return Delete(response);
@@ -74,7 +71,7 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	public async Task<IActionResult> GetByUserId(CancellationToken token)
 	{
 		ErrorOr<IEnumerable<AccountResponse>> response = await _accountService
-			.GetByUserId(_currentUserService.UserId, token)
+			.GetAllAsync(token)
 			.ConfigureAwait(false);
 
 		return Get(response);
@@ -97,7 +94,7 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	public async Task<IActionResult> GetById(Guid id, CancellationToken token)
 	{
 		ErrorOr<AccountResponse> response = await _accountService
-			.GetById(id, token)
+			.GetByIdAsync(id, token)
 			.ConfigureAwait(false);
 
 		return Get(response);
@@ -122,7 +119,7 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	public async Task<IActionResult> Post(AccountCreateRequest request, CancellationToken token)
 	{
 		ErrorOr<Created> response = await _accountService
-			.Create(_currentUserService.UserId, request, token)
+			.CreateAsync(request, token)
 			.ConfigureAwait(false);
 
 		return PostWithoutLocation(response);
@@ -148,7 +145,7 @@ public sealed partial class AccountController(IAccountService accountService, IC
 	public async Task<IActionResult> Put(Guid id, AccountUpdateRequest request, CancellationToken token)
 	{
 		ErrorOr<Updated> response = await _accountService
-			.Update(id, request, token)
+			.UpdateAsync(id, request, token)
 			.ConfigureAwait(false);
 
 		return Put(response);

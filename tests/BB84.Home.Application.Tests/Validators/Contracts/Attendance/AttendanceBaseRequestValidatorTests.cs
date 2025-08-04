@@ -17,7 +17,7 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 {
 	private IValidator<AttendanceBaseRequest> _validator = default!;
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(AttendanceType.Workday)]
 	[DataRow(AttendanceType.BuisnessTrip)]
 	[DataRow(AttendanceType.MobileWorking)]
@@ -41,7 +41,7 @@ public sealed class AttendanceBaseRequestValidatorTests : ApplicationTestBase
 		result.Errors.Should().BeEmpty();
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(AttendanceType.Holiday)]
 	[DataRow(AttendanceType.Absence)]
 	[DataRow(AttendanceType.Suspension)]

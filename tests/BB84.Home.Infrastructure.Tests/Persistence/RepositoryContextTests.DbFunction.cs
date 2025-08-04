@@ -6,47 +6,22 @@ namespace InfrastructureTests.Persistence;
 public sealed partial class RepositoryContextTests
 {
 	[TestMethod]
-	[ExpectedException(typeof(InvalidOperationException))]
 	public void DifferenceShouldThrowExceptionWhenCalledDirectly()
-	{
-		IRepositoryContext context = GetService<IRepositoryContext>();
-
-		context.Difference(string.Empty, string.Empty);
-	}
+		=> Assert.ThrowsExactly<InvalidOperationException>(() => GetService<IRepositoryContext>().Difference(string.Empty, string.Empty));
 
 	[TestMethod]
-	[ExpectedException(typeof(InvalidOperationException))]
 	public void EndOfMonthShouldThrowExceptionWhenCalledDirectly()
-	{
-		IRepositoryContext context = GetService<IRepositoryContext>();
-
-		context.EndOfMonth(DateTime.Today);
-	}
+		=> Assert.ThrowsExactly<InvalidOperationException>(() => GetService<IRepositoryContext>().EndOfMonth(DateTime.Today));
 
 	[TestMethod]
-	[ExpectedException(typeof(InvalidOperationException))]
 	public void SoundexShouldThrowExceptionWhenCalledDirectly()
-	{
-		IRepositoryContext context = GetService<IRepositoryContext>();
-
-		context.Soundex(string.Empty);
-	}
+		=> Assert.ThrowsExactly<InvalidOperationException>(() => GetService<IRepositoryContext>().Soundex(string.Empty));
 
 	[TestMethod]
-	[ExpectedException(typeof(InvalidOperationException))]
-	public void TranslateShouldThrowExceptionWhenCalledDirectly()
-	{
-		IRepositoryContext context = GetService<IRepositoryContext>();
-
-		context.Translate(string.Empty, string.Empty, string.Empty);
-	}
+	public void TranslateShouldThrowExceptionWhenCalledDirectly() => Assert.ThrowsExactly<InvalidOperationException>(()
+		=> GetService<IRepositoryContext>().Translate(string.Empty, string.Empty, string.Empty));
 
 	[TestMethod]
-	[ExpectedException(typeof(InvalidOperationException))]
 	public void QuoteNameShouldThrowExceptionWhenCalledDirectly()
-	{
-		IRepositoryContext context = GetService<IRepositoryContext>();
-
-		context.QuoteName(string.Empty);
-	}
+		=> Assert.ThrowsExactly<InvalidOperationException>(() => GetService<IRepositoryContext>().QuoteName(string.Empty));
 }

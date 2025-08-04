@@ -13,7 +13,7 @@ public sealed class TokenRequestValidatorTests : ApplicationTestBase
 {
 	private IValidator<TokenRequest> _validator = default!;
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(""), DataRow(null)]
 	public void AccessTokenShouldNotBeEmpty(string accessToken)
 	{
@@ -33,7 +33,7 @@ public sealed class TokenRequestValidatorTests : ApplicationTestBase
 		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.AccessToken));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(""), DataRow(null)]
 	public void RefreshTokenShouldNotBeEmpty(string refreshToken)
 	{

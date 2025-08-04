@@ -13,7 +13,7 @@ public sealed class AuthenticationRequestValidatorTests : ApplicationTestBase
 {
 	private IValidator<AuthenticationRequest> _validator = default!;
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(""), DataRow(null)]
 	public void PasswordShouldNotBeEmpty(string password)
 	{
@@ -33,7 +33,7 @@ public sealed class AuthenticationRequestValidatorTests : ApplicationTestBase
 		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.Password));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(""), DataRow(null)]
 	public void UserNameShouldNotBeEmpty(string userName)
 	{

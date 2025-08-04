@@ -14,7 +14,7 @@ public sealed class UserCreateRequestValidatorTests : ApplicationTestBase
 {
 	private IValidator<UserCreateRequest> _validator = default!;
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(""), DataRow(null)]
 	public void PasswordShouldNotBeEmpty(string password)
 	{
@@ -37,7 +37,7 @@ public sealed class UserCreateRequestValidatorTests : ApplicationTestBase
 		result.Errors.Should().Contain(x => x.PropertyName == nameof(request.Password));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(""), DataRow(null)]
 	public void UserNameShouldNotBeEmpty(string userName)
 	{

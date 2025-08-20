@@ -14,13 +14,13 @@
     <PackageVersion Include="FluentAssertions" Version="8.5.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageVersion Include="MSTest" Version="3.10.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="[8.0.18, 9.0.0)" />
-    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="[8.0.18, 9.0.0)" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="[8.0.18, 9.0.0)" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="[8.0.19, 9.0.0)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="[8.0.19, 9.0.0)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="[8.0.19, 9.0.0)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.8" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />

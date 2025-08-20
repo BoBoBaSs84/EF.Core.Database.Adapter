@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+  	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" VersionOverride="9.0.8" />
 		<EmbeddedResource Update="Properties\EnumeratorResources.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>EnumeratorResources.Designer.cs</LastGenOutput>

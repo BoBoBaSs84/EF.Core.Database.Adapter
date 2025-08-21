@@ -9,6 +9,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+  	<PackageReference Include="BB84.EntityFrameworkCore.Entities" VersionOverride="4.0.817" />
+  	<PackageReference Include="BB84.EntityFrameworkCore.Repositories" VersionOverride="4.0.817" />
+	<PackageReference Include="BB84.EntityFrameworkCore.Repositories.SqlServer" VersionOverride="4.0.817" />
+	<PackageReference Include="BB84.Extensions" VersionOverride="3.0.817" />
   	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" VersionOverride="8.0.19" />
   	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" VersionOverride="8.0.19" />
 	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" VersionOverride="8.0.19" />

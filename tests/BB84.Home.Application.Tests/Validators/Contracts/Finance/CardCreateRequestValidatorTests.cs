@@ -1,6 +1,5 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Tests.Helpers;
-using BB84.Home.Base.Tests.Constants;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Enumerators.Finance;
 
@@ -39,7 +38,7 @@ public sealed class CardCreateRequestValidatorTests : ApplicationTestBase
 		_validator = CreateValidatorInstance();
 		CardCreateRequest request = new()
 		{
-			PAN = RandomHelper.GetString(20, TestConstants.WildCardChars),
+			PAN = RandomHelper.GetString(20, RandomHelper.WildCardChars),
 			Type = (CardType)42,
 			ValidUntil = DateTime.MaxValue
 		};

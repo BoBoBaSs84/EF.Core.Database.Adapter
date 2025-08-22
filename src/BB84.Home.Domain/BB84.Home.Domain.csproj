@@ -4,6 +4,7 @@
 		<PackageReference Include="BB84.EntityFrameworkCore.Entities" />
 		<PackageReference Include="BB84.Extensions" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -15,7 +16,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-  	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" VersionOverride="9.0.8" />
 		<EmbeddedResource Update="Properties\EnumeratorResources.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>EnumeratorResources.Designer.cs</LastGenOutput>

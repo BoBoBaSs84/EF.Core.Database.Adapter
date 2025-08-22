@@ -2,9 +2,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="BB84.EntityFrameworkCore.Entities" />
 		<PackageReference Include="BB84.EntityFrameworkCore.Repositories.Abstractions" />
+		<PackageReference Include="BB84.Extensions" />
 		<PackageReference Include="FluentValidation.AspNetCore" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
 	</ItemGroup>
 
@@ -37,10 +41,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-  	<PackageReference Include="BB84.EntityFrameworkCore.Entities" VersionOverride="4.0.817" />
-  	<PackageReference Include="BB84.Extensions" VersionOverride="3.0.817" />
-  	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" VersionOverride="8.0.19" />
-  	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" VersionOverride="9.0.8" />
 	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 

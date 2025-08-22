@@ -4,7 +4,6 @@
 		<PackageReference Include="BB84.EntityFrameworkCore.Entities" />
 		<PackageReference Include="BB84.Extensions" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 	</ItemGroup>
 
 	<ItemGroup>

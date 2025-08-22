@@ -39,10 +39,15 @@ public sealed class UserAuditingInterceptor(ICurrentUserService currentUserServi
 				switch (entry.State)
 				{
 					case EntityState.Added:
-						entry.Entity.Creator = _currentUserService.UserName;
+						entry.Entity.CreatedBy = _currentUserService.UserName;
 						break;
 					case EntityState.Modified:
-						entry.Entity.Editor = _currentUserService.UserName;
+						entry.Entity.EditedBy = _currentUserService.UserName;
+						break;
+					case EntityState.Detached:
+					case EntityState.Unchanged:
+					case EntityState.Deleted:
+					default:
 						break;
 				}
 			}

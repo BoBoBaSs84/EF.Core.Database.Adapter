@@ -1,6 +1,5 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Tests.Helpers;
-using BB84.Home.Base.Tests.Constants;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Enumerators.Finance;
 
@@ -39,7 +38,7 @@ public sealed class AccountCreateRequestValidatorTests : ApplicationTestBase
 		_validator = CreateValidatorInstance();
 		AccountCreateRequest request = new()
 		{
-			IBAN = RandomHelper.GetString(20, TestConstants.WildCardChars),
+			IBAN = RandomHelper.GetString(20, RandomHelper.WildCardChars),
 			Provider = RandomHelper.GetString(501),
 			Type = (AccountType)42
 		};

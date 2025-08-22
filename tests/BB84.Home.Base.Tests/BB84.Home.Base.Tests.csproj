@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<IsTestProject>False</IsTestProject>
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Moq" />
 		<PackageReference Include="Fare" />
 		<PackageReference Include="FluentAssertions" />
-		<PackageReference Include="MSTest" />
 		<PackageReference Include="Tynamix.ObjectFiller" />
 		<PackageReference Include="Tynamix.ObjectFiller.RegEx" />
 	</ItemGroup>

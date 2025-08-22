@@ -1,6 +1,5 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Tests.Helpers;
-using BB84.Home.Base.Tests.Constants;
 using BB84.Home.Base.Tests.Helpers;
 
 using FluentAssertions;
@@ -44,7 +43,7 @@ public sealed class TransactionUpdateRequestValidatorTests : ApplicationTestBase
 			ClientBeneficiary = RandomHelper.GetString(251),
 			Purpose = RandomHelper.GetString(4001),
 			AccountNumber = RandomHelper.GetString(26),
-			BankCode = RandomHelper.GetString(20, TestConstants.WildCardChars),
+			BankCode = RandomHelper.GetString(20, RandomHelper.WildCardChars),
 			AmountEur = 0,
 			CreditorId = RandomHelper.GetString(26),
 			MandateReference = RandomHelper.GetString(51),

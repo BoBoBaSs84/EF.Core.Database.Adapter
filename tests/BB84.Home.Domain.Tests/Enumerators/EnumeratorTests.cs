@@ -7,15 +7,13 @@ using BB84.Home.Domain.Common;
 
 using FluentAssertions;
 
-using static BB84.Home.Base.Tests.Constants.TestConstants;
-
 namespace BB84.Home.Domain.Tests.Enumerators;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public sealed class EnumeratorTests : DomainTestBase
 {
-	[TestMethod, Owner(Bobo)]
+	[TestMethod]
 	public void AllEnumeratorsHaveDescriptionNameShortNameAndResourceTest()
 	{
 		IEnumerable<Type> types = GetEnumTypes();

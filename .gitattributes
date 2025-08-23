@@ -1,0 +1,11 @@
+# Auto detect text files and perform LF normalization.
+* text=auto
+
+# Specific settings for C# files
+*.cs text diff=csharp
+
+# Specific settings for ASP.NET CSHTML files
+*.cshtml text diff=html
+
+# Specific settings for .NET solution files
+*.sln text eol=crlf

@@ -5,15 +5,13 @@ using BB84.Home.Domain.Extensions;
 
 using FluentAssertions;
 
-using static BB84.Home.Base.Tests.Constants.TestConstants;
-
 namespace BB84.Home.Domain.Tests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class EnumeratorExtensionsTests : DomainTestBase
 {
-	[TestMethod, Owner(Bobo)]
+	[TestMethod]
 	public void GetEnumDescriptionSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
@@ -21,7 +19,7 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		description.Should().Be(nameof(description));
 	}
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod]
 	public void GetEnumDescriptionFailTest()
 	{
 		TestEnum testEnum = TestEnum.NODESCRIPTION;
@@ -29,7 +27,7 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		description.Should().NotBeSameAs(nameof(description));
 	}
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod]
 	public void GetEnumNameSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
@@ -37,7 +35,7 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		name.Should().Be(nameof(name));
 	}
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod]
 	public void GetEnumNameFailTest()
 	{
 		TestEnum testEnum = TestEnum.NONAME;
@@ -45,7 +43,7 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		name.Should().NotBeSameAs(nameof(name));
 	}
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod]
 	public void GetEnumShortNameSuccessTest()
 	{
 		TestEnum testEnum = TestEnum.ALLGOOD;
@@ -53,7 +51,7 @@ public class EnumeratorExtensionsTests : DomainTestBase
 		shortname.Should().Be(nameof(shortname));
 	}
 
-	[TestMethod, Owner(Bobo)]
+	[TestMethod]
 	public void GetEnumShortNameFailTest()
 	{
 		TestEnum testEnum = TestEnum.NOSHORTNAME;

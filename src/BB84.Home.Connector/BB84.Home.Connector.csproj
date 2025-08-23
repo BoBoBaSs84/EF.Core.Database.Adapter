@@ -15,6 +15,7 @@
 		<PackageReference Condition="$(TargetFramework)=='net462'" Include="System.Net.Http"/>
   </ItemGroup>
 	<ItemGroup>
+  	<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
 		<Using Include="System.Net.Http" />
 		<Using Include="System.Net.Http.Headers" />
 	</ItemGroup>

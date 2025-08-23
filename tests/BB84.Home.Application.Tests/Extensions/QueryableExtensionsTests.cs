@@ -116,8 +116,8 @@ public sealed class QueryableExtensionsTests : ApplicationTestBase
 			TransactionEntity transaction = new()
 			{
 				Id = Guid.NewGuid(),
-				Creator = GetString(50),
-				Editor = GetString(50),
+				CreatedBy = GetString(50),
+				EditedBy = GetString(50),
 				BookingDate = currentDate,
 				ValueDate = currentDate.AddDays(1),
 				PostingText = GetString(100),

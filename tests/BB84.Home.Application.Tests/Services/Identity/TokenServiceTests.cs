@@ -32,7 +32,8 @@ public sealed partial class TokenServiceTests : ApplicationTestBase
 			SecurityKey = RandomHelper.GetString(64)
 		};
 
-		_bearerSettingsMock.Setup(x => x.Value).Returns(settings);
+		_bearerSettingsMock.Setup(x => x.Value)
+			.Returns(settings);
 
 		_dateTimeServiceMock = new();
 		_dateTimeServiceMock.SetupAllProperties();

@@ -14,6 +14,10 @@ public sealed partial class TokenServiceTests
 	public void GetPrincipalFromExpiredTokenShouldReturnPrincipalWhenTokenValid()
 	{
 		TokenService sut = CreateMockedInstance();
+		_dateTimeServiceMock.Setup(x=>x.UtcNow)
+			.Returns(DateTime.UtcNow);
+		_dateTimeServiceMock.Setup(x=>x.Now)
+			.Returns(DateTime.Now);
 		(string accessToken, DateTimeOffset accessTokenExpiration) = sut.GenerateAccessToken([]);
 
 		ClaimsPrincipal principal = sut.GetPrincipalFromExpiredToken(accessToken);

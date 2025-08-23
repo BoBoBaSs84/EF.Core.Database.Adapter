@@ -2,14 +2,20 @@
 
 using Fare;
 
-using static BB84.Home.Base.Tests.Constants.TestConstants;
-
 namespace BB84.Home.Base.Tests.Helpers;
 
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTestHelper")]
 public static class RandomHelper
 {
 	private static Random Random { get; } = new();
+
+	public const string CharsAndNumbers = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	public const string CharsOnly = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+	public const string NumbersOnly = "0123456789";
+
+	public const string WildCardChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-={}[]<>:;.,";
 
 	public static byte[] GetBytes(int length = 8)
 	{

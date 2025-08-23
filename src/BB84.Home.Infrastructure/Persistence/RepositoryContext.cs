@@ -21,11 +21,11 @@ namespace BB84.Home.Infrastructure.Persistence;
 /// Initializes a new instance of the <see cref="RepositoryContext"/> class.
 /// </remarks>
 /// <param name="dbContextOptions">The database context options.</param>
-/// <param name="userAuditingInterceptor">The auditing save changes interceptor.</param>
+/// <param name="auditingInterceptor">The auditing save changes interceptor.</param>
 /// <param name="softDeletableInterceptor">The soft deletable save changes interceptor.</param>
 /// <param name="userService">The service providing information about the current user.</param>
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, repository context.")]
-internal sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> dbContextOptions, UserAuditingInterceptor userAuditingInterceptor, SoftDeletableInterceptor softDeletableInterceptor, ICurrentUserService userService)
+internal sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> dbContextOptions, AuditingInterceptor auditingInterceptor, SoftDeletableInterceptor softDeletableInterceptor, ICurrentUserService userService)
 	: IdentityDbContext<UserEntity, RoleEntity, Guid, UserClaimEntity, UserRoleEntity, UserLoginModel, RoleClaimEntity, UserTokenModel>(dbContextOptions), IRepositoryContext
 {
 	protected override void OnModelCreating(ModelBuilder builder)
@@ -41,7 +41,7 @@ internal sealed partial class RepositoryContext(DbContextOptions<RepositoryConte
 	{
 		base.OnConfiguring(optionsBuilder);
 
-		optionsBuilder.AddInterceptors(userAuditingInterceptor, softDeletableInterceptor)
+		optionsBuilder.AddInterceptors(auditingInterceptor, softDeletableInterceptor)
 			.ReplaceService<IMigrationsSqlGenerator, RepositorySqlGenerator>()
 			.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
 	}

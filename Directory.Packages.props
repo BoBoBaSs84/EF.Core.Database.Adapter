@@ -9,7 +9,7 @@
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.0.817" />
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.0.817" />
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.0.817" />
-    <PackageVersion Include="BB84.Extensions" Version="3.0.817" />
+    <PackageVersion Include="BB84.Extensions" Version="3.1.831" />
     <PackageVersion Include="Fare" Version="2.2.1" />
     <PackageVersion Include="FluentAssertions" Version="8.6.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />

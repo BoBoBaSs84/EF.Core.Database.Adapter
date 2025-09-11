@@ -1,4 +1,5 @@
-﻿using BB84.Home.Connector.Abstractions;
+﻿using BB84.Extensions;
+using BB84.Home.Connector.Abstractions;
 using BB84.Home.Connector.Handlers;
 using BB84.Home.Connector.Options;
 
@@ -21,18 +22,16 @@ public static class DependencyInjectionHelper
 	/// <param name="services">The services collection to register the services in.</param>
 	/// <param name="options">The options for the API client.</param>
 	/// <returns>The same service collection instance, so that multiple calls can be chained.</returns>
-	public static IServiceCollection RegisterHomeApiClient(this IServiceCollection services, IOptions<ApiSettings> options)
+	public static IServiceCollection RegisterHomeApiClient(this IServiceCollection services, IOptions<HomeApiOption> options)
 	{
-		ApiSettings apiSettings = options.Value;
+		HomeApiOption apiSettings = options.Value;
 
 		services.TryAddTransient<AuthorizationHandler>();
 
 		services.AddRefitClient<IHomeApiClient>()
-			.ConfigureHttpClient(client =>
-			{
-				client.BaseAddress = new Uri(apiSettings.BaseAddress);
-				client.Timeout = TimeSpan.FromSeconds(apiSettings.Timeout);
-			})
+			.ConfigureHttpClient(client => client
+				.WithBaseAddress(apiSettings.BaseAddress)
+				.WithTimeout(TimeSpan.FromSeconds(apiSettings.Timeout)))
 			.AddHttpMessageHandler<AuthorizationHandler>();
 
 		return services;

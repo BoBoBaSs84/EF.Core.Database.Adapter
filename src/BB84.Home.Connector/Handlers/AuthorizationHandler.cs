@@ -10,6 +10,7 @@ namespace BB84.Home.Connector.Handlers;
 internal sealed class AuthorizationHandler(ITokenHandler tokenHandler) : DelegatingHandler
 {
 #if NET6_0_OR_GREATER
+	/// <inheritdoc/>
 	protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
 		string token = tokenHandler.GetToken();
@@ -18,8 +19,9 @@ internal sealed class AuthorizationHandler(ITokenHandler tokenHandler) : Delegat
 
 		return base.Send(request, cancellationToken);
 	}
-#endif
 
+#endif
+	/// <inheritdoc/>
 	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
 		string token = await tokenHandler.GetTokenAsync(cancellationToken)

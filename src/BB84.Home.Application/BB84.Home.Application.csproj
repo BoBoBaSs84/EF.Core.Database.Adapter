@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	<ItemGroup>
+	  <ProjectReference Include="..\BB84.Home.Domain\BB84.Home.Domain.csproj" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" />
 		<PackageReference Include="BB84.EntityFrameworkCore.Repositories.Abstractions" />
@@ -8,11 +10,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\BB84.Home.Domain\BB84.Home.Domain.csproj" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<Compile Update="Properties\ServiceErrors.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -25,7 +22,6 @@
 		  <DependentUpon>MimeTypesMap.tt</DependentUpon>
 		</Compile>
 	</ItemGroup>
-
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\ServiceErrors.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
@@ -36,9 +32,7 @@
 	    <LastGenOutput>MimeTypesMap.cs</LastGenOutput>
 	  </None>
 	</ItemGroup>
-
 	<ItemGroup>
 	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
-
 </Project>

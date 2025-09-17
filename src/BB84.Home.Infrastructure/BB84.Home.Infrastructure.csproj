@@ -1,13 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	<ItemGroup>
+	  <ProjectReference Include="..\BB84.Home.Application\BB84.Home.Application.csproj" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="BB84.EntityFrameworkCore.Repositories" />
 		<PackageReference Include="BB84.EntityFrameworkCore.Repositories.SqlServer" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\BB84.Home.Application\BB84.Home.Application.csproj" />
-	</ItemGroup>
-
 </Project>

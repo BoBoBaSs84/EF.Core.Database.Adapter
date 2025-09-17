@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<ItemGroup>
 		<PackageReference Include="BB84.EntityFrameworkCore.Entities" />
 		<PackageReference Include="BB84.Extensions" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<Compile Update="Properties\EnumeratorResources.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -13,12 +11,10 @@
 			<DependentUpon>EnumeratorResources.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
-
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\EnumeratorResources.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>EnumeratorResources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
-
 </Project>

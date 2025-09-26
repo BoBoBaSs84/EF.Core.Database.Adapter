@@ -13,7 +13,7 @@ internal sealed class AuthorizationHandler(ITokenHandler tokenHandler) : Delegat
 	/// <inheritdoc/>
 	protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
-		string token = tokenHandler.GetToken();
+		string token = tokenHandler.GetAccessToken();
 
 		request.WithBearerToken(token);
 
@@ -24,7 +24,7 @@ internal sealed class AuthorizationHandler(ITokenHandler tokenHandler) : Delegat
 	/// <inheritdoc/>
 	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
-		string token = await tokenHandler.GetTokenAsync(cancellationToken)
+		string token = await tokenHandler.GetAccessTokenAsync(cancellationToken)
 			.ConfigureAwait(false);
 
 		request.WithBearerToken(token);

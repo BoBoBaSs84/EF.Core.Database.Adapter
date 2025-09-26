@@ -74,4 +74,18 @@ public interface ITokenHandler
 	/// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
 	/// <returns>A task that represents the asynchronous operation.</returns>
 	Task SetRefreshTokenAsync(string token, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Sets the access token expiration time.
+	/// </summary>
+	/// <param name="tokenExpiration">The expiration time to set for the access token.</param>
+	void SetAccessTokenExpiration(DateTimeOffset tokenExpiration);
+
+	/// <summary>
+	/// Sets the access token expiration time asynchronously.
+	/// </summary>
+	/// <param name="tokenExpiration">The expiration time to set for the access token.</param>
+	/// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+	/// <returns>A task that represents the asynchronous operation.</returns>
+	Task SetAccessTokenExpirationAsync(DateTimeOffset tokenExpiration, CancellationToken cancellationToken = default);
 }

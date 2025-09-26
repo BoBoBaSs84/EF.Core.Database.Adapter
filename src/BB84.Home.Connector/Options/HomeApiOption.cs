@@ -24,6 +24,11 @@ public sealed class HomeApiOption : IEquatable<HomeApiOption>
 	[Required, Range(10, 300)]
 	public int Timeout { get; init; }
 
+	/// <summary>
+	/// Binds the <see cref="HomeApiOption"/> to the configuration section and registers it in the service collection.
+	/// </summary>
+	/// <param name="services">The service collection to register the options in.</param>
+	/// <returns>The same options builder instance, so that multiple calls can be chained.</returns>
 	public static OptionsBuilder<HomeApiOption> Bind(IServiceCollection services)
 	{
 		return services.AddOptions<HomeApiOption>()

@@ -16,22 +16,26 @@ namespace BB84.Home.Connector.Installer;
 /// </summary>
 public static class DependencyInjectionHelper
 {
+	private const string ApiMediaType = "application/json";
+
 	/// <summary>
 	/// Registers the <see cref="IHomeApiClient"/> in the dependency injection container.
 	/// </summary>
 	/// <param name="services">The services collection to register the services in.</param>
-	/// <param name="options">The options for the API client.</param>
 	/// <returns>The same service collection instance, so that multiple calls can be chained.</returns>
-	public static IServiceCollection RegisterHomeApiClient(this IServiceCollection services, IOptions<HomeApiOption> options)
+	public static IServiceCollection RegisterHomeApiClient(this IServiceCollection services)
 	{
-		HomeApiOption apiSettings = options.Value;
+		HomeApiOption apiOption = services.BuildServiceProvider()
+			.GetRequiredService<IOptions<HomeApiOption>>()
+			.Value;
 
 		services.TryAddTransient<AuthorizationHandler>();
 
 		services.AddRefitClient<IHomeApiClient>()
 			.ConfigureHttpClient(client => client
-				.WithBaseAddress(apiSettings.BaseAddress)
-				.WithTimeout(TimeSpan.FromSeconds(apiSettings.Timeout)))
+				.WithBaseAddress(apiOption.BaseAddress)
+				.WithMediaType(ApiMediaType)
+				.WithTimeout(TimeSpan.FromSeconds(apiOption.Timeout)))
 			.AddHttpMessageHandler<AuthorizationHandler>();
 
 		return services;

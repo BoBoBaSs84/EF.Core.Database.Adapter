@@ -9,11 +9,11 @@
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.0.916" />
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.0.916" />
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.0.916" />
-    <PackageVersion Include="BB84.Extensions" Version="3.1.916" />
+    <PackageVersion Include="BB84.Extensions" Version="3.2.930" />
     <PackageVersion Include="Fare" Version="2.2.1" />
     <PackageVersion Include="FluentAssertions" Version="8.6.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
-    <PackageVersion Include="MSTest" Version="3.10.4" />
+    <PackageVersion Include="MSTest" Version="3.11.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="[8.0.20, 9.0.0)" />
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="[8.0.20, 9.0.0)" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="[8.0.20, 9.0.0)" />

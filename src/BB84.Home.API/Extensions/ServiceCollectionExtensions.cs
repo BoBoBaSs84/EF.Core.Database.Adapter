@@ -10,15 +10,16 @@ internal static class ServiceCollectionExtensions
 	/// Registers the required swagger configuration to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>
+	/// <param name="environment">The hosting environment the application is running in.</param>
 	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection RegisterSwaggerConfiguration(this IServiceCollection services)
+	internal static IServiceCollection RegisterSwaggerConfiguration(this IServiceCollection services, IHostEnvironment environment)
 	{
 		services.AddSwaggerGen(options =>
 		{
 			options.ConfigureTypeMapping();
 			options.ConfigureSecurityDefinition();
 			options.ConfigureSecurityRequirement();
-			options.ConfigureApiDocumentation();
+			options.ConfigureApiDocumentation(environment);
 		});
 
 		return services;

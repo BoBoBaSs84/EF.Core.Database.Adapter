@@ -1,5 +1,4 @@
-﻿using BB84.Home.API.Common;
-using BB84.Home.Application.Common;
+﻿using BB84.Home.Application.Common;
 using BB84.Home.Presentation.Common;
 
 using Microsoft.OpenApi.Any;
@@ -34,15 +33,18 @@ internal static class SwaggerGenOptionsExtensions
 	/// Enriches a swagger options collection with the api documentation.
 	/// </summary>
 	/// <param name="options">The swagger options collection to enrich.</param>
+	/// <param name="environment">The hosting environment the application is running in.</param>
 	/// <returns>The enriched swagger options collection.</returns>
-	internal static SwaggerGenOptions ConfigureApiDocumentation(this SwaggerGenOptions options)
+	internal static SwaggerGenOptions ConfigureApiDocumentation(this SwaggerGenOptions options, IHostEnvironment environment)
 	{
 		options.SwaggerDoc(Versioning.CurrentVersion, new OpenApiInfo()
 		{
-			Title = typeof(IWebApiAssemblyMarker).Assembly.GetName().Name,
-			Version = Versioning.CurrentVersion,
+			Description = "My .NET 8 Web API project with Clean Architecture, FluentValidation, EF Core, Identity, JWT Authentication, Swagger and more.",
 			Contact = new OpenApiContact() { Name = "Robert Peter Meyer", Url = new Uri("https://github.com/BoBoBaSs84") },
-			License = new OpenApiLicense() { Name = "MIT License", Url = new Uri("https://opensource.org/licenses/MIT") }
+			License = new OpenApiLicense() { Name = "MIT License", Url = new Uri("https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/blob/main/LICENSE") },
+			TermsOfService = new Uri("https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/blob/main/LICENSE"),
+			Title = $"{environment.ApplicationName} - {environment.EnvironmentName}",
+			Version = Versioning.CurrentVersion,
 		});
 
 		options.CustomSchemaIds(x => x.FullName);

@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<GenerateDocumentationFile Condition="$(Configuration)=='Release'">True</GenerateDocumentationFile>
+	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\BB84.Home.Domain\BB84.Home.Domain.csproj" />
 	</ItemGroup>

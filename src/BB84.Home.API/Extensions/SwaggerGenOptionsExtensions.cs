@@ -49,12 +49,15 @@ internal static class SwaggerGenOptionsExtensions
 
 		options.CustomSchemaIds(x => x.FullName);
 
-		List<string> xmlFiles = [
-			$"{typeof(IPresentationAssemblyMarker).Assembly.GetName().Name}.xml",
-			$"{typeof(IApplicationAssemblyMarker).Assembly.GetName().Name}.xml"
-			];
+		if (environment.IsDevelopment())
+		{
+			List<string> xmlFiles = [
+				$"{typeof(IPresentationAssemblyMarker).Assembly.GetName().Name}.xml",
+				$"{typeof(IApplicationAssemblyMarker).Assembly.GetName().Name}.xml"
+				];
 
-		xmlFiles.ForEach(xml => options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xml)));
+			xmlFiles.ForEach(xml => options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xml)));
+		}
 
 		return options;
 	}

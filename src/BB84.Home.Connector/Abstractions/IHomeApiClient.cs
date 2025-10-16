@@ -15,7 +15,7 @@ using BB84.Home.Connector.Contracts;
 namespace BB84.Home.Connector.Abstractions
 {
     /// <summary>BB84.Home.API</summary>
-    [System.CodeDom.Compiler.GeneratedCode("Refitter", "1.6.1.0")]
+    [System.CodeDom.Compiler.GeneratedCode("Refitter", "1.6.5.0")]
     public partial interface IHomeApiClient
     {
         /// <summary>Deletes an existing bank account for the application user by the bank account identifier.</summary>
@@ -2020,6 +2020,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the user was added to the role.</description>
         /// </item>
         /// <item>
+        /// <term>400</term>
+        /// <description>If something is wrong with the request.</description>
+        /// </item>
+        /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
         /// </item>
@@ -2034,10 +2038,6 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>500</term>
         /// <description>If the something went wrong.</description>
-        /// </item>
-        /// <item>
-        /// <term>400</term>
-        /// <description>If something is wrong with the request.</description>
         /// </item>
         /// </list>
         /// </returns>
@@ -2060,6 +2060,10 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>If the user was added to the role.</description>
         /// </item>
         /// <item>
+        /// <term>400</term>
+        /// <description>If something is wrong with the request.</description>
+        /// </item>
+        /// <item>
         /// <term>401</term>
         /// <description>No credentials or invalid credentials.</description>
         /// </item>
@@ -2074,10 +2078,6 @@ namespace BB84.Home.Connector.Abstractions
         /// <item>
         /// <term>500</term>
         /// <description>If the something went wrong.</description>
-        /// </item>
-        /// <item>
-        /// <term>400</term>
-        /// <description>If something is wrong with the request.</description>
         /// </item>
         /// </list>
         /// </returns>
@@ -2164,12 +2164,12 @@ namespace BB84.Home.Connector.Abstractions
         /// <description>Not enough privileges to perform an action.</description>
         /// </item>
         /// <item>
-        /// <term>500</term>
-        /// <description>If the something went wrong.</description>
-        /// </item>
-        /// <item>
         /// <term>404</term>
         /// <description>If the user was not found.</description>
+        /// </item>
+        /// <item>
+        /// <term>500</term>
+        /// <description>If the something went wrong.</description>
         /// </item>
         /// </list>
         /// </returns>

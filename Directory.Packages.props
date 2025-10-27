@@ -5,11 +5,11 @@
   <ItemGroup>
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageVersion Include="AutoMapper" Version="[14.0.0]" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="4.0.916" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.0.916" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.0.916" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.0.916" />
-    <PackageVersion Include="BB84.Extensions" Version="3.2.930" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="4.0.1026" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.0.1026" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.0.1026" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.0.1026" />
+    <PackageVersion Include="BB84.Extensions" Version="3.3.1026" />
     <PackageVersion Include="Fare" Version="2.2.1" />
     <PackageVersion Include="FluentAssertions" Version="8.8.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />

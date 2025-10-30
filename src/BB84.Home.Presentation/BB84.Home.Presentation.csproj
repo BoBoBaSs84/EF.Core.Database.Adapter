@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\BB84.Home.Application\BB84.Home.Application.csproj" />
 	</ItemGroup>

@@ -14,14 +14,18 @@ public static class WebApplicationExtensions
 	/// Should enrich the web application with the swagger ui.
 	/// </summary>
 	/// <param name="webApplication">The web application to enrich.</param>
+	/// <param name="environment">The hosting environment the application is running in.</param>
 	/// <returns>The enriched web application.</returns>
-	internal static WebApplication ConfigureSwaggerUI(this WebApplication webApplication)
+	internal static WebApplication ConfigureSwaggerUI(this WebApplication webApplication, IHostEnvironment environment)
 	{
 		webApplication.UseSwagger();
-		webApplication.UseSwaggerUI(options =>
+		webApplication.UseSwaggerUI(setup =>
 		{
-			options.SwaggerEndpoint($"/swagger/{Versioning.CurrentVersion}/swagger.json", $"v{Versioning.CurrentVersion}");
-			options.ConfigObject.AdditionalItems.Add(Swagger.SytaxHighlightKey, false);
+			setup.SwaggerEndpoint($"/swagger/{Versioning.CurrentVersion}/swagger.json", $"v{Versioning.CurrentVersion}");
+			setup.ConfigObject.AdditionalItems.Add(Swagger.SytaxHighlightKey, false);
+
+			if (environment.IsProduction())
+				setup.SupportedSubmitMethods([]);
 		});
 
 		return webApplication;

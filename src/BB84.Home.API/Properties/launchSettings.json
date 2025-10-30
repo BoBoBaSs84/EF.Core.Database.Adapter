@@ -23,6 +23,8 @@
 		},
 		"WebAPI.Production": {
 			"commandName": "Project",
+			"launchBrowser": true,
+			"launchUrl": "swagger",
 			"environmentVariables": {
 				"ASPNETCORE_ENVIRONMENT": "Production"
 			},

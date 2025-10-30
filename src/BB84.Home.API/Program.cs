@@ -1,4 +1,3 @@
-using BB84.Extensions;
 using BB84.Home.API.Extensions;
 using BB84.Home.Application.Installer;
 using BB84.Home.Infrastructure.Installer;
@@ -6,10 +5,10 @@ using BB84.Home.Presentation.Installer;
 
 namespace BB84.Home.API;
 
-internal sealed class Program
+public sealed class Program
 {
 	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
-	internal static void Main(string[] args)
+	public static async Task Main(string[] args)
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +21,8 @@ internal sealed class Program
 			.RegisterSwaggerConfiguration(builder.Environment);
 
 		WebApplication app = builder.Build();
-		// Configure the HTTP request pipeline.
-		if (app.Environment.IsProduction().IsFalse())
-			app.ConfigureSwaggerUI();
+
+		app.ConfigureSwaggerUI(builder.Environment);
 
 		app.UseHttpsRedirection();
 		app.UseRouting();
@@ -33,6 +31,8 @@ internal sealed class Program
 		app.UseAuthorization();
 
 		app.MapControllers();
-		app.Run();
+		
+		await app.RunAsync()
+			.ConfigureAwait(false);
 	}
 }

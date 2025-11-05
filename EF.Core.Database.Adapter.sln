@@ -14,12 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		compose.yaml = compose.yaml
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
-		docker-compose.debug.yml = docker-compose.debug.yml
-		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
 		LICENSE = LICENSE
+		README.Docker.md = README.Docker.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -106,8 +106,8 @@ Global
 		{AA9521C0-B8BB-468F-922F-9923A1D311D6} = {FED0B12F-4C5D-4628-BDCE-B84F4285CB69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8C2C98A4-09CD-4243-9E78-870E54AF080A}
-		RESX_SortFileContentOnSave = True
 		RESX_SaveFilesImmediatelyUponChange = True
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {8C2C98A4-09CD-4243-9E78-870E54AF080A}
 	EndGlobalSection
 EndGlobal

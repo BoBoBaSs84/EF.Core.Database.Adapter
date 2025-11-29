@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.Docker.md = README.Docker.md
 		README.md = README.md
+		test.runsettings = test.runsettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB84.Home.Domain", "src\BB84.Home.Domain\BB84.Home.Domain.csproj", "{50674C60-5DF6-1483-832B-A84BDB1D0B61}"
@@ -106,8 +107,8 @@ Global
 		{AA9521C0-B8BB-468F-922F-9923A1D311D6} = {FED0B12F-4C5D-4628-BDCE-B84F4285CB69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SaveFilesImmediatelyUponChange = True
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {8C2C98A4-09CD-4243-9E78-870E54AF080A}
+		RESX_SortFileContentOnSave = True
+		RESX_SaveFilesImmediatelyUponChange = True
 	EndGlobalSection
 EndGlobal

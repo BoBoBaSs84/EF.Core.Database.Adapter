@@ -7,5 +7,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" />
+		<PackageReference Include="AutoMapper" VersionOverride="16.0.0" />
 	</ItemGroup>
 </Project>

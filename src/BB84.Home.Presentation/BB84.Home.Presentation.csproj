@@ -7,7 +7,5 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" VersionOverride="8.0.23" />
-	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" VersionOverride="8.0.23" />
 	</ItemGroup>
 </Project>

@@ -7,10 +7,6 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
-volumes:
-  sqldatabase_data:
-networks:
-  bb84home:
 services:
   server:
     build:
@@ -18,21 +14,7 @@ services:
       target: final
     ports:
       - 8080:8080
-    networks:
-      bb84home:
-  sqldatabase:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: sqldatabase
-    ports:
-      - "8081:1433"
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=${SQL_CT_SA_PASSWORD}
-    restart: always
-    volumes:
-      - sqldatabase_data:/var/opt/mssql
-    networks:
-      bb84home:
+    container_name: BB84.Home.API
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

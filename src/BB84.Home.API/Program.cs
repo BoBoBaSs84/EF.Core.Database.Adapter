@@ -5,7 +5,7 @@ using BB84.Home.Presentation.Installer;
 
 namespace BB84.Home.API;
 
-public sealed class Program
+internal sealed class Program
 {
 	[SuppressMessage("Style", "IDE0058", Justification = "Not relevant here.")]
 	public static async Task Main(string[] args)
@@ -16,7 +16,6 @@ public sealed class Program
 			.RegisterInfrastructureServices(builder.Configuration, builder.Environment)
 			.RegisterPresentationServices();
 
-		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer()
 			.RegisterSwaggerConfiguration(builder.Environment);
 
@@ -31,7 +30,7 @@ public sealed class Program
 		app.UseAuthorization();
 
 		app.MapControllers();
-		
+
 		await app.RunAsync()
 			.ConfigureAwait(false);
 	}

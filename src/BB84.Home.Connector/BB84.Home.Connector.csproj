@@ -16,7 +16,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Refit.HttpClientFactory" />
-		<PackageReference Condition="$(TargetFramework)=='net462'" Include="System.Net.Http" />
   </ItemGroup>
 	<ItemGroup>
 		<Using Include="System.Net.Http" />

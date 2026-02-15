@@ -18,7 +18,6 @@ internal static class ServiceCollectionExtensions
 		{
 			options.ConfigureTypeMapping();
 			options.ConfigureSecurityDefinition();
-			options.ConfigureSecurityRequirement();
 			options.ConfigureApiDocumentation(environment);
 		});
 

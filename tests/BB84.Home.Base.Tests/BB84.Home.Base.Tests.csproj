@@ -6,7 +6,5 @@
 		<PackageReference Include="Moq" />
 		<PackageReference Include="Fare" />
 		<PackageReference Include="FluentAssertions" />
-		<PackageReference Include="Tynamix.ObjectFiller" />
-		<PackageReference Include="Tynamix.ObjectFiller.RegEx" />
 	</ItemGroup>
 </Project>

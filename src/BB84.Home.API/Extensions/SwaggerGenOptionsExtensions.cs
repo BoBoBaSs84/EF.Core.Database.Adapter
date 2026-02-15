@@ -1,8 +1,7 @@
 ﻿using BB84.Home.Application.Common;
 using BB84.Home.Presentation.Common;
 
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -22,8 +21,7 @@ internal static class SwaggerGenOptionsExtensions
 	{
 		options.MapType<TimeSpan>(() => new OpenApiSchema
 		{
-			Type = "string",
-			Example = new OpenApiString("00:00:00")
+			Type = JsonSchemaType.String
 		});
 
 		return options;
@@ -37,17 +35,18 @@ internal static class SwaggerGenOptionsExtensions
 	/// <returns>The enriched swagger options collection.</returns>
 	internal static SwaggerGenOptions ConfigureApiDocumentation(this SwaggerGenOptions options, IHostEnvironment environment)
 	{
+		options.CustomSchemaIds(x => x.FullName);
+		options.EnableAnnotations();
+		options.SupportNonNullableReferenceTypes();
 		options.SwaggerDoc(Versioning.CurrentVersion, new OpenApiInfo()
 		{
-			Description = "My .NET 8 Web API project with Clean Architecture, FluentValidation, EF Core, Identity, JWT Authentication, Swagger and more.",
+			Description = "My .NET 10 Web API project with Clean Architecture, FluentValidation, EF Core, Identity, JWT Authentication, Swagger and more.",
 			Contact = new OpenApiContact() { Name = "Robert Peter Meyer", Url = new Uri("https://github.com/BoBoBaSs84") },
 			License = new OpenApiLicense() { Name = "MIT License", Url = new Uri("https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/blob/main/LICENSE") },
 			TermsOfService = new Uri("https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/blob/main/LICENSE"),
 			Title = $"{environment.ApplicationName} - {environment.EnvironmentName}",
 			Version = Versioning.CurrentVersion,
 		});
-
-		options.CustomSchemaIds(x => x.FullName);
 
 		List<string> xmlFiles = [
 			$"{typeof(IPresentationAssemblyMarker).Assembly.GetName().Name}.xml",
@@ -75,31 +74,6 @@ internal static class SwaggerGenOptionsExtensions
 			BearerFormat = PresentationConstants.Authentication.BearerFormat,
 			Scheme = PresentationConstants.Authentication.Bearer
 		});
-
-		return options;
-	}
-
-	/// <summary>
-	/// Enriches a swagger options collection with the security requirement.
-	/// </summary>
-	/// <param name="options">The swagger options collection to enrich.</param>
-	/// <returns>The enriched swagger options collection.</returns>
-	internal static SwaggerGenOptions ConfigureSecurityRequirement(this SwaggerGenOptions options)
-	{
-		options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-			{
-				{
-					new OpenApiSecurityScheme
-					{
-						Reference = new OpenApiReference
-						{
-							Type = ReferenceType.SecurityScheme,
-							Id = PresentationConstants.Authentication.Bearer
-						}
-					},
-					Array.Empty<string>()
-				}
-			});
 
 		return options;
 	}

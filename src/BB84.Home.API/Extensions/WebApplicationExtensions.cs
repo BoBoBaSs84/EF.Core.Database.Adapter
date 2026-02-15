@@ -1,5 +1,7 @@
 ﻿using BB84.Home.Presentation.Common;
 
+using Microsoft.OpenApi;
+
 using Swagger = BB84.Home.Presentation.Common.PresentationConstants.Swagger;
 
 namespace BB84.Home.API.Extensions;
@@ -18,14 +20,19 @@ public static class WebApplicationExtensions
 	/// <returns>The enriched web application.</returns>
 	internal static WebApplication ConfigureSwaggerUI(this WebApplication webApplication, IHostEnvironment environment)
 	{
-		webApplication.UseSwagger();
+		webApplication.UseSwagger(setup =>
+		{
+			setup.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+			setup.RouteTemplate = "swagger/{documentName}/swagger.json";
+		});
+
 		webApplication.UseSwaggerUI(setup =>
 		{
-			setup.SwaggerEndpoint($"/swagger/{Versioning.CurrentVersion}/swagger.json", $"v{Versioning.CurrentVersion}");
+			setup.DocumentTitle = "BB84.Home.API";
 			setup.ConfigObject.AdditionalItems.Add(Swagger.SytaxHighlightKey, false);
-
-			if (environment.IsProduction())
-				setup.SupportedSubmitMethods([]);
+			setup.ShowCommonExtensions();
+			setup.ShowExtensions();
+			setup.SwaggerEndpoint($"/swagger/{Versioning.CurrentVersion}/swagger.json", $"v{Versioning.CurrentVersion}");
 		});
 
 		return webApplication;

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Mime;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Asp.Versioning;
@@ -8,6 +9,7 @@ using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Presentation.Common;
 using BB84.Home.Presentation.Services;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -44,21 +46,26 @@ internal static class ServiceCollectionExtensions
 	/// <returns>The same <see cref="IServiceCollection"/> instance so that multiple calls can be chained.</returns>
 	internal static IServiceCollection RegisterControllerConfiguration(this IServiceCollection services)
 	{
-		services.AddControllers(options => options.RespectBrowserAcceptHeader = true)
-			.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly)
-			.AddJsonOptions(options =>
-			{
-				options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-				options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-				options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-				options.JsonSerializerOptions.Converters.Add(new ByteArrayJsonConverter());
-				options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
-				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-				options.JsonSerializerOptions.Converters.Add(new NullableByteArrayJsonConverter());
-				options.JsonSerializerOptions.Converters.Add(new NullableDateTimeJsonConverter());
-				options.JsonSerializerOptions.Converters.Add(new NullableTimeSpanJsonConverter());
-				options.JsonSerializerOptions.Converters.Add(new TimeSpanJsonConverter());
-			});
+		services.AddControllers(configure =>
+		{
+			configure.RespectBrowserAcceptHeader = true;
+			configure.Filters.Add(new ProducesAttribute(MediaTypeNames.Application.Json));
+			configure.Filters.Add(new ConsumesAttribute(MediaTypeNames.Application.Json));
+		})
+		.AddApplicationPart(typeof(IPresentationAssemblyMarker).Assembly)
+		.AddJsonOptions(options =>
+		{
+			options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+			options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+			options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+			options.JsonSerializerOptions.Converters.Add(new ByteArrayJsonConverter());
+			options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+			options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			options.JsonSerializerOptions.Converters.Add(new NullableByteArrayJsonConverter());
+			options.JsonSerializerOptions.Converters.Add(new NullableDateTimeJsonConverter());
+			options.JsonSerializerOptions.Converters.Add(new NullableTimeSpanJsonConverter());
+			options.JsonSerializerOptions.Converters.Add(new TimeSpanJsonConverter());
+		});
 
 		return services;
 	}

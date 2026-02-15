@@ -3,7 +3,7 @@
 		<AppendTargetFrameworkToOutputPath>True</AppendTargetFrameworkToOutputPath>
 		<IsPackable>True</IsPackable>
 		<GeneratePackageOnBuild Condition="$(Configuration)=='Release'">True</GeneratePackageOnBuild>
-		<TargetFrameworks>net462;net481;net8.0;net9.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+		<TargetFrameworks>net472;net481;net8.0;net10.0;netstandard2.0;netstandard2.1</TargetFrameworks>
 		<NoWarn>$(NoWarn);CS1573</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
@@ -16,7 +16,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Refit.HttpClientFactory" />
-		<PackageReference Condition="$(TargetFramework)=='net462'" Include="System.Net.Http" />
   </ItemGroup>
 	<ItemGroup>
 		<Using Include="System.Net.Http" />

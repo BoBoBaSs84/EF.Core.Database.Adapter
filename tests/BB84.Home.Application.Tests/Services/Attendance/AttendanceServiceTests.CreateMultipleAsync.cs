@@ -21,17 +21,16 @@ public sealed partial class AttendanceServiceTests
 	[TestMethod]
 	public async Task CreateMultipleAsyncShouldReturnConflictWhenExistingEntriesFound()
 	{
-		CancellationToken token = CancellationToken.None;
-		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
-		IEnumerable<AttendanceEntity> entities = [new() { Date = DateTime.Today }];
+		IReadOnlyList<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
+		IReadOnlyList<AttendanceEntity> entities = [new() { Date = DateTime.Today }];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, token))
+		attendanceRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, _cancellationToken))
 			.Returns(Task.FromResult(entities));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(requests, token)
+			.CreateAsync(requests, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -39,7 +38,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.CreateMultipleConflict(entities.Select(x => x.Date)));
-			attendanceRepoMock.Verify(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, token), Times.Once);
+			attendanceRepoMock.Verify(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -47,18 +46,17 @@ public sealed partial class AttendanceServiceTests
 	[TestMethod]
 	public async Task CreateMultipleAsyncShouldReturnCreatedWhenSuccessful()
 	{
-		CancellationToken token = CancellationToken.None;
-		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
+		IReadOnlyList<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, token))
-			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
+		attendanceRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, _cancellationToken))
+			.Returns(Task.FromResult<IReadOnlyList<AttendanceEntity>>([]));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
 			.Returns(Task.FromResult(1));
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(requests, token)
+			.CreateAsync(requests, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -67,8 +65,8 @@ public sealed partial class AttendanceServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			attendanceRepoMock.Verify(x => x.CreateAsync(It.IsAny<IEnumerable<AttendanceEntity>>(), token), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
+			attendanceRepoMock.Verify(x => x.CreateAsync(It.IsAny<IReadOnlyList<AttendanceEntity>>(), _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -77,13 +75,13 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateMultipleAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		IEnumerable<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
+		IReadOnlyList<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		string[] parameters = [$"{userId}", string.Join(',', requests.Select(x => x.Date))];
 		_currentUserServiceMock.Setup(x => x.UserId)
 			.Returns(userId);
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(requests)
+			.CreateAsync(requests, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

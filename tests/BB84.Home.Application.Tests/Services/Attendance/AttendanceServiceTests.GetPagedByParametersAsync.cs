@@ -27,7 +27,7 @@ public sealed partial class AttendanceServiceTests
 		AttendanceParameters parameters = new();
 
 		ErrorOr<IPagedList<AttendanceResponse>> result = await _sut
-			.GetPagedByParametersAsync(parameters)
+			.GetPagedByParametersAsync(parameters, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,17 +43,25 @@ public sealed partial class AttendanceServiceTests
 	public async Task GetPagedByParametersShouldReturnResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
+		IReadOnlyList<AttendanceEntity> attendances = [];
 		AttendanceParameters parameters = new();
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.CountAsync(
-			It.IsAny<Expression<Func<AttendanceEntity, bool>>?>(),
-			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>?>(), false, default)
-		).Returns(Task.FromResult(10));
+		mock.Setup(x => x.GetManyByConditionAsync(
+			It.IsAny<Expression<Func<AttendanceEntity, bool>>>(),
+			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>?>(),
+			false, It.IsAny<Func<IQueryable<AttendanceEntity>, IOrderedQueryable<AttendanceEntity>>?>(),
+			(parameters.PageNumber - 1) * parameters.PageSize, parameters.PageSize, false, _cancellationToken)
+		).Returns(Task.FromResult(attendances));
+		mock.Setup(x => x.CountByConditionAsync(
+			It.IsAny<Expression<Func<AttendanceEntity, bool>>>(),
+			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>?>(),
+			false, _cancellationToken)
+		).Returns(Task.FromResult(0));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
 
 		ErrorOr<IPagedList<AttendanceResponse>> result = await _sut
-			.GetPagedByParametersAsync(parameters)
+			.GetPagedByParametersAsync(parameters, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -67,8 +75,8 @@ public sealed partial class AttendanceServiceTests
 			result.Value.MetaData.HasNext.Should().BeFalse();
 			result.Value.MetaData.HasPrevious.Should().BeFalse();
 			result.Value.MetaData.PageSize.Should().Be(10);
-			result.Value.MetaData.TotalCount.Should().Be(10);
-			result.Value.MetaData.TotalPages.Should().Be(1);
+			result.Value.MetaData.TotalCount.Should().Be(0);
+			result.Value.MetaData.TotalPages.Should().Be(0);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

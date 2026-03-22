@@ -22,18 +22,17 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateAsyncShouldReturnConflictWhenExistingEntryFound()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		AttendanceEntity entity = new() { Date = DateTime.Today };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, token))
+		attendanceRepoMock.Setup(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(entity));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(request, token)
+			.CreateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -41,7 +40,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.CreateConflict(request.Date));
-			attendanceRepoMock.Verify(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, token), Times.Once);
+			attendanceRepoMock.Verify(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -50,19 +49,18 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, token))
+		attendanceRepoMock.Setup(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
 			.Returns(Task.FromResult(1));
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(request, token)
+			.CreateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -71,9 +69,9 @@ public sealed partial class AttendanceServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			attendanceRepoMock.Verify(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, token), Times.Once);
-			attendanceRepoMock.Verify(x => x.CreateAsync(It.IsAny<AttendanceEntity>(), token), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
+			attendanceRepoMock.Verify(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken), Times.Once);
+			attendanceRepoMock.Verify(x => x.CreateAsync(It.IsAny<AttendanceEntity>(), _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -82,14 +80,13 @@ public sealed partial class AttendanceServiceTests
 	public async Task CreateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		string[] parameters = [$"{userId}", $"{request.Date}"];
 		_currentUserServiceMock.Setup(x => x.UserId)
 			.Returns(userId);
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(request)
+			.CreateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

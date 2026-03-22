@@ -157,6 +157,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		{
 			IEnumerable<AttendanceEntity> attendances = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(
+					expression: x => x.Id != Guid.Empty,
 					queryFilter: x => x.FilterByParameters(parameters),
 					orderBy: x => x.OrderBy(x => x.Date),
 					skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -165,7 +166,8 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				.ConfigureAwait(false);
 
 			int totalCount = await repositoryService.AttendanceRepository
-				.CountAsync(
+				.CountByConditionAsync(
+					expression: x => x.Id != Guid.Empty,
 					queryFilter: x => x.FilterByParameters(parameters),
 					token: token)
 				.ConfigureAwait(false);

@@ -22,15 +22,16 @@ public sealed partial class AttendanceServiceTests
 	[TestMethod]
 	public async Task UpdateMultipleAsyncShouldReturnNotFoundWhenNotFound()
 	{
+		IReadOnlyList<AttendanceEntity> emptyList = [];
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
-			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
+		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), _cancellationToken))
+			.Returns(Task.FromResult(emptyList));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(requests)
+			.UpdateAsync(requests, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -46,15 +47,15 @@ public sealed partial class AttendanceServiceTests
 	public async Task UpdateMultipleAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
-		IEnumerable<AttendanceEntity> models = [new() { Id = requests.First().Id, Type = AttendanceType.Vacation }];
+		IReadOnlyList<AttendanceEntity> models = [new() { Id = requests.First().Id, Type = AttendanceType.Vacation }];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), default))
+		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), _cancellationToken))
 			.Returns(Task.FromResult(models));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(requests)
+			.UpdateAsync(requests, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -63,11 +64,11 @@ public sealed partial class AttendanceServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
-			models.First().Type.Should().Be(requests.First().Type);
-			models.First().StartTime.Should().Be(requests.First().StartTime);
-			models.First().EndTime.Should().Be(requests.First().EndTime);
-			models.First().BreakTime.Should().Be(requests.First().BreakTime);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			models[0].Type.Should().Be(requests.First().Type);
+			models[0].StartTime.Should().Be(requests.First().StartTime);
+			models[0].EndTime.Should().Be(requests.First().EndTime);
+			models[0].BreakTime.Should().Be(requests.First().BreakTime);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -79,7 +80,7 @@ public sealed partial class AttendanceServiceTests
 		string[] parameters = [string.Join(',', requests.Select(x => x.Id))];
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(requests)
+			.UpdateAsync(requests, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

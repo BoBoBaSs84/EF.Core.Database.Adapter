@@ -43,7 +43,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	{
 		Guid id = Guid.NewGuid();
 		CancellationToken token = CancellationToken.None;
-		IEnumerable<CardEntity> cards = [new(), new(), new()];
+		IReadOnlyList<CardEntity> cards = [new(), new(), new()];
 		Mock<ICardRepository> cardRepoMock = new();
 		cardRepoMock.Setup(x => x.GetAllAsync(false, false, token))
 			.Returns(Task.FromResult(cards));
@@ -59,7 +59,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Count().Should().Be(cards.Count());
+			result.Value.Count().Should().Be(cards.Count);
 			cardRepoMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

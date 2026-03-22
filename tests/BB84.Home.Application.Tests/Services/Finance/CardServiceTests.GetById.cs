@@ -26,7 +26,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		CardService sut = CreateMockedInstance();
 
-		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id);
+		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id, _cancellationToken);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -47,7 +47,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<CardEntity?>(null));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
-		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id);
+		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id, _cancellationToken);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -70,7 +70,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<CardEntity?>(cardModel));
 		CardService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
-		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id);
+		ErrorOr<CardResponse> result = await sut.GetByIdAsync(id, _cancellationToken);
 
 		AssertionHelper.AssertInScope(() =>
 		{
@@ -86,4 +86,6 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
+
+	public TestContext TestContext { get; set; }
 }

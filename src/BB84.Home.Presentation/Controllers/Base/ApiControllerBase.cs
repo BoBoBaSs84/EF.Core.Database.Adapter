@@ -44,15 +44,6 @@ public abstract class ApiControllerBase : ControllerBase
 	}
 
 	/// <summary>
-	/// Returns a <see cref="FileContentResult"/> response
-	/// </summary>
-	/// <param name="byteStream">Byte stream</param>
-	/// <param name="file">file name with extension</param>
-	/// <returns>FileContentResult</returns>
-	protected FileContentResult ToFileResponse(byte[] byteStream, string file) =>
-		File(byteStream, "content/type", file);
-
-	/// <summary>
 	/// Returns the api result for a get action
 	/// </summary>
 	/// <typeparam name="T"></typeparam>

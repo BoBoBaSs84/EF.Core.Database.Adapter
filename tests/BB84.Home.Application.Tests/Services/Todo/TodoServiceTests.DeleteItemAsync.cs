@@ -22,7 +22,7 @@ public sealed partial class TodoServiceTests
 		Guid id = Guid.NewGuid();
 
 		ErrorOr<Deleted> result = await _sut
-			.DeleteItemAsync(id)
+			.DeleteItemAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -39,13 +39,13 @@ public sealed partial class TodoServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+		itemMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
 			.Returns(Task.FromResult<ItemEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.TodoItemRepository)
 			.Returns(itemMock.Object);
 
 		ErrorOr<Deleted> result = await _sut
-			.DeleteItemAsync(id)
+			.DeleteItemAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -53,7 +53,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetItemByIdNotFound(id));
-			itemMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			itemMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -64,17 +64,17 @@ public sealed partial class TodoServiceTests
 		Guid id = Guid.NewGuid();
 		ItemEntity item = new();
 		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(id, default, default, default))
+		itemMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
 			.Returns(Task.FromResult<ItemEntity?>(item));
-		itemMock.Setup(x => x.DeleteAsync(item, default))
+		itemMock.Setup(x => x.DeleteAsync(item, _cancellationToken))
 			.Returns(Task.CompletedTask);
 		_repositoryServiceMock.Setup(x => x.TodoItemRepository)
 			.Returns(itemMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
 			.Returns(Task.FromResult(1));
 
 		ErrorOr<Deleted> result = await _sut
-			.DeleteItemAsync(id)
+			.DeleteItemAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -83,9 +83,9 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			itemMock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
-			itemMock.Verify(x => x.DeleteAsync(item, default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			itemMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
+			itemMock.Verify(x => x.DeleteAsync(item, _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

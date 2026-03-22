@@ -17,6 +17,7 @@ namespace ApplicationTests.Services.Documents;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class DocumentServiceTests : ApplicationTestBase
 {
+	private readonly CancellationToken _cancellationToken;
 	private readonly DocumentService _sut;
 	private readonly Mock<ILoggerService<DocumentService>> _loggerServiceMock = new();
 	private readonly Mock<ICurrentUserService> _currentUserService = new();
@@ -24,7 +25,10 @@ public sealed partial class DocumentServiceTests : ApplicationTestBase
 	private readonly IMapper _mapper = GetService<IMapper>();
 
 	public DocumentServiceTests()
-		=> _sut = new(_loggerServiceMock.Object, _currentUserService.Object, _repositoryServiceMock.Object, _mapper);
+	{
+		_cancellationToken = CancellationToken.None;
+		_sut = new(_loggerServiceMock.Object, _currentUserService.Object, _repositoryServiceMock.Object, _mapper);
+	}
 
 	private static DocumentEntity CreateDocument(Guid? id = null)
 	{

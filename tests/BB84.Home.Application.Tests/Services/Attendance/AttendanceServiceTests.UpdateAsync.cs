@@ -30,7 +30,7 @@ public sealed partial class AttendanceServiceTests
 			.Returns(mock.Object);
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(request)
+			.UpdateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -48,13 +48,13 @@ public sealed partial class AttendanceServiceTests
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		AttendanceEntity model = new() { Type = AttendanceType.Workday, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
+		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(request)
+			.UpdateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -67,7 +67,7 @@ public sealed partial class AttendanceServiceTests
 			model.StartTime.Should().Be(request.StartTime);
 			model.EndTime.Should().Be(request.EndTime);
 			model.BreakTime.Should().Be(request.BreakTime);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -78,7 +78,7 @@ public sealed partial class AttendanceServiceTests
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(request)
+			.UpdateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

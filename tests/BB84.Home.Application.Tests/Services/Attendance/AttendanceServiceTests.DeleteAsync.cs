@@ -21,7 +21,8 @@ public sealed partial class AttendanceServiceTests
 	{
 		Guid id = Guid.NewGuid();
 
-		ErrorOr<Deleted> result = await _sut.DeleteAsync(id, default)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -38,12 +39,13 @@ public sealed partial class AttendanceServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdAsync(id, default, default, default))
+		mock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
 
-		ErrorOr<Deleted> result = await _sut.DeleteAsync(id, default)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -51,7 +53,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.GetByIdNotFound(id));
-			mock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
+			mock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -62,16 +64,17 @@ public sealed partial class AttendanceServiceTests
 		Guid id = Guid.NewGuid();
 		AttendanceEntity model = new();
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdAsync(id, default, default, default))
+		mock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
-		mock.Setup(x => x.DeleteAsync(model, default))
+		mock.Setup(x => x.DeleteAsync(model, _cancellationToken))
 			.Returns(Task.CompletedTask);
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
 			.Returns(Task.FromResult(0));
 
-		ErrorOr<Deleted> result = await _sut.DeleteAsync(id, default)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -79,9 +82,9 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			mock.Verify(x => x.GetByIdAsync(id, default, default, default), Times.Once);
-			mock.Verify(x => x.DeleteAsync(model, default), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
+			mock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
+			mock.Verify(x => x.DeleteAsync(model, _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

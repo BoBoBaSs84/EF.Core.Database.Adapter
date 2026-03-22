@@ -19,10 +19,11 @@ public sealed partial class AttendanceServiceTests
 	[TestMethod]
 	public async Task DeleteMultipleAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
-		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
+		IReadOnlyList<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		string[] parameters = [$"{string.Join(',', ids)}"];
 
-		ErrorOr<Deleted> result = await _sut.DeleteAsync(ids)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(ids, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -37,14 +38,15 @@ public sealed partial class AttendanceServiceTests
 	[TestMethod]
 	public async Task DeleteMultipleAsyncShouldReturnNotFoundWhenNotFound()
 	{
-		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
+		IReadOnlyList<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(ids, default, default, default))
-			.Returns(Task.FromResult<IEnumerable<AttendanceEntity>>([]));
+			.Returns(Task.FromResult<IReadOnlyList<AttendanceEntity>>([]));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
 
-		ErrorOr<Deleted> result = await _sut.DeleteAsync(ids)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(ids, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -60,8 +62,8 @@ public sealed partial class AttendanceServiceTests
 	[TestMethod]
 	public async Task DeleteMultipleAsyncShouldReturnDeletedWhenSuccessful()
 	{
-		IEnumerable<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
-		IEnumerable<AttendanceEntity> attendances = [new(), new()];
+		IReadOnlyList<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
+		IReadOnlyList<AttendanceEntity> attendances = [new(), new()];
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetByIdsAsync(ids, default, default, default))
 			.Returns(Task.FromResult(attendances));
@@ -72,7 +74,8 @@ public sealed partial class AttendanceServiceTests
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(2));
 
-		ErrorOr<Deleted> result = await _sut.DeleteAsync(ids)
+		ErrorOr<Deleted> result = await _sut
+			.DeleteAsync(ids, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

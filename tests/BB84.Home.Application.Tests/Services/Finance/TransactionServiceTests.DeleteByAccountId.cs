@@ -26,7 +26,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		string[] parameters = [$"{accountId}", $"{id}"];
 		TransactionService sut = CreateMockedInstance();
 
-		ErrorOr<Deleted> result = await sut.DeleteByAccountId(accountId, id)
+		ErrorOr<Deleted> result = await sut.DeleteByAccountId(accountId, id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -48,7 +48,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<TransactionEntity?>(null));
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
 
-		ErrorOr<Deleted> result = await sut.DeleteByAccountId(accountId, id)
+		ErrorOr<Deleted> result = await sut.DeleteByAccountId(accountId, id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -76,7 +76,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
 			.Returns(Task.FromResult(1));
 
-		ErrorOr<Deleted> result = await sut.DeleteByAccountId(accountId, id)
+		ErrorOr<Deleted> result = await sut.DeleteByAccountId(accountId, id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

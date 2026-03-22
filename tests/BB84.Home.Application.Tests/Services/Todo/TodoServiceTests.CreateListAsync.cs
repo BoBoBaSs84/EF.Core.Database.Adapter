@@ -22,13 +22,12 @@ public sealed partial class TodoServiceTests
 	public async Task CreateListAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		ListCreateRequest request = RequestHelper.GetListCreateRequest();
 		_currentUserServiceMock.Setup(x => x.UserId)
 			.Returns(userId);
 
 		ErrorOr<Created> result = await _sut
-			.CreateListAsync(request, token)
+			.CreateListAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -44,16 +43,15 @@ public sealed partial class TodoServiceTests
 	public async Task CreateListAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		ListCreateRequest request = RequestHelper.GetListCreateRequest();
 		Mock<IListRepository> listMock = new();
 		_repositoryServiceMock.Setup(x => x.TodoListRepository)
 			.Returns(listMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
 			.Returns(Task.FromResult(1));
 
 		ErrorOr<Created> result = await _sut
-			.CreateListAsync(request, token)
+			.CreateListAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -62,8 +60,8 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			listMock.Verify(x => x.CreateAsync(It.IsAny<ListEntity>(), token), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
+			listMock.Verify(x => x.CreateAsync(It.IsAny<ListEntity>(), _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -19,12 +19,11 @@ public sealed partial class DocumentServiceTests
 	public async Task DeleteByIdsShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
-		IEnumerable<Guid> ids = [Guid.NewGuid()];
+		IReadOnlyList<Guid> ids = [Guid.NewGuid()];
 		string parameter = string.Join(',', ids.Select(x => $"{x}"));
 
 		ErrorOr<Deleted> result = await _sut
-			.DeleteAsync(ids, token)
+			.DeleteAsync(ids, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -40,16 +39,15 @@ public sealed partial class DocumentServiceTests
 	public async Task DeleteByIdsShouldReturnNotFoundWhenNotFound()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
-		IEnumerable<Guid> ids = [Guid.NewGuid()];
+		IReadOnlyList<Guid> ids = [Guid.NewGuid()];
 		Mock<IDocumentRepository> docRepoMock = new();
-		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, token))
-			.Returns(Task.FromResult<IEnumerable<DocumentEntity>>([]));
+		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, _cancellationToken))
+			.Returns(Task.FromResult<IReadOnlyList<DocumentEntity>>([]));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
 
 		ErrorOr<Deleted> result = await _sut
-			.DeleteAsync(ids, token)
+			.DeleteAsync(ids, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -57,7 +55,7 @@ public sealed partial class DocumentServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(DocumentServiceErrors.DeleteByIdsNotFound(ids));
-			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, token), Times.Once);
+			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -66,17 +64,16 @@ public sealed partial class DocumentServiceTests
 	public async Task DeleteByIdsShouldReturnDeletedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
-		IEnumerable<Guid> ids = [Guid.NewGuid()];
-		IEnumerable<DocumentEntity> documents = [CreateDocument()];
+		IReadOnlyList<Guid> ids = [Guid.NewGuid()];
+		IReadOnlyList<DocumentEntity> documents = [CreateDocument()];
 		Mock<IDocumentRepository> docRepoMock = new();
-		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, token))
+		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, _cancellationToken))
 			.Returns(Task.FromResult(documents));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
 
 		ErrorOr<Deleted> result = await _sut
-			.DeleteAsync(ids, token)
+			.DeleteAsync(ids, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -85,9 +82,9 @@ public sealed partial class DocumentServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, token), Times.Once);
-			docRepoMock.Verify(x => x.DeleteAsync(documents, token), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
+			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => ids.Contains(x.Id), default, default, default, default, default, default, _cancellationToken), Times.Once);
+			docRepoMock.Verify(x => x.DeleteAsync(documents, _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

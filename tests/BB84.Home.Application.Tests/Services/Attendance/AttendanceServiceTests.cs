@@ -13,6 +13,7 @@ namespace ApplicationTests.Services.Attendance;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class AttendanceServiceTests : ApplicationTestBase
 {
+	private readonly CancellationToken _cancellationToken;
 	private readonly AttendanceService _sut;
 	private readonly IMapper _mapper = GetService<IMapper>();
 	private readonly Mock<ILoggerService<AttendanceService>> _loggerServiceMock = new();
@@ -20,5 +21,8 @@ public sealed partial class AttendanceServiceTests : ApplicationTestBase
 	private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
 
 	public AttendanceServiceTests()
-		=> _sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+	{
+		_cancellationToken = CancellationToken.None;
+		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+	}
 }

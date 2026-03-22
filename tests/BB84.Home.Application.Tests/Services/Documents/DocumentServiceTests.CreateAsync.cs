@@ -23,14 +23,13 @@ public sealed partial class DocumentServiceTests
 	public async Task CreateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		DocumentCreateRequest request = RequestHelper.GetDocumentCreateRequest();
 		string[] parameters = [$"{userId}", $"{request.ToJson()}"];
 		_currentUserService.Setup(x => x.UserId)
 			.Returns(userId);
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(request, token)
+			.CreateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -46,14 +45,13 @@ public sealed partial class DocumentServiceTests
 	public async Task CreateAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		DocumentCreateRequest request = RequestHelper.GetDocumentCreateRequest();
 		byte[] md5Hash = request.Content.GetMD5();
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
-		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, token))
+		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, _cancellationToken))
 			.Returns(Task.FromResult<ExtensionEntity?>(null));
 		Mock<IDocumentDataRepository> dataRepoMock = new();
-		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, token))
+		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, _cancellationToken))
 			.Returns(Task.FromResult<DataEntity?>(null));
 		Mock<IDocumentRepository> docRepoMock = new();
 		_repositoryServiceMock.Setup(x => x.DocumentExtensionRepository)
@@ -62,11 +60,11 @@ public sealed partial class DocumentServiceTests
 			.Returns(dataRepoMock.Object);
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
 			.Returns(Task.FromResult(1));
 
 		ErrorOr<Created> result = await _sut
-			.CreateAsync(request, token)
+			.CreateAsync(request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -75,10 +73,10 @@ public sealed partial class DocumentServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, token), Times.Once());
+			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, _cancellationToken), Times.Once());
 			//dataRepoMock.Verify(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default), Times.Once());
-			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<DocumentEntity>(), token), Times.Once());
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once());
+			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<DocumentEntity>(), _cancellationToken), Times.Once());
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

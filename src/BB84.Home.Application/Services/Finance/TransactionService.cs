@@ -204,7 +204,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 				.ConfigureAwait(false);
 
 			int totalCount = await repositoryService.TransactionRepository
-				.CountAsync(
+				.CountByConditionAsync(
 					expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
 					queryFilter: x => x.FilterByParameters(parameters),
 					token: token)
@@ -236,7 +236,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 				.ConfigureAwait(false);
 
 			int totalCount = await repositoryService.TransactionRepository
-				.CountAsync(
+				.CountByConditionAsync(
 					expression: x => x.CardTransactions.Select(x => x.CardId).Contains(id),
 					queryFilter: x => x.FilterByParameters(parameters),
 					token: token)

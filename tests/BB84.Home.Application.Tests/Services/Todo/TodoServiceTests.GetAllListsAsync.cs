@@ -24,12 +24,11 @@ public sealed partial class TodoServiceTests
 	public async Task GetAllListsAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		_currentUserServiceMock.Setup(x => x.UserId)
 			.Returns(userId);
 
 		ErrorOr<IEnumerable<ListResponse>> result = await _sut
-			.GetAllListsAsync(token)
+			.GetAllListsAsync(_cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -46,18 +45,17 @@ public sealed partial class TodoServiceTests
 	public async Task GetAllListsAsyncShouldReturnValidResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		_currentUserServiceMock.Setup(x => x.UserId)
 			.Returns(userId);
 		ListEntity list = new() { Title = "Hello", Color = Color.Red };
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetAllAsync(false, false, token))
-			.Returns(Task.FromResult<IEnumerable<ListEntity>>([list]));
+		listMock.Setup(x => x.GetAllAsync(false, false, _cancellationToken))
+			.Returns(Task.FromResult<IReadOnlyList<ListEntity>>([list]));
 		_repositoryServiceMock.Setup(x => x.TodoListRepository)
 			.Returns(listMock.Object);
 
 		ErrorOr<IEnumerable<ListResponse>> result = await _sut
-			.GetAllListsAsync(token)
+			.GetAllListsAsync(_cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -68,7 +66,7 @@ public sealed partial class TodoServiceTests
 			result.Value.First().Title.Should().Be(list.Title);
 			result.Value.First().Color.Should().Be(list.Color?.ToRGBHexString());
 			result.Value.First().Items.Should().BeNull();
-			listMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
+			listMock.Verify(x => x.GetAllAsync(false, false, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -5,13 +5,13 @@
   <ItemGroup>
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.1" />
     <PackageVersion Include="AutoMapper" Version="[14.0.0]" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="4.1.222" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.1.222" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.1.222" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.1.222" />
-    <PackageVersion Include="BB84.Extensions" Version="4.3.222" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="4.2.322" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.2.322" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.2.322" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.2.322" />
+    <PackageVersion Include="BB84.Extensions" Version="4.3.319" />
     <PackageVersion Include="Fare" Version="2.2.1" />
-    <PackageVersion Include="FluentAssertions" Version="8.8.0" />
+    <PackageVersion Include="FluentAssertions" Version="8.9.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageVersion Include="MSTest" Version="4.1.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
@@ -26,7 +26,7 @@
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.5" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
-    <PackageVersion Include="Refit.HttpClientFactory" Version="10.0.1" />
+    <PackageVersion Include="Refit.HttpClientFactory" Version="10.1.6" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.5" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.5" />
   </ItemGroup>

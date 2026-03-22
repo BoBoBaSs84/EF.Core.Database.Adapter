@@ -19,10 +19,9 @@ public sealed partial class DocumentServiceTests
 	public async Task GetByIdAsyncShouldReturnFailedWhenExcpetionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 
 		ErrorOr<DocumentResponse> result = await _sut
-			.GetByIdAsync(id, token)
+			.GetByIdAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -38,16 +37,15 @@ public sealed partial class DocumentServiceTests
 	public async Task GetByIdAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		Mock<IDocumentRepository> docRepoMock = new();
 		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, token, includes))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes))
 			.Returns(Task.FromResult<DocumentEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
 
 		ErrorOr<DocumentResponse> result = await _sut
-			.GetByIdAsync(id, token)
+			.GetByIdAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -55,7 +53,7 @@ public sealed partial class DocumentServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(DocumentServiceErrors.GetByIdNotFound(id));
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, token, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -64,17 +62,16 @@ public sealed partial class DocumentServiceTests
 	public async Task GetByIdAsyncShouldReturnResultWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		Mock<IDocumentRepository> docRepoMock = new();
 		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
 		DocumentEntity document = CreateDocument(id);
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, token, includes))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes))
 			.Returns(Task.FromResult<DocumentEntity?>(document));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
 
 		ErrorOr<DocumentResponse> result = await _sut
-			.GetByIdAsync(id, token)
+			.GetByIdAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -94,7 +91,7 @@ public sealed partial class DocumentServiceTests
 			result.Value.MD5Hash?.SequenceEqual(document.Data.MD5Hash).Should().BeTrue();
 			result.Value.MimeType.Should().Be(document.Extension.MimeType);
 			result.Value.Name.Should().Be(document.Name);
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, token, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

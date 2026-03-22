@@ -24,14 +24,13 @@ public sealed partial class DocumentServiceTests
 	public async Task GetPagedByParametersAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		DocumentParameters parameters = new();
 		string[] parameter = [$"{userId}", parameters.ToJson()];
 		_currentUserService.Setup(x => x.UserId)
 			.Returns(userId);
 
 		ErrorOr<IPagedList<DocumentResponse>> result = await _sut
-			.GetPagedByParametersAsync(parameters, token)
+			.GetPagedByParametersAsync(parameters, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -47,23 +46,24 @@ public sealed partial class DocumentServiceTests
 
 	public async Task GetPagedByParametersAsyncShouldReturnResultWhenSuccessful()
 	{
-		CancellationToken token = CancellationToken.None;
 		DocumentParameters parameters = new();
-		IEnumerable<DocumentEntity> documents = [CreateDocument(), CreateDocument()];
+		IReadOnlyList<DocumentEntity> documents = [CreateDocument(), CreateDocument()];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(
-			null, It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default,
+			It.IsAny<Expression<Func<DocumentEntity, bool>>>(),
+			It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default,
 			It.IsAny<Func<IQueryable<DocumentEntity>, IOrderedQueryable<DocumentEntity>>?>(), (parameters.PageNumber - 1) * parameters.PageSize,
-			parameters.PageSize, default, token))
+			parameters.PageSize, default, _cancellationToken))
 			.Returns(Task.FromResult(documents));
-		docRepoMock.Setup(x => x.CountAsync(
-			null, It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default, token))
+		docRepoMock.Setup(x => x.CountByConditionAsync(
+			It.IsAny<Expression<Func<DocumentEntity, bool>>>(),
+			It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default, _cancellationToken))
 			.Returns(Task.FromResult(2));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
 
 		ErrorOr<IPagedList<DocumentResponse>> result = await _sut
-			.GetPagedByParametersAsync(parameters, token)
+			.GetPagedByParametersAsync(parameters, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

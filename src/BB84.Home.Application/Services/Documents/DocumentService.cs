@@ -175,6 +175,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		{
 			IEnumerable<DocumentEntity> documents = await repositoryService.DocumentRepository
 				.GetManyByConditionAsync(
+					expression: x => x.Id != Guid.Empty,
 					queryFilter: x => x.FilterByParameters(parameters),
 					orderBy: x => x.OrderByDescending(x => x.CreationTime),
 					skip: (parameters.PageNumber - 1) * parameters.PageSize,
@@ -183,7 +184,8 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				.ConfigureAwait(false);
 
 			int totalCount = await repositoryService.DocumentRepository
-				.CountAsync(
+				.CountByConditionAsync(
+					expression: x => x.Id != Guid.Empty,
 					queryFilter: x => x.FilterByParameters(parameters),
 					token: token)
 				.ConfigureAwait(false);

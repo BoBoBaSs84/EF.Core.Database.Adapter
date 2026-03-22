@@ -13,9 +13,16 @@ namespace ApplicationTests.Services.Finance;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class TransactionServiceTests : ApplicationTestBase
 {
-	private readonly IMapper _mapper = GetService<IMapper>();
+	private readonly CancellationToken _cancellationToken;
+	private readonly IMapper _mapper;
 	private Mock<ILoggerService<TransactionService>> _loggerServiceMock = default!;
 	private Mock<IRepositoryService> _repositoryServiceMock = default!;
+
+	public TransactionServiceTests()
+	{
+		_cancellationToken = CancellationToken.None;
+		_mapper = GetService<IMapper>();
+	}
 
 	private TransactionService CreateMockedInstance(IAccountRepository? accountRepository = null, ICardRepository? cardRepository = null, ITransactionRepository? transactionRepository = null)
 	{

@@ -28,7 +28,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		string[] parameters = [$"{cardId}", $"{id}"];
 		TransactionService sut = CreateMockedInstance();
 
-		ErrorOr<TransactionResponse> result = await sut.GetByCardId(cardId, id)
+		ErrorOr<TransactionResponse> result = await sut.GetByCardId(cardId, id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -50,7 +50,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<TransactionEntity?>(null));
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
 
-		ErrorOr<TransactionResponse> result = await sut.GetByCardId(cardId, id)
+		ErrorOr<TransactionResponse> result = await sut.GetByCardId(cardId, id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -74,7 +74,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			.Returns(Task.FromResult<TransactionEntity?>(model));
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
 
-		ErrorOr<TransactionResponse> result = await sut.GetByCardId(cardId, id)
+		ErrorOr<TransactionResponse> result = await sut.GetByCardId(cardId, id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>

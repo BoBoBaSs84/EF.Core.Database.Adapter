@@ -14,14 +14,19 @@ namespace ApplicationTests.Services.Finance;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
+	private readonly CancellationToken _cancellationToken;
+	private readonly IMapper _mapper;
 	private readonly CardService _sut;
 	private readonly Mock<ILoggerService<CardService>> _loggerServiceMock = new();
 	private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
 	private readonly Mock<IRepositoryService> _repositoryServiceMock = new();
-	private readonly IMapper _mapper = GetService<IMapper>();
 
 	public CardServiceTests()
-		=> _sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+	{
+		_cancellationToken = CancellationToken.None;
+		_mapper = GetService<IMapper>();
+		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+	}
 
 	private CardService CreateMockedInstance(IAccountRepository? accountRepository = null, ICardRepository? cardRepository = null)
 	{

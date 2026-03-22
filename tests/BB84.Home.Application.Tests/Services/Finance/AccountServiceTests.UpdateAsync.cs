@@ -23,11 +23,10 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(id, request, token)
+			.UpdateAsync(id, request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,16 +42,15 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateAsyncShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, default, true, token))
+		accountMock.Setup(x => x.GetByIdAsync(id, default, true, _cancellationToken))
 			.Returns(Task.FromResult<AccountEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountMock.Object);
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(id, request, token)
+			.UpdateAsync(id, request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -60,7 +58,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AccountServiceErrors.UpdateAccountNotFound(id));
-			accountMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(id, default, true, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -69,19 +67,18 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task UpdateAsyncShouldReturnUpdatedWhenSuccessful()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		AccountEntity account = new();
 		AccountUpdateRequest request = RequestHelper.GetAccountUpdateRequest();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, default, true, token))
+		accountMock.Setup(x => x.GetByIdAsync(id, default, true, _cancellationToken))
 			.Returns(Task.FromResult<AccountEntity?>(account));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountMock.Object);
-		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
+		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
 			.Returns(Task.FromResult(1));
 
 		ErrorOr<Updated> result = await _sut
-			.UpdateAsync(id, request, token)
+			.UpdateAsync(id, request, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -92,8 +89,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.Should().Be(Result.Updated);
 			account.Type.Should().Be(request.Type);
 			account.Provider.Should().Be(request.Provider);
-			accountMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
-			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(id, default, true, _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -24,10 +24,9 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByIdAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 
 		ErrorOr<AccountResponse> result = await _sut
-			.GetByIdAsync(id, token)
+			.GetByIdAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -43,15 +42,14 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByIdAsyncShouldReturnNotFoundWhenAccountNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, false, false, token, nameof(AccountEntity.Cards)))
+		accountMock.Setup(x => x.GetByIdAsync(id, false, false, _cancellationToken, nameof(AccountEntity.Cards)))
 			.Returns(Task.FromResult<AccountEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountMock.Object);
 
 		ErrorOr<AccountResponse> result = await _sut
-			.GetByIdAsync(id, token)
+			.GetByIdAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -59,7 +57,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AccountServiceErrors.GetByIdNotFound(id));
-			accountMock.Verify(x => x.GetByIdAsync(id, false, false, token, It.IsAny<string[]>()), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(id, false, false, _cancellationToken, It.IsAny<string[]>()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -68,21 +66,20 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByIdAsyncShouldReturnResponseWithNoCardsWhenCardsNotFound()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		AccountEntity accountModel = new() { Id = id, IBAN = "UnitTest", Type = AccountType.Checking, Provider = "UnitTest" };
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, false, false, token, nameof(AccountEntity.Cards)))
+		accountMock.Setup(x => x.GetByIdAsync(id, false, false, _cancellationToken, nameof(AccountEntity.Cards)))
 			.Returns(Task.FromResult<AccountEntity?>(accountModel));
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, null, null, null, false, token))
-			.Returns(Task.FromResult<IEnumerable<CardEntity>>([]));
+		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, null, null, null, false, _cancellationToken))
+			.Returns(Task.FromResult<IReadOnlyList<CardEntity>>([]));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountMock.Object);
 		_repositoryServiceMock.Setup(x => x.CardRepository)
 			.Returns(cardMock.Object);
 
 		ErrorOr<AccountResponse> result = await _sut
-			.GetByIdAsync(id, token)
+			.GetByIdAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -96,7 +93,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Value.Type.Should().Be(accountModel.Type);
 			result.Value.Provider.Should().Be(accountModel.Provider);
 			result.Value.Cards.Should().BeNull();
-			accountMock.Verify(x => x.GetByIdAsync(id, false, false, token, It.IsAny<string[]>()), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(id, false, false, _cancellationToken, It.IsAny<string[]>()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -105,22 +102,21 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetByIdAsyncShouldReturnResponseWithCardsWhenCardsFound()
 	{
 		Guid id = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		CardEntity cardModel = new();
 		AccountEntity accountModel = new() { Cards = [cardModel] };
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, false, false, token, nameof(AccountEntity.Cards)))
+		accountMock.Setup(x => x.GetByIdAsync(id, false, false, _cancellationToken, nameof(AccountEntity.Cards)))
 			.Returns(Task.FromResult<AccountEntity?>(accountModel));
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, null, null, null, false, token))
-			.Returns(Task.FromResult<IEnumerable<CardEntity>>([cardModel]));
+		cardMock.Setup(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<CardEntity, bool>>>(), null, false, null, null, null, false, _cancellationToken))
+			.Returns(Task.FromResult<IReadOnlyList<CardEntity>>([cardModel]));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountMock.Object);
 		_repositoryServiceMock.Setup(x => x.CardRepository)
 			.Returns(cardMock.Object);
 
 		ErrorOr<AccountResponse> result = await _sut
-			.GetByIdAsync(id, token)
+			.GetByIdAsync(id, _cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -130,7 +126,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().NotBeNull();
 			result.Value.Cards.Should().NotBeNullOrEmpty();
-			accountMock.Verify(x => x.GetByIdAsync(id, false, false, token, It.IsAny<string[]>()), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(id, false, false, _cancellationToken, It.IsAny<string[]>()), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

@@ -21,12 +21,11 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetAllAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
 		_currentUserServiceMock.Setup(x => x.UserId)
 			.Returns(userId);
 
 		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
-			.GetAllAsync(token)
+			.GetAllAsync(_cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -42,16 +41,15 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public async Task GetAllAsyncShouldReturnResponseWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();
-		CancellationToken token = CancellationToken.None;
-		IEnumerable<AccountEntity> accounts = [new(), new(), new()];
+		IReadOnlyList<AccountEntity> accounts = [new(), new(), new()];
 		Mock<IAccountRepository> accountRepoMock = new();
-		accountRepoMock.Setup(x => x.GetAllAsync(false, false, token))
+		accountRepoMock.Setup(x => x.GetAllAsync(false, false, _cancellationToken))
 			.Returns(Task.FromResult(accounts));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountRepoMock.Object);
 
 		ErrorOr<IEnumerable<AccountResponse>> result = await _sut
-			.GetAllAsync(token)
+			.GetAllAsync(_cancellationToken)
 			.ConfigureAwait(false);
 
 		AssertionHelper.AssertInScope(() =>
@@ -59,8 +57,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			result.Value.Count().Should().Be(accounts.Count());
-			accountRepoMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
+			result.Value.Count().Should().Be(accounts.Count);
+			accountRepoMock.Verify(x => x.GetAllAsync(false, false, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

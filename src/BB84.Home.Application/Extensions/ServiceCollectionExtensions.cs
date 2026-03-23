@@ -74,18 +74,6 @@ internal static class ServiceCollectionExtensions
 	}
 
 	/// <summary>
-	/// Registers the required auto mapper to the <paramref name="services"/> collection.
-	/// </summary>
-	/// <param name="services">The service collection to enrich.</param>
-	/// <returns>The enriched service collection.</returns>
-	internal static IServiceCollection RegisterAutoMapper(this IServiceCollection services)
-	{
-		services.AddAutoMapper(config => config.AllowNullCollections = true, typeof(IApplicationAssemblyMarker));
-
-		return services;
-	}
-
-	/// <summary>
 	/// Registers the required fluent validation validators to the <paramref name="services"/> collection.
 	/// </summary>
 	/// <param name="services">The service collection to enrich.</param>

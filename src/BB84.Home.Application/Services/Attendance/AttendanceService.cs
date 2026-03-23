@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Extensions;
+﻿using BB84.Extensions;
 using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Contracts.Responses.Attendance;
 using BB84.Home.Application.Errors.Services;
@@ -24,8 +22,7 @@ namespace BB84.Home.Application.Services.Attendance;
 /// <param name="loggerService">The logger service for logging errors and information.</param>
 /// <param name="userService"> The service providing information about the current user.</param>
 /// <param name="repositoryService">The repository service for accessing data repositories.</param>
-/// <param name="mapper">The mapper for converting between domain entities and data transfer objects.</param>
-internal sealed class AttendanceService(ILoggerService<AttendanceService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : IAttendanceService
+internal sealed class AttendanceService(ILoggerService<AttendanceService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService) : IAttendanceService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -41,13 +38,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (entity is not null)
 				return AttendanceServiceErrors.CreateConflict(request.Date);
 
-			AttendanceEntity newEntity = mapper.Map<AttendanceEntity>(request);
-			newEntity.UserId = userService.UserId;
+			AttendanceEntity newEntity = request.ToEntity(userService.UserId);
 
-			await repositoryService.AttendanceRepository.CreateAsync(newEntity, token)
+			await repositoryService.AttendanceRepository
+				.CreateAsync(newEntity, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -64,26 +62,27 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
+			IReadOnlyList<AttendanceEntity> entities = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(expression: x => requests.Select(x => x.Date).Contains(x.Date), token: token)
 				.ConfigureAwait(false);
 
-			if (entities.Any())
+			if (entities.Count.IsDefault())
 				return AttendanceServiceErrors.CreateMultipleConflict(entities.Select(x => x.Date));
 
 			List<AttendanceEntity> newEntities = [];
 
 			foreach (AttendanceCreateRequest request in requests)
 			{
-				AttendanceEntity newAttendance = mapper.Map<AttendanceEntity>(request);
-				newAttendance.UserId = userService.UserId;
+				AttendanceEntity newAttendance = request.ToEntity(userService.UserId);
 				newEntities.Add(newAttendance);
 			}
 
-			await repositoryService.AttendanceRepository.CreateAsync(newEntities, token)
+			await repositoryService.AttendanceRepository
+				.CreateAsync(newEntities, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -127,11 +126,11 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
+			IReadOnlyList<AttendanceEntity> entities = await repositoryService.AttendanceRepository
 				.GetByIdsAsync(ids, token: token)
 				.ConfigureAwait(false);
 
-			if (entities.Any().IsFalse())
+			if (entities.Count.Equals(0))
 				return AttendanceServiceErrors.GetByIdsNotFound(ids);
 
 			await repositoryService.AttendanceRepository
@@ -155,7 +154,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
-			IEnumerable<AttendanceEntity> attendances = await repositoryService.AttendanceRepository
+			IReadOnlyList<AttendanceEntity> attendances = await repositoryService.AttendanceRepository
 				.GetManyByConditionAsync(
 					expression: x => x.Id != Guid.Empty,
 					queryFilter: x => x.FilterByParameters(parameters),
@@ -172,7 +171,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 					token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<AttendanceResponse> result = mapper.Map<IEnumerable<AttendanceResponse>>(attendances);
+			IEnumerable<AttendanceResponse> result = attendances.Select(x => x.ToResponse());
 
 			return new PagedList<AttendanceResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -194,7 +193,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (attendanceEntry is null)
 				return AttendanceServiceErrors.GetByDateNotFound(date);
 
-			AttendanceResponse result = mapper.Map<AttendanceResponse>(attendanceEntry);
+			AttendanceResponse result = attendanceEntry.ToResponse();
 
 			return result;
 		}
@@ -217,7 +216,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 			if (entity is null)
 				return AttendanceServiceErrors.GetByIdNotFound(request.Id);
 
-			_ = mapper.Map(request, entity);
+			entity = request.ToEntity(entity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -243,7 +242,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				return AttendanceServiceErrors.GetByIdsNotFound(requests.Select(x => x.Id));
 
 			foreach (AttendanceEntity entity in entities)
-				_ = mapper.Map(requests.Single(x => x.Id.Equals(entity.Id)), entity);
+				_ = requests.Single(x => x.Id.Equals(entity.Id)).ToEntity(entity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);

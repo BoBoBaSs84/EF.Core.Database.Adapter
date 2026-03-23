@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Application.Services.Finance;
@@ -15,7 +13,6 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class CardServiceTests : ApplicationTestBase
 {
 	private readonly CancellationToken _cancellationToken;
-	private readonly IMapper _mapper;
 	private readonly CardService _sut;
 	private readonly Mock<ILoggerService<CardService>> _loggerServiceMock = new();
 	private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
@@ -24,8 +21,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 	public CardServiceTests()
 	{
 		_cancellationToken = CancellationToken.None;
-		_mapper = GetService<IMapper>();
-		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object);
 	}
 
 	private CardService CreateMockedInstance(IAccountRepository? accountRepository = null, ICardRepository? cardRepository = null)
@@ -36,6 +32,6 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		if (cardRepository is not null)
 			_repositoryServiceMock.Setup(x => x.CardRepository).Returns(cardRepository);
 
-		return new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+		return new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object);
 	}
 }

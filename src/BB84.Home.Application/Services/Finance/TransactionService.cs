@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Extensions;
@@ -21,8 +19,7 @@ namespace BB84.Home.Application.Services.Finance;
 /// </summary>
 /// <param name="loggerService">The logger service to use.</param>
 /// <param name="repositoryService">The repository service to use.</param>
-/// <param name="mapper">The auto mapper to use.</param>
-internal sealed class TransactionService(ILoggerService<TransactionService> loggerService, IRepositoryService repositoryService, IMapper mapper) : ITransactionService
+internal sealed class TransactionService(ILoggerService<TransactionService> loggerService, IRepositoryService repositoryService) : ITransactionService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -38,14 +35,16 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (accountEntity is null)
 				return TransactionServiceErrors.CreateByAccountIdNotFound(accountId);
 
-			TransactionEntity transaction = mapper.Map<TransactionEntity>(request);
+			TransactionEntity transaction = request.ToEntity();
 
 			transaction.AccountTransactions = [new() { Account = accountEntity, Transaction = transaction }];
 
-			await repositoryService.TransactionRepository.CreateAsync(transaction, token)
+			await repositoryService.TransactionRepository
+				.CreateAsync(transaction, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -68,14 +67,16 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (cardEntity is null)
 				return TransactionServiceErrors.CreateByCardIdNotFound(cardId);
 
-			TransactionEntity transaction = mapper.Map<TransactionEntity>(request);
+			TransactionEntity transaction = request.ToEntity();
 
 			transaction.CardTransactions = [new() { Card = cardEntity, Transaction = transaction }];
 
-			await repositoryService.TransactionRepository.CreateAsync(transaction, token)
+			await repositoryService.TransactionRepository
+				.CreateAsync(transaction, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -102,7 +103,8 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 				.DeleteAsync(entity, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Deleted;
@@ -130,7 +132,8 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 				.DeleteAsync(entity, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Deleted;
@@ -154,7 +157,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (entity is null)
 				return TransactionServiceErrors.GetByIdNotFound(id);
 
-			TransactionResponse response = mapper.Map<TransactionResponse>(entity);
+			TransactionResponse response = entity.ToResponse();
 
 			return response;
 		}
@@ -177,7 +180,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (entity is null)
 				return TransactionServiceErrors.GetByIdNotFound(id);
 
-			TransactionResponse response = mapper.Map<TransactionResponse>(entity);
+			TransactionResponse response = entity.ToResponse();
 
 			return response;
 		}
@@ -193,7 +196,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
-			IEnumerable<TransactionEntity> entities = await repositoryService.TransactionRepository
+			IReadOnlyList<TransactionEntity> entities = await repositoryService.TransactionRepository
 				.GetManyByConditionAsync(
 					expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
 					queryFilter: x => x.FilterByParameters(parameters),
@@ -210,7 +213,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 					token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<TransactionResponse> result = mapper.Map<IEnumerable<TransactionResponse>>(entities);
+			IEnumerable<TransactionResponse> result = entities.Select(x => x.ToResponse());
 
 			return new PagedList<TransactionResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -225,7 +228,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
-			IEnumerable<TransactionEntity> entities = await repositoryService.TransactionRepository
+			IReadOnlyList<TransactionEntity> entities = await repositoryService.TransactionRepository
 				.GetManyByConditionAsync(
 					expression: x => x.CardTransactions.Select(x => x.CardId).Contains(id),
 					queryFilter: x => x.FilterByParameters(parameters),
@@ -242,7 +245,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 					token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<TransactionResponse> result = mapper.Map<IEnumerable<TransactionResponse>>(entities);
+			IEnumerable<TransactionResponse> result = entities.Select(x => x.ToResponse());
 
 			return new PagedList<TransactionResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -264,9 +267,10 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (entity is null)
 				return TransactionServiceErrors.UpdateByAccountIdNotFound(id);
 
-			_ = mapper.Map(request, entity);
+			entity = request.ToEntity(entity);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;
@@ -290,9 +294,10 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 			if (entity is null)
 				return TransactionServiceErrors.UpdateByCardIdNotFound(id);
 
-			_ = mapper.Map(request, entity);
+			entity = request.ToEntity(entity);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Contracts.Responses.Common;
+﻿using BB84.Home.Application.Contracts.Responses.Common;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
@@ -19,7 +17,6 @@ namespace BB84.Home.Application.Tests.Services.Common;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed class CalendarServiceTests : ApplicationTestBase
 {
-	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<IDateTimeProvider> _dateTimeServiceMock = default!;
 	private Mock<ILoggerService<CalendarService>> _loggerServiceMock = default!;
 
@@ -115,6 +112,6 @@ public sealed class CalendarServiceTests : ApplicationTestBase
 		_dateTimeServiceMock = new();
 		_loggerServiceMock = new();
 
-		return new(_dateTimeServiceMock.Object, _loggerServiceMock.Object, _mapper);
+		return new(_dateTimeServiceMock.Object, _loggerServiceMock.Object);
 	}
 }

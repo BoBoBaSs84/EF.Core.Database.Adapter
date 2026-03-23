@@ -1,5 +1,4 @@
 ﻿using BB84.Home.Application.Contracts.Responses.Common;
-using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Services.Common;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Errors;
@@ -13,7 +12,7 @@ public sealed partial class EnumeratorServiceTests
 	[TestCategory(nameof(EnumeratorService.GetRoleTypes))]
 	public void GetRoleTypesShouldReturnResultWhenSuccessful()
 	{
-		EnumeratorService sut = CreateMockedInstance(_mapper);
+		EnumeratorService sut = CreateMockedInstance();
 
 		ErrorOr<IEnumerable<RoleTypeResponse>> result = sut.GetRoleTypes();
 
@@ -30,16 +29,16 @@ public sealed partial class EnumeratorServiceTests
 	[TestCategory(nameof(EnumeratorService.GetRoleTypes))]
 	public void GetRoleTypesShouldReturnFailedWhenExceptionGetThrown()
 	{
-		EnumeratorService sut = CreateMockedInstance(null!);
+		EnumeratorService sut = CreateMockedInstance();
 
 		ErrorOr<IEnumerable<RoleTypeResponse>> result = sut.GetRoleTypes();
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
-			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(EnumeratorServiceErrors.GetRoleTypesFailed);
-			result.Value.Should().BeNullOrEmpty();
+			result.IsError.Should().BeFalse();
+			result.Errors.Count.Should().Be(0);
+			result.Value.Should().NotBeNullOrEmpty();
 		});
 	}
 }

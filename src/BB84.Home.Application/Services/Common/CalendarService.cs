@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Contracts.Responses.Common;
+﻿using BB84.Home.Application.Contracts.Responses.Common;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Extensions;
 using BB84.Home.Application.Features.Requests;
@@ -21,8 +19,7 @@ namespace BB84.Home.Application.Services.Common;
 /// </summary>
 /// <param name="dateTimeService">The date time service instance to use.</param>
 /// <param name="loggerService">The logger service instance to use.</param>
-/// <param name="mapper">The auto mapper instance to use.</param>
-internal sealed class CalendarService(IDateTimeProvider dateTimeService, ILoggerService<CalendarService> loggerService, IMapper mapper) : ICalendarService
+internal sealed class CalendarService(IDateTimeProvider dateTimeService, ILoggerService<CalendarService> loggerService) : ICalendarService
 {
 	private readonly IQueryable<DateTime> _dateTimes = GetPossibleDates();
 
@@ -36,9 +33,9 @@ internal sealed class CalendarService(IDateTimeProvider dateTimeService, ILogger
 	{
 		try
 		{
-			DateTime? calendarDay = _dateTimes.Single(x => x.Date.Equals(date.Date));
+			DateTime calendarDay = _dateTimes.Single(x => x.Date.Equals(date.Date));
 
-			CalendarResponse respone = mapper.Map<CalendarResponse>(calendarDay);
+			CalendarResponse respone = calendarDay.ToResponse();
 
 			return respone;
 		}
@@ -61,7 +58,7 @@ internal sealed class CalendarService(IDateTimeProvider dateTimeService, ILogger
 			int totalCount = _dateTimes.FilterByParameters(parameters)
 				.Count();
 
-			IEnumerable<CalendarResponse> result = mapper.Map<IEnumerable<CalendarResponse>>(calendarDays);
+			IEnumerable<CalendarResponse> result = calendarDays.Select(x => x.ToResponse());
 
 			return new PagedList<CalendarResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -76,9 +73,9 @@ internal sealed class CalendarService(IDateTimeProvider dateTimeService, ILogger
 	{
 		try
 		{
-			DateTime? calendarDay = _dateTimes.Single(x => x.Date.Equals(dateTimeService.Today));
+			DateTime calendarDay = _dateTimes.Single(x => x.Date.Equals(dateTimeService.Today));
 
-			CalendarResponse respone = mapper.Map<CalendarResponse>(calendarDay);
+			CalendarResponse respone = calendarDay.ToResponse();
 
 			return respone;
 		}

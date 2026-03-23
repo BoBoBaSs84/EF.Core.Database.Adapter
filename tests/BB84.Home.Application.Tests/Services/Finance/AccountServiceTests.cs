@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Interfaces.Infrastructure.Services;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Application.Services.Finance;
 using BB84.Home.Application.Tests;
@@ -14,7 +12,6 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class AccountServiceTests : ApplicationTestBase
 {
 	private readonly CancellationToken _cancellationToken;
-	private readonly IMapper _mapper;
 	private readonly AccountService _sut;
 	private readonly Mock<ILoggerService<AccountService>> _loggerServiceMock = new();
 	private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
@@ -23,7 +20,6 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	public AccountServiceTests()
 	{
 		_cancellationToken = CancellationToken.None;
-		_mapper = GetService<IMapper>();
-		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object);
 	}
 }

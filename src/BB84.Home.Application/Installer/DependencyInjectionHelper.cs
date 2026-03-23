@@ -18,7 +18,6 @@ public static class DependencyInjectionHelper
 	public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
 	{
 		services.RegisterApplicationOptions()
-			.RegisterAutoMapper()
 			.RegisterFluentValidation()
 			.RegisterScopedServices()
 			.RegisterSingletonServices()

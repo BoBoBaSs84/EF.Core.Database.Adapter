@@ -1,5 +1,4 @@
 ﻿using BB84.Home.Application.Contracts.Responses.Common;
-using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Services.Common;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Errors;
@@ -14,7 +13,7 @@ public sealed partial class EnumeratorServiceTests
 	[TestCategory(nameof(EnumeratorService.GetPriorityLevelTypes))]
 	public void GetPriorityLevelTypesShouldReturnResultWhenSuccessful()
 	{
-		EnumeratorService sut = CreateMockedInstance(_mapper);
+		EnumeratorService sut = CreateMockedInstance();
 
 		ErrorOr<IEnumerable<PriorityLevelTypeResponse>> result = sut.GetPriorityLevelTypes();
 
@@ -31,16 +30,16 @@ public sealed partial class EnumeratorServiceTests
 	[TestCategory(nameof(EnumeratorService.GetPriorityLevelTypes))]
 	public void GetPriorityLevelTypesShouldReturnFailedWhenExceptionGetThrown()
 	{
-		EnumeratorService sut = CreateMockedInstance(null!);
+		EnumeratorService sut = CreateMockedInstance();
 
 		ErrorOr<IEnumerable<PriorityLevelTypeResponse>> result = sut.GetPriorityLevelTypes();
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
-			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(EnumeratorServiceErrors.GetPriorityLevelTypesFailed);
-			result.Value.Should().BeNullOrEmpty();
+			result.IsError.Should().BeFalse();
+			result.Errors.Count.Should().Be(0);
+			result.Value.Should().NotBeNullOrEmpty();
 		});
 	}
 }

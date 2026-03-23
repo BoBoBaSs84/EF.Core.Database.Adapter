@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Services.Finance;
 using BB84.Home.Application.Tests;
@@ -14,14 +12,12 @@ namespace ApplicationTests.Services.Finance;
 public sealed partial class TransactionServiceTests : ApplicationTestBase
 {
 	private readonly CancellationToken _cancellationToken;
-	private readonly IMapper _mapper;
 	private Mock<ILoggerService<TransactionService>> _loggerServiceMock = default!;
 	private Mock<IRepositoryService> _repositoryServiceMock = default!;
 
 	public TransactionServiceTests()
 	{
 		_cancellationToken = CancellationToken.None;
-		_mapper = GetService<IMapper>();
 	}
 
 	private TransactionService CreateMockedInstance(IAccountRepository? accountRepository = null, ICardRepository? cardRepository = null, ITransactionRepository? transactionRepository = null)
@@ -38,6 +34,6 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		if (transactionRepository is not null)
 			_repositoryServiceMock.Setup(x => x.TransactionRepository).Returns(transactionRepository);
 
-		return new(_loggerServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+		return new(_loggerServiceMock.Object, _repositoryServiceMock.Object);
 	}
 }

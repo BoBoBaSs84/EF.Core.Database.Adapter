@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Interfaces.Infrastructure.Services;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Application.Tests;
@@ -15,7 +13,6 @@ public sealed partial class AttendanceServiceTests : ApplicationTestBase
 {
 	private readonly CancellationToken _cancellationToken;
 	private readonly AttendanceService _sut;
-	private readonly IMapper _mapper = GetService<IMapper>();
 	private readonly Mock<ILoggerService<AttendanceService>> _loggerServiceMock = new();
 	private readonly Mock<IRepositoryService> _repositoryServiceMock = new();
 	private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
@@ -23,6 +20,6 @@ public sealed partial class AttendanceServiceTests : ApplicationTestBase
 	public AttendanceServiceTests()
 	{
 		_cancellationToken = CancellationToken.None;
-		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object);
 	}
 }

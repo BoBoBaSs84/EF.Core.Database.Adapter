@@ -68,11 +68,16 @@ internal static class SwaggerGenOptionsExtensions
 		options.AddSecurityDefinition(PresentationConstants.Authentication.Bearer, new OpenApiSecurityScheme()
 		{
 			In = ParameterLocation.Header,
-			Description = "Please enter token",
+			Description = "JWT Authorization header using the Bearer scheme.",
 			Name = PresentationConstants.Authentication.SecuritySchemeName,
 			Type = SecuritySchemeType.Http,
 			BearerFormat = PresentationConstants.Authentication.BearerFormat,
 			Scheme = PresentationConstants.Authentication.Bearer
+		});
+
+		options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+		{
+			[new OpenApiSecuritySchemeReference(PresentationConstants.Authentication.Bearer, document)] = []
 		});
 
 		return options;

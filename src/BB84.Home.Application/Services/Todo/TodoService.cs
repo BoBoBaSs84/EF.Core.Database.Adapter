@@ -3,6 +3,7 @@
 using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
 using BB84.Home.Application.Interfaces.Application.Services.Todo;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
@@ -136,16 +137,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 	{
 		try
 		{
-			ListEntity? todoList = await repositoryService.TodoListRepository
-				.GetByIdAsync(listId, token: token, includeProperties: nameof(ListEntity.Items))
+			ListResponse? listResponse = await repositoryService.TodoListRepository
+				.GetByIdAsync(listId, listEntity => listEntity.ToResponse(), token: token)
 				.ConfigureAwait(false);
 
-			if (todoList is null)
+			if (listResponse is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			ListResponse response = MapToResponse(todoList);
-
-			return response;
+			return listResponse;
 		}
 		catch (Exception ex)
 		{

@@ -1,13 +1,13 @@
 ﻿using BB84.EntityFrameworkCore.Repositories;
-using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Domain.Entities.Attendance;
 
 namespace BB84.Home.Infrastructure.Persistence.Repositories;
 
 /// <summary>
-/// The attendance repository class.
+/// Represents the repository for the <see cref="AttendanceEntity"/> entity.
 /// </summary>
-/// <inheritdoc/>
-internal sealed class AttendanceRepository(IDbContext dbContext) : IdentityRepository<AttendanceEntity>(dbContext), IAttendanceRepository
+internal sealed class AttendanceRepository(IRepositoryContext repositoryContext)
+	: IdentityRepository<AttendanceEntity>(repositoryContext), IAttendanceRepository
 { }

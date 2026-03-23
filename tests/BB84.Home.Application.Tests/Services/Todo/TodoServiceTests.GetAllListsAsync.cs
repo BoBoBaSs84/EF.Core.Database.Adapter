@@ -65,7 +65,7 @@ public sealed partial class TodoServiceTests
 			result.Errors.Should().BeEmpty();
 			result.Value.First().Title.Should().Be(list.Title);
 			result.Value.First().Color.Should().Be(list.Color?.ToRGBHexString());
-			result.Value.First().Items.Should().BeNull();
+			result.Value.First().Items.Should().BeEmpty();
 			listMock.Verify(x => x.GetAllAsync(false, false, _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});

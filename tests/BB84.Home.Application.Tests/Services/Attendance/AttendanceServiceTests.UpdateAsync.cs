@@ -1,6 +1,7 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
@@ -20,6 +21,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
@@ -43,6 +45,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
@@ -73,6 +76,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.UpdateAsync))]
 	public async Task UpdateAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();

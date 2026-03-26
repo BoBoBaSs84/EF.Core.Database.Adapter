@@ -1,6 +1,7 @@
 ﻿using BB84.Home.Application.Contracts.Responses.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Enumerators.Attendance;
@@ -18,6 +19,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.GetByDateAsync))]
 	public async Task GetByDateShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -40,6 +42,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.GetByDateAsync))]
 	public async Task GetByDateShouldReturnNotFoundWhenNotFound()
 	{
 		Guid userId = Guid.NewGuid();
@@ -65,6 +68,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.GetByDateAsync))]
 	public async Task GetByDateShouldReturnValidResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();

@@ -31,6 +31,7 @@ internal static partial class RequestExtensions
 	/// <returns>The updated <see cref="UserEntity"/>.</returns>
 	public static UserEntity ToEntity(this UserUpdateRequest request, UserEntity entity)
 	{
+		entity.Email = request.Email;
 		entity.FirstName = request.FirstName;
 		entity.LastName = request.LastName;
 		entity.MiddleName = request.MiddleName;

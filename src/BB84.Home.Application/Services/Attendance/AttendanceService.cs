@@ -66,7 +66,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 				.GetManyByConditionAsync(expression: x => requests.Select(x => x.Date).Contains(x.Date), token: token)
 				.ConfigureAwait(false);
 
-			if (entities.Count.IsDefault())
+			if (entities.Count > 0)
 				return AttendanceServiceErrors.CreateMultipleConflict(entities.Select(x => x.Date));
 
 			List<AttendanceEntity> newEntities = [];

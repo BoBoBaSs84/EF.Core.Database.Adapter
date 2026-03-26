@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Extensions;
+﻿using BB84.Extensions;
 using BB84.Extensions.Serialization;
 using BB84.Home.Application.Common;
 using BB84.Home.Application.Contracts.Requests.Documents;
@@ -27,8 +25,7 @@ namespace BB84.Home.Application.Services.Documents;
 /// <param name="loggerService">The logger service for logging errors and information.</param>
 /// <param name="userService"> The service providing information about the current user.</param>
 /// <param name="repositoryService">The repository service for accessing data repositories.</param>
-/// <param name="mapper">The mapper for converting between domain entities and data transfer objects.</param>
-internal sealed class DocumentService(ILoggerService<DocumentService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : IDocumentService
+internal sealed class DocumentService(ILoggerService<DocumentService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService) : IDocumentService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -40,10 +37,12 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			DocumentEntity document = await PrepareDocumentForCreate(request, token)
 				.ConfigureAwait(false);
 
-			await repositoryService.DocumentRepository.CreateAsync(document, token)
+			await repositoryService.DocumentRepository
+				.CreateAsync(document, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -75,10 +74,12 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 				documents.Add(document);
 			}
 
-			await repositoryService.DocumentRepository.CreateAsync(documents, token)
+			await repositoryService.DocumentRepository
+				.CreateAsync(documents, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -104,10 +105,12 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			if (document is null)
 				return DocumentServiceErrors.DeleteByIdNotFound(id);
 
-			await repositoryService.DocumentRepository.DeleteAsync(document, token)
+			await repositoryService.DocumentRepository
+				.DeleteAsync(document, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Deleted;
@@ -132,10 +135,12 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			if (documents.Any().IsFalse())
 				return DocumentServiceErrors.DeleteByIdsNotFound(ids);
 
-			await repositoryService.DocumentRepository.DeleteAsync(documents, token)
+			await repositoryService.DocumentRepository
+				.DeleteAsync(documents, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Deleted;
@@ -158,7 +163,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			if (document is null)
 				return DocumentServiceErrors.GetByIdNotFound(id);
 
-			DocumentResponse response = mapper.Map<DocumentResponse>(document);
+			DocumentResponse response = document.ToResponse();
 
 			return response;
 		}
@@ -190,7 +195,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 					token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<DocumentResponse> result = mapper.Map<IEnumerable<DocumentResponse>>(documents);
+			IEnumerable<DocumentResponse> result = documents.Select(x => x.ToResponse());
 
 			return new PagedList<DocumentResponse>(result, totalCount, parameters.PageNumber, parameters.PageSize);
 		}
@@ -216,7 +221,8 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			document = await PrepareDocumentForUpdate(document, request, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;
@@ -255,7 +261,8 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 					.ConfigureAwait(false);
 			}
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;
@@ -276,7 +283,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		ExtensionEntity extension = await PrepareDocumentExtension(request, token)
 			.ConfigureAwait(false);
 
-		DocumentEntity document = mapper.Map<DocumentEntity>(request);
+		DocumentEntity document = request.ToEntity();
 		document.UserId = userService.UserId;
 		document.Extension = extension;
 		document.Data = data;
@@ -286,7 +293,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 
 	private async Task<DocumentEntity> PrepareDocumentForUpdate(DocumentEntity document, DocumentUpdateRequest request, CancellationToken token)
 	{
-		_ = mapper.Map(request, document);
+		_ = request.ToEntity(document);
 
 		DataEntity data = await PrepareDocumentData(request, token)
 			.ConfigureAwait(false);

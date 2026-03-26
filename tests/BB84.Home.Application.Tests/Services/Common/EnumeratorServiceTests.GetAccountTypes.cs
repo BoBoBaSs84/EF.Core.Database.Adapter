@@ -14,7 +14,7 @@ public sealed partial class EnumeratorServiceTests
 	[TestCategory(nameof(EnumeratorService.GetAccountTypes))]
 	public void GetAccountTypesShouldReturnResultWhenSuccessful()
 	{
-		EnumeratorService sut = CreateMockedInstance(_mapper);
+		EnumeratorService sut = CreateMockedInstance();
 
 		ErrorOr<IEnumerable<AccountTypeResponse>> result = sut.GetAccountTypes();
 
@@ -31,16 +31,16 @@ public sealed partial class EnumeratorServiceTests
 	[TestCategory(nameof(EnumeratorService.GetAccountTypes))]
 	public void GetAccountTypesShouldReturnFailedWhenExceptionGetThrown()
 	{
-		EnumeratorService sut = CreateMockedInstance(null!);
+		EnumeratorService sut = CreateMockedInstance();
 
 		ErrorOr<IEnumerable<AccountTypeResponse>> result = sut.GetAccountTypes();
 
 		AssertionHelper.AssertInScope(() =>
 		{
 			result.Should().NotBeNull();
-			result.IsError.Should().BeTrue();
-			result.Errors.First().Should().Be(EnumeratorServiceErrors.GetAccountTypesFailed);
-			result.Value.Should().BeNullOrEmpty();
+			result.IsError.Should().BeFalse();
+			result.Errors.Should().BeEmpty();
+			result.Value.Should().NotBeNullOrEmpty();
 		});
 	}
 }

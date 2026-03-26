@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Contracts.Requests.Todo;
+﻿using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
 using BB84.Home.Application.Interfaces.Application.Services.Todo;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
@@ -10,6 +9,7 @@ using BB84.Home.Domain.Entities.Todo;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BB84.Home.Application.Services.Todo;
@@ -21,8 +21,7 @@ namespace BB84.Home.Application.Services.Todo;
 /// <param name="loggerService">The logger service for logging errors and information.</param>
 /// <param name="userService"> The service providing information about the current user.</param>
 /// <param name="repositoryService">The repository service for accessing data repositories.</param>
-/// <param name="mapper">The mapper for converting between domain entities and data transfer objects.</param>
-internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : ITodoService
+internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService) : ITodoService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -31,13 +30,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 	{
 		try
 		{
-			ListEntity list = MapFromRequest(request);
-			list.UserId = userService.UserId;
+			ListEntity entity = request.ToEntity(userService.UserId);
 
-			await repositoryService.TodoListRepository.CreateAsync(list, token)
+			await repositoryService.TodoListRepository
+				.CreateAsync(entity, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -60,13 +60,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 			if (list is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			ItemEntity item = MapFromRequest(request);
-			item.ListId = listId;
+			ItemEntity item = request.ToEntity(listId);
 
-			await repositoryService.TodoItemRepository.CreateAsync(item, token)
+			await repositoryService.TodoItemRepository
+				.CreateAsync(item, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -136,16 +137,18 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 	{
 		try
 		{
-			ListEntity? todoList = await repositoryService.TodoListRepository
-				.GetByIdAsync(listId, token: token, includeProperties: nameof(ListEntity.Items))
+			ListResponse? listResponse = await repositoryService.TodoListRepository
+				.GetByConditionAsync(
+					expression: x => x.Id == listId,
+					selector: listEntity => listEntity.ToResponse(),
+					queryFilter: qf => qf.Include(x => x.Items),
+					token: token)
 				.ConfigureAwait(false);
 
-			if (todoList is null)
+			if (listResponse is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			ListResponse response = MapToResponse(todoList);
-
-			return response;
+			return listResponse;
 		}
 		catch (Exception ex)
 		{
@@ -158,11 +161,11 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 	{
 		try
 		{
-			IEnumerable<ListEntity> todoLists = await repositoryService.TodoListRepository
+			IReadOnlyList<ListEntity> entities = await repositoryService.TodoListRepository
 				.GetAllAsync(token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<ListResponse> response = MapToResponse(todoLists);
+			IEnumerable<ListResponse> response = entities.Select(x => x.ToResponse());
 
 			return response.ToList();
 		}
@@ -184,9 +187,10 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 			if (list is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			_ = MapFromRequest(request, list);
+			list = request.ToEntity(list);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;
@@ -209,9 +213,10 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 			if (item is null)
 				return TodoServiceErrors.GetItemByIdNotFound(itemId);
 
-			_ = MapFromRequest(request, item);
+			item = request.ToEntity(item);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;
@@ -222,22 +227,4 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 			return TodoServiceErrors.UpdateItemByIdFailed(itemId);
 		}
 	}
-
-	private ListEntity MapFromRequest(ListCreateRequest request)
-		=> mapper.Map<ListEntity>(request);
-
-	private ItemEntity MapFromRequest(ItemCreateRequest request)
-		=> mapper.Map<ItemEntity>(request);
-
-	private ListResponse MapToResponse(ListEntity list)
-		=> mapper.Map<ListResponse>(list);
-
-	private IEnumerable<ListResponse> MapToResponse(IEnumerable<ListEntity> lists)
-		=> lists.Select(MapToResponse);
-
-	private ListEntity MapFromRequest(ListUpdateRequest request, ListEntity list)
-		=> mapper.Map(request, list);
-
-	private ItemEntity MapFromRequest(ItemUpdateRequest request, ItemEntity item)
-		=> mapper.Map(request, item);
 }

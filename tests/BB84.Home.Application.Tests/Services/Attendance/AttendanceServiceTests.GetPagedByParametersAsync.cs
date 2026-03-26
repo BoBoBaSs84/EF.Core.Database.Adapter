@@ -5,6 +5,7 @@ using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Attendance;
 using BB84.Home.Domain.Errors;
@@ -21,6 +22,7 @@ namespace ApplicationTests.Services.Attendance;
 public sealed partial class AttendanceServiceTests
 {
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.GetPagedByParametersAsync))]
 	public async Task GetPagedByParametersShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid userId = Guid.NewGuid();
@@ -40,6 +42,7 @@ public sealed partial class AttendanceServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory(nameof(AttendanceService.GetPagedByParametersAsync))]
 	public async Task GetPagedByParametersShouldReturnResultWhenSuccessful()
 	{
 		Guid userId = Guid.NewGuid();

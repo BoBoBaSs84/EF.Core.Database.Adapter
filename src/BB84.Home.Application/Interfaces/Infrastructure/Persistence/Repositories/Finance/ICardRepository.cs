@@ -1,7 +1,7 @@
 ﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 using BB84.Home.Domain.Entities.Finance;
 
-namespace BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+namespace BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 
 /// <summary>
 /// The card repository interface.

@@ -1,6 +1,7 @@
 ﻿using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
+using BB84.Home.Application.Services.Todo;
 using BB84.Home.Application.Tests.Helpers;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Todo;
@@ -19,6 +20,7 @@ namespace ApplicationTests.Services.Todo;
 public sealed partial class TodoServiceTests
 {
 	[TestMethod]
+	[TestCategory(nameof(TodoService.CreateItemAsync))]
 	public async Task CreateItemAsyncShouldReturnFailedWhenExceptionIsThrown()
 	{
 		Guid listId = Guid.NewGuid();
@@ -38,6 +40,7 @@ public sealed partial class TodoServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory(nameof(TodoService.CreateItemAsync))]
 	public async Task CreateItemAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		Guid listId = Guid.NewGuid();
@@ -63,6 +66,7 @@ public sealed partial class TodoServiceTests
 	}
 
 	[TestMethod]
+	[TestCategory(nameof(TodoService.CreateItemAsync))]
 	public async Task CreateItemAsyncShouldReturnCreatedWhenSuccessful()
 	{
 		Guid listId = Guid.NewGuid();

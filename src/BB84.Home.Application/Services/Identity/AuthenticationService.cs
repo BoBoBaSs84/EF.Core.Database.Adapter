@@ -1,11 +1,10 @@
 ﻿using System.Security.Claims;
 
-using AutoMapper;
-
 using BB84.Extensions;
 using BB84.Home.Application.Contracts.Requests.Identity;
 using BB84.Home.Application.Contracts.Responses.Identity;
 using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
 using BB84.Home.Application.Interfaces.Application.Services.Identity;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Domain.Entities.Identity;
@@ -26,8 +25,7 @@ namespace BB84.Home.Application.Services.Identity;
 /// <param name="tokenService">The token service instance to use.</param>
 /// <param name="roleService">The role service instance to use.</param>
 /// <param name="userService">The user service instance to use.</param>
-/// <param name="mapper">The auto mapper instance to use.</param>
-internal sealed class AuthenticationService(ILoggerService<AuthenticationService> logger, ITokenService tokenService, IRoleService roleService, IUserService userService, IMapper mapper) : IAuthenticationService
+internal sealed class AuthenticationService(ILoggerService<AuthenticationService> logger, ITokenService tokenService, IRoleService roleService, IUserService userService) : IAuthenticationService
 {
 	private static readonly Action<ILogger, Exception?> LogException =
 		LoggerMessage.Define(LogLevel.Error, 0, "Exception occured.");
@@ -129,7 +127,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 	{
 		try
 		{
-			UserEntity user = mapper.Map<UserEntity>(request);
+			UserEntity user = request.ToEntity();
 
 			IdentityResult result = await userService.CreateAsync(user, request.Password)
 				.ConfigureAwait(false);
@@ -169,7 +167,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			IList<UserEntity> userEntities = await userService.GetUsersInRoleAsync(RoleType.User.GetName())
 				.ConfigureAwait(false);
 
-			IEnumerable<UserResponse> response = mapper.Map<IEnumerable<UserResponse>>(userEntities);
+			IEnumerable<UserResponse> response = userEntities.Select(x => x.ToResponse());
 
 			return response.ToList();
 		}
@@ -190,8 +188,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			UserResponse response =
-				mapper.Map<UserResponse>(user);
+			UserResponse response = user.ToResponse();
 
 			return response;
 		}
@@ -212,7 +209,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserByNameNotFound(userName);
 
-			UserResponse response = mapper.Map<UserResponse>(user);
+			UserResponse response = user.ToResponse();
 
 			return response;
 		}
@@ -340,7 +337,7 @@ internal sealed class AuthenticationService(ILoggerService<AuthenticationService
 			if (user is null)
 				return AuthenticationServiceErrors.UserByIdNotFound(userId);
 
-			_ = mapper.Map(request, user);
+			user = request.ToEntity(user);
 
 			IdentityResult result = await userService.UpdateAsync(user)
 				.ConfigureAwait(false);

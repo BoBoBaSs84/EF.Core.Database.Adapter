@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Interfaces.Infrastructure.Services;
+﻿using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Application.Services.Todo;
 using BB84.Home.Application.Tests;
@@ -15,7 +13,6 @@ public sealed partial class TodoServiceTests : ApplicationTestBase
 {
 	private readonly CancellationToken _cancellationToken;
 	private readonly TodoService _sut;
-	private readonly IMapper _mapper = GetService<IMapper>();
 	private readonly Mock<ILoggerService<TodoService>> _loggerServiceMock = new();
 	private readonly Mock<IRepositoryService> _repositoryServiceMock = new();
 	private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
@@ -23,6 +20,6 @@ public sealed partial class TodoServiceTests : ApplicationTestBase
 	public TodoServiceTests()
 	{
 		_cancellationToken = CancellationToken.None;
-		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object, _mapper);
+		_sut = new(_loggerServiceMock.Object, _currentUserServiceMock.Object, _repositoryServiceMock.Object);
 	}
 }

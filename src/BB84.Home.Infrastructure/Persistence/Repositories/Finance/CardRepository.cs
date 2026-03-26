@@ -1,13 +1,13 @@
 ﻿using BB84.EntityFrameworkCore.Repositories;
-using BB84.EntityFrameworkCore.Repositories.Abstractions;
-using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Domain.Entities.Finance;
 
 namespace BB84.Home.Infrastructure.Persistence.Repositories.Finance;
 
 /// <summary>
-/// The card repository class.
+/// Represents the repository for the <see cref="CardEntity"/> entity.
 /// </summary>
-/// <inheritdoc/>
-internal sealed class CardRepository(IDbContext dbContext) : IdentityRepository<CardEntity>(dbContext), ICardRepository
+internal sealed class CardRepository(IRepositoryContext repositoryContext)
+	: IdentityRepository<CardEntity>(repositoryContext), ICardRepository
 { }

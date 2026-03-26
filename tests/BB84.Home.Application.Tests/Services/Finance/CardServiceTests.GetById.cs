@@ -1,6 +1,6 @@
 ﻿using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
-using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
+using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Services.Finance;
 using BB84.Home.Application.Tests;
 using BB84.Home.Base.Tests.Helpers;

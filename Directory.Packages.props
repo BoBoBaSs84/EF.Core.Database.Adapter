@@ -4,7 +4,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.1" />
-    <PackageVersion Include="AutoMapper" Version="[14.0.0]" />
     <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="4.2.322" />
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.2.322" />
     <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.2.322" />

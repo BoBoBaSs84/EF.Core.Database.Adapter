@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using BB84.Extensions;
+﻿using BB84.Extensions;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Application.Services.Documents;
@@ -22,12 +20,11 @@ public sealed partial class DocumentServiceTests : ApplicationTestBase
 	private readonly Mock<ILoggerService<DocumentService>> _loggerServiceMock = new();
 	private readonly Mock<ICurrentUserService> _currentUserService = new();
 	private readonly Mock<IRepositoryService> _repositoryServiceMock = new();
-	private readonly IMapper _mapper = GetService<IMapper>();
 
 	public DocumentServiceTests()
 	{
 		_cancellationToken = CancellationToken.None;
-		_sut = new(_loggerServiceMock.Object, _currentUserService.Object, _repositoryServiceMock.Object, _mapper);
+		_sut = new(_loggerServiceMock.Object, _currentUserService.Object, _repositoryServiceMock.Object);
 	}
 
 	private static DocumentEntity CreateDocument(Guid? id = null)

@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
 using BB84.Home.Application.Interfaces.Application.Services.Finance;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
@@ -20,8 +19,7 @@ namespace BB84.Home.Application.Services.Finance;
 /// <param name="loggerService">The logger service to use.</param>
 /// <param name="repositoryService">The repository service to use.</param>
 /// <param name="userService">The service providing information about the current user.</param>
-/// <param name="mapper">The auto mapper to use.</param>
-internal sealed class CardService(ILoggerService<CardService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : ICardService
+internal sealed class CardService(ILoggerService<CardService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService) : ICardService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -44,15 +42,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 			if (cardEntity is not null)
 				return CardServiceErrors.CreateNumberConflict(request.PAN);
 
-			CardEntity newCard = mapper.Map<CardEntity>(request);
+			CardEntity newCard = request.ToEntity(userService.UserId, accountId);
 
-			newCard.UserId = userService.UserId;
-			newCard.AccountId = accountId;
-
-			await repositoryService.CardRepository.CreateAsync(newCard, token)
+			await repositoryService.CardRepository
+				.CreateAsync(newCard, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -69,17 +66,19 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 	{
 		try
 		{
-			CardEntity? cardEntity = await repositoryService.CardRepository
+			CardEntity? entity = await repositoryService.CardRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
-			if (cardEntity is null)
+			if (entity is null)
 				return CardServiceErrors.DeleteNotFound(id);
 
-			await repositoryService.CardRepository.DeleteAsync(cardEntity, token)
+			await repositoryService.CardRepository
+				.DeleteAsync(entity, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Deleted;
@@ -95,14 +94,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 	{
 		try
 		{
-			CardEntity? cardEntity = await repositoryService.CardRepository
+			CardEntity? entity = await repositoryService.CardRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
-			if (cardEntity is null)
+			if (entity is null)
 				return CardServiceErrors.GetByIdNotFound(id);
 
-			CardResponse response = mapper.Map<CardResponse>(cardEntity);
+			CardResponse response = entity.ToResponse();
 
 			return response;
 		}
@@ -117,11 +116,11 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 	{
 		try
 		{
-			IEnumerable<CardEntity> cardEntries = await repositoryService.CardRepository
+			IReadOnlyList<CardEntity> entities = await repositoryService.CardRepository
 				.GetAllAsync(token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<CardResponse> response = mapper.Map<IEnumerable<CardResponse>>(cardEntries);
+			IEnumerable<CardResponse> response = entities.Select(x => x.ToResponse());
 
 			return response.ToList();
 		}
@@ -136,14 +135,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 	{
 		try
 		{
-			CardEntity? cardEntity = await repositoryService.CardRepository
+			CardEntity? entity = await repositoryService.CardRepository
 				.GetByIdAsync(id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
-			if (cardEntity is null)
+			if (entity is null)
 				return CardServiceErrors.UpdateNotFound(id);
 
-			_ = mapper.Map(request, cardEntity);
+			entity = request.ToEntity(entity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);

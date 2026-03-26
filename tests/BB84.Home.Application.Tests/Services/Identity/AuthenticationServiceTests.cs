@@ -1,8 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 
-using AutoMapper;
-
 using BB84.Home.Application.Contracts.Requests.Identity;
 using BB84.Home.Application.Interfaces.Application.Services.Identity;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
@@ -22,7 +20,6 @@ namespace ApplicationTests.Services.Identity;
 [SuppressMessage("Style", "IDE0058", Justification = "Not relevant here, unit testing.")]
 public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 {
-	private readonly IMapper _mapper = GetService<IMapper>();
 	private Mock<IOptions<BearerSettingsOption>> _bearerSettingsMock = default!;
 	private Mock<ITokenService> _tokenServiceMock = default!;
 	private Mock<ILoggerService<AuthenticationService>> _loggerServiceMock = default!;
@@ -53,10 +50,8 @@ public sealed partial class AuthenticationServiceTests : ApplicationTestBase
 			logger: _loggerServiceMock.Object,
 			tokenService: _tokenServiceMock.Object,
 			roleService: _roleServiceMock.Object,
-			userService: _userServiceMock.Object,
-			mapper: _mapper
+			userService: _userServiceMock.Object
 			);
-
 		return authenticationService;
 	}
 

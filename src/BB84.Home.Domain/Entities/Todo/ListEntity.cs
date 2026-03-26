@@ -28,7 +28,7 @@ public class ListEntity : AuditedEntity
 	/// <summary>
 	/// The items within the todo list.
 	/// </summary>
-	public virtual ICollection<ItemEntity> Items { get; set; } = default!;
+	public virtual ICollection<ItemEntity> Items { get; } = [];
 
 	/// <summary>
 	/// The navigational <see cref="User"/> property.

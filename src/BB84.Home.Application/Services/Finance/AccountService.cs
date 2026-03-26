@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-
-using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
+using BB84.Home.Application.Extensions;
 using BB84.Home.Application.Interfaces.Application.Services.Finance;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Interfaces.Presentation.Services;
@@ -20,8 +19,7 @@ namespace BB84.Home.Application.Services.Finance;
 /// <param name="loggerService">The logger service to use.</param>
 /// <param name="repositoryService">The repository service to use.</param>
 /// <param name="userService">The service providing information about the current user.</param>
-/// <param name="mapper">The auto mapper to use.</param>
-internal sealed class AccountService(ILoggerService<AccountService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService, IMapper mapper) : IAccountService
+internal sealed class AccountService(ILoggerService<AccountService> loggerService, ICurrentUserService userService, IRepositoryService repositoryService) : IAccountService
 {
 	private static readonly Action<ILogger, object, Exception?> LogExceptionWithParams =
 		LoggerMessage.Define<object>(LogLevel.Error, 0, "Exception occured. Params = {Parameters}");
@@ -50,7 +48,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 				}
 			}
 
-			AccountEntity account = mapper.Map<AccountEntity>(request);
+			AccountEntity account = request.ToEntity();
 
 			if (account.Cards is not null && account.Cards.Count > 0)
 			{
@@ -60,10 +58,12 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 
 			account.AccountUsers = [new() { UserId = userService.UserId, Account = account }];
 
-			await repositoryService.AccountRepository.CreateAsync(account, token)
+			await repositoryService.AccountRepository
+				.CreateAsync(account, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Created;
@@ -79,18 +79,19 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			AccountEntity? accountEntity = await repositoryService.AccountRepository
+			AccountEntity? entity = await repositoryService.AccountRepository
 				.GetByIdAsync(id, token: token)
 				.ConfigureAwait(false);
 
-			if (accountEntity is null)
+			if (entity is null)
 				return AccountServiceErrors.DeleteAccountNotFound(id);
 
 			await repositoryService.AccountRepository
-				.DeleteAsync(accountEntity, token)
+				.DeleteAsync(entity, token)
 				.ConfigureAwait(false);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Deleted;
@@ -106,14 +107,14 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			AccountEntity? accountEntity = await repositoryService.AccountRepository
+			AccountEntity? entity = await repositoryService.AccountRepository
 				.GetByIdAsync(id, token: token, includeProperties: nameof(AccountEntity.Cards))
 				.ConfigureAwait(false);
 
-			if (accountEntity is null)
+			if (entity is null)
 				return AccountServiceErrors.GetByIdNotFound(id);
 
-			AccountResponse response = mapper.Map<AccountResponse>(accountEntity);
+			AccountResponse response = entity.ToResponse();
 
 			return response;
 		}
@@ -128,11 +129,11 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			IEnumerable<AccountEntity> accountEntities = await repositoryService.AccountRepository
+			IReadOnlyList<AccountEntity> entities = await repositoryService.AccountRepository
 				.GetAllAsync(token: token)
 				.ConfigureAwait(false);
 
-			IEnumerable<AccountResponse> result = mapper.Map<IEnumerable<AccountResponse>>(accountEntities);
+			IEnumerable<AccountResponse> result = entities.Select(x => x.ToResponse());
 
 			return result.ToList();
 		}
@@ -147,16 +148,17 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 	{
 		try
 		{
-			AccountEntity? account = await repositoryService.AccountRepository
+			AccountEntity? entity = await repositoryService.AccountRepository
 				.GetByIdAsync(id, trackChanges: true, token: token)
 				.ConfigureAwait(false);
 
-			if (account is null)
+			if (entity is null)
 				return AccountServiceErrors.UpdateAccountNotFound(id);
 
-			_ = mapper.Map(request, account);
+			entity = request.ToEntity(entity);
 
-			_ = await repositoryService.CommitChangesAsync(token)
+			_ = await repositoryService
+				.CommitChangesAsync(token)
 				.ConfigureAwait(false);
 
 			return Result.Updated;

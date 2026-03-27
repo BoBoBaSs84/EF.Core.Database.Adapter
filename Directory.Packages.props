@@ -26,7 +26,7 @@
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="10.1.6" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.5" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.5" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.7" />
   </ItemGroup>
 </Project>

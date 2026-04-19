@@ -1,0 +1,35 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="CODE_OF_CONDUCT.md" />
+    <File Path="compose.yaml" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="Dockerfile" />
+    <File Path="LICENSE" />
+    <File Path="README.Docker.md" />
+    <File Path="README.md" />
+    <File Path="test.runsettings" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/BB84.Home.API/BB84.Home.API.csproj" />
+    <Project Path="src/BB84.Home.Application/BB84.Home.Application.csproj" />
+    <Project Path="src/BB84.Home.Connector/BB84.Home.Connector.csproj" />
+    <Project Path="src/BB84.Home.Domain/BB84.Home.Domain.csproj" />
+    <Project Path="src/BB84.Home.Infrastructure/BB84.Home.Infrastructure.csproj" />
+    <Project Path="src/BB84.Home.Presentation/BB84.Home.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BB84.Home.Application.Tests/BB84.Home.Application.Tests.csproj" />
+    <Project Path="tests/BB84.Home.Base.Tests/BB84.Home.Base.Tests.csproj" />
+    <Project Path="tests/BB84.Home.Domain.Tests/BB84.Home.Domain.Tests.csproj" />
+    <Project Path="tests/BB84.Home.Infrastructure.Tests/BB84.Home.Infrastructure.Tests.csproj" />
+  </Folder>
+  <Properties Name="ExtensibilityGlobals" Scope="PostLoad">
+    <Property Name="RESX_SaveFilesImmediatelyUponChange" Value="True" />
+    <Property Name="RESX_SortFileContentOnSave" Value="True" />
+  </Properties>
+</Solution>

@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using BB84.Extensions.Serialization;
+﻿using BB84.Extensions.Serialization;
 using BB84.Home.Application.Contracts.Responses.Documents;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Features.Requests;
@@ -50,14 +48,12 @@ public sealed partial class DocumentServiceTests
 		IReadOnlyList<DocumentEntity> documents = [CreateDocument(), CreateDocument()];
 		Mock<IDocumentRepository> docRepoMock = new();
 		docRepoMock.Setup(x => x.GetManyByConditionAsync(
-			It.IsAny<Expression<Func<DocumentEntity, bool>>>(),
-			It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default,
+			It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>>(), default,
 			It.IsAny<Func<IQueryable<DocumentEntity>, IOrderedQueryable<DocumentEntity>>?>(), (parameters.PageNumber - 1) * parameters.PageSize,
 			parameters.PageSize, default, _cancellationToken))
 			.Returns(Task.FromResult(documents));
 		docRepoMock.Setup(x => x.CountByConditionAsync(
-			It.IsAny<Expression<Func<DocumentEntity, bool>>>(),
-			It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>?>(), default, _cancellationToken))
+			It.IsAny<Func<IQueryable<DocumentEntity>, IQueryable<DocumentEntity>>>(), default, _cancellationToken))
 			.Returns(Task.FromResult(2));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);

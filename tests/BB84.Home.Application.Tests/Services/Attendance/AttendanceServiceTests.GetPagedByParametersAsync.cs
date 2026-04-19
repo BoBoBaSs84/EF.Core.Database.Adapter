@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using BB84.Home.Application.Contracts.Responses.Attendance;
+﻿using BB84.Home.Application.Contracts.Responses.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Features.Requests;
 using BB84.Home.Application.Features.Responses;
@@ -50,14 +48,12 @@ public sealed partial class AttendanceServiceTests
 		AttendanceParameters parameters = new();
 		Mock<IAttendanceRepository> mock = new();
 		mock.Setup(x => x.GetManyByConditionAsync(
-			It.IsAny<Expression<Func<AttendanceEntity, bool>>>(),
-			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>?>(),
+			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>>(),
 			false, It.IsAny<Func<IQueryable<AttendanceEntity>, IOrderedQueryable<AttendanceEntity>>?>(),
 			(parameters.PageNumber - 1) * parameters.PageSize, parameters.PageSize, false, _cancellationToken)
 		).Returns(Task.FromResult(attendances));
 		mock.Setup(x => x.CountByConditionAsync(
-			It.IsAny<Expression<Func<AttendanceEntity, bool>>>(),
-			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>?>(),
+			It.IsAny<Func<IQueryable<AttendanceEntity>, IQueryable<AttendanceEntity>>>(),
 			false, _cancellationToken)
 		).Returns(Task.FromResult(0));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)

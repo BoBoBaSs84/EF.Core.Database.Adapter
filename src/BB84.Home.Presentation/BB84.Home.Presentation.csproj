@@ -8,5 +8,6 @@
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" />
 		<PackageReference Include="AutoMapper" VersionOverride="16.1.1" />
+	<PackageReference Include="BB84.EntityFrameworkCore.Entities" />
 	</ItemGroup>
 </Project>

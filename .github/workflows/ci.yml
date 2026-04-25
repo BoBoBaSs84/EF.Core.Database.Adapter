@@ -10,29 +10,38 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
 
-    runs-on: windows-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v6
-      with:
-        fetch-depth: 0
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
-    - name: Setup MSSQL
-      uses: potatoqualitee/mssqlsuite@v1.12
-      with:
-        install: localdb
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+
+      - name: Setup MSSQL
+        uses: potatoqualitee/mssqlsuite@v1.12
+        with:
+          install: localdb
     
-    - name: Restore
-      run: dotnet restore
-    
-    - name: Build
-      run: dotnet build --no-restore --configuration release --verbosity minimal
-    
-    - name: Test
-      run: dotnet test --no-build --configuration release --verbosity minimal
+      - name: Restore dependencies
+        run: dotnet restore EF.Core.Database.Adapter.slnx
+
+      - name: Build solution
+        run: dotnet build EF.Core.Database.Adapter.slnx --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test EF.Core.Database.Adapter.slnx --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: '**/TestResults/*.trx'

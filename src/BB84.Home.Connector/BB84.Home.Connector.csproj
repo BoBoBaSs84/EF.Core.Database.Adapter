@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
+	<PropertyGroup>
 		<AppendTargetFrameworkToOutputPath>True</AppendTargetFrameworkToOutputPath>
 		<IsPackable>True</IsPackable>
 		<GeneratePackageOnBuild Condition="$(Configuration)=='Release'">True</GeneratePackageOnBuild>
@@ -12,11 +12,11 @@
 		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations"/>
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
 		<PackageReference Include="PolySharp">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Refit.HttpClientFactory" />
-  </ItemGroup>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Refit.HttpClientFactory" />
+	</ItemGroup>
 	<ItemGroup>
 		<Using Include="System.Net.Http" />
 		<Using Include="System.Net.Http.Headers" />

@@ -3,7 +3,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\BB84.Home.Domain\BB84.Home.Domain.csproj" />
+		<ProjectReference Include="..\BB84.Home.Domain\BB84.Home.Domain.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="BB84.EntityFrameworkCore.Repositories.Abstractions" />
@@ -19,9 +19,9 @@
 			<DependentUpon>ServiceErrors.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Common\MimeTypesMap.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>MimeTypesMap.tt</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>MimeTypesMap.tt</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
@@ -29,12 +29,12 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>ServiceErrors.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	  <None Update="Common\MimeTypesMap.tt">
-	    <Generator>TextTemplatingFileGenerator</Generator>
-	    <LastGenOutput>MimeTypesMap.cs</LastGenOutput>
-	  </None>
+		<None Update="Common\MimeTypesMap.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>MimeTypesMap.cs</LastGenOutput>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 </Project>

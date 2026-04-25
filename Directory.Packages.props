@@ -3,12 +3,12 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.1" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="4.3.327" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.3.327" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.3.327" />
-    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.3.327" />
-    <PackageVersion Include="BB84.Extensions" Version="4.3.319" />
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="10.0.0" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Entities" Version="4.3.419" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories" Version="4.3.419" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.Abstractions" Version="4.3.419" />
+    <PackageVersion Include="BB84.EntityFrameworkCore.Repositories.SqlServer" Version="4.3.419" />
+    <PackageVersion Include="BB84.Extensions" Version="4.3.420" />
     <PackageVersion Include="Fare" Version="2.2.2" />
     <PackageVersion Include="FluentAssertions" Version="8.9.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />

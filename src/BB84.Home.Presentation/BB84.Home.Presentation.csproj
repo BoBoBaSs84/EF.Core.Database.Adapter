@@ -3,10 +3,9 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\BB84.Home.Application\BB84.Home.Application.csproj" />
+		<ProjectReference Include="..\BB84.Home.Application\BB84.Home.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" />
-		<PackageReference Include="AutoMapper" VersionOverride="16.1.1" />
 	</ItemGroup>
 </Project>

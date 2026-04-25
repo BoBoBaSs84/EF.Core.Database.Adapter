@@ -1,5 +1,4 @@
 <Project>
-
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
 		<VersionMinor>2</VersionMinor>
@@ -9,7 +8,6 @@
 		<FileVersion>$(VersionMajor).$(VersionMinor).$(VersionPatch)</FileVersion>
 		<VersionSuffix Condition="$(Configuration.Equals('Debug'))">Development</VersionSuffix>
 	</PropertyGroup>
-
 	<PropertyGroup>
 		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
 		<AnalysisLevel>latest</AnalysisLevel>
@@ -27,7 +25,6 @@
 		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
 		<TargetFramework>net10.0</TargetFramework>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
 		<Authors>BoBoBaSs84</Authors>
 		<Company>https://github.com/BoBoBaSs84</Company>
@@ -43,26 +40,21 @@
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BoBoBaSs84/EF.Core.Database.Adapter/</RepositoryUrl>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="$(Configuration.Equals('Debug'))">
 		<DebugType>full</DebugType>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
 		<IsPackable>False</IsPackable>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 	</PropertyGroup>
-
 	<ItemGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
 		<Using Include="System.Diagnostics.CodeAnalysis" />
 	</ItemGroup>
-
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
 		<Using Include="System.Diagnostics" />
 		<Using Include="System.Diagnostics.CodeAnalysis" />
 	</ItemGroup>
-
 </Project>

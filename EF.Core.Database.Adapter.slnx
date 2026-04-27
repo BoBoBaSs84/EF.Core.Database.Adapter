@@ -12,7 +12,6 @@
     <File Path="LICENSE" />
     <File Path="README.Docker.md" />
     <File Path="README.md" />
-    <File Path="test.runsettings" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/BB84.Home.API/BB84.Home.API.csproj" />
@@ -31,5 +30,5 @@
   <Properties Name="ExtensibilityGlobals" Scope="PostLoad">
     <Property Name="RESX_SaveFilesImmediatelyUponChange" Value="True" />
     <Property Name="RESX_SortFileContentOnSave" Value="True" />
-  </Properties>
+  </Properties>  
 </Solution>

@@ -7,5 +7,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" />
+		<PackageReference Include="BB84.Extensions" />
 	</ItemGroup>
 </Project>

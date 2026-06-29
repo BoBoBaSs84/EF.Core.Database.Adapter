@@ -18,7 +18,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<UserEntity> builder)
 	{
-		builder.ToHistoryTable("User", SqlSchema.Identity, SqlSchema.History);
+		builder.ToHistoryTable("User", SqlSchema.Identity);
 
 		builder.Property(p => p.FirstName)
 			.HasMaxLength(100);

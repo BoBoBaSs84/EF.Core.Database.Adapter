@@ -15,7 +15,7 @@ internal sealed class TransactionEntityConfiguration : AuditedConfiguration<Tran
 {
 	public override void Configure(EntityTypeBuilder<TransactionEntity> builder)
 	{
-		builder.ToHistoryTable("Transaction", SqlSchema.Finance, SqlSchema.History);
+		builder.ToHistoryTable("Transaction", SqlSchema.Finance);
 
 		builder.Property(p => p.BookingDate)
 			.IsDateColumn();

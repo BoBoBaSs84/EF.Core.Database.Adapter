@@ -15,5 +15,5 @@ internal sealed class UserClaimConfiguration : IEntityTypeConfiguration<UserClai
 {
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<UserClaimEntity> builder) =>
-		builder.ToHistoryTable("UserClaim", SqlSchema.Identity, SqlSchema.History);
+		builder.ToHistoryTable("UserClaim", SqlSchema.Identity);
 }

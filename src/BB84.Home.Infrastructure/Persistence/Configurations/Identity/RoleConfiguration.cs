@@ -19,7 +19,7 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<RoleEntity>
 {
 	public void Configure(EntityTypeBuilder<RoleEntity> builder)
 	{
-		builder.ToHistoryTable("Role", SqlSchema.Identity, SqlSchema.History);
+		builder.ToHistoryTable("Role", SqlSchema.Identity);
 
 		builder.Property(p => p.Description)
 			.HasMaxLength(500)

@@ -14,7 +14,7 @@ internal sealed class ItemEntityConfiguration : AuditedConfiguration<ItemEntity>
 {
 	public override void Configure(EntityTypeBuilder<ItemEntity> builder)
 	{
-		builder.ToHistoryTable("Item", SqlSchema.Todo, SqlSchema.History);
+		builder.ToHistoryTable("Item", SqlSchema.Todo);
 
 		builder.Property(e => e.Title)
 			.HasMaxLength(256);

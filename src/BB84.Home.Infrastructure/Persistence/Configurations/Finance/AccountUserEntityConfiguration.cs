@@ -15,7 +15,7 @@ internal sealed class AccountUserEntityConfiguration : AuditedCompositeConfigura
 {
 	public override void Configure(EntityTypeBuilder<AccountUserEntity> builder)
 	{
-		builder.ToHistoryTable("AccountUser", SqlSchema.Finance, SqlSchema.History);
+		builder.ToHistoryTable("AccountUser", SqlSchema.Finance);
 
 		builder.HasKey(e => new { e.AccountId, e.UserId })
 			.IsClustered(false);

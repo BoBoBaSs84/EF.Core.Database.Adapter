@@ -16,7 +16,7 @@ internal sealed class ListEntityConfiguration : AuditedConfiguration<ListEntity>
 {
 	public override void Configure(EntityTypeBuilder<ListEntity> builder)
 	{
-		builder.ToHistoryTable("List", SqlSchema.Todo, SqlSchema.History);
+		builder.ToHistoryTable("List", SqlSchema.Todo);
 
 		builder.Property(e => e.Title)
 			.HasMaxLength(256)

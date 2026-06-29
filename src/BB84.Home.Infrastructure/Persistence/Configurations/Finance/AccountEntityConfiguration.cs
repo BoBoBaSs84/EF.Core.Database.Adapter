@@ -15,7 +15,7 @@ internal sealed class AccountEntityConfiguration : AuditedConfiguration<AccountE
 {
 	public override void Configure(EntityTypeBuilder<AccountEntity> builder)
 	{
-		builder.ToHistoryTable("Account", SqlSchema.Finance, SqlSchema.History);
+		builder.ToHistoryTable("Account", SqlSchema.Finance);
 
 		builder.HasIndex(i => i.IBAN)
 			.IsClustered(false)

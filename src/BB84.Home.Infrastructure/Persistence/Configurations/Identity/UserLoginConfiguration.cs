@@ -15,5 +15,5 @@ internal sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLogi
 {
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<UserLoginModel> builder) =>
-		builder.ToHistoryTable("UserLogin", SqlSchema.Identity, SqlSchema.History);
+		builder.ToHistoryTable("UserLogin", SqlSchema.Identity);
 }

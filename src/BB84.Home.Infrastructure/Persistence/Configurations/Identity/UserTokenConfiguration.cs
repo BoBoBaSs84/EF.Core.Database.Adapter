@@ -15,5 +15,5 @@ internal class UserTokenConfiguration : IEntityTypeConfiguration<UserTokenModel>
 {
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<UserTokenModel> builder) =>
-		builder.ToHistoryTable("UserToken", SqlSchema.Identity, SqlSchema.History);
+		builder.ToHistoryTable("UserToken", SqlSchema.Identity);
 }

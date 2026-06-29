@@ -15,7 +15,7 @@ internal sealed class ExtensionEntityConfiguration : AuditedConfiguration<Extens
 {
 	public override void Configure(EntityTypeBuilder<ExtensionEntity> builder)
 	{
-		builder.ToHistoryTable("Extension", SqlSchema.Documents, SqlSchema.History);
+		builder.ToHistoryTable("Extension", SqlSchema.Documents);
 
 		builder.Property(p => p.Name)
 			.HasMaxLength(256)

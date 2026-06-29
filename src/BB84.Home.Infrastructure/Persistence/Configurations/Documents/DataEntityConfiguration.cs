@@ -15,7 +15,7 @@ internal sealed class DataEntityConfiguration : AuditedConfiguration<DataEntity>
 {
 	public override void Configure(EntityTypeBuilder<DataEntity> builder)
 	{
-		builder.ToHistoryTable("Data", SqlSchema.Documents, SqlSchema.History);
+		builder.ToHistoryTable("Data", SqlSchema.Documents);
 
 		builder.Property(p => p.MD5Hash)
 			.IsBinaryColumn(16)

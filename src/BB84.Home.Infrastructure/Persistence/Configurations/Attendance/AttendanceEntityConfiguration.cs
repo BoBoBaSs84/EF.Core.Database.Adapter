@@ -15,7 +15,7 @@ internal sealed class AttendanceEntityConfiguration : AuditedConfiguration<Atten
 {
 	public override void Configure(EntityTypeBuilder<AttendanceEntity> builder)
 	{
-		builder.ToHistoryTable("Attendance", SqlSchema.Attendance, SqlSchema.History);
+		builder.ToHistoryTable("Attendance", SqlSchema.Attendance);
 
 		builder.HasIndex(i => new { i.UserId, i.Date })
 			.IsClustered(false)

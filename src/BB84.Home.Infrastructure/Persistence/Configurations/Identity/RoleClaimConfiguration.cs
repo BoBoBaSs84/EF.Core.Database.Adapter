@@ -15,5 +15,5 @@ internal sealed class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClai
 {
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<RoleClaimEntity> builder) =>
-		builder.ToHistoryTable("RoleClaim", SqlSchema.Identity, SqlSchema.History);
+		builder.ToHistoryTable("RoleClaim", SqlSchema.Identity);
 }

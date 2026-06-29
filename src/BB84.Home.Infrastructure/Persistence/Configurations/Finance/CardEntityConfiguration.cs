@@ -15,7 +15,7 @@ internal sealed class CardEntityConfiguration : AuditedConfiguration<CardEntity>
 {
 	public override void Configure(EntityTypeBuilder<CardEntity> builder)
 	{
-		builder.ToHistoryTable("Card", SqlSchema.Finance, SqlSchema.History);
+		builder.ToHistoryTable("Card", SqlSchema.Finance);
 
 		builder.HasIndex(i => i.PAN)
 			.IsClustered(false)

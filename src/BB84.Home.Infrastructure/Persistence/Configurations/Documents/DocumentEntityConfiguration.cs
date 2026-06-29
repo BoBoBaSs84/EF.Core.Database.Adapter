@@ -15,7 +15,7 @@ internal sealed class DocumentEntityConfiguration : AuditedConfiguration<Documen
 {
 	public override void Configure(EntityTypeBuilder<DocumentEntity> builder)
 	{
-		builder.ToHistoryTable("Document", SqlSchema.Documents, SqlSchema.History);
+		builder.ToHistoryTable("Document", SqlSchema.Documents);
 
 		builder.Property(p => p.Name)
 			.HasMaxLength(256)

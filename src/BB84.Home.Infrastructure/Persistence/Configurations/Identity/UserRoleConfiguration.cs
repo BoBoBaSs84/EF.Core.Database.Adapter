@@ -15,5 +15,5 @@ internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRoleEntity>
 {
 	/// <inheritdoc/>
 	public void Configure(EntityTypeBuilder<UserRoleEntity> builder) =>
-		builder.ToHistoryTable("UserRole", SqlSchema.Identity, SqlSchema.History);
+		builder.ToHistoryTable("UserRole", SqlSchema.Identity);
 }

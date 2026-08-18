@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Errors.Services;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Todo;
@@ -39,7 +40,7 @@ public sealed partial class TodoServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
+		listMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<ListEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<ListEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.TodoListRepository)
 			.Returns(listMock.Object);
@@ -53,7 +54,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(id));
-			listMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
+			listMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<ListEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -64,10 +65,8 @@ public sealed partial class TodoServiceTests
 		Guid id = Guid.NewGuid();
 		ListEntity list = new();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
+		listMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<ListEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<ListEntity?>(list));
-		listMock.Setup(x => x.DeleteAsync(list, _cancellationToken))
-			.Returns(Task.CompletedTask);
 		_repositoryServiceMock.Setup(x => x.TodoListRepository)
 			.Returns(listMock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
@@ -83,8 +82,8 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			listMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
-			listMock.Verify(x => x.DeleteAsync(list, _cancellationToken), Times.Once);
+			listMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<ListEntity>>(), _cancellationToken), Times.Once);
+			listMock.Verify(x => x.Delete(list), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

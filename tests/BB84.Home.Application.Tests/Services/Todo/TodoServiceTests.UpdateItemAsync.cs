@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Todo;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using BB84.Home.Application.Tests.Helpers;
@@ -43,7 +44,7 @@ public sealed partial class TodoServiceTests
 		Guid itemId = Guid.NewGuid();
 		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, _cancellationToken))
+		itemMock.Setup(x => x.GetByIdAsync(itemId, It.Is<Query<ItemEntity>>(q => q.TrackChanges), _cancellationToken))
 			.Returns(Task.FromResult<ItemEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.TodoItemRepository)
 			.Returns(itemMock.Object);
@@ -57,7 +58,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetItemByIdNotFound(itemId));
-			itemMock.Verify(x => x.GetByIdAsync(itemId, false, true, _cancellationToken), Times.Once);
+			itemMock.Verify(x => x.GetByIdAsync(itemId, It.Is<Query<ItemEntity>>(q => q.TrackChanges), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), itemId, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -69,7 +70,7 @@ public sealed partial class TodoServiceTests
 		ItemUpdateRequest request = RequestHelper.GetItemUpdateRequest();
 		ItemEntity model = new();
 		Mock<IItemRepository> itemMock = new();
-		itemMock.Setup(x => x.GetByIdAsync(itemId, false, true, _cancellationToken))
+		itemMock.Setup(x => x.GetByIdAsync(itemId, It.Is<Query<ItemEntity>>(q => q.TrackChanges), _cancellationToken))
 			.Returns(Task.FromResult<ItemEntity?>(model));
 		_repositoryServiceMock.Setup(x => x.TodoItemRepository)
 			.Returns(itemMock.Object);
@@ -91,7 +92,7 @@ public sealed partial class TodoServiceTests
 			model.Priority.Should().Be(request.Priority);
 			model.Reminder.Should().Be(request.Reminder);
 			model.Done.Should().Be(request.Done);
-			itemMock.Verify(x => x.GetByIdAsync(itemId, false, true, _cancellationToken), Times.Once);
+			itemMock.Verify(x => x.GetByIdAsync(itemId, It.Is<Query<ItemEntity>>(q => q.TrackChanges), _cancellationToken), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), itemId, It.IsAny<Exception>()), Times.Never);
 		});

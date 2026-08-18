@@ -1,4 +1,5 @@
-﻿using BB84.Extensions;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Extensions;
 using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Contracts.Responses.Attendance;
 using BB84.Home.Application.Errors.Services;
@@ -32,7 +33,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			AttendanceEntity? entity = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.Date.Equals(request.Date), token: token)
+				.GetSingleAsync(new() { Where = x => x.Date.Equals(request.Date) }, token)
 				.ConfigureAwait(false);
 
 			if (entity is not null)
@@ -63,7 +64,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			IReadOnlyList<AttendanceEntity> entities = await repositoryService.AttendanceRepository
-				.GetManyByConditionAsync(expression: x => requests.Select(x => x.Date).Contains(x.Date), token: token)
+				.GetListAsync(new() { Where = x => requests.Select(x => x.Date).Contains(x.Date) }, token)
 				.ConfigureAwait(false);
 
 			if (entities.Count > 0)
@@ -100,15 +101,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			AttendanceEntity? entity = await repositoryService.AttendanceRepository
-				.GetByIdAsync(id, token: token)
+				.GetByIdAsync(id, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
 				return AttendanceServiceErrors.GetByIdNotFound(id);
 
-			await repositoryService.AttendanceRepository
-				.DeleteAsync(entity, token)
-				.ConfigureAwait(false);
+			repositoryService.AttendanceRepository
+				.Delete(entity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -127,15 +127,14 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			IReadOnlyList<AttendanceEntity> entities = await repositoryService.AttendanceRepository
-				.GetByIdsAsync(ids, token: token)
+				.GetByIdsAsync(ids, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (entities.Count.Equals(0))
 				return AttendanceServiceErrors.GetByIdsNotFound(ids);
 
-			await repositoryService.AttendanceRepository
-				.DeleteAsync(entities, token)
-				.ConfigureAwait(false);
+			repositoryService.AttendanceRepository
+				.Delete(entities);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -154,19 +153,20 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 	{
 		try
 		{
+			Query<AttendanceEntity> query = new()
+			{
+				QueryFilter = x => x.FilterByParameters(parameters),
+				OrderBy = x => x.OrderBy(x => x.Date),
+				Skip = (parameters.PageNumber - 1) * parameters.PageSize,
+				Take = parameters.PageSize
+			};
+
 			IReadOnlyList<AttendanceEntity> attendances = await repositoryService.AttendanceRepository
-				.GetManyByConditionAsync(
-					queryFilter: x => x.FilterByParameters(parameters),
-					orderBy: x => x.OrderBy(x => x.Date),
-					skip: (parameters.PageNumber - 1) * parameters.PageSize,
-					take: parameters.PageSize,
-					token: token)
+				.GetListAsync(query, token)
 				.ConfigureAwait(false);
 
 			int totalCount = await repositoryService.AttendanceRepository
-				.CountByConditionAsync(
-					queryFilter: x => x.FilterByParameters(parameters),
-					token: token)
+				.CountAsync(new() { QueryFilter = x => x.FilterByParameters(parameters) }, token)
 				.ConfigureAwait(false);
 
 			IEnumerable<AttendanceResponse> result = attendances.Select(x => x.ToResponse());
@@ -185,7 +185,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			AttendanceEntity? attendanceEntry = await repositoryService.AttendanceRepository
-				.GetByConditionAsync(expression: x => x.Date.Equals(date.Date), token: token)
+				.GetSingleAsync(new() { Where = x => x.Date.Equals(date.Date) }, token)
 				.ConfigureAwait(false);
 
 			if (attendanceEntry is null)
@@ -208,7 +208,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			AttendanceEntity? entity = await repositoryService.AttendanceRepository
-				.GetByIdAsync(request.Id, trackChanges: true, token: token)
+				.GetByIdAsync(request.Id, new() { TrackChanges = true }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -233,7 +233,7 @@ internal sealed class AttendanceService(ILoggerService<AttendanceService> logger
 		try
 		{
 			IEnumerable<AttendanceEntity> entities = await repositoryService.AttendanceRepository
-				.GetByIdsAsync(requests.Select(x => x.Id), trackChanges: true, token: token)
+				.GetByIdsAsync(requests.Select(x => x.Id), new() { TrackChanges = true }, token)
 				.ConfigureAwait(false);
 
 			if (entities.Any().IsFalse())

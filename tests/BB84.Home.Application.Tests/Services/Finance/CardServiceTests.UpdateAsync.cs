@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Tests;
@@ -46,7 +47,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		CancellationToken token = CancellationToken.None;
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardRepoMock = new();
-		cardRepoMock.Setup(x => x.GetByIdAsync(id, default, true, token))
+		cardRepoMock.Setup(x => x.GetByIdAsync(id, It.Is<Query<CardEntity>>(q => q.TrackChanges), token))
 			.Returns(Task.FromResult<CardEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.CardRepository)
 			.Returns(cardRepoMock.Object);
@@ -60,7 +61,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.UpdateNotFound(id));
-			cardRepoMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
+			cardRepoMock.Verify(x => x.GetByIdAsync(id, It.Is<Query<CardEntity>>(q => q.TrackChanges), token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -73,7 +74,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		CardEntity card = new();
 		CardUpdateRequest request = RequestHelper.GetCardUpdateRequest();
 		Mock<ICardRepository> cardRepoMock = new();
-		cardRepoMock.Setup(x => x.GetByIdAsync(id, default, true, token))
+		cardRepoMock.Setup(x => x.GetByIdAsync(id, It.Is<Query<CardEntity>>(q => q.TrackChanges), token))
 			.Returns(Task.FromResult<CardEntity?>(card));
 		_repositoryServiceMock.Setup(x => x.CardRepository)
 			.Returns(cardRepoMock.Object);
@@ -92,7 +93,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Value.Should().Be(Result.Updated);
 			card.Type.Should().Be(request.Type);
 			card.ValidUntil.Should().Be(request.ValidUntil);
-			cardRepoMock.Verify(x => x.GetByIdAsync(id, default, true, token), Times.Once);
+			cardRepoMock.Verify(x => x.GetByIdAsync(id, It.Is<Query<CardEntity>>(q => q.TrackChanges), token), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

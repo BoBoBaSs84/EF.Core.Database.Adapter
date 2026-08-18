@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Attendance;
@@ -27,7 +28,7 @@ public sealed partial class AttendanceServiceTests
 		IReadOnlyList<AttendanceEntity> emptyList = [];
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), _cancellationToken))
+		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.Is<Query<AttendanceEntity>>(q => q.TrackChanges), _cancellationToken))
 			.Returns(Task.FromResult(emptyList));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
@@ -52,7 +53,7 @@ public sealed partial class AttendanceServiceTests
 		IEnumerable<AttendanceUpdateRequest> requests = [RequestHelper.GetAttendanceUpdateRequest()];
 		IReadOnlyList<AttendanceEntity> models = [new() { Id = requests.First().Id, Type = AttendanceType.Vacation }];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<bool>(), It.IsAny<bool>(), _cancellationToken))
+		mock.Setup(x => x.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.Is<Query<AttendanceEntity>>(q => q.TrackChanges), _cancellationToken))
 			.Returns(Task.FromResult(models));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);

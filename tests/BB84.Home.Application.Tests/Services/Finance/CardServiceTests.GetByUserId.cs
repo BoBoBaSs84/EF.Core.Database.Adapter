@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Responses.Finance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Tests;
@@ -45,7 +46,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		CancellationToken token = CancellationToken.None;
 		IReadOnlyList<CardEntity> cards = [new(), new(), new()];
 		Mock<ICardRepository> cardRepoMock = new();
-		cardRepoMock.Setup(x => x.GetAllAsync(false, false, token))
+		cardRepoMock.Setup(x => x.GetListAsync(It.IsAny<Query<CardEntity>>(), token))
 			.Returns(Task.FromResult(cards));
 		_repositoryServiceMock.Setup(x => x.CardRepository)
 			.Returns(cardRepoMock.Object);
@@ -60,7 +61,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Count().Should().Be(cards.Count);
-			cardRepoMock.Verify(x => x.GetAllAsync(false, false, token), Times.Once);
+			cardRepoMock.Verify(x => x.GetListAsync(It.IsAny<Query<CardEntity>>(), token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

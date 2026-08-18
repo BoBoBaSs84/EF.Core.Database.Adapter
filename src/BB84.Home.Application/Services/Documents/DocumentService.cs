@@ -1,4 +1,5 @@
-﻿using BB84.Extensions;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Extensions;
 using BB84.Extensions.Serialization;
 using BB84.Home.Application.Common;
 using BB84.Home.Application.Contracts.Requests.Documents;
@@ -99,15 +100,14 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		try
 		{
 			DocumentEntity? document = await repositoryService.DocumentRepository
-				.GetByIdAsync(id, token: token)
+				.GetByIdAsync(id, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (document is null)
 				return DocumentServiceErrors.DeleteByIdNotFound(id);
 
-			await repositoryService.DocumentRepository
-				.DeleteAsync(document, token)
-				.ConfigureAwait(false);
+			repositoryService.DocumentRepository
+				.Delete(document);
 
 			_ = await repositoryService
 				.CommitChangesAsync(token)
@@ -127,17 +127,14 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		try
 		{
 			IEnumerable<DocumentEntity> documents = await repositoryService.DocumentRepository
-				.GetManyByConditionAsync(
-					expression: x => ids.Contains(x.Id),
-					token: token)
+				.GetByIdsAsync(ids, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (documents.Any().IsFalse())
 				return DocumentServiceErrors.DeleteByIdsNotFound(ids);
 
-			await repositoryService.DocumentRepository
-				.DeleteAsync(documents, token)
-				.ConfigureAwait(false);
+			repositoryService.DocumentRepository
+				.Delete(documents);
 
 			_ = await repositoryService
 				.CommitChangesAsync(token)
@@ -157,7 +154,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		try
 		{
 			DocumentEntity? document = await repositoryService.DocumentRepository
-				.GetByIdAsync(id, token: token, includeProperties: [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)])
+				.GetByIdAsync(id, new() { Include = [e => e.Data, e => e.Extension] }, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (document is null)
@@ -178,19 +175,20 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	{
 		try
 		{
+			Query<DocumentEntity> query = new()
+			{
+				QueryFilter = x => x.FilterByParameters(parameters),
+				OrderBy = x => x.OrderByDescending(x => x.CreationTime),
+				Skip = (parameters.PageNumber - 1) * parameters.PageSize,
+				Take = parameters.PageSize
+			};
+
 			IEnumerable<DocumentEntity> documents = await repositoryService.DocumentRepository
-				.GetManyByConditionAsync(
-					queryFilter: x => x.FilterByParameters(parameters),
-					orderBy: x => x.OrderByDescending(x => x.CreationTime),
-					skip: (parameters.PageNumber - 1) * parameters.PageSize,
-					take: parameters.PageSize,
-					token: token)
+				.GetListAsync(query, token)
 				.ConfigureAwait(false);
 
 			int totalCount = await repositoryService.DocumentRepository
-				.CountByConditionAsync(
-					queryFilter: x => x.FilterByParameters(parameters),
-					token: token)
+				.CountAsync(new() { QueryFilter = x => x.FilterByParameters(parameters) }, token)
 				.ConfigureAwait(false);
 
 			IEnumerable<DocumentResponse> result = documents.Select(x => x.ToResponse());
@@ -210,7 +208,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		try
 		{
 			DocumentEntity? document = await repositoryService.DocumentRepository
-				.GetByIdAsync(request.Id, default, true, token, [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)])
+				.GetByIdAsync(request.Id, new() { Include = [e => e.Extension, e => e.Data], TrackChanges = true }, token)
 				.ConfigureAwait(false);
 
 			if (document is null)
@@ -240,12 +238,15 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 			if (requests.Any().IsFalse())
 				return DocumentServiceErrors.UpdateByIdsBadRequest;
 
+			Query<DocumentEntity> query = new()
+			{
+				Where = x => requests.Select(x => x.Id).Contains(x.Id),
+				Include = [x => x.Data, x => x.Extension],
+				TrackChanges = true
+			};
+
 			IEnumerable<DocumentEntity> documents = await repositoryService.DocumentRepository
-				.GetManyByConditionAsync(
-					expression: x => requests.Select(x => x.Id).Contains(x.Id),
-					trackChanges: true,
-					token: token,
-					includeProperties: [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)])
+				.GetListAsync(query, token)
 				.ConfigureAwait(false);
 
 			if (documents.Any().IsFalse())
@@ -311,7 +312,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 	private async Task<ExtensionEntity> PrepareDocumentExtension(DocumentBaseRequest request, CancellationToken token)
 	{
 		ExtensionEntity? extension = await repositoryService.DocumentExtensionRepository
-			.GetByConditionAsync(x => x.Name == request.ExtensionName, token: token)
+			.GetSingleAsync(new() { Where = x => x.Name == request.ExtensionName }, token)
 			.ConfigureAwait(false);
 
 		extension ??= new()
@@ -328,7 +329,7 @@ internal sealed class DocumentService(ILoggerService<DocumentService> loggerServ
 		byte[] md5Hash = request.Content.GetMD5();
 
 		DataEntity? data = await repositoryService.DocumentDataRepository
-			.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), token: token)
+			.GetSingleAsync(new() { Where = x => x.MD5Hash.SequenceEqual(md5Hash) }, token)
 			.ConfigureAwait(false);
 
 		data ??= new()

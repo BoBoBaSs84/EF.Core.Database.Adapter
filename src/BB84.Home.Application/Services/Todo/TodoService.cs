@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Todo;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Extensions;
@@ -9,7 +10,6 @@ using BB84.Home.Domain.Entities.Todo;
 using BB84.Home.Domain.Errors;
 using BB84.Home.Domain.Results;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BB84.Home.Application.Services.Todo;
@@ -54,7 +54,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 		try
 		{
 			ListEntity? list = await repositoryService.TodoListRepository
-				.GetByIdAsync(listId, token: token)
+				.GetByIdAsync(listId, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (list is null)
@@ -84,15 +84,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 		try
 		{
 			ListEntity? listEntity = await repositoryService.TodoListRepository
-				.GetByIdAsync(listId, token: token)
+				.GetByIdAsync(listId, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (listEntity is null)
 				return TodoServiceErrors.GetListByIdNotFound(listId);
 
-			await repositoryService.TodoListRepository
-				.DeleteAsync(listEntity, token)
-				.ConfigureAwait(false);
+			repositoryService.TodoListRepository
+				.Delete(listEntity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -111,15 +110,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 		try
 		{
 			ItemEntity? itemEntity = await repositoryService.TodoItemRepository
-				.GetByIdAsync(itemId, token: token)
+				.GetByIdAsync(itemId, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (itemEntity is null)
 				return TodoServiceErrors.GetItemByIdNotFound(itemId);
 
-			await repositoryService.TodoItemRepository
-				.DeleteAsync(itemEntity, token)
-				.ConfigureAwait(false);
+			repositoryService.TodoItemRepository
+				.Delete(itemEntity);
 
 			_ = await repositoryService.CommitChangesAsync(token)
 				.ConfigureAwait(false);
@@ -137,12 +135,14 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 	{
 		try
 		{
+			Query<ListEntity> query = new()
+			{
+				Where = x => x.Id.Equals(listId),
+				Include = [x => x.Items],
+			};
+
 			ListResponse? listResponse = await repositoryService.TodoListRepository
-				.GetByConditionAsync(
-					expression: x => x.Id == listId,
-					selector: listEntity => listEntity.ToResponse(),
-					queryFilter: qf => qf.Include(x => x.Items),
-					token: token)
+				.GetSingleAsync(listEntity => listEntity.ToResponse(), query, token)
 				.ConfigureAwait(false);
 
 			if (listResponse is null)
@@ -162,7 +162,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 		try
 		{
 			IReadOnlyList<ListEntity> entities = await repositoryService.TodoListRepository
-				.GetAllAsync(token: token)
+				.GetListAsync(cancellationToken: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<ListResponse> response = entities.Select(x => x.ToResponse());
@@ -181,7 +181,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 		try
 		{
 			ListEntity? list = await repositoryService.TodoListRepository
-				.GetByIdAsync(listId, trackChanges: true, token: token)
+				.GetByIdAsync(listId, new() { TrackChanges = true }, token)
 				.ConfigureAwait(false);
 
 			if (list is null)
@@ -207,7 +207,7 @@ internal sealed class TodoService(ILoggerService<TodoService> loggerService, ICu
 		try
 		{
 			ItemEntity? item = await repositoryService.TodoItemRepository
-				.GetByIdAsync(itemId, trackChanges: true, token: token)
+				.GetByIdAsync(itemId, new() { TrackChanges = true }, token)
 				.ConfigureAwait(false);
 
 			if (item is null)

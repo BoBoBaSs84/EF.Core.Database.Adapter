@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Attendance;
@@ -26,7 +27,7 @@ public sealed partial class AttendanceServiceTests
 	{
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, default))
+		mock.Setup(x => x.GetByIdAsync(request.Id, It.Is<Query<AttendanceEntity>>(q => q.TrackChanges), default))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
@@ -51,7 +52,7 @@ public sealed partial class AttendanceServiceTests
 		AttendanceUpdateRequest request = RequestHelper.GetAttendanceUpdateRequest();
 		AttendanceEntity model = new() { Type = AttendanceType.Workday, StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, BreakTime = TimeSpan.Zero };
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdAsync(request.Id, false, true, _cancellationToken))
+		mock.Setup(x => x.GetByIdAsync(request.Id, It.Is<Query<AttendanceEntity>>(q => q.TrackChanges), _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(model));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);

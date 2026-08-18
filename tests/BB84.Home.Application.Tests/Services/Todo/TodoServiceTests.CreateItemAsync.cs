@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Todo;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Todo;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Todo;
 using BB84.Home.Application.Services.Todo;
@@ -46,7 +47,7 @@ public sealed partial class TodoServiceTests
 		Guid listId = Guid.NewGuid();
 		ItemCreateRequest request = RequestHelper.GetItemCreateRequest();
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetByIdAsync(listId, false, false, _cancellationToken))
+		listMock.Setup(x => x.GetByIdAsync(listId, It.IsAny<Query<ListEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<ListEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.TodoListRepository)
 			.Returns(listMock.Object);
@@ -60,7 +61,7 @@ public sealed partial class TodoServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TodoServiceErrors.GetListByIdNotFound(listId));
-			listMock.Verify(x => x.GetByIdAsync(listId, false, false, _cancellationToken), Times.Once);
+			listMock.Verify(x => x.GetByIdAsync(listId, It.IsAny<Query<ListEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -73,7 +74,7 @@ public sealed partial class TodoServiceTests
 		ItemCreateRequest request = RequestHelper.GetItemCreateRequest();
 		Mock<IListRepository> listMock = new();
 		Mock<IItemRepository> itemMock = new();
-		listMock.Setup(x => x.GetByIdAsync(listId, false, false, _cancellationToken))
+		listMock.Setup(x => x.GetByIdAsync(listId, It.IsAny<Query<ListEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<ListEntity?>(new()));
 		_repositoryServiceMock.Setup(x => x.TodoListRepository)
 			.Returns(listMock.Object);
@@ -90,7 +91,7 @@ public sealed partial class TodoServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			listMock.Verify(x => x.GetByIdAsync(listId, false, false, _cancellationToken), Times.Once);
+			listMock.Verify(x => x.GetByIdAsync(listId, It.IsAny<Query<ListEntity>>(), _cancellationToken), Times.Once);
 			itemMock.Verify(x => x.CreateAsync(It.IsAny<ItemEntity>(), _cancellationToken), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), request, It.IsAny<Exception>()), Times.Never);

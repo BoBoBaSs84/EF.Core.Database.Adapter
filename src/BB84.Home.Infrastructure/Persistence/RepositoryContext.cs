@@ -1,4 +1,4 @@
-﻿using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
+﻿using BB84.EntityFrameworkCore.Repositories.Interceptors;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 using BB84.Home.Application.Interfaces.Presentation.Services;
 using BB84.Home.Domain.Entities.Identity;

@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Features.Requests;
@@ -48,18 +47,12 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	{
 		Guid id = Guid.NewGuid();
 		TransactionParameters parameters = new();
-		List<TransactionEntity> transactionEntities = [];
+		IReadOnlyList<TransactionEntity> transactionEntities = [];
 		Mock<ITransactionRepository> mock = new();
-		mock.Setup(x => x.GetManyByConditionAsync(
-			It.IsAny<Expression<Func<TransactionEntity, bool>>>(),
-			It.IsAny<Func<IQueryable<TransactionEntity>, IQueryable<TransactionEntity>>>(), false,
-			It.IsAny<Func<IQueryable<TransactionEntity>, IOrderedQueryable<TransactionEntity>>>(),
-			(parameters.PageNumber - 1) * parameters.PageSize, parameters.PageSize, false, _cancellationToken)
-		).ReturnsAsync(transactionEntities);
-		mock.Setup(x => x.CountByConditionAsync(
-			It.IsAny<Expression<Func<TransactionEntity, bool>>>(),
-			It.IsAny<Func<IQueryable<TransactionEntity>, IQueryable<TransactionEntity>>>(), false, _cancellationToken)
-		).ReturnsAsync(transactionEntities.Count);
+		mock.Setup(x => x.GetListAsync(It.IsAny<Query<TransactionEntity>>(), _cancellationToken))
+			.ReturnsAsync(transactionEntities);
+		mock.Setup(x => x.CountAsync(It.IsAny<Query<TransactionEntity>>(), _cancellationToken))
+			.ReturnsAsync(transactionEntities.Count);
 
 		TransactionService sut = CreateMockedInstance(transactionRepository: mock.Object);
 
@@ -73,8 +66,8 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().HaveCount(0);
-			mock.Verify(x => x.GetManyByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), It.IsAny<Func<IQueryable<TransactionEntity>, IQueryable<TransactionEntity>>>(), false, It.IsAny<Func<IQueryable<TransactionEntity>, IOrderedQueryable<TransactionEntity>>>(), (parameters.PageNumber - 1) * parameters.PageSize, parameters.PageSize, false, _cancellationToken), Times.Once);
-			mock.Verify(x => x.CountByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), It.IsAny<Func<IQueryable<TransactionEntity>, IQueryable<TransactionEntity>>>(), false, _cancellationToken), Times.Once);
+			mock.Verify(x => x.GetListAsync(It.IsAny<Query<TransactionEntity>>(), _cancellationToken), Times.Once);
+			mock.Verify(x => x.CountAsync(It.IsAny<Query<TransactionEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}

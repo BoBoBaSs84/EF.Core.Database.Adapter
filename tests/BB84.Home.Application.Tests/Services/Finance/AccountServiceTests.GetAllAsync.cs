@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Responses.Finance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Tests;
@@ -43,7 +44,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		Guid userId = Guid.NewGuid();
 		IReadOnlyList<AccountEntity> accounts = [new(), new(), new()];
 		Mock<IAccountRepository> accountRepoMock = new();
-		accountRepoMock.Setup(x => x.GetAllAsync(false, false, _cancellationToken))
+		accountRepoMock.Setup(x => x.GetListAsync(It.IsAny<Query<AccountEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult(accounts));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountRepoMock.Object);
@@ -58,7 +59,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Count().Should().Be(accounts.Count);
-			accountRepoMock.Verify(x => x.GetAllAsync(false, false, _cancellationToken), Times.Once);
+			accountRepoMock.Verify(x => x.GetListAsync(It.IsAny<Query<AccountEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

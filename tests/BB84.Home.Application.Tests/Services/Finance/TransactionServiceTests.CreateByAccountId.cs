@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Services.Finance;
@@ -47,7 +48,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
+		accountMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), default))
 			.Returns(Task.FromResult<AccountEntity?>(null));
 		TransactionService sut = CreateMockedInstance(accountMock.Object);
 
@@ -59,7 +60,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TransactionServiceErrors.CreateByAccountIdNotFound(id));
-			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -72,7 +73,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		AccountEntity model = new();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, false, false, default))
+		accountMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), default))
 			.Returns(Task.FromResult<AccountEntity?>(model));
 		Mock<ITransactionRepository> transactionMock = new();
 		TransactionService sut = CreateMockedInstance(accountMock.Object, null, transactionMock.Object);
@@ -86,7 +87,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			accountMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
+			accountMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), default), Times.Once);
 			transactionMock.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>(), default));
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);

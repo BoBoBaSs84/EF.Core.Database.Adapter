@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
@@ -46,7 +45,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 	{
 		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
 		Mock<ITransactionRepository> transactionMock = new();
-		transactionMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, false, default))
+		transactionMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<TransactionEntity>>(), default))
 			.Returns(Task.FromResult<TransactionEntity?>(null));
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
 
@@ -58,7 +57,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TransactionServiceErrors.GetByIdNotFound(id));
-			transactionMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, false, default), Times.Once);
+			transactionMock.Verify(x => x.GetSingleAsync(It.IsAny<Query<TransactionEntity>>(), default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -70,7 +69,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		Guid cardId = Guid.NewGuid(), id = Guid.NewGuid();
 		TransactionEntity model = new();
 		Mock<ITransactionRepository> transactionMock = new();
-		transactionMock.Setup(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, false, default))
+		transactionMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<TransactionEntity>>(), default))
 			.Returns(Task.FromResult<TransactionEntity?>(model));
 		TransactionService sut = CreateMockedInstance(transactionRepository: transactionMock.Object);
 
@@ -94,7 +93,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Value.CreditorId.Should().Be(model.CreditorId);
 			result.Value.MandateReference.Should().Be(model.MandateReference);
 			result.Value.CustomerReference.Should().Be(model.CustomerReference);
-			transactionMock.Verify(x => x.GetByConditionAsync(It.IsAny<Expression<Func<TransactionEntity, bool>>>(), null, false, false, default), Times.Once);
+			transactionMock.Verify(x => x.GetSingleAsync(It.IsAny<Query<TransactionEntity>>(), default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

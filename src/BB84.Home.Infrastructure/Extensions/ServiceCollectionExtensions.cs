@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-using BB84.EntityFrameworkCore.Repositories.SqlServer.Interceptors;
+using BB84.EntityFrameworkCore.Repositories.Interceptors;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence;
 using BB84.Home.Application.Interfaces.Infrastructure.Services;
 using BB84.Home.Application.Options;

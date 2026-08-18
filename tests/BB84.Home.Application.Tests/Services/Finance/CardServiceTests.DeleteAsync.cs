@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Errors.Services;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Tests;
 using BB84.Home.Base.Tests.Helpers;
@@ -42,7 +43,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		CancellationToken token = CancellationToken.None;
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, default, token))
+		cardMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), token))
 			.Returns(Task.FromResult<CardEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.CardRepository)
 			.Returns(cardMock.Object);
@@ -56,7 +57,7 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(CardServiceErrors.DeleteNotFound(id));
-			cardMock.Verify(x => x.GetByIdAsync(id, default, default, token), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -68,10 +69,8 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 		CancellationToken token = CancellationToken.None;
 		CardEntity card = new();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, default, default, token))
+		cardMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), token))
 			.Returns(Task.FromResult<CardEntity?>(card));
-		cardMock.Setup(x => x.DeleteAsync(card, default))
-			.Returns(Task.CompletedTask);
 		_repositoryServiceMock.Setup(x => x.CardRepository)
 			.Returns(cardMock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(token))
@@ -87,8 +86,8 @@ public sealed partial class CardServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			cardMock.Verify(x => x.GetByIdAsync(id, default, default, token), Times.Once);
-			cardMock.Verify(x => x.DeleteAsync(card, token), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), token), Times.Once);
+			cardMock.Verify(x => x.Delete(card), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(token), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});

@@ -1,4 +1,5 @@
-﻿using BB84.Extensions;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Extensions;
 using BB84.Extensions.Serialization;
 using BB84.Home.Application.Contracts.Requests.Documents;
 using BB84.Home.Application.Errors.Services;
@@ -60,9 +61,8 @@ public sealed partial class DocumentServiceTests
 	public async Task UpdateMultipleAsyncShouldReturnNotFoundWhenNotFound()
 	{
 		IReadOnlyList<DocumentUpdateRequest> requests = [RequestHelper.GetDocumentUpdateRequest()];
-		string[] includes = [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)];
 		Mock<IDocumentRepository> docRepoMock = new();
-		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, _cancellationToken, includes))
+		docRepoMock.Setup(x => x.GetListAsync(It.Is<Query<DocumentEntity>>(q => q.TrackChanges && q.Include != null && q.Include.Count == 2), _cancellationToken))
 			.Returns(Task.FromResult<IReadOnlyList<DocumentEntity>>([]));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
@@ -76,7 +76,7 @@ public sealed partial class DocumentServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(DocumentServiceErrors.UpdateByIdsNotFound(requests.Select(x => x.Id)));
-			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, _cancellationToken, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetListAsync(It.Is<Query<DocumentEntity>>(q => q.TrackChanges && q.Include != null && q.Include.Count == 2), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -87,16 +87,15 @@ public sealed partial class DocumentServiceTests
 		DocumentUpdateRequest request = RequestHelper.GetDocumentUpdateRequest();
 		DocumentEntity document = CreateDocument(request.Id);
 		IReadOnlyList<DocumentUpdateRequest> requests = [request];
-		string[] includes = [nameof(DocumentEntity.Extension), nameof(DocumentEntity.Data)];
 		Mock<IDocumentRepository> docRepoMock = new();
-		docRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, _cancellationToken, includes))
+		docRepoMock.Setup(x => x.GetListAsync(It.Is<Query<DocumentEntity>>(q => q.TrackChanges && q.Include != null && q.Include.Count == 2), _cancellationToken))
 			.Returns(Task.FromResult<IReadOnlyList<DocumentEntity>>([document]));
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
-		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, _cancellationToken))
+		extRepoMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<ExtensionEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<ExtensionEntity?>(null));
 		byte[] md5Hash = request.Content.GetMD5();
 		Mock<IDocumentDataRepository> dataRepoMock = new();
-		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, _cancellationToken))
+		dataRepoMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<DataEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<DataEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
@@ -117,8 +116,8 @@ public sealed partial class DocumentServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Updated);
-			docRepoMock.Verify(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Id).Contains(x.Id), default, default, default, default, default, true, _cancellationToken, includes), Times.Once);
-			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, _cancellationToken), Times.Once());
+			docRepoMock.Verify(x => x.GetListAsync(It.Is<Query<DocumentEntity>>(q => q.TrackChanges && q.Include != null && q.Include.Count == 2), _cancellationToken), Times.Once);
+			extRepoMock.Verify(x => x.GetSingleAsync(It.IsAny<Query<ExtensionEntity>>(), _cancellationToken), Times.Once());
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});

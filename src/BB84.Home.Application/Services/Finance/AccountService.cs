@@ -29,7 +29,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		try
 		{
 			AccountEntity? accountEntity = await repositoryService.AccountRepository
-				.GetByConditionAsync(expression: x => x.IBAN == request.IBAN, token: token)
+				.GetSingleAsync(new() { Where = x => x.IBAN == request.IBAN }, token)
 				.ConfigureAwait(false);
 
 			if (accountEntity is not null)
@@ -40,7 +40,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 				foreach (CardCreateRequest cardRequest in request.Cards)
 				{
 					CardEntity? cardEntity = await repositoryService.CardRepository
-						.GetByConditionAsync(expression: x => x.PAN == cardRequest.PAN, token: token)
+						.GetSingleAsync(new() { Where = x => x.PAN == cardRequest.PAN }, token)
 						.ConfigureAwait(false);
 
 					if (cardEntity is not null)
@@ -80,15 +80,14 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		try
 		{
 			AccountEntity? entity = await repositoryService.AccountRepository
-				.GetByIdAsync(id, token: token)
+				.GetByIdAsync(id, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
 				return AccountServiceErrors.DeleteAccountNotFound(id);
 
-			await repositoryService.AccountRepository
-				.DeleteAsync(entity, token)
-				.ConfigureAwait(false);
+			repositoryService.AccountRepository
+				.Delete(entity);
 
 			_ = await repositoryService
 				.CommitChangesAsync(token)
@@ -108,7 +107,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		try
 		{
 			AccountEntity? entity = await repositoryService.AccountRepository
-				.GetByIdAsync(id, token: token, includeProperties: nameof(AccountEntity.Cards))
+				.GetByIdAsync(id, new() { Include = [x => x.Cards] }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -130,7 +129,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		try
 		{
 			IReadOnlyList<AccountEntity> entities = await repositoryService.AccountRepository
-				.GetAllAsync(token: token)
+				.GetListAsync(cancellationToken: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<AccountResponse> result = entities.Select(x => x.ToResponse());
@@ -149,7 +148,7 @@ internal sealed class AccountService(ILoggerService<AccountService> loggerServic
 		try
 		{
 			AccountEntity? entity = await repositoryService.AccountRepository
-				.GetByIdAsync(id, trackChanges: true, token: token)
+				.GetByIdAsync(id, new() { TrackChanges = true }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 
+using BB84.EntityFrameworkCore.Repositories.Abstractions;
 using BB84.Extensions;
 using BB84.Home.Application.Contracts.Responses.Todo;
 using BB84.Home.Application.Errors.Services;
@@ -50,7 +51,7 @@ public sealed partial class TodoServiceTests
 			.Returns(userId);
 		ListEntity list = new() { Title = "Hello", Color = Color.Red };
 		Mock<IListRepository> listMock = new();
-		listMock.Setup(x => x.GetAllAsync(false, false, _cancellationToken))
+		listMock.Setup(x => x.GetListAsync(It.IsAny<Query<ListEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<IReadOnlyList<ListEntity>>([list]));
 		_repositoryServiceMock.Setup(x => x.TodoListRepository)
 			.Returns(listMock.Object);
@@ -67,7 +68,7 @@ public sealed partial class TodoServiceTests
 			result.Value.First().Title.Should().Be(list.Title);
 			result.Value.First().Color.Should().Be(list.Color?.ToRGBHexString());
 			result.Value.First().Items.Should().BeEmpty();
-			listMock.Verify(x => x.GetAllAsync(false, false, _cancellationToken), Times.Once);
+			listMock.Verify(x => x.GetListAsync(It.IsAny<Query<ListEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), userId, It.IsAny<Exception>()), Times.Never);
 		});
 	}

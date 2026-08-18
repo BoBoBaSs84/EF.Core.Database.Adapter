@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Errors.Services;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Attendance;
 using BB84.Home.Base.Tests.Helpers;
@@ -43,7 +44,7 @@ public sealed partial class AttendanceServiceTests
 	{
 		IReadOnlyList<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(ids, default, default, default))
+		mock.Setup(x => x.GetByIdsAsync(ids, It.IsAny<Query<AttendanceEntity>>(), default))
 			.Returns(Task.FromResult<IReadOnlyList<AttendanceEntity>>([]));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
@@ -57,7 +58,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.GetByIdsNotFound(ids));
-			mock.Verify(x => x.GetByIdsAsync(ids, default, default, default), Times.Once);
+			mock.Verify(x => x.GetByIdsAsync(ids, It.IsAny<Query<AttendanceEntity>>(), default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -69,10 +70,8 @@ public sealed partial class AttendanceServiceTests
 		IReadOnlyList<Guid> ids = [Guid.NewGuid(), Guid.NewGuid()];
 		IReadOnlyList<AttendanceEntity> attendances = [new(), new()];
 		Mock<IAttendanceRepository> mock = new();
-		mock.Setup(x => x.GetByIdsAsync(ids, default, default, default))
+		mock.Setup(x => x.GetByIdsAsync(ids, It.IsAny<Query<AttendanceEntity>>(), default))
 			.Returns(Task.FromResult(attendances));
-		mock.Setup(x => x.DeleteAsync(attendances, default))
-			.Returns(Task.CompletedTask);
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(mock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(default))
@@ -87,8 +86,8 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
-			mock.Verify(x => x.GetByIdsAsync(ids, default, default, default), Times.Once);
-			mock.Verify(x => x.DeleteAsync(attendances, default), Times.Once);
+			mock.Verify(x => x.GetByIdsAsync(ids, It.IsAny<Query<AttendanceEntity>>(), default), Times.Once);
+			mock.Verify(x => x.Delete(attendances), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});

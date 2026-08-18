@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Attendance;
@@ -28,7 +29,7 @@ public sealed partial class AttendanceServiceTests
 		AttendanceEntity entity = new() { Date = DateTime.Today };
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken))
+		attendanceRepoMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<AttendanceEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(entity));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);
@@ -42,7 +43,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.CreateConflict(request.Date));
-			attendanceRepoMock.Verify(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken), Times.Once);
+			attendanceRepoMock.Verify(x => x.GetSingleAsync(It.IsAny<Query<AttendanceEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -55,7 +56,7 @@ public sealed partial class AttendanceServiceTests
 		AttendanceCreateRequest request = RequestHelper.GetAttendanceCreateRequest();
 		string[] parameters = [$"{id}", $"{request.Date}"];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken))
+		attendanceRepoMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<AttendanceEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<AttendanceEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);
@@ -72,7 +73,7 @@ public sealed partial class AttendanceServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			attendanceRepoMock.Verify(x => x.GetByConditionAsync(x => x.Date.Equals(request.Date), null, false, false, _cancellationToken), Times.Once);
+			attendanceRepoMock.Verify(x => x.GetSingleAsync(It.IsAny<Query<AttendanceEntity>>(), _cancellationToken), Times.Once);
 			attendanceRepoMock.Verify(x => x.CreateAsync(It.IsAny<AttendanceEntity>(), _cancellationToken), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), parameters, It.IsAny<Exception>()), Times.Never);

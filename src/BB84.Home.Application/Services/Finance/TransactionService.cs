@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Contracts.Responses.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Extensions;
@@ -29,7 +30,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		try
 		{
 			AccountEntity? accountEntity = await repositoryService.AccountRepository
-				.GetByIdAsync(accountId, token: token)
+				.GetByIdAsync(accountId, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (accountEntity is null)
@@ -61,7 +62,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		try
 		{
 			CardEntity? cardEntity = await repositoryService.CardRepository
-				.GetByIdAsync(cardId, token: token)
+				.GetByIdAsync(cardId, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (cardEntity is null)
@@ -93,15 +94,14 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		try
 		{
 			TransactionEntity? entity = await repositoryService.TransactionRepository
-				.GetByConditionAsync(x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId), token: token)
+				.GetSingleAsync(new() { Where = x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId) }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
 				return TransactionServiceErrors.DeleteByAccountIdNotFound(id);
 
-			await repositoryService.TransactionRepository
-				.DeleteAsync(entity, token)
-				.ConfigureAwait(false);
+			repositoryService.TransactionRepository
+				.Delete(entity);
 
 			_ = await repositoryService
 				.CommitChangesAsync(token)
@@ -122,15 +122,14 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		try
 		{
 			TransactionEntity? entity = await repositoryService.TransactionRepository
-				.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), token: token)
+				.GetSingleAsync(new() { Where = x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId) }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
 				return TransactionServiceErrors.DeleteByCardIdNotFound(id);
 
-			await repositoryService.TransactionRepository
-				.DeleteAsync(entity, token)
-				.ConfigureAwait(false);
+			repositoryService.TransactionRepository
+				.Delete(entity);
 
 			_ = await repositoryService
 				.CommitChangesAsync(token)
@@ -151,7 +150,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		try
 		{
 			TransactionEntity? entity = await repositoryService.TransactionRepository
-				.GetByConditionAsync(x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId), token: token)
+				.GetSingleAsync(new() { Where = x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId) }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -174,7 +173,7 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 		try
 		{
 			TransactionEntity? entity = await repositoryService.TransactionRepository
-				.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), token: token)
+				.GetSingleAsync(new() { Where = x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId) }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -196,21 +195,27 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
+			Query<TransactionEntity> listQuery = new()
+			{
+				Where = x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
+				QueryFilter = x => x.FilterByParameters(parameters),
+				OrderBy = x => x.OrderBy(x => x.BookingDate),
+				Skip = (parameters.PageNumber - 1) * parameters.PageSize,
+				Take = parameters.PageSize
+			};
+
 			IReadOnlyList<TransactionEntity> entities = await repositoryService.TransactionRepository
-				.GetManyByConditionAsync(
-					expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
-					queryFilter: x => x.FilterByParameters(parameters),
-					orderBy: x => x.OrderBy(x => x.BookingDate),
-					skip: (parameters.PageNumber - 1) * parameters.PageSize,
-					take: parameters.PageSize,
-					token: token)
+				.GetListAsync(listQuery, token)
 				.ConfigureAwait(false);
 
+			Query<TransactionEntity> countQuery = new()
+			{
+				Where = x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
+				QueryFilter = x => x.FilterByParameters(parameters)
+			};
+
 			int totalCount = await repositoryService.TransactionRepository
-				.CountByConditionAsync(
-					expression: x => x.AccountTransactions.Select(x => x.AccountId).Contains(id),
-					queryFilter: x => x.FilterByParameters(parameters),
-					token: token)
+				.CountAsync(countQuery, token)
 				.ConfigureAwait(false);
 
 			IEnumerable<TransactionResponse> result = entities.Select(x => x.ToResponse());
@@ -228,21 +233,27 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
+			Query<TransactionEntity> listQuery = new()
+			{
+				Where = x => x.CardTransactions.Select(x => x.CardId).Contains(id),
+				QueryFilter = x => x.FilterByParameters(parameters),
+				OrderBy = x => x.OrderBy(x => x.BookingDate),
+				Skip = (parameters.PageNumber - 1) * parameters.PageSize,
+				Take = parameters.PageSize
+			};
+
 			IReadOnlyList<TransactionEntity> entities = await repositoryService.TransactionRepository
-				.GetManyByConditionAsync(
-					expression: x => x.CardTransactions.Select(x => x.CardId).Contains(id),
-					queryFilter: x => x.FilterByParameters(parameters),
-					orderBy: x => x.OrderBy(x => x.BookingDate),
-					skip: (parameters.PageNumber - 1) * parameters.PageSize,
-					take: parameters.PageSize,
-					token: token)
+				.GetListAsync(listQuery, token)
 				.ConfigureAwait(false);
 
+			Query<TransactionEntity> countQuery = new()
+			{
+				Where = x => x.CardTransactions.Select(x => x.CardId).Contains(id),
+				QueryFilter = x => x.FilterByParameters(parameters)
+			};
+
 			int totalCount = await repositoryService.TransactionRepository
-				.CountByConditionAsync(
-					expression: x => x.CardTransactions.Select(x => x.CardId).Contains(id),
-					queryFilter: x => x.FilterByParameters(parameters),
-					token: token)
+				.CountAsync(countQuery, token)
 				.ConfigureAwait(false);
 
 			IEnumerable<TransactionResponse> result = entities.Select(x => x.ToResponse());
@@ -260,8 +271,14 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
+			Query<TransactionEntity> query = new()
+			{
+				Where = x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId),
+				TrackChanges = true
+			};
+
 			TransactionEntity? entity = await repositoryService.TransactionRepository
-				.GetByConditionAsync(x => x.Id.Equals(id) && x.AccountTransactions.Select(x => x.AccountId).Contains(accountId), trackChanges: true, token: token)
+				.GetSingleAsync(query, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -287,8 +304,14 @@ internal sealed class TransactionService(ILoggerService<TransactionService> logg
 	{
 		try
 		{
+			Query<TransactionEntity> query = new()
+			{
+				Where = x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId),
+				TrackChanges = true
+			};
+
 			TransactionEntity? entity = await repositoryService.TransactionRepository
-				.GetByConditionAsync(x => x.Id.Equals(id) && x.CardTransactions.Select(x => x.CardId).Contains(cardId), trackChanges: true, token: token)
+				.GetSingleAsync(query, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)

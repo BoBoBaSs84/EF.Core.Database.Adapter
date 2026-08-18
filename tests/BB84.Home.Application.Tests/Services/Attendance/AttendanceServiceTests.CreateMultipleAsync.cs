@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Attendance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Attendance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories;
 using BB84.Home.Application.Services.Attendance;
@@ -26,7 +27,7 @@ public sealed partial class AttendanceServiceTests
 		IReadOnlyList<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		IReadOnlyList<AttendanceEntity> entities = [new() { Date = DateTime.Today }];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, _cancellationToken))
+		attendanceRepoMock.Setup(x => x.GetListAsync(It.IsAny<Query<AttendanceEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult(entities));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);
@@ -40,7 +41,7 @@ public sealed partial class AttendanceServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AttendanceServiceErrors.CreateMultipleConflict(entities.Select(x => x.Date)));
-			attendanceRepoMock.Verify(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, _cancellationToken), Times.Once);
+			attendanceRepoMock.Verify(x => x.GetListAsync(It.IsAny<Query<AttendanceEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -51,7 +52,7 @@ public sealed partial class AttendanceServiceTests
 	{
 		IReadOnlyList<AttendanceCreateRequest> requests = [RequestHelper.GetAttendanceCreateRequest()];
 		Mock<IAttendanceRepository> attendanceRepoMock = new();
-		attendanceRepoMock.Setup(x => x.GetManyByConditionAsync(x => requests.Select(x => x.Date).Contains(x.Date), null, false, null, null, null, false, _cancellationToken))
+		attendanceRepoMock.Setup(x => x.GetListAsync(It.IsAny<Query<AttendanceEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<IReadOnlyList<AttendanceEntity>>([]));
 		_repositoryServiceMock.Setup(x => x.AttendanceRepository)
 			.Returns(attendanceRepoMock.Object);

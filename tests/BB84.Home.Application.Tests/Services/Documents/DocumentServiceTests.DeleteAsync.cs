@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Errors.Services;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
 using BB84.Home.Base.Tests.Helpers;
 using BB84.Home.Domain.Entities.Documents;
@@ -38,7 +39,7 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IDocumentRepository> docRepoMock = new();
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<DocumentEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<DocumentEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
@@ -52,7 +53,7 @@ public sealed partial class DocumentServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(DocumentServiceErrors.DeleteByIdNotFound(id));
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<DocumentEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -63,7 +64,7 @@ public sealed partial class DocumentServiceTests
 		Guid id = Guid.NewGuid();
 		DocumentEntity document = CreateDocument(id);
 		Mock<IDocumentRepository> docRepoMock = new();
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<DocumentEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<DocumentEntity?>(document));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
@@ -78,8 +79,8 @@ public sealed partial class DocumentServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
-			docRepoMock.Verify(x => x.DeleteAsync(document, _cancellationToken), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<DocumentEntity>>(), _cancellationToken), Times.Once);
+			docRepoMock.Verify(x => x.Delete(document), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});

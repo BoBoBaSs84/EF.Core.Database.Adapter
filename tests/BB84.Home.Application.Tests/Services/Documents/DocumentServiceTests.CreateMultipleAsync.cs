@@ -1,4 +1,5 @@
-﻿using BB84.Extensions;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Extensions;
 using BB84.Extensions.Serialization;
 using BB84.Home.Application.Contracts.Requests.Documents;
 using BB84.Home.Application.Errors.Services;
@@ -67,10 +68,10 @@ public sealed partial class DocumentServiceTests
 		IEnumerable<DocumentCreateRequest> requests = [request];
 		byte[] md5Hash = request.Content.GetMD5();
 		Mock<IDocumentExtensionRepository> extRepoMock = new();
-		extRepoMock.Setup(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, _cancellationToken))
+		extRepoMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<ExtensionEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<ExtensionEntity?>(null));
 		Mock<IDocumentDataRepository> dataRepoMock = new();
-		dataRepoMock.Setup(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, _cancellationToken))
+		dataRepoMock.Setup(x => x.GetSingleAsync(It.IsAny<Query<DataEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<DataEntity?>(null));
 		Mock<IDocumentRepository> docRepoMock = new();
 		_repositoryServiceMock.Setup(x => x.DocumentExtensionRepository)
@@ -92,8 +93,8 @@ public sealed partial class DocumentServiceTests
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			extRepoMock.Verify(x => x.GetByConditionAsync(x => x.Name == request.ExtensionName, default, default, default, _cancellationToken), Times.Once());
-			//dataRepoMock.Verify(x => x.GetByConditionAsync(x => x.MD5Hash.SequenceEqual(md5Hash), default, default, default, default), Times.Once());
+			extRepoMock.Verify(x => x.GetSingleAsync(It.IsAny<Query<ExtensionEntity>>(), _cancellationToken), Times.Once());
+			//dataRepoMock.Verify(x => x.GetSingleAsync(It.IsAny<Query<DataEntity>>(), default), Times.Once());
 			docRepoMock.Verify(x => x.CreateAsync(It.IsAny<IEnumerable<DocumentEntity>>(), _cancellationToken), Times.Once());
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once());
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);

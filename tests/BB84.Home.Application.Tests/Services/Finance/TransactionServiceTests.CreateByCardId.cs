@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Requests.Finance;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Requests.Finance;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Services.Finance;
@@ -47,7 +48,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
+		cardMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), default))
 			.Returns(Task.FromResult<CardEntity?>(null));
 		TransactionService sut = CreateMockedInstance(cardRepository: cardMock.Object);
 
@@ -59,7 +60,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(TransactionServiceErrors.CreateByCardIdNotFound(id));
-			cardMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -72,7 +73,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 		TransactionCreateRequest request = RequestHelper.GetTransactionCreateRequest();
 		CardEntity model = new();
 		Mock<ICardRepository> cardMock = new();
-		cardMock.Setup(x => x.GetByIdAsync(id, false, false, default))
+		cardMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), default))
 			.Returns(Task.FromResult<CardEntity?>(model));
 		Mock<ITransactionRepository> transactionMock = new();
 		TransactionService sut = CreateMockedInstance(null, cardMock.Object, transactionMock.Object);
@@ -86,7 +87,7 @@ public sealed partial class TransactionServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Created);
-			cardMock.Verify(x => x.GetByIdAsync(id, false, false, default), Times.Once);
+			cardMock.Verify(x => x.GetByIdAsync(id, It.IsAny<Query<CardEntity>>(), default), Times.Once);
 			transactionMock.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>(), default));
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(default), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);

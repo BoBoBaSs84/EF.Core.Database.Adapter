@@ -29,14 +29,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 		try
 		{
 			AccountEntity? accountEntity = await repositoryService.AccountRepository
-				.GetByIdAsync(accountId, token: token)
+				.GetByIdAsync(accountId, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (accountEntity is null)
 				return CardServiceErrors.CreateAccountIdNotFound(accountId);
 
 			CardEntity? cardEntity = await repositoryService.CardRepository
-				.GetByConditionAsync(x => x.PAN == request.PAN, token: token)
+				.GetSingleAsync(new() { Where = x => x.PAN == request.PAN }, token)
 				.ConfigureAwait(false);
 
 			if (cardEntity is not null)
@@ -67,15 +67,14 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 		try
 		{
 			CardEntity? entity = await repositoryService.CardRepository
-				.GetByIdAsync(id, token: token)
+				.GetByIdAsync(id, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
 				return CardServiceErrors.DeleteNotFound(id);
 
-			await repositoryService.CardRepository
-				.DeleteAsync(entity, token)
-				.ConfigureAwait(false);
+			repositoryService.CardRepository
+				.Delete(entity);
 
 			_ = await repositoryService
 				.CommitChangesAsync(token)
@@ -95,7 +94,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 		try
 		{
 			CardEntity? entity = await repositoryService.CardRepository
-				.GetByIdAsync(id, token: token)
+				.GetByIdAsync(id, cancellationToken: token)
 				.ConfigureAwait(false);
 
 			if (entity is null)
@@ -117,7 +116,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 		try
 		{
 			IReadOnlyList<CardEntity> entities = await repositoryService.CardRepository
-				.GetAllAsync(token: token)
+				.GetListAsync(cancellationToken: token)
 				.ConfigureAwait(false);
 
 			IEnumerable<CardResponse> response = entities.Select(x => x.ToResponse());
@@ -136,7 +135,7 @@ internal sealed class CardService(ILoggerService<CardService> loggerService, ICu
 		try
 		{
 			CardEntity? entity = await repositoryService.CardRepository
-				.GetByIdAsync(id, trackChanges: true, token: token)
+				.GetByIdAsync(id, new() { TrackChanges = true }, token)
 				.ConfigureAwait(false);
 
 			if (entity is null)

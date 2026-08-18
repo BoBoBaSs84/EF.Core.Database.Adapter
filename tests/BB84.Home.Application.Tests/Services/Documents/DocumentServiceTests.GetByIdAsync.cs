@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Contracts.Responses.Documents;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Contracts.Responses.Documents;
 using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Documents;
 using BB84.Home.Base.Tests.Helpers;
@@ -38,8 +39,7 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IDocumentRepository> docRepoMock = new();
-		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, It.Is<Query<DocumentEntity>>(q => q.Include != null && q.Include.Count == 2), _cancellationToken))
 			.Returns(Task.FromResult<DocumentEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
@@ -53,7 +53,7 @@ public sealed partial class DocumentServiceTests
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(DocumentServiceErrors.GetByIdNotFound(id));
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, It.Is<Query<DocumentEntity>>(q => q.Include != null && q.Include.Count == 2), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -63,9 +63,8 @@ public sealed partial class DocumentServiceTests
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IDocumentRepository> docRepoMock = new();
-		string[] includes = [nameof(DocumentEntity.Data), nameof(DocumentEntity.Extension)];
 		DocumentEntity document = CreateDocument(id);
-		docRepoMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes))
+		docRepoMock.Setup(x => x.GetByIdAsync(id, It.Is<Query<DocumentEntity>>(q => q.Include != null && q.Include.Count == 2), _cancellationToken))
 			.Returns(Task.FromResult<DocumentEntity?>(document));
 		_repositoryServiceMock.Setup(x => x.DocumentRepository)
 			.Returns(docRepoMock.Object);
@@ -91,7 +90,7 @@ public sealed partial class DocumentServiceTests
 			result.Value.MD5Hash?.SequenceEqual(document.Data.MD5Hash).Should().BeTrue();
 			result.Value.MimeType.Should().Be(document.Extension.MimeType);
 			result.Value.Name.Should().Be(document.Name);
-			docRepoMock.Verify(x => x.GetByIdAsync(id, default, default, _cancellationToken, includes), Times.Once);
+			docRepoMock.Verify(x => x.GetByIdAsync(id, It.Is<Query<DocumentEntity>>(q => q.Include != null && q.Include.Count == 2), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), It.IsAny<object>(), It.IsAny<Exception>()), Times.Never);
 		});
 	}

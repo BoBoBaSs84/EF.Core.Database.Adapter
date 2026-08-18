@@ -1,4 +1,5 @@
-﻿using BB84.Home.Application.Errors.Services;
+﻿using BB84.EntityFrameworkCore.Repositories.Abstractions;
+using BB84.Home.Application.Errors.Services;
 using BB84.Home.Application.Interfaces.Infrastructure.Persistence.Repositories.Finance;
 using BB84.Home.Application.Tests;
 using BB84.Home.Base.Tests.Helpers;
@@ -40,7 +41,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 	{
 		Guid id = Guid.NewGuid();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
+		accountMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<AccountEntity?>(null));
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountMock.Object);
@@ -54,7 +55,7 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.Should().NotBeNull();
 			result.IsError.Should().BeTrue();
 			result.Errors.First().Should().Be(AccountServiceErrors.DeleteAccountNotFound(id));
-			_repositoryServiceMock.Verify(x => x.AccountRepository.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.AccountRepository.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), _cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
 	}
@@ -65,10 +66,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 		Guid id = Guid.NewGuid();
 		AccountEntity account = new();
 		Mock<IAccountRepository> accountMock = new();
-		accountMock.Setup(x => x.GetByIdAsync(id, default, default, _cancellationToken))
+		accountMock.Setup(x => x.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), _cancellationToken))
 			.Returns(Task.FromResult<AccountEntity?>(account));
-		accountMock.Setup(x => x.DeleteAsync(account, _cancellationToken))
-			.Returns(Task.CompletedTask);
 		_repositoryServiceMock.Setup(x => x.AccountRepository)
 			.Returns(accountMock.Object);
 		_repositoryServiceMock.Setup(x => x.CommitChangesAsync(_cancellationToken))
@@ -84,8 +83,8 @@ public sealed partial class AccountServiceTests : ApplicationTestBase
 			result.IsError.Should().BeFalse();
 			result.Errors.Should().BeEmpty();
 			result.Value.Should().Be(Result.Deleted);
-			_repositoryServiceMock.Verify(x => x.AccountRepository.GetByIdAsync(id, default, default, _cancellationToken), Times.Once);
-			_repositoryServiceMock.Verify(x => x.AccountRepository.DeleteAsync(account, _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.AccountRepository.GetByIdAsync(id, It.IsAny<Query<AccountEntity>>(), _cancellationToken), Times.Once);
+			_repositoryServiceMock.Verify(x => x.AccountRepository.Delete(account), Times.Once);
 			_repositoryServiceMock.Verify(x => x.CommitChangesAsync(_cancellationToken), Times.Once);
 			_loggerServiceMock.Verify(x => x.Log(It.IsAny<Action<ILogger, object, Exception?>>(), id, It.IsAny<Exception>()), Times.Never);
 		});
